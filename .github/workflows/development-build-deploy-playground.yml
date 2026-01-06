@@ -1,13 +1,13 @@
-name: Build and Deploy to Development
+name: Build and Deploy Playground to Development
 
 on:
   pull_request:
     types: [closed]
-    branches: [master]
+    branches: [development]
   workflow_dispatch:
 
 jobs:
-  build-and-deploy-development:
+  build-and-deploy-playground-development:
     if: github.event_name != 'pull_request' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     environment: development
@@ -62,21 +62,21 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build Angular App (production)
-        run: yarn build --configuration production
+        run: yarn build
             
       - name: Add deployment info to info.txt
         run: |
-          mkdir -p dist/free-invoice-generator/browser
+          mkdir -p dist/apps/playground
           
           # Write info.txt
-          echo "branch : $BRANCH_NAME" > dist/free-invoice-generator/browser/info.txt
-          echo "version : $VERSION" >> dist/free-invoice-generator/browser/info.txt
-          echo "version_full : $VERSION_FULL" >> dist/free-invoice-generator/browser/info.txt
-          echo "time : $(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> dist/free-invoice-generator/browser/info.txt
+          echo "branch : $BRANCH_NAME" > dist/apps/playground/info.txt
+          echo "version : $VERSION" >> dist/apps/playground/info.txt
+          echo "version_full : $VERSION_FULL" >> dist/apps/playground/info.txt
+          echo "time : $(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> dist/apps/playground/info.txt
 
       - name: Deploy to Cloudflare Pages with Wrangler
         run: |
-          yarn dlx wrangler pages deploy dist/free-invoice-generator/browser \
+          yarn dlx wrangler pages deploy dist/apps/playground \
             --project-name ${{ secrets.CF_PROJECT_NAME }} \
             --branch main
         env:
