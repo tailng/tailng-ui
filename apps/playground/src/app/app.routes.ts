@@ -264,6 +264,13 @@ export const routes: Routes = [
         (m) => m.OverlayRefDemoComponent
       ),
   },
+  {
+    path: 'overlay-primitives/option-list',
+    loadComponent: () =>
+      import('./demos/overlay-primitives/option-list/option-list-demo.component').then(
+        (m) => m.OptionListDemoComponent
+      ),
+  },
   // Data Table & Structure
   {
     path: 'data/table',

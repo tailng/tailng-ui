@@ -1,10 +1,43 @@
-<div>
-  <h1 class="text-2xl font-bold mb-6">Connected Overlay</h1>
-  <div class="space-y-4">
-    <section>
-      <h2 class="text-lg font-semibold mb-3">Basic Usage</h2>
-      <tng-connected-overlay></tng-connected-overlay>
-    </section>
-  </div>
-</div>
+<div class="space-y-6">
+  <h2 class="text-xl font-semibold">Connected Overlay Demo</h2>
+  <p class="text-sm text-gray-600">
+    This demo shows <code>tng-connected-overlay</code> anchored to a button.
+    Click outside or press <kbd>Esc</kbd> to close.
+  </p>
 
+  <!-- Anchor -->
+  <button
+    #anchorBtn
+    type="button"
+    class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 transition"
+    (click)="toggle()"
+  >
+    Toggle Overlay
+  </button>
+
+  <!-- Overlay -->
+  <tng-connected-overlay
+    [open]="open()"
+    [anchor]="anchorBtn"
+    placement="bottom-start"
+    width="anchor"
+    (closed)="close()"
+  >
+    <tng-overlay-panel>
+      <div class="p-4 space-y-2">
+        <div class="font-medium">Overlay Content</div>
+        <div class="text-sm text-gray-600">
+          This is a reusable overlay panel.
+        </div>
+
+        <button
+          type="button"
+          class="mt-2 px-3 py-1.5 rounded-md bg-gray-100 hover:bg-gray-200 text-sm"
+          (click)="close()"
+        >
+          Close
+        </button>
+      </div>
+    </tng-overlay-panel>
+  </tng-connected-overlay>
+</div>

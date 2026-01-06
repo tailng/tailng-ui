@@ -1,4 +1,51 @@
-<div class="p-4 border border-gray-200 rounded-md">
-  <p class="text-gray-600">Welcome hello component - Select</p>
-</div>
+<div class="relative">
+  <!-- Trigger -->
+  <button
+    #triggerEl
+    type="button"
+    class="
+      w-full
+      flex items-center justify-between
+      border rounded-md
+      px-3 py-2
+      text-sm
+      bg-white
+      focus:outline-none
+      focus:ring-2 focus:ring-primary
+    "
+    [disabled]="disabled()"
+    (click)="onTriggerClick()"
+    (keydown)="onKeydown($event)"
+    aria-haspopup="listbox"
+    [attr.aria-expanded]="isOpen()"
+  >
+    <span class="truncate text-left">
+      @if (value()) {
+        {{ display(value()) }}
+      } @else {
+        <span class="text-gray-400">{{ placeholder() }}</span>
+      }
+    </span>
 
+    <span class="ml-2 text-gray-500">▾</span>
+  </button>
+
+  <!-- Overlay -->
+  <tng-connected-overlay
+    [open]="isOpen()"
+    [anchor]="triggerEl"
+    placement="bottom-start"
+    width="anchor"
+    (closed)="onOverlayClosed($event)"
+  >
+    <tng-overlay-panel>
+      <tng-option-list
+        [items]="options()"
+        [activeIndex]="activeIndex()"
+        [displayWith]="displayWith()"
+        (optionMouseDown)="select($event.item)"
+        (optionHover)="activeIndex.set($event)"
+      />
+    </tng-overlay-panel>
+  </tng-connected-overlay>
+</div>

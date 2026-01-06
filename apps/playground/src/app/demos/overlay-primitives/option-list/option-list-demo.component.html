@@ -1,0 +1,56 @@
+<div class="space-y-8">
+  <header>
+    <h1 class="text-2xl font-bold mb-2">Option List</h1>
+    <p class="text-gray-600 max-w-2xl">
+      A reusable primitive for rendering selectable option lists.
+      Used by Autocomplete, Select, and other popup-based components.
+    </p>
+  </header>
+
+  <!-- Basic usage -->
+  <section class="space-y-3">
+    <h2 class="text-lg font-semibold">Basic Usage</h2>
+
+    <div class="max-w-xs">
+      <tng-overlay-panel>
+        <tng-option-list
+          [items]="options()"
+          [activeIndex]="activeIndex()"
+          (optionMouseDown)="onSelect($event)"
+          (optionHover)="activeIndex.set($event)"
+        />
+      </tng-overlay-panel>
+    </div>
+  </section>
+
+  <!-- Custom display -->
+  <section class="space-y-3">
+    <h2 class="text-lg font-semibold">Custom Display</h2>
+
+    <div class="max-w-xs">
+      <tng-overlay-panel>
+        <tng-option-list
+          [items]="customOptions"
+          [activeIndex]="customActiveIndex()"
+          [displayWith]="displayPerson"
+          (optionMouseDown)="onCustomSelect($event)"
+          (optionHover)="customActiveIndex.set($event)"
+        />
+      </tng-overlay-panel>
+    </div>
+  </section>
+
+  <!-- Empty state -->
+  <section class="space-y-3">
+    <h2 class="text-lg font-semibold">Empty State</h2>
+
+    <div class="max-w-xs">
+      <tng-overlay-panel>
+        <tng-option-list
+          [items]="[]"
+          emptyText="No items available"
+        />
+      </tng-overlay-panel>
+    </div>
+  </section>
+</div>

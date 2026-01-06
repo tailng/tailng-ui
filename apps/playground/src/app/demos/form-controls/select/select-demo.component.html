@@ -1,10 +1,48 @@
-<div>
-  <h1 class="text-2xl font-bold mb-6">Select</h1>
-  <div class="space-y-4">
-    <section>
-      <h2 class="text-lg font-semibold mb-3">Basic Usage</h2>
-      <tng-select></tng-select>
-    </section>
-  </div>
-</div>
+<div class="max-w-md space-y-6">
+  <header>
+    <h1 class="text-2xl font-bold mb-1">Select</h1>
+    <p class="text-gray-600">
+      A reusable single-select component built using TailNG overlay primitives.
+    </p>
+  </header>
 
+  <div class="space-y-3">
+    <label class="block text-sm font-medium text-gray-700">Country</label>
+
+    <tng-select
+      [options]="countries()"
+      [value]="selectedCountry()"
+      [displayWith]="displayCountry"
+      placeholder="Choose a country…"
+      (selected)="onSelected($event)"
+      (closed)="onClosed($event)"
+    />
+
+    <div class="flex items-center gap-3">
+      <button
+        type="button"
+        class="px-3 py-1.5 rounded-md bg-gray-100 hover:bg-gray-200 text-sm"
+        (click)="clear()"
+      >
+        Clear
+      </button>
+
+      <div class="text-sm text-gray-600">
+        Last close reason:
+        <span class="font-medium text-gray-900">{{ lastCloseReason() }}</span>
+      </div>
+    </div>
+  </div>
+
+  @if (selectedCountry()) {
+    <div class="rounded-md border border-gray-200 bg-gray-50 p-4">
+      <div class="text-sm text-gray-500 mb-1">Selected</div>
+      <div class="font-medium">
+        {{ displayCountry(selectedCountry()!) }}
+      </div>
+      <div class="text-xs text-gray-500 mt-1">
+        Code: {{ selectedCountry()!.code }}
+      </div>
+    </div>
+  }
+</div>

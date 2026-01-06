@@ -1,0 +1,22 @@
+<div #listbox role="listbox" class="py-1 overflow-auto max-h-60">
+  @if (hasItems()) {
+    @for (item of items(); let i = $index; track i) {
+      <div
+        class="px-3 py-2 text-sm cursor-pointer hover:bg-primary/90 hover:text-white"
+        [class.bg-primary]="i === activeIndex()"
+        [class.text-white]="i === activeIndex()"
+        role="option"
+        [attr.aria-selected]="i === activeIndex()"
+        [attr.data-index]="i"
+        (mousedown)="onMouseDown(item, i, $event)"
+        (mouseenter)="onMouseEnter(i)"
+      >
+        {{ display(item) }}
+      </div>
+    }
+  } @else {
+    <div class="px-3 py-2 text-sm text-gray-500">
+      {{ emptyText() }}
+    </div>
+  }
+</div>

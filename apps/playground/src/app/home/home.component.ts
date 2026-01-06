@@ -97,6 +97,13 @@ export const categories = [
         priority: 'low',
         internal: true,
       },
+      {
+        name: 'Option List',
+        route: '/overlay-primitives/option-list',
+        status: 'backlog',
+        priority: 'high',
+        internal: true,
+      },
     ],
   },
 

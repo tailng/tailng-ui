@@ -1,4 +1,49 @@
-<div class="p-4 border border-gray-200 rounded-md">
-  <p class="text-gray-600">Welcome hello component - Autocomplete</p>
-</div>
+<div class="relative">
+  <input
+    #inputEl
+    type="text"
+    class="w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+    [value]="inputValue()"
+    [placeholder]="placeholder()"
+    [disabled]="disabled()"
+    (input)="onInput($event)"
+    (focus)="open('programmatic')"
+    (keydown)="onKeydown($event)"
+    autocomplete="off"
+    role="combobox"
+    aria-autocomplete="list"
+    [attr.aria-expanded]="isOpen()"
+  />
 
+  <tng-connected-overlay
+    [open]="isOpen()"
+    [anchor]="inputEl"
+    placement="bottom-start"
+    width="anchor"
+    (closed)="onOverlayClosed($event)"
+  >
+    <tng-overlay-panel>
+      <div #listbox role="listbox" class="py-1 max-h-60 overflow-auto">
+        @for (item of options(); let i = $index; track i) {
+          <div
+            class="px-3 py-2 text-sm cursor-pointer hover:bg-primary/90 hover:text-white"
+            [class.bg-primary]="i === focusedIndex()"
+            [class.text-white]="i === focusedIndex()"
+            role="option"
+            [attr.aria-selected]="i === focusedIndex()"
+            [attr.data-index]="i"
+            (mousedown)="select(item, i)"
+          >
+            {{ display(item) }}
+          </div>
+        }
+
+        @if (!options().length) {
+          <div class="px-3 py-2 text-sm text-gray-500">
+            No results
+          </div>
+        }
+      </div>
+    </tng-overlay-panel>
+  </tng-connected-overlay>
+</div>

@@ -5,4 +5,5 @@ export * from '../tooltip/src/public-api';
 export * from '../connected-overlay/src/public-api';
 export * from '../overlay-panel/src/public-api';
 export * from '../overlay-ref/src/public-api';
+export * from '../option-list/src/public-api';
 
