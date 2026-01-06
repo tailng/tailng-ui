@@ -1,4 +1,76 @@
-<div class="p-4 border border-gray-200 rounded-md">
-  <p class="text-gray-600">Welcome hello component - Chips</p>
-</div>
+<div class="relative">
+  <!-- Chips row + input -->
+  <div
+    class="w-full min-h-[42px] border rounded-md px-2 py-1 text-sm flex flex-wrap items-center gap-2 focus-within:ring-2 focus-within:ring-primary"
+    [class.opacity-60]="disabled()"
+  >
+    @for (chip of value(); let i = $index; track i) {
+      <span
+        class="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-gray-100 border text-sm"
+      >
+        <span class="truncate max-w-[200px]">
+          {{ display(chip) }}
+        </span>
 
+        <button
+          type="button"
+          class="ml-1 text-gray-500 hover:text-gray-900"
+          [disabled]="disabled()"
+          (click)="removeAt(i)"
+          aria-label="Remove chip"
+        >
+          ×
+        </button>
+      </span>
+    }
+
+    <input
+      #inputEl
+      type="text"
+      class="flex-1 min-w-[140px] px-2 py-2 outline-none bg-transparent"
+      [value]="inputValue()"
+      [placeholder]="value().length ? '' : placeholder()"
+      [disabled]="disabled()"
+      (input)="onInput($event)"
+      (focus)="open('programmatic')"
+      (keydown)="onKeydown($event)"
+      autocomplete="off"
+      role="combobox"
+      aria-autocomplete="list"
+      [attr.aria-expanded]="isOpen()"
+    />
+  </div>
+
+  <!-- Suggestions overlay (optional) -->
+  <tng-connected-overlay
+    [open]="isOpen()"
+    [anchor]="inputEl"
+    placement="bottom-start"
+    width="anchor"
+    (closed)="onOverlayClosed($event)"
+  >
+    <tng-overlay-panel>
+      <div #listbox role="listbox" class="py-1 max-h-60 overflow-auto">
+        @for (item of options(); let i = $index; track i) {
+          <div
+            class="px-3 py-2 text-sm cursor-pointer hover:bg-primary/90 hover:text-white"
+            [class.bg-primary]="i === focusedIndex()"
+            [class.text-white]="i === focusedIndex()"
+            role="option"
+            [attr.aria-selected]="i === focusedIndex()"
+            [attr.data-index]="i"
+            (mousedown)="selectOption(item)"
+          >
+            {{ display(item) }}
+          </div>
+        }
+
+        @if (!options().length) {
+          <div class="px-3 py-2 text-sm text-gray-500">
+            No results
+          </div>
+        }
+      </div>
+    </tng-overlay-panel>
+  </tng-connected-overlay>
+</div>

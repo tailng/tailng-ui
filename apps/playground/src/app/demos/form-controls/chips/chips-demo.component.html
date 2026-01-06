@@ -1,10 +1,23 @@
-<div>
-  <h1 class="text-2xl font-bold mb-6">Chips</h1>
-  <div class="space-y-4">
-    <section>
-      <h2 class="text-lg font-semibold mb-3">Basic Usage</h2>
-      <tng-chips></tng-chips>
-    </section>
+<div class="max-w-xl space-y-6">
+  <h2 class="text-lg font-semibold">Country Chips Demo</h2>
+
+  <tng-chips
+    [value]="countries()"
+    [options]="options()"
+    placeholder="Add countries…"
+    [displayWith]="displayCountry"
+    [allowFreeText]="false"
+    (search)="onSearch($event)"
+    (valueChange)="onValueChange($event)"
+    (chipAdded)="onChipAdded($event)"
+    (chipRemoved)="onChipRemoved($event)"
+  />
+
+  <!-- Debug -->
+  <div class="text-sm text-gray-600">
+    <div class="font-medium mb-1">Selected countries:</div>
+    <pre class="bg-gray-50 border rounded-md p-2">
+{{ countries() | json }}
+    </pre>
   </div>
 </div>
-
