@@ -1,4 +1,23 @@
-<div class="p-4 border border-gray-200 rounded-md">
-  <p class="text-gray-600">Welcome hello component - Slide Toggle</p>
-</div>
+<label [class]="rootKlass()">
+  <input
+    type="checkbox"
+    [id]="id() || null"
+    [name]="name() || null"
+    [checked]="value()"
+    [disabled]="isDisabled()"
+    [required]="required()"
+    [class]="inputKlass()"
+    (change)="onToggle($event)"
+    (blur)="onBlur()"
+  />
 
+  <span [class]="trackClasses()" role="switch" [attr.aria-checked]="value()">
+    <span [class]="thumbClasses()"></span>
+  </span>
+
+  @if (label()) {
+    <span [class]="labelKlass()">
+      {{ label() }}
+    </span>
+  }
+</label>

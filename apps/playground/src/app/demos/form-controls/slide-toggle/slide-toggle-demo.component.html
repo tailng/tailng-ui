@@ -1,10 +1,40 @@
-<div>
-  <h1 class="text-2xl font-bold mb-6">Slide Toggle</h1>
-  <div class="space-y-4">
-    <section>
-      <h2 class="text-lg font-semibold mb-3">Basic Usage</h2>
-      <tng-slide-toggle></tng-slide-toggle>
-    </section>
+<div class="space-y-6 max-w-sm">
+  <div class="space-y-2">
+    <h3 class="text-sm font-medium text-text">Basic</h3>
+
+    <tng-slide-toggle label="Enable notifications"></tng-slide-toggle>
+  </div>
+
+  <div class="space-y-2">
+    <h3 class="text-sm font-medium text-text">Signal controlled</h3>
+
+    <tng-slide-toggle
+      label="Dark mode"
+      [checked]="darkMode()"
+      (checkedChange)="darkMode.set($event)"
+    />
+
+    <p class="text-xs text-disable">
+      Value: {{ darkMode() }}
+    </p>
+  </div>
+
+  <div class="space-y-2">
+    <h3 class="text-sm font-medium text-text">Disabled</h3>
+
+    <tng-slide-toggle label="Auto updates" [disabled]="true" />
+  </div>
+
+  <div class="space-y-2">
+    <h3 class="text-sm font-medium text-text">Custom classes</h3>
+
+    <tng-slide-toggle
+      label="Experimental feature"
+      [checked]="notifications()"
+      (checkedChange)="notifications.set($event)"
+      trackKlass="bg-warning border-warning"
+      thumbKlass="bg-on-warning"
+      labelKlass="text-warning"
+    />
   </div>
 </div>
-

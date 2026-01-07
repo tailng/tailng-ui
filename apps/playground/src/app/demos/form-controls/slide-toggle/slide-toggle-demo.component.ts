@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { TailngSlideToggleComponent } from '@tailng/ui';
 
 @Component({
@@ -7,5 +7,7 @@ import { TailngSlideToggleComponent } from '@tailng/ui';
   imports: [TailngSlideToggleComponent],
   templateUrl: './slide-toggle-demo.component.html',
 })
-export class SlideToggleDemoComponent {}
-
+export class SlideToggleDemoComponent {
+  readonly darkMode = signal(false);
+  readonly notifications = signal(true);
+}
