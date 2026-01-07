@@ -1,10 +1,261 @@
-<div>
-  <h1 class="text-2xl font-bold mb-6">Ripples</h1>
-  <div class="space-y-4">
-    <section>
-      <h2 class="text-lg font-semibold mb-3">Basic Usage</h2>
-      <tng-ripples></tng-ripples>
-    </section>
-  </div>
-</div>
+<div class="max-w-3xl space-y-10">
+  <header class="space-y-2">
+    <h2 class="text-base font-semibold text-slate-800">tngRipple demo</h2>
+    <p class="text-sm text-slate-600">
+      Features: <span class="font-mono">rippleDisabled</span>,
+      <span class="font-mono">rippleCentered</span>,
+      <span class="font-mono">rippleColor</span>,
+      <span class="font-mono">rippleOpacity</span>,
+      <span class="font-mono">rippleDuration</span>.
+    </p>
+  </header>
 
+  <!-- Interactive controls -->
+  <section class="space-y-4 rounded-md border border-border p-4">
+    <h3 class="text-sm font-semibold text-slate-700">Interactive controls</h3>
+
+    <div class="flex flex-wrap items-center gap-2">
+      <button
+        class="rounded-md border border-border px-3 py-2 text-sm"
+        (click)="toggleDisabled()"
+      >
+        rippleDisabled: {{ disabled }}
+      </button>
+
+      <button
+        class="rounded-md border border-border px-3 py-2 text-sm"
+        (click)="toggleCentered()"
+      >
+        rippleCentered: {{ centered }}
+      </button>
+
+      <span class="mx-1 h-5 w-px bg-border"></span>
+
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="setPreset('default')">
+        Preset: default
+      </button>
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="setPreset('light')">
+        Preset: light
+      </button>
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="setPreset('success')">
+        Preset: success
+      </button>
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="setPreset('danger')">
+        Preset: danger
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <div class="space-y-1">
+        <div class="text-xs text-slate-500">rippleColor</div>
+        <input
+          class="w-full rounded-md border border-border px-3 py-2 text-sm"
+          [value]="color"
+          (input)="color = ($any($event.target).value)"
+          placeholder="currentColor / white / #22c55e"
+        />
+      </div>
+
+      <div class="space-y-1">
+        <div class="text-xs text-slate-500">rippleOpacity</div>
+        <input
+          type="number"
+          step="0.01"
+          min="0"
+          max="1"
+          class="w-full rounded-md border border-border px-3 py-2 text-sm"
+          [value]="opacity"
+          (input)="opacity = +$any($event.target).value"
+        />
+      </div>
+
+      <div class="space-y-1">
+        <div class="text-xs text-slate-500">rippleDuration (ms)</div>
+        <input
+          type="number"
+          step="10"
+          min="100"
+          class="w-full rounded-md border border-border px-3 py-2 text-sm"
+          [value]="duration"
+          (input)="duration = +$any($event.target).value"
+        />
+      </div>
+    </div>
+
+    <!-- ✅ FIXED: escape curly braces to avoid ICU parsing -->
+    <div class="text-xs text-slate-500">
+      Current config:
+      <span class="font-mono">
+        {{ '{' }}
+        disabled: {{ disabled }},
+        centered: {{ centered }},
+        color: "{{ color }}",
+        opacity: {{ opacity }},
+        duration: {{ duration }}
+        {{ '}' }}
+      </span>
+    </div>
+  </section>
+
+  <!-- Basic usage -->
+  <section class="space-y-3">
+    <h3 class="text-sm font-semibold text-slate-700">Basic usage (interactive config)</h3>
+
+    <div class="flex flex-wrap items-center gap-4">
+      <button
+        class="rounded-md border border-border px-4 py-2 text-sm"
+        tngRipple
+        [rippleDisabled]="disabled"
+        [rippleCentered]="centered"
+        [rippleColor]="color"
+        [rippleOpacity]="opacity"
+        [rippleDuration]="duration"
+      >
+        Default button
+      </button>
+
+      <button
+        class="rounded-md bg-primary px-4 py-2 text-sm text-on-primary"
+        tngRipple
+        [rippleDisabled]="disabled"
+        [rippleCentered]="centered"
+        rippleColor="white"
+        [rippleOpacity]="0.22"
+        [rippleDuration]="450"
+      >
+        Primary (white ripple)
+      </button>
+
+      <button
+        class="rounded-md bg-danger px-4 py-2 text-sm text-on-primary"
+        tngRipple
+        [rippleDisabled]="disabled"
+        [rippleCentered]="centered"
+        rippleColor="white"
+        [rippleOpacity]="0.25"
+        [rippleDuration]="500"
+      >
+        Danger (white ripple)
+      </button>
+    </div>
+  </section>
+
+  <!-- Icon buttons (centered) -->
+  <section class="space-y-3">
+    <h3 class="text-sm font-semibold text-slate-700">Icon buttons (centered)</h3>
+
+    <div class="flex flex-wrap items-center gap-4">
+      <button
+        class="h-10 w-10 rounded-md border border-border flex items-center justify-center"
+        tngRipple
+        rippleCentered
+        [rippleDisabled]="disabled"
+        [rippleColor]="color"
+        [rippleOpacity]="opacity"
+        [rippleDuration]="duration"
+        aria-label="Alarm"
+      >
+        <tng-icon name="bootstrapAlarm" />
+      </button>
+
+      <button
+        class="h-10 w-10 rounded-full border border-border flex items-center justify-center"
+        tngRipple
+        rippleCentered
+        [rippleDisabled]="disabled"
+        rippleColor="currentColor"
+        [rippleOpacity]="0.18"
+        [rippleDuration]="550"
+        aria-label="Bell"
+      >
+        <tng-icon name="bootstrapBell" />
+      </button>
+    </div>
+
+    <p class="text-xs text-slate-500">
+      Tip: for icon-only buttons, use <span class="font-mono">rippleCentered</span>.
+    </p>
+  </section>
+
+  <!-- Disabled behavior -->
+  <section class="space-y-3">
+    <h3 class="text-sm font-semibold text-slate-700">Disabled behavior</h3>
+
+    <div class="flex flex-wrap items-center gap-4">
+      <button
+        class="rounded-md border border-border px-4 py-2 text-sm"
+        tngRipple
+        [rippleDisabled]="true"
+      >
+        rippleDisabled=true (no ripple)
+      </button>
+
+      <button
+        class="rounded-md border border-border px-4 py-2 text-sm opacity-60"
+        tngRipple
+        disabled
+      >
+        disabled attribute (no ripple)
+      </button>
+    </div>
+  </section>
+
+  <!-- Different host shapes -->
+  <section class="space-y-3">
+    <h3 class="text-sm font-semibold text-slate-700">Different host shapes</h3>
+
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div
+        class="rounded-md border border-border p-5"
+        tngRipple
+        [rippleDisabled]="disabled"
+        [rippleColor]="color"
+        [rippleOpacity]="opacity"
+        [rippleDuration]="duration"
+      >
+        <div class="text-sm font-medium text-slate-800">Card-like container</div>
+        <div class="text-xs text-slate-500">Ripple clips to rounded corners.</div>
+      </div>
+
+      <a
+        href="javascript:void(0)"
+        class="block rounded-md border border-border p-5"
+        tngRipple
+        [rippleDisabled]="disabled"
+        rippleColor="currentColor"
+        [rippleOpacity]="0.16"
+        [rippleDuration]="500"
+      >
+        <div class="text-sm font-medium text-slate-800">Anchor link</div>
+        <div class="text-xs text-slate-500">Works on &lt;a&gt; too.</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Extreme tuning -->
+  <section class="space-y-3">
+    <h3 class="text-sm font-semibold text-slate-700">Extreme tuning</h3>
+
+    <div class="flex flex-wrap items-center gap-4">
+      <button
+        class="rounded-md border border-border px-4 py-2 text-sm"
+        tngRipple
+        rippleColor="#22c55e"
+        [rippleOpacity]="0.28"
+        [rippleDuration]="850"
+      >
+        Slow + strong (green)
+      </button>
+
+      <button
+        class="rounded-md border border-border px-4 py-2 text-sm"
+        tngRipple
+        rippleColor="#3b82f6"
+        [rippleOpacity]="0.14"
+        [rippleDuration]="250"
+      >
+        Fast + subtle (blue)
+      </button>
+    </div>
+  </section>
+</div>

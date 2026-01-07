@@ -1,2 +1,2 @@
-export * from './ripples.component';
+export * from './ripples.directive';
 
