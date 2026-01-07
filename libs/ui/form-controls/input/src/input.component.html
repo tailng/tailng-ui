@@ -1,9 +1,9 @@
 <input
   [type]="type()"
-  [disabled]="disabled()"
+  [disabled]="isDisabled()"
   [placeholder]="placeholder()"
   [class]="classes()"
   [value]="value()"
   (input)="onInput($event)"
+  (blur)="onBlur()"
 />
-
