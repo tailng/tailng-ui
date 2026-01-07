@@ -1,10 +1,220 @@
-<div>
-  <h1 class="text-2xl font-bold mb-6">Progress Bar</h1>
-  <div class="space-y-4">
-    <section>
-      <h2 class="text-lg font-semibold mb-3">Basic Usage</h2>
-      <tng-progress-bar></tng-progress-bar>
-    </section>
-  </div>
-</div>
+<div class="max-w-3xl space-y-10">
+  <header class="space-y-2">
+    <h2 class="text-base font-semibold text-slate-800">tng-progress-bar demo</h2>
+    <p class="text-sm text-slate-600">
+      Features: determinate/indeterminate, value/max, disableAnimation, and klass hooks
+      (rootKlass/trackKlass/barKlass/heightKlass).
+    </p>
+  </header>
 
+  <!-- Controls -->
+  <section class="space-y-4 rounded-md border border-border p-4">
+    <h3 class="text-sm font-semibold text-slate-700">Interactive controls</h3>
+
+    <div class="flex flex-wrap items-center gap-2">
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="setMode('determinate')">
+        determinate
+      </button>
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="setMode('indeterminate')">
+        indeterminate
+      </button>
+
+      <span class="mx-1 h-5 w-px bg-border"></span>
+
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="dec()">-5</button>
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="inc()">+5</button>
+
+      <span class="mx-1 h-5 w-px bg-border"></span>
+
+      <button
+        class="rounded-md border border-border px-3 py-2 text-sm"
+        (click)="disableAnimation = !disableAnimation"
+      >
+        disableAnimation: {{ disableAnimation }}
+      </button>
+
+      <span class="mx-1 h-5 w-px bg-border"></span>
+
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="reset()">
+        reset
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <div class="space-y-1">
+        <div class="text-xs text-slate-500">value</div>
+        <input
+          type="number"
+          class="w-full rounded-md border border-border px-3 py-2 text-sm"
+          [value]="value"
+          (input)="value = +$any($event.target).value"
+        />
+      </div>
+
+      <div class="space-y-1">
+        <div class="text-xs text-slate-500">max</div>
+        <input
+          type="number"
+          min="1"
+          class="w-full rounded-md border border-border px-3 py-2 text-sm"
+          [value]="max"
+          (input)="max = +$any($event.target).value"
+        />
+      </div>
+
+      <div class="space-y-1">
+        <div class="text-xs text-slate-500">heightKlass</div>
+        <input
+          class="w-full rounded-md border border-border px-3 py-2 text-sm"
+          [value]="heightKlass"
+          (input)="heightKlass = $any($event.target).value"
+          placeholder="h-1 / h-2 / h-3"
+        />
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <div class="space-y-1">
+        <div class="text-xs text-slate-500">trackKlass</div>
+        <input
+          class="w-full rounded-md border border-border px-3 py-2 text-sm"
+          [value]="trackKlass"
+          (input)="trackKlass = $any($event.target).value"
+          placeholder="bg-border"
+        />
+      </div>
+
+      <div class="space-y-1">
+        <div class="text-xs text-slate-500">barKlass</div>
+        <input
+          class="w-full rounded-md border border-border px-3 py-2 text-sm"
+          [value]="barKlass"
+          (input)="barKlass = $any($event.target).value"
+          placeholder="bg-primary"
+        />
+      </div>
+
+      <div class="space-y-1">
+        <div class="text-xs text-slate-500">rootKlass</div>
+        <input
+          class="w-full rounded-md border border-border px-3 py-2 text-sm"
+          [value]="rootKlass"
+          (input)="rootKlass = $any($event.target).value"
+          placeholder="w-full"
+        />
+      </div>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-2">
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="preset('default')">
+        preset: default
+      </button>
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="preset('success')">
+        preset: success
+      </button>
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="preset('danger')">
+        preset: danger
+      </button>
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="preset('neutral')">
+        preset: neutral
+      </button>
+      <button class="rounded-md border border-border px-3 py-2 text-sm" (click)="preset('thick')">
+        preset: thick
+      </button>
+    </div>
+
+    <div class="text-xs text-slate-500">
+      Current:
+      <span class="font-mono">
+        {{ '{' }}
+        mode: "{{ mode }}",
+        value: {{ value }},
+        max: {{ max }},
+        disableAnimation: {{ disableAnimation }},
+        rootKlass: "{{ rootKlass }}",
+        trackKlass: "{{ trackKlass }}",
+        barKlass: "{{ barKlass }}",
+        heightKlass: "{{ heightKlass }}"
+        {{ '}' }}
+      </span>
+    </div>
+  </section>
+
+  <!-- Live preview -->
+  <section class="space-y-3">
+    <h3 class="text-sm font-semibold text-slate-700">Live preview</h3>
+
+    <tng-progress-bar
+      [mode]="mode"
+      [value]="value"
+      [max]="max"
+      [disableAnimation]="disableAnimation"
+      [rootKlass]="rootKlass"
+      [trackKlass]="trackKlass"
+      [barKlass]="barKlass"
+      [heightKlass]="heightKlass"
+    />
+
+    <p class="text-xs text-slate-500">
+      Determinate uses <span class="font-mono">value/max</span>.
+      Indeterminate ignores <span class="font-mono">value</span> and animates.
+    </p>
+  </section>
+
+  <!-- Static examples -->
+  <section class="space-y-4">
+    <h3 class="text-sm font-semibold text-slate-700">Static examples</h3>
+
+    <div class="space-y-3">
+      <div class="text-xs text-slate-500">Primary, thin</div>
+      <tng-progress-bar [value]="30" trackKlass="bg-border" barKlass="bg-primary" heightKlass="h-1" />
+    </div>
+
+    <div class="space-y-3">
+      <div class="text-xs text-slate-500">Success, medium thickness</div>
+      <tng-progress-bar [value]="60" trackKlass="bg-border" barKlass="bg-success" heightKlass="h-2" />
+    </div>
+
+    <div class="space-y-3">
+      <div class="text-xs text-slate-500">Danger, thick</div>
+      <tng-progress-bar [value]="80" trackKlass="bg-border" barKlass="bg-danger" heightKlass="h-3" />
+    </div>
+
+    <div class="space-y-3">
+      <div class="text-xs text-slate-500">Neutral/subtle</div>
+      <tng-progress-bar [value]="50" trackKlass="bg-alternate-background" barKlass="bg-text/40" heightKlass="h-1" />
+    </div>
+
+    <div class="space-y-3">
+      <div class="text-xs text-slate-500">Indeterminate (loading)</div>
+      <tng-progress-bar mode="indeterminate" trackKlass="bg-border" barKlass="bg-primary" heightKlass="h-1" />
+    </div>
+
+    <div class="space-y-3">
+      <div class="text-xs text-slate-500">Indeterminate without animation</div>
+      <tng-progress-bar
+        mode="indeterminate"
+        [disableAnimation]="true"
+        trackKlass="bg-border"
+        barKlass="bg-primary"
+        heightKlass="h-1"
+      />
+    </div>
+
+    <div class="space-y-3">
+      <div class="text-xs text-slate-500">Custom max (value=30, max=60 → 50%)</div>
+      <tng-progress-bar [value]="30" [max]="60" trackKlass="bg-border" barKlass="bg-info" heightKlass="h-2" />
+    </div>
+
+    <div class="space-y-3">
+      <div class="text-xs text-slate-500">Constrained width via rootKlass</div>
+      <tng-progress-bar
+        [value]="45"
+        rootKlass="w-64"
+        trackKlass="bg-border"
+        barKlass="bg-warning"
+        heightKlass="h-2"
+      />
+    </div>
+  </section>
+</div>

@@ -40,8 +40,8 @@ export const categories = [
       { name: 'Button', route: '/buttons/button', status: 'done', priority: 'high' },
       { name: 'Badge', route: '/buttons/badge', status: 'done', priority: 'medium' },
       { name: 'Icon', route: '/buttons/icon', status: 'done', priority: 'high' },
-      { name: 'Ripples', route: '/buttons/ripples', status: 'backlog', priority: 'low' },
-      { name: 'Progress Bar', route: '/buttons/progress-bar', status: 'backlog', priority: 'medium' },
+      { name: 'Ripples', route: '/buttons/ripples', status: 'done', priority: 'low' },
+      { name: 'Progress Bar', route: '/buttons/progress-bar', status: 'done', priority: 'medium' },
       { name: 'Progress Spinner', route: '/buttons/progress-spinner', status: 'backlog', priority: 'medium' },
 
       // Missing but essential indicators
