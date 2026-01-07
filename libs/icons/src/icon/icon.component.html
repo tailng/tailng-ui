@@ -1,1 +1,7 @@
-<ng-icon [name]="name()" [size]="size()" [class]="classes()"></ng-icon>
+<ng-icon
+  [name]="name()"
+  [size]="normalizedSize()"
+  [class]="classes()"
+  [attr.aria-hidden]="ariaHidden()"
+  [attr.aria-label]="computedAriaLabel()"
+></ng-icon>

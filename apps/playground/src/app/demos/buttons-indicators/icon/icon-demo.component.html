@@ -1,20 +1,60 @@
-<div>
-  <h1 class="text-2xl font-bold mb-6">Icon</h1>
-  
-  <div class="space-y-6">
-    <section>
-      <h2 class="text-lg font-semibold mb-3">Icons</h2>
-      <div class="flex flex-wrap gap-4">
-        <div class="flex items-center gap-2">
-          <tng-icon name="bootstrapAlarm" class="text-primary"></tng-icon>
-          <span class="text-sm">bootstrapAlarm</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <tng-icon name="bootstrapBell" class="text-primary"></tng-icon>
-          <span class="text-sm">bootstrapBell</span>
-        </div>
-      </div>
-    </section>
+<div class="space-y-8 max-w-md">
+  <h3 class="text-sm font-semibold text-slate-700">
+    Bootstrap Icons Demo
+  </h3>
+
+  <!-- Static examples -->
+  <div class="flex items-center gap-6">
+    <div class="flex items-center gap-2">
+      <tng-icon name="bootstrapAlarm" [size]="20" klass="text-primary" />
+      <span class="text-sm">bootstrapAlarm</span>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <tng-icon name="bootstrapBell" size="1.5em" klass="text-danger" />
+      <span class="text-sm">bootstrapBell</span>
+    </div>
+  </div>
+
+  <!-- Accessible icon -->
+  <div class="flex items-center gap-2">
+    <tng-icon
+      name="bootstrapBell"
+      [decorative]="false"
+      ariaLabel="Notifications"
+      [size]="24"
+      klass="text-slate-800"
+    />
+    <span class="text-sm">Accessible icon</span>
+  </div>
+
+  <!-- Dynamic -->
+  <div class="space-y-3 border border-border rounded-md p-4">
+    <div class="flex gap-2">
+      <button
+        class="border border-border px-3 py-2 text-sm rounded-md"
+        (click)="dynamicName = iconNames.alarm"
+      >
+        Alarm
+      </button>
+      <button
+        class="border border-border px-3 py-2 text-sm rounded-md"
+        (click)="dynamicName = iconNames.bell"
+      >
+        Bell
+      </button>
+    </div>
+
+    <tng-icon
+      [name]="dynamicName"
+      [size]="dynamicSize"
+      [klass]="dynamicKlass"
+      [decorative]="decorative"
+      [ariaLabel]="ariaLabel"
+    />
+
+    <p class="text-xs text-slate-500">
+      name = {{ dynamicName }}
+    </p>
   </div>
 </div>
-
