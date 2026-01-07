@@ -1,2 +1,17 @@
-<div [class]="classes()"><ng-content /></div>
+<div [class]="rootClasses()">
+  @if (hasHeader()) {
+    <div [class]="headerClasses()">
+      <ng-content select="[tngCardHeader]" />
+    </div>
+  }
 
+  <div [class]="contentClasses()">
+    <ng-content />
+  </div>
+
+  @if (hasFooter()) {
+    <div [class]="footerClasses()">
+      <ng-content select="[tngCardFooter]" />
+    </div>
+  }
+</div>
