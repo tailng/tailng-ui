@@ -43,13 +43,6 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'forms/input',
-    loadComponent: () =>
-      import('./demos/form-controls/input/input-demo.component').then(
-        (m) => m.InputDemoComponent
-      ),
-  },
-  {
     path: 'forms/radio-button',
     loadComponent: () =>
       import('./demos/form-controls/radio-button/radio-button-demo.component').then(
@@ -82,6 +75,34 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./demos/form-controls/timepicker/timepicker-demo.component').then(
         (m) => m.TimepickerDemoComponent
+      ),
+  },
+  {
+    path: 'forms/text-input',
+    loadComponent: () =>
+      import('./demos/form-controls/text-input/text-input-demo.component').then(
+        (m) => m.TextInputDemoComponent
+      ),
+  },
+  {
+    path: 'forms/number-input',
+    loadComponent: () =>
+      import('./demos/form-controls/number-input/number-input-demo.component').then(
+        (m) => m.NumberInputDemoComponent
+      ),
+  },
+  {
+    path: 'forms/textarea',
+    loadComponent: () =>
+      import('./demos/form-controls/textarea/textarea-demo.component').then(
+        (m) => m.TextareaDemoComponent
+      ),
+  },
+  {
+    path: 'forms/file-upload',
+    loadComponent: () =>
+      import('./demos/form-controls/file-upload/file-upload-demo.component').then(
+        (m) => m.FileUploadDemoComponent
       ),
   },
   // Buttons & Indicators
@@ -134,6 +155,13 @@ export const routes: Routes = [
         (m) => m.ProgressSpinnerDemoComponent
       ),
   },
+  {
+    path: 'buttons/skeleton',
+    loadComponent: () =>
+      import('./demos/buttons-indicators/skeleton/skeleton-demo.component').then(
+        (m) => m.SkeletonDemoComponent
+      ),
+  },
   // Layout
   {
     path: 'layout/card',
@@ -184,6 +212,20 @@ export const routes: Routes = [
         (m) => m.ToolbarDemoComponent
       ),
   },
+  {
+    path: 'layout/accordion',
+    loadComponent: () =>
+      import('./demos/layout/accordion/accordion-demo.component').then(
+        (m) => m.AccordionDemoComponent
+      ),
+  },
+  {
+    path: 'layout/stepper-layout',
+    loadComponent: () =>
+      import('./demos/layout/stepper-layout/stepper-layout-demo.component').then(
+        (m) => m.StepperLayoutDemoComponent
+      ),
+  },
   // Navigation
   {
     path: 'navigation/menu',
@@ -211,6 +253,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./demos/navigation/paginator/paginator-demo.component').then(
         (m) => m.PaginatorDemoComponent
+      ),
+  },
+  {
+    path: 'navigation/breadcrumbs',
+    loadComponent: () =>
+      import('./demos/navigation/breadcrumbs/breadcrumbs-demo.component').then(
+        (m) => m.BreadcrumbsDemoComponent
       ),
   },
   // Popups & Overlays
@@ -242,6 +291,13 @@ export const routes: Routes = [
         (m) => m.TooltipDemoComponent
       ),
   },
+  {
+    path: 'overlay/popover',
+    loadComponent: () =>
+      import('./demos/popups-overlays/popover/popover-demo.component').then(
+        (m) => m.PopoverDemoComponent
+      ),
+  },
   // Overlay Primitives
   {
     path: 'overlay-primitives/connected-overlay',
@@ -271,6 +327,13 @@ export const routes: Routes = [
         (m) => m.OptionListDemoComponent
       ),
   },
+  {
+    path: 'overlay-primitives/focus-trap',
+    loadComponent: () =>
+      import('./demos/overlay-primitives/focus-trap/focus-trap-demo.component').then(
+        (m) => m.FocusTrapDemoComponent
+      ),
+  },
   // Data Table & Structure
   {
     path: 'data/table',
@@ -291,6 +354,20 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./demos/data-table-structure/tree/tree-demo.component').then(
         (m) => m.TreeDemoComponent
+      ),
+  },
+  {
+    path: 'data/virtual-scroll',
+    loadComponent: () =>
+      import('./demos/data-table-structure/virtual-scroll/virtual-scroll-demo.component').then(
+        (m) => m.VirtualScrollDemoComponent
+      ),
+  },
+  {
+    path: 'data/empty-state',
+    loadComponent: () =>
+      import('./demos/data-table-structure/empty-state/empty-state-demo.component').then(
+        (m) => m.EmptyStateDemoComponent
       ),
   },
 ];

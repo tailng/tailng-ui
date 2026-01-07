@@ -1,0 +1,10 @@
+<input
+  type="file"
+  [disabled]="isDisabled()"
+  [accept]="accept()"
+  [multiple]="multiple()"
+  [class]="classes()"
+  (change)="onFileChange($event)"
+  (blur)="onBlur()"
+/>
+

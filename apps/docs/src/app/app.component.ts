@@ -1,14 +1,14 @@
-import { Component, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { TailngButtonComponent, TailngCardComponent, TailngInputComponent } from '@tailng/ui';
+import { Component } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { TailngButtonComponent, TailngCardComponent, TailngTextInputComponent } from '@tailng/ui';
 import { TailngIconComponent } from '@tailng/icons';
 
 @Component({
   selector: 'docs-root',
   standalone: true,
-  imports: [FormsModule, TailngButtonComponent, TailngInputComponent, TailngCardComponent, TailngIconComponent],
+  imports: [ReactiveFormsModule, TailngButtonComponent, TailngTextInputComponent, TailngCardComponent, TailngIconComponent],
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  name = signal('TailNG');
+  name = new FormControl('TailNG', { nonNullable: true });
 }

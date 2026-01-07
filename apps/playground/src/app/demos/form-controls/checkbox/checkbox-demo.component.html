@@ -1,10 +1,82 @@
 <div>
-  <h1 class="text-2xl font-bold mb-6">Checkbox</h1>
-  <div class="space-y-4">
+  <h1 class="text-2xl font-bold mb-6">Checkbox (Reactive Form)</h1>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-6 max-w-md">
+    <!-- Terms and Conditions -->
     <section>
-      <h2 class="text-lg font-semibold mb-3">Basic Usage</h2>
-      <tng-checkbox></tng-checkbox>
+      <tng-checkbox
+        formControlName="terms"
+        label="I agree to the terms and conditions"
+      ></tng-checkbox>
+
+      @if (termsCtrl.touched && termsCtrl.invalid) {
+        <p class="text-sm mt-2 text-red-600">You must agree to the terms</p>
+      }
+
+      <p class="text-sm mt-2 text-gray-600">
+        Current value: <span class="font-semibold">{{ termsCtrl.value }}</span>
+      </p>
     </section>
-  </div>
+
+    <!-- Newsletter -->
+    <section>
+      <div class="flex items-center justify-between mb-2">
+        <tng-checkbox
+          formControlName="newsletter"
+          label="Subscribe to newsletter"
+        ></tng-checkbox>
+
+        <div class="flex gap-2">
+          <button
+            type="button"
+            class="text-xs px-2 py-1 border rounded"
+            (click)="disableNewsletter()"
+          >
+            Disable
+          </button>
+          <button
+            type="button"
+            class="text-xs px-2 py-1 border rounded"
+            (click)="enableNewsletter()"
+          >
+            Enable
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notifications -->
+    <section>
+      <tng-checkbox
+        formControlName="notifications"
+        label="Enable push notifications"
+      ></tng-checkbox>
+    </section>
+
+    <!-- Actions -->
+    <div class="flex items-center gap-3">
+      <button
+        type="submit"
+        class="h-10 px-4 border rounded bg-primary text-white"
+      >
+        Submit
+      </button>
+
+      <button
+        type="button"
+        class="h-10 px-4 border rounded"
+        (click)="form.reset({ terms: false, newsletter: false, notifications: true })"
+      >
+        Reset
+      </button>
+    </div>
+
+    <pre class="text-xs bg-gray-50 border rounded p-3 overflow-auto">
+Touched: {{ form.touched }}
+Valid: {{ form.valid }}
+Value: {{ form.value | json }}
+RawValue: {{ form.getRawValue() | json }}
+</pre>
+  </form>
 </div>
 

@@ -1,0 +1,17 @@
+<nav class="flex items-center space-x-2 text-sm">
+  @for (item of items(); track $index; let last = $last) {
+    <div class="flex items-center">
+      @if (item.route) {
+        <a [routerLink]="item.route" class="text-primary hover:underline">
+          {{ item.label }}
+        </a>
+      } @else {
+        <span class="text-gray-600">{{ item.label }}</span>
+      }
+      @if (!last) {
+        <span class="mx-2 text-gray-400">{{ separator() }}</span>
+      }
+    </div>
+  }
+</nav>
+

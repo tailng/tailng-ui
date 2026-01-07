@@ -11,7 +11,7 @@
 
     <div class="mt-4 space-y-3">
       <label class="block text-sm font-medium text-gray-700">Your name</label>
-      <tng-input [(value)]="name" placeholder="Type here..."></tng-input>
+      <tng-text-input [formControl]="name" placeholder="Type here..."></tng-text-input>
 
       <div class="flex flex-wrap gap-3">
         <tng-button>
@@ -24,7 +24,7 @@
       </div>
 
       <p class="text-sm">
-        <span class="font-semibold">{{ name() }}</span> 👋
+        <span class="font-semibold">{{ name.value }}</span> 👋
       </p>
     </div>
   </tng-card>

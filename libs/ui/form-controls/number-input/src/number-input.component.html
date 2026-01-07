@@ -1,0 +1,17 @@
+<input
+  type="number"
+  [id]="id() || null"
+  [name]="name() || null"
+  [disabled]="isDisabled()"
+  [readOnly]="readonly()"
+  [class]="classes()"
+  [value]="value() ?? ''"
+  [attr.placeholder]="placeholder() || null"
+  [attr.autocomplete]="autocomplete() || null"
+  [attr.inputmode]="inputmode() || null"
+  [attr.min]="min() ?? null"
+  [attr.max]="max() ?? null"
+  [attr.step]="step() ?? null"
+  (input)="onInput($event)"
+  (blur)="onBlur()"
+/>

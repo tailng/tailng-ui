@@ -1,9 +1,10 @@
-<input
-  [type]="type()"
+<textarea
   [disabled]="isDisabled()"
   [placeholder]="placeholder()"
+  [rows]="rows()"
   [class]="classes()"
   [value]="value()"
   (input)="onInput($event)"
   (blur)="onBlur()"
-/>
+></textarea>
+

@@ -1,4 +1,21 @@
-<div class="p-4 border border-gray-200 rounded-md">
-  <p class="text-gray-600">Welcome hello component - Checkbox</p>
-</div>
+<label
+  class="inline-flex items-center gap-2 cursor-pointer select-none"
+>
+  <input
+    type="checkbox"
+    [id]="id() || null"
+    [name]="name() || null"
+    [checked]="value()"
+    [disabled]="isDisabled()"
+    [required]="required()"
+    [class]="classes()"
+    (change)="onToggle($event)"
+    (blur)="onBlur()"
+  />
 
+  @if (label()) {
+    <span class="text-sm text-foreground">
+      {{ label() }}
+    </span>
+  }
+</label>

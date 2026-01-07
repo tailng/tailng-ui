@@ -1,11 +1,52 @@
+import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { TailngCheckboxComponent } from '@tailng/ui';
 
 @Component({
   selector: 'playground-checkbox-demo',
   standalone: true,
-  imports: [TailngCheckboxComponent],
+  imports: [ReactiveFormsModule, TailngCheckboxComponent, JsonPipe],
   templateUrl: './checkbox-demo.component.html',
 })
-export class CheckboxDemoComponent {}
+export class CheckboxDemoComponent {
+  form = new FormGroup({
+    terms: new FormControl(false, { nonNullable: true, validators: [Validators.requiredTrue] }),
+    newsletter: new FormControl(false, { nonNullable: true }),
+    notifications: new FormControl(true, { nonNullable: true }),
+  });
+
+  get termsCtrl() {
+    return this.form.controls.terms;
+  }
+  get newsletterCtrl() {
+    return this.form.controls.newsletter;
+  }
+  get notificationsCtrl() {
+    return this.form.controls.notifications;
+  }
+
+  disableNewsletter() {
+    this.newsletterCtrl.disable();
+  }
+
+  enableNewsletter() {
+    this.newsletterCtrl.enable();
+  }
+
+  submit() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    // demo output
+    console.log('Form value:', this.form.getRawValue());
+  }
+}
 

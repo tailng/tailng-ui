@@ -1,0 +1,21 @@
+<div>
+  <h1 class="text-2xl font-bold mb-6">Text Input</h1>
+
+  <form [formGroup]="form" class="space-y-6 max-w-md">
+    <section>
+      <label class="block text-sm font-medium text-gray-700 mb-2">Text Input</label>
+      <tng-text-input
+        formControlName="text"
+        placeholder="Enter text..."
+      ></tng-text-input>
+      @if (textCtrl.touched && textCtrl.invalid) {
+        <p class="text-sm mt-2 text-red-600">Text is required</p>
+      }
+    </section>
+
+    <pre class="text-xs bg-gray-50 border rounded p-3 overflow-auto">
+Value: {{ form.value | json }}
+</pre>
+  </form>
+</div>
+
