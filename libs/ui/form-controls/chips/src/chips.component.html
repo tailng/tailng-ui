@@ -3,9 +3,16 @@
   <div [class]="containerClasses()">
     @for (chip of chips(); let i = $index; track i) {
       <span [class]="chipKlass()">
-        <span [class]="chipLabelKlass()">
-          {{ display(chip) }}
-        </span>
+        @if (chipTpl) {
+          <ng-container
+            [ngTemplateOutlet]="chipTpl"
+            [ngTemplateOutletContext]="{ $implicit: chip, index: i }"
+          />
+        } @else {
+          <span [class]="chipLabelKlass()">
+            {{ display(chip) }}
+          </span>
+        }
 
         <button
           type="button"
@@ -37,7 +44,7 @@
     />
   </div>
 
-  <!-- Suggestions overlay (OverlayRef = single close pipeline) -->
+  <!-- Suggestions overlay -->
   <tng-overlay-ref
     #overlayRef="tngOverlayRef"
     [open]="isOpen()"
@@ -56,6 +63,7 @@
           [items]="options()"
           [activeIndex]="focusedIndex()"
           [displayWith]="displayWith()"
+          [optionTemplate]="optionTpl ?? null"
           (optionMouseDown)="selectOption($event.item)"
           (optionHover)="focusedIndex.set($event)"
         />

@@ -1,15 +1,18 @@
 import {
   Component,
-  ElementRef,
-  ViewChild,
-  computed,
+  ContentChild,
   effect,
+  ElementRef,
   forwardRef,
   input,
   output,
   signal,
+  TemplateRef,
+  ViewChild,
+  computed,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NgTemplateOutlet } from '@angular/common';
 
 import { TailngConnectedOverlayComponent } from '../../../popups-overlays/connected-overlay/src/public-api';
 import { TailngOverlayPanelComponent } from '../../../popups-overlays/overlay-panel/src/public-api';
@@ -20,13 +23,17 @@ import {
 } from '../../../popups-overlays/overlay-ref/src/public-api';
 
 import { handleListKeyboardEvent } from 'libs/cdk/keyboard/keyboard-navigation';
+import { OptionTplContext } from '@tailng/cdk';
 
 export type ChipsCloseReason = TailngOverlayCloseReason;
+
+export type ChipTplContext<T> = { $implicit: T; index: number };
 
 @Component({
   selector: 'tng-chips',
   standalone: true,
   imports: [
+    NgTemplateOutlet, // ✅ needed for rendering chipTpl
     TailngConnectedOverlayComponent,
     TailngOverlayPanelComponent,
     TailngOptionListComponent,
@@ -42,6 +49,18 @@ export type ChipsCloseReason = TailngOverlayCloseReason;
   ],
 })
 export class TailngChipsComponent<T> implements ControlValueAccessor {
+  /* =====================
+   * Projected templates
+   * ===================== */
+
+  // Template for each chip rendering
+  @ContentChild('chipTpl', { read: TemplateRef })
+  chipTpl?: TemplateRef<ChipTplContext<T>>;
+
+  // Template for option list rows (suggestions)
+  @ContentChild('optionTpl', { read: TemplateRef })
+  optionTpl?: TemplateRef<OptionTplContext<T>>;
+
   @ViewChild('inputEl', { static: true })
   inputEl!: ElementRef<HTMLInputElement>;
 
@@ -49,21 +68,9 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
    * Inputs / Outputs
    * ===================== */
 
-  /**
-   * Optional: non-forms controlled usage (two-way binding style).
-   * If used with forms, DO NOT bind [value]/(valueChange).
-   */
   readonly value = input<T[]>([]);
-
-  // suggestions
   readonly options = input<T[]>([]);
-
   readonly placeholder = input<string>('Add…');
-
-  /**
-   * External disabled input (read-only).
-   * Internal isDisabled is writable for CVA too.
-   */
   readonly disabled = input<boolean>(false);
 
   readonly displayWith = input<(item: T) => string>((v) => String(v));
@@ -83,10 +90,8 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
    * Theming (section-wise klass inputs)
    * ===================== */
 
-  /** Root wrapper */
   readonly rootKlass = input<string>('relative');
 
-  /** Chips row container */
   readonly containerKlass = input<string>(
     [
       'w-full min-h-[42px] px-2 py-1 text-sm',
@@ -97,7 +102,6 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
     ].join(' ')
   );
 
-  /** Individual chip */
   readonly chipKlass = input<string>(
     [
       'inline-flex items-center gap-1 px-2 py-1 rounded-md',
@@ -106,15 +110,10 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
     ].join(' ')
   );
 
-  /** Chip label text */
   readonly chipLabelKlass = input<string>('truncate max-w-[200px]');
 
-  /** Remove button */
-  readonly removeButtonKlass = input<string>(
-    'ml-1 text-disable hover:text-text'
-  );
+  readonly removeButtonKlass = input<string>('ml-1 text-disable hover:text-text');
 
-  /** Input inside chips row */
   readonly inputKlass = input<string>(
     'flex-1 min-w-[140px] px-2 py-2 outline-none bg-transparent'
   );
@@ -128,29 +127,18 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
 
   protected readonly isDisabled = signal(false);
 
-  /** Authoritative chips list inside component */
   private readonly chipsValue = signal<T[]>([]);
-
-  /** When true, CVA owns the value (forms mode) */
   private usingCva = false;
 
-  /* =====================
-   * ControlValueAccessor
-   * ===================== */
   private onChange: (value: T[]) => void = () => {};
   private onTouched: () => void = () => {};
 
   constructor() {
-    // Sync external [disabled] -> internal
     effect(() => {
       this.isDisabled.set(this.disabled());
       if (this.isDisabled()) this.close('programmatic');
     });
 
-    /**
-     * Sync external [value] -> internal ONLY when NOT in CVA mode.
-     * Prevents overwriting initial form value.
-     */
     effect(() => {
       const v = this.value();
       if (this.usingCva) return;
@@ -212,18 +200,13 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
   }
 
   private emitValue(next: T[]) {
-    // internal
     this.chipsValue.set(next);
-
-    // CVA
     this.onChange(next);
-
-    // optional non-form output
     this.valueChange.emit(next);
   }
 
   /* =====================
-   * Overlay open/close (single source of truth: isOpen)
+   * Overlay open/close
    * ===================== */
   open(_reason: ChipsCloseReason) {
     if (this.isDisabled()) return;
@@ -246,18 +229,15 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
     this.closed.emit(reason);
   }
 
-  /** OverlayRef openChange -> internal isOpen */
   onOverlayOpenChange(open: boolean) {
     if (this.isDisabled()) {
       this.isOpen.set(false);
       return;
     }
-
     if (open) this.open('programmatic');
     else this.close('programmatic');
   }
 
-  /** ConnectedOverlay/OverlayRef close -> internal close */
   onOverlayClosed(reason: ChipsCloseReason) {
     this.close(reason);
   }
@@ -282,7 +262,6 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
   onKeydown(ev: KeyboardEvent) {
     if (this.isDisabled()) return;
 
-    // Backspace removes last chip when input empty
     if (ev.key === 'Backspace' && !this.inputValue()) {
       const current = this.chipsValue();
       if (current.length) {
@@ -292,23 +271,19 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
       return;
     }
 
-    // Enter adds a chip
     if (ev.key === 'Enter') {
       ev.preventDefault();
 
-      // If open and focused -> select option
       if (this.isOpen() && this.focusedIndex() >= 0) {
         const item = this.options()[this.focusedIndex()];
         if (item !== undefined) this.selectOption(item);
         return;
       }
 
-      // Otherwise free text
       this.addFromInput();
       return;
     }
 
-    // open on arrow
     if (!this.isOpen() && (ev.key === 'ArrowDown' || ev.key === 'ArrowUp')) {
       this.open('programmatic');
       return;
@@ -410,7 +385,6 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
     if (!current.length) return;
 
     for (const item of current) this.chipRemoved.emit(item);
-
     this.emitValue([]);
   }
 }

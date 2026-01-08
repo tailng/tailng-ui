@@ -18,3 +18,41 @@
     <pre class="bg-gray-50 border rounded-md p-2">{{ countriesCtrl.value | json }}</pre>
   </div>
 </div>
+
+<div class="max-w-xl space-y-6 mt-6">
+  <header>
+    <h1 class="text-2xl font-bold mb-1">Chips with custom template</h1>
+    <p class="text-gray-600">
+      Add countries using <code>tng-chips</code>.
+    </p>
+  </header>
+
+  <tng-chips
+  [formControl]="countriesCtrl2" [options]="countryOptions2()" 
+  [displayWith]="displayCountry2"
+  [allowFreeText]="false"
+  (search)="onSearch2($event)"
+  (chipAdded)="onChipAdded2($event)"
+  (chipRemoved)="onChipRemoved2($event)">
+    <ng-template #chipTpl let-item>
+      <span class="flex items-center gap-2">
+        <span class="opacity-70 text-red-600">({{ item.code }})</span>
+        <span class="font-semibold">{{ item.name }}</span>
+      </span>
+    </ng-template>
+  
+    <ng-template #optionTpl let-item>
+      <div class="flex items-center gap-2">
+        <span class="opacity-70">({{ item.code }})</span>
+        <span class="font-semibold text-red-600">{{ item.name }}</span>
+      </div>
+    </ng-template>
+  </tng-chips>
+  
+
+  <!-- Debug -->
+  <div class="text-sm text-gray-600">
+    <div class="font-medium mb-1">Selected countries:</div>
+    <pre class="bg-gray-50 border rounded-md p-2">{{ countriesCtrl.value | json }}</pre>
+  </div>
+</div>

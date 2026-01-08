@@ -18,13 +18,37 @@ export class ChipsDemoComponent {
     [COUNTRY_LIST.find((c) => c.code === 'IN')!],
     { nonNullable: true }
   );
+  // ✅ CVA value source
+  readonly countriesCtrl2 = new FormControl<Country[]>(
+    [COUNTRY_LIST.find((c) => c.code === 'IN')!],
+    { nonNullable: true }
+  );
 
   // All options
   private readonly allCountries = COUNTRY_LIST;
+  private readonly allCountries2 = COUNTRY_LIST;
 
   // Filtered options shown in overlay
   readonly options = signal<Country[]>(this.allCountries);
 
+  readonly countryOptions2 = signal<Country[]>(this.allCountries2);
+  onSearch2(query: string) {
+    const q = query.toLowerCase().trim();
+
+    if (!q) {
+      this.countryOptions2.set(this.allCountries2);
+      return;
+    }
+
+    this.countryOptions2.set(
+      this.allCountries.filter(
+        (c) =>
+          c.name.toLowerCase().includes(q) ||
+          c.code.toLowerCase().includes(q) ||
+          c.iso.toLowerCase().includes(q)
+      )
+    );
+  }
   /* =====================
    * Handlers
    * ===================== */
@@ -58,4 +82,11 @@ export class ChipsDemoComponent {
    * Display helpers
    * ===================== */
   displayCountry = (c: Country) => `${toFlagEmoji(c.code)} ${c.name}`;
+  displayCountry2 = (c: Country) => `(${c.code}) ${c.name}`;
+  onChipAdded2(country: Country) {
+    console.log('Country added:', country);
+  }
+  onChipRemoved2(country: Country) {
+    console.log('Country removed:', country);
+  }
 }
