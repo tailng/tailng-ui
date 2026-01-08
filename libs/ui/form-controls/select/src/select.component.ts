@@ -1,5 +1,6 @@
 import {
   Component,
+  ContentChild,
   ElementRef,
   ViewChild,
   computed,
@@ -8,8 +9,10 @@ import {
   input,
   output,
   signal,
+  TemplateRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NgTemplateOutlet } from '@angular/common';
 
 import { TailngConnectedOverlayComponent } from '../../../popups-overlays/connected-overlay/src/public-api';
 import { TailngOptionListComponent } from '../../../popups-overlays/option-list/src/public-api';
@@ -20,13 +23,17 @@ import {
 } from '../../../popups-overlays/overlay-ref/src/public-api';
 
 import { handleListKeyboardEvent } from 'libs/cdk/keyboard/keyboard-navigation';
+import { OptionTplContext } from '@tailng/cdk';
 
 export type SelectCloseReason = TailngOverlayCloseReason;
+
+export type SelectValueTplContext<T> = { $implicit: T };
 
 @Component({
   selector: 'tng-select',
   standalone: true,
   imports: [
+    NgTemplateOutlet, // ✅ needed for rendering valueTpl
     TailngConnectedOverlayComponent,
     TailngOverlayPanelComponent,
     TailngOptionListComponent,
@@ -42,6 +49,18 @@ export type SelectCloseReason = TailngOverlayCloseReason;
   ],
 })
 export class TailngSelectComponent<T> implements ControlValueAccessor {
+  /* =====================
+   * Projected templates
+   * ===================== */
+
+  // Dropdown option template
+  @ContentChild('optionTpl', { read: TemplateRef })
+  optionTpl?: TemplateRef<OptionTplContext<T>>;
+
+  // Trigger selected value template
+  @ContentChild('valueTpl', { read: TemplateRef })
+  valueTpl?: TemplateRef<SelectValueTplContext<T>>;
+
   @ViewChild('triggerEl', { static: true })
   triggerEl!: ElementRef<HTMLElement>;
 
@@ -50,12 +69,7 @@ export class TailngSelectComponent<T> implements ControlValueAccessor {
    * ===================== */
   readonly options = input<T[]>([]);
 
-  /**
-   * Optional: non-forms usage.
-   * If used with forms, DO NOT bind [value] / (selected) as the source of truth.
-   */
   readonly value = input<T | null>(null);
-
   readonly placeholder = input<string>('Select…');
 
   /** External disabled input (read-only) */
@@ -71,11 +85,8 @@ export class TailngSelectComponent<T> implements ControlValueAccessor {
   /* =====================
    * Theming (section-wise klass inputs)
    * ===================== */
-
-  /** Root wrapper */
   readonly rootKlass = input<string>('relative');
 
-  /** Trigger <button> */
   readonly triggerKlass = input<string>(
     [
       'w-full',
@@ -89,13 +100,8 @@ export class TailngSelectComponent<T> implements ControlValueAccessor {
     ].join(' ')
   );
 
-  /** Value text wrapper */
   readonly valueKlass = input<string>('truncate text-left');
-
-  /** Placeholder text */
   readonly placeholderKlass = input<string>('text-disable');
-
-  /** Chevron / icon */
   readonly iconKlass = input<string>('ml-2 text-disable');
 
   /* =====================
@@ -104,13 +110,9 @@ export class TailngSelectComponent<T> implements ControlValueAccessor {
   readonly isOpen = signal(false);
   readonly activeIndex = signal<number>(-1);
 
-  /** eslint-safe + template-safe internal disabled state */
   protected readonly isDisabled = signal(false);
 
-  /** Authoritative selected value inside component */
   private readonly selectedValue = signal<T | null>(null);
-
-  /** When true, CVA owns the value (forms mode) */
   private usingCva = false;
 
   /* =====================
@@ -120,13 +122,11 @@ export class TailngSelectComponent<T> implements ControlValueAccessor {
   private onTouched: () => void = () => {};
 
   constructor() {
-    // Sync external [disabled] -> internal
     effect(() => {
       this.isDisabled.set(this.disabled());
       if (this.isDisabled()) this.close('programmatic');
     });
 
-    // Sync external [value] -> internal ONLY when NOT using CVA
     effect(() => {
       const v = this.value();
       if (this.usingCva) return;
@@ -205,7 +205,6 @@ export class TailngSelectComponent<T> implements ControlValueAccessor {
     });
   }
 
-  /** OverlayRef openChange -> internal isOpen */
   onOverlayOpenChange(open: boolean) {
     if (this.isDisabled()) {
       this.isOpen.set(false);
@@ -216,7 +215,6 @@ export class TailngSelectComponent<T> implements ControlValueAccessor {
     else this.close('programmatic');
   }
 
-  /** ConnectedOverlay/OverlayRef close -> internal close */
   onOverlayClosed(reason: SelectCloseReason) {
     this.close(reason);
   }
@@ -275,11 +273,9 @@ export class TailngSelectComponent<T> implements ControlValueAccessor {
 
     this.selectedValue.set(item);
 
-    // ✅ propagate to forms
     this.onChange(item);
     this.onTouched();
 
-    // optional non-form output
     this.selected.emit(item);
 
     this.close('selection');

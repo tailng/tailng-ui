@@ -13,7 +13,14 @@
   >
     <span [class]="valueKlass()">
       @if (currentValue()) {
-        {{ display(currentValue()) }}
+        @if (valueTpl) {
+          <ng-container
+            [ngTemplateOutlet]="valueTpl"
+            [ngTemplateOutletContext]="{ $implicit: currentValue()! }"
+          />
+        } @else {
+          {{ display(currentValue()) }}
+        }
       } @else {
         <span [class]="placeholderKlass()">{{ placeholder() }}</span>
       }
@@ -22,7 +29,7 @@
     <span [class]="iconKlass()">▾</span>
   </button>
 
-  <!-- Overlay (OverlayRef = single close pipeline) -->
+  <!-- Overlay -->
   <tng-overlay-ref
     #overlayRef="tngOverlayRef"
     [open]="isOpen()"
@@ -41,6 +48,7 @@
           [items]="options()"
           [activeIndex]="activeIndex()"
           [displayWith]="displayWith()"
+          [optionTemplate]="optionTpl ?? null"
           (optionMouseDown)="select($event.item)"
           (optionHover)="activeIndex.set($event)"
         />
