@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { TailngOptionListComponent } from '@tailng/ui';
 import { TailngOverlayPanelComponent } from '@tailng/ui';
+import { Country, COUNTRY_LIST } from '../../util/country-list';
 
 interface Person {
   name: string;
@@ -31,9 +32,19 @@ export class OptionListDemoComponent {
   ];
   customActiveIndex = signal<number>(-1);
 
+
   onCustomSelect(event: { item: Person; index: number }) {
     console.log('Selected:', event.item, 'at index:', event.index);
     this.customActiveIndex.set(event.index);
+  }
+
+  countryOptions: Country[] = COUNTRY_LIST;
+  countryActiveIndex = signal<number>(-1);
+
+
+  onCountrySelect(event: { item: Country; index: number }) {
+    console.log('Selected:', event.item, 'at index:', event.index);
+    this.countryActiveIndex.set(event.index);
   }
 
   displayPerson = (item: Person) => `${item.name} (${item.age})`;

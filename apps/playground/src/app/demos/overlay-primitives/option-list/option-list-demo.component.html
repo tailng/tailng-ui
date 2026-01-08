@@ -40,6 +40,30 @@
     </div>
   </section>
 
+  <!-- Custom display with template -->
+  <section class="space-y-3">
+    <h2 class="text-lg font-semibold">Custom Display with Template</h2>
+
+    <div class="max-w-xs">
+      <tng-overlay-panel>
+        <tng-option-list
+          [items]="countryOptions"
+          [activeIndex]="countryActiveIndex()"
+          (optionMouseDown)="onCountrySelect($event)"
+          (optionHover)="countryActiveIndex.set($event)"
+        >
+          <ng-template #optionTpl let-item>
+            <div class="flex items-center gap-2">
+              <span class="opacity-70">({{ item.code }})</span>
+              <span class="font-semibold text-red-600">{{ item.name }}</span>
+            </div>
+          </ng-template>
+        </tng-option-list>
+
+      </tng-overlay-panel>
+    </div>
+  </section>
+
   <!-- Empty state -->
   <section class="space-y-3">
     <h2 class="text-lg font-semibold">Empty State</h2>

@@ -1,20 +1,20 @@
 <div #listbox role="listbox" [class]="containerKlass()">
   @if (hasItems()) {
-    @for (item of items(); let i = $index; track i) {
-      <div
-        role="option"
-        [class]="optionClasses(i)"
-        [attr.aria-selected]="isActive(i)"
-        [attr.data-index]="i"
-        (mousedown)="onMouseDown(item, i, $event)"
-        (mouseenter)="onMouseEnter(i)"
-      >
-        {{ display(item) }}
-      </div>
+  @for (item of items(); let i = $index; track i) {
+  <div role="option" [class]="optionClasses(i)" [attr.aria-selected]="isActive(i)" [attr.data-index]="i"
+    (mousedown)="onMouseDown(item, i, $event)" (mouseenter)="onMouseEnter(i)">
+    @if (tpl) {
+    <ng-container [ngTemplateOutlet]="tpl"
+      [ngTemplateOutletContext]="{ $implicit: item, index: i, active: isActive(i) }" />
+    } @else {
+    {{ display(item) }}
     }
+
+  </div>
+  }
   } @else {
-    <div [class]="emptyKlass()">
-      {{ emptyText() }}
-    </div>
+  <div [class]="emptyKlass()">
+    {{ emptyText() }}
+  </div>
   }
 </div>

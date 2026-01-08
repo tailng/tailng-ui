@@ -1,47 +1,29 @@
 <div class="relative">
-  <div
-    [class.opacity-60]="isDisabled()"
-    [class.pointer-events-none]="isDisabled()"
-  >
-    <input
-      #inputEl
-      type="text"
-      class="w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-      [value]="inputValue()"
-      [placeholder]="placeholder()"
-      [disabled]="isDisabled()"
-      (input)="onInput($event)"
-      (focus)="overlayRef.requestOpen()"
-      (blur)="onBlur()"
-      (keydown)="onKeydown($event)"
-      autocomplete="off"
-      role="combobox"
-      aria-autocomplete="list"
-      [attr.aria-expanded]="isOpen()"
-    />
+  <!-- Selected-value rich display overlay (inside input) -->
+  @if (showSelectedTpl()) {
+  <div class="pointer-events-none absolute inset-y-0 left-0 right-0 z-10 flex items-center px-3" aria-hidden="true">
+    <ng-container [ngTemplateOutlet]="inputTpl!" [ngTemplateOutletContext]="{ $implicit: selectedValue()! }" />
+  </div>
+  }
+
+  <div [class.opacity-60]="isDisabled()" [class.pointer-events-none]="isDisabled()">
+    <input #inputEl type="text"
+      class="relative z-0 w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+      [class.text-transparent]="showSelectedTpl()" [class.caret-slate-900]="showSelectedTpl()"
+      [class.bg-transparent]="showSelectedTpl()" [value]="inputValue()" [placeholder]="placeholder()"
+      [disabled]="isDisabled()" (input)="onInput($event)" (focus)="overlayRef.requestOpen()" (blur)="onBlur()"
+      (keydown)="onKeydown($event)" autocomplete="off" role="combobox" aria-autocomplete="list"
+      [attr.aria-expanded]="isOpen()" />
   </div>
 
-  <tng-overlay-ref
-    #overlayRef="tngOverlayRef"
-    [open]="isOpen()"
-    (openChange)="isOpen.set($event)"
-    (closed)="onOverlayClosed($event)"
-  >
-    <tng-connected-overlay
-      [open]="overlayRef.isOpen()"
-      [anchor]="inputEl"
-      placement="bottom-start"
-      width="anchor"
-      (closed)="overlayRef.close($event)"
-    >
+  <tng-overlay-ref #overlayRef="tngOverlayRef" [open]="isOpen()" (openChange)="isOpen.set($event)"
+    (closed)="onOverlayClosed($event)">
+    <tng-connected-overlay [open]="overlayRef.isOpen()" [anchor]="inputEl" placement="bottom-start" width="anchor"
+      (closed)="overlayRef.close($event)">
       <tng-overlay-panel>
-        <tng-option-list
-          [items]="options()"
-          [activeIndex]="focusedIndex()"
-          [displayWith]="displayWith()"
-          (optionMouseDown)="select($event.item)"
-          (optionHover)="focusedIndex.set($event)"
-        />
+        <tng-option-list [items]="options()" [activeIndex]="focusedIndex()" [displayWith]="displayWith()"
+          [optionTemplate]="optionTpl ?? null" (optionMouseDown)="select($event.item)"
+          (optionHover)="focusedIndex.set($event)" />
       </tng-overlay-panel>
     </tng-connected-overlay>
   </tng-overlay-ref>

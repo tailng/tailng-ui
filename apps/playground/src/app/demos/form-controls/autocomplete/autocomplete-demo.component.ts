@@ -40,6 +40,29 @@ export class AutocompleteDemoComponent {
     this.options.set(filtered);
   }
 
+  countryControl2 = new FormControl<Country | null>(null);
+  options2 = signal<Country[]>([]);
+
+  onSearch2(term: string) {
+    const value = term.toLowerCase().trim();
+
+    if (!value) {
+      this.options2.set([]);
+      return;
+    }
+
+    const filtered = COUNTRY_LIST.filter(
+      (country) =>
+        country.name.toLowerCase().includes(value) ||
+        country.iso.toLowerCase().includes(value)
+      );
+
+    this.options2.set(filtered);
+  }
+
+  displayCountryText = (c: Country) => `(${c.code}) ${c.name}`;
+
+  
   onClosed(reason: string) {
     console.log('Autocomplete closed:', reason);
   }

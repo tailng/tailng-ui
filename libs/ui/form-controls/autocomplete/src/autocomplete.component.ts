@@ -1,24 +1,29 @@
 import {
   Component,
+  ContentChild,
+  effect,
   ElementRef,
-  ViewChild,
   forwardRef,
   input,
   output,
   signal,
-  effect,
+  TemplateRef,
+  ViewChild,
+  computed,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { TailngConnectedOverlayComponent } from '../../../popups-overlays/connected-overlay/src/public-api';
-import { TailngOverlayPanelComponent } from '../../../popups-overlays/overlay-panel/src/public-api';
 import { TailngOptionListComponent } from '../../../popups-overlays/option-list/src/public-api';
+import { TailngOverlayPanelComponent } from '../../../popups-overlays/overlay-panel/src/public-api';
 import {
-  TailngOverlayRefComponent,
   TailngOverlayCloseReason,
+  TailngOverlayRefComponent,
 } from '../../../popups-overlays/overlay-ref/src/public-api';
 
 import { handleListKeyboardEvent } from 'libs/cdk/keyboard/keyboard-navigation';
+import { OptionTplContext } from '@tailng/cdk';
+import { NgTemplateOutlet } from '@angular/common';
 
 export type AutocompleteCloseReason = TailngOverlayCloseReason;
 
@@ -26,6 +31,7 @@ export type AutocompleteCloseReason = TailngOverlayCloseReason;
   selector: 'tng-autocomplete',
   standalone: true,
   imports: [
+    NgTemplateOutlet,
     TailngConnectedOverlayComponent,
     TailngOverlayPanelComponent,
     TailngOptionListComponent,
@@ -41,6 +47,18 @@ export type AutocompleteCloseReason = TailngOverlayCloseReason;
   ],
 })
 export class TailngAutocompleteComponent<T> implements ControlValueAccessor {
+  /* =====================
+   * Projected templates
+   * ===================== */
+
+  // Dropdown option template (list rows)
+  @ContentChild('optionTpl', { read: TemplateRef })
+  optionTpl?: TemplateRef<OptionTplContext<T>>;
+
+  // Selected value template (shown inside input area when not typing)
+  @ContentChild('inputTpl', { read: TemplateRef })
+  inputTpl?: TemplateRef<{ $implicit: T }>;
+
   @ViewChild('inputEl', { static: true })
   inputEl!: ElementRef<HTMLInputElement>;
 
@@ -53,6 +71,7 @@ export class TailngAutocompleteComponent<T> implements ControlValueAccessor {
   /** External disabled input (read-only InputSignal) */
   readonly disabled = input<boolean>(false);
 
+  /** String representation (used for actual input.value + fallback) */
   readonly displayWith = input<(item: T) => string>((v) => String(v));
 
   /** Raw text for filtering / API search (not the form value) */
@@ -73,6 +92,20 @@ export class TailngAutocompleteComponent<T> implements ControlValueAccessor {
 
   /** eslint-safe + template-safe internal disabled state */
   protected readonly isDisabled = signal(false);
+
+  /** Selected item (for inputTpl rendering) */
+  readonly selectedValue = signal<T | null>(null);
+
+  /**
+   * Whether to show rich selected template over the input.
+   * Show only when:
+   * - inputTpl exists
+   * - we have a selected value
+   * - overlay is closed (so typing/search UX stays normal)
+   */
+  readonly showSelectedTpl = computed(
+    () => !!this.inputTpl && this.selectedValue() != null && !this.isOpen()
+  );
 
   /** Form value (selected item) */
   private value: T | null = null;
@@ -96,6 +129,7 @@ export class TailngAutocompleteComponent<T> implements ControlValueAccessor {
    * ===================== */
   writeValue(value: T | null): void {
     this.value = value;
+    this.selectedValue.set(value);
 
     if (value == null) {
       this.inputValue.set('');
@@ -103,6 +137,7 @@ export class TailngAutocompleteComponent<T> implements ControlValueAccessor {
       return;
     }
 
+    // keep text value for fallback + accessibility
     this.inputValue.set(this.displayWith()(value));
     this.focusedIndex.set(-1);
   }
@@ -128,7 +163,7 @@ export class TailngAutocompleteComponent<T> implements ControlValueAccessor {
   }
 
   /* =====================
-   * State Transitions (single source of truth: isOpen)
+   * State Transitions
    * ===================== */
   open(reason: AutocompleteCloseReason) {
     if (this.isDisabled()) return;
@@ -142,7 +177,6 @@ export class TailngAutocompleteComponent<T> implements ControlValueAccessor {
       this.focusedIndex.set(-1);
     }
 
-    // reason currently unused, but kept for symmetry/future telemetry
     void reason;
   }
 
@@ -154,23 +188,18 @@ export class TailngAutocompleteComponent<T> implements ControlValueAccessor {
     this.closed.emit(reason);
   }
 
-  /** Used by <tng-connected-overlay (closed)="..."> and <tng-overlay-ref (closed)="..."> */
   onOverlayClosed(reason: AutocompleteCloseReason) {
     this.close(reason);
   }
 
-  /** Used by <tng-overlay-ref (openChange)="..."> */
   onOverlayOpenChange(open: boolean) {
     if (this.isDisabled()) {
       this.isOpen.set(false);
       return;
     }
 
-    if (open) {
-      this.open('programmatic');
-    } else {
-      this.close('programmatic');
-    }
+    if (open) this.open('programmatic');
+    else this.close('programmatic');
   }
 
   /* =====================
@@ -182,8 +211,9 @@ export class TailngAutocompleteComponent<T> implements ControlValueAccessor {
     const text = (ev.target as HTMLInputElement).value ?? '';
     this.inputValue.set(text);
 
-    // typing clears selection
+    // typing clears selection (so inputTpl disappears)
     this.value = null;
+    this.selectedValue.set(null);
     this.onChange(null);
 
     this.search.emit(text);
@@ -202,7 +232,6 @@ export class TailngAutocompleteComponent<T> implements ControlValueAccessor {
   onKeydown(ev: KeyboardEvent) {
     if (this.isDisabled()) return;
 
-    // open on arrow
     if (!this.isOpen() && (ev.key === 'ArrowDown' || ev.key === 'ArrowUp')) {
       this.open('programmatic');
       return;
@@ -242,6 +271,9 @@ export class TailngAutocompleteComponent<T> implements ControlValueAccessor {
     if (this.isDisabled()) return;
 
     this.value = item;
+    this.selectedValue.set(item);
+
+    // keep input value as text fallback
     this.inputValue.set(this.displayWith()(item));
 
     this.onChange(item);
