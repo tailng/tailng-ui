@@ -1,10 +1,181 @@
-<div>
-  <h1 class="text-2xl font-bold mb-6">Paginator</h1>
-  <div class="space-y-4">
-    <section>
-      <h2 class="text-lg font-semibold mb-3">Basic Usage</h2>
-      <tng-paginator></tng-paginator>
-    </section>
+<div class="mx-auto max-w-6xl space-y-10 p-6">
+  <!-- Header -->
+  <div class="space-y-1">
+    <h1 class="text-xl font-semibold text-foreground">Paginator</h1>
+    <p class="text-sm text-muted-foreground">
+      Professional paginator with first/prev/next/last, numbered pages with ellipsis, page-size selector, and a unified change event.
+    </p>
   </div>
-</div>
 
+  <!-- State / Controls -->
+  <section class="rounded-lg border border-border bg-background p-4">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <div class="flex flex-wrap items-center gap-2">
+        <button
+          class="rounded-md border border-border bg-background px-3 py-1.5 text-sm hover:bg-slate-50"
+          (click)="reset()"
+        >
+          Reset
+        </button>
+
+        <button
+          class="rounded-md border border-border bg-background px-3 py-1.5 text-sm hover:bg-slate-50"
+          (click)="jumpTo(1)"
+        >
+          Jump 1
+        </button>
+
+        <button
+          class="rounded-md border border-border bg-background px-3 py-1.5 text-sm hover:bg-slate-50"
+          (click)="jumpTo(7)"
+        >
+          Jump 7
+        </button>
+
+        <button
+          class="rounded-md border border-border bg-background px-3 py-1.5 text-sm hover:bg-slate-50"
+          (click)="jumpTo(20)"
+        >
+          Jump 20
+        </button>
+      </div>
+
+      <div class="text-xs text-muted-foreground">
+        <span class="mr-3">page: <code class="rounded bg-slate-100 px-1 text-slate-900">{{ page() }}</code></span>
+        <span class="mr-3">pageSize: <code class="rounded bg-slate-100 px-1 text-slate-900">{{ pageSize() }}</code></span>
+        <span class="mr-3">skip: <code class="rounded bg-slate-100 px-1 text-slate-900">{{ skip() }}</code></span>
+        <span>count: <code class="rounded bg-slate-100 px-1 text-slate-900">{{ count() }}</code></span>
+      </div>
+    </div>
+
+    @if (lastChange()) {
+      <div class="mt-4 rounded-md border border-border bg-slate-50 p-3 text-xs">
+        <div class="font-semibold text-foreground">Last change payload</div>
+        <pre class="mt-2 overflow-auto">{{ lastChange() | json }}</pre>
+      </div>
+    }
+  </section>
+
+  <!-- 1) Full featured (default) -->
+  <section class="space-y-3">
+    <h2 class="text-sm font-semibold text-foreground">Full featured (default)</h2>
+
+    <div class="overflow-hidden rounded-lg border border-border bg-background">
+      <div class="border-b border-border p-4">
+        <div class="text-sm font-medium text-foreground">Items (paged)</div>
+        <div class="mt-1 text-xs text-muted-foreground">
+          Demonstrates: first/prev/next/last, page numbers, ellipsis, range text, and rows selector.
+        </div>
+      </div>
+
+      <div class="p-4">
+        <div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          @for (it of pageItems(); track it.id) {
+            <div class="rounded-md border border-border bg-background p-3">
+              <div class="text-sm font-medium text-foreground">#{{ it.id }} — {{ it.name }}</div>
+              <div class="mt-1 text-xs text-muted-foreground">Group: {{ it.group }}</div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="border-t border-border p-4">
+        <tng-paginator
+          [count]="count()"
+          [page]="page()"
+          [pageSize]="pageSize()"
+          (change)="onChange($event)"
+        ></tng-paginator>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) Ellipsis / windowed pages -->
+  <section class="space-y-3">
+    <h2 class="text-sm font-semibold text-foreground">Ellipsis / windowed pages</h2>
+
+    <div class="rounded-lg border border-border bg-background p-4">
+      <div class="text-xs text-muted-foreground">
+        Uses <code class="rounded bg-slate-100 px-1 text-slate-900">maxPages=5</code> to force compact page window with ellipsis.
+      </div>
+
+      <div class="mt-3">
+        <tng-paginator
+          [count]="count()"
+          [page]="page()"
+          [pageSize]="pageSize()"
+          [maxPages]="5"
+          (change)="onChange($event)"
+        ></tng-paginator>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) Without page-size selector -->
+  <section class="space-y-3">
+    <h2 class="text-sm font-semibold text-foreground">Without page-size selector</h2>
+
+    <div class="rounded-lg border border-border bg-background p-4">
+      <div class="text-xs text-muted-foreground">
+        Some screens require fixed page size. Hide the selector with
+        <code class="rounded bg-slate-100 px-1 text-slate-900">hidePageSize</code>.
+      </div>
+
+      <div class="mt-3">
+        <tng-paginator
+          [count]="count()"
+          [page]="page()"
+          [pageSize]="pageSize()"
+          [hidePageSize]="true"
+          (change)="onChange($event)"
+        ></tng-paginator>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4) Themed via klass hooks -->
+  <section class="space-y-3">
+    <h2 class="text-sm font-semibold text-foreground">Themed via klass hooks</h2>
+
+    <div class="rounded-lg border border-border bg-background p-4">
+      <div class="text-xs text-muted-foreground">
+        Demonstrates that the paginator is completely themeable without CSS, using klass inputs.
+      </div>
+
+      <div class="mt-3">
+        <tng-paginator
+          [count]="count()"
+          [page]="page()"
+          [pageSize]="pageSize()"
+          (change)="onChange($event)"
+          rootKlass="flex flex-wrap items-center justify-between gap-4 text-sm"
+          leftKlass="text-muted-foreground"
+          rightKlass="flex flex-wrap items-center gap-2"
+          buttonKlass="rounded-md border border-border bg-background px-2.5 py-1.5 text-sm hover:bg-slate-50 disabled:opacity-50 disabled:pointer-events-none"
+          pageKlass="rounded-md border border-border bg-background px-2.5 py-1.5 text-sm hover:bg-slate-50"
+          activePageKlass="bg-primary text-on-primary border-primary"
+          selectKlass="rounded-md border border-border bg-background px-2 py-1.5 text-sm"
+          separatorKlass="mx-2 text-slate-300"
+        ></tng-paginator>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5) Edge case: small count -->
+  <section class="space-y-3">
+    <h2 class="text-sm font-semibold text-foreground">Edge case: small count</h2>
+
+    <div class="rounded-lg border border-border bg-background p-4">
+      <tng-paginator
+        [count]="12"
+        [page]="1"
+        [pageSize]="10"
+        [hidePageSize]="true"
+      ></tng-paginator>
+
+      <div class="mt-2 text-xs text-muted-foreground">
+        When total pages are low, the paginator shows simple 1..N without ellipsis.
+      </div>
+    </div>
+  </section>
+</div>

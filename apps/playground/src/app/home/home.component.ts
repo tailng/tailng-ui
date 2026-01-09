@@ -71,7 +71,7 @@ export const categories = [
       { name: 'Sidenav', route: '/navigation/sidenav', status: 'done', priority: 'high' },
       { name: 'Drawer', route: '/navigation/drawer', status: 'done', priority: 'high' },
       { name: 'Stepper', route: '/navigation/stepper', status: 'done', priority: 'medium' },
-      { name: 'Paginator', route: '/navigation/paginator', status: 'backlog', priority: 'medium' },
+      { name: 'Paginator', route: '/navigation/paginator', status: 'done', priority: 'medium' },
 
       // Missing but essential navigation
       { name: 'Breadcrumbs', route: '/navigation/breadcrumbs', status: 'done', priority: 'low' },
