@@ -82,12 +82,12 @@ export const categories = [
     name: 'Popups & Overlays',
     package: '@tailng/overlay',
     components: [
-      { name: 'Dialog', route: '/overlay/dialog', status: 'backlog', priority: 'high' },
-      { name: 'Snackbar', route: '/overlay/snackbar', status: 'backlog', priority: 'high' },
-      { name: 'Tooltip', route: '/overlay/tooltip', status: 'backlog', priority: 'high' },
+      { name: 'Dialog', route: '/overlay/dialog', status: 'done', priority: 'high' },
+      { name: 'Snackbar', route: '/overlay/snackbar', status: 'done', priority: 'high' },
+      { name: 'Tooltip', route: '/overlay/tooltip', status: 'done', priority: 'high' },
 
       // Missing but essential overlay
-      { name: 'Popover', route: '/overlay/popover', status: 'backlog', priority: 'medium' },
+      { name: 'Popover', route: '/overlay/popover', status: 'done', priority: 'medium' },
     ],
   },
 

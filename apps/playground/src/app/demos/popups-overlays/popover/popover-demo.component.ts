@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { TailngPopoverComponent } from '@tailng/ui';
 
 @Component({
@@ -7,5 +7,6 @@ import { TailngPopoverComponent } from '@tailng/ui';
   imports: [TailngPopoverComponent],
   templateUrl: './popover-demo.component.html',
 })
-export class PopoverDemoComponent {}
-
+export class PopoverDemoComponent {
+  readonly controlledOpen = signal(false);
+}

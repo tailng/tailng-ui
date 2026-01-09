@@ -1,0 +1,28 @@
+@if ((items()?.length ?? 0) > 0) {
+  <div [class]="hostPositionKlass()">
+    @for (item of items().slice(0, max()); track item.id) {
+      <div [class]="itemClasses(item)">
+        <div [class]="itemInnerKlass()">
+          <div class="flex-1">
+            <div [class]="messageKlass()">{{ item.message }}</div>
+          </div>
+
+          @if (item.actionLabel) {
+            <button type="button" [class]="actionKlass()" (click)="onAction(item.id)">
+              {{ item.actionLabel }}
+            </button>
+          }
+
+          <button
+            type="button"
+            [class]="dismissBtnKlass()"
+            aria-label="Dismiss"
+            (click)="onDismiss(item.id)"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+}

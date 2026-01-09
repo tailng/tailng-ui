@@ -1,10 +1,40 @@
-<div>
-  <h1 class="text-2xl font-bold mb-6">Tooltip</h1>
-  <div class="space-y-4">
-    <section>
-      <h2 class="text-lg font-semibold mb-3">Basic Usage</h2>
-      <tng-tooltip></tng-tooltip>
-    </section>
+<div class="mx-auto max-w-4xl space-y-8 p-6">
+  <div class="space-y-1">
+    <h1 class="text-xl font-semibold text-foreground">Tooltip</h1>
+    <p class="text-sm text-muted-foreground">
+      Non-interactive hints shown on hover/focus. Built on ConnectedOverlay.
+    </p>
   </div>
-</div>
 
+  <section class="rounded-lg border border-border bg-background p-6">
+    <div class="flex flex-wrap items-center gap-4">
+      <tng-tooltip text="Copy to clipboard" placement="top-start">
+        <button class="rounded-md border border-border bg-background px-3 py-1.5 text-sm hover:bg-slate-50">
+          Copy
+        </button>
+      </tng-tooltip>
+
+      <tng-tooltip text="Delete item (irreversible)" placement="top-start"
+        surfaceKlass="rounded-md border border-border bg-background shadow-md"
+        panelKlass="px-3 py-2 text-xs"
+      >
+        <button class="rounded-md border border-border bg-background px-3 py-1.5 text-sm hover:bg-slate-50">
+          Delete
+        </button>
+      </tng-tooltip>
+
+      <tng-tooltip>
+        <ng-template #tooltipContent>
+          <div class="max-w-56 text-xs whitespace-normal">
+            This is a longer tooltip that wraps nicely.
+          </div>
+        </ng-template>
+      
+        <button class="rounded-md border border-border bg-background px-3 py-1.5 text-sm hover:bg-slate-50">
+          Template tooltip
+        </button>
+      </tng-tooltip>
+      
+    </div>
+  </section>
+</div>

@@ -8,4 +8,3 @@ import { TailngTooltipComponent } from '@tailng/ui';
   templateUrl: './tooltip-demo.component.html',
 })
 export class TooltipDemoComponent {}
-

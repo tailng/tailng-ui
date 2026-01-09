@@ -1,10 +1,65 @@
-<div>
-  <h1 class="text-2xl font-bold mb-6">Snackbar</h1>
-  <div class="space-y-4">
-    <section>
-      <h2 class="text-lg font-semibold mb-3">Basic Usage</h2>
-      <tng-snackbar></tng-snackbar>
-    </section>
+<div class="mx-auto max-w-5xl space-y-8 p-6">
+  <div class="space-y-1">
+    <h1 class="text-xl font-semibold text-foreground">Snackbar</h1>
+    <p class="text-sm text-muted-foreground">
+      Transient, non-blocking notifications. Stackable, dismissible, configurable position.
+    </p>
   </div>
-</div>
 
+  <!-- Controls -->
+  <section class="space-y-4 rounded-lg border border-border bg-background p-4">
+    <div class="flex flex-wrap items-center gap-2">
+      <button class="rounded-md border px-3 py-1.5 text-sm" (click)="push('default')">Default</button>
+      <button class="rounded-md border px-3 py-1.5 text-sm" (click)="push('success')">Success</button>
+      <button class="rounded-md border px-3 py-1.5 text-sm" (click)="push('info')">Info</button>
+      <button class="rounded-md border px-3 py-1.5 text-sm" (click)="push('warning')">Warning</button>
+      <button class="rounded-md border px-3 py-1.5 text-sm" (click)="push('error')">Error</button>
+
+      <button
+        class="rounded-md bg-primary px-3 py-1.5 text-sm text-on-primary"
+        (click)="clear()"
+      >
+        Clear
+      </button>
+    </div>
+
+    <!-- Position selector -->
+    <div class="flex flex-wrap items-center gap-3 text-sm">
+      <label class="font-medium text-foreground">Position:</label>
+
+      <select
+        class="rounded-md border border-border bg-background px-2 py-1 text-sm"
+        [value]="position()"
+        (change)="position.set($any($event.target).value)"
+      >
+        <option value="top-left">Top Left</option>
+        <option value="top-center">Top Center</option>
+        <option value="top-right">Top Right</option>
+        <option value="bottom-left">Bottom Left</option>
+        <option value="bottom-center">Bottom Center</option>
+        <option value="bottom-right">Bottom Right</option>
+      </select>
+
+      <span class="text-xs text-muted-foreground">
+        Current:
+        <code class="rounded bg-slate-100 px-1 text-slate-900">
+          {{ position() }}
+        </code>
+      </span>
+    </div>
+
+    <div class="text-xs text-muted-foreground">
+      Last event:
+      <code class="rounded bg-slate-100 px-1 text-slate-900">
+        {{ lastEvent() }}
+      </code>
+    </div>
+  </section>
+
+  <!-- Snackbar outlet -->
+  <tng-snackbar-host
+    [items]="items()"
+    [position]="position()"
+    (dismiss)="onDismiss($event)"
+  />
+</div>

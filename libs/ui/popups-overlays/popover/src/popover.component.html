@@ -1,4 +1,38 @@
-<div class="p-4 border border-gray-200 rounded-md">
-  <p class="text-gray-600">Popover component - placeholder</p>
-</div>
+<div [class]="rootKlass()">
+  <button
+    #triggerEl
+    type="button"
+    [class]="triggerKlass()"
+    aria-haspopup="dialog"
+    [attr.aria-expanded]="isOpen()"
+    (click)="onTriggerClick()"
+  >
+    <ng-content select="[tngPopoverTrigger]"></ng-content>
+  </button>
 
+  <tng-overlay-ref
+    [open]="isOpen()"
+    (openChange)="openChange.emit($event)"
+    (opened)="opened.emit()"
+    (closed)="onOverlayClosed($event)"
+  >
+    <tng-connected-overlay
+      [open]="isOpen()"
+      [anchor]="triggerEl"
+      [placement]="placement()"
+      [offset]="offset()"
+      [width]="width()"
+      [closeOnOutsideClick]="closeOnOutsideClick()"
+      [closeOnEscape]="closeOnEscape()"
+      (closed)="onOverlayClosed($event)"
+    >
+      <tng-overlay-panel [klass]="panelKlass()">
+        @if (contentTpl) {
+          <ng-container [ngTemplateOutlet]="contentTpl"></ng-container>
+        } @else {
+          <ng-content select="[tngPopoverContent]"></ng-content>
+        }
+      </tng-overlay-panel>
+    </tng-connected-overlay>
+  </tng-overlay-ref>
+</div>

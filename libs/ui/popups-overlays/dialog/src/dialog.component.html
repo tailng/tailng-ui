@@ -1,4 +1,28 @@
-<div class="p-4 border border-gray-200 rounded-md">
-  <p class="text-gray-600">Welcome hello component - Dialog</p>
-</div>
+@if (open()) {
+  <div [class]="backdropKlass()" (click)="onBackdropClick()"></div>
 
+  <div
+    [class]="panelKlass()"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="ariaLabel()"
+    (click)="$event.stopPropagation()"
+  >
+    <!-- Header slot -->
+    @if (true) {
+      <div [class]="headerWrapKlass()">
+        <ng-content select="[tngDialogHeader]"></ng-content>
+      </div>
+    }
+
+    <!-- Body -->
+    <div [class]="bodyWrapKlass()">
+      <ng-content></ng-content>
+    </div>
+
+    <!-- Footer slot -->
+    <div [class]="footerWrapKlass()">
+      <ng-content select="[tngDialogFooter]"></ng-content>
+    </div>
+  </div>
+}
