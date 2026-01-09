@@ -1,4 +1,5 @@
 <div [class]="rootKlass()">
+ 
   <button
     type="button"
     [class]="headerKlass()"
@@ -12,11 +13,18 @@
       <ng-content select="[tngExpansionTitle]"></ng-content>
     </span>
 
-    <!-- Icon: slot override supported, SVG fallback always available -->
     <span [class]="iconWrapperKlass()">
-      <ng-content select="[tngExpansionIcon]"></ng-content>
-
-      @if (!hasCustomIcon()) {
+      @if (hasAnyCustomIcon()) {
+        <!-- Keep both ng-content slots always present -->
+        <span [hidden]="!showOpenIcon()">
+          <ng-content select="[tngExpansionIconOpen]"></ng-content>
+        </span>
+    
+        <span [hidden]="!showCloseIcon()">
+          <ng-content select="[tngExpansionIconClose]"></ng-content>
+        </span>
+      } @else {
+        <!-- Default chevron -->
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -34,13 +42,11 @@
         </svg>
       }
     </span>
+    
   </button>
 
-  <!-- Grid controls height -->
   <div [class]="contentOuterKlass() + ' ' + contentRowsKlass()">
-    <!-- MUST be overflow-hidden (no padding here) -->
     <div [class]="contentClipKlass()">
-      <!-- Put padding here so it collapses cleanly -->
       <div [class]="resolvedContentBodyKlass()">
         <ng-content select="[tngExpansionContent]"></ng-content>
       </div>

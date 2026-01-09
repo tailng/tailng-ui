@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { TailngExpansionIconDirective, TailngExpansionPanelComponent } from '@tailng/ui';
+import { TailngExpansionIconCloseDirective, TailngExpansionIconOpenDirective, TailngExpansionPanelComponent } from '@tailng/ui';
 
 @Component({
   selector: 'playground-expansion-panel-demo',
   standalone: true,
-  imports: [TailngExpansionPanelComponent,TailngExpansionIconDirective],
+  imports: [TailngExpansionPanelComponent, TailngExpansionIconOpenDirective, TailngExpansionIconCloseDirective],
   templateUrl: './expansion-panel-demo.component.html',
 })
 export class ExpansionPanelDemoComponent {

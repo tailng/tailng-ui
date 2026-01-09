@@ -11,16 +11,24 @@ import {
 import { booleanAttribute } from '@angular/core';
 
 /**
- * Marker directive for projected custom icon.
- * IMPORTANT:
- * This directive must be imported by the CONSUMER component (the one that writes
- * <svg tngExpansionIcon>...</svg>) so Angular can attach it to that element.
+ * OPEN-state icon marker.
+ * Consumer must import this directive where the icon is used.
  */
 @Directive({
-  selector: '[tngExpansionIcon]',
+  selector: '[tngExpansionIconOpen]',
   standalone: true,
 })
-export class TailngExpansionIconDirective {}
+export class TailngExpansionIconOpenDirective {}
+
+/**
+ * CLOSE-state icon marker.
+ * Consumer must import this directive where the icon is used.
+ */
+@Directive({
+  selector: '[tngExpansionIconClose]',
+  standalone: true,
+})
+export class TailngExpansionIconCloseDirective {}
 
 @Component({
   selector: 'tng-expansion-panel',
@@ -32,24 +40,18 @@ export class TailngExpansionPanelComponent {
    * Inputs
    * ===================== */
 
-  /** Initial open state (uncontrolled default) */
   open = input(false, { transform: booleanAttribute });
-
-  /** Disable interaction */
   disabled = input(false, { transform: booleanAttribute });
-
-  /** Add internal padding to content */
   padded = input(true, { transform: booleanAttribute });
 
   /* =====================
-   * Outputs (optional feature)
+   * Outputs
    * ===================== */
 
-  /** Emits whenever user toggles */
   openChange = output<boolean>();
 
   /* =====================
-   * Klass hooks (theming)
+   * Klass hooks
    * ===================== */
 
   rootKlass = input<string>('rounded-lg border border-border bg-background');
@@ -62,9 +64,13 @@ export class TailngExpansionPanelComponent {
 
   titleKlass = input<string>('flex-1');
 
-  iconWrapperKlass = input<string>('ml-2 shrink-0 inline-flex items-center justify-center');
+  iconWrapperKlass = input<string>(
+    'ml-2 shrink-0 inline-flex items-center justify-center'
+  );
 
-  chevronKlass = input<string>('h-4 w-4 shrink-0 transition-transform duration-200');
+  chevronKlass = input<string>(
+    'h-4 w-4 shrink-0 transition-transform duration-200'
+  );
 
   contentOuterKlass = input<string>(
     'grid transition-[grid-template-rows] duration-200 ease-in-out'
@@ -74,13 +80,32 @@ export class TailngExpansionPanelComponent {
   contentBodyKlass = input<string>('text-sm text-muted-foreground');
   contentPaddingKlass = input<string>('px-4 pb-4 pt-2');
 
-  /* =====================
-   * Slots
+    /* =====================
+   * Slots (state icons only)
    * ===================== */
 
-  /** Detects presence of a projected element with [tngExpansionIcon] */
-  readonly iconSlot = contentChild(TailngExpansionIconDirective);
-  readonly hasCustomIcon = computed(() => !!this.iconSlot());
+    readonly iconOpen = contentChild(TailngExpansionIconOpenDirective);
+    readonly iconClose = contentChild(TailngExpansionIconCloseDirective);
+  
+    readonly hasOpenIcon = computed(() => !!this.iconOpen());
+    readonly hasCloseIcon = computed(() => !!this.iconClose());
+    readonly hasAnyCustomIcon = computed(() => this.hasOpenIcon() || this.hasCloseIcon());
+  
+    // ✅ Stable rendering flags (avoid ng-content inside @if)
+    readonly showOpenIcon = computed(() => {
+      if (!this.hasAnyCustomIcon()) return false;
+      if (this.hasOpenIcon() && this.hasCloseIcon()) return this.isOpen();
+      if (this.hasOpenIcon()) return true; // only open provided → use for both states
+      return false;
+    });
+  
+    readonly showCloseIcon = computed(() => {
+      if (!this.hasAnyCustomIcon()) return false;
+      if (this.hasOpenIcon() && this.hasCloseIcon()) return !this.isOpen();
+      if (this.hasCloseIcon()) return true; // only close provided → use for both states
+      return false;
+    });
+  
 
   /* =====================
    * State

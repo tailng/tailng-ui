@@ -146,29 +146,54 @@
     </div>
   </section>
 
-  <!-- 7) Accordion-like UX (demo-driven) -->
   <section class="space-y-3">
-    <h2 class="text-sm font-semibold text-foreground">Custom icon</h2>
-
+    <h2 class="text-sm font-semibold text-foreground">Custom icon (open / close)</h2>
+  
     <div class="space-y-2">
-      <!-- NOTE: This works as true accordion only if your component supports controlled open state. -->
       <tng-expansion-panel>
         <div tngExpansionTitle>Custom icon</div>
-      
+  
+        <!-- Closed state icon (shown when panel is closed) -->
         <svg
-          tngExpansionIcon
+          tngExpansionIconClose
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           class="h-5 w-5 text-primary"
+          aria-hidden="true"
         >
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14m7-7H5" />
+          <!-- plus -->
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 5v14m7-7H5"
+          />
         </svg>
-      
+  
+        <!-- Open state icon (shown when panel is open) -->
+        <svg
+          tngExpansionIconOpen
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          class="h-5 w-5 text-primary"
+          aria-hidden="true"
+        >
+          <!-- minus -->
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 12h14"
+          />
+        </svg>
+  
         <div tngExpansionContent>Content…</div>
       </tng-expansion-panel>
-      
     </div>
   </section>
+
 </div>
