@@ -198,13 +198,6 @@ export const routes: Routes = [
         (m) => m.AccordionDemoComponent
       ),
   },
-  {
-    path: 'layout/stepper-layout',
-    loadComponent: () =>
-      import('./demos/layout/stepper-layout/stepper-layout-demo.component').then(
-        (m) => m.StepperLayoutDemoComponent
-      ),
-  },
   // Navigation
   {
     path: 'navigation/menu',

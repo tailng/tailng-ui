@@ -60,7 +60,6 @@ export const categories = [
 
       // Missing but essential layout primitives
       { name: 'Accordion', route: '/layout/accordion', status: 'done', priority: 'low' },
-      { name: 'Stepper Layout', route: '/layout/stepper-layout', status: 'backlog', priority: 'low' },
     ],
   },
 
@@ -70,7 +69,7 @@ export const categories = [
     components: [
       { name: 'Menu', route: '/navigation/menu', status: 'backlog', priority: 'high' },
       { name: 'Sidenav', route: '/navigation/sidenav', status: 'backlog', priority: 'high' },
-      { name: 'Stepper', route: '/navigation/stepper', status: 'backlog', priority: 'medium' },
+      { name: 'Stepper', route: '/navigation/stepper', status: 'done', priority: 'medium' },
       { name: 'Paginator', route: '/navigation/paginator', status: 'backlog', priority: 'medium' },
 
       // Missing but essential navigation
