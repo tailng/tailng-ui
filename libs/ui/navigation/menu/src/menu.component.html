@@ -18,28 +18,40 @@
     (opened)="onOverlayOpened()"
     (closed)="onOverlayClosed($event)"
   >
+    <!-- NEW: Backdrop only when modal -->
+    <ng-container *ngIf="modal() && isOpen()">
+      <div
+        [class]="backdropKlass()"
+        class="z-[999]"
+        (click)="onBackdropClick()"
+      ></div>
+    </ng-container>
+
     <tng-connected-overlay
       [open]="isOpen()"
       [anchor]="triggerEl"
       [placement]="placement()"
       [offset]="offset()"
       [width]="width()"
-      [closeOnOutsideClick]="closeOnOutsideClick()"
-      [closeOnEscape]="closeOnEscape()"
+      [closeOnOutsideClick]="effectiveCloseOnOutsideClick()"
+      [closeOnEscape]="effectiveCloseOnEscape()"
       (closed)="onOverlayClosed($event)"
     >
-      <tng-overlay-panel [klass]="panelKlass()">
-        <div role="menu" class="outline-none">
-          <!-- ✅ Render the projected <ng-template> content -->
-          <ng-container *ngIf="menuTpl; else contentSlot"
-            [ngTemplateOutlet]="menuTpl"
-          ></ng-container>
+      <!-- Key change: pass modal into overlay-panel -->
+      <tng-overlay-panel
+        [klass]="panelKlass()"
+        [modal]="modal()"
+        role="menu"
+      >
+        <!-- ✅ Render the projected <ng-template> content -->
+        <ng-container *ngIf="menuTpl; else contentSlot"
+          [ngTemplateOutlet]="menuTpl"
+        ></ng-container>
 
-          <!-- Fallback: support <div tngMenuContent>...</div> -->
-          <ng-template #contentSlot>
-            <ng-content select="[tngMenuContent]"></ng-content>
-          </ng-template>
-        </div>
+        <!-- Fallback: support <div tngMenuContent>...</div> -->
+        <ng-template #contentSlot>
+          <ng-content select="[tngMenuContent]"></ng-content>
+        </ng-template>
       </tng-overlay-panel>
     </tng-connected-overlay>
   </tng-overlay-ref>

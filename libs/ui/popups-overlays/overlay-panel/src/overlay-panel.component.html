@@ -1,6 +1,15 @@
 <div
   [class]="classes()"
-  role="presentation"
+  [attr.role]="role()"
+  [attr.aria-modal]="ariaModal()"
+  [attr.aria-label]="ariaLabel() || null"
+  [attr.aria-labelledby]="ariaLabelledby() || null"
+  [attr.aria-describedby]="ariaDescribedby() || null"
+  tabindex="-1"
+  [tngFocusTrap]="modal()"
+  [restoreFocus]="restoreFocus()"
+  [autoCapture]="autoCapture()"
+  [deferCaptureElements]="deferCaptureElements()"
 >
   <ng-content />
 </div>

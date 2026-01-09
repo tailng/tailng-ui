@@ -111,4 +111,71 @@
       <code>selection</code>, <code>outside-click</code>, <code>escape</code>
     </p>
   </section>
+
+  <!-- Modal Menu (focus-trapped) -->
+<section class="space-y-3">
+  <h2 class="text-sm font-semibold text-foreground">Modal (focus trapped)</h2>
+
+  <tng-menu
+    modal="true"
+    panelKlass="p-2 min-w-56"
+  >
+    <!-- Trigger -->
+    <button
+      tngMenuTrigger
+      class="rounded-md border border-border bg-background px-3 py-1.5 text-sm"
+    >
+      Open modal menu
+    </button>
+
+    <!-- Menu content -->
+    <ng-template>
+      <div class="space-y-2">
+        <div class="text-xs text-muted-foreground px-1">
+          Focus trap demo:
+          <kbd class="rounded bg-slate-100 px-1 text-slate-900">Tab</kbd> /
+          <kbd class="rounded bg-slate-100 px-1 text-slate-900">Shift</kbd>+
+          <kbd class="rounded bg-slate-100 px-1 text-slate-900">Tab</kbd>
+        </div>
+
+        <button
+          tngMenuItem
+          class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-50"
+        >
+          First action
+        </button>
+
+        <button
+          tngMenuItem
+          class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-50"
+        >
+          Second action
+        </button>
+
+        <button
+          tngMenuItem
+          class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-50"
+        >
+          Third action
+        </button>
+
+        <div class="pt-1 border-t border-border"></div>
+
+        <!-- Explicit close action -->
+        <button
+          tngMenuItem
+          class="w-full rounded px-3 py-2 text-left text-sm text-muted-foreground hover:bg-slate-50"
+        >
+          Close
+        </button>
+      </div>
+    </ng-template>
+  </tng-menu>
+
+  <p class="text-xs text-muted-foreground">
+    This menu uses <code>modal=true</code>, so keyboard focus is trapped inside
+    until the menu closes (Escape / outside-click).
+  </p>
+</section>
+
 </div>
