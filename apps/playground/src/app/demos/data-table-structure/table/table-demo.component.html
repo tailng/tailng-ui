@@ -73,15 +73,20 @@
         </ng-template>
       </tng-col>
 
-      <tng-col id="amount" header="Amount" align="right" width="140px" [value]="amountValue">
+      <tng-col id="amount" header="Amount" align="right" [value]="amountValue">
+        <ng-template tngHeader let-header="header">
+          <div class="flex items-center justify-end gap-1">
+            <span>{{ header }}</span>
+            <span class="opacity-60">₹</span>
+          </div>
+        </ng-template>
+      
         <ng-template tngCell let-value="value">
-          <span
-            class="font-semibold"
-            [class.text-green-600]="isPositive(value)"
-            [class.text-red-600]="isNegative(value)"
-          >
-            ₹ {{ value }}
-          </span>
+          @if (value < 0) {
+            <span class="font-semibold text-red-600">{{ value }}</span>
+          } @else {
+            <span class="font-semibold text-green-600">{{ value }}</span>
+          }
         </ng-template>
       </tng-col>
 

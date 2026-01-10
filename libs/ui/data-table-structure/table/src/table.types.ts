@@ -13,7 +13,7 @@ export type TngCellContext<T> = {
   /** column id */
   colId: string;
 
-  /** resolved value for this cell (value(row) / field lookup) */
+  /** resolved value for this cell */
   value: unknown;
 };
 
@@ -30,7 +30,6 @@ export type TngResolvedColumn<T> = {
   klass?: string;
 
   value?: (row: T) => unknown;
-  field?: string;
 
   headerTpl?: TemplateRef<TngHeaderContext>;
   cellTpl?: TemplateRef<TngCellContext<T>>;

@@ -12,11 +12,8 @@ export class TailngColComponent<T> {
   /** unique column id */
   readonly id = input.required<string>();
 
-  /** header label */
+  /** header label (fallback when no tngHeader template is provided) */
   readonly header = input<string>('');
-
-  /** optional field key lookup (row[field]) */
-  readonly field = input<string | null>(null);
 
   /** optional value resolver */
   readonly value = input<((row: T) => unknown) | null>(null);
@@ -37,20 +34,13 @@ export class TailngColComponent<T> {
   @ContentChild(TngHeaderDefDirective)
   headerDef?: TngHeaderDefDirective;
 
-  /** used internally by the table */
   resolveHeader(): string {
     return this.header() || this.id();
   }
 
-  /** used internally by the table */
   resolveValue(row: T): unknown {
     const valueFn = this.value();
-    if (valueFn) return valueFn(row);
-
-    const f = this.field();
-    if (f) return (row as any)?.[f];
-
-    return (row as any)?.[this.id()];
+    return valueFn ? valueFn(row) : (row as any)?.[this.id()];
   }
 
   resolveCellTpl(): TemplateRef<any> | undefined {

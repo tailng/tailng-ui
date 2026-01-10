@@ -1,11 +1,11 @@
-import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { NgStyle, NgTemplateOutlet } from '@angular/common';
 import {
   AfterContentInit,
   Component,
-  ContentChildren,
-  QueryList,
   computed,
+  ContentChildren,
   input,
+  QueryList,
   signal
 } from '@angular/core';
 
@@ -88,13 +88,7 @@ export class TailngTableComponent<T extends Record<string, any> = any> implement
 
   cellCtx(row: T, rowIndex: number, col: TngResolvedColumn<T>): TngCellContext<T> {
     const value = col.value ? col.value(row) : (row as any)?.[col.id];
-    return {
-      $implicit: row,
-      row,
-      rowIndex,
-      colId: col.id,
-      value,
-    };
+    return { $implicit: row, row, rowIndex, colId: col.id, value };
   }
 
   headerCtx(col: TngResolvedColumn<T>): TngHeaderContext {
