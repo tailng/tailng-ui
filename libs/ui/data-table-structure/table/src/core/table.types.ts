@@ -1,8 +1,8 @@
 import { TemplateRef } from '@angular/core';
 
-export type TngAlign = 'left' | 'center' | 'right';
+export type TailngAlign = 'left' | 'center' | 'right';
 
-export type TngCellContext<T> = {
+export type TailngCellContext<T> = {
   /** row */
   $implicit: T;
   row: T;
@@ -17,49 +17,49 @@ export type TngCellContext<T> = {
   value: unknown;
 };
 
-export type TngHeaderContext = {
+export type TailngHeaderContext = {
   colId: string;
   header: string;
 };
 
-export type TngResolvedColumn<T> = {
+export type TailngResolvedColumn<T> = {
   id: string;
   header: string;
-  align?: TngAlign;
+  align?: TailngAlign;
   width?: string;
   klass?: string;
 
   value?: (row: T) => unknown;
 
-  headerTpl?: TemplateRef<TngHeaderContext>;
-  cellTpl?: TemplateRef<TngCellContext<T>>;
+  headerTpl?: TemplateRef<TailngHeaderContext>;
+  cellTpl?: TemplateRef<TailngCellContext<T>>;
 };
 
-export type TngSortDir = '' | 'asc' | 'desc';
-export type TngSort = { active: string; direction: TngSortDir };
+export type TailngSortDir = '' | 'asc' | 'desc';
+export type TailngSort = { active: string; direction: TailngSortDir };
 
 // -------------------- FILTER --------------------
-export type TngFilterType = 'text' | 'number' | 'date' | 'enum';
+export type TailngFilterType = 'text' | 'number' | 'date' | 'enum';
 
-export type TngTextFilter = string; // contains
-export type TngNumberFilter = { min?: number; max?: number };
-export type TngDateFilter = { from?: string; to?: string }; // ISO yyyy-mm-dd
-export type TngEnumFilter = string[]; // multi-select by default
+export type TailngTextFilter = string; // contains
+export type TailngNumberFilter = { min?: number; max?: number };
+export type TailngDateFilter = { from?: string; to?: string }; // ISO yyyy-mm-dd
+export type TailngEnumFilter = string[]; // multi-select by default
 
-export type TngFilterValue = TngTextFilter | TngNumberFilter | TngDateFilter | TngEnumFilter;
-export type TngFilters = Record<string, TngFilterValue>;
+export type TailngFilterValue = TailngTextFilter | TailngNumberFilter | TailngDateFilter | TailngEnumFilter;
+export type TailngFilters = Record<string, TailngFilterValue>;
 
 // Column-level filter metadata (used by defaults)
-export type TngEnumOption = { value: string; label: string };
+export type TailngEnumOption = { value: string; label: string };
 
-export type TngColumnFilterMeta =
+export type TailngColumnFilterMeta =
   | { type: 'text'; placeholder?: string }
   | { type: 'number' }
   | { type: 'date' }
-  | { type: 'enum'; options: TngEnumOption[] };
+  | { type: 'enum'; options: TailngEnumOption[] };
 
-export type TngColumnMeta = {
+export type TailngColumnMeta = {
   id: string;
   label?: string;
-  filter?: TngColumnFilterMeta;
+  filter?: TailngColumnFilterMeta;
 };

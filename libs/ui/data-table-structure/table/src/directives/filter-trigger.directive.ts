@@ -14,7 +14,7 @@ import { TNG_TABLE } from '../core/table.token';
   selector: '[tngFilterTrigger]',
   standalone: true,
 })
-export class TngFilterTriggerDirective {
+export class TailngFilterTriggerDirective {
   readonly colId = input.required<string>();
 
   private readonly table = inject(TNG_TABLE);

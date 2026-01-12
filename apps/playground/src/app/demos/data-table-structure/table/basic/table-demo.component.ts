@@ -4,7 +4,7 @@ import { TailngTableComponent } from '@tailng/ui';
 
 // Prefer importing these from @tailng/ui once you export them there.
 import { TailngColComponent } from '@tailng/ui';
-import { TngCellDefDirective } from '@tailng/ui';
+import { TailngCellDefDirective } from '@tailng/ui';
 
 type Txn = {
   id: string;
@@ -17,7 +17,7 @@ type Txn = {
 @Component({
   selector: 'playground-table-demo',
   standalone: true,
-  imports: [TailngTableComponent, TailngColComponent, TngCellDefDirective],
+  imports: [TailngTableComponent, TailngColComponent, TailngCellDefDirective],
   templateUrl: './table-demo.component.html',
 })
 export class TableDemoComponent {

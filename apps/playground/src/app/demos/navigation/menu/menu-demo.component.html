@@ -7,38 +7,26 @@
 
     <tng-menu>
       <!-- Trigger -->
-      <button
-        tngMenuTrigger
-        class="rounded-md border border-border bg-background px-3 py-1.5 text-sm"
-      >
+      <button tngMenuTrigger class="rounded-md border border-border bg-background px-3 py-1.5 text-sm">
         Open menu
       </button>
 
       <!-- Menu content -->
       <ng-template>
-        <button
-          tngMenuItem
-          class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-50"
-          (click)="onAction('Profile')"
-        >
+        <button tngMenuItem class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-50"
+          (click)="onAction('Profile')">
           Profile
         </button>
 
-        <button
-          tngMenuItem
-          class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-50"
-          (click)="onAction('Settings')"
-        >
+        <button tngMenuItem class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-50"
+          (click)="onAction('Settings')">
           Settings
         </button>
 
         <div class="my-1 h-px bg-border"></div>
 
-        <button
-          tngMenuItem
-          class="w-full rounded px-3 py-2 text-left text-sm text-danger hover:bg-slate-50"
-          (click)="onAction('Logout')"
-        >
+        <button tngMenuItem class="w-full rounded px-3 py-2 text-left text-sm text-danger hover:bg-slate-50"
+          (click)="onAction('Logout')">
           Logout
         </button>
       </ng-template>
@@ -46,56 +34,41 @@
   </section>
 
 
-    <!-- Styled Menu -->
-    <section class="space-y-3">
-      <h2 class="text-sm font-semibold text-foreground">Styled</h2>
-  
-      <tng-menu
-        placement="bottom-end"
-        panelKlass="p-1 min-w-48"
-      >
-        <button
-          tngMenuTrigger
-          class="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-1.5 text-sm text-on-primary"
-        >
-          Actions
-          <span class="text-xs">▼</span>
-        </button>
-  
-        <ng-template>
-          <button
-            tngMenuItem
-            class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm hover:bg-slate-50"
-          >
-            ✏️ Edit
-          </button>
-  
-          <button
-            tngMenuItem
-            class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm hover:bg-slate-50"
-          >
-            📄 Duplicate
-          </button>
-  
-          <button
-            tngMenuItem
-            class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm hover:bg-slate-50 text-danger"
-          >
-            🗑 Delete
-          </button>
-        </ng-template>
-      </tng-menu>
-    </section>
+  <!-- Styled Menu -->
+  <section class="space-y-3">
+    <h2 class="text-sm font-semibold text-foreground">Styled</h2>
 
-      <!-- Close reason demo -->
+    <tng-menu placement="bottom-end" panelKlass="p-1 min-w-48">
+
+      <button tngMenuTrigger
+        class="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-1.5 text-sm text-on-primary">
+        Actions
+        <span class="text-xs">▼</span>
+      </button>
+
+      <ng-template>
+        <button tngMenuItem class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm hover:bg-slate-50">
+          ✏️ Edit
+        </button>
+
+        <button tngMenuItem class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm hover:bg-slate-50">
+          📄 Duplicate
+        </button>
+
+        <button tngMenuItem
+          class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm hover:bg-slate-50 text-danger">
+          🗑 Delete
+        </button>
+      </ng-template>
+    </tng-menu>
+  </section>
+
+  <!-- Close reason demo -->
   <section class="space-y-3">
     <h2 class="text-sm font-semibold text-foreground">Close reason</h2>
 
     <tng-menu (closed)="onMenuClosed($event)">
-      <button
-        tngMenuTrigger
-        class="rounded-md border border-border bg-background px-3 py-1.5 text-sm"
-      >
+      <button tngMenuTrigger class="rounded-md border border-border bg-background px-3 py-1.5 text-sm">
         Debug menu
       </button>
 
@@ -113,69 +86,75 @@
   </section>
 
   <!-- Modal Menu (focus-trapped) -->
-<section class="space-y-3">
-  <h2 class="text-sm font-semibold text-foreground">Modal (focus trapped)</h2>
+  <section class="space-y-3">
+    <h2 class="text-sm font-semibold text-foreground">Modal (focus trapped)</h2>
 
-  <tng-menu
-    modal="true"
-    panelKlass="p-2 min-w-56"
-  >
-    <!-- Trigger -->
-    <button
-      tngMenuTrigger
-      class="rounded-md border border-border bg-background px-3 py-1.5 text-sm"
-    >
-      Open modal menu
-    </button>
+    <tng-menu modal="true" panelKlass="p-2 min-w-56">
+      <!-- Trigger -->
+      <button tngMenuTrigger class="rounded-md border border-border bg-background px-3 py-1.5 text-sm">
+        Open modal menu
+      </button>
 
-    <!-- Menu content -->
-    <ng-template>
-      <div class="space-y-2">
-        <div class="text-xs text-muted-foreground px-1">
-          Focus trap demo:
-          <kbd class="rounded bg-slate-100 px-1 text-slate-900">Tab</kbd> /
-          <kbd class="rounded bg-slate-100 px-1 text-slate-900">Shift</kbd>+
-          <kbd class="rounded bg-slate-100 px-1 text-slate-900">Tab</kbd>
+      <!-- Menu content -->
+      <ng-template>
+        <div class="space-y-2">
+          <div class="text-xs text-muted-foreground px-1">
+            Focus trap demo:
+            <kbd class="rounded bg-slate-100 px-1 text-slate-900">Tab</kbd> /
+            <kbd class="rounded bg-slate-100 px-1 text-slate-900">Shift</kbd>+
+            <kbd class="rounded bg-slate-100 px-1 text-slate-900">Tab</kbd>
+          </div>
+
+          <button tngMenuItem class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-50">
+            First action
+          </button>
+
+          <button tngMenuItem class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-50">
+            Second action
+          </button>
+
+          <button tngMenuItem class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-50">
+            Third action
+          </button>
+
+          <div class="pt-1 border-t border-border"></div>
+
+          <!-- Explicit close action -->
+          <button tngMenuItem
+            class="w-full rounded px-3 py-2 text-left text-sm text-muted-foreground hover:bg-slate-50">
+            Close
+          </button>
         </div>
+      </ng-template>
+    </tng-menu>
 
-        <button
-          tngMenuItem
-          class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-50"
-        >
-          First action
+    <p class="text-xs text-muted-foreground">
+      This menu uses <code>modal=true</code>, so keyboard focus is trapped inside
+      until the menu closes (Escape / outside-click).
+    </p>
+  </section>
+  <section>
+    <h2 class="text-sm font-semibold text-foreground">Open From Icon</h2>
+    <tng-menu panelKlass="p-1 min-w-48">
+      <tng-icon tngMenuTrigger name="bootstrapBell" class="text-primary"></tng-icon>
+      <ng-template>
+        <button tngMenuItem class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-50"
+          (click)="onAction('Profile')">
+          Profile
         </button>
 
-        <button
-          tngMenuItem
-          class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-50"
-        >
-          Second action
+        <button tngMenuItem class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-50"
+          (click)="onAction('Settings')">
+          Settings
         </button>
 
-        <button
-          tngMenuItem
-          class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-50"
-        >
-          Third action
+        <div class="my-1 h-px bg-border"></div>
+
+        <button tngMenuItem class="w-full rounded px-3 py-2 text-left text-sm text-danger hover:bg-slate-50"
+          (click)="onAction('Logout')">
+          Logout
         </button>
-
-        <div class="pt-1 border-t border-border"></div>
-
-        <!-- Explicit close action -->
-        <button
-          tngMenuItem
-          class="w-full rounded px-3 py-2 text-left text-sm text-muted-foreground hover:bg-slate-50"
-        >
-          Close
-        </button>
-      </div>
-    </ng-template>
-  </tng-menu>
-
-  <p class="text-xs text-muted-foreground">
-    This menu uses <code>modal=true</code>, so keyboard focus is trapped inside
-    until the menu closes (Escape / outside-click).
-  </p>
-</section>
-
+      </ng-template>
+    </tng-menu>
+  </section>
 </div>

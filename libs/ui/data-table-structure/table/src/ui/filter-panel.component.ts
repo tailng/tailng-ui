@@ -1,12 +1,12 @@
 import { Component, computed, inject } from '@angular/core';
 import { TNG_TABLE } from '../core/table.token';
 import type {
-  TngColumnMeta,
-  TngDateFilter,
-  TngEnumFilter,
-  TngNumberFilter,
-  TngTextFilter,
-  TngEnumOption,
+  TailngColumnMeta,
+  TailngDateFilter,
+  TailngEnumFilter,
+  TailngNumberFilter,
+  TailngTextFilter,
+  TailngEnumOption,
 } from '../core/table.types';
 
 // ✅ adjust these imports to your actual exports
@@ -20,14 +20,14 @@ import { TailngOverlayPanelComponent } from '../../../../popups-overlays/overlay
   imports: [TailngOverlayRefComponent, TailngConnectedOverlayComponent, TailngOverlayPanelComponent],
   templateUrl: './filter-panel.component.html',
 })
-export class TngFilterPanelComponent {
+export class TailngFilterPanelComponent {
   private readonly table = inject(TNG_TABLE);
 
   readonly activeColId = computed(() => this.table.openFilterColId());
   readonly isOpen = computed(() => this.activeColId() !== '');
   readonly anchorEl = computed(() => this.table.filterAnchorEl());
 
-  readonly meta = computed<TngColumnMeta | undefined>(() => {
+  readonly meta = computed<TailngColumnMeta | undefined>(() => {
     const id = this.activeColId();
     return id ? this.table.metaFor(id) : undefined;
   });
@@ -67,7 +67,7 @@ export class TngFilterPanelComponent {
 
   textValue(): string {
     const id = this.activeColId();
-    const v = id ? (this.table.filterValueFor(id) as TngTextFilter | undefined) : undefined;
+    const v = id ? (this.table.filterValueFor(id) as TailngTextFilter | undefined) : undefined;
     return typeof v === 'string' ? v : '';
   }
 
@@ -82,9 +82,9 @@ export class TngFilterPanelComponent {
   }
 
   // ---------------- NUMBER ----------------
-  private numberValue(): TngNumberFilter {
+  private numberValue(): TailngNumberFilter {
     const id = this.activeColId();
-    const v = id ? (this.table.filterValueFor(id) as TngNumberFilter | undefined) : undefined;
+    const v = id ? (this.table.filterValueFor(id) as TailngNumberFilter | undefined) : undefined;
     return v && typeof v === 'object' && !Array.isArray(v) ? v : {};
   }
 
@@ -106,7 +106,7 @@ export class TngFilterPanelComponent {
     const cur = this.numberValue();
     const n = raw === '' ? undefined : Number(raw);
 
-    const next: TngNumberFilter = { ...cur, min: Number.isFinite(n as number) ? (n as number) : undefined };
+    const next: TailngNumberFilter = { ...cur, min: Number.isFinite(n as number) ? (n as number) : undefined };
     if (!next.min && !next.max) this.table.clearFilter(id);
     else this.table.setFilter(id, next);
   }
@@ -119,15 +119,15 @@ export class TngFilterPanelComponent {
     const cur = this.numberValue();
     const n = raw === '' ? undefined : Number(raw);
 
-    const next: TngNumberFilter = { ...cur, max: Number.isFinite(n as number) ? (n as number) : undefined };
+    const next: TailngNumberFilter = { ...cur, max: Number.isFinite(n as number) ? (n as number) : undefined };
     if (!next.min && !next.max) this.table.clearFilter(id);
     else this.table.setFilter(id, next);
   }
 
   // ---------------- DATE ----------------
-  private dateValue(): TngDateFilter {
+  private dateValue(): TailngDateFilter {
     const id = this.activeColId();
-    const v = id ? (this.table.filterValueFor(id) as TngDateFilter | undefined) : undefined;
+    const v = id ? (this.table.filterValueFor(id) as TailngDateFilter | undefined) : undefined;
     return v && typeof v === 'object' && !Array.isArray(v) ? v : {};
   }
 
@@ -145,7 +145,7 @@ export class TngFilterPanelComponent {
     if (!id) return;
 
     const cur = this.dateValue();
-    const next: TngDateFilter = { ...cur, from: from || undefined };
+    const next: TailngDateFilter = { ...cur, from: from || undefined };
     if (!next.from && !next.to) this.table.clearFilter(id);
     else this.table.setFilter(id, next);
   }
@@ -156,20 +156,20 @@ export class TngFilterPanelComponent {
     if (!id) return;
 
     const cur = this.dateValue();
-    const next: TngDateFilter = { ...cur, to: to || undefined };
+    const next: TailngDateFilter = { ...cur, to: to || undefined };
     if (!next.from && !next.to) this.table.clearFilter(id);
     else this.table.setFilter(id, next);
   }
 
   // ---------------- ENUM ----------------
-  enumOptions(): TngEnumOption[] {
+  enumOptions(): TailngEnumOption[] {
     const f = this.meta()?.filter;
     return f?.type === 'enum' ? f.options : [];
   }
 
-  private enumValue(): TngEnumFilter {
+  private enumValue(): TailngEnumFilter {
     const id = this.activeColId();
-    const v = id ? (this.table.filterValueFor(id) as TngEnumFilter | undefined) : undefined;
+    const v = id ? (this.table.filterValueFor(id) as TailngEnumFilter | undefined) : undefined;
     return Array.isArray(v) ? v : [];
   }
 

@@ -10,6 +10,7 @@
       <tng-col id="customer" header="Customer" [value]="customerValue" [filter]="filterText('Search customer…')">
         <ng-template tngHeader let-colId="colId" let-header="header">
           <div class="flex w-full items-center justify-between gap-2">
+            <tng-icon name="bootstrapBell" class="text-primary"></tng-icon>
             <button
               type="button"
               class="inline-flex items-center gap-1 hover:underline"
@@ -19,15 +20,10 @@
               <span class="truncate">{{ header }}</span>
             </button>
 
-            <button
-              type="button"
-              class="rounded-md border border-border bg-background px-2 py-1 text-xs"
-              tngFilterTrigger
-              [colId]="colId"
-              aria-label="Filter customer"
-            >
-              Filter
-            </button>
+            <tng-icon name="bootstrapFunnel" 
+            class="rounded-md border border-border bg-on-primary text-primary px-2 py-1 text-xs"
+            tngFilterTrigger
+            [colId]="colId"></tng-icon>
           </div>
         </ng-template>
       </tng-col>
@@ -45,15 +41,10 @@
               <span>{{ header }}</span>
             </button>
 
-            <button
-              type="button"
-              class="rounded-md border border-border bg-background px-2 py-1 text-xs"
-              tngFilterTrigger
-              [colId]="colId"
-              aria-label="Filter amount"
-            >
-              Filter
-            </button>
+            <tng-icon name="bootstrapFunnel" 
+            class="rounded-md border border-border bg-on-primary text-primary px-2 py-1 text-xs"
+            tngFilterTrigger
+            [colId]="colId"></tng-icon>
           </div>
         </ng-template>
 
@@ -75,15 +66,10 @@
               <span class="truncate">{{ header }}</span>
             </button>
 
-            <button
-              type="button"
-              class="rounded-md border border-border bg-background px-2 py-1 text-xs"
-              tngFilterTrigger
-              [colId]="colId"
-              aria-label="Filter bill date"
-            >
-              Filter
-            </button>
+            <tng-icon name="bootstrapFunnel" 
+            class="rounded-md border border-border bg-on-primary text-primary px-2 py-1 text-xs"
+            tngFilterTrigger
+            [colId]="colId"></tng-icon>
           </div>
         </ng-template>
       </tng-col>
@@ -100,16 +86,10 @@
             >
               <span class="truncate">{{ header }}</span>
             </button>
-
-            <button
-              type="button"
-              class="rounded-md border border-border bg-background px-2 py-1 text-xs"
-              tngFilterTrigger
-              [colId]="colId"
-              aria-label="Filter status"
-            >
-              Filter
-            </button>
+            <tng-icon name="bootstrapFunnel" 
+            class="rounded-md border border-border bg-on-primary text-primary px-2 py-1 text-xs"
+            tngFilterTrigger
+            [colId]="colId"></tng-icon>
           </div>
         </ng-template>
 
@@ -120,8 +100,6 @@
           </span>
         </ng-template>
       </tng-col>
-
-      <!-- ONE filter panel for the whole table -->
       <tng-filter-panel />
     </tng-table>
   </div>

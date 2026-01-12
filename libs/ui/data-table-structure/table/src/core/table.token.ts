@@ -1,4 +1,4 @@
 import { InjectionToken } from '@angular/core';
-import { TngTableController } from './table.controller';
+import { TailngTableController } from './table.controller';
 
-export const TNG_TABLE = new InjectionToken<TngTableController>('TNG_TABLE');
+export const TNG_TABLE = new InjectionToken<TailngTableController>('TNG_TABLE');

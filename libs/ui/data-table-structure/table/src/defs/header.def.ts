@@ -1,10 +1,10 @@
 import { Directive, TemplateRef } from '@angular/core';
-import { TngHeaderContext } from '../core/table.types';
+import { TailngHeaderContext } from '../core/table.types';
 
 @Directive({
   selector: 'ng-template[tngHeader]',
   standalone: true,
 })
-export class TngHeaderDefDirective {
-  constructor(public readonly tpl: TemplateRef<TngHeaderContext>) {}
+export class TailngHeaderDefDirective {
+  constructor(public readonly tpl: TemplateRef<TailngHeaderContext>) {}
 }

@@ -3,14 +3,14 @@ import { signal } from '@angular/core';
 import { TngTableSortFeature } from '../features/sort.feature';
 import { TngTableFilterFeature } from '../features/filter.feature';
 import type {
-  TngSort,
-  TngSortDir,
-  TngFilterValue,
-  TngFilters,
-  TngColumnMeta,
+  TailngSort,
+  TailngSortDir,
+  TailngFilterValue,
+  TailngFilters,
+  TailngColumnMeta,
 } from './table.types';
 
-export class TngTableController {
+export class TailngTableController {
   private readonly sortFeature = new TngTableSortFeature();
   private readonly filterFeature = new TngTableFilterFeature();
 
@@ -20,13 +20,13 @@ export class TngTableController {
   toggleSort(active: string): void {
     this.sortFeature.toggleSort(active);
   }
-  setSort(sort: TngSort): void {
+  setSort(sort: TailngSort): void {
     this.sortFeature.setSort(sort);
   }
   clearSort(): void {
     this.sortFeature.clearSort();
   }
-  directionFor(colId: string): TngSortDir {
+  directionFor(colId: string): TailngSortDir {
     return this.sortFeature.directionFor(colId);
   }
   isSorted(colId: string): boolean {
@@ -51,7 +51,7 @@ export class TngTableController {
     return this.filterFeature.isFilterOpenFor(colId);
   }
 
-  setFilter(colId: string, value: TngFilterValue): void {
+  setFilter(colId: string, value: TailngFilterValue): void {
     this.filterFeature.setFilter(colId, value);
   }
   clearFilter(colId: string): void {
@@ -61,21 +61,21 @@ export class TngTableController {
     this.filterFeature.clearAllFilters();
   }
 
-  filterValueFor(colId: string): TngFilterValue | undefined {
+  filterValueFor(colId: string): TailngFilterValue | undefined {
     return this.filterFeature.filterValueFor(colId);
   }
   isFiltered(colId: string): boolean {
     return this.filterFeature.isFiltered(colId);
   }
 
-  setFilters(filters: TngFilters): void {
+  setFilters(filters: TailngFilters): void {
     this.filters.set(filters);
   }
 
   // -------------------- COLUMN META (for default filters) --------------------
-  private readonly colMeta = signal<Record<string, TngColumnMeta>>({});
+  private readonly colMeta = signal<Record<string, TailngColumnMeta>>({});
 
-  registerColumn(meta: TngColumnMeta): void {
+  registerColumn(meta: TailngColumnMeta): void {
     this.colMeta.update((cur) => ({ ...cur, [meta.id]: meta }));
   }
 
@@ -88,7 +88,7 @@ export class TngTableController {
     });
   }
 
-  metaFor(colId: string): TngColumnMeta | undefined {
+  metaFor(colId: string): TailngColumnMeta | undefined {
     return this.colMeta()[colId];
   }
 }
