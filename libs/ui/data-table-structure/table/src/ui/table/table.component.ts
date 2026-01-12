@@ -13,11 +13,11 @@ import {
   signal,
 } from '@angular/core';
 
-import { TailngColComponent } from './col.component';
+import { TailngColComponent } from '../column/col.component';
 
-import { TailngTableController } from '../core/controller/table.controller';
-import type { TailngSort, TailngAlign, TailngResolvedColumn, TailngCellContext, TailngHeaderContext } from '../core/types';
-import { TNG_TABLE } from '../core/tokens/table.token';
+import { TailngTableController } from '../../core/controller/table.controller';
+import type { TailngSort, TailngAlign, TailngResolvedColumn, TailngCellContext, TailngHeaderContext } from '../../core/types';
+import { TNG_TABLE } from '../../core/tokens/table.token';
 
 @Component({
   selector: 'tng-table',

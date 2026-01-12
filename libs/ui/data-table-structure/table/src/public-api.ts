@@ -1,6 +1,6 @@
-export * from './ui/table.component';
-export * from './ui/col.component';
-export * from './ui/sort-icon.component';
+export * from './ui/table/table.component';
+export * from './ui/column/col.component';
+export * from './ui/sort/sort-icon.component';
 export * from './defs/cell.def';
 export * from './defs/header.def';
 export * from './core/types';
@@ -15,6 +15,11 @@ export * from './core/tokens/table.token';
 
 export * from './directives/sort-header.directive';
 export * from './directives/filter-trigger.directive';
-export * from './ui/filter-panel.component';
+
+export * from './ui/filter/filter-panel.component';
+export * from './ui/column/col.component';
+export * from './ui/filter/filter-panel.component';
+export * from './ui/sort/sort-icon.component';
+
 export * from './features/sort.feature';
 export * from './features/filter.feature';

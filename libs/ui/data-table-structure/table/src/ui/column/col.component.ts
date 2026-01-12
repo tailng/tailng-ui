@@ -1,8 +1,8 @@
 import { Component, ContentChild, TemplateRef, effect, inject, input } from '@angular/core';
-import { TNG_TABLE } from '../core/tokens/table.token';
-import type { TailngAlign, TailngColumnFilterMeta } from '../core/types';
-import { TailngCellDefDirective } from '../defs/cell.def';
-import { TailngHeaderDefDirective } from '../defs/header.def';
+import { TNG_TABLE } from '../../core/tokens/table.token';
+import type { TailngAlign, TailngColumnFilterMeta } from '../../core/types';
+import { TailngCellDefDirective } from '../../defs/cell.def';
+import { TailngHeaderDefDirective } from '../../defs/header.def';
 
 @Component({
   selector: 'tng-col',
