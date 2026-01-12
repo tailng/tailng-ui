@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   HostListener,
+  ViewChild,
   computed,
   effect,
   input,
@@ -16,7 +17,11 @@ export type TngOverlayPlacement =
   | 'top-start'
   | 'top-end';
 
-export type TngOverlayCloseReason = 'outside-click' | 'escape' | 'programmatic' | 'detach';
+export type TngOverlayCloseReason =
+  | 'outside-click'
+  | 'escape'
+  | 'programmatic'
+  | 'detach';
 
 @Component({
   selector: 'tng-connected-overlay',
@@ -47,6 +52,7 @@ export class TailngConnectedOverlayComponent {
    * Close behavior
    */
   closeOnOutsideClick = input<boolean>(true);
+  closeOnInsideClick = input<boolean>(true);
   closeOnEscape = input<boolean>(true);
 
   /**
@@ -54,6 +60,9 @@ export class TailngConnectedOverlayComponent {
    */
   opened = output<void>();
   closed = output<TngOverlayCloseReason>();
+
+  @ViewChild('overlayRoot', { static: false })
+  private overlayRoot?: ElementRef<HTMLElement>;
 
   // Internal position state
   private readonly topPx = signal<number>(0);
@@ -160,11 +169,11 @@ export class TailngConnectedOverlayComponent {
 
       case 'bottom-end':
         top = rect.bottom + offset;
-        left = rect.right - rect.width; // align end; if width differs you may adjust later
+        left = rect.right - rect.width;
         break;
 
       case 'top-start':
-        top = rect.top - offset; // panel height unknown in v1; we’ll improve later
+        top = rect.top - offset;
         left = rect.left;
         break;
 
@@ -201,24 +210,33 @@ export class TailngConnectedOverlayComponent {
   }
 
   /**
-   * Close on outside click
+   * Close on outside click (and optionally inside click)
+   * Use pointerdown so it works for mouse/touch/pen and is earlier than click.
    */
-  @HostListener('document:mousedown', ['$event'])
-  onDocMousedown(ev: MouseEvent) {
+  @HostListener('document:pointerdown', ['$event'])
+  onDocPointerDown(ev: PointerEvent) {
     if (!this.open()) return;
-    if (!this.closeOnOutsideClick()) return;
+
+    const target = ev.target as Node | null;
+    if (!target) return;
 
     const anchor = this.anchorEl();
-    const target = ev.target as Node | null;
-    if (!anchor || !target) return;
+    const panel = this.overlayRoot?.nativeElement ?? null;
 
-    // Click inside anchor should not close.
-    if (anchor.contains(target)) return;
+    const inAnchor = !!anchor && anchor.contains(target);
+    const inPanel = !!panel && panel.contains(target);
 
-    // Click inside overlay panel should not close.
-    // We don’t have a direct ref to overlay div in v1; we’ll add it later.
-    // For now: if click isn't inside anchor, we close.
-    this.close('outside-click');
+    // Anchor should never be treated as outside.
+    if (inAnchor) return;
+
+    // Inside panel click behavior
+    if (inPanel) {
+      if (this.closeOnInsideClick()) this.close('outside-click');
+      return;
+    }
+
+    // Outside click behavior
+    if (this.closeOnOutsideClick()) this.close('outside-click');
   }
 
   /**

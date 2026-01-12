@@ -257,11 +257,6 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
 
   onBlur() {
     this.onTouched();
-
-    queueMicrotask(() => {
-      if (document.activeElement === this.inputEl.nativeElement) return;
-      this.close('blur');
-    });
   }
 
   onKeydown(ev: KeyboardEvent) {
