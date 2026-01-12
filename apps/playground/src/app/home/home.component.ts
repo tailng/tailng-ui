@@ -11,7 +11,7 @@ export const categories = [
       { name: 'Checkbox', route: '/forms/checkbox', status: 'done', priority: 'high' },
       { name: 'Chips', route: '/forms/chips', status: 'done', priority: 'medium' },
 
-      { name: 'Datepicker', route: '/forms/datepicker', status: 'backlog', priority: 'high' },
+      { name: 'Datepicker', route: '/forms/datepicker', status: 'done', priority: 'high' },
       { name: 'Timepicker', route: '/forms/timepicker', status: 'backlog', priority: 'low' },
 
       // Core form-field wrapper (label, hint, errors, prefix/suffix)

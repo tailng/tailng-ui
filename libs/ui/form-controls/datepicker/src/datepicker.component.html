@@ -1,4 +1,157 @@
-<div class="p-4 border border-gray-200 rounded-md">
-  <p class="text-gray-600">Welcome hello component - Datepicker</p>
-</div>
+<div class="relative">
+  <!-- Input + icon -->
+  <div [class.opacity-60]="isDisabled()" [class.pointer-events-none]="isDisabled()">
+    <div class="relative">
+      <input
+        #inputEl
+        type="text"
+        class="w-full rounded-md border border-slate-200 bg-white px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+        [value]="inputValue()"
+        [placeholder]="placeholder()"
+        [disabled]="isDisabled()"
+        (input)="onInput($event)"
+        (focus)="open('programmatic')"
+        (blur)="onBlur()"
+        (keydown)="onKeydown($event)"
+        autocomplete="off"
+      />
 
+      <!-- Calendar icon -->
+      <button
+        type="button"
+        class="absolute inset-y-0 right-0 flex w-10 items-center justify-center rounded-r-md text-slate-600 hover:bg-slate-50"
+        (click)="toggleOverlay()"
+        aria-label="Open calendar"
+      >
+        <!-- Simple calendar icon -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          class="h-5 w-5"
+          fill="currentColor"
+        >
+          <path
+            d="M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1.5A2.5 2.5 0 0 1 22 6.5v14A2.5 2.5 0 0 1 19.5 23h-15A2.5 2.5 0 0 1 2 20.5v-14A2.5 2.5 0 0 1 4.5 4H6V3a1 1 0 0 1 1-1Zm12.5 8h-15a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h15a.5.5 0 0 0 .5-.5v-10a.5.5 0 0 0-.5-.5ZM4 8h16V6.5a.5.5 0 0 0-.5-.5H18v1a1 1 0 1 1-2 0V6H8v1a1 1 0 1 1-2 0V6H4.5a.5.5 0 0 0-.5.5V8Z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  <tng-overlay-ref
+    #overlayRef="tngOverlayRef"
+    [open]="isOpen()"
+    (openChange)="onOverlayOpenChange($event)"
+    (closed)="onOverlayClosed($event)"
+  >
+    <tng-connected-overlay
+      [open]="overlayRef.isOpen()"
+      [anchor]="inputEl"
+      placement="bottom-start"
+      width="content"
+      (closed)="overlayRef.close($event)"
+    >
+      <tng-overlay-panel klass="w-[372px] h-[322px] max-h-[322px]">
+        <!-- Ultra-compact popup frame (no scrollbars) -->
+        <div
+          class="w-[370px] h-[320px] overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg"
+        >
+          <!-- Body -->
+          <div class="grid h-full grid-cols-[64px_1fr_64px]">
+            <!-- Months -->
+            <div class="bg-slate-900 p-1 text-white">
+              <div class="space-y-0.5">
+                @for (m of months; track m.index) {
+                  <button
+                    type="button"
+                    class="w-full rounded px-1 py-0.5 text-[11px] font-semibold transition"
+                    [class.bg-white]="isMonthSelected(m.index)"
+                    [class.text-slate-900]="isMonthSelected(m.index)"
+                    [class.opacity-40]="isMonthDisabled(m.index)"
+                    [disabled]="isMonthDisabled(m.index)"
+                    (click)="selectMonth(m.index)"
+                  >
+                    {{ m.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Calendar -->
+            <div class="flex h-full flex-col p-2">
+              <div class="mb-1 text-center text-sm font-semibold">Select Date</div>
+
+              <div class="grid grid-cols-7 gap-0.5 text-[10px] font-semibold text-slate-500">
+                @for (d of weekdays; track d) {
+                  <div class="text-center">{{ d }}</div>
+                }
+              </div>
+
+              <div class="mt-1 grid grid-cols-7 gap-0.5">
+                @for (cell of calendarCells(); track $index) {
+                  <button
+                    type="button"
+                    class="h-7 rounded text-[11px] transition"
+                    [class.text-slate-300]="cell.isOutsideMonth"
+                    [class.hover:bg-slate-100]="!isCellDisabled(cell) && !isCellSelected(cell)"
+                    [class.bg-slate-900]="isCellSelected(cell)"
+                    [class.text-white]="isCellSelected(cell)"
+                    [class.opacity-40]="isCellDisabled(cell)"
+                    [disabled]="isCellDisabled(cell)"
+                    (click)="selectDay(cell)"
+                  >
+                    {{ cell.label }}
+                  </button>
+                }
+              </div>
+
+
+              <div class="text-[11px] text-slate-500 text-center pt-2">
+                {{ previewLabel() }}
+              </div>
+              <!-- Bottom row (Today removed): Cancel/Confirm moved here -->
+              <div class="flex items-center justify-end gap-2 pt-4">
+
+                <button
+                  type="button"
+                  class="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-[11px] font-semibold text-slate-700 shadow-sm hover:bg-slate-50 active:translate-y-[1px]"
+                  (click)="cancel()"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="button"
+                  class="rounded-md bg-slate-900 px-3 py-1.5 text-[11px] font-semibold text-white shadow-sm hover:opacity-95 active:translate-y-[1px]"
+                  (click)="confirm()"
+                >
+                  Confirm
+                </button>
+              </div>
+            </div>
+
+            <!-- Years (10 only) -->
+            <div class="bg-slate-900 p-1 text-white">
+              <div class="space-y-0.5">
+                @for (y of years(); track y) {
+                  <button
+                    type="button"
+                    class="w-full rounded px-1 py-0.5 text-[11px] font-semibold transition"
+                    [class.bg-white]="isYearSelected(y)"
+                    [class.text-slate-900]="isYearSelected(y)"
+                    [class.opacity-40]="isYearDisabled(y)"
+                    [disabled]="isYearDisabled(y)"
+                    (click)="selectYear(y)"
+                  >
+                    {{ y }}
+                  </button>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </tng-overlay-panel>
+    </tng-connected-overlay>
+  </tng-overlay-ref>
+</div>
