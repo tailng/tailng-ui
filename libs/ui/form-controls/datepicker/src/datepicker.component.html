@@ -1,11 +1,14 @@
 <div class="relative">
-  <!-- Input + icon -->
+  <!-- =====================
+       Input + calendar icon
+       ===================== -->
   <div [class.opacity-60]="isDisabled()" [class.pointer-events-none]="isDisabled()">
     <div class="relative">
       <input
         #inputEl
         type="text"
-        class="w-full rounded-md border border-slate-200 bg-white px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+        class="w-full rounded-md border border-slate-200 bg-white px-3 py-2 pr-10 text-sm
+               focus:outline-none focus:ring-2 focus:ring-primary"
         [value]="inputValue()"
         [placeholder]="placeholder()"
         [disabled]="isDisabled()"
@@ -19,11 +22,11 @@
       <!-- Calendar icon -->
       <button
         type="button"
-        class="absolute inset-y-0 right-0 flex w-10 items-center justify-center rounded-r-md text-slate-600 hover:bg-slate-50"
+        class="absolute inset-y-0 right-0 flex w-10 items-center justify-center
+               rounded-r-md text-slate-600 hover:bg-slate-50"
         (click)="toggleOverlay()"
         aria-label="Open calendar"
       >
-        <!-- Simple calendar icon -->
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -31,14 +34,19 @@
           fill="currentColor"
         >
           <path
-            d="M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1.5A2.5 2.5 0 0 1 22 6.5v14A2.5 2.5 0 0 1 19.5 23h-15A2.5 2.5 0 0 1 2 20.5v-14A2.5 2.5 0 0 1 4.5 4H6V3a1 1 0 0 1 1-1Zm12.5 8h-15a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h15a.5.5 0 0 0 .5-.5v-10a.5.5 0 0 0-.5-.5ZM4 8h16V6.5a.5.5 0 0 0-.5-.5H18v1a1 1 0 1 1-2 0V6H8v1a1 1 0 1 1-2 0V6H4.5a.5.5 0 0 0-.5.5V8Z"
+            d="M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1.5A2.5 2.5 0 0 1 22 6.5v14
+               A2.5 2.5 0 0 1 19.5 23h-15A2.5 2.5 0 0 1 2 20.5v-14
+               A2.5 2.5 0 0 1 4.5 4H6V3a1 1 0 0 1 1-1Zm12.5 8h-15a.5.5 0 0 0-.5.5v10
+               a.5.5 0 0 0 .5.5h15a.5.5 0 0 0 .5-.5v-10a.5.5 0 0 0-.5-.5Z"
           />
         </svg>
       </button>
     </div>
   </div>
 
-  <!-- Overlay -->
+  <!-- =====================
+       Overlay
+       ===================== -->
   <tng-overlay-ref
     #overlayRef="tngOverlayRef"
     [open]="isOpen()"
@@ -53,14 +61,18 @@
       [closeOnInsideClick]="false"
       (closed)="overlayRef.close($event)"
     >
-      <tng-overlay-panel klass="w-[372px] h-[322px] max-h-[322px]">
-        <!-- Ultra-compact popup frame (no scrollbars) -->
+      <tng-overlay-panel klass="w-[372px] h-[322px] max-h-[322px] p-0">
+        <!-- Popup frame -->
         <div
-          class="w-[370px] h-[320px] overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg"
+          class="w-[370px] h-[320px] overflow-hidden rounded-lg
+                 border border-slate-200 bg-white shadow-lg"
         >
-          <!-- Body -->
+          <!-- =====================
+               Body layout
+               ===================== -->
           <div class="grid h-full grid-cols-[64px_1fr_64px]">
-            <!-- Months -->
+
+            <!-- ========= Months ========= -->
             <div class="bg-slate-900 p-1 text-white">
               <div class="space-y-0.5">
                 @for (m of months; track m.index) {
@@ -79,16 +91,23 @@
               </div>
             </div>
 
-            <!-- Calendar -->
+            <!-- ========= Calendar ========= -->
             <div class="flex h-full flex-col p-2">
-              <div class="mb-1 text-center text-sm font-semibold">Select Date</div>
+              <div class="mb-1 text-center text-sm font-semibold">
+                Select Date
+              </div>
 
-              <div class="grid grid-cols-7 gap-0.5 text-[10px] font-semibold text-slate-500">
+              <!-- Weekdays -->
+              <div
+                class="grid grid-cols-7 gap-0.5 text-[10px]
+                       font-semibold text-slate-500"
+              >
                 @for (d of weekdays; track d) {
                   <div class="text-center">{{ d }}</div>
                 }
               </div>
 
+              <!-- Days -->
               <div class="mt-1 grid grid-cols-7 gap-0.5">
                 @for (cell of calendarCells(); track $index) {
                   <button
@@ -107,16 +126,18 @@
                 }
               </div>
 
-
-              <div class="text-[11px] text-slate-500 text-center pt-2">
+              <!-- Preview -->
+              <div class="pt-2 text-center text-[11px] text-slate-500">
                 {{ previewLabel() }}
               </div>
-              <!-- Bottom row (Today removed): Cancel/Confirm moved here -->
-              <div class="flex items-center justify-end gap-2 pt-4">
 
+              <!-- Actions -->
+              <div class="mt-auto flex items-center justify-end gap-2 pt-4">
                 <button
                   type="button"
-                  class="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-[11px] font-semibold text-slate-700 shadow-sm hover:bg-slate-50 active:translate-y-[1px]"
+                  class="rounded-md border border-slate-200 bg-white
+                         px-3 py-1.5 text-[11px] font-semibold text-slate-700
+                         shadow-sm hover:bg-slate-50 active:translate-y-[1px]"
                   (click)="cancel()"
                 >
                   Cancel
@@ -124,7 +145,9 @@
 
                 <button
                   type="button"
-                  class="rounded-md bg-slate-900 px-3 py-1.5 text-[11px] font-semibold text-white shadow-sm hover:opacity-95 active:translate-y-[1px]"
+                  class="rounded-md bg-slate-900
+                         px-3 py-1.5 text-[11px] font-semibold text-white
+                         shadow-sm hover:opacity-95 active:translate-y-[1px]"
                   (click)="confirm()"
                 >
                   Confirm
@@ -132,10 +155,25 @@
               </div>
             </div>
 
-            <!-- Years (10 only) -->
-            <div class="bg-slate-900 p-1 text-white">
+            <!-- ========= Years (10 at a time) ========= -->
+            <div class="bg-slate-900 p-1 text-white flex flex-col">
+
+              <!-- Up -->
+              <button
+                type="button"
+                class="mx-auto mb-1 flex h-6 w-6 items-center justify-center
+                       rounded bg-white/10 text-[12px]
+                       hover:bg-white/15 disabled:opacity-40"
+                (click)="prevYearWindow()"
+                [disabled]="!canPrevYearWindow()"
+                aria-label="Previous 10 years"
+              >
+                ▲
+              </button>
+
+              <!-- Year list -->
               <div class="space-y-0.5">
-                @for (y of years(); track y) {
+                @for (y of years(); track (yearBase() + ':' + y)) {
                   <button
                     type="button"
                     class="w-full rounded px-1 py-0.5 text-[11px] font-semibold transition"
@@ -149,7 +187,21 @@
                   </button>
                 }
               </div>
+              
+              <!-- Down -->
+              <button
+                type="button"
+                class="mx-auto mt-1 flex h-6 w-6 items-center justify-center
+                       rounded bg-white/10 text-[12px]
+                       hover:bg-white/15 disabled:opacity-40"
+                (click)="nextYearWindow()"
+                [disabled]="!canNextYearWindow()"
+                aria-label="Next 10 years"
+              >
+                ▼
+              </button>
             </div>
+
           </div>
         </div>
       </tng-overlay-panel>

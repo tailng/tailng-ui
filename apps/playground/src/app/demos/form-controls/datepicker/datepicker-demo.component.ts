@@ -18,7 +18,7 @@ type DemoForm = {
 })
 export class DatepickerDemoComponent {
   readonly min = dayjs().subtract(1, 'year').startOf('day').toDate();
-  readonly max = dayjs().add(1, 'year').endOf('day').toDate();
+  readonly max = dayjs().add(10, 'year').endOf('day').toDate();
 
   readonly disabled = signal(false);
 

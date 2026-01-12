@@ -122,16 +122,12 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
   readonly selectedYear = computed(() => this.view().year());
   readonly selectedMonth = computed(() => this.view().month());
 
-  readonly yearBase = computed(() => {
-    const y = this.selectedYear();
-    return Math.floor(y / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE;
-  });
+  readonly yearBase = signal<number>(Math.floor(dayjs().year() / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE);
   
   readonly years = computed(() => {
     const base = this.yearBase();
     return Array.from({ length: YEAR_WINDOW_SIZE }, (_, i) => base + i);
   });
-  
 
   readonly previewLabel = computed(() => {
     const d = this.draft() ?? this.value;
@@ -154,13 +150,41 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     }
     return cells;
   });
-
+  
+  canPrevYearWindow = computed(() => !this.isYearWindowBlocked(this.yearBase() - YEAR_WINDOW_SIZE));
+  canNextYearWindow = computed(() => !this.isYearWindowBlocked(this.yearBase() + YEAR_WINDOW_SIZE));
+  
+  private isYearWindowBlocked(nextBase: number): boolean {
+    // If min/max exists, avoid paging into a window where ALL years are disabled.
+    const min = this.minD();
+    const max = this.maxD();
+  
+    if (!min && !max) return false;
+  
+    const years = Array.from({ length: YEAR_WINDOW_SIZE }, (_, i) => nextBase + i);
+    return years.every((y) => this.isYearDisabled(y));
+  }
+  
   constructor() {
     // Sync external [disabled]
     effect(() => {
       this.isDisabled.set(this.disabled());
       if (this.isDisabled()) this.close('programmatic');
     });
+  }
+  
+  prevYearWindow(): void {
+    if (this.isDisabled()) return;
+    const next = this.yearBase() - YEAR_WINDOW_SIZE;
+    if (this.isYearWindowBlocked(next)) return;
+    this.yearBase.set(next);
+  }
+  
+  nextYearWindow(): void {
+    if (this.isDisabled()) return;
+    const next = this.yearBase() + YEAR_WINDOW_SIZE;
+    if (this.isYearWindowBlocked(next)) return;
+    this.yearBase.set(next);
   }
 
   /* =====================
@@ -180,7 +204,9 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     const clamped = this.clampToBounds(d);
     this.value = clamped;
     this.draft.set(clamped);
+    this.yearBase.set(Math.floor(clamped.year() / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE);
     this.inputValue.set(clamped.format('DD/MM/YYYY'));
+
   }
 
   registerOnChange(fn: (value: Date | null) => void): void {
@@ -205,6 +231,8 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
 
     // initialize draft from committed when opening
     if (this.draft() == null) this.draft.set(this.value ?? dayjs().startOf('day'));
+    const y = (this.draft() ?? this.value ?? dayjs()).year();
+    this.yearBase.set(Math.floor(y / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE);
   }
 
   close(_reason: TailngOverlayCloseReason) {
