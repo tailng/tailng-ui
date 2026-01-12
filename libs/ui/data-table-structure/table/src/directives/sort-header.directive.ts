@@ -6,8 +6,8 @@ import {
   input,
   inject,
 } from '@angular/core';
-import { TNG_TABLE } from '../core/table.token';
-import type { TailngSortDir } from '../core/table.types';
+import { TNG_TABLE } from '../core/tokens/table.token';
+import type { TailngSortDir } from '../core/types';
 
 @Directive({
   selector: '[tngSortHeader]',

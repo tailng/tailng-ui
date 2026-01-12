@@ -1,5 +1,5 @@
 import { signal } from '@angular/core';
-import type { TailngFilterValue, TailngFilters } from '../core/table.types';
+import type { TailngFilterValue, TailngFilters } from '../core/types';
 
 export class TngTableFilterFeature {
   readonly filters = signal<TailngFilters>({});

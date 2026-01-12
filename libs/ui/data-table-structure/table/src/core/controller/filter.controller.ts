@@ -1,6 +1,6 @@
 import { signal } from '@angular/core';
-import { TngTableFilterFeature } from '../features/filter.feature';
-import type { TailngFilterValue, TailngFilters } from './table.types';
+import { TngTableFilterFeature } from '../../features/filter.feature';
+import type { TailngFilterValue, TailngFilters } from '../types';
 import type { TailngControllerFeature } from './controller-feature';
 
 export class TailngFilterController implements TailngControllerFeature {

@@ -1,5 +1,5 @@
 import { Component, computed, inject } from '@angular/core';
-import { TNG_TABLE } from '../core/table.token';
+import { TNG_TABLE } from '../core/tokens/table.token';
 import type {
   TailngColumnMeta,
   TailngDateFilter,
@@ -7,7 +7,7 @@ import type {
   TailngNumberFilter,
   TailngTextFilter,
   TailngEnumOption,
-} from '../core/table.types';
+} from '../core/types';
 
 // ✅ adjust these imports to your actual exports
 import { TailngOverlayRefComponent } from '../../../../popups-overlays/overlay-ref/src/public-api';

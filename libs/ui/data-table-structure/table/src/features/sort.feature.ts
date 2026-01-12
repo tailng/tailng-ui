@@ -1,6 +1,6 @@
 // core/features/sort.feature.ts
 import { signal } from '@angular/core';
-import type { TailngSort, TailngSortDir } from '../core/table.types';
+import type { TailngSort, TailngSortDir } from '../core/types';
 
 export class TngTableSortFeature {
   readonly sort = signal<TailngSort>({ active: '', direction: '' });

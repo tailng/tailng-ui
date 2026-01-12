@@ -1,5 +1,5 @@
-import { TngTableSortFeature } from '../features/sort.feature';
-import type { TailngSort, TailngSortDir } from './table.types';
+import { TngTableSortFeature } from '../../features/sort.feature';
+import type { TailngSort, TailngSortDir } from '../types';
 import type { TailngControllerFeature } from './controller-feature';
 
 export class TailngSortController implements TailngControllerFeature {

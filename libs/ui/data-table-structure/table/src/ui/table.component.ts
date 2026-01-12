@@ -15,9 +15,9 @@ import {
 
 import { TailngColComponent } from './col.component';
 
-import { TailngTableController } from '../core/table.controller';
-import type { TailngSort, TailngAlign, TailngResolvedColumn, TailngCellContext, TailngHeaderContext } from '../core/table.types';
-import { TNG_TABLE } from '../core/table.token';
+import { TailngTableController } from '../core/controller/table.controller';
+import type { TailngSort, TailngAlign, TailngResolvedColumn, TailngCellContext, TailngHeaderContext } from '../core/types';
+import { TNG_TABLE } from '../core/tokens/table.token';
 
 @Component({
   selector: 'tng-table',

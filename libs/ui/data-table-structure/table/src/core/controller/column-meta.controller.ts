@@ -1,5 +1,5 @@
 import { signal } from '@angular/core';
-import type { TailngColumnMeta } from './table.types';
+import type { TailngColumnMeta } from '../types';
 import type { TailngControllerFeature } from './controller-feature';
 
 export class TailngColumnMetaController implements TailngControllerFeature {

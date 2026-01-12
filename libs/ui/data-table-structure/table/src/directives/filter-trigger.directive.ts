@@ -8,7 +8,7 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { TNG_TABLE } from '../core/table.token';
+import { TNG_TABLE } from '../core/tokens/table.token';
 
 @Directive({
   selector: '[tngFilterTrigger]',
