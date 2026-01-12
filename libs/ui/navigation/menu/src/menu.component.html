@@ -19,13 +19,13 @@
     (closed)="onOverlayClosed($event)"
   >
     <!-- NEW: Backdrop only when modal -->
-    <ng-container *ngIf="modal() && isOpen()">
+     @if (modal() && isOpen()) {
       <div
         [class]="backdropKlass()"
         class="z-[999]"
         (click)="onBackdropClick()"
       ></div>
-    </ng-container>
+    }
 
     <tng-connected-overlay
       [open]="isOpen()"
@@ -44,14 +44,14 @@
         role="menu"
       >
         <!-- ✅ Render the projected <ng-template> content -->
-        <ng-container *ngIf="menuTpl; else contentSlot"
-          [ngTemplateOutlet]="menuTpl"
-        ></ng-container>
-
+      @if (menuTpl) {
+        <ng-container
+          [ngTemplateOutlet]="menuTpl">
+        </ng-container>
+      } @else {
         <!-- Fallback: support <div tngMenuContent>...</div> -->
-        <ng-template #contentSlot>
-          <ng-content select="[tngMenuContent]"></ng-content>
-        </ng-template>
+        <ng-content select="[tngMenuContent]"></ng-content>
+      }
       </tng-overlay-panel>
     </tng-connected-overlay>
   </tng-overlay-ref>

@@ -1,3 +1,4 @@
+import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ContentChild,
@@ -9,13 +10,12 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
 
 import { TailngConnectedOverlayComponent } from '../../../popups-overlays/connected-overlay/src/public-api';
 import { TailngOverlayPanelComponent } from '../../../popups-overlays/overlay-panel/src/public-api';
 import {
-  TailngOverlayRefComponent,
   TailngOverlayCloseReason,
+  TailngOverlayRefComponent,
 } from '../../../popups-overlays/overlay-ref/src/public-api';
 
 export type MenuCloseReason = TailngOverlayCloseReason;
@@ -30,7 +30,7 @@ export type TngMenuPlacement =
   selector: 'tng-menu',
   standalone: true,
   imports: [
-    NgIf,
+    CommonModule,
     NgTemplateOutlet,
     TailngConnectedOverlayComponent,
     TailngOverlayPanelComponent,
