@@ -1,103 +1,56 @@
-
-import { signal } from '@angular/core';
-import { TngTableSortFeature } from '../features/sort.feature';
-import { TngTableFilterFeature } from '../features/filter.feature';
-import type {
-  TailngSort,
-  TailngSortDir,
-  TailngFilterValue,
-  TailngFilters,
-  TailngColumnMeta,
-} from './table.types';
+import type { TailngControllerFeature } from './controller-feature';
+import { TailngSortController } from './sort.controller';
+import { TailngFilterController } from './filter.controller';
+import { TailngColumnMetaController } from './column-meta.controller';
 
 export class TailngTableController {
-  private readonly sortFeature = new TngTableSortFeature();
-  private readonly filterFeature = new TngTableFilterFeature();
 
-  // -------------------- SORT --------------------
-  readonly sort = this.sortFeature.sort;
+  readonly _featureId = 'table';
+  // Keep references to run lifecycle hooks if you need them later
+  private readonly features: TailngControllerFeature[] = [];
 
-  toggleSort(active: string): void {
-    this.sortFeature.toggleSort(active);
-  }
-  setSort(sort: TailngSort): void {
-    this.sortFeature.setSort(sort);
-  }
-  clearSort(): void {
-    this.sortFeature.clearSort();
-  }
-  directionFor(colId: string): TailngSortDir {
-    return this.sortFeature.directionFor(colId);
-  }
-  isSorted(colId: string): boolean {
-    return this.sortFeature.isSorted(colId);
+  readonly sortCtrl = new TailngSortController();
+  readonly filterCtrl = new TailngFilterController();
+  readonly colMetaCtrl = new TailngColumnMetaController();
+
+  constructor() {
+    this.features = [this.sortCtrl, this.filterCtrl, this.colMetaCtrl];
+    this.features.forEach((f) => f.onInit?.());
   }
 
-  // -------------------- FILTER --------------------
-  readonly filters = this.filterFeature.filters;
-  readonly openFilterColId = this.filterFeature.openFilterColId;
-  readonly filterAnchorEl = this.filterFeature.anchorEl;
-  private readonly _filterPanelKlass = signal<string>('');
-
-  setFilterPanelKlass(v: string): void {
-    this._filterPanelKlass.set(v);
+  destroy(): void {
+    this.features.forEach((f) => f.onDestroy?.());
   }
 
-  filterPanelKlass(): string {
-    return this._filterPanelKlass();
-  }
+  // Optional: re-expose a flat API (so existing code doesn’t change)
+  readonly sort = this.sortCtrl.sort;
 
-  openFilter(colId: string, anchorEl?: HTMLElement | null): void {
-    this.filterFeature.openFilter(colId, anchorEl);
-  }
-  closeFilter(): void {
-    this.filterFeature.closeFilter();
-  }
-  toggleFilter(colId: string, anchorEl?: HTMLElement | null): void {
-    this.filterFeature.toggleFilter(colId, anchorEl);
-  }
-  isFilterOpenFor(colId: string): boolean {
-    return this.filterFeature.isFilterOpenFor(colId);
-  }
+  toggleSort = this.sortCtrl.toggleSort.bind(this.sortCtrl);
+  setSort = this.sortCtrl.setSort.bind(this.sortCtrl);
+  clearSort = this.sortCtrl.clearSort.bind(this.sortCtrl);
+  directionFor = this.sortCtrl.directionFor.bind(this.sortCtrl);
+  isSorted = this.sortCtrl.isSorted.bind(this.sortCtrl);
 
-  setFilter(colId: string, value: TailngFilterValue): void {
-    this.filterFeature.setFilter(colId, value);
-  }
-  clearFilter(colId: string): void {
-    this.filterFeature.clearFilter(colId);
-  }
-  clearAllFilters(): void {
-    this.filterFeature.clearAllFilters();
-  }
+  readonly filters = this.filterCtrl.filters;
+  readonly openFilterColId = this.filterCtrl.openFilterColId;
+  readonly filterAnchorEl = this.filterCtrl.filterAnchorEl;
 
-  filterValueFor(colId: string): TailngFilterValue | undefined {
-    return this.filterFeature.filterValueFor(colId);
-  }
-  isFiltered(colId: string): boolean {
-    return this.filterFeature.isFiltered(colId);
-  }
+  setFilterPanelKlass = this.filterCtrl.setFilterPanelKlass.bind(this.filterCtrl);
+  filterPanelKlass = this.filterCtrl.filterPanelKlass.bind(this.filterCtrl);
 
-  setFilters(filters: TailngFilters): void {
-    this.filters.set(filters);
-  }
+  openFilter = this.filterCtrl.openFilter.bind(this.filterCtrl);
+  closeFilter = this.filterCtrl.closeFilter.bind(this.filterCtrl);
+  toggleFilter = this.filterCtrl.toggleFilter.bind(this.filterCtrl);
+  isFilterOpenFor = this.filterCtrl.isFilterOpenFor.bind(this.filterCtrl);
 
-  // -------------------- COLUMN META (for default filters) --------------------
-  private readonly colMeta = signal<Record<string, TailngColumnMeta>>({});
+  setFilter = this.filterCtrl.setFilter.bind(this.filterCtrl);
+  clearFilter = this.filterCtrl.clearFilter.bind(this.filterCtrl);
+  clearAllFilters = this.filterCtrl.clearAllFilters.bind(this.filterCtrl);
+  filterValueFor = this.filterCtrl.filterValueFor.bind(this.filterCtrl);
+  isFiltered = this.filterCtrl.isFiltered.bind(this.filterCtrl);
+  setFilters = this.filterCtrl.setFilters.bind(this.filterCtrl);
 
-  registerColumn(meta: TailngColumnMeta): void {
-    this.colMeta.update((cur) => ({ ...cur, [meta.id]: meta }));
-  }
-
-  unregisterColumn(colId: string): void {
-    this.colMeta.update((cur) => {
-      if (!(colId in cur)) return cur;
-      const next = { ...cur };
-      delete next[colId];
-      return next;
-    });
-  }
-
-  metaFor(colId: string): TailngColumnMeta | undefined {
-    return this.colMeta()[colId];
-  }
+  registerColumn = this.colMetaCtrl.registerColumn.bind(this.colMetaCtrl);
+  unregisterColumn = this.colMetaCtrl.unregisterColumn.bind(this.colMetaCtrl);
+  metaFor = this.colMetaCtrl.metaFor.bind(this.colMetaCtrl);
 }
