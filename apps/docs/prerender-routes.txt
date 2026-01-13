@@ -1,0 +1,86 @@
+/
+ 
+# -------------------------
+# Installation / Guides
+# -------------------------
+/installation
+/installation/tailwind-setup
+/installation/quick-start
+
+# -------------------------
+# Components Home
+# -------------------------
+/components
+
+# -------------------------
+# Form Controls
+# -------------------------
+/components/forms/autocomplete
+/components/forms/checkbox
+/components/forms/chips
+/components/forms/datepicker
+/components/forms/timepicker
+/components/forms/form-field
+/components/forms/text-input
+/components/forms/number-input
+/components/forms/textarea
+/components/forms/file-upload
+/components/forms/radio-button
+/components/forms/select
+/components/forms/slider
+/components/forms/slide-toggle
+/components/buttons/button-toggle
+
+# -------------------------
+# Buttons & Indicators
+# -------------------------
+/components/buttons/button
+/components/buttons/badge
+/components/buttons/icon
+/components/buttons/ripples
+/components/buttons/progress-bar
+/components/buttons/progress-spinner
+/components/buttons/skeleton
+
+# -------------------------
+# Layout Components
+# -------------------------
+/components/layout/card
+/components/layout/divider
+/components/layout/expansion-panel
+/components/layout/tabs
+/components/layout/accordion
+
+# -------------------------
+# Navigation Components
+# -------------------------
+/components/navigation/menu
+/components/navigation/sidenav
+/components/navigation/drawer
+/components/navigation/stepper
+/components/navigation/paginator
+/components/navigation/breadcrumbs
+
+# -------------------------
+# Popups & Overlays
+# -------------------------
+/components/overlay/dialog
+/components/overlay/snackbar
+/components/overlay/tooltip
+/components/overlay/popover
+
+# -------------------------
+# Overlay Primitives (internal)
+# -------------------------
+/components/overlay-primitives/connected-overlay
+/components/overlay-primitives/option-list
+
+# -------------------------
+# Data Table & Structure
+# -------------------------
+/components/data/table
+/components/data/sort-header
+/components/data/filter-header
+/components/data/tree
+/components/data/virtual-scroll
+/components/data/empty-state

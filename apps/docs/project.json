@@ -34,5 +34,11 @@
         "lintFilePatterns": ["apps/docs/**/*.ts", "apps/docs/**/*.html"]
       }
     }
-  }
+  },
+  "assets": [
+    "apps/docs/src/favicon.ico",
+    "apps/docs/src/assets",
+    "apps/docs/src/robots.txt",
+    "apps/docs/src/sitemap.xml"
+  ]
 }
