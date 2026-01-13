@@ -105,6 +105,9 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
    * ===================== */
   readonly months = MONTHS;
   readonly weekdays = WEEKDAYS;
+  
+
+  readonly focusedDate = signal<Dayjs | null>(null);
 
   /* =====================
    * Derived bounds
@@ -235,11 +238,18 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
   open(_reason: TailngOverlayCloseReason) {
     if (this.isDisabled()) return;
     this.isOpen.set(true);
-
+  
     if (this.draft() == null) this.draft.set(this.value ?? dayjs().startOf('day'));
-    const y = (this.draft() ?? this.value ?? dayjs()).year();
+    const current = (this.draft() ?? this.value ?? dayjs()).startOf('day');
+  
+    // year window sync (existing)
+    const y = current.year();
     this.yearBase.set(Math.floor(y / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE);
+  
+    // ✅ keyboard focus starts from current draft/value
+    this.focusedDate.set(current);
   }
+  
 
   close(_reason: TailngOverlayCloseReason) {
     if (!this.isOpen()) return;
@@ -326,20 +336,130 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     this.onTouched();
   }
 
+  private setFocusedDate(next: Dayjs) {
+    const d = next.startOf('day');
+  
+    // clamp to bounds
+    const clamped = this.clampToBounds(d);
+  
+    this.focusedDate.set(clamped);
+  
+    // If user navigates to another month/year, update draft to keep calendar view in sync
+    this.draft.set(clamped);
+  
+    // Keep year window aligned
+    this.yearBase.set(Math.floor(clamped.year() / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE);
+  }
+  
+  private moveFocusedByDays(delta: number) {
+    const base = (this.focusedDate() ?? this.draft() ?? this.value ?? dayjs()).startOf('day');
+    this.setFocusedDate(base.add(delta, 'day'));
+  }
+  
+  private moveFocusedByMonths(delta: number) {
+    const base = (this.focusedDate() ?? this.draft() ?? this.value ?? dayjs()).startOf('day');
+    this.setFocusedDate(base.add(delta, 'month'));
+  }
+  
+  private moveFocusedToStartOfMonth() {
+    const base = (this.focusedDate() ?? this.draft() ?? this.value ?? dayjs()).startOf('day');
+    this.setFocusedDate(base.startOf('month'));
+  }
+  
+  private moveFocusedToEndOfMonth() {
+    const base = (this.focusedDate() ?? this.draft() ?? this.value ?? dayjs()).startOf('day');
+    this.setFocusedDate(base.endOf('month').startOf('day'));
+  }
+  
+  isCellFocused(cell: CalendarCell): boolean {
+    const f = this.focusedDate();
+    if (!f) return false;
+    return cell.date.isSame(f, 'day');
+  }
+  
+
   onKeydown(ev: KeyboardEvent) {
     if (this.isDisabled()) return;
-
+  
+    // Escape closes
     if (ev.key === 'Escape' && this.isOpen()) {
       ev.preventDefault();
       this.close('escape');
       return;
     }
-
+  
+    // Open on ArrowDown/Enter when closed
     if (!this.isOpen() && (ev.key === 'ArrowDown' || ev.key === 'Enter')) {
       ev.preventDefault();
       this.open('programmatic');
+      return;
     }
-  }
+  
+    // Keyboard navigation only when open
+    if (!this.isOpen()) return;
+  
+    switch (ev.key) {
+      case 'ArrowLeft':
+        ev.preventDefault();
+        this.moveFocusedByDays(-1);
+        return;
+  
+      case 'ArrowRight':
+        ev.preventDefault();
+        this.moveFocusedByDays(1);
+        return;
+  
+      case 'ArrowUp':
+        ev.preventDefault();
+        this.moveFocusedByDays(-7);
+        return;
+  
+      case 'ArrowDown':
+        ev.preventDefault();
+        this.moveFocusedByDays(7);
+        return;
+  
+      case 'PageUp':
+        ev.preventDefault();
+        this.moveFocusedByMonths(-1);
+        return;
+  
+      case 'PageDown':
+        ev.preventDefault();
+        this.moveFocusedByMonths(1);
+        return;
+  
+      case 'Home':
+        ev.preventDefault();
+        this.moveFocusedToStartOfMonth();
+        return;
+  
+      case 'End':
+        ev.preventDefault();
+        this.moveFocusedToEndOfMonth();
+        return;
+  
+      case 'Enter': {
+        ev.preventDefault();
+        const f = this.focusedDate();
+        if (!f) return;
+  
+        // same behavior as day click: commit + close
+        const clamped = this.clampToBounds(f);
+        this.draft.set(clamped);
+  
+        this.value = clamped;
+        this.inputValue.set(clamped.format(this.displayFormat()));
+        this.onChange(clamped.toDate());
+        this.onTouched();
+        this.close('selection');
+        return;
+      }
+  
+      default:
+        return;
+    }
+  }  
 
   /* =====================
    * Calendar actions

@@ -118,6 +118,8 @@
                     [class.bg-slate-900]="isCellSelected(cell)"
                     [class.text-white]="isCellSelected(cell)"
                     [class.opacity-40]="isCellDisabled(cell)"
+                    [class.ring-2]="isCellFocused(cell) && !isCellSelected(cell)"
+                    [class.ring-slate-400]="isCellFocused(cell) && !isCellSelected(cell)"
                     [disabled]="isCellDisabled(cell)"
                     (click)="selectDay(cell)"
                   >
