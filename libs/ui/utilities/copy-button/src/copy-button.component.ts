@@ -1,4 +1,7 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, input, signal } from '@angular/core';
+
+type CopyButtonVariant = 'ghost' | 'outline' | 'solid';
+type CopyButtonSize = 'sm' | 'md';
 
 @Component({
   selector: 'tng-copy-button',
@@ -7,37 +10,41 @@ import { Component, computed, input, output } from '@angular/core';
 })
 export class TailngCopyButtonComponent {
   text = input.required<string>();
-  size = input<'sm' | 'md' | 'lg'>('md');
-  variant = input<'solid' | 'outline' | 'ghost'>('solid');
-  showIcon = input(true);
-  showLabel = input(true);
-  ariaLabel = input<string>('Copy to clipboard');
-  klass = input<string>('');
 
-  copied = output<string>();
+  variant = input<CopyButtonVariant>('ghost');
+  size = input<CopyButtonSize>('sm');
 
-  readonly classes = computed(() => {
-    const sizeClasses = {
-      sm: 'px-2 py-1 text-xs',
-      md: 'px-3 py-2 text-sm',
-      lg: 'px-4 py-3 text-base',
-    };
+  /** how long to show "copied" state */
+  resetAfterMs = input<number>(1500);
 
-    const variantClasses = {
-      solid: 'bg-primary text-on-primary hover:bg-primary-hover border-primary',
-      outline: 'bg-transparent text-primary border-primary hover:bg-primary/10',
-      ghost: 'bg-transparent text-text border-transparent hover:bg-alternate-background',
-    };
+  copied = signal(false);
+  private resetTimer: number | null = null;
 
-    return `${sizeClasses[this.size()]} ${variantClasses[this.variant()]} ${this.klass()}`.trim();
-  });
-
-  async handleClick() {
+  async copy(): Promise<void> {
     try {
       await navigator.clipboard.writeText(this.text());
-      this.copied.emit(this.text());
-    } catch (err) {
-      console.error('Failed to copy text:', err);
+      this.copied.set(true);
+
+      if (this.resetTimer) window.clearTimeout(this.resetTimer);
+      this.resetTimer = window.setTimeout(() => {
+        this.copied.set(false);
+        this.resetTimer = null;
+      }, this.resetAfterMs());
+    } catch {
+      // clipboard may be blocked; ignore
     }
   }
+
+  private base = 'inline-flex items-center gap-1.5 font-medium transition select-none';
+  private sizes: Record<CopyButtonSize, string> = {
+    sm: 'px-2 py-1 text-xs',
+    md: 'px-3 py-1.5 text-sm',
+  };
+  private variants: Record<CopyButtonVariant, string> = {
+    ghost: 'text-slate-600 hover:bg-slate-100',
+    outline: 'border border-slate-300 text-slate-700 hover:bg-slate-50',
+    solid: 'bg-primary text-white hover:opacity-90',
+  };
+
+  klass = computed(() => [this.base, this.sizes[this.size()], this.variants[this.variant()]].join(' '));
 }

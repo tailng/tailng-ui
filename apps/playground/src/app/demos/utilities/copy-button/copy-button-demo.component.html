@@ -1,0 +1,38 @@
+<div class="flex items-center gap-4">
+  <tng-copy-button [text]="code()">
+    <i class="bi bi-clipboard"></i>
+
+    <span tngCopied>
+      <i class="bi bi-check2"></i>
+    </span>
+  </tng-copy-button>
+
+  <span class="text-sm text-slate-600">Icon only</span>
+</div>
+
+<div class="mt-6 flex items-center gap-4">
+  <tng-copy-button variant="outline" [text]="code()">
+    <i class="bi bi-clipboard"></i>
+    <span>Copy</span>
+
+    <span tngCopied>
+      <i class="bi bi-check2"></i>
+      <span>Copied</span>
+    </span>
+  </tng-copy-button>
+
+  <span class="text-sm text-slate-600">Icon + text</span>
+</div>
+
+
+<div class="mt-6 flex items-center gap-4">
+  <tng-copy-button variant="solid" size="md" [text]="code()">
+    <i class="bi bi-clipboard"></i>
+
+    <span tngCopied>
+      <i class="bi bi-check2-circle"></i>
+    </span>
+  </tng-copy-button>
+
+  <span class="text-sm text-slate-600">Solid variant</span>
+</div>
