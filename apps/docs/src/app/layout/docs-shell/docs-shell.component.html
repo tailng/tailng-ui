@@ -1,58 +1,89 @@
-<div class="min-h-screen bg-white text-slate-900">
-  <header class="sticky top-0 z-10 border-b border-slate-200 bg-white">
-    <div class="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3">
-      <button class="md:hidden rounded border border-slate-200 px-3 py-2"
-              (click)="mobileOpen.set(!mobileOpen())">
+<div class="h-screen overflow-hidden bg-white text-slate-900 flex flex-col">
+  <!-- Header -->
+  <header class="sticky top-0 z-20 h-14 border-b border-slate-200 bg-white flex-shrink-0">
+    <div class="mx-auto flex max-w-7xl items-center gap-3 px-4 h-full">
+      <button
+        class="md:hidden rounded border border-slate-200 px-3 py-2"
+        (click)="mobileOpen.set(!mobileOpen())"
+      >
         Menu
       </button>
 
-      <a routerLink="/components" class="font-semibold tracking-tight">tailng</a>
+      <a routerLink="/components" class="font-semibold tracking-tight"> tailng </a>
 
       <div class="ml-auto flex items-center gap-2">
-        <a class="text-sm text-slate-600 hover:text-slate-900" href="https://github.com" target="_blank">GitHub</a>
+        <a
+          class="text-sm text-slate-600 hover:text-slate-900"
+          href="https://github.com"
+          target="_blank"
+        >
+          GitHub
+        </a>
       </div>
     </div>
   </header>
 
-  <div class="mx-auto grid max-w-7xl grid-cols-1 md:grid-cols-[280px_1fr]">
-    <!-- Sidebar (desktop) -->
-    <aside class="hidden md:block border-r border-slate-200 p-4">
-      <nav class="space-y-6">
-        @for (section of nav(); track section.title) {
-          <div>
-            <div class="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
-              {{ section.title }}
-            </div>
+  <!-- App body -->
+  <div class="flex flex-1 overflow-hidden mx-auto w-full max-w-8xl">
+    <!-- Sidebar -->
+    <tng-sidenav class="hidden md:block">
+      <aside class="hidden md:flex w-55 flex-col flex-shrink-0">
+        <!-- Sidebar search -->
+        <div class="p-4 border-b border-slate-100">
+          <form [formGroup]="form">
+            <tng-text-input
+              formControlName="text"
+              placeholder="Search..."
+              klass="focus-visible:!ring-0 focus-visible:!ring-offset-0"
+            />
+          </form>
+        </div>
 
-            <div class="space-y-1">
-              @for (item of section.children ?? []; track item.title) {
-                <a
-                  [routerLink]="item.route"
-                  routerLinkActive="bg-slate-100 text-slate-900"
-                  class="block rounded px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
-                >
-                  {{ item.title }}
-                </a>
-              }
-            </div>
-          </div>
-        }
-      </nav>
-    </aside>
+        <!-- Sidebar navigation (scrolls) -->
+        <nav class="flex-1 overflow-y-auto p-4 space-y-6">
+          @for (section of filteredNav(); track section.title) {
+            <tng-accordion [multiple]="true">
+              <tng-expansion-panel [open]="true" rootKlass="border-0">
+                <div tngExpansionTitle>{{ section.title }}</div>
+                <div tngExpansionContent>
+                  @for (item of section.children ?? []; track item.title) {
+                    @if (item.title.toLowerCase().includes(normalizedQuery())) {
+                      <a
+                        [routerLink]="item.route"
+                        routerLinkActive="bg-slate-100 text-slate-900"
+                        class="block rounded px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                      >
+                        {{ item.title }}
+                      </a>
+                    }
+                  }
+                </div>
+              </tng-expansion-panel>
+            </tng-accordion>
+          }
+        </nav>
+      </aside>
+    </tng-sidenav>
 
-    <!-- Content -->
-    <main class="p-4 md:p-8">
+    <!-- Main content (scrolls) -->
+    <main class="flex-1 overflow-y-auto">
       <router-outlet />
     </main>
   </div>
 
-  <!-- Mobile drawer -->
+  <!-- Mobile overlay -->
   @if (mobileOpen()) {
     <div class="fixed inset-0 z-20 bg-black/30 md:hidden" (click)="mobileOpen.set(false)"></div>
-    <div class="fixed inset-y-0 left-0 z-30 w-80 bg-white p-4 md:hidden border-r border-slate-200">
+
+    <!-- Mobile drawer -->
+    <div
+      class="fixed inset-y-0 left-0 z-30 w-80 bg-white p-4 overflow-y-auto md:hidden border-r border-slate-200"
+    >
       <div class="mb-4 flex items-center justify-between">
         <div class="font-semibold">Docs</div>
-        <button class="rounded border border-slate-200 px-3 py-2" (click)="mobileOpen.set(false)">Close</button>
+        <button class="rounded border border-slate-200 px-3 py-2" (click)="mobileOpen.set(false)">
+          Close
+        </button>
       </div>
 
       <nav class="space-y-6">

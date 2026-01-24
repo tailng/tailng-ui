@@ -1,0 +1,267 @@
+<div class="max-w-7xl px-8 py-4">
+  <tng-stepper
+    defaultIndex="0"
+    rootKlass="w-full"
+    headerKlass="flex items-center justify-between gap-2 sticky top-0 z-20 bg-background border-b border-border p-2"
+    panelWrapKlass="pt-6"
+  >
+    <!-- STEPS -->
+    <tng-step
+      stepKlass="flex-1 text-center rounded-lg px-4 py-2 text-sm sm:text-base font-medium"
+      inactiveKlass="text-slate-500 hover:text-slate-900"
+    >
+      Overview
+    </tng-step>
+
+    <tng-step
+      stepKlass="flex-1 text-center rounded-lg px-4 py-2 text-sm sm:text-base font-medium"
+      inactiveKlass="text-slate-500 hover:text-slate-900"
+    >
+      API
+    </tng-step>
+
+    <tng-step
+      stepKlass="flex-1 text-center rounded-lg px-4 py-2 text-sm sm:text-base font-medium"
+      inactiveKlass="text-slate-500 hover:text-slate-900"
+    >
+      Styling
+    </tng-step>
+
+    <tng-step
+      stepKlass="flex-1 text-center rounded-lg px-4 py-2 text-sm sm:text-base font-medium "
+      inactiveKlass="text-slate-500 hover:text-slate-900"
+    >
+      Examples
+    </tng-step>
+
+    <!-- PANEL 1 -->
+    <tng-step-panel [index]="0">
+      <div class="grid grid-cols-1 md:grid-cols-[3fr_auto_1fr] gap-5">
+        <section class="rounded-xl bg-white p-2">
+          <h2 class="text-base font-semibold text-slate-900">AutoComplete</h2>
+
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">
+            An input field that suggests options as the user types.
+          </p>
+
+          <div class="mt-2 flex flex-col gap-4">
+            <h3 class="text-sm font-semibold text-slate-800">Simple Component</h3>
+            <p class="text-sm leading-relaxed text-slate-600">
+              The AutoComplete component is an input box that shows suggestions as you type. It
+              helps users find and select options quickly, so they don’t have to type the full text.
+              It makes forms and search boxes faster and easier to use.
+            </p>
+
+            <div class="relative">
+
+
+              <button
+                class="rounded-md border border-slate-200 bg-white px-2 py-1 text-xs float-right"
+                (click)="toggleCode()"
+              >
+                {{ isCodeExpanded() ? 'Hide Code' : 'Show Code' }}
+              </button>
+            </div>
+
+            @if (isCodeExpanded()) {
+              <tng-stepper defaultIndex="0" rootKlass="w-full">
+                <tng-step
+                  stepKlass="px-1 py-1 text-xs rounded font-medium"
+                  activeKlass="bg-white text-slate-900 shadow"
+                  inactiveKlass="text-slate-500 bg-white"
+                >
+                  HTML
+                </tng-step>
+                <tng-step
+                  stepKlass="px-3 py-1 text-xs rounded font-medium"
+                  inactiveKlass="text-slate-500"
+                >
+                  TS
+                </tng-step>
+
+                <tng-step-panel [index]="0">
+                  <tng-code-block
+                    [content]="klassSignalSnippet()"
+                    language="HTML"
+                    preKlass="text-xs whitespace-pre-wrap break-words bg-transparent h-25"
+                  />
+                </tng-step-panel>
+
+                <tng-step-panel [index]="1">
+                  <tng-code-block
+                    [content]="klassSignalSnippet()"
+                    language="TypeScript"
+                    preKlass="text-xs whitespace-pre-wrap break-words bg-transparent h-25"
+                  />
+                </tng-step-panel>
+              </tng-stepper>
+            } @else {
+              <tng-code-block
+                [content]="klassSignalSnippet()"
+                languageKlass="hidden"
+                preKlass="text-xs whitespace-pre-wrap break-words bg-transparent h-25"
+              />
+            }
+            <h3 class="text-sm font-semibold text-slate-800">Simple Component</h3>
+            <p class="text-sm leading-relaxed text-slate-600">
+              The AutoComplete component is an input box that shows suggestions as you type. It
+              helps users find and select options quickly, so they don’t have to type the full text.
+              It makes forms and search boxes faster and easier to use.
+            </p>
+
+            <div class="relative">
+
+
+              <button
+                class="rounded-md border border-slate-200 bg-white px-2 py-1 text-xs float-right"
+                (click)="toggleCode()"
+              >
+                {{ isCodeExpanded() ? 'Hide Code' : 'Show Code' }}
+              </button>
+            </div>
+
+            @if (isCodeExpanded()) {
+              <tng-stepper defaultIndex="0" rootKlass="w-full">
+                <tng-step
+                  stepKlass="px-1 py-1 text-xs rounded font-medium"
+                  activeKlass="bg-white text-slate-900 shadow"
+                  inactiveKlass="text-slate-500 bg-white"
+                >
+                  HTML
+                </tng-step>
+                <tng-step
+                  stepKlass="px-3 py-1 text-xs rounded font-medium"
+                  inactiveKlass="text-slate-500"
+                >
+                  TS
+                </tng-step>
+
+                <tng-step-panel [index]="0">
+                  <tng-code-block
+                    [content]="klassSignalSnippet()"
+                    language="HTML"
+                    preKlass="text-xs whitespace-pre-wrap break-words bg-transparent h-25"
+                  />
+                </tng-step-panel>
+
+                <tng-step-panel [index]="1">
+                  <tng-code-block
+                    [content]="klassSignalSnippet()"
+                    language="TypeScript"
+                    preKlass="text-xs whitespace-pre-wrap break-words bg-transparent h-25"
+                  />
+                </tng-step-panel>
+              </tng-stepper>
+            } @else {
+              <tng-code-block
+                [content]="klassSignalSnippet()"
+                languageKlass="hidden"
+                preKlass="text-xs whitespace-pre-wrap break-words bg-transparent h-25"
+              />
+            }
+            <h3 class="text-sm font-semibold text-slate-800">Simple Component</h3>
+            <p class="text-sm leading-relaxed text-slate-600">
+              The AutoComplete component is an input box that shows suggestions as you type. It
+              helps users find and select options quickly, so they don’t have to type the full text.
+              It makes forms and search boxes faster and easier to use.
+            </p>
+
+            <div class="relative">
+
+
+              <button
+                class="rounded-md border border-slate-200 bg-white px-2 py-1 text-xs float-right"
+                (click)="toggleCode()"
+              >
+                {{ isCodeExpanded() ? 'Hide Code' : 'Show Code' }}
+              </button>
+            </div>
+
+            @if (isCodeExpanded()) {
+              <tng-stepper defaultIndex="0" rootKlass="w-full">
+                <tng-step
+                  stepKlass="px-1 py-1 text-xs rounded font-medium"
+                  activeKlass="bg-white text-slate-900 shadow"
+                  inactiveKlass="text-slate-500 bg-white"
+                >
+                  HTML
+                </tng-step>
+                <tng-step
+                  stepKlass="px-3 py-1 text-xs rounded font-medium"
+                  inactiveKlass="text-slate-500"
+                >
+                  TS
+                </tng-step>
+
+                <tng-step-panel [index]="0">
+                  <tng-code-block
+                    [content]="klassSignalSnippet()"
+                    language="HTML"
+                    preKlass="text-xs whitespace-pre-wrap break-words bg-transparent h-25"
+                  />
+                </tng-step-panel>
+
+                <tng-step-panel [index]="1">
+                  <tng-code-block
+                    [content]="klassSignalSnippet()"
+                    language="TypeScript"
+                    preKlass="text-xs whitespace-pre-wrap break-words bg-transparent h-25"
+                  />
+                </tng-step-panel>
+              </tng-stepper>
+            } @else {
+              <tng-code-block
+                [content]="klassSignalSnippet()"
+                languageKlass="hidden"
+                preKlass="text-xs whitespace-pre-wrap break-words bg-transparent h-25"
+              />
+            }
+          </div>
+        </section>
+
+        <div class="hidden md:block w-px bg-slate-200"></div>
+
+        <aside class="hidden md:block p-4">
+          <h3 class="mb-3 text-xs font-semibold uppercase tracking-wide">Overview Content</h3>
+
+          <ul class="space-y-2 text-sm text-slate-600">
+            <li class="flex items-center gap-2">
+              <span class="h-1.5 w-1.5 rounded-full bg-slate-400"></span>
+              Simple Components
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </tng-step-panel>
+
+    <!-- PANEL 2 -->
+    <tng-step-panel [index]="1">
+      <div class="rounded-xl  bg-white p-6">
+        <h2 class="text-lg font-semibold mb-2">API reference for Angular Tailwind autocomplete</h2>
+        <p class="text-sm text-slate-600">
+            <tng-code-block
+                [content]="smallSnippet()"
+                languageKlass="hidden"
+                preKlass="text-xs whitespace-pre-wrap break-words bg-transparent h-15"
+              />
+            
+
+        </p>
+      </div>
+    </tng-step-panel>
+
+    <!-- PANEL 3 -->
+    <tng-step-panel [index]="2">
+      <div class="rounded-xl border border-slate-200 bg-white p-6">
+        <h2 class="text-lg font-semibold mb-2">Styling</h2>
+      </div>
+    </tng-step-panel>
+
+    <!-- PANEL 4 -->
+    <tng-step-panel [index]="3">
+      <div class="rounded-xl border border-slate-200 bg-white p-6">
+        <h2 class="text-lg font-semibold mb-2">Examples</h2>
+      </div>
+    </tng-step-panel>
+  </tng-stepper>
+</div>
