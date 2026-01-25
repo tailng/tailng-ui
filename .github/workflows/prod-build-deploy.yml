@@ -26,6 +26,19 @@ jobs:
     environment: production
 
     steps:
+      # ------------------------------------
+      # MAIN BRANCH SAFETY
+      # ------------------------------------
+      - name: Ensure running on main branch
+        run: |
+          if [ "${GITHUB_REF_NAME}" != "main" ]; then
+            echo "This workflow must be run from main branch"
+            exit 1
+          fi
+
+      # ------------------------------------
+      # CHECKOUT
+      # ------------------------------------
       - name: Checkout source
         uses: actions/checkout@v4
         with:
@@ -33,6 +46,9 @@ jobs:
           persist-credentials: true
           token: ${{ secrets.GH_PAT }}
 
+      # ------------------------------------
+      # NODE AND YARN
+      # ------------------------------------
       - name: Setup Node 22
         uses: actions/setup-node@v4
         with:
@@ -40,7 +56,7 @@ jobs:
           cache: yarn
           registry-url: "https://registry.npmjs.org"
 
-      - name: Enable Corepack and use Yarn 4.12.0
+      - name: Enable Corepack and Yarn 4.12.0
         run: |
           corepack enable
           corepack prepare yarn@4.12.0 --activate
@@ -49,48 +65,85 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      # ------------------------------------
+      # INPUT VALIDATION
+      # ------------------------------------
       - name: Validate inputs
-        run: node tools/release/validate-inputs.mjs "${{ inputs.targets }}" "${{ inputs.release_type }}"
+        run: node tools/release/validate-inputs.mjs \
+          "${{ inputs.targets }}" \
+          "${{ inputs.release_type }}"
 
+      - name: Export TARGETS
+        run: echo "TARGETS=,${{ inputs.targets }}," >> $GITHUB_ENV
+
+      # ------------------------------------
+      # GIT IDENTITY
+      # ------------------------------------
       - name: Set Git user
         run: |
           git config --global user.email "prince.francis@tociva.com"
           git config --global user.name "Tociva Technologies"
 
-      - name: Bump versions (root always + selected packages)
-        run: node tools/release/bump-versions.mjs "${{ inputs.targets }}" "${{ inputs.release_type }}"
+      # ------------------------------------
+      # VERSION BUMP
+      # ------------------------------------
+      - name: Bump versions
+        run: node tools/release/bump-versions.mjs \
+          "${{ inputs.targets }}" \
+          "${{ inputs.release_type }}"
 
+      # ------------------------------------
+      # COMMIT VERSION CHANGES
+      # ------------------------------------
       - name: Commit and push version changes
         run: |
           git add package.json libs/*/package.json || true
           git commit -m "chore(release): ${{ inputs.release_type }} (${{ inputs.targets }}) [skip ci]" || echo "Nothing to commit"
-          git push origin HEAD:main
+          git push origin HEAD:${GITHUB_REF_NAME}
 
-      - name: Build docs (SEO) if selected
-        run: node tools/release/run-if.mjs "${{ inputs.targets }}" docs "yarn docs:seo"
+      # ------------------------------------
+      # DOCS
+      # ------------------------------------
+      - name: Build docs if selected
+        run: node tools/release/run-if.mjs \
+          "${{ inputs.targets }}" \
+          docs \
+          "yarn docs:seo"
 
-      - name: Deploy docs to Cloudflare Pages if selected
-        if: contains(format(',{0},', inputs.targets), ',docs,')
-        run: yarn dlx wrangler pages deploy dist/apps/docs --project-name ${{ secrets.CF_DOCS_PROJECT_NAME }} --branch main
+      - name: Deploy docs to Cloudflare Pages
+        if: contains(env.TARGETS, ',docs,')
+        run: |
+          yarn dlx wrangler pages deploy dist/apps/docs \
+            --project-name ${{ secrets.CF_DOCS_PROJECT_NAME }} \
+            --branch main
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
 
-      - name: Build selected packages (Nx)
+      # ------------------------------------
+      # BUILD PACKAGES
+      # ------------------------------------
+      - name: Build selected packages
         run: node tools/release/build-selected.mjs "${{ inputs.targets }}"
 
-      - name: Verify dist directories
+      - name: Verify build output
         run: node tools/release/verify-dist.mjs "${{ inputs.targets }}"
 
-      - name: Publish selected packages (npm)
-        run: node tools/release/publish-selected.mjs "${{ inputs.targets }}" "${{ inputs.npm_tag }}"
+      # ------------------------------------
+      # PUBLISH
+      # ------------------------------------
+      - name: Publish selected packages
+        run: node tools/release/publish-selected.mjs \
+          "${{ inputs.targets }}" \
+          "${{ inputs.npm_tag }}"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      # ------------------------------------
+      # TAG AND RELEASE
+      # ------------------------------------
       - name: Tag release
         run: node tools/release/tag-release.mjs
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -98,11 +151,11 @@ jobs:
           tag_name: ${{ env.ROOT_TAG }}
           name: Release ${{ env.ROOT_TAG }}
           body: |
-            ## Release Details
-            - **Version:** `${{ env.ROOT_VERSION }}`
-            - **Release Type:** `${{ inputs.release_type }}`
-            - **Targets:** `${{ inputs.targets }}`
-            - **npm Tag:** `${{ inputs.npm_tag }}`
+            Release Details
+            Version: ${{ env.ROOT_VERSION }}
+            Release Type: ${{ inputs.release_type }}
+            Targets: ${{ inputs.targets }}
+            npm Tag: ${{ inputs.npm_tag }}
           draft: false
           prerelease: false
         env:
