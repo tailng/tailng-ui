@@ -113,10 +113,7 @@ jobs:
       # DOCS
       # ------------------------------------
       - name: Build docs if selected
-        run: node tools/release/run-if.mjs \
-          "${{ inputs.targets }}" \
-          docs \
-          "yarn docs:seo"
+        run: node tools/release/run-if.mjs "${{ inputs.targets }}" docs "corepack yarn docs:seo"
 
       - name: Deploy docs to Cloudflare Pages
         if: contains(env.TARGETS, ',docs,')
