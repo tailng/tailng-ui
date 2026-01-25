@@ -55,6 +55,8 @@ jobs:
         with:
           node-version: 22
           registry-url: "https://registry.npmjs.org"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       # IMPORTANT: upgrade npm for Trusted Publishing + provenance
       - name: Upgrade npm
@@ -148,6 +150,8 @@ jobs:
         run: node tools/release/publish-selected.mjs \
           "${{ inputs.targets }}" \
           "${{ inputs.npm_tag }}"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       # ------------------------------------
       # TAG AND RELEASE
