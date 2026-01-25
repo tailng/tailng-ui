@@ -60,10 +60,11 @@ jobs:
         run: |
           corepack enable
           corepack prepare yarn@4.12.0 --activate
-          yarn --version
+          corepack yarn --version
+          which yarn
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: corepack yarn install --immutable
 
       # ------------------------------------
       # INPUT VALIDATION
@@ -113,7 +114,7 @@ jobs:
       - name: Deploy docs to Cloudflare Pages
         if: contains(env.TARGETS, ',docs,')
         run: |
-          yarn dlx wrangler pages deploy dist/apps/docs \
+          corepack yarn dlx wrangler pages deploy dist/apps/docs \
             --project-name ${{ secrets.CF_DOCS_PROJECT_NAME }} \
             --branch main
         env:
