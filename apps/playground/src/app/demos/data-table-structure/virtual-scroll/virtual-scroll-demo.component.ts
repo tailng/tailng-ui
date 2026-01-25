@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TailngVirtualScrollComponent } from '@tailng/ui';
+import { TailngVirtualScrollComponent } from '@tociva/tailng-ui';
 
 @Component({
   selector: 'playground-virtual-scroll-demo',

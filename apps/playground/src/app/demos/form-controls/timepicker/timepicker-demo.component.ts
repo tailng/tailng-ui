@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TailngTimepickerComponent } from '@tailng/ui';
+import { TailngTimepickerComponent } from '@tociva/tailng-ui';
 
 @Component({
   selector: 'playground-timepicker-demo',

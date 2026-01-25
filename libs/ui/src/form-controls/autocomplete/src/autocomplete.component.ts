@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { OptionTplContext } from '@tailng/cdk';
+import { OptionTplContext } from '@tociva/tailng-cdk';
 
 import { TailngConnectedOverlayComponent } from '../../../popups-overlays/connected-overlay/src/public-api';
 import { TailngOptionListComponent } from '../../../popups-overlays/option-list/src/public-api';

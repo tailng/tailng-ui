@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TailngFileUploadComponent } from '@tailng/ui';
+import { TailngFileUploadComponent } from '@tociva/tailng-ui';
 
 @Component({
   selector: 'playground-file-upload-demo',

@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TailngTextInputComponent } from '@tailng/ui';
+import { TailngTextInputComponent } from '@tociva/tailng-ui';
 
 @Component({
   selector: 'playground-text-input-demo',

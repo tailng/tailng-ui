@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TailngIconComponent } from '@tailng/icons';
+import { TailngIconComponent } from '@tociva/tailng-icons';
 import {
   TailngColComponent,
   TailngTableComponent,
@@ -8,8 +8,8 @@ import {
   TailngFilterPanelComponent,
   TailngFilterTriggerDirective,
   TailngSortHeaderDirective,
-} from '@tailng/ui';
-import type { TailngColumnFilterMeta } from '@tailng/ui';
+} from '@tociva/tailng-ui';
+import type { TailngColumnFilterMeta } from '@tociva/tailng-ui';
 
 type InvoiceRow = {
   id: string;

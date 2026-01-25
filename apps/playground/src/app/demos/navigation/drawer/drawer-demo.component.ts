@@ -1,6 +1,6 @@
 import { TitleCasePipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { TailngDrawerComponent } from '@tailng/ui';
+import { TailngDrawerComponent } from '@tociva/tailng-ui';
 
 type DrawerPlacement = 'left' | 'right' | 'top' | 'bottom';
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TailngBadgeComponent } from '@tailng/ui';
+import { TailngBadgeComponent } from '@tociva/tailng-ui';
 
 @Component({
   selector: 'playground-badge-demo',

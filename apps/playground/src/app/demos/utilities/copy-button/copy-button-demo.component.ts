@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TailngCopyButtonComponent } from '@tailng/ui';
+import { TailngCopyButtonComponent } from '@tociva/tailng-ui';
 
 @Component({
   selector: 'playground-copy-button-demo',
@@ -8,5 +8,5 @@ import { TailngCopyButtonComponent } from '@tailng/ui';
   templateUrl: './copy-button-demo.component.html',
 })
 export class CopyButtonDemoComponent {
-  readonly code = signal(`npm install @tailng/ui`);
+    readonly code = signal(`npm install @tociva/tailng-ui`);
 }

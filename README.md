@@ -118,7 +118,7 @@ libs/ui/
 3. **Create the demo component** (`my-component-demo.component.ts`):
    ```typescript
    import { Component } from '@angular/core';
-   import { TailngMyComponentComponent } from '@tailng/ui';
+   import { TailngMyComponentComponent } from '@tociva/tailng-ui';
 
    @Component({
      selector: 'playground-my-component-demo',
@@ -287,3 +287,17 @@ tailng/
 - [Angular Documentation](https://angular.dev)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [Nx Documentation](https://nx.dev)
+
+## Publish to npm
+
+```
+cd dist/libs/cdk && npm publish --access public --dry-run
+# make sure you're logged in
+npm whoami || npm login
+
+# publish in order
+cd dist/libs/cdk   && npm publish --access public
+cd ../theme        && npm publish --access public
+cd ../icons        && npm publish --access public
+cd ../ui           && npm publish --access public
+```

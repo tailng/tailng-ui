@@ -11,7 +11,7 @@ import {
   runInInjectionContext,
   viewChild,
 } from '@angular/core';
-import { TailngFocusTrapDirective } from '@tailng/cdk';
+import { TailngFocusTrapDirective } from '@tociva/tailng-cdk';
 
 export type TngDialogCloseReason =
   | 'confirm'

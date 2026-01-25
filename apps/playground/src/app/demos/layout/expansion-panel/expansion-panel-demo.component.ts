@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TailngExpansionIconCloseDirective, TailngExpansionIconOpenDirective, TailngExpansionPanelComponent } from '@tailng/ui';
+import { TailngExpansionIconCloseDirective, TailngExpansionIconOpenDirective, TailngExpansionPanelComponent } from '@tociva/tailng-ui';
 
 @Component({
   selector: 'playground-expansion-panel-demo',

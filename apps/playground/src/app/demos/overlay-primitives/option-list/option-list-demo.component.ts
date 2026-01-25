@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TailngOptionListComponent, TailngOverlayPanelComponent } from '@tailng/ui';
+import { TailngOptionListComponent, TailngOverlayPanelComponent } from '@tociva/tailng-ui';
 import { Country, COUNTRY_LIST } from '../../util/country-list';
 
 interface Person {

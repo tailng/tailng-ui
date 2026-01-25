@@ -1,10 +1,10 @@
 // table-demo.component.ts
 import { Component, signal } from '@angular/core';
-import { TailngTableComponent } from '@tailng/ui';
+import { TailngTableComponent } from '@tociva/tailng-ui';
 
-// Prefer importing these from @tailng/ui once you export them there.
-import { TailngColComponent } from '@tailng/ui';
-import { TailngCellDefDirective } from '@tailng/ui';
+// Prefer importing these from @tociva/tailng-ui once you export them there.
+import { TailngColComponent } from '@tociva/tailng-ui';
+import { TailngCellDefDirective } from '@tociva/tailng-ui';
 
 type Txn = {
   id: string;

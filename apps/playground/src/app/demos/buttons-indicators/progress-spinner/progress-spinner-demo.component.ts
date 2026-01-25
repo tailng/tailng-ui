@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TailngProgressSpinnerComponent } from '@tailng/ui';
+import { TailngProgressSpinnerComponent } from '@tociva/tailng-ui';
 
 @Component({
   selector: 'playground-progress-spinner-demo',

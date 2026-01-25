@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/c
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import dayjs from 'dayjs';
 
-import { TailngDatepickerComponent } from '@tailng/ui';
+import { TailngDatepickerComponent } from '@tociva/tailng-ui';
 
 type DemoForm = {
   period: FormControl<Date | null>;

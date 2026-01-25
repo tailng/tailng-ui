@@ -4,7 +4,7 @@ import {
   TailngBadgeComponent,
   TailngButtonComponent,
   TailngCodeBlockComponent,
-} from '@tailng/ui';
+} from '@tociva/tailng-ui';
 
 @Component({
   standalone: true,
@@ -55,5 +55,5 @@ export class ButtonComponent {
 }`,
   );
 
-  readonly smallSnippet = computed(() => `npm i @tailng/ui`);
+  readonly smallSnippet = computed(() => `npm i @tociva/tailng-ui`);
 }

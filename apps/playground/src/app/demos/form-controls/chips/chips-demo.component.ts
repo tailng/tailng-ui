@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { JsonPipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
-import { TailngChipsComponent } from '@tailng/ui';
+import { TailngChipsComponent } from '@tociva/tailng-ui';
 import { Country, COUNTRY_LIST } from '../../util/country-list';
 import { toFlagEmoji } from '../../util/common.util';
 

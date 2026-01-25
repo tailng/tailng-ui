@@ -3,7 +3,7 @@ import {
   TailngTabsComponent,
   TailngTabComponent,
   TailngTabPanelComponent,
-} from '@tailng/ui';
+} from '@tociva/tailng-ui';
 
 @Component({
   selector: 'playground-tabs-demo',

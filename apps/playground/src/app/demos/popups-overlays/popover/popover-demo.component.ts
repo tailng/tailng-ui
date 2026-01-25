@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TailngPopoverComponent } from '@tailng/ui';
+import { TailngPopoverComponent } from '@tociva/tailng-ui';
 
 @Component({
   selector: 'playground-popover-demo',

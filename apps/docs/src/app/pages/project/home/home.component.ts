@@ -1,6 +1,6 @@
 import { Component, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TailngBadgeComponent, TailngButtonComponent } from '@tailng/ui';
+import { TailngBadgeComponent, TailngButtonComponent } from '@tociva/tailng-ui';
 
 @Component({
   standalone: true,
@@ -11,7 +11,7 @@ import { TailngBadgeComponent, TailngButtonComponent } from '@tailng/ui';
 export class HomeComponent {
   links = {
     github: 'https://github.com/tociva/tailng',
-    npm: 'https://www.npmjs.com/package/@tailng/ui',
+    npm: 'https://www.npmjs.com/package/@tociva/tailng-ui',
     demo: 'https://tailng.dev',
     tociva: 'https://tociva.com',
   } as const;

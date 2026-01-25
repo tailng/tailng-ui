@@ -5,7 +5,7 @@ import {
   TailngExpansionIconCloseDirective,
   TailngExpansionIconOpenDirective,
   TailngExpansionPanelComponent,
-} from '@tailng/ui';
+} from '@tociva/tailng-ui';
 
 @Component({
   selector: 'playground-accordion-demo',
