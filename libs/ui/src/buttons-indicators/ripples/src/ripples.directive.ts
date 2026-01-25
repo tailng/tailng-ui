@@ -50,13 +50,13 @@ export class TailngRippleDirective implements AfterViewInit, OnDestroy {
     const host = this.el.nativeElement;
     const pos = getComputedStyle(host).position;
 
-    // ✅ Force containing block for absolute children
+    // Force containing block for absolute children
     // If it's static/empty/unknown -> set to relative
     if (!pos || pos === 'static') {
       this.r.setStyle(host, 'position', 'relative');
     }
 
-    // ✅ Clip ripple to rounded corners
+    // Clip ripple to rounded corners
     const ov = getComputedStyle(host).overflow;
     if (!ov || ov === 'visible') {
       this.r.setStyle(host, 'overflow', 'hidden');

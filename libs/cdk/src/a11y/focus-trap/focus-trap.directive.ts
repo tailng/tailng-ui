@@ -35,7 +35,7 @@ export class TailngFocusTrapDirective implements OnDestroy {
   private readonly host = inject(ElementRef<HTMLElement>);
   private readonly injector = inject(Injector);
 
-  // ✅ Inject CDK factory in injection context (field initializer)
+  // Inject CDK factory in injection context (field initializer)
   private readonly focusTrapFactory = inject(FocusTrapFactory);
 
   private handle: TailngFocusTrapHandle | null = null;
@@ -49,7 +49,7 @@ export class TailngFocusTrapDirective implements OnDestroy {
         return;
       }
 
-      // ✅ afterNextRender needs injection context
+      // afterNextRender needs injection context
       runInInjectionContext(this.injector, () => {
         afterNextRender(() => this.enable());
       });

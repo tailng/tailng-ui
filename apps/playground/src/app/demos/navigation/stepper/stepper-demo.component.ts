@@ -19,7 +19,7 @@ export class StepperDemoComponent {
   readonly s0Complete = signal<boolean>(true);
   readonly s1Complete = signal<boolean>(false);
 
-  // ✅ Material-like demo (controlled)
+  // Material-like demo (controlled)
   readonly materialIndex = signal<number>(0);
 
   toggleS0(): void {

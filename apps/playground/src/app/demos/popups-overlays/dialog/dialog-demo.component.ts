@@ -21,7 +21,7 @@ export class DialogDemoComponent {
   }
 
   onClosed(reason: TngDialogCloseReason) {
-    // ✅ Always clear any pending programmatic close when dialog closes in any way
+    // Always clear any pending programmatic close when dialog closes in any way
     this.clearTimer();
     this.closing.set(false);
 

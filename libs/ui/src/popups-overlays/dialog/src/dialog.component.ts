@@ -79,7 +79,7 @@ export class TailngDialogComponent {
     effect(() => {
       if (!this.isOpen()) return;
 
-      // ✅ afterNextRender must be called inside injection context
+      // afterNextRender must be called inside injection context
       runInInjectionContext(this.injector, () => {
         afterNextRender(() => this.focusPanelIfNoTabbable());
       });

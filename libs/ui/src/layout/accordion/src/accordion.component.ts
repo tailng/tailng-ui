@@ -6,7 +6,7 @@ import {
   input,
   output
 } from '@angular/core';
-// ✅ preferred (if you have this export)
+// preferred (if you have this export)
 import { TailngExpansionPanelComponent } from '../../expansion-panel/src/public-api';
 
 @Component({

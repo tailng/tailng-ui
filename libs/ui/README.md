@@ -22,14 +22,14 @@ npm install @tociva/tailng-ui
 
 ## Features
 
-- ✅ **Standalone Components**: All components are standalone, no NgModules required
-- ✅ **Signal-based API**: Built with Angular signals for reactive, performant components
-- ✅ **Tailwind CSS**: Styled with utility classes, fully customizable
-- ✅ **Accessible**: WCAG-compliant components with proper ARIA attributes
-- ✅ **Type-safe**: Full TypeScript support with comprehensive types
-- ✅ **Tree-shakable**: Import only what you need
-- ✅ **CSS Variables**: Theme support via CSS custom properties
-- ✅ **"klass signal" Pattern**: Consistent styling API across components
+- **Standalone Components**: All components are standalone, no NgModules required
+- **Signal-based API**: Built with Angular signals for reactive, performant components
+- **Tailwind CSS**: Styled with utility classes, fully customizable
+- **Accessible**: WCAG-compliant components with proper ARIA attributes
+- **Type-safe**: Full TypeScript support with comprehensive types
+- **Tree-shakable**: Import only what you need
+- **CSS Variables**: Theme support via CSS custom properties
+- **"klass signal" Pattern**: Consistent styling API across components
 
 ## Quick Start
 

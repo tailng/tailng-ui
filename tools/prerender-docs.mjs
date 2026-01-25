@@ -68,10 +68,10 @@ for (const route of routes) {
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'index.html'), html);
 
-  console.log(`✅ prerendered ${route}`);
+  console.log(`prerendered ${route}`);
 }
 
 await browser.close();
 server.close();
 
-console.log('✅ prerender complete');
+console.log('prerender complete');

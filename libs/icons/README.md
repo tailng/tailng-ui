@@ -26,13 +26,13 @@ npm install @ng-icons/bootstrap-icons
 
 ## Features
 
-- ✅ Standalone Angular component
-- ✅ Signal-based API using Angular signals
-- ✅ Tree-shakable icon definitions
-- ✅ `currentColor`-based SVG icons (works with Tailwind)
-- ✅ Flexible sizing (number, string, or CSS units)
-- ✅ Built-in accessibility support
-- ✅ No CSS or styling opinions
+- Standalone Angular component
+- Signal-based API using Angular signals
+- Tree-shakable icon definitions
+- `currentColor`-based SVG icons (works with Tailwind)
+- Flexible sizing (number, string, or CSS units)
+- Built-in accessibility support
+- No CSS or styling opinions
 
 ## Usage
 

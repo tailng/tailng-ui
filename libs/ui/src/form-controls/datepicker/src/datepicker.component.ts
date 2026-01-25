@@ -246,7 +246,7 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
     const y = current.year();
     this.yearBase.set(Math.floor(y / YEAR_WINDOW_SIZE) * YEAR_WINDOW_SIZE);
   
-    // ✅ keyboard focus starts from current draft/value
+    // keyboard focus starts from current draft/value
     this.focusedDate.set(current);
   }
   
@@ -380,9 +380,9 @@ export class TailngDatepickerComponent implements ControlValueAccessor {
   onKeydown(ev: KeyboardEvent) {
     if (this.isDisabled()) return;
   
-    // ---- TAB / SHIFT+TAB → close popup ----
+    // ---- TAB / SHIFT+TAB -> close popup ----
     if (ev.key === 'Tab' && this.isOpen()) {
-      // Do NOT preventDefault → allow normal focus navigation
+      // Do NOT preventDefault -> allow normal focus navigation
       this.close('blur');
       return;
     }

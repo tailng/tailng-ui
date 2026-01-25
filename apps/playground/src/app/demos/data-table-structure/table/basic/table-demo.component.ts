@@ -30,7 +30,7 @@ export class TableDemoComponent {
 
   readonly rows = signal<Txn[]>([...this.seed]);
 
-  // ✅ bind function references (no arrow functions in template)
+  // bind function references (no arrow functions in template)
   readonly dateValue = (r: Txn) => r.date;
   readonly descValue = (r: Txn) => r.description;
   readonly amountValue = (r: Txn) => r.amount;

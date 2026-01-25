@@ -60,7 +60,7 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
   @ViewChild('inputEl', { static: true })
   inputEl!: ElementRef<HTMLInputElement>;
 
-  // ✅ Delegate list keys to OptionList
+  // Delegate list keys to OptionList
   @ViewChild(TailngOptionListComponent)
   optionList?: TailngOptionListComponent<T>;
 
@@ -275,7 +275,7 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
 
     // Enter
     if (ev.key === 'Enter') {
-      // ✅ IMPORTANT: if open, DO NOT preventDefault here — OptionList must see a non-prevented event
+      // IMPORTANT: if open, DO NOT preventDefault here — OptionList must see a non-prevented event
       if (this.isOpen()) {
         ev.stopPropagation();
         this.optionList?.onKeydown(ev); // OptionList will preventDefault + emit requestSelectActive

@@ -15,7 +15,7 @@ export class TailngCardComponent {
   footerKlass = input<string>('');
   klass = input<string>('');
 
-  // ✅ Presence checks only (no `read` needed)
+  // Presence checks only (no `read` needed)
   private headerMarker = contentChild('[tngCardHeader]');
   private footerMarker = contentChild('[tngCardFooter]');
 

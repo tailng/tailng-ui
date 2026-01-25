@@ -37,7 +37,7 @@ export class TailngFilterTriggerDirective {
 
   @HostListener('click')
   onClick(): void {
-    this.table.setFilterPanelKlass(this.panelKlass()); // ✅ store it
+    this.table.setFilterPanelKlass(this.panelKlass()); // store it
     this.table.toggleFilter(this.colId(), this.el.nativeElement);
   }
 
@@ -45,7 +45,7 @@ export class TailngFilterTriggerDirective {
   @HostListener('keydown.space', ['$event'])
   onKey(ev: KeyboardEvent): void {
     ev.preventDefault();
-    this.table.setFilterPanelKlass(this.panelKlass()); // ✅ store it
+    this.table.setFilterPanelKlass(this.panelKlass()); // store it
     this.table.toggleFilter(this.colId(), this.el.nativeElement);
   }
 }

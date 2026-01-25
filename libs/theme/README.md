@@ -18,11 +18,11 @@ npm install @tociva/tailng-theme
 
 ## Features
 
-- 🎨 CSS variable-based theming
-- 📐 Consistent design tokens (colors, spacing, radius)
-- 🔧 Tailwind preset for easy integration
-- 🎯 Type-safe design tokens (TypeScript)
-- 🌓 Light and dark mode support ready
+- CSS variable-based theming
+- Consistent design tokens (colors, spacing, radius)
+- Tailwind preset for easy integration
+- Type-safe design tokens (TypeScript)
+- Light and dark mode support ready
 
 ## Usage
 

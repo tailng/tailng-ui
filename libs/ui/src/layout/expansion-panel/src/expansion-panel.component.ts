@@ -91,18 +91,18 @@ export class TailngExpansionPanelComponent {
     readonly hasCloseIcon = computed(() => !!this.iconClose());
     readonly hasAnyCustomIcon = computed(() => this.hasOpenIcon() || this.hasCloseIcon());
   
-    // ✅ Stable rendering flags (avoid ng-content inside @if)
+    // Stable rendering flags (avoid ng-content inside @if)
     readonly showOpenIcon = computed(() => {
       if (!this.hasAnyCustomIcon()) return false;
       if (this.hasOpenIcon() && this.hasCloseIcon()) return this.isOpen();
-      if (this.hasOpenIcon()) return true; // only open provided → use for both states
+      if (this.hasOpenIcon()) return true; // only open provided -> use for both states
       return false;
     });
   
     readonly showCloseIcon = computed(() => {
       if (!this.hasAnyCustomIcon()) return false;
       if (this.hasOpenIcon() && this.hasCloseIcon()) return !this.isOpen();
-      if (this.hasCloseIcon()) return true; // only close provided → use for both states
+      if (this.hasCloseIcon()) return true; // only close provided -> use for both states
       return false;
     });
   

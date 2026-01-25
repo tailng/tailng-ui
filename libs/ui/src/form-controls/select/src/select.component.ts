@@ -60,7 +60,7 @@ export class TailngSelectComponent<T> implements ControlValueAccessor {
   @ViewChild('triggerEl', { static: true })
   triggerEl!: ElementRef<HTMLElement>;
 
-  // ✅ Delegate list navigation keys to OptionList
+  // Delegate list navigation keys to OptionList
   @ViewChild(TailngOptionListComponent)
   optionList?: TailngOptionListComponent<T>;
 
@@ -256,7 +256,7 @@ export class TailngSelectComponent<T> implements ControlValueAccessor {
     // Delegate list-navigation keys to OptionList (including Enter)
     if (!this.isListNavigationKey(ev)) return;
 
-    // ⚠️ DO NOT preventDefault here — OptionList ignores defaultPrevented events
+    // WARNING: DO NOT preventDefault here — OptionList ignores defaultPrevented events
     ev.stopPropagation();
     this.optionList?.onKeydown(ev);
   }

@@ -25,7 +25,7 @@ export class TailngDividerComponent {
   gapKlass = input<string>('my-4');
   thicknessKlass = input<string>('border-t');
 
-  /** ✅ NEW: vertical height that does NOT depend on parent height */
+  /** NEW: vertical height that does NOT depend on parent height */
   verticalHeightKlass = input<string>('h-6');
 
   readonly isVertical = computed(() => this.orientation() === 'vertical');
@@ -42,7 +42,7 @@ export class TailngDividerComponent {
     const style = this.dashed() ? 'border-dashed' : 'border-solid';
 
     if (this.isVertical()) {
-      // ✅ Always visible: w-px + explicit height
+      // Always visible: w-px + explicit height
       return (
         `w-px ${this.verticalHeightKlass()} self-stretch shrink-0 ` +
         `border-l ${style} ${this.lineKlass()}`

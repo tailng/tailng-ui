@@ -35,7 +35,7 @@ export type TngOptionListKeyStroke = {
   templateUrl: './option-list.component.html',
 })
 export class TailngOptionListComponent<T> {
-  // ✅ IMPORTANT: because #listbox is under @if branches (modal/non-modal),
+  // IMPORTANT: because #listbox is under @if branches (modal/non-modal),
   // keep static:false so Angular always resolves the *current* element.
   @ViewChild('listbox', { read: ElementRef })
   listbox?: ElementRef<HTMLElement>;
@@ -124,7 +124,7 @@ export class TailngOptionListComponent<T> {
 
   constructor() {
     /**
-     * ✅ Scroll follows the controlled `activeIndex`:
+     * Scroll follows the controlled `activeIndex`:
      * This guarantees scrolling even when parent changes activeIndex via:
      * - hover
      * - open() initialization
@@ -305,7 +305,7 @@ export class TailngOptionListComponent<T> {
   }
 
   /**
-   * ✅ Controlled activeIndex
+   * Controlled activeIndex
    * - Emit activeIndexChange (parent owns state)
    * - Scrolling is handled by the effect() reacting to activeIndex()
    */
@@ -315,7 +315,7 @@ export class TailngOptionListComponent<T> {
   }
 
   /**
-   * ✅ Scroll the active option into view.
+   * Scroll the active option into view.
    * Let the browser pick the nearest scrollable ancestor.
    */
   private scrollIndexIntoView(index: number): void {

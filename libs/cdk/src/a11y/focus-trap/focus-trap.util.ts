@@ -27,7 +27,7 @@ export const createTailngFocusTrap = (
       ? null
       : (document.activeElement as HTMLElement | null);
 
-  // ✅ CDK 21: create(element, deferCaptureElements?: boolean)
+  // CDK 21: create(element, deferCaptureElements?: boolean)
   const trap = factory.create(element, !!options.deferCaptureElements);
 
   const activate = () => {

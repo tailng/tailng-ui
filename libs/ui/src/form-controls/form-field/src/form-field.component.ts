@@ -21,7 +21,7 @@ export type TailngFormFieldAppearance = 'outline' | 'filled';
   templateUrl: './form-field.component.html',
 })
 export class TailngFormFieldComponent {
-  // ✅ Get NgControl from projected child (input/select/custom CVA)
+  // Get NgControl from projected child (input/select/custom CVA)
   private readonly ngControl = contentChild(NgControl, { descendants: true });
 
   private readonly destroyRef = inject(DestroyRef);

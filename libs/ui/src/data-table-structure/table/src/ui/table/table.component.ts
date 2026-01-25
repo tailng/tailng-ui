@@ -41,7 +41,7 @@ export class TailngTableComponent<T extends Record<string, any> = any> implement
   readonly rows = input<T[]>([]);
   readonly rowKey = input<string | null>(null);
 
-  /** ✅ Default: client (static) sort */
+  /** Default: client (static) sort */
   readonly sortMode = input<'client' | 'server'>('client');
 
   /** styling */
