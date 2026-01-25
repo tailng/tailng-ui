@@ -22,7 +22,7 @@ const publish = (dir) => {
   const cmd = [
     "npm publish",
     "--access public",
-    `--tag ${npmTag}`,
+    `--tag ${npmTag.trim()}`,
     "--provenance",
   ].join(" ");
 
