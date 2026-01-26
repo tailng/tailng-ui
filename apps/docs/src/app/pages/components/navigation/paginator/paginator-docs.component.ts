@@ -1,20 +1,14 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { ComponentShellComponent } from '../../../../shared/component-shell/component-shell.component';
-import { PaginatorOverviewComponent } from './overview/overview.component';
-import { PaginatorApiComponent } from './api/api.component';
-import { PaginatorStylingComponent } from './styling/styling.component';
-import { PaginatorExamplesComponent } from './examples/examples.component';
 
 @Component({
   standalone: true,
   selector: 'docs-paginator',
   templateUrl: './paginator-docs.component.html',
   imports: [
+    RouterOutlet,
     ComponentShellComponent,
-    PaginatorOverviewComponent,
-    PaginatorApiComponent,
-    PaginatorStylingComponent,
-    PaginatorExamplesComponent,
   ],
 })
 export class PaginatorDocsComponent {}

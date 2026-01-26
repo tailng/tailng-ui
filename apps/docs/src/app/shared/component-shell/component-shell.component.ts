@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
-import {
-  TailngTabsComponent,
-  TailngTabComponent,
-  TailngTabPanelComponent,
-} from '@tociva/tailng-ui';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'docs-component-shell',
   templateUrl: './component-shell.component.html',
-  imports: [TailngTabsComponent, TailngTabComponent, TailngTabPanelComponent],
+  imports: [RouterLink, RouterLinkActive, RouterOutlet],
 })
 export class ComponentShellComponent {}

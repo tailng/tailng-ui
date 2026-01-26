@@ -1,20 +1,14 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { ComponentShellComponent } from '../../../../shared/component-shell/component-shell.component';
-import { TreeOverviewComponent } from './overview/overview.component';
-import { TreeApiComponent } from './api/api.component';
-import { TreeStylingComponent } from './styling/styling.component';
-import { TreeExamplesComponent } from './examples/examples.component';
 
 @Component({
   standalone: true,
   selector: 'docs-tree',
   templateUrl: './tree-docs.component.html',
   imports: [
+    RouterOutlet,
     ComponentShellComponent,
-    TreeOverviewComponent,
-    TreeApiComponent,
-    TreeStylingComponent,
-    TreeExamplesComponent,
   ],
 })
 export class TreeDocsComponent {}

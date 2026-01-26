@@ -1,20 +1,14 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { ComponentShellComponent } from '../../../../shared/component-shell/component-shell.component';
-import { FilterHeaderOverviewComponent } from './overview/overview.component';
-import { FilterHeaderApiComponent } from './api/api.component';
-import { FilterHeaderStylingComponent } from './styling/styling.component';
-import { FilterHeaderExamplesComponent } from './examples/examples.component';
 
 @Component({
   standalone: true,
   selector: 'docs-filter-header',
   templateUrl: './filter-header-docs.component.html',
   imports: [
+    RouterOutlet,
     ComponentShellComponent,
-    FilterHeaderOverviewComponent,
-    FilterHeaderApiComponent,
-    FilterHeaderStylingComponent,
-    FilterHeaderExamplesComponent,
   ],
 })
 export class FilterHeaderDocsComponent {}

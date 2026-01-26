@@ -1,20 +1,14 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { ComponentShellComponent } from '../../../../shared/component-shell/component-shell.component';
-import { RadioButtonOverviewComponent } from './overview/overview.component';
-import { RadioButtonApiComponent } from './api/api.component';
-import { RadioButtonStylingComponent } from './styling/styling.component';
-import { RadioButtonExamplesComponent } from './examples/examples.component';
 
 @Component({
   standalone: true,
   selector: 'docs-radio-button',
   templateUrl: './radio-button-docs.component.html',
   imports: [
+    RouterOutlet,
     ComponentShellComponent,
-    RadioButtonOverviewComponent,
-    RadioButtonApiComponent,
-    RadioButtonStylingComponent,
-    RadioButtonExamplesComponent,
   ],
 })
 export class RadioButtonDocsComponent {}

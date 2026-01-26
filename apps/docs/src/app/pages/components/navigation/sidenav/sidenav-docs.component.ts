@@ -1,20 +1,14 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { ComponentShellComponent } from '../../../../shared/component-shell/component-shell.component';
-import { SidenavOverviewComponent } from './overview/overview.component';
-import { SidenavApiComponent } from './api/api.component';
-import { SidenavStylingComponent } from './styling/styling.component';
-import { SidenavExamplesComponent } from './examples/examples.component';
 
 @Component({
   standalone: true,
   selector: 'docs-sidenav',
   templateUrl: './sidenav-docs.component.html',
   imports: [
+    RouterOutlet,
     ComponentShellComponent,
-    SidenavOverviewComponent,
-    SidenavApiComponent,
-    SidenavStylingComponent,
-    SidenavExamplesComponent,
   ],
 })
 export class SidenavDocsComponent {}

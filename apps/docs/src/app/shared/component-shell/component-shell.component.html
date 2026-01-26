@@ -1,74 +1,44 @@
-<tng-tabs
-  defaultValue="overview"
-  rootKlass="px-5 pt-5"
-  listKlass="inline-flex gap-10 p-0 w-full border-b cursor-pointer"
-  panelKlass="pt-4"
->
-  <tng-tab
-    value="overview"
-    tabKlass="px-3 py-1.5 text-sm font-medium"
-    activeKlass="border-b-2 border-primary"
-    inactiveKlass="text-slate-600 hover:text-slate-900"
-  >
-    <div class="min-w-40 text-center pb-1">
+<div class="px-5 pt-5">
+  <!-- Tab Navigation -->
+  <nav class="inline-flex gap-10 p-0 w-full border-b">
+    <a
+      routerLink="overview"
+      routerLinkActive="border-b-2 border-primary"
+      [routerLinkActiveOptions]="{ exact: false }"
+      class="px-3 py-1.5 text-sm font-medium min-w-40 text-center pb-1 text-slate-600 hover:text-slate-900"
+    >
       OVERVIEW
-    </div>
-  </tng-tab>
-
-  <tng-tab
-    value="api"
-    tabKlass="px-3 py-1.5 text-sm font-medium"
-    activeKlass="border-b-2 border-primary"
-    inactiveKlass="text-slate-600 hover:text-slate-900"
-  >
-    <div class="min-w-40 text-center pb-1">
+    </a>
+    <a
+      routerLink="api"
+      routerLinkActive="border-b-2 border-primary"
+      [routerLinkActiveOptions]="{ exact: false }"
+      class="px-3 py-1.5 text-sm font-medium min-w-40 text-center pb-1 text-slate-600 hover:text-slate-900"
+    >
       API
-    </div>
-  </tng-tab>
-
-  <tng-tab
-    value="styling"
-    tabKlass="px-3 py-1.5 text-sm font-medium"
-    activeKlass="border-b-2 border-primary"
-    inactiveKlass="text-slate-600 hover:text-slate-900"
-  >
-    <div class="min-w-40 text-center pb-1">
+    </a>
+    <a
+      routerLink="styling"
+      routerLinkActive="border-b-2 border-primary"
+      [routerLinkActiveOptions]="{ exact: false }"
+      class="px-3 py-1.5 text-sm font-medium min-w-40 text-center pb-1 text-slate-600 hover:text-slate-900"
+    >
       STYLING
-    </div>
-  </tng-tab>
-
-  <tng-tab
-    value="examples"
-    tabKlass="px-3 py-1.5 text-sm font-medium"
-    activeKlass="border-b-2 border-primary"
-    inactiveKlass="text-slate-600 hover:text-slate-900"
-  >
-    <div class="min-w-40 text-center pb-1">
+    </a>
+    <a
+      routerLink="examples"
+      routerLinkActive="border-b-2 border-primary"
+      [routerLinkActiveOptions]="{ exact: false }"
+      class="px-3 py-1.5 text-sm font-medium min-w-40 text-center pb-1 text-slate-600 hover:text-slate-900"
+    >
       EXAMPLES
-    </div>
-  </tng-tab>
+    </a>
+  </nav>
 
-  <tng-tab-panel value="overview">
+  <!-- Content Area -->
+  <div class="pt-4">
     <div class="bg-background p-4">
-      <ng-content select="[overview]"></ng-content>
+      <router-outlet />
     </div>
-  </tng-tab-panel>
-
-  <tng-tab-panel value="api">
-    <div class="bg-background p-4">
-      <ng-content select="[api]"></ng-content>
-    </div>
-  </tng-tab-panel>
-
-  <tng-tab-panel value="styling">
-    <div class="bg-background p-4">
-      <ng-content select="[styling]"></ng-content>
-    </div>
-  </tng-tab-panel>
-
-  <tng-tab-panel value="examples">
-    <div class="bg-background p-4">
-      <ng-content select="[examples]"></ng-content>
-    </div>
-  </tng-tab-panel>
-</tng-tabs>
+  </div>
+</div>
