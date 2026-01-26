@@ -1,1 +1,332 @@
-Examples content.
+<section class="space-y-6">
+  <!-- Basic Usage -->
+  <div class="rounded-xl border border-border bg-background p-6 shadow-sm space-y-4">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-foreground">Basic Usage</h3>
+      <tng-badge variant="neutral">standalone</tng-badge>
+    </div>
+
+    <p class="text-sm text-muted">
+      The simplest way to use <span class="font-mono text-foreground">tng-text-input</span> is as a standalone component
+      with a placeholder.
+    </p>
+
+    <div class="grid gap-4 lg:grid-cols-2">
+      <div class="space-y-2">
+        <label class="text-xs font-semibold text-muted">Example</label>
+        <tng-text-input placeholder="Enter text..." />
+      </div>
+
+      <div>
+        <label class="text-xs font-semibold text-muted mb-2 block">Code</label>
+        <tng-code-block [content]="basicExample()" [highlighter]="highlighter" language="html" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Reactive Forms -->
+  <div class="rounded-xl border border-border bg-background p-6 shadow-sm space-y-4">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-foreground">Reactive Forms Integration</h3>
+      <tng-badge variant="neutral">reactive forms</tng-badge>
+    </div>
+
+    <p class="text-sm text-muted">
+      The component implements <span class="font-mono text-foreground">ControlValueAccessor</span>, making it fully
+      compatible with Angular's reactive forms. Use <span class="font-mono text-foreground">formControlName</span> to
+      bind it to a form control.
+    </p>
+
+    <div class="grid gap-4 lg:grid-cols-2">
+      <div class="space-y-4">
+        <label class="text-xs font-semibold text-muted">Example</label>
+        <form [formGroup]="form" class="space-y-4">
+          <div class="space-y-2">
+            <label class="text-xs font-semibold text-muted">Email</label>
+            <tng-text-input
+              formControlName="email"
+              placeholder="Enter email"
+              type="email"
+            />
+            @if (emailCtrl.touched && emailCtrl.invalid) {
+              <p class="text-xs text-red-600 mt-1">
+                @if (emailCtrl.hasError('required')) {
+                  Email is required
+                } @else if (emailCtrl.hasError('email')) {
+                  Please enter a valid email
+                }
+              </p>
+            }
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-xs font-semibold text-muted">Password</label>
+            <tng-text-input
+              formControlName="password"
+              placeholder="Enter password"
+              type="password"
+            />
+            @if (passwordCtrl.touched && passwordCtrl.invalid) {
+              <p class="text-xs text-red-600 mt-1">
+                @if (passwordCtrl.hasError('required')) {
+                  Password is required
+                } @else if (passwordCtrl.hasError('minlength')) {
+                  Password must be at least 8 characters
+                }
+              </p>
+            }
+          </div>
+
+            <div class="space-y-2">
+             <label class="text-xs font-semibold text-muted">Search</label>
+            <tng-text-input
+              formControlName="search"
+              placeholder="Search..."
+              type="search"
+            >
+              <tng-icon
+                tngPrefix
+                name="bootstrapSearch"
+                class="ml-3 text-muted"
+              />
+              @if (hasSearchValue()) {
+                <tng-icon
+                  tngSuffix
+                  name="bootstrapX"
+                  class="mr-3 text-muted cursor-pointer hover:text-foreground"
+                  (click)="clearSearch()"
+                />
+              }
+            </tng-text-input>
+          </div>
+        </form>
+      </div>
+
+      <div>
+        <label class="text-xs font-semibold text-muted mb-2 block">Code</label>
+        <tng-code-block [content]="reactiveFormsExample()" [highlighter]="highlighter" language="html" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Prefix and Suffix -->
+  <div class="rounded-xl border border-border bg-background p-6 shadow-sm space-y-4">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-foreground">Prefix and Suffix Icons</h3>
+      <tng-badge variant="neutral">content projection</tng-badge>
+    </div>
+
+    <p class="text-sm text-muted">
+      Use <span class="font-mono text-foreground">tngPrefix</span> and
+      <span class="font-mono text-foreground">tngSuffix</span> directives to project icons or other content before or
+      after the input field.
+    </p>
+
+    <div class="grid gap-4 lg:grid-cols-2">
+      <div class="space-y-4">
+        <label class="text-xs font-semibold text-muted">Examples</label>
+        <div class="space-y-3">
+          <tng-text-input placeholder="Search...">
+            <tng-icon
+              tngPrefix
+              name="bootstrapSearch"
+              class="ml-3 text-muted"
+            />
+          </tng-text-input>
+
+          <tng-text-input placeholder="Enter email">
+            <tng-icon
+              tngSuffix
+              name="bootstrapCheck"
+              class="mr-3 text-green-600"
+            />
+          </tng-text-input>
+
+          <tng-text-input placeholder="Search users...">
+            <tng-icon
+              tngPrefix
+              name="bootstrapSearch"
+              class="ml-3 text-muted"
+            />
+            <tng-icon
+              tngSuffix
+              name="bootstrapX"
+              class="mr-3 text-red-500"
+            />
+          </tng-text-input>
+        </div>
+      </div>
+
+      <div>
+        <label class="text-xs font-semibold text-muted mb-2 block">Code</label>
+        <tng-code-block [content]="prefixSuffixExample()" [highlighter]="highlighter" language="html" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Input Types -->
+  <div class="rounded-xl border border-border bg-background p-6 shadow-sm space-y-4">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-foreground">Input Types</h3>
+      <tng-badge variant="neutral">type attribute</tng-badge>
+    </div>
+
+    <p class="text-sm text-muted">
+      The component supports various HTML input types via the <span class="font-mono text-foreground">type</span> input.
+      Supported types: <span class="font-mono text-foreground">text</span>,
+      <span class="font-mono text-foreground">email</span>, <span class="font-mono text-foreground">password</span>,
+      <span class="font-mono text-foreground">search</span>, <span class="font-mono text-foreground">tel</span>, and
+      <span class="font-mono text-foreground">url</span>.
+    </p>
+
+    <div class="grid gap-4 lg:grid-cols-2">
+      <div class="space-y-3">
+        <label class="text-xs font-semibold text-muted">Examples</label>
+        <tng-text-input placeholder="Enter name" type="text" />
+        <tng-text-input placeholder="Enter email" type="email" />
+        <tng-text-input placeholder="Enter password" type="password" />
+        <tng-text-input placeholder="Search..." type="search" />
+        <tng-text-input placeholder="Enter URL" type="url" />
+        <tng-text-input placeholder="Enter phone number" type="tel" />
+      </div>
+
+      <div>
+        <label class="text-xs font-semibold text-muted mb-2 block">Code</label>
+        <tng-code-block [content]="inputTypesExample()" [highlighter]="highlighter" language="html" />
+      </div>
+    </div>
+  </div>
+
+  <!-- States -->
+  <div class="rounded-xl border border-border bg-background p-6 shadow-sm space-y-4">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-foreground">Input States</h3>
+      <tng-badge variant="neutral">disabled / readonly</tng-badge>
+    </div>
+
+    <p class="text-sm text-muted">
+      Control the input state using <span class="font-mono text-foreground">disabled</span> and
+      <span class="font-mono text-foreground">readonly</span> inputs.
+    </p>
+
+    <div class="grid gap-4 lg:grid-cols-2">
+      <div class="space-y-3">
+        <label class="text-xs font-semibold text-muted">Examples</label>
+        <tng-text-input placeholder="Disabled input" [disabled]="true" />
+        <form [formGroup]="form">
+          <tng-text-input
+            formControlName="readonlyValue"
+            placeholder="Readonly input"
+            [readonly]="true"
+          />
+          <tng-text-input
+            formControlName="prefilledValue"
+            placeholder="Enter text"
+          />
+        </form>
+      </div>
+
+      <div>
+        <label class="text-xs font-semibold text-muted mb-2 block">Code</label>
+        <tng-code-block [content]="statesExample()" [highlighter]="highlighter" language="html" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Validation -->
+  <div class="rounded-xl border border-border bg-background p-6 shadow-sm space-y-4">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-foreground">Form Validation</h3>
+      <tng-badge variant="neutral">validators</tng-badge>
+    </div>
+
+    <p class="text-sm text-muted">
+      The component works seamlessly with Angular validators. Use built-in validators like
+      <span class="font-mono text-foreground">Validators.required</span>,
+      <span class="font-mono text-foreground">Validators.email</span>,
+      <span class="font-mono text-foreground">Validators.minLength</span>, and
+      <span class="font-mono text-foreground">Validators.pattern</span>.
+    </p>
+
+    <div class="grid gap-4 lg:grid-cols-2">
+      <div class="space-y-2">
+        <label class="text-xs font-semibold text-muted">Example</label>
+        <form [formGroup]="form" class="space-y-4">
+          <div class="space-y-2">
+            <label class="text-xs font-semibold text-muted">Username (3-20 chars, alphanumeric + underscore)</label>
+            <tng-text-input
+              formControlName="username"
+              placeholder="Username"
+              [minlength]="3"
+              [maxlength]="20"
+              pattern="^[a-zA-Z0-9_]+$"
+            />
+            @if (form.controls.username.touched && form.controls.username.invalid) {
+              <div class="text-xs text-red-600 mt-1">
+                @if (form.controls.username.hasError('required')) {
+                  Username is required
+                } @else if (form.controls.username.hasError('minlength')) {
+                  Username must be at least 3 characters
+                } @else if (form.controls.username.hasError('maxlength')) {
+                  Username must be no more than 20 characters
+                } @else if (form.controls.username.hasError('pattern')) {
+                  Username can only contain letters, numbers, and underscores
+                }
+              </div>
+            }
+          </div>
+        </form>
+      </div>
+
+      <div>
+        <label class="text-xs font-semibold text-muted mb-2 block">Code</label>
+        <tng-code-block [content]="validationExample()" [highlighter]="highlighter" language="html" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Styling -->
+  <div class="rounded-xl border border-border bg-background p-6 shadow-sm space-y-4">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-foreground">Custom Styling</h3>
+      <tng-badge variant="neutral">klass hooks</tng-badge>
+    </div>
+
+    <p class="text-sm text-muted">
+      Customize the appearance using klass hooks: <span class="font-mono text-foreground">rootKlass</span>,
+      <span class="font-mono text-foreground">inputKlass</span>, <span class="font-mono text-foreground">prefixKlass</span>,
+      and <span class="font-mono text-foreground">suffixKlass</span>.
+    </p>
+
+    <div class="grid gap-4 lg:grid-cols-2">
+      <div class="space-y-2">
+        <label class="text-xs font-semibold text-muted">Example</label>
+        <tng-text-input
+          placeholder="Custom styled input"
+          rootKlass="border-2 border-purple-500 rounded-xl shadow-lg"
+          inputKlass="text-purple-700 placeholder:text-purple-300"
+        >
+          <tng-icon
+            tngPrefix
+            name="bootstrapSearch"
+            class="ml-3 text-purple-600"
+          />
+        </tng-text-input>
+      </div>
+
+      <div>
+        <label class="text-xs font-semibold text-muted mb-2 block">Code</label>
+        <tng-code-block [content]="customStylingExample()" [highlighter]="highlighter" language="html" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Note -->
+  <div class="rounded-xl border border-border bg-alternate-background p-5">
+    <p class="text-sm text-muted">
+      <strong>Tip:</strong> The component handles IME composition events correctly, making it safe for languages like
+      Japanese, Chinese, and Korean. The input value is only updated when composition is complete, preventing
+      intermediate states from triggering validation or form updates.
+    </p>
+  </div>
+</section>

@@ -2,7 +2,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { provideIcons } from '@ng-icons/core';
 import { provideAppInitializer, inject } from '@angular/core';
-import { bootstrapList, bootstrapSearch, bootstrapGithub, bootstrapCheck } from '@ng-icons/bootstrap-icons';
+import { bootstrapList, bootstrapSearch, bootstrapGithub, bootstrapCheck, bootstrapX } from '@ng-icons/bootstrap-icons';
 
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
@@ -15,7 +15,8 @@ bootstrapApplication(AppComponent, {
       bootstrapList,
       bootstrapSearch,
       bootstrapGithub,
-      bootstrapCheck
+      bootstrapCheck,
+      bootstrapX,
     }),
 
     provideAppInitializer(() => {
