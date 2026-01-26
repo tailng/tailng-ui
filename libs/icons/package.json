@@ -1,6 +1,6 @@
 {
   "name": "@tociva/tailng-icons",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Angular icon components for Tailng",
   "license": "MIT",
   "sideEffects": false,
