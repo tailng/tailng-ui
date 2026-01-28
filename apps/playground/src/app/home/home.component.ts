@@ -43,6 +43,7 @@ export const categories = [
       { name: 'Ripples', route: '/buttons/ripples', status: 'done', priority: 'low' },
       { name: 'Progress Bar', route: '/buttons/progress-bar', status: 'done', priority: 'medium' },
       { name: 'Progress Spinner', route: '/buttons/progress-spinner', status: 'done', priority: 'medium' },
+      { name: 'Tag', route: '/buttons/tag', status: 'done', priority: 'low' },
 
       // Missing but essential indicators
       { name: 'Skeleton', route: '/buttons/skeleton', status: 'done', priority: 'medium' },

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TailngIconComponent } from '@tociva/tailng-icons';
-import { TailngBadgeComponent, TailngTextInputComponent } from '@tociva/tailng-ui';
+import { TailngBadgeComponent, TailngTextInputComponent, TailngTagComponent } from '@tociva/tailng-ui';
 
 @Component({
   standalone: true,
@@ -9,7 +9,8 @@ import { TailngBadgeComponent, TailngTextInputComponent } from '@tociva/tailng-u
   imports: [
     TailngIconComponent,
     TailngTextInputComponent,
-    TailngBadgeComponent
-    ],
+    TailngBadgeComponent,
+    TailngTagComponent
+],
 })
 export class TextInputOverviewComponent {}

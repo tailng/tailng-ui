@@ -162,6 +162,13 @@ export const routes: Routes = [
         (m) => m.SkeletonDemoComponent
       ),
   },
+   {
+    path: 'buttons/tag',
+    loadComponent: () =>
+      import('./demos/buttons-indicators/tag/tag-demo.component').then(
+        (m) => m.TagDemoComponent
+      ),
+  },
   // Layout
   {
     path: 'layout/card',
