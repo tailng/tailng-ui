@@ -1,7 +1,7 @@
 <div>
   <div class="mb-8">
-    <h1 class="text-3xl font-bold mb-2">TailNG Components</h1>
-    <p class="text-gray-600">
+    <h1 class="text-3xl font-bold mb-2 text-text">TailNG Components</h1>
+    <p class="text-disable">
       Explore all available components in the TailNG library. Click on any component to view its demo.
     </p>
   </div>
@@ -9,7 +9,7 @@
   <div class="space-y-8">
     @for (category of categories; track category) {
       <div class="space-y-4">
-        <h2 class="text-xl font-semibold text-gray-800 border-b border-gray-200 pb-2">
+        <h2 class="text-xl font-semibold text-text border-b border-border pb-2">
           {{ category.name }}
         </h2>
 
@@ -17,26 +17,26 @@
           @for (component of category.components; track component) {
             <a
               [routerLink]="component.route"
-              class="group relative bg-white border rounded-lg p-4
+              class="group relative bg-background border rounded-lg p-4
                 hover:shadow-md transition-all duration-200 hover:-translate-y-1
-                hover:border-primary border-gray-200"
+                hover:border-primary border-border"
             >
               @if (component.status === 'backlog') {
-                <span class="absolute top-2 right-2 text-xs px-2 py-0.5 rounded bg-red-50 text-red-600">
+                <span class="absolute top-2 right-2 text-xs px-2 py-0.5 rounded bg-danger/10 text-danger">
                   Backlog
                 </span>
               } @else if (component.status === 'in-progress') {
-                <span class="absolute top-2 right-2 text-xs px-2 py-0.5 rounded bg-yellow-50 text-yellow-600">
+                <span class="absolute top-2 right-2 text-xs px-2 py-0.5 rounded bg-warning/10 text-warning">
                   In Progress
                 </span>
               }
 
               <div class="flex items-center justify-between">
-                <h3 class="text-base font-medium text-gray-900 group-hover:text-primary transition-colors">
+                <h3 class="text-base font-medium text-text group-hover:text-primary transition-colors">
                   {{ component.name }}
                 </h3>
                 <svg
-                  class="w-5 h-5 text-gray-400 group-hover:text-primary transition-colors"
+                  class="w-5 h-5 text-disable group-hover:text-primary transition-colors"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
