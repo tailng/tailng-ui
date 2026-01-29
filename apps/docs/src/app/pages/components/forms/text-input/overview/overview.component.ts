@@ -9,7 +9,6 @@ import { TailngBadgeComponent, TailngTextInputComponent, TailngTagComponent } fr
   imports: [
     TailngIconComponent,
     TailngTextInputComponent,
-    TailngBadgeComponent,
     TailngTagComponent
 ],
 })

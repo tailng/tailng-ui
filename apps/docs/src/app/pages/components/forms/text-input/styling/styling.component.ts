@@ -1,5 +1,5 @@
-import { Component, computed, inject } from '@angular/core';
-import { TailngCodeBlockComponent, TailngTextInputComponent, TailngBadgeComponent } from '@tociva/tailng-ui';
+import { Component, computed, inject, input, signal } from '@angular/core';
+import { TailngCodeBlockComponent, TailngTextInputComponent, TailngBadgeComponent, TailngCopyButtonComponent, TailngTabComponent, TailngTabPanelComponent, TailngTabsComponent } from '@tociva/tailng-ui';
 import { TailngIconComponent } from '@tociva/tailng-icons';
 import { ShikiHighlighterService } from '../../../../../shared/shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../../../shared/tng-shiki.adapter';
@@ -13,16 +13,30 @@ import { TngShikiAdapter } from '../../../../../shared/tng-shiki.adapter';
     TailngTextInputComponent,
     TailngIconComponent,
     TailngBadgeComponent,
-  ],
+    TailngTabComponent,
+    TailngTabsComponent,
+    TailngTabPanelComponent,
+    TailngCopyButtonComponent
+   
+],
 })
 export class TextInputStylingComponent {
   private shiki = inject(ShikiHighlighterService);
   readonly highlighter = new TngShikiAdapter(this.shiki);
+  isCodeExpanded = signal(false);
+
+  toggleCode() {
+    this.isCodeExpanded.update((v) => !v);
+  }
+  
+  // readonly code = signal(`npm install @tociva/tailng-ui`);
+
   readonly rootKlassExample = computed(() => `<tng-text-input
   placeholder="Custom root styling"
   rootKlass="border-2 border-blue-500 rounded-lg shadow-md"
 />
 `);
+ 
 
   readonly inputKlassExample = computed(() => `<tng-text-input
   placeholder="Custom input styling"
@@ -91,4 +105,5 @@ export class TextInputStylingComponent {
   />
 </tng-text-input>
 `);
+
 }

@@ -3,11 +3,13 @@
   <div class="rounded-xl border border-border bg-background p-6 shadow-sm space-y-3">
     <h2 class="text-base font-semibold text-foreground">Styling</h2>
     <p class="text-sm leading-6 text-muted">
-      The <span class="font-mono text-foreground">tng-text-input</span> component provides four klass hooks for
-      customizing different parts of the input: <span class="font-mono text-foreground">rootKlass</span>,
-      <span class="font-mono text-foreground">inputKlass</span>, <span class="font-mono text-foreground">prefixKlass</span>,
-      and <span class="font-mono text-foreground">suffixKlass</span>. Each hook targets a specific element in the
-      component structure.
+      The <span class="font-mono text-foreground">tng-text-input</span> component provides four
+      klass hooks for customizing different parts of the input:
+      <span class="font-mono text-foreground">rootKlass</span>,
+      <span class="font-mono text-foreground">inputKlass</span>,
+      <span class="font-mono text-foreground">prefixKlass</span>, and
+      <span class="font-mono text-foreground">suffixKlass</span>. Each hook targets a specific
+      element in the component structure.
     </p>
   </div>
 
@@ -19,30 +21,141 @@
     </div>
 
     <p class="text-sm text-muted">
-      The <span class="font-mono text-foreground">rootKlass</span> input applies classes to the root wrapper
-      <span class="font-mono text-foreground">&lt;div&gt;</span> that contains the entire input structure. Use this for
-      styling the container: borders, background, rounded corners, shadows, and focus ring styles.
+      The <span class="font-mono text-foreground">rootKlass</span> input applies classes to the root
+      wrapper <span class="font-mono text-foreground">&lt;div&gt;</span> that contains the entire
+      input structure. Use this for styling the container: borders, background, rounded corners,
+      shadows, and focus ring styles.
     </p>
 
-    <div class="grid gap-4 lg:grid-cols-2">
-      <div class="space-y-2">
-        <label class="text-xs font-semibold text-muted">Example</label>
-        <tng-text-input
-          placeholder="Custom root styling"
-          rootKlass="border-2 border-blue-500 rounded-lg shadow-md"
-        />
+    <div class="relative border-2 rounded-lg p-4">
+      <!-- Header row -->
+      <div class="flex items-center justify-between mb-2">
+        <h2 class="font-semibold">Example</h2>
+
+        <div class="flex items-center gap-2">
+          <button class="p-2 rounded hover:bg-gray-100" title="Copy link">
+            <tng-icon name="bootstrapLink45deg"></tng-icon>
+          </button>
+
+          <button class="p-2 rounded hover:bg-gray-100" title="View code" (click)="toggleCode()">
+            <tng-icon [name]="isCodeExpanded() ? 'bootstrapCodeSlash' : 'bootstrapCode'"></tng-icon>
+          </button>
+
+          <button class="p-2 rounded hover:bg-gray-100" title="Share">
+            <tng-icon name="bootstrapShare"></tng-icon>
+          </button>
+        </div>
       </div>
 
-      <div>
-        <label class="text-xs font-semibold text-muted mb-2 block">Code</label>
-        <tng-code-block [content]="rootKlassExample()" [highlighter]="highlighter" language="html" />
-      </div>
+      <!-- Content -->
+      @if (isCodeExpanded()) {
+        <div>
+          <tng-tabs defaultValue="html">
+            <tng-tab
+              value="html"
+              tabKlass="px-3 py-2 text-sm font-medium cursor-pointer"
+              activeKlass="text-primary border-b-2 border-primary"
+              inactiveKlass="text-muted-foreground hover:text-foreground hover:bg-gray-50"
+              >HTML</tng-tab
+            >
+            <tng-tab
+              value="ts"
+              tabKlass="px-3 py-2 text-sm font-medium cursor-pointer"
+              activeKlass="text-primary border-b-2 border-primary"
+              inactiveKlass="text-muted-foreground hover:text-foreground hover:bg-gray-50"
+              >TS</tng-tab
+            >
+            <tng-tab
+              value="css"
+              tabKlass="px-3 py-2 text-sm font-medium cursor-pointer"
+              activeKlass="text-primary border-b-2 border-primary"
+              inactiveKlass="text-muted-foreground hover:text-foreground hover:bg-gray-50"
+              >CSS</tng-tab
+            >
+
+            <tng-tab-panel value="html" linkKlass="w-40">
+              <div class="relative">
+                <!-- Code block -->
+                <tng-code-block
+                  [content]="inputKlassExample()"
+                  [highlighter]="highlighter"
+                  language="html"
+                  preKlass="bg-white"
+                  rootKlass="border-0 border-t-transparent"
+                ></tng-code-block>
+
+                <!-- Copy button -->
+                <div class="absolute top-2 right-2">
+                  <tng-copy-button>
+                    <tng-icon name="bootstrapCopy"></tng-icon>
+                    <span tngCopied>
+                      <i class="bi bi-check2"></i>
+                      <span>Copied successfully!</span>
+                    </span>
+                  </tng-copy-button>
+                </div>
+              </div>
+            </tng-tab-panel>
+
+            <tng-tab-panel value="ts">
+              <div class="relative">
+                <tng-code-block
+                  [content]="prefixKlassExample()"
+                  [highlighter]="highlighter"
+                  languageKlass="hidden"
+                  language="html"
+                  preKlass="bg-white"
+                  rootKlass=" border-0 border-t-transparent"
+                >
+                </tng-code-block>
+                <div class="absolute top-2 right-2">
+                  <tng-copy-button>
+                    <tng-icon name="bootstrapCopy"></tng-icon>
+                    <span tngCopied>
+                      <i class="bi bi-check2"></i>
+                      <span>Copied successfully!</span>
+                    </span>
+                  </tng-copy-button>
+                </div>
+              </div>
+            </tng-tab-panel>
+
+            <tng-tab-panel value="css">
+              <div class="relative">
+                <tng-code-block
+                  [highlighter]="highlighter"
+                  languageKlass="hidden"
+                  language="html"
+                  preKlass="bg-white"
+                  rootKlass=" border-0 border-t-transparent"
+                />
+                <div class="absolute top-2 right-2">
+                  <tng-copy-button>
+                    <tng-icon name="bootstrapCopy"></tng-icon>
+                    <span tngCopied>
+                      <i class="bi bi-check2"></i>
+                      <span>Copied successfully!</span>
+                    </span>
+                  </tng-copy-button>
+                </div>
+              </div>
+            </tng-tab-panel>
+          </tng-tabs>
+        </div>
+      } @else {
+        <div class="my-2">
+          <tng-text-input
+            placeholder="Custom root styling"
+            rootKlass="border-2 border-blue-500 rounded-lg shadow-md"
+          />
+        </div>
+      }
     </div>
 
     <div class="rounded-lg border border-border bg-alternate-background p-4 text-sm text-muted">
       <strong>Tip:</strong> The default root classes include focus ring styling. When overriding
-      <span class="font-mono text-foreground">rootKlass</span>, you may want to include your own focus states for
-      consistency.
+      <span class="font-mono text-foreground">rootKlass</span>, you may want to include your own
+      focus states for consistency.
     </div>
   </div>
 
@@ -54,9 +167,9 @@
     </div>
 
     <p class="text-sm text-muted">
-      The <span class="font-mono text-foreground">inputKlass</span> input applies classes directly to the
-      <span class="font-mono text-foreground">&lt;input&gt;</span> element. Use this for text styling, padding
-      adjustments, placeholder styling, and other input-specific customizations.
+      The <span class="font-mono text-foreground">inputKlass</span> input applies classes directly
+      to the <span class="font-mono text-foreground">&lt;input&gt;</span> element. Use this for text
+      styling, padding adjustments, placeholder styling, and other input-specific customizations.
     </p>
 
     <div class="grid gap-4 lg:grid-cols-2">
@@ -70,13 +183,18 @@
 
       <div>
         <label class="text-xs font-semibold text-muted mb-2 block">Code</label>
-        <tng-code-block [content]="inputKlassExample()" [highlighter]="highlighter" language="html" />
+        <tng-code-block
+          [content]="inputKlassExample()"
+          [highlighter]="highlighter"
+          language="html"
+        />
       </div>
     </div>
 
     <div class="rounded-lg border border-border bg-alternate-background p-4 text-sm text-muted">
-      <strong>Note:</strong> The default input classes include <span class="font-mono text-foreground">px-3</span> for
-      horizontal padding. Adjust this if you need different spacing.
+      <strong>Note:</strong> The default input classes include
+      <span class="font-mono text-foreground">px-3</span> for horizontal padding. Adjust this if you
+      need different spacing.
     </div>
   </div>
 
@@ -88,9 +206,10 @@
     </div>
 
     <p class="text-sm text-muted">
-      The <span class="font-mono text-foreground">prefixKlass</span> input applies classes to the wrapper
-      <span class="font-mono text-foreground">&lt;span&gt;</span> that contains projected prefix content. Use this for
-      styling the prefix area: background colors, borders, or other visual treatments.
+      The <span class="font-mono text-foreground">prefixKlass</span> input applies classes to the
+      wrapper <span class="font-mono text-foreground">&lt;span&gt;</span> that contains projected
+      prefix content. Use this for styling the prefix area: background colors, borders, or other
+      visual treatments.
     </p>
 
     <div class="grid gap-4 lg:grid-cols-2">
@@ -98,38 +217,32 @@
         <div class="space-y-2">
           <label class="text-xs font-semibold text-muted">Default</label>
           <tng-text-input placeholder="Search...">
-            <tng-icon
-              tngPrefix
-              name="bootstrapSearch"
-              class="ml-3 text-muted"
-            />
+            <tng-icon tngPrefix name="bootstrapSearch" class="ml-3 text-muted" />
           </tng-text-input>
         </div>
 
         <div class="space-y-2">
           <label class="text-xs font-semibold text-muted">With custom prefixKlass</label>
-          <tng-text-input
-            placeholder="Search..."
-            prefixKlass="bg-blue-50 rounded-l-md"
-          >
-            <tng-icon
-              tngPrefix
-              name="bootstrapSearch"
-              class="ml-3 text-blue-600"
-            />
+          <tng-text-input placeholder="Search..." prefixKlass="bg-blue-50 rounded-l-md">
+            <tng-icon tngPrefix name="bootstrapSearch" class="ml-3 text-blue-600" />
           </tng-text-input>
         </div>
       </div>
 
       <div>
         <label class="text-xs font-semibold text-muted mb-2 block">Code</label>
-        <tng-code-block [content]="prefixKlassExample()" [highlighter]="highlighter" language="html" />
+        <tng-code-block
+          [content]="prefixKlassExample()"
+          [highlighter]="highlighter"
+          language="html"
+        />
       </div>
     </div>
 
     <div class="rounded-lg border border-border bg-alternate-background p-4 text-sm text-muted">
-      <strong>Important:</strong> Spacing for prefix content (like <span class="font-mono text-foreground">ml-3</span>)
-      should be applied to the projected element itself, not the prefix wrapper.
+      <strong>Important:</strong> Spacing for prefix content (like
+      <span class="font-mono text-foreground">ml-3</span>) should be applied to the projected
+      element itself, not the prefix wrapper.
     </div>
   </div>
 
@@ -141,9 +254,10 @@
     </div>
 
     <p class="text-sm text-muted">
-      The <span class="font-mono text-foreground">suffixKlass</span> input applies classes to the wrapper
-      <span class="font-mono text-foreground">&lt;span&gt;</span> that contains projected suffix content. Use this for
-      styling the suffix area: background colors, borders, or other visual treatments.
+      The <span class="font-mono text-foreground">suffixKlass</span> input applies classes to the
+      wrapper <span class="font-mono text-foreground">&lt;span&gt;</span> that contains projected
+      suffix content. Use this for styling the suffix area: background colors, borders, or other
+      visual treatments.
     </p>
 
     <div class="grid gap-4 lg:grid-cols-2">
@@ -151,38 +265,32 @@
         <div class="space-y-2">
           <label class="text-xs font-semibold text-muted">Default</label>
           <tng-text-input placeholder="Enter email">
-            <tng-icon
-              tngSuffix
-              name="bootstrapCheck"
-              class="mr-3 text-green-600"
-            />
+            <tng-icon tngSuffix name="bootstrapCheck" class="mr-3 text-green-600" />
           </tng-text-input>
         </div>
 
         <div class="space-y-2">
           <label class="text-xs font-semibold text-muted">With custom suffixKlass</label>
-          <tng-text-input
-            placeholder="Enter email"
-            suffixKlass="bg-green-50 rounded-r-md"
-          >
-            <tng-icon
-              tngSuffix
-              name="bootstrapCheck"
-              class="mr-3 text-green-600"
-            />
+          <tng-text-input placeholder="Enter email" suffixKlass="bg-green-50 rounded-r-md">
+            <tng-icon tngSuffix name="bootstrapCheck" class="mr-3 text-green-600" />
           </tng-text-input>
         </div>
       </div>
 
       <div>
         <label class="text-xs font-semibold text-muted mb-2 block">Code</label>
-        <tng-code-block [content]="suffixKlassExample()" [highlighter]="highlighter" language="html" />
+        <tng-code-block
+          [content]="suffixKlassExample()"
+          [highlighter]="highlighter"
+          language="html"
+        />
       </div>
     </div>
 
     <div class="rounded-lg border border-border bg-alternate-background p-4 text-sm text-muted">
-      <strong>Important:</strong> Spacing for suffix content (like <span class="font-mono text-foreground">mr-3</span>)
-      should be applied to the projected element itself, not the suffix wrapper.
+      <strong>Important:</strong> Spacing for suffix content (like
+      <span class="font-mono text-foreground">mr-3</span>) should be applied to the projected
+      element itself, not the suffix wrapper.
     </div>
   </div>
 
@@ -194,8 +302,8 @@
     </div>
 
     <p class="text-sm text-muted">
-      You can combine all klass hooks together to create fully customized inputs. Here's an example using all four
-      hooks:
+      You can combine all klass hooks together to create fully customized inputs. Here's an example
+      using all four hooks:
     </p>
 
     <div class="grid gap-4 lg:grid-cols-2">
@@ -208,16 +316,8 @@
           prefixKlass="bg-purple-50"
           suffixKlass="bg-purple-50"
         >
-          <tng-icon
-            tngPrefix
-            name="bootstrapSearch"
-            class="ml-3 text-purple-600"
-          />
-          <tng-icon
-            tngSuffix
-            name="bootstrapCheck"
-            class="mr-3 text-purple-600"
-          />
+          <tng-icon tngPrefix name="bootstrapSearch" class="ml-3 text-purple-600" />
+          <tng-icon tngSuffix name="bootstrapCheck" class="mr-3 text-purple-600" />
         </tng-text-input>
       </div>
 
@@ -236,35 +336,37 @@
       <li class="flex items-start gap-2">
         <span class="text-foreground">•</span>
         <span>
-          Use <span class="font-mono text-foreground">rootKlass</span> for container-level styling (borders, shadows,
-          focus rings)
+          Use <span class="font-mono text-foreground">rootKlass</span> for container-level styling
+          (borders, shadows, focus rings)
         </span>
       </li>
       <li class="flex items-start gap-2">
         <span class="text-foreground">•</span>
         <span>
-          Use <span class="font-mono text-foreground">inputKlass</span> for text and input-specific styling
+          Use <span class="font-mono text-foreground">inputKlass</span> for text and input-specific
+          styling
         </span>
       </li>
       <li class="flex items-start gap-2">
         <span class="text-foreground">•</span>
         <span>
           Apply spacing classes (e.g., <span class="font-mono text-foreground">ml-3</span>,
-          <span class="font-mono text-foreground">mr-3</span>) to projected elements, not the klass wrappers
+          <span class="font-mono text-foreground">mr-3</span>) to projected elements, not the klass
+          wrappers
         </span>
       </li>
       <li class="flex items-start gap-2">
         <span class="text-foreground">•</span>
         <span>
-          When overriding <span class="font-mono text-foreground">rootKlass</span>, consider including focus states
-          for accessibility
+          When overriding <span class="font-mono text-foreground">rootKlass</span>, consider
+          including focus states for accessibility
         </span>
       </li>
       <li class="flex items-start gap-2">
         <span class="text-foreground">•</span>
         <span>
-          The component merges your klass inputs with default classes, so you only need to override what you want to
-          change
+          The component merges your klass inputs with default classes, so you only need to override
+          what you want to change
         </span>
       </li>
     </ul>

@@ -4,17 +4,7 @@
   <div class="text-sm text-gray-700">Simple tag display with toggle state</div>
 
   <div class="flex items-center space-x-4">
-    <button
-      (click)="toggleDisabled()"
-      class="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 transition-colors"
-    >
-      Toggle Status: {{ isDisabled() ? 'Disabled' : 'Enabled' }}
-    </button>
-
-    <!-- Conditional Tag Display -->
-    @if (isDisabled()) {
-      <tng-tag text="Sample Demo" description="This tag shows only when disabled"></tng-tag>
-    }
+    <tng-tag label="Sample Demo"></tng-tag>
   </div>
 
   <!-- Always visible tag -->
@@ -23,9 +13,8 @@
 
     <div class="mt-2">
       <tng-tag
-        text="Sample Demo"
+        label="Sample Demo"
         disabled="true"
-        description="This tag is always disabled"
       ></tng-tag>
     </div>
   </div>
@@ -35,19 +24,19 @@
     <div class="text-sm font-medium text-gray-700 mb-2">Color for each tag:</div>
     <div class="flex flex-wrap gap-4">
       <div class="flex flex-col items-start">
-        <tng-tag text="Default" color="default"></tng-tag>
+        <tng-tag label="Default" color="default"></tng-tag>
         <span class="text-xs text-gray-500 mt-1">Default tag for neutral use</span>
       </div>
       <div class="flex flex-col items-start">
-        <tng-tag text="Primary" color="primary"></tng-tag>
+        <tng-tag label="Primary" color="primary"></tng-tag>
         <span class="text-xs text-gray-500 mt-1">Primary tag for main actions</span>
       </div>
       <div class="flex flex-col items-start">
-        <tng-tag text="Danger" color="danger"></tng-tag>
+        <tng-tag label="Danger" color="danger"></tng-tag>
         <span class="text-xs text-gray-500 mt-1">Danger tag for warnings</span>
       </div>
       <div class="flex flex-col items-start">
-        <tng-tag text="Success" color="success"></tng-tag>
+        <tng-tag label="Success" color="success"></tng-tag>
         <span class="text-xs text-gray-500 mt-1">Success tag for positive info</span>
       </div>
     </div>
