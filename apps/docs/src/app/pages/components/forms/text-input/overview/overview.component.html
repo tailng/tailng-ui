@@ -1,113 +1,151 @@
-<section class="space-y-6">
-  <!-- Intro card -->
-  <div class="rounded-xl border border-border bg-background p-6 shadow-sm space-y-3">
-    <h2 class="text-base font-semibold text-foreground">Overview</h2>
+<div class="grid grid-cols-1 md:grid-cols-[10fr_auto_1fr] gap-5">
+  
+  <section class="space-y-6">
+    <!-- Intro card -->
 
-    <p class="text-sm leading-6 text-muted">
-      <span class="font-mono text-foreground">tng-text-input</span> is a standalone input component
-      that implements <span class="font-mono text-foreground">ControlValueAccessor</span> for
-      Angular forms. It supports prefix/suffix projection, IME-safe typing, and Tailng’s klass-based
-      theming.
-    </p>
+    <div class="rounded-xl border border-border bg-background p-6 shadow-sm space-y-3">
+      <h2 class="text-base font-semibold text-foreground">Overview</h2>
 
-    <div class="flex flex-wrap gap-2 pt-1">
-      <tng-tag text="CVA" color="primary"></tng-tag>
-      <tng-tag text="IME safe" color="default"></tng-tag>
-      <tng-tag text="Prefix/Suffix" color="success"></tng-tag>
-      <tng-tag text="Klass hooks" color="danger"></tng-tag>
-      <tng-tag text="Standalone"></tng-tag>
+      <p class="text-sm leading-6 text-muted">
+        <span class="font-mono text-foreground">tng-text-input</span> is a standalone input
+        component that implements
+        <span class="font-mono text-foreground">ControlValueAccessor</span> for Angular forms. It
+        supports prefix/suffix projection, IME-safe typing, and Tailng’s klass-based theming.
+      </p>
 
-      
-    </div>
-  </div>
-
-  <!-- Quick example -->
-
-  <div class="relative rounded-xl border border-border p-4 shadow-sm space-y-2">
-    <tng-badge
-      value="Reactive Forms"
-      variant="primary"
-      rootKlass="block"
-      size="md"
-      badgeKlass="inline-flex px-3 py-2 max-w-[10rem] whitespace-nowrap overflow-hidden text-ellipsis"
-      hostKlass="absolute top-0 right-20"
-    >
-    </tng-badge>
-
-    <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-foreground">Quick example</h3>
-    </div>
-
-    <div class="grid gap-4 sm:grid-cols-2">
-      <div class="space-y-2">
-        <label class="text-xs font-semibold text-muted">Basic</label>
-        <tng-text-input placeholder="Enter text..." />
-        <p class="text-xs text-muted">
-          Works with <span class="font-mono text-foreground">formControlName</span> and
-          template-driven forms.
-        </p>
-      </div>
-
-      <div class="space-y-2">
-        <label class="text-xs font-semibold text-muted">Search with prefix</label>
-        <tng-text-input placeholder="Search…">
-          <tng-icon tngPrefix name="bootstrapSearch" class="ml-3 text-muted"> </tng-icon>
-        </tng-text-input>
-        <p class="text-xs text-muted">
-          Use <span class="font-mono text-foreground">[tngPrefix]</span> and
-          <span class="font-mono text-foreground">[tngSuffix]</span> for icons/actions.
-        </p>
+      <div class="flex flex-wrap gap-2 pt-1">
+        <tng-tag label="CVA" color="default"></tng-tag>
+        <tng-tag label="IME safe" color="default"></tng-tag>
+        <tng-tag label="Prefix/Suffix" color="default"></tng-tag>
+        <tng-tag label="Klass hooks" color="default"></tng-tag>
+        <tng-tag label="Standalone" color="default"></tng-tag>
       </div>
     </div>
-  </div>
 
-  <!-- Feature list -->
-  <div class="rounded-xl border border-border bg-background p-6 shadow-sm space-y-4">
-    <h3 class="text-sm font-semibold text-foreground">Features</h3>
+    <!-- Quick example -->
 
-    <div class="grid gap-3 sm:grid-cols-2">
-      <div class="rounded-lg border border-border bg-alternate-background p-4 space-y-1">
-        <div class="text-sm font-semibold text-foreground">IME-safe input</div>
-        <p class="text-xs leading-5 text-muted">
-          Handles composition events correctly for languages like Japanese, Chinese, and Korean.
-        </p>
+    <div class="relative rounded-xl border border-border p-4 shadow-sm space-y-2">
+              <div class="flex justify-end">
+  <tng-tag label="Reactive Forms" color="default"></tng-tag>
+</div>
+
+
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-semibold text-foreground">Quick example</h3>
       </div>
 
-      <div class="rounded-lg border border-border bg-alternate-background p-4 space-y-1">
-        <div class="text-sm font-semibold text-foreground">Prefix / Suffix slots</div>
-        <p class="text-xs leading-5 text-muted">
-          Project icons or actions before/after the input using
-          <span class="font-mono text-foreground">tngPrefix</span> /
-          <span class="font-mono text-foreground">tngSuffix</span>.
-        </p>
-      </div>
+      <div class="grid gap-4 sm:grid-cols-1">
+        <div class="space-y-2">
+          <label class="text-xs font-semibold text-muted">Basic</label>
+          <tng-text-input placeholder="Enter text..." />
+          <p class="text-xs text-muted">
+            Works with <span class="font-mono text-foreground">formControlName</span> and
+            template-driven forms.
+          </p>
+        </div>
 
-      <div class="rounded-lg border border-border bg-alternate-background p-4 space-y-1">
-        <div class="text-sm font-semibold text-foreground">Klass theming</div>
-        <p class="text-xs leading-5 text-muted">
-          Customize shell and slots via <span class="font-mono text-foreground">rootKlass</span>,
-          <span class="font-mono text-foreground">inputKlass</span>,
-          <span class="font-mono text-foreground">prefixKlass</span>,
-          <span class="font-mono text-foreground">suffixKlass</span>.
-        </p>
-      </div>
-
-      <div class="rounded-lg border border-border bg-alternate-background p-4 space-y-1">
-        <div class="text-sm font-semibold text-foreground">Forms-ready</div>
-        <p class="text-xs leading-5 text-muted">
-          Full <span class="font-mono text-foreground">ControlValueAccessor</span> integration for
-          reactive and template-driven forms.
-        </p>
+        <div class="space-y-2">
+          <label class="text-xs font-semibold text-muted">Search with prefix</label>
+          <tng-text-input placeholder="Search…">
+            <tng-icon tngPrefix name="bootstrapSearch" class="ml-3 text-muted"> </tng-icon>
+          </tng-text-input>
+          <p class="text-xs text-muted">
+            Use <span class="font-mono text-foreground">[tngPrefix]</span> and
+            <span class="font-mono text-foreground">[tngSuffix]</span> for icons/actions.
+          </p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Note -->
-  <div class="rounded-xl border border-border bg-alternate-background p-5">
-    <p class="text-sm text-muted">
-      Tip: keep projected icon spacing inside the projected elements (e.g.
-      <span class="font-mono text-foreground">ml-3</span> /
-      <span class="font-mono text-foreground">mr-3</span>) for consistent alignment.
-    </p>
-  </div>
-</section>
+    <!-- Feature list -->
+    <div class="rounded-xl border border-border bg-background p-6 shadow-sm space-y-4">
+      <h3 class="text-sm font-semibold text-foreground">Features</h3>
+
+      <div class="grid gap-3 sm:grid-cols-1">
+        <div class="rounded-lg border border-border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-foreground">IME-safe input</div>
+          <p class="text-xs leading-5 text-muted">
+            Handles composition events correctly for languages like Japanese, Chinese, and Korean.
+          </p>
+        </div>
+
+        <div class="rounded-lg border border-border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-foreground">Prefix / Suffix slots</div>
+          <p class="text-xs leading-5 text-muted">
+            Project icons or actions before/after the input using
+            <span class="font-mono text-foreground">tngPrefix</span> /
+            <span class="font-mono text-foreground">tngSuffix</span>.
+          </p>
+        </div>
+
+        <div class="rounded-lg border border-border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-foreground">Klass theming</div>
+          <p class="text-xs leading-5 text-muted">
+            Customize shell and slots via <span class="font-mono text-foreground">rootKlass</span>,
+            <span class="font-mono text-foreground">inputKlass</span>,
+            <span class="font-mono text-foreground">prefixKlass</span>,
+            <span class="font-mono text-foreground">suffixKlass</span>.
+          </p>
+        </div>
+
+        <div class="rounded-lg border border-border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-foreground">Forms-ready</div>
+          <p class="text-xs leading-5 text-muted">
+            Full <span class="font-mono text-foreground">ControlValueAccessor</span> integration for
+            reactive and template-driven forms.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Note -->
+    <div class="rounded-xl border border-border bg-alternate-background p-5">
+      <p class="text-sm text-muted">
+        Tip: keep projected icon spacing inside the projected elements (e.g.
+        <span class="font-mono text-foreground">ml-3</span> /
+        <span class="font-mono text-foreground">mr-3</span>) for consistent alignment.
+      </p>
+    </div>
+  </section>
+  <!--right side content-->
+
+
+  <aside class="hidden md:block p-4 sticky top-4 h-[calc(100vh-1rem)] border-l overflow-y-hidden ml-6">
+        <h3 class="mb-3 text-xs font-semibold tracking-wide">Overview Content</h3>
+
+    <ul class="space-y-2 text-sm text-slate-600">
+      <li class="flex items-center gap-2">
+        <span class="h-1.5 w-1.5 rounded-full bg-slate-400"></span>
+        Simple Overview
+      </li>
+
+      <li class="flex flex-col gap-1">
+        <div class="flex items-center gap-2">
+          <span class="h-1.5 w-1.5 rounded-full bg-slate-400"></span>
+          Quick Example
+        </div>
+
+        <!-- Nested sub-list -->
+        <ul class="ml-6 space-y-1 text-slate-600">
+          <li class="flex items-center gap-2">
+            <span class="h-1 w-1 rounded-full bg-slate-300"></span>
+            Basic
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="h-1 w-1 rounded-full bg-slate-300"></span>
+            Search with prefix
+          </li>
+        </ul>
+      </li>
+
+      <li class="flex items-center gap-2">
+        <span class="h-1.5 w-1.5 rounded-full bg-slate-400"></span>
+        Features
+      </li>
+      <li class="flex items-center gap-2">
+        <span class="h-1.5 w-1.5 rounded-full bg-slate-400"></span>
+        Tips
+      </li>
+    </ul>
+  </aside>
+

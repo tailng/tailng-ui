@@ -8,21 +8,21 @@ type TagColor = 'default' | 'primary' | 'success' | 'danger';
   templateUrl: './tag.component.html',
 })
 export class TailngTagComponent {
-  text = input<string | null>('text');
+  label = input<string | null>('Text');
   disabled = input<boolean>(false);
 
   color = input<TagColor>('default');
 
-  rootKlass = computed(() => {
-    const base = 'inline-flex items-center rounded px-3 py-1 text-sm font-medium border';
+  containerKlass = computed(() => {
+    const base = 'flex items-center rounded-md px-3 py-1 text-xs font-bold';
 
     const disabledClass = this.disabled() ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer';
 
     const colorMap: Record<TagColor, string> = {
-      default: 'bg-gray-100 border-gray-300 text-gray-800',
-      primary: 'bg-blue-100 border-blue-500 text-blue-800',
-      success: 'bg-green-100 border-green-500 text-green-800',
-      danger: 'bg-red-100 border-red-500 text-red-800',
+      default: 'bg-gray-100 text-gray-800 hover:bg-gray-200',
+      primary: 'bg-blue-100 text-blue-800 hover:bg-blue-200',
+      success: 'bg-green-100 text-green-800 hover:bg-green-200',
+      danger: 'bg-red-100 text-red-800 hover:bg-red-200',
     };
 
     return `${base} ${colorMap[this.color()]} ${disabledClass}`;
