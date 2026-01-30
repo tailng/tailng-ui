@@ -66,9 +66,11 @@ export class TailngAutocompleteComponent<T> implements ControlValueAccessor {
   @ViewChild(TailngOptionListComponent)
   optionList?: TailngOptionListComponent<T>;
 
+  
   /* =====================
-   * Inputs / Outputs
-   * ===================== */
+  * Inputs / Outputs
+  * ===================== */
+  readonly inputKlass = input<string>('');
   readonly options = input<T[]>([]);
   readonly placeholder = input<string>('Start typing…');
 
@@ -110,6 +112,10 @@ export class TailngAutocompleteComponent<T> implements ControlValueAccessor {
   readonly showSelectedTpl = computed(
     () => !!this.inputTpl && this.selectedValue() != null && !this.isOpen()
   );
+
+  readonly inputKlassFinal = computed(() =>
+  ['relative z-0 w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background text-text', this.inputKlass()].join(' ')
+  );  
 
   /** Form value (selected item) */
   private value: T | null = null;
