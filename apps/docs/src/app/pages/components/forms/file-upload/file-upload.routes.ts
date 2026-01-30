@@ -9,20 +9,20 @@ export const fileUploadRoutes: Routes = [
   {
     path: 'overview',
     loadComponent: () =>
-      import('./overview/overview.component').then((m) => m.FileUploadOverviewComponent),
+      import('./overview/file-upload-overview.component').then((m) => m.FileUploadOverviewComponent),
   },
   {
     path: 'api',
-    loadComponent: () => import('./api/api.component').then((m) => m.FileUploadApiComponent),
+    loadComponent: () => import('./api/file-upload-api.component').then((m) => m.FileUploadApiComponent),
   },
   {
     path: 'styling',
     loadComponent: () =>
-      import('./styling/styling.component').then((m) => m.FileUploadStylingComponent),
+      import('./styling/file-upload-styling.component').then((m) => m.FileUploadStylingComponent),
   },
   {
     path: 'examples',
     loadComponent: () =>
-      import('./examples/examples.component').then((m) => m.FileUploadExamplesComponent),
+      import('./examples/file-upload-examples.component').then((m) => m.FileUploadExamplesComponent),
   },
 ];

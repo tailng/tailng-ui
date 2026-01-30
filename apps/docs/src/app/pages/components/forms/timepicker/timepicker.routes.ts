@@ -9,20 +9,20 @@ export const timepickerRoutes: Routes = [
   {
     path: 'overview',
     loadComponent: () =>
-      import('./overview/overview.component').then((m) => m.TimepickerOverviewComponent),
+      import('./overview/timepicker-overview.component').then((m) => m.TimepickerOverviewComponent),
   },
   {
     path: 'api',
-    loadComponent: () => import('./api/api.component').then((m) => m.TimepickerApiComponent),
+    loadComponent: () => import('./api/timepicker-api.component').then((m) => m.TimepickerApiComponent),
   },
   {
     path: 'styling',
     loadComponent: () =>
-      import('./styling/styling.component').then((m) => m.TimepickerStylingComponent),
+      import('./styling/timepicker-styling.component').then((m) => m.TimepickerStylingComponent),
   },
   {
     path: 'examples',
     loadComponent: () =>
-      import('./examples/examples.component').then((m) => m.TimepickerExamplesComponent),
+      import('./examples/timepicker-examples.component').then((m) => m.TimepickerExamplesComponent),
   },
 ];

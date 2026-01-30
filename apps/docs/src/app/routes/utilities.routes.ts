@@ -14,22 +14,22 @@ export const utilitiesRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/utilities/code-block/overview/overview.component').then((m) => m.CodeBlockOverviewComponent),
+          import('../pages/components/utilities/code-block/overview/code-block-overview.component').then((m) => m.CodeBlockOverviewComponent),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/utilities/code-block/api/api.component').then((m) => m.CodeBlockApiComponent),
+          import('../pages/components/utilities/code-block/api/code-block-api.component').then((m) => m.CodeBlockApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/utilities/code-block/styling/styling.component').then((m) => m.CodeBlockStylingComponent),
+          import('../pages/components/utilities/code-block/styling/code-block-styling.component').then((m) => m.CodeBlockStylingComponent),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/utilities/code-block/examples/examples.component').then((m) => m.CodeBlockExamplesComponent),
+          import('../pages/components/utilities/code-block/examples/code-block-examples.component').then((m) => m.CodeBlockExamplesComponent),
       },
     ],
     data: { title: 'Code Block – tailng', description: 'Code block component with syntax highlighting support.' },
@@ -47,22 +47,22 @@ export const utilitiesRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/utilities/copy-button/overview/overview.component').then((m) => m.CopyButtonOverviewComponent),
+          import('../pages/components/utilities/copy-button/overview/copy-button-overview.component').then((m) => m.CopyButtonOverviewComponent),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/utilities/copy-button/api/api.component').then((m) => m.CopyButtonApiComponent),
+          import('../pages/components/utilities/copy-button/api/copy-button-api.component').then((m) => m.CopyButtonApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/utilities/copy-button/styling/styling.component').then((m) => m.CopyButtonStylingComponent),
+          import('../pages/components/utilities/copy-button/styling/copy-button-styling.component').then((m) => m.CopyButtonStylingComponent),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/utilities/copy-button/examples/examples.component').then((m) => m.CopyButtonExamplesComponent),
+          import('../pages/components/utilities/copy-button/examples/copy-button-examples.component').then((m) => m.CopyButtonExamplesComponent),
       },
     ],
     data: { title: 'Copy Button – tailng', description: 'Copy-to-clipboard button component.' },

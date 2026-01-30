@@ -9,20 +9,20 @@ export const numberInputRoutes: Routes = [
   {
     path: 'overview',
     loadComponent: () =>
-      import('./overview/overview.component').then((m) => m.NumberInputOverviewComponent),
+      import('./overview/number-input-overview.component').then((m) => m.NumberInputOverviewComponent),
   },
   {
     path: 'api',
-    loadComponent: () => import('./api/api.component').then((m) => m.NumberInputApiComponent),
+    loadComponent: () => import('./api/number-input-api.component').then((m) => m.NumberInputApiComponent),
   },
   {
     path: 'styling',
     loadComponent: () =>
-      import('./styling/styling.component').then((m) => m.NumberInputStylingComponent),
+      import('./styling/number-input-styling.component').then((m) => m.NumberInputStylingComponent),
   },
   {
     path: 'examples',
     loadComponent: () =>
-      import('./examples/examples.component').then((m) => m.NumberInputExamplesComponent),
+      import('./examples/number-input-examples.component').then((m) => m.NumberInputExamplesComponent),
   },
 ];

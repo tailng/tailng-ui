@@ -9,20 +9,20 @@ export const radioButtonRoutes: Routes = [
   {
     path: 'overview',
     loadComponent: () =>
-      import('./overview/overview.component').then((m) => m.RadioButtonOverviewComponent),
+      import('./overview/radio-button-overview.component').then((m) => m.RadioButtonOverviewComponent),
   },
   {
     path: 'api',
-    loadComponent: () => import('./api/api.component').then((m) => m.RadioButtonApiComponent),
+    loadComponent: () => import('./api/radio-button-api.component').then((m) => m.RadioButtonApiComponent),
   },
   {
     path: 'styling',
     loadComponent: () =>
-      import('./styling/styling.component').then((m) => m.RadioButtonStylingComponent),
+      import('./styling/radio-button-styling.component').then((m) => m.RadioButtonStylingComponent),
   },
   {
     path: 'examples',
     loadComponent: () =>
-      import('./examples/examples.component').then((m) => m.RadioButtonExamplesComponent),
+      import('./examples/radio-button-examples.component').then((m) => m.RadioButtonExamplesComponent),
   },
 ];

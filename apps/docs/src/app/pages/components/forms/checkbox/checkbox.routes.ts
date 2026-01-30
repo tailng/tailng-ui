@@ -9,20 +9,20 @@ export const checkboxRoutes: Routes = [
   {
     path: 'overview',
     loadComponent: () =>
-      import('./overview/overview.component').then((m) => m.CheckboxOverviewComponent),
+      import('./overview/checkbox-overview.component').then((m) => m.CheckboxOverviewComponent),
   },
   {
     path: 'api',
-    loadComponent: () => import('./api/api.component').then((m) => m.CheckboxApiComponent),
+    loadComponent: () => import('./api/checkbox-api.component').then((m) => m.CheckboxApiComponent),
   },
   {
     path: 'styling',
     loadComponent: () =>
-      import('./styling/styling.component').then((m) => m.CheckboxStylingComponent),
+      import('./styling/checkbox-styling.component').then((m) => m.CheckboxStylingComponent),
   },
   {
     path: 'examples',
     loadComponent: () =>
-      import('./examples/examples.component').then((m) => m.CheckboxExamplesComponent),
+      import('./examples/checkbox-examples.component').then((m) => m.CheckboxExamplesComponent),
   },
 ];

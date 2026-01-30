@@ -8,18 +8,18 @@ export const selectRoutes: Routes = [
   },
   {
     path: 'overview',
-    loadComponent: () => import('./overview/overview.component').then((m) => m.SelectOverviewComponent),
+    loadComponent: () => import('./overview/select-overview.component').then((m) => m.SelectOverviewComponent),
   },
   {
     path: 'api',
-    loadComponent: () => import('./api/api.component').then((m) => m.SelectApiComponent),
+    loadComponent: () => import('./api/select-api.component').then((m) => m.SelectApiComponent),
   },
   {
     path: 'styling',
-    loadComponent: () => import('./styling/styling.component').then((m) => m.SelectStylingComponent),
+    loadComponent: () => import('./styling/select-styling.component').then((m) => m.SelectStylingComponent),
   },
   {
     path: 'examples',
-    loadComponent: () => import('./examples/examples.component').then((m) => m.SelectExamplesComponent),
+    loadComponent: () => import('./examples/select-examples.component').then((m) => m.SelectExamplesComponent),
   },
 ];

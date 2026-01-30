@@ -16,28 +16,28 @@ export const navigationRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/navigation/breadcrumbs/overview/overview.component').then(
+          import('../pages/components/navigation/breadcrumbs/overview/breadcrumbs-overview.component').then(
             (m) => m.BreadcrumbsOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/navigation/breadcrumbs/api/api.component').then(
+          import('../pages/components/navigation/breadcrumbs/api/breadcrumbs-api.component').then(
             (m) => m.BreadcrumbsApiComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/navigation/breadcrumbs/styling/styling.component').then(
+          import('../pages/components/navigation/breadcrumbs/styling/breadcrumbs-styling.component').then(
             (m) => m.BreadcrumbsStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/navigation/breadcrumbs/examples/examples.component').then(
+          import('../pages/components/navigation/breadcrumbs/examples/breadcrumbs-examples.component').then(
             (m) => m.BreadcrumbsExamplesComponent,
           ),
       },
@@ -57,26 +57,26 @@ export const navigationRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/navigation/drawer/overview/overview.component').then(
+          import('../pages/components/navigation/drawer/overview/drawer-overview.component').then(
             (m) => m.DrawerOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/navigation/drawer/api/api.component').then((m) => m.DrawerApiComponent),
+          import('../pages/components/navigation/drawer/api/drawer-api.component').then((m) => m.DrawerApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/navigation/drawer/styling/styling.component').then(
+          import('../pages/components/navigation/drawer/styling/drawer-styling.component').then(
             (m) => m.DrawerStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/navigation/drawer/examples/examples.component').then(
+          import('../pages/components/navigation/drawer/examples/drawer-examples.component').then(
             (m) => m.DrawerExamplesComponent,
           ),
       },
@@ -96,26 +96,26 @@ export const navigationRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/navigation/menu/overview/overview.component').then(
+          import('../pages/components/navigation/menu/overview/menu-overview.component').then(
             (m) => m.MenuOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/navigation/menu/api/api.component').then((m) => m.MenuApiComponent),
+          import('../pages/components/navigation/menu/api/menu-api.component').then((m) => m.MenuApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/navigation/menu/styling/styling.component').then(
+          import('../pages/components/navigation/menu/styling/menu-styling.component').then(
             (m) => m.MenuStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/navigation/menu/examples/examples.component').then(
+          import('../pages/components/navigation/menu/examples/menu-examples.component').then(
             (m) => m.MenuExamplesComponent,
           ),
       },
@@ -137,28 +137,28 @@ export const navigationRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/navigation/paginator/overview/overview.component').then(
+          import('../pages/components/navigation/paginator/overview/paginator-overview.component').then(
             (m) => m.PaginatorOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/navigation/paginator/api/api.component').then(
+          import('../pages/components/navigation/paginator/api/paginator-api.component').then(
             (m) => m.PaginatorApiComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/navigation/paginator/styling/styling.component').then(
+          import('../pages/components/navigation/paginator/styling/paginator-styling.component').then(
             (m) => m.PaginatorStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/navigation/paginator/examples/examples.component').then(
+          import('../pages/components/navigation/paginator/examples/paginator-examples.component').then(
             (m) => m.PaginatorExamplesComponent,
           ),
       },
@@ -180,28 +180,28 @@ export const navigationRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/navigation/sidenav/overview/overview.component').then(
+          import('../pages/components/navigation/sidenav/overview/sidenav-overview.component').then(
             (m) => m.SidenavOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/navigation/sidenav/api/api.component').then(
+          import('../pages/components/navigation/sidenav/api/sidenav-api.component').then(
             (m) => m.SidenavApiComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/navigation/sidenav/styling/styling.component').then(
+          import('../pages/components/navigation/sidenav/styling/sidenav-styling.component').then(
             (m) => m.SidenavStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/navigation/sidenav/examples/examples.component').then(
+          import('../pages/components/navigation/sidenav/examples/sidenav-examples.component').then(
             (m) => m.SidenavExamplesComponent,
           ),
       },
@@ -223,28 +223,28 @@ export const navigationRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/navigation/stepper/overview/overview.component').then(
+          import('../pages/components/navigation/stepper/overview/stepper-overview.component').then(
             (m) => m.StepperOverviewComponent,
           ),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/navigation/stepper/api/api.component').then(
+          import('../pages/components/navigation/stepper/api/stepper-api.component').then(
             (m) => m.StepperApiComponent,
           ),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/navigation/stepper/styling/styling.component').then(
+          import('../pages/components/navigation/stepper/styling/stepper-styling.component').then(
             (m) => m.StepperStylingComponent,
           ),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/navigation/stepper/examples/examples.component').then(
+          import('../pages/components/navigation/stepper/examples/stepper-examples.component').then(
             (m) => m.StepperExamplesComponent,
           ),
       },

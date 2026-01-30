@@ -9,20 +9,20 @@ export const textInputRoutes: Routes = [
   {
     path: 'overview',
     loadComponent: () =>
-      import('./overview/overview.component').then((m) => m.TextInputOverviewComponent),
+      import('./overview/text-input-overview.component').then((m) => m.TextInputOverviewComponent),
   },
   {
     path: 'api',
-    loadComponent: () => import('./api/api.component').then((m) => m.TextInputApiComponent),
+    loadComponent: () => import('./api/text-input-api.component').then((m) => m.TextInputApiComponent),
   },
   {
     path: 'styling',
     loadComponent: () =>
-      import('./styling/styling.component').then((m) => m.TextInputStylingComponent),
+      import('./styling/text-input-styling.component').then((m) => m.TextInputStylingComponent),
   },
   {
     path: 'examples',
     loadComponent: () =>
-      import('./examples/examples.component').then((m) => m.TextInputExamplesComponent),
+      import('./examples/text-input-examples.component').then((m) => m.TextInputExamplesComponent),
   },
 ];

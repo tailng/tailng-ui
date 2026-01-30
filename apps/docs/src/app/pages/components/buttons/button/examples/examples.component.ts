@@ -1,8 +1,0 @@
-import { Component } from '@angular/core';
-
-@Component({
-  standalone: true,
-  selector: 'docs-button-examples',
-  templateUrl: './examples.component.html',
-})
-export class ButtonExamplesComponent {}

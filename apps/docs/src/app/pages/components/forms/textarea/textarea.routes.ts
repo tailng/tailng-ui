@@ -9,20 +9,20 @@ export const textareaRoutes: Routes = [
   {
     path: 'overview',
     loadComponent: () =>
-      import('./overview/overview.component').then((m) => m.TextareaOverviewComponent),
+      import('./overview/textarea-overview.component').then((m) => m.TextareaOverviewComponent),
   },
   {
     path: 'api',
-    loadComponent: () => import('./api/api.component').then((m) => m.TextareaApiComponent),
+    loadComponent: () => import('./api/textarea-api.component').then((m) => m.TextareaApiComponent),
   },
   {
     path: 'styling',
     loadComponent: () =>
-      import('./styling/styling.component').then((m) => m.TextareaStylingComponent),
+      import('./styling/textarea-styling.component').then((m) => m.TextareaStylingComponent),
   },
   {
     path: 'examples',
     loadComponent: () =>
-      import('./examples/examples.component').then((m) => m.TextareaExamplesComponent),
+      import('./examples/textarea-examples.component').then((m) => m.TextareaExamplesComponent),
   },
 ];

@@ -9,20 +9,20 @@ export const datepickerRoutes: Routes = [
   {
     path: 'overview',
     loadComponent: () =>
-      import('./overview/overview.component').then((m) => m.DatepickerOverviewComponent),
+      import('./overview/datepicker-overview.component').then((m) => m.DatepickerOverviewComponent),
   },
   {
     path: 'api',
-    loadComponent: () => import('./api/api.component').then((m) => m.DatepickerApiComponent),
+    loadComponent: () => import('./api/datepicker-api.component').then((m) => m.DatepickerApiComponent),
   },
   {
     path: 'styling',
     loadComponent: () =>
-      import('./styling/styling.component').then((m) => m.DatepickerStylingComponent),
+      import('./styling/datepicker-styling.component').then((m) => m.DatepickerStylingComponent),
   },
   {
     path: 'examples',
     loadComponent: () =>
-      import('./examples/examples.component').then((m) => m.DatepickerExamplesComponent),
+      import('./examples/datepicker-examples.component').then((m) => m.DatepickerExamplesComponent),
   },
 ];

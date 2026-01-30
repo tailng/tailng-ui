@@ -14,22 +14,22 @@ export const dataRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/data/empty-state/overview/overview.component').then((m) => m.EmptyStateOverviewComponent),
+          import('../pages/components/data/empty-state/overview/empty-state-overview.component').then((m) => m.EmptyStateOverviewComponent),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/data/empty-state/api/api.component').then((m) => m.EmptyStateApiComponent),
+          import('../pages/components/data/empty-state/api/empty-state-api.component').then((m) => m.EmptyStateApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/data/empty-state/styling/styling.component').then((m) => m.EmptyStateStylingComponent),
+          import('../pages/components/data/empty-state/styling/empty-state-styling.component').then((m) => m.EmptyStateStylingComponent),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/data/empty-state/examples/examples.component').then((m) => m.EmptyStateExamplesComponent),
+          import('../pages/components/data/empty-state/examples/empty-state-examples.component').then((m) => m.EmptyStateExamplesComponent),
       },
     ],
     data: { title: 'Empty State – tailng', description: 'Empty state component for no-data situations.' },
@@ -47,22 +47,22 @@ export const dataRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/data/filter-header/overview/overview.component').then((m) => m.FilterHeaderOverviewComponent),
+          import('../pages/components/data/filter-header/overview/filter-header-overview.component').then((m) => m.FilterHeaderOverviewComponent),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/data/filter-header/api/api.component').then((m) => m.FilterHeaderApiComponent),
+          import('../pages/components/data/filter-header/api/filter-header-api.component').then((m) => m.FilterHeaderApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/data/filter-header/styling/styling.component').then((m) => m.FilterHeaderStylingComponent),
+          import('../pages/components/data/filter-header/styling/filter-header-styling.component').then((m) => m.FilterHeaderStylingComponent),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/data/filter-header/examples/examples.component').then((m) => m.FilterHeaderExamplesComponent),
+          import('../pages/components/data/filter-header/examples/filter-header-examples.component').then((m) => m.FilterHeaderExamplesComponent),
       },
     ],
     data: { title: 'Filter Header – tailng', description: 'Filter header for tables and lists.' },
@@ -80,22 +80,22 @@ export const dataRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/data/sort-header/overview/overview.component').then((m) => m.SortHeaderOverviewComponent),
+          import('../pages/components/data/sort-header/overview/sort-header-overview.component').then((m) => m.SortHeaderOverviewComponent),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/data/sort-header/api/api.component').then((m) => m.SortHeaderApiComponent),
+          import('../pages/components/data/sort-header/api/sort-header-api.component').then((m) => m.SortHeaderApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/data/sort-header/styling/styling.component').then((m) => m.SortHeaderStylingComponent),
+          import('../pages/components/data/sort-header/styling/sort-header-styling.component').then((m) => m.SortHeaderStylingComponent),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/data/sort-header/examples/examples.component').then((m) => m.SortHeaderExamplesComponent),
+          import('../pages/components/data/sort-header/examples/sort-header-examples.component').then((m) => m.SortHeaderExamplesComponent),
       },
     ],
     data: { title: 'Sort Header – tailng', description: 'Sortable header for tables.' },
@@ -113,22 +113,22 @@ export const dataRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/data/table/overview/overview.component').then((m) => m.TableOverviewComponent),
+          import('../pages/components/data/table/overview/table-overview.component').then((m) => m.TableOverviewComponent),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/data/table/api/api.component').then((m) => m.TableApiComponent),
+          import('../pages/components/data/table/api/table-api.component').then((m) => m.TableApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/data/table/styling/styling.component').then((m) => m.TableStylingComponent),
+          import('../pages/components/data/table/styling/table-styling.component').then((m) => m.TableStylingComponent),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/data/table/examples/examples.component').then((m) => m.TableExamplesComponent),
+          import('../pages/components/data/table/examples/table-examples.component').then((m) => m.TableExamplesComponent),
       },
     ],
     data: { title: 'Table – tailng', description: 'Basic data table component.' },
@@ -146,22 +146,22 @@ export const dataRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/data/tree/overview/overview.component').then((m) => m.TreeOverviewComponent),
+          import('../pages/components/data/tree/overview/tree-overview.component').then((m) => m.TreeOverviewComponent),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/data/tree/api/api.component').then((m) => m.TreeApiComponent),
+          import('../pages/components/data/tree/api/tree-api.component').then((m) => m.TreeApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/data/tree/styling/styling.component').then((m) => m.TreeStylingComponent),
+          import('../pages/components/data/tree/styling/tree-styling.component').then((m) => m.TreeStylingComponent),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/data/tree/examples/examples.component').then((m) => m.TreeExamplesComponent),
+          import('../pages/components/data/tree/examples/tree-examples.component').then((m) => m.TreeExamplesComponent),
       },
     ],
     data: { title: 'Tree – tailng', description: 'Tree component for hierarchical data.' },
@@ -179,22 +179,22 @@ export const dataRoutes: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('../pages/components/data/virtual-scroll/overview/overview.component').then((m) => m.VirtualScrollOverviewComponent),
+          import('../pages/components/data/virtual-scroll/overview/virtual-scroll-overview.component').then((m) => m.VirtualScrollOverviewComponent),
       },
       {
         path: 'api',
         loadComponent: () =>
-          import('../pages/components/data/virtual-scroll/api/api.component').then((m) => m.VirtualScrollApiComponent),
+          import('../pages/components/data/virtual-scroll/api/virtual-scroll-api.component').then((m) => m.VirtualScrollApiComponent),
       },
       {
         path: 'styling',
         loadComponent: () =>
-          import('../pages/components/data/virtual-scroll/styling/styling.component').then((m) => m.VirtualScrollStylingComponent),
+          import('../pages/components/data/virtual-scroll/styling/virtual-scroll-styling.component').then((m) => m.VirtualScrollStylingComponent),
       },
       {
         path: 'examples',
         loadComponent: () =>
-          import('../pages/components/data/virtual-scroll/examples/examples.component').then((m) => m.VirtualScrollExamplesComponent),
+          import('../pages/components/data/virtual-scroll/examples/virtual-scroll-examples.component').then((m) => m.VirtualScrollExamplesComponent),
       },
     ],
     data: { title: 'Virtual Scroll – tailng', description: 'Virtual scrolling for large lists.' },

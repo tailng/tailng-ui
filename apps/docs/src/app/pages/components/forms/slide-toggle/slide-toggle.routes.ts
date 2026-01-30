@@ -9,20 +9,20 @@ export const slideToggleRoutes: Routes = [
   {
     path: 'overview',
     loadComponent: () =>
-      import('./overview/overview.component').then((m) => m.SlideToggleOverviewComponent),
+      import('./overview/slide-toggle-overview.component').then((m) => m.SlideToggleOverviewComponent),
   },
   {
     path: 'api',
-    loadComponent: () => import('./api/api.component').then((m) => m.SlideToggleApiComponent),
+    loadComponent: () => import('./api/slide-toggle-api.component').then((m) => m.SlideToggleApiComponent),
   },
   {
     path: 'styling',
     loadComponent: () =>
-      import('./styling/styling.component').then((m) => m.SlideToggleStylingComponent),
+      import('./styling/slide-toggle-styling.component').then((m) => m.SlideToggleStylingComponent),
   },
   {
     path: 'examples',
     loadComponent: () =>
-      import('./examples/examples.component').then((m) => m.SlideToggleExamplesComponent),
+      import('./examples/slide-toggle-examples.component').then((m) => m.SlideToggleExamplesComponent),
   },
 ];

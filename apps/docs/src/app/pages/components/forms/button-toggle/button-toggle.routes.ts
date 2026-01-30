@@ -9,20 +9,20 @@ export const buttonToggleRoutes: Routes = [
   {
     path: 'overview',
     loadComponent: () =>
-      import('./overview/overview.component').then((m) => m.ButtonToggleOverviewComponent),
+      import('./overview/button-toggle-overview.component').then((m) => m.ButtonToggleOverviewComponent),
   },
   {
     path: 'api',
-    loadComponent: () => import('./api/api.component').then((m) => m.ButtonToggleApiComponent),
+    loadComponent: () => import('./api/button-toggle-api.component').then((m) => m.ButtonToggleApiComponent),
   },
   {
     path: 'styling',
     loadComponent: () =>
-      import('./styling/styling.component').then((m) => m.ButtonToggleStylingComponent),
+      import('./styling/button-toggle-styling.component').then((m) => m.ButtonToggleStylingComponent),
   },
   {
     path: 'examples',
     loadComponent: () =>
-      import('./examples/examples.component').then((m) => m.ButtonToggleExamplesComponent),
+      import('./examples/button-toggle-examples.component').then((m) => m.ButtonToggleExamplesComponent),
   },
 ];

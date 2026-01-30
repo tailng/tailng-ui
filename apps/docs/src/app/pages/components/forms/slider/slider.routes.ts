@@ -8,18 +8,18 @@ export const sliderRoutes: Routes = [
   },
   {
     path: 'overview',
-    loadComponent: () => import('./overview/overview.component').then((m) => m.SliderOverviewComponent),
+    loadComponent: () => import('./overview/slider-overview.component').then((m) => m.SliderOverviewComponent),
   },
   {
     path: 'api',
-    loadComponent: () => import('./api/api.component').then((m) => m.SliderApiComponent),
+    loadComponent: () => import('./api/slider-api.component').then((m) => m.SliderApiComponent),
   },
   {
     path: 'styling',
-    loadComponent: () => import('./styling/styling.component').then((m) => m.SliderStylingComponent),
+    loadComponent: () => import('./styling/slider-styling.component').then((m) => m.SliderStylingComponent),
   },
   {
     path: 'examples',
-    loadComponent: () => import('./examples/examples.component').then((m) => m.SliderExamplesComponent),
+    loadComponent: () => import('./examples/slider-examples.component').then((m) => m.SliderExamplesComponent),
   },
 ];

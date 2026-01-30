@@ -8,18 +8,18 @@ export const chipsRoutes: Routes = [
   },
   {
     path: 'overview',
-    loadComponent: () => import('./overview/overview.component').then((m) => m.ChipsOverviewComponent),
+    loadComponent: () => import('./overview/chips-overview.component').then((m) => m.ChipsOverviewComponent),
   },
   {
     path: 'api',
-    loadComponent: () => import('./api/api.component').then((m) => m.ChipsApiComponent),
+    loadComponent: () => import('./api/chips-api.component').then((m) => m.ChipsApiComponent),
   },
   {
     path: 'styling',
-    loadComponent: () => import('./styling/styling.component').then((m) => m.ChipsStylingComponent),
+    loadComponent: () => import('./styling/chips-styling.component').then((m) => m.ChipsStylingComponent),
   },
   {
     path: 'examples',
-    loadComponent: () => import('./examples/examples.component').then((m) => m.ChipsExamplesComponent),
+    loadComponent: () => import('./examples/chips-examples.component').then((m) => m.ChipsExamplesComponent),
   },
 ];
