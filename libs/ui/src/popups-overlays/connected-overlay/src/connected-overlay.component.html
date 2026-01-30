@@ -1,5 +1,11 @@
 @if (open() && anchorEl()) {
-  <!-- Backdrop is optional; for "field popups" we usually don't use a visible backdrop. -->
+  @if (hasBackdrop()) {
+    <div
+      [class]="backdropClass()"
+      (pointerdown)="onBackdropPointerDown($event)"
+      aria-hidden="true"
+    ></div>
+  }
 
   <div
     #overlayRoot

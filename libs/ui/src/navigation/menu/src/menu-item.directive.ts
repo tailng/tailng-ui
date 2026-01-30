@@ -6,7 +6,6 @@ import { TailngMenuComponent } from './menu.component';
   standalone: true,
 })
 export class TailngMenuItemDirective {
-  // Optional injection without parameter decorators
   private readonly menu = inject(TailngMenuComponent, { optional: true });
 
   @HostListener('click')

@@ -19,6 +19,7 @@ export type TngOverlayPlacement =
 
 export type TngOverlayCloseReason =
   | 'outside-click'
+  | 'inside-click'
   | 'escape'
   | 'programmatic'
   | 'detach';
@@ -33,33 +34,40 @@ export class TailngConnectedOverlayComponent {
   /**
    * Control
    */
-  open = input<boolean>(false);
+  readonly open = input<boolean>(false);
 
   /**
    * Anchor: pass either ElementRef<HTMLElement> or HTMLElement
    * Example: [anchor]="inputEl" where inputEl is ElementRef<HTMLInputElement>
    */
-  anchor = input<ElementRef<HTMLElement> | HTMLElement | null>(null);
+  readonly anchor = input<ElementRef<HTMLElement> | HTMLElement | null>(null);
 
   /**
    * Position / size
    */
-  placement = input<TngOverlayPlacement>('bottom-start');
-  offset = input<number>(6);
-  width = input<'anchor' | number>('anchor');
+  readonly placement = input<TngOverlayPlacement>('bottom-start');
+  readonly offset = input<number>(6);
+  readonly width = input<'anchor' | number>('anchor');
 
   /**
    * Close behavior
    */
-  closeOnOutsideClick = input<boolean>(true);
-  closeOnInsideClick = input<boolean>(true);
-  closeOnEscape = input<boolean>(true);
+  readonly closeOnOutsideClick = input<boolean>(true);
+  readonly closeOnInsideClick = input<boolean>(true);
+  readonly closeOnEscape = input<boolean>(true);
+
+  /**
+   * Backdrop (modal semantics)
+   */
+  readonly hasBackdrop = input<boolean>(false);
+  readonly backdropClass = input<string>('fixed inset-0 bg-black/40 z-[999]');
 
   /**
    * Events
    */
-  opened = output<void>();
-  closed = output<TngOverlayCloseReason>();
+  readonly opened = output<void>();
+  readonly closed = output<TngOverlayCloseReason>();
+  readonly backdropClick = output<void>();
 
   @ViewChild('overlayRoot', { static: false })
   private overlayRoot?: ElementRef<HTMLElement>;
@@ -73,10 +81,13 @@ export class TailngConnectedOverlayComponent {
   // Cache whether we already emitted "opened" for current open cycle
   private didEmitOpened = false;
 
+  // RAF guard for resize/scroll repositioning
+  private raf = 0;
+
   /**
    * Resolve anchor element
    */
-  anchorEl = computed<HTMLElement | null>(() => {
+  readonly anchorEl = computed<HTMLElement | null>(() => {
     const a = this.anchor();
     if (!a) return null;
     return a instanceof ElementRef ? a.nativeElement : a;
@@ -85,7 +96,7 @@ export class TailngConnectedOverlayComponent {
   /**
    * Overlay style for template
    */
-  overlayStyle = computed(() => {
+  readonly overlayStyle = computed(() => {
     const top = this.topPx();
     const left = this.leftPx();
     const width = this.widthPx();
@@ -110,7 +121,13 @@ export class TailngConnectedOverlayComponent {
         return;
       }
 
+      // Initial calc
       this.updatePosition();
+
+      // Recalc after content renders so we can measure height (top placements + clamping)
+      queueMicrotask(() => {
+        if (this.open()) this.updatePosition();
+      });
 
       if (!this.didEmitOpened) {
         this.didEmitOpened = true;
@@ -122,17 +139,15 @@ export class TailngConnectedOverlayComponent {
   /**
    * Public API: parent can call close programmatically (optional)
    */
-  close(reason: TngOverlayCloseReason = 'programmatic') {
-    // This component is controlled via [open],
-    // so we cannot set open() here (input is readonly).
-    // We just emit a close reason; parent should set open=false.
+  close(reason: TngOverlayCloseReason = 'programmatic'): void {
+    // Controlled component: parent must set [open]=false.
     this.closed.emit(reason);
   }
 
   /**
    * Recompute overlay position
    */
-  updatePosition() {
+  updatePosition(): void {
     const anchor = this.anchorEl();
     if (!anchor) {
       this.close('detach');
@@ -141,8 +156,9 @@ export class TailngConnectedOverlayComponent {
 
     const rect = anchor.getBoundingClientRect();
     const offset = this.offset();
+    const placement = this.placement();
 
-    // Determine width
+    // Determine width setting (style)
     const w = this.width();
     if (w === 'anchor') {
       this.minWidthPx.set(rect.width);
@@ -155,7 +171,12 @@ export class TailngConnectedOverlayComponent {
       this.widthPx.set(null);
     }
 
-    const placement = this.placement();
+    // Measure panel if present
+    const panelEl = this.overlayRoot?.nativeElement ?? null;
+    const panelRect = panelEl?.getBoundingClientRect() ?? null;
+
+    const panelW = panelRect?.width ?? this.getOverlayWidthForPosition(rect);
+    const panelH = panelRect?.height ?? 0;
 
     // Position calculation (viewport coords; overlay is `position: fixed`)
     let top = 0;
@@ -169,37 +190,71 @@ export class TailngConnectedOverlayComponent {
 
       case 'bottom-end':
         top = rect.bottom + offset;
-        left = rect.right - rect.width;
+        left = rect.right - panelW;
         break;
 
       case 'top-start':
-        top = rect.top - offset;
+        top = rect.top - offset - panelH;
         left = rect.left;
         break;
 
       case 'top-end':
-        top = rect.top - offset;
-        left = rect.right - rect.width;
+        top = rect.top - offset - panelH;
+        left = rect.right - panelW;
         break;
     }
 
-    // Basic viewport clamping (v1)
+    // Viewport clamping
     const pad = 8;
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
-    left = Math.max(pad, Math.min(left, vw - pad));
-    top = Math.max(pad, Math.min(top, vh - pad));
+    const maxLeft = Math.max(pad, vw - pad - panelW);
+    const maxTop = Math.max(pad, vh - pad - panelH);
+
+    left = Math.max(pad, Math.min(left, maxLeft));
+    top = Math.max(pad, Math.min(top, maxTop));
 
     this.leftPx.set(left);
     this.topPx.set(top);
+  }
+
+  private getOverlayWidthForPosition(anchorRect: DOMRect): number {
+    const w = this.width();
+    if (w === 'anchor') return anchorRect.width;
+    if (typeof w === 'number') return w;
+
+    // fallback: use rendered width if available, else anchor width
+    return this.overlayRoot?.nativeElement?.getBoundingClientRect().width ?? anchorRect.width;
+  }
+
+  private requestReposition(): void {
+    if (this.raf) return;
+    this.raf = requestAnimationFrame(() => {
+      this.raf = 0;
+      if (this.open()) this.updatePosition();
+    });
+  }
+
+  /**
+   * Backdrop pointerdown (if enabled)
+   */
+  onBackdropPointerDown(ev: PointerEvent): void {
+    if (!this.open()) return;
+
+    ev.preventDefault();
+    this.backdropClick.emit();
+
+    if (this.closeOnOutsideClick()) {
+      this.close('outside-click');
+    }
   }
 
   /**
    * Close on escape
    */
   @HostListener('document:keydown', ['$event'])
-  onDocKeydown(ev: KeyboardEvent) {
+  onDocKeydown(ev: KeyboardEvent): void {
     if (!this.open()) return;
     if (!this.closeOnEscape()) return;
 
@@ -214,7 +269,7 @@ export class TailngConnectedOverlayComponent {
    * Use pointerdown so it works for mouse/touch/pen and is earlier than click.
    */
   @HostListener('document:pointerdown', ['$event'])
-  onDocPointerDown(ev: PointerEvent) {
+  onDocPointerDown(ev: PointerEvent): void {
     if (!this.open()) return;
 
     const target = ev.target as Node | null;
@@ -229,13 +284,13 @@ export class TailngConnectedOverlayComponent {
     // Anchor should never be treated as outside.
     if (inAnchor) return;
 
-    // Inside panel click behavior
+    // If backdrop is enabled and we clicked backdrop, the backdrop handler will run.
+    // Still, keep logic safe: treat it as outside.
     if (inPanel) {
-      if (this.closeOnInsideClick()) this.close('outside-click');
+      if (this.closeOnInsideClick()) this.close('inside-click');
       return;
     }
 
-    // Outside click behavior
     if (this.closeOnOutsideClick()) this.close('outside-click');
   }
 
@@ -243,12 +298,12 @@ export class TailngConnectedOverlayComponent {
    * Keep position in sync on viewport changes
    */
   @HostListener('window:resize')
-  onResize() {
-    if (this.open()) this.updatePosition();
+  onResize(): void {
+    this.requestReposition();
   }
 
   @HostListener('window:scroll')
-  onScroll() {
-    if (this.open()) this.updatePosition();
+  onScroll(): void {
+    this.requestReposition();
   }
 }

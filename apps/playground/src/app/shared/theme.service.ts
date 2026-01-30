@@ -4,7 +4,7 @@ export type TailngTheme = 'light' | 'dark';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  readonly theme = signal<TailngTheme>('dark');
+  readonly theme = signal<TailngTheme>('light');
 
   constructor() {
     effect(() => {

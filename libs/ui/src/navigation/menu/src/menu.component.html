@@ -1,3 +1,4 @@
+
 <div [class]="rootKlass()">
   <!-- Trigger -->
   <button
@@ -6,6 +7,7 @@
     [class]="triggerKlass()"
     aria-haspopup="menu"
     [attr.aria-expanded]="isOpen()"
+    [attr.aria-controls]="isOpen() ? menuId() : null"
     (click)="onTriggerClick()"
   >
     <ng-content select="[tngMenuTrigger]"></ng-content>
@@ -13,45 +15,34 @@
 
   <!-- Overlay -->
   <tng-overlay-ref
+    #overlayRef="tngOverlayRef"
     [open]="isOpen()"
     (openChange)="onOverlayOpenChange($event)"
     (opened)="onOverlayOpened()"
     (closed)="onOverlayClosed($event)"
   >
-    <!-- NEW: Backdrop only when modal -->
-     @if (modal() && isOpen()) {
-      <div
-        [class]="backdropKlass()"
-        class="z-[999]"
-        (click)="onBackdropClick()"
-      ></div>
-    }
-
     <tng-connected-overlay
-      [open]="isOpen()"
+      [open]="overlayRef.isOpen()"
       [anchor]="triggerEl"
       [placement]="placement()"
       [offset]="offset()"
       [width]="width()"
+      [hasBackdrop]="modal()"
+      [backdropClass]="backdropKlass()"
       [closeOnOutsideClick]="effectiveCloseOnOutsideClick()"
       [closeOnEscape]="effectiveCloseOnEscape()"
-      (closed)="onOverlayClosed($event)"
+      [closeOnInsideClick]="false"
+      (closed)="overlayRef.close($event)"
+
     >
-      <!-- Key change: pass modal into overlay-panel -->
-      <tng-overlay-panel
-        [klass]="panelKlass()"
-        [modal]="modal()"
-        role="menu"
-      >
-        <!-- Render the projected <ng-template> content -->
-      @if (menuTpl) {
-        <ng-container
-          [ngTemplateOutlet]="menuTpl">
-        </ng-container>
-      } @else {
-        <!-- Fallback: support <div tngMenuContent>...</div> -->
-        <ng-content select="[tngMenuContent]"></ng-content>
-      }
+      <tng-overlay-panel [klass]="panelKlass()" [modal]="modal()">
+        <div [id]="menuId()" role="menu">
+          @if (menuTemplate) {
+            <ng-container [ngTemplateOutlet]="menuTemplate!" />
+          } @else {
+            <ng-content select="[tngMenuContent]"></ng-content>
+          }
+        </div>
       </tng-overlay-panel>
     </tng-connected-overlay>
   </tng-overlay-ref>

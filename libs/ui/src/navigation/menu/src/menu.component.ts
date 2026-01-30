@@ -1,11 +1,11 @@
+// menu.component.ts
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ContentChild,
   ElementRef,
-  TemplateRef,
   ViewChild,
-  effect,
+  computed,
   input,
   output,
   signal,
@@ -17,6 +17,8 @@ import {
   TailngOverlayCloseReason,
   TailngOverlayRefComponent,
 } from '../../../popups-overlays/overlay-ref/src/public-api';
+
+import { TailngMenuTemplateDirective } from './menu-template.directive';
 
 export type MenuCloseReason = TailngOverlayCloseReason;
 
@@ -39,13 +41,18 @@ export type TngMenuPlacement =
   templateUrl: './menu.component.html',
 })
 export class TailngMenuComponent {
-  @ContentChild(TemplateRef, { descendants: true })
-  menuTpl?: TemplateRef<unknown>;
+  
+  @ContentChild(TailngMenuTemplateDirective)
+  private readonly tplDir?: TailngMenuTemplateDirective;
+
+  get menuTemplate() {
+    return this.tplDir?.tpl;
+  }
 
   @ViewChild('triggerEl', { static: true })
   triggerEl!: ElementRef<HTMLElement>;
 
-  /** NEW: modal mode (focus trapped + backdrop semantics) */
+  // Modal mode (backdrop semantics)
   readonly modal = input<boolean>(false);
 
   readonly placement = input<TngMenuPlacement>('bottom-start');
@@ -59,49 +66,54 @@ export class TailngMenuComponent {
   readonly rootKlass = input<string>('relative inline-block');
   readonly triggerKlass = input<string>('inline-flex');
   readonly panelKlass = input<string>('p-1');
-
-  /** NEW: backdrop classes for modal */
-  readonly backdropKlass = input<string>('fixed inset-0 bg-black/40');
+  readonly backdropKlass = input<string>('fixed inset-0 bg-black/40 z-[999]');
 
   readonly opened = output<void>();
   readonly closed = output<MenuCloseReason>();
 
   readonly isOpen = signal(false);
 
-  constructor() {
-    // When closed, refocus trigger (simple + customer-friendly)
-    effect(() => {
-      if (this.isOpen()) return;
-      queueMicrotask(() => this.triggerEl?.nativeElement?.focus());
-    });
-  }
+  // Simple stable id for aria-controls (unique enough per instance)
+  private readonly uid = Math.random().toString(36).slice(2);
+  readonly menuId = computed(() => `tng-menu-${this.uid}`);
 
-  open(_reason: MenuCloseReason) {
+  /** Modal forces predictable close behavior */
+  readonly effectiveCloseOnOutsideClick = computed(() =>
+    this.modal() ? true : this.closeOnOutsideClick()
+  );
+
+  readonly effectiveCloseOnEscape = computed(() =>
+    this.modal() ? true : this.closeOnEscape()
+  );
+
+  open(): void {
     this.isOpen.set(true);
-    void _reason;
   }
 
-  close(reason: MenuCloseReason) {
+  onOverlayOpened(): void {
+    this.opened.emit();
+  }close(reason: MenuCloseReason): void {
     if (!this.isOpen()) return;
+  
     this.isOpen.set(false);
     this.closed.emit(reason);
+  
+    queueMicrotask(() => this.triggerEl?.nativeElement?.focus());
+  }
+  
+  onOverlayOpenChange(open: boolean): void {
+    if (open) this.isOpen.set(true);
+  }
+  
+  onOverlayClosed(reason: MenuCloseReason): void {
+    this.isOpen.set(false);
+    this.closed.emit(reason);
+  
+    queueMicrotask(() => this.triggerEl?.nativeElement?.focus());
   }
 
-  onOverlayOpenChange(open: boolean) {
-    if (open) this.open('programmatic');
-    else this.close('programmatic');
-  }
-
-  onOverlayOpened() {
-    this.opened.emit();
-  }
-
-  onOverlayClosed(reason: MenuCloseReason) {
-    this.close(reason);
-  }
-
-  onTriggerClick() {
-    this.isOpen() ? this.close('programmatic') : this.open('programmatic');
+  onTriggerClick(): void {
+    this.isOpen() ? this.close('programmatic') : this.open();
   }
 
   requestCloseOnSelection(): void {
@@ -109,22 +121,7 @@ export class TailngMenuComponent {
     this.close('selection');
   }
 
-  // Back-compat
   onItemSelected(): void {
     this.requestCloseOnSelection();
-  }
-
-  /** Derived close behavior in modal mode (force predictable modal semantics) */
-  readonly effectiveCloseOnOutsideClick = () =>
-    this.modal() ? true : this.closeOnOutsideClick();
-
-  readonly effectiveCloseOnEscape = () =>
-    this.modal() ? true : this.closeOnEscape();
-
-  /** Backdrop click closes only in modal mode (and if allowed) */
-  onBackdropClick(): void {
-    if (!this.modal()) return;
-    if (!this.effectiveCloseOnOutsideClick()) return;
-    this.close('outside-click');
   }
 }

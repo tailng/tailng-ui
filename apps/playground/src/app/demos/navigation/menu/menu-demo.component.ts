@@ -1,11 +1,12 @@
+
 import { Component } from '@angular/core';
 import { TailngIconComponent } from '@tociva/tailng-icons';
-import { TailngMenuComponent, TailngMenuItemDirective } from '@tociva/tailng-ui';
+import { TailngMenuComponent, TailngMenuItemDirective, TailngMenuTemplateDirective } from '@tociva/tailng-ui';
 
 @Component({
   selector: 'playground-menu-demo',
   standalone: true,
-  imports: [TailngMenuComponent, TailngMenuItemDirective, TailngIconComponent],
+  imports: [TailngMenuComponent, TailngMenuItemDirective, TailngIconComponent, TailngMenuTemplateDirective],
   templateUrl: './menu-demo.component.html',
 })
 export class MenuDemoComponent {
