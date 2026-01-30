@@ -13,6 +13,26 @@
       </div>
 
       <div class="flex items-center gap-2">
+        <tng-menu placement="bottom-end" panelKlass="p-1 min-w-48">
+
+          <button tngMenuTrigger
+            class="inline-flex items-center gap-2 rounded-md bg-background px-3 py-1.5 text-sm text-text">
+            Themes
+            <span class="text-xs">▼</span>
+          </button>
+    
+          <ng-template>
+            <button tngMenuItem class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm hover:bg-text hover:text-background"
+            (click)="changeTheme('light')">
+              Light
+            </button>
+    
+            <button tngMenuItem class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm hover:bg-text hover:text-background"
+              (click)="changeTheme('dark')">
+              Dark
+              </button>
+          </ng-template>
+        </tng-menu>
         <a
           routerLink="/"
           class="px-3 py-2 rounded-md text-sm text-text hover:text-text hover:bg-alternate-background transition"
