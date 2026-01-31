@@ -73,7 +73,7 @@ export class TailngRadioButtonComponent implements ControlValueAccessor {
       // size + shape
       `h-4 w-4 rounded-full ` +
       // theme tokens
-      `border border-border bg-background ` +
+      `border border-border bg-bg ` +
       `accent-primary ` +
       // focus ring
       `focus-visible:outline-none ` +

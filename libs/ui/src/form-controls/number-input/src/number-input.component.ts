@@ -66,7 +66,7 @@ export class TailngNumberInputComponent implements ControlValueAccessor {
   classes = computed(() =>
     (
       `h-10 w-full rounded-md px-3 text-sm ` +
-      `border border-border bg-background text-foreground ` +
+      `border border-border bg-bg text-foreground ` +
       `placeholder:text-muted ` +
       `focus-visible:outline-none ` +
       `focus-visible:ring-2 focus-visible:ring-primary ` +

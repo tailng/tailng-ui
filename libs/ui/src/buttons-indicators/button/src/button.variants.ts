@@ -19,7 +19,7 @@ const variants: Record<TailngButtonVariant, string> = {
     'bg-primary text-on-primary hover:bg-primary-hover',
 
   outline:
-    'border border-border text-fg bg-background ' +
+    'border border-border text-fg bg-bg ' +
     'hover:bg-alternate-background',
 
   ghost:

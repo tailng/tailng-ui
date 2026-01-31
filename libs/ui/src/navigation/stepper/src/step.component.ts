@@ -41,7 +41,7 @@ export class TailngStepComponent {
     'inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium border border-transparent'
   );
   activeKlass = input<string>('bg-primary text-on-primary');
-  inactiveKlass = input<string>('bg-background text-muted-foreground hover:text-foreground hover:bg-slate-50');
+  inactiveKlass = input<string>('bg-bg text-muted-foreground hover:text-foreground hover:bg-slate-50');
   disabledKlass = input<string>('opacity-50 cursor-not-allowed');
 
   /* =====================

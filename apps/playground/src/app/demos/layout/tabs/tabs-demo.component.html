@@ -17,19 +17,19 @@
       <tng-tab value="settings">Settings</tng-tab>
 
       <tng-tab-panel value="overview">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Overview content.
         </div>
       </tng-tab-panel>
 
       <tng-tab-panel value="activity">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Activity content.
         </div>
       </tng-tab-panel>
 
       <tng-tab-panel value="settings">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Settings content.
         </div>
       </tng-tab-panel>
@@ -46,19 +46,19 @@
       <tng-tab value="billing" [disabled]="true">Billing (disabled)</tng-tab>
 
       <tng-tab-panel value="account">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Account settings.
         </div>
       </tng-tab-panel>
 
       <tng-tab-panel value="security">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Security settings.
         </div>
       </tng-tab-panel>
 
       <tng-tab-panel value="billing">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Billing panel (should not be reachable if disabled).
         </div>
       </tng-tab-panel>
@@ -69,18 +69,18 @@
   <section class="space-y-3">
     <h2 class="text-sm font-semibold text-foreground">Controlled</h2>
 
-    <div class="flex items-center justify-between gap-3 rounded-lg border border-border bg-background p-4">
+    <div class="flex items-center justify-between gap-3 rounded-lg border border-border bg-bg p-4">
       <div class="text-sm text-muted-foreground">
         Current value:
         <code class="rounded bg-slate-100 px-1 text-slate-900">{{ value() }}</code>
       </div>
 
       <div class="flex gap-2">
-        <button class="rounded-md border border-border bg-background px-3 py-1.5 text-sm"
+        <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm"
           (click)="value.set('account')">
           Account
         </button>
-        <button class="rounded-md border border-border bg-background px-3 py-1.5 text-sm"
+        <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm"
           (click)="value.set('security')">
           Security
         </button>
@@ -96,13 +96,13 @@
       <tng-tab value="security">Security</tng-tab>
 
       <tng-tab-panel value="account">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Controlled: Account panel.
         </div>
       </tng-tab-panel>
 
       <tng-tab-panel value="security">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Controlled: Security panel.
         </div>
       </tng-tab-panel>
@@ -202,19 +202,19 @@
       </tng-tab>
 
       <tng-tab-panel value="a">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Pills: Alpha content.
         </div>
       </tng-tab-panel>
 
       <tng-tab-panel value="b">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Pills: Beta content.
         </div>
       </tng-tab-panel>
 
       <tng-tab-panel value="c">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Pills: Gamma content.
         </div>
       </tng-tab-panel>
@@ -229,7 +229,7 @@
       orientation="vertical"
       defaultValue="profile"
       rootKlass="grid gap-6 md:grid-cols-[220px_1fr]"
-      listKlass="flex flex-col gap-1 rounded-lg border border-border bg-background p-2"
+      listKlass="flex flex-col gap-1 rounded-lg border border-border bg-bg p-2"
       panelKlass="pt-0"
     >
       <tng-tab
@@ -260,19 +260,19 @@
       </tng-tab>
 
       <tng-tab-panel value="profile">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Vertical: Profile panel.
         </div>
       </tng-tab-panel>
 
       <tng-tab-panel value="team">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Vertical: Team panel.
         </div>
       </tng-tab-panel>
 
       <tng-tab-panel value="notifications">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Vertical: Notifications panel.
         </div>
       </tng-tab-panel>

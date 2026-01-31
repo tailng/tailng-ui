@@ -114,7 +114,7 @@ export class TailngAutocompleteComponent<T> implements ControlValueAccessor {
   );
 
   readonly inputKlassFinal = computed(() =>
-  ['relative z-0 w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background text-fg', this.inputKlass()].join(' ')
+  ['relative z-0 w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-bg text-fg', this.inputKlass()].join(' ')
   );  
 
   /** Form value (selected item) */

@@ -24,7 +24,7 @@ export class TailngCardComponent {
 
   readonly rootClasses = computed(() =>
     (
-      'block rounded-lg border border-border bg-background text-fg shadow-sm ' +
+      'block rounded-lg border border-border bg-bg text-fg shadow-sm ' +
       this.rootKlass() +
       ' ' +
       this.klass()

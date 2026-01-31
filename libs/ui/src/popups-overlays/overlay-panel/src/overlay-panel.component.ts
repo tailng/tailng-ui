@@ -32,7 +32,7 @@ export class TailngOverlayPanelComponent {
 
   /** Base themed Tailwind classes */
   private readonly baseClasses =
-    'bg-background text-fg border border-border rounded-md shadow-lg max-h-60 overflow-auto outline-none';
+    'bg-bg text-fg border border-border rounded-md shadow-lg max-h-60 overflow-auto outline-none';
 
   /** Final merged class string */
   readonly classes = computed(() => `${this.baseClasses} ${this.klass()}`.trim());

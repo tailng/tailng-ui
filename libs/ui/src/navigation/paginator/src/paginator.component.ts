@@ -42,7 +42,7 @@ export class TailngPaginatorComponent {
   readonly rightKlass = input<string>('flex flex-wrap items-center gap-2');
 
   readonly buttonKlass = input<string>(
-    'rounded-md border border-border bg-background px-2.5 py-1.5 text-sm hover:bg-slate-50 disabled:opacity-50 disabled:pointer-events-none'
+    'rounded-md border border-border bg-bg px-2.5 py-1.5 text-sm hover:bg-slate-50 disabled:opacity-50 disabled:pointer-events-none'
   );
 
   readonly activePageKlass = input<string>(
@@ -50,11 +50,11 @@ export class TailngPaginatorComponent {
   );
 
   readonly pageKlass = input<string>(
-    'rounded-md border border-border bg-background px-2.5 py-1.5 text-sm hover:bg-slate-50'
+    'rounded-md border border-border bg-bg px-2.5 py-1.5 text-sm hover:bg-slate-50'
   );
 
   readonly selectKlass = input<string>(
-    'rounded-md border border-border bg-background px-2 py-1.5 text-sm'
+    'rounded-md border border-border bg-bg px-2 py-1.5 text-sm'
   );
 
   readonly separatorKlass = input<string>('mx-2 text-slate-400');

@@ -90,7 +90,7 @@ export class TailngSelectComponent<T> implements ControlValueAccessor {
       'border border-border rounded-md',
       'px-3 py-2',
       'text-sm',
-      'bg-background text-fg',
+      'bg-bg text-fg',
       'focus:outline-none',
       'focus:ring-2 focus:ring-primary',
     ].join(' ')

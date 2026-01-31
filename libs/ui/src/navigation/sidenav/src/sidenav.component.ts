@@ -15,7 +15,7 @@ export class TailngSidenavComponent {
    * Tailwind class inputs
    * ===================== */
   readonly rootKlass = input<string>(
-    'group h-full bg-background border-r border-border flex flex-col ' +
+    'group h-full bg-bg border-r border-border flex flex-col ' +
     'transition-[width] duration-200 ease-in-out will-change-[width]'
   );
   

@@ -32,7 +32,7 @@ export class TailngSnackbarHostComponent {
    * ===================== */
   readonly hostKlass = input<string>('fixed z-[1100] flex flex-col gap-2 p-4');
   readonly itemKlass = input<string>(
-    'pointer-events-auto w-[min(28rem,calc(100vw-2rem))] rounded-md border border-border bg-background shadow-lg'
+    'pointer-events-auto w-[min(28rem,calc(100vw-2rem))] rounded-md border border-border bg-bg shadow-lg'
   );
   readonly itemInnerKlass = input<string>('flex items-start gap-3 px-4 py-3');
   readonly messageKlass = input<string>('text-sm text-foreground');

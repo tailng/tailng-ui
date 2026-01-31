@@ -78,7 +78,7 @@ export class TailngOptionListComponent<T> {
   readonly containerKlass = input<string>('py-1 overflow-auto max-h-60');
   readonly optionKlass = input<string>('px-3 py-2 text-sm cursor-pointer select-none');
   readonly optionActiveKlass = input<string>('bg-primary text-on-primary');
-  readonly optionInactiveKlass = input<string>('bg-background text-fg');
+  readonly optionInactiveKlass = input<string>('bg-bg text-fg');
   readonly emptyKlass = input<string>('px-3 py-2 text-sm text-disable');
 
   @ContentChild(TemplateRef, { descendants: true })

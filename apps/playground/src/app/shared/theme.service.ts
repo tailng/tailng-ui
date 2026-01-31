@@ -1,6 +1,6 @@
 import { Injectable, effect, signal } from '@angular/core';
 
-export type TailngTheme = 'default';
+export type TailngTheme = 'default' | 'slate' | 'indigo' | 'emerald' | 'rose';
 export type TailngMode = 'light' | 'dark' | 'night';
 
 @Injectable({ providedIn: 'root' })

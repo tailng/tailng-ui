@@ -54,7 +54,7 @@ export class TailngExpansionPanelComponent {
    * Klass hooks
    * ===================== */
 
-  rootKlass = input<string>('rounded-lg border border-border bg-background');
+  rootKlass = input<string>('rounded-lg border border-border bg-bg');
 
   headerKlass = input<string>(
     'flex w-full items-center justify-between gap-4 px-4 py-3 text-left text-sm font-medium text-foreground ' +
@@ -142,7 +142,7 @@ export class TailngExpansionPanelComponent {
    * ===================== */
 
   readonly finalRootKlass = computed(() =>
-    this.join('rounded-lg border border-border bg-background', this.rootKlass()),
+    this.join('rounded-lg border border-border bg-bg', this.rootKlass()),
   );
 
   readonly finalHeaderKlass = computed(() =>

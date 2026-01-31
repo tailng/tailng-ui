@@ -17,7 +17,7 @@
       <tng-step>Confirm</tng-step>
 
       <tng-step-panel [index]="0">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Step 1: Account
           <div class="mt-3 text-sm text-muted-foreground">
             Click a step header to jump (non-linear).
@@ -26,13 +26,13 @@
       </tng-step-panel>
 
       <tng-step-panel [index]="1">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Step 2: Profile
         </div>
       </tng-step-panel>
 
       <tng-step-panel [index]="2">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Step 3: Confirm
         </div>
       </tng-step-panel>
@@ -60,15 +60,15 @@
       </tng-step>
 
       <tng-step-panel [index]="0">
-        <div class="rounded-lg border border-border bg-background p-4">Pills: Panel 1</div>
+        <div class="rounded-lg border border-border bg-bg p-4">Pills: Panel 1</div>
       </tng-step-panel>
 
       <tng-step-panel [index]="1">
-        <div class="rounded-lg border border-border bg-background p-4">Pills: Panel 2</div>
+        <div class="rounded-lg border border-border bg-bg p-4">Pills: Panel 2</div>
       </tng-step-panel>
 
       <tng-step-panel [index]="2">
-        <div class="rounded-lg border border-border bg-background p-4">Pills: Panel 3</div>
+        <div class="rounded-lg border border-border bg-bg p-4">Pills: Panel 3</div>
       </tng-step-panel>
     </tng-stepper>
   </section>
@@ -77,18 +77,18 @@
   <section class="space-y-3">
     <h2 class="text-sm font-semibold text-foreground">Linear (gated by complete)</h2>
 
-    <div class="rounded-lg border border-border bg-background p-4">
+    <div class="rounded-lg border border-border bg-bg p-4">
       <div class="text-sm text-muted-foreground">
         Toggle completion to allow jumping forward in linear mode:
       </div>
 
       <div class="mt-3 flex flex-wrap gap-2">
-        <button class="rounded-md border border-border bg-background px-3 py-1.5 text-sm" (click)="toggleS0()">
+        <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm" (click)="toggleS0()">
           Step 1 complete:
           <strong>{{ s0Complete() }}</strong>
         </button>
 
-        <button class="rounded-md border border-border bg-background px-3 py-1.5 text-sm" (click)="toggleS1()">
+        <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm" (click)="toggleS1()">
           Step 2 complete:
           <strong>{{ s1Complete() }}</strong>
         </button>
@@ -102,19 +102,19 @@
       <tng-step>Confirm</tng-step>
 
       <tng-step-panel [index]="0">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Step 1 (must be complete to move forward)
         </div>
       </tng-step-panel>
 
       <tng-step-panel [index]="1">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Step 2 (must be complete to open Confirm)
         </div>
       </tng-step-panel>
 
       <tng-step-panel [index]="2">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Step 3 (Confirm)
         </div>
       </tng-step-panel>
@@ -131,17 +131,17 @@
       <tng-step>Review</tng-step>
 
       <tng-step-panel [index]="0">
-        <div class="rounded-lg border border-border bg-background p-4">Shipping content</div>
+        <div class="rounded-lg border border-border bg-bg p-4">Shipping content</div>
       </tng-step-panel>
 
       <tng-step-panel [index]="1">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Payment panel (should not be reachable via clicking header).
         </div>
       </tng-step-panel>
 
       <tng-step-panel [index]="2">
-        <div class="rounded-lg border border-border bg-background p-4">Review content</div>
+        <div class="rounded-lg border border-border bg-bg p-4">Review content</div>
       </tng-step-panel>
     </tng-stepper>
   </section>
@@ -150,22 +150,22 @@
   <section class="space-y-3">
     <h2 class="text-sm font-semibold text-foreground">Controlled</h2>
 
-    <div class="flex items-center justify-between gap-3 rounded-lg border border-border bg-background p-4">
+    <div class="flex items-center justify-between gap-3 rounded-lg border border-border bg-bg p-4">
       <div class="text-sm text-muted-foreground">
         Current index:
         <code class="rounded bg-slate-100 px-1 text-slate-900">{{ controlledIndex() }}</code>
       </div>
 
       <div class="flex gap-2">
-        <button class="rounded-md border border-border bg-background px-3 py-1.5 text-sm"
+        <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm"
           (click)="controlledIndex.set(0)">
           Go 0
         </button>
-        <button class="rounded-md border border-border bg-background px-3 py-1.5 text-sm"
+        <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm"
           (click)="controlledIndex.set(1)">
           Go 1
         </button>
-        <button class="rounded-md border border-border bg-background px-3 py-1.5 text-sm"
+        <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm"
           (click)="controlledIndex.set(2)">
           Go 2
         </button>
@@ -178,15 +178,15 @@
       <tng-step>Three</tng-step>
 
       <tng-step-panel [index]="0">
-        <div class="rounded-lg border border-border bg-background p-4">Controlled panel 0</div>
+        <div class="rounded-lg border border-border bg-bg p-4">Controlled panel 0</div>
       </tng-step-panel>
 
       <tng-step-panel [index]="1">
-        <div class="rounded-lg border border-border bg-background p-4">Controlled panel 1</div>
+        <div class="rounded-lg border border-border bg-bg p-4">Controlled panel 1</div>
       </tng-step-panel>
 
       <tng-step-panel [index]="2">
-        <div class="rounded-lg border border-border bg-background p-4">Controlled panel 2</div>
+        <div class="rounded-lg border border-border bg-bg p-4">Controlled panel 2</div>
       </tng-step-panel>
     </tng-stepper>
   </section>
@@ -196,7 +196,7 @@
     <h2 class="text-sm font-semibold text-foreground">Vertical</h2>
 
     <tng-stepper orientation="vertical" defaultIndex="0" rootKlass="grid gap-6 md:grid-cols-[240px_1fr]"
-      headerVerticalKlass="flex flex-col gap-1 rounded-lg border border-border bg-background p-2" panelWrapKlass="pt-0">
+      headerVerticalKlass="flex flex-col gap-1 rounded-lg border border-border bg-bg p-2" panelWrapKlass="pt-0">
       <tng-step stepKlass="rounded-md px-3 py-2 text-sm font-medium" activeKlass="bg-primary text-on-primary"
         inactiveKlass="text-muted-foreground hover:text-foreground hover:bg-slate-50">
         Details
@@ -213,15 +213,15 @@
       </tng-step>
 
       <tng-step-panel [index]="0">
-        <div class="rounded-lg border border-border bg-background p-4">Vertical: Details</div>
+        <div class="rounded-lg border border-border bg-bg p-4">Vertical: Details</div>
       </tng-step-panel>
 
       <tng-step-panel [index]="1">
-        <div class="rounded-lg border border-border bg-background p-4">Vertical: Address</div>
+        <div class="rounded-lg border border-border bg-bg p-4">Vertical: Address</div>
       </tng-step-panel>
 
       <tng-step-panel [index]="2">
-        <div class="rounded-lg border border-border bg-background p-4">Vertical: Done</div>
+        <div class="rounded-lg border border-border bg-bg p-4">Vertical: Done</div>
       </tng-step-panel>
     </tng-stepper>
   </section>
@@ -295,7 +295,7 @@
 
       <!-- Panels -->
       <tng-step-panel [index]="0">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Step 1: Personal Info
           <div class="mt-2 text-sm text-muted-foreground">
             Click the step headers to navigate.
@@ -304,13 +304,13 @@
       </tng-step-panel>
 
       <tng-step-panel [index]="1">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Step 2: Education
         </div>
       </tng-step-panel>
 
       <tng-step-panel [index]="2">
-        <div class="rounded-lg border border-border bg-background p-4">
+        <div class="rounded-lg border border-border bg-bg p-4">
           Step 3: Review
         </div>
       </tng-step-panel>

@@ -189,7 +189,7 @@ export class TailngFormFieldComponent {
   private readonly appearanceShell = computed(() => {
     return this.appearance() === 'filled'
       ? 'bg-alternate-background border-border'
-      : 'bg-background border-border';
+      : 'bg-bg border-border';
   });
 
   readonly controlShellClasses = computed(() => {

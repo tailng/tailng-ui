@@ -53,7 +53,7 @@ export class TailngDialogComponent {
       'fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2',
       'w-[min(32rem,calc(100vw-2rem))]',
       'max-h-[calc(100vh-2rem)] overflow-auto',
-      'rounded-lg border border-border bg-background shadow-xl outline-none',
+      'rounded-lg border border-border bg-bg shadow-xl outline-none',
     ].join(' ')
   );
 

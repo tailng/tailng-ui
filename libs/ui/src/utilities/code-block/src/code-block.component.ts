@@ -76,7 +76,7 @@ export class TailngCodeBlockComponent {
 
   readonly gutterKlassFinal = computed(() =>
     this.join(
-      'absolute inset-y-0 left-0 w-10 select-none border-r border-border bg-background px-2 py-4 text-right text-xs leading-6 text-fg/60',
+      'absolute inset-y-0 left-0 w-10 select-none border-r border-border bg-bg px-2 py-4 text-right text-xs leading-6 text-fg/60',
       this.gutterKlass(),
     ),
   );

@@ -58,7 +58,7 @@ copied = signal(false);
   readonly isCodePanelOpen = signal(false);
 
   readonly finalKlass = computed(() => {
-    return ['rounded-xl border border-border bg-background p-4 shadow-sm space-y-2', this.klass()].join(' ');
+    return ['rounded-xl border border-border bg-bg p-4 shadow-sm space-y-2', this.klass()].join(' ');
   });
 
   toggleCodePanel(): void {

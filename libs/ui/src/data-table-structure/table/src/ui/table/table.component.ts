@@ -49,7 +49,7 @@ export class TailngTableComponent<T extends Record<string, any> = any> implement
   readonly theadKlass = input<string>('bg-alternate-background');
   readonly thKlass = input<string>('px-3 py-2 text-left font-semibold border-b border-border');
   readonly tdKlass = input<string>('px-3 py-2 border-b border-border align-middle');
-  readonly tbodyKlass = input<string>('bg-background');
+  readonly tbodyKlass = input<string>('bg-bg');
 
   /** empty */
   readonly emptyText = input<string>('No data');

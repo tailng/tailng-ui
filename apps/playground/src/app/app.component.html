@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-alternate-background flex flex-col">
   <!-- Header -->
-  <header class="h-16 bg-background border-b border-border">
+  <header class="h-16 bg-bg border-b border-border">
     <div class="h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div class="h-9 w-9 rounded-md bg-primary/10 flex items-center justify-center text-primary font-semibold">
@@ -14,61 +14,36 @@
 
       <div class="flex items-center gap-2">
         <tng-menu placement="bottom-end" panelKlass="p-1 min-w-48">
-
           <button tngMenuTrigger type="button"
-            class="inline-flex items-center gap-2 rounded-md bg-background px-3 py-1.5 text-sm text-fg">
+            class="inline-flex items-center gap-2 rounded-md bg-bg px-3 py-1.5 text-sm text-fg">
             Themes
             <span class="text-xs">▼</span>
           </button>
-
           <ng-template tngMenuTemplate>
-            <button tngMenuItem type="button" class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm
-                     hover:bg-fg hover:text-background" (click)="changeTheme('default')">
-              Default
-            </button>
-
-            <button tngMenuItem type="button" class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm
-                     hover:bg-fg hover:text-background" (click)="changeTheme('slate')">
-              Slate
-            </button>
-
-            <button tngMenuItem type="button" class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm
-                     hover:bg-fg hover:text-background" (click)="changeTheme('indigo')">
-              Indigo
-            </button>
-
-            <button tngMenuItem type="button" class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm
-                     hover:bg-fg hover:text-background" (click)="changeTheme('emerald')">
-              Emerald
-            </button>
-
-            <button tngMenuItem type="button" class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm
-                     hover:bg-fg hover:text-background" (click)="changeTheme('rose')">
-              Rose
-            </button>
+            @for (theme of themes; track theme.id) {
+              <button tngMenuItem type="button"
+                class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm hover:bg-fg hover:text-bg"
+                (click)="changeTheme(theme.id)">
+                {{ theme.label }}
+              </button>
+            }
           </ng-template>
-
         </tng-menu>
         <tng-menu placement="bottom-end" panelKlass="p-1 min-w-48">
-
           <button tngMenuTrigger type="button"
-            class="inline-flex items-center gap-2 rounded-md bg-background px-3 py-1.5 text-sm text-fg">
+            class="inline-flex items-center gap-2 rounded-md bg-bg px-3 py-1.5 text-sm text-fg">
             Modes
             <span class="text-xs">▼</span>
           </button>
-
           <ng-template tngMenuTemplate>
-            <button tngMenuItem type="button" class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm
-                     hover:bg-fg hover:text-background" (click)="changeMode('light')">
-              Light
-            </button>
-
-            <button tngMenuItem type="button" class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm
-                     hover:bg-fg hover:text-background" (click)="changeMode('dark')">
-              Dark
-            </button>
+            @for (mode of modes; track mode.id) {
+              <button tngMenuItem type="button"
+                class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm hover:bg-fg hover:text-bg"
+                (click)="changeMode(mode.id)">
+                {{ mode.label }}
+              </button>
+            }
           </ng-template>
-
         </tng-menu>
         <a routerLink="/"
           class="px-3 py-2 rounded-md text-sm text-fg hover:text-fg hover:bg-alternate-background transition"
@@ -90,7 +65,7 @@
         <!-- Left Panel -->
         <aside class="col-span-12 md:col-span-3 lg:col-span-2">
           <div
-            class="bg-background border border-border rounded-lg p-3 sticky top-6 max-h-[calc(100vh-8rem)] overflow-y-auto">
+            class="bg-bg border border-border rounded-lg p-3 sticky top-6 max-h-[calc(100vh-8rem)] overflow-y-auto">
             <nav class="space-y-4">
               @for (category of categories; track category.name) {
               <div>
@@ -116,7 +91,7 @@
 
         <!-- Content -->
         <section class="col-span-12 md:col-span-9 lg:col-span-10">
-          <div class="bg-background border border-border rounded-lg min-h-[60vh]">
+          <div class="bg-bg border border-border rounded-lg min-h-[60vh]">
             <div class="p-4 sm:p-6">
               <router-outlet></router-outlet>
             </div>
@@ -127,7 +102,7 @@
   </div>
 
   <!-- Footer -->
-  <footer class="border-t border-border bg-background">
+  <footer class="border-t border-border bg-bg">
     <div
       class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
       <div class="text-sm text-fg">

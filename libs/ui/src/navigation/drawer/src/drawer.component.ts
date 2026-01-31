@@ -56,7 +56,7 @@ export class TailngDrawerComponent {
    * Styling (klass-first)
    * ===================== */
   readonly backdropKlass = input<string>('fixed inset-0 bg-black/40 backdrop-blur-[1px]');
-  readonly panelKlass = input<string>('bg-background shadow-xl outline-none');
+  readonly panelKlass = input<string>('bg-bg shadow-xl outline-none');
 
   readonly sizeKlass = input<string>('w-80'); // for left/right
   readonly heightKlass = input<string>('h-80'); // for top/bottom

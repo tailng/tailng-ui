@@ -54,7 +54,7 @@ export class TailngTooltipComponent {
 
   /** Klass */
   readonly panelKlass = input<string>('px-3 py-2 text-xs text-foreground');
-  readonly surfaceKlass = input<string>('rounded-md border border-border bg-background shadow-md');
+  readonly surfaceKlass = input<string>('rounded-md border border-border bg-bg shadow-md');
 
   /** Events */
   readonly opened = output<void>();

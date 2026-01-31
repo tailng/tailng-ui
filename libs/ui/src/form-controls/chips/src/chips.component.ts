@@ -95,7 +95,7 @@ export class TailngChipsComponent<T> implements ControlValueAccessor {
       'w-full min-h-[42px] px-2 py-1 text-sm',
       'flex flex-wrap items-center gap-2',
       'border border-border rounded-md',
-      'bg-background text-fg',
+      'bg-bg text-fg',
       'focus-within:ring-2 focus-within:ring-primary',
     ].join(' ')
   );

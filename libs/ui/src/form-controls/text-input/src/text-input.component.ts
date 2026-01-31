@@ -93,7 +93,7 @@ export class TailngTextInputComponent implements ControlValueAccessor {
    * ───────────────────────── */
   readonly rootKlassFinal = computed(() =>
     this.join(
-      'flex h-10 w-full items-center rounded-md border border-border bg-background text-foreground',
+      'flex h-10 w-full items-center rounded-md border border-border bg-bg text-foreground',
       'focus-within:border-transparent',
       'focus-within:ring-2 focus-within:ring-primary',
       'focus-within:ring-offset-1 focus-within:ring-offset-background',

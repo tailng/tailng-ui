@@ -6,13 +6,13 @@
     </p>
   </div>
 
-  <section class="rounded-lg border border-border bg-background p-6 space-y-6">
+  <section class="rounded-lg border border-border bg-bg p-6 space-y-6">
     <!-- Uncontrolled -->
     <div class="space-y-2">
       <div class="text-sm font-semibold text-foreground">Uncontrolled</div>
 
       <tng-popover>
-        <button tngPopoverTrigger class="rounded-md border border-border bg-background px-3 py-1.5 text-sm hover:bg-slate-50">
+        <button tngPopoverTrigger class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm hover:bg-slate-50">
           Open popover
         </button>
 
@@ -40,7 +40,7 @@
 
       <div class="flex items-center gap-2">
         <button
-          class="rounded-md border border-border bg-background px-3 py-1.5 text-sm hover:bg-slate-50"
+          class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm hover:bg-slate-50"
           (click)="controlledOpen.set(!controlledOpen())"
         >
           Toggle from outside
@@ -68,7 +68,7 @@
           </div>
 
           <div class="pt-2 flex justify-end">
-            <button class="rounded-md border border-border bg-background px-3 py-1.5 text-sm"
+            <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm"
               (click)="controlledOpen.set(false)">
               Close
             </button>

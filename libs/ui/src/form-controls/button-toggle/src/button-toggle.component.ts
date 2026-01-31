@@ -279,7 +279,7 @@ export class TailngButtonToggleComponent<T extends TailngButtonToggleValue>
   readonly groupClasses = computed(() =>
     (
       'flex w-full overflow-hidden rounded-md border border-border ' +
-      'bg-background ' +
+      'bg-bg ' +
       (this.isDisabled() ? 'opacity-60 pointer-events-none ' : '') +
       this.groupKlass()
     ).trim()
@@ -303,7 +303,7 @@ export class TailngButtonToggleComponent<T extends TailngButtonToggleValue>
 
     const state =
       disabled
-        ? 'text-disable bg-background ' + this.disabledButtonKlass()
+        ? 'text-disable bg-bg ' + this.disabledButtonKlass()
         : active
           ? 'bg-primary text-on-primary ' + this.activeButtonKlass()
           : 'bg-on-primary text-fg hover:bg-alternate-background ' +
