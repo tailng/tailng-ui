@@ -29,22 +29,11 @@
             }
           </ng-template>
         </tng-menu>
-        <tng-menu placement="bottom-end" panelKlass="p-1 min-w-48">
-          <button tngMenuTrigger type="button"
-            class="inline-flex items-center gap-2 rounded-md bg-bg px-3 py-1.5 text-sm text-fg">
-            Modes
-            <span class="text-xs">▼</span>
-          </button>
-          <ng-template tngMenuTemplate>
-            @for (mode of modes; track mode.id) {
-              <button tngMenuItem type="button"
-                class="flex w-full items-center gap-2 rounded px-3 py-2 text-sm hover:bg-fg hover:text-bg"
-                (click)="changeMode(mode.id)">
-                {{ mode.label }}
-              </button>
-            }
-          </ng-template>
-        </tng-menu>
+        <tng-slide-toggle
+          [label]="modeLabel()"
+          [checked]="isDarkMode()"
+          (checkedChange)="onModeToggle($event)"
+        />
         <a routerLink="/"
           class="px-3 py-2 rounded-md text-sm text-fg hover:text-fg hover:bg-alternate-background transition"
           routerLinkActive="text-primary bg-primary/10" [routerLinkActiveOptions]="{ exact: true }">

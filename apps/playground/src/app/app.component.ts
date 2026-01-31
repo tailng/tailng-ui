@@ -1,9 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { categories } from './home/home.component';
-import { TailngMenuComponent, TailngMenuItemDirective, TailngMenuTemplateDirective } from '@tociva/tailng-ui';
-import { TailngMode, TailngTheme, ThemeService } from './shared/theme.service';
+import {
+  TailngMenuComponent,
+  TailngMenuItemDirective,
+  TailngMenuTemplateDirective,
+  TailngSlideToggleComponent,
+} from '@tociva/tailng-ui';
+import { TailngTheme, ThemeService } from './shared/theme.service';
 
 const THEME_LIST: { id: TailngTheme; label: string }[] = [
   { id: 'default', label: 'Default' },
@@ -11,11 +16,6 @@ const THEME_LIST: { id: TailngTheme; label: string }[] = [
   { id: 'indigo', label: 'Indigo' },
   { id: 'emerald', label: 'Emerald' },
   { id: 'rose', label: 'Rose' },
-];
-
-const MODE_LIST: { id: TailngMode; label: string }[] = [
-  { id: 'light', label: 'Light' },
-  { id: 'dark', label: 'Dark' },
 ];
 
 @Component({
@@ -29,6 +29,7 @@ const MODE_LIST: { id: TailngMode; label: string }[] = [
     TailngMenuComponent,
     TailngMenuItemDirective,
     TailngMenuTemplateDirective,
+    TailngSlideToggleComponent,
   ],
   templateUrl: './app.component.html',
 })
@@ -37,13 +38,14 @@ export class AppComponent {
   year = new Date().getFullYear();
   categories = categories;
   readonly themes = THEME_LIST;
-  readonly modes = MODE_LIST;
+  readonly isDarkMode = computed(() => this.themeService.mode() === 'dark');
+  readonly modeLabel = computed(() => (this.isDarkMode() ? 'Light' : 'Dark'));
 
   changeTheme(theme: TailngTheme): void {
     this.themeService.setTheme(theme);
   }
 
-  changeMode(mode: TailngMode): void {
-    this.themeService.setMode(mode);
+  onModeToggle(checked: boolean): void {
+    this.themeService.setMode(checked ? 'dark' : 'light');
   }
 }
