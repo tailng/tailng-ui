@@ -4,9 +4,9 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import {
   TailngAccordionComponent,
   TailngExpansionPanelComponent,
-  TailngSidenavComponent,
-  TailngTextInputComponent,
-} from '@tociva/tailng-ui';
+} from '@tociva/tailng-ui/layout';
+import { TailngTextInputComponent } from '@tociva/tailng-ui/form-controls';
+import { TailngSidenavComponent } from '@tociva/tailng-ui/navigation';
 import { docsNav } from '../../data/nav';
 import { TailngIconComponent } from '@tociva/tailng-icons';
 

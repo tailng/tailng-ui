@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, computed, inject, signal } from '@angular/core';
-import { TailngBadgeComponent, TailngCodeBlockComponent, TailngColComponent, TailngCopyButtonComponent, TailngTableComponent, TailngTagComponent } from '@tociva/tailng-ui';
+import { TailngCodeBlockComponent } from '@tociva/tailng-ui/utilities';
+import { TailngTableComponent, TailngColComponent } from '@tociva/tailng-ui/data-table-structure';
+import { TailngTagComponent } from '@tociva/tailng-ui/buttons-indicators';
 import { ShikiHighlighterService } from '../../../../../shared/shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../../../shared/tng-shiki.adapter';
 
@@ -20,8 +22,6 @@ type displayDetails = {
     TailngTableComponent,
     TailngColComponent,
     TailngTagComponent,
-
-  
   ],
 })
 export class TextInputApiComponent implements AfterViewInit {

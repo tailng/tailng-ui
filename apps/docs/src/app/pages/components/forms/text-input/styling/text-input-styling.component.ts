@@ -1,11 +1,10 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { TailngIconComponent } from '@tociva/tailng-icons';
-import { TailngBadgeComponent, TailngCodeBlockComponent, TailngCopyButtonComponent, TailngTabComponent, TailngTabPanelComponent, TailngTabsComponent,
-   TailngTagComponent,
-   TailngTextInputComponent } from '@tociva/tailng-ui';
-import { ShikiHighlighterService } from '../../../../../shared/shiki-highlighter.service';
-import { TngShikiAdapter } from '../../../../../shared/tng-shiki.adapter';
-import { ExampleBlockComponent, TailngExampleDemoDirective, TailngExampleTitleDirective } from '../../../../../shared/example-block/example-block.component';
+import {
+  TailngTextInputComponent
+} from '@tociva/tailng-ui/form-controls';
+import { TailngTagComponent } from '@tociva/tailng-ui/buttons-indicators';
+import { ExampleBlockComponent, TailngExampleDemoDirective } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
   standalone: true,

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { TailngCodeBlockComponent } from '@tociva/tailng-ui';
+import { TailngCodeBlockComponent } from '@tociva/tailng-ui/utilities';
 import { ShikiHighlighterService } from '../../../shared/shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../shared/tng-shiki.adapter';
 

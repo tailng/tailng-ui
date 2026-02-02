@@ -1,6 +1,6 @@
 import { Component, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TailngBadgeComponent, TailngButtonComponent } from '@tociva/tailng-ui';
+import { TailngBadgeComponent, TailngButtonComponent } from '@tociva/tailng-ui/buttons-indicators';
 
 @Component({
   standalone: true,

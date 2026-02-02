@@ -1,8 +1,11 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { TailngCodeBlockComponent, TailngTextInputComponent, TailngBadgeComponent, TailngTagComponent } from '@tociva/tailng-ui';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TailngIconComponent } from '@tociva/tailng-icons';
+import {
+  TailngTextInputComponent
+} from '@tociva/tailng-ui/form-controls';
+import { TailngTagComponent } from '@tociva/tailng-ui/buttons-indicators';
 
 import { ExampleBlockComponent, TailngExampleDemoDirective } from '../../../../../shared/example-block/example-block.component';
 

@@ -4,7 +4,7 @@ import {
   TailngMenuComponent,
   TailngMenuItemDirective,
   TailngMenuTemplateDirective,
-} from '@tociva/tailng-ui';
+} from '@tociva/tailng-ui/navigation';
 import { TailngIconComponent } from '@tociva/tailng-icons';
 import { docsNav } from '../../data/nav';
 
