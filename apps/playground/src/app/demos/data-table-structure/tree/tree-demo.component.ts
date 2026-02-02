@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { TailngTreeComponent } from '@tociva/tailng-ui';
+import { TngTree } from '@tociva/tailng-ui/data-table-structure';
 
 @Component({
   selector: 'playground-tree-demo',
   standalone: true,
-  imports: [TailngTreeComponent],
+  imports: [TngTree],
   templateUrl: './tree-demo.component.html',
 })
 export class TreeDemoComponent {}

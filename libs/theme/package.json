@@ -11,21 +11,26 @@
   "bugs": {
     "url": "https://github.com/tociva/tailng/issues"
   },
-  "sideEffects": [
-    "*.css"
-  ],
+
+  "sideEffects": ["*.css"],
+
   "peerDependencies": {
     "tailwindcss": "^3.4.0"
   },
+
+  "dependencies": {
+    "tslib": "^2.6.0"
+  },
+
   "exports": {
-    ".": {
-      "types": "./index.d.ts",
-      "default": "./fesm2022/tociva-tailng-theme.mjs"
-    },
     "./tokens/index.css": "./tokens/index.css",
     "./tokens/base.css": "./tokens/base.css",
     "./tokens/light.css": "./tokens/light.css",
     "./tokens/dark.css": "./tokens/dark.css",
-    "./tailwind/plugin": "./tailwind/plugin.cjs"
+
+    "./tailwind/plugin.cjs": "./tailwind/plugin.cjs",
+    "./tailwind/preset.cjs": "./tailwind/preset.cjs",
+    "./tailwind/tailng.plugin.cjs": "./tailwind/tailng.plugin.cjs",
+    "./tailwind/tailng.preset.cjs": "./tailwind/tailng.preset.cjs"
   }
 }

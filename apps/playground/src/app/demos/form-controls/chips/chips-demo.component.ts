@@ -2,14 +2,14 @@ import { Component, signal } from '@angular/core';
 import { JsonPipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
-import { TailngChipsComponent } from '@tociva/tailng-ui';
+import { TngChips } from '@tociva/tailng-ui/form-controls';
 import { Country, COUNTRY_LIST } from '../../util/country-list';
 import { toFlagEmoji } from '../../util/common.util';
 
 @Component({
   selector: 'playground-chips-demo',
   standalone: true,
-  imports: [ReactiveFormsModule, TailngChipsComponent, JsonPipe],
+  imports: [ReactiveFormsModule, TngChips, JsonPipe],
   templateUrl: './chips-demo.component.html',
 })
 export class ChipsDemoComponent {

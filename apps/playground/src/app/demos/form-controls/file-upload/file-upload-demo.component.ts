@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { TailngFileUploadComponent } from '@tociva/tailng-ui';
+import { TngFileUpload } from '@tociva/tailng-ui/form-controls';
 
 @Component({
   selector: 'playground-file-upload-demo',
   standalone: true,
-  imports: [TailngFileUploadComponent],
+  imports: [TngFileUpload],
   templateUrl: './file-upload-demo.component.html',
 })
 export class FileUploadDemoComponent {

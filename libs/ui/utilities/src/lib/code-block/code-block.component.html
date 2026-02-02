@@ -1,0 +1,21 @@
+<div [class]="rootKlassFinal()">
+  <div [class]="bodyKlassFinal()">
+    @if (showLineNumbers()) {
+      <div [class]="gutterKlassFinal()" aria-hidden="true">
+        @for (n of lineNumbers(); track n) {
+          <div>{{ n }}</div>
+        }
+      </div>
+    }
+
+    <pre [class]="preKlassFinal()">
+      <span (click)="copyCode()" [class]="copyklass()">
+  {{ copyLabel() }}
+</span>
+
+<code [class]="codeKlassFinal()" [innerHTML]="renderedHtml()"></code>
+
+<span #projected class="hidden"><ng-content></ng-content></span>
+    </pre>
+  </div>
+</div>

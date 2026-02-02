@@ -1,13 +1,13 @@
 import { TitleCasePipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { TailngDrawerComponent } from '@tociva/tailng-ui';
+import { TngDrawer } from '@tociva/tailng-ui/navigation';
 
 type DrawerPlacement = 'left' | 'right' | 'top' | 'bottom';
 
 @Component({
   selector: 'playground-drawer-demo',
   standalone: true,
-  imports: [TailngDrawerComponent, TitleCasePipe],
+  imports: [TngDrawer, TitleCasePipe],
   templateUrl: './drawer-demo.component.html',
 })
 export class DrawerDemoComponent {

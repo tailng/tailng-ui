@@ -7,15 +7,15 @@ import {
 } from '@angular/forms';
 
 import {
-  TailngFormFieldComponent,
-  TailngSelectComponent,
-  TailngAutocompleteComponent,
-  TailngChipsComponent,
-  TailngCheckboxComponent,
-  TailngSlideToggleComponent,
-  TailngSliderComponent,
-  TailngFileUploadComponent,
-} from '@tociva/tailng-ui';
+  TngFormField,
+  TngSelect,
+  TngAutocomplete,
+  TngChips,
+  TngCheckbox,
+  TngSlideToggle,
+  TngSlider,
+  TngFileUpload,
+} from '@tociva/tailng-ui/form-controls';
 
 type Item = { id: number; name: string };
 
@@ -25,14 +25,14 @@ type Item = { id: number; name: string };
   imports: [
     ReactiveFormsModule,
 
-    TailngFormFieldComponent,
-    TailngSelectComponent,
-    TailngAutocompleteComponent,
-    TailngChipsComponent,
-    TailngCheckboxComponent,
-    TailngSlideToggleComponent,
-    TailngSliderComponent,
-    TailngFileUploadComponent,
+    TngFormField,
+    TngSelect,
+    TngAutocomplete,
+    TngChips,
+    TngCheckbox,
+    TngSlideToggle,
+    TngSlider,
+    TngFileUpload,
   ],
   templateUrl: './form-field-demo.component.html',
 })

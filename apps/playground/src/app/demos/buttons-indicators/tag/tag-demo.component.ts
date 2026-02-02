@@ -1,11 +1,11 @@
 import { Component, signal } from "@angular/core";
-import { TailngTagComponent } from "@tociva/tailng-ui";
+import { TngTag } from "@tociva/tailng-ui/buttons-indicators";
 
 
 @Component({
     selector: 'playground-demo-tag',
     standalone:true,
-    imports: [TailngTagComponent],
+    imports: [TngTag],
     templateUrl:'./tag-demo.component.html',
 })
 

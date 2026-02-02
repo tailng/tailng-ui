@@ -1,6 +1,7 @@
-import { Component, computed, Directive, effect, inject, input, signal } from '@angular/core';
-import { TailngCodeBlockComponent, TailngExpansionPanelComponent, TailngTabComponent, TailngTabPanelComponent, TailngTabsComponent } from '@tociva/tailng-ui';
-import { TailngIconComponent } from '@tociva/tailng-icons';
+import { Component, computed, Directive, inject, input, signal } from '@angular/core';
+import { TngIcon } from '@tociva/tailng-icons/icon';
+import { TngExpansionPanel, TngTab, TngTabPanel, TngTabs } from '@tociva/tailng-ui/layout';
+import { TngCodeBlock } from '@tociva/tailng-ui/utilities';
 import { ShikiHighlighterService } from '../shiki-highlighter.service';
 import { TngShikiAdapter } from '../tng-shiki.adapter';
 
@@ -11,7 +12,7 @@ import { TngShikiAdapter } from '../tng-shiki.adapter';
   selector: '[tngExampleTitle]',
   standalone: true,
 })
-export class TailngExampleTitleDirective {}
+export class TngExampleTitle {}
 
 /**
  * Directive to mark demo content for projection
@@ -20,19 +21,19 @@ export class TailngExampleTitleDirective {}
   selector: '[tngExampleDemo]',
   standalone: true,
 })
-export class TailngExampleDemoDirective {}
+export class TngExampleDemo {}
 
 @Component({
   standalone: true,
   selector: 'docs-example-block',
   templateUrl: './example-block.component.html',
   imports: [
-    TailngCodeBlockComponent,
-    TailngExpansionPanelComponent,
-    TailngIconComponent,
-    TailngTabComponent,
-    TailngTabPanelComponent,
-    TailngTabsComponent,
+    TngCodeBlock,
+    TngExpansionPanel,
+    TngIcon,
+    TngTab,
+    TngTabPanel,
+    TngTabs,
   ],
 })
 export class ExampleBlockComponent {

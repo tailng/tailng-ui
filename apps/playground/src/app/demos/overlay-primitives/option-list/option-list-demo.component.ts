@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TailngOptionListComponent, TailngOverlayPanelComponent } from '@tociva/tailng-ui';
+import { TngOptionList, TngOverlayPanel } from '@tociva/tailng-ui/popups-overlays';
 import { Country, COUNTRY_LIST } from '../../util/country-list';
 
 interface Person {
@@ -10,7 +10,7 @@ interface Person {
 @Component({
   selector: 'playground-option-list-demo',
   standalone: true,
-  imports: [TailngOptionListComponent, TailngOverlayPanelComponent],
+  imports: [TngOptionList, TngOverlayPanel],
   templateUrl: './option-list-demo.component.html',
 })
 export class OptionListDemoComponent {

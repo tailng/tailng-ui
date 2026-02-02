@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { TailngProgressSpinnerComponent } from '@tociva/tailng-ui';
+import { TngProgressSpinner } from '@tociva/tailng-ui/buttons-indicators';
 
 @Component({
   selector: 'playground-progress-spinner-demo',
   standalone: true,
-  imports: [TailngProgressSpinnerComponent],
+  imports: [TngProgressSpinner],
   templateUrl: './progress-spinner-demo.component.html',
 })
 export class ProgressSpinnerDemoComponent {

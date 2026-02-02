@@ -1,18 +1,19 @@
 import { Component, computed } from '@angular/core';
-import { TailngIconComponent } from '@tociva/tailng-icons';
-import { TailngBadgeComponent, TailngTextInputComponent, TailngTagComponent } from '@tociva/tailng-ui';
-import { ExampleBlockComponent, TailngExampleDemoDirective } from '../../../../../shared/example-block/example-block.component';
+import { TngIcon } from '@tociva/tailng-icons/icon';
+import { TngTag } from '@tociva/tailng-ui/buttons-indicators';
+import { TngTextInput } from '@tociva/tailng-ui/form-controls';
+import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
   standalone: true,
   selector: 'docs-text-input-overview',
   templateUrl: './text-input-overview.component.html',
   imports: [
-    TailngIconComponent,
-    TailngTextInputComponent,
-    TailngTagComponent,
+    TngIcon,
+    TngTextInput,
+    TngTag,
     ExampleBlockComponent,
-    TailngExampleDemoDirective
+    TngExampleDemo
 
 ],
 })

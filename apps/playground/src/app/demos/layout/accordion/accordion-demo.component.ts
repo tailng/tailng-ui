@@ -1,20 +1,20 @@
 import { JsonPipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import {
-  TailngAccordionComponent,
-  TailngExpansionIconCloseDirective,
-  TailngExpansionIconOpenDirective,
-  TailngExpansionPanelComponent,
-} from '@tociva/tailng-ui';
+  TngAccordion,
+  TngExpansionIconClose,
+  TngExpansionIconOpen,
+  TngExpansionPanel,
+} from '@tociva/tailng-ui/layout';
 
 @Component({
   selector: 'playground-accordion-demo',
   standalone: true,
   imports: [
-    TailngAccordionComponent,
-    TailngExpansionPanelComponent,
-    TailngExpansionIconOpenDirective,
-    TailngExpansionIconCloseDirective,
+    TngAccordion,
+    TngExpansionPanel,
+    TngExpansionIconOpen,
+    TngExpansionIconClose,
     JsonPipe,
   ],
   templateUrl: './accordion-demo.component.html',

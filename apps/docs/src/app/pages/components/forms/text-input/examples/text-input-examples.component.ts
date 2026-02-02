@@ -1,22 +1,25 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { TailngCodeBlockComponent, TailngTextInputComponent, TailngBadgeComponent, TailngTagComponent } from '@tociva/tailng-ui';
-import { TailngIconComponent } from '@tociva/tailng-icons';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TngIcon } from '@tociva/tailng-icons/icon';
+import {
+  TngTextInput
+} from '@tociva/tailng-ui/form-controls';
+import { TngTag } from '@tociva/tailng-ui/buttons-indicators';
 
-import { ExampleBlockComponent, TailngExampleDemoDirective } from '../../../../../shared/example-block/example-block.component';
+import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
   standalone: true,
   selector: 'docs-text-input-examples',
   templateUrl: './text-input-examples.component.html',
   imports: [
-     TailngTextInputComponent,
-    TailngIconComponent,
+     TngTextInput,
+    TngIcon,
     ReactiveFormsModule,
     ExampleBlockComponent,
-    TailngExampleDemoDirective,
-    TailngTagComponent
+    TngExampleDemo,
+    TngTag
 
   ],
 })
@@ -82,7 +85,7 @@ import { computed } from '@angular/core';
 
 @Component({
   // ...
-  imports: [ReactiveFormsModule, TailngTextInputComponent, TailngIconComponent],
+  imports: [ReactiveFormsModule, TngTextInput, TngIcon],
 })
 export class MyComponent {
   form = new FormGroup({

@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/c
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import dayjs from 'dayjs';
 
-import { TailngDatepickerComponent } from '@tociva/tailng-ui';
+import { TngDatepicker } from '@tociva/tailng-ui/form-controls';
 
 type DemoForm = {
   period: FormControl<Date | null>;
@@ -12,7 +12,7 @@ type DemoForm = {
 @Component({
   selector: 'playground-datepicker-demo',
   standalone: true,
-  imports: [ReactiveFormsModule, DatePipe, TailngDatepickerComponent],
+  imports: [ReactiveFormsModule, DatePipe, TngDatepicker],
   templateUrl: './datepicker-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -1,0 +1,49 @@
+
+<div [class]="rootKlass()">
+  <!-- Trigger -->
+  <button
+    #triggerEl
+    type="button"
+    [class]="triggerKlass()"
+    aria-haspopup="menu"
+    [attr.aria-expanded]="isOpen()"
+    [attr.aria-controls]="isOpen() ? menuId() : null"
+    (click)="onTriggerClick()"
+  >
+    <ng-content select="[tngMenuTrigger]"></ng-content>
+  </button>
+
+  <!-- Overlay -->
+  <tng-overlay-ref
+    #overlayRef="tngOverlayRef"
+    [open]="isOpen()"
+    (openChange)="onOverlayOpenChange($event)"
+    (opened)="onOverlayOpened()"
+    (closed)="onOverlayClosed($event)"
+  >
+    <tng-connected-overlay
+      [open]="overlayRef.isOpen()"
+      [anchor]="triggerEl"
+      [placement]="placement()"
+      [offset]="offset()"
+      [width]="width()"
+      [hasBackdrop]="modal()"
+      [backdropClass]="backdropKlass()"
+      [closeOnOutsideClick]="effectiveCloseOnOutsideClick()"
+      [closeOnEscape]="effectiveCloseOnEscape()"
+      [closeOnInsideClick]="false"
+      (closed)="overlayRef.close($event)"
+
+    >
+      <tng-overlay-panel [klass]="panelKlass()" [modal]="modal()">
+        <div [id]="menuId()" role="menu">
+          @if (menuTemplate) {
+            <ng-container [ngTemplateOutlet]="menuTemplate!" />
+          } @else {
+            <ng-content select="[tngMenuContent]"></ng-content>
+          }
+        </div>
+      </tng-overlay-panel>
+    </tng-connected-overlay>
+  </tng-overlay-ref>
+</div>

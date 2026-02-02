@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { TailngSkeletonComponent } from '@tociva/tailng-ui';
+import { TngSkeleton } from '@tociva/tailng-ui/buttons-indicators';
 
 @Component({
   selector: 'playground-skeleton-demo',
   standalone: true,
-  imports: [TailngSkeletonComponent],
+  imports: [TngSkeleton],
   templateUrl: './skeleton-demo.component.html',
 })
 export class SkeletonDemoComponent {

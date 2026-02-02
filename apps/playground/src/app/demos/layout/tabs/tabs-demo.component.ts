@@ -1,14 +1,14 @@
 import { Component, signal } from '@angular/core';
 import {
-  TailngTabsComponent,
-  TailngTabComponent,
-  TailngTabPanelComponent,
-} from '@tociva/tailng-ui';
+  TngTabs,
+  TngTab,
+  TngTabPanel,
+} from '@tociva/tailng-ui/layout';
 
 @Component({
   selector: 'playground-tabs-demo',
   standalone: true,
-  imports: [TailngTabsComponent, TailngTabComponent, TailngTabPanelComponent],
+  imports: [TngTabs, TngTab, TngTabPanel],
   templateUrl: './tabs-demo.component.html',
 })
 export class TabsDemoComponent {

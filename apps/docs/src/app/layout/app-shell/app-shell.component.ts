@@ -1,11 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import {
-  TailngMenuComponent,
-  TailngMenuItemDirective,
-  TailngMenuTemplateDirective,
-} from '@tociva/tailng-ui';
-import { TailngIconComponent } from '@tociva/tailng-icons';
+  TngMenu,
+  TngMenuItem,
+  TngMenuTemplate,
+} from '@tociva/tailng-ui/navigation';
+import { TngIcon } from '@tociva/tailng-icons/icon';
 import { docsNav } from '../../data/nav';
 
 @Component({
@@ -15,10 +15,10 @@ import { docsNav } from '../../data/nav';
     RouterLink,
     RouterLinkActive,
     RouterOutlet,
-    TailngMenuComponent,
-    TailngMenuItemDirective,
-    TailngMenuTemplateDirective,
-    TailngIconComponent,
+    TngMenu,
+    TngMenuItem,
+    TngMenuTemplate,
+    TngIcon,
   ],
   templateUrl: './app-shell.component.html',
 })

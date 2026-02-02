@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { TailngBadgeComponent } from '@tociva/tailng-ui';
+import { TngBadge } from '@tociva/tailng-ui/buttons-indicators';
 
 @Component({
   selector: 'playground-badge-demo',
   standalone: true,
-  imports: [TailngBadgeComponent],
+  imports: [TngBadge],
   templateUrl: './badge-demo.component.html',
 })
 export class BadgeDemoComponent {

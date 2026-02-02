@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { TailngSelectComponent } from '@tociva/tailng-ui';
+import { TngSelect } from '@tociva/tailng-ui/form-controls';
 
 interface Country {
   code: string;
@@ -11,7 +11,7 @@ interface Country {
 @Component({
   selector: 'playground-select-demo',
   standalone: true,
-  imports: [ReactiveFormsModule, TailngSelectComponent],
+  imports: [ReactiveFormsModule, TngSelect],
   templateUrl: './select-demo.component.html',
 })
 export class SelectDemoComponent {

@@ -1,14 +1,14 @@
 import { Component, signal } from '@angular/core';
 import {
-  TailngStepperComponent,
-  TailngStepComponent,
-  TailngStepPanelComponent,
-} from '@tociva/tailng-ui';
+  TngStepper,
+  TngStep,
+  TngStepPanel,
+} from '@tociva/tailng-ui/navigation';
 
 @Component({
   selector: 'playground-stepper-demo',
   standalone: true,
-  imports: [TailngStepperComponent, TailngStepComponent, TailngStepPanelComponent],
+  imports: [TngStepper, TngStep, TngStepPanel],
   templateUrl: './stepper-demo.component.html',
 })
 export class StepperDemoComponent {

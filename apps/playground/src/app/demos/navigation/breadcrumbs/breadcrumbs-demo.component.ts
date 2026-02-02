@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { TailngBreadcrumbsComponent } from '@tociva/tailng-ui';
+import { TngBreadcrumbs } from '@tociva/tailng-ui/navigation';
 
 @Component({
   selector: 'playground-breadcrumbs-demo',
   standalone: true,
-  imports: [TailngBreadcrumbsComponent, RouterModule],
+  imports: [TngBreadcrumbs, RouterModule],
   templateUrl: './breadcrumbs-demo.component.html',
 })
 export class BreadcrumbsDemoComponent {

@@ -1,5 +1,6 @@
 import { Component, signal } from "@angular/core";
-import { TailngColComponent, TailngTableComponent, TailngCellDefDirective, TailngHeaderDefDirective, TailngSort, TailngSortHeaderDirective, TailngSortIconComponent } from "@tociva/tailng-ui";
+import { TngCol, TngTable, TngCellDef, 
+  TngHeaderDef, TngSort, TngSortHeaderDirective, TngSortIcon } from "@tociva/tailng-ui/data-table-structure";
 
 type Txn = {
   id: string;
@@ -13,13 +14,13 @@ type Txn = {
   selector: 'playground-sort-header-demo',
   standalone: true,
   imports: [
-    TailngTableComponent,
-    TailngColComponent,
-    TailngCellDefDirective,
-    TailngHeaderDefDirective,
+    TngTable,
+    TngCol,
+    TngCellDef,
+    TngHeaderDef,
     // directive + icon
-    TailngSortHeaderDirective,
-    TailngSortIconComponent,
+    TngSortHeaderDirective,
+    TngSortIcon,
   ],
   templateUrl: './sort-header-demo.component.html',
 })
@@ -33,7 +34,7 @@ export class SortHeaderDemoComponent {
 
   readonly rows = signal<Txn[]>([...this.seed]);
 
-  readonly sort = signal<TailngSort>({ active: '', direction: '' });
+  readonly sort = signal<TngSort>({ active: '', direction: '' });
 
   // bind function references (no arrow functions in template)
   readonly dateValue = (r: Txn) => r.date;
@@ -41,7 +42,7 @@ export class SortHeaderDemoComponent {
   readonly amountValue = (r: Txn) => r.amount;
   readonly statusValue = (r: Txn) => r.status;
 
-  onSortChange(s: TailngSort) {
+  onSortChange(s: TngSort) {
     this.sort.set(s);
     // demo: hook server-side sorting here if needed
   }

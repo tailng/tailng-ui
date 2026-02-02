@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { TailngIconComponent } from '@tociva/tailng-icons';
+import { TngIcon } from '@tociva/tailng-icons/icon';
 
 @Component({
   selector: 'playground-icon-demo',
   standalone: true,
-  imports: [TailngIconComponent],
+  imports: [TngIcon],
   templateUrl: './icon-demo.component.html',
 })
 export class IconDemoComponent {

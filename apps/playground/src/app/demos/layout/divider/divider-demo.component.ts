@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { TailngDividerComponent } from '@tociva/tailng-ui';
+import { TngDivider } from '@tociva/tailng-ui/layout';
 
 @Component({
   selector: 'playground-divider-demo',
   standalone: true,
-  imports: [TailngDividerComponent],
+  imports: [TngDivider],
   templateUrl: './divider-demo.component.html',
 })
 export class DividerDemoComponent {

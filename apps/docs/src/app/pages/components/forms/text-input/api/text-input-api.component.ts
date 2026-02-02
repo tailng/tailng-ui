@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, computed, inject, signal } from '@angular/core';
-import { TailngBadgeComponent, TailngCodeBlockComponent, TailngColComponent, TailngCopyButtonComponent, TailngTableComponent, TailngTagComponent } from '@tociva/tailng-ui';
+import { TngCodeBlock } from '@tociva/tailng-ui/utilities';
+import { TngTable, TngCol } from '@tociva/tailng-ui/data-table-structure';
+import { TngTag } from '@tociva/tailng-ui/buttons-indicators';
 import { ShikiHighlighterService } from '../../../../../shared/shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../../../shared/tng-shiki.adapter';
 
@@ -16,19 +18,17 @@ type displayDetails = {
   selector: 'docs-text-input-api',
   templateUrl: './text-input-api.component.html',
   imports: [
-    TailngCodeBlockComponent,
-    TailngTableComponent,
-    TailngColComponent,
-    TailngTagComponent,
-
-  
+    TngCodeBlock,
+    TngTable,
+    TngCol,
+    TngTag,
   ],
 })
 export class TextInputApiComponent implements AfterViewInit {
 private shiki = inject(ShikiHighlighterService);
   readonly highlighter = new TngShikiAdapter(this.shiki);
   
-   readonly inputKlassExample = computed(() => `import { TailngTextInputComponent } from '@tociva/tailng-ui';`);
+   readonly inputKlassExample = computed(() => `import { TngTextInput } from '@tociva/tailng-ui';`);
 
 
   private readonly seed: displayDetails[] = [

@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { TailngDialogComponent, TngDialogCloseReason } from '@tociva/tailng-ui';
+import { TngDialog, TngDialogCloseReason } from '@tociva/tailng-ui/popups-overlays';
 
 @Component({
   selector: 'playground-dialog-demo',
   standalone: true,
-  imports: [TailngDialogComponent],
+  imports: [TngDialog],
   templateUrl: './dialog-demo.component.html',
 })
 export class DialogDemoComponent {

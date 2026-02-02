@@ -40,13 +40,13 @@ npm install @ng-icons/bootstrap-icons
 
 ```typescript
 import { Component } from '@angular/core';
-import { TailngIconComponent } from '@tociva/tailng-icons';
+import { TngIcon } from '@tociva/tailng-icons';
 import { bootstrapCheckCircle } from '@ng-icons/bootstrap-icons';
 
 @Component({
   selector: 'app-example',
   standalone: true,
-  imports: [TailngIconComponent],
+  imports: [TngIcon],
   providers: [
     {
       provide: NgIconsToken,
@@ -98,7 +98,7 @@ Icons use `currentColor`, so you can style them with Tailwind:
 
 ## API Reference
 
-### `TailngIconComponent`
+### `TngIcon`
 
 #### Inputs
 

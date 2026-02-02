@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { TailngRippleDirective } from '@tociva/tailng-ui';
-import { TailngIconComponent } from '@tociva/tailng-icons';
+import { TngRipple } from '@tociva/tailng-ui/buttons-indicators';
+import { TngIcon } from '@tociva/tailng-icons/icon';
 
 @Component({
   selector: 'playground-ripples-demo',
   standalone: true,
-  imports: [TailngIconComponent, TailngRippleDirective],
+  imports: [TngIcon, TngRipple],
   templateUrl: './ripples-demo.component.html',
 })
 export class RipplesDemoComponent {

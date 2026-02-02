@@ -1,12 +1,12 @@
 import { Component, computed, signal } from '@angular/core';
-import { TailngPaginatorComponent, TngPaginatorChange } from '@tociva/tailng-ui';
+import { TngPaginator, TngPaginatorChange } from '@tociva/tailng-ui/navigation';
 
 type Item = { id: number; name: string; group: string };
 
 @Component({
   selector: 'playground-paginator-demo',
   standalone: true,
-  imports: [TailngPaginatorComponent],
+  imports: [TngPaginator],
   templateUrl: './paginator-demo.component.html',
 })
 export class PaginatorDemoComponent {

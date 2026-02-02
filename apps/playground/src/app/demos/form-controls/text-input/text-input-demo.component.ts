@@ -6,13 +6,13 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TailngTextInputComponent } from '@tociva/tailng-ui';
-import { TailngIconComponent } from '@tociva/tailng-icons';
+import { TngTextInput } from '@tociva/tailng-ui/form-controls';
+import { TngIcon } from '@tociva/tailng-icons/icon';
 
 @Component({
   selector: 'playground-text-input-demo',
   standalone: true,
-  imports: [ReactiveFormsModule, TailngTextInputComponent, JsonPipe, TailngIconComponent],
+  imports: [ReactiveFormsModule, TngTextInput, JsonPipe, TngIcon],
   templateUrl: './text-input-demo.component.html',
 })
 export class TextInputDemoComponent {

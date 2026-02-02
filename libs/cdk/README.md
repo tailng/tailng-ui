@@ -32,12 +32,12 @@ Manage focus trapping in modals, dialogs, and overlays:
 
 ```typescript
 import { Component } from '@angular/core';
-import { TailngFocusTrapDirective } from '@tociva/tailng-cdk';
+import { TngFocusTrap } from '@tociva/tailng-cdk';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [TailngFocusTrapDirective],
+  imports: [TngFocusTrap],
   template: `
     <div tngFocusTrap>
       <h2>Modal Content</h2>
@@ -97,11 +97,11 @@ scrollActiveIntoView({
 
 ### Directives
 
-- **`TailngFocusTrapDirective`**: Standalone directive for trapping focus within an element
+- **`TngFocusTrap`**: Standalone directive for trapping focus within an element
 
 ### Utilities
 
-- **`createTailngFocusTrap`**: Create a focus trap instance
+- **`createTngFocusTrap`**: Create a focus trap instance
 - **`keyboardNavigation`**: Keyboard navigation state management
 - **`scrollActiveIntoView`**: Scroll an element into view
 - **`OptionTplContext`**: Type for option template context

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { TailngEmptyStateComponent } from '@tociva/tailng-ui';
+import { TngEmptyState } from '@tociva/tailng-ui/data-table-structure';
 
 @Component({
   selector: 'playground-empty-state-demo',
   standalone: true,
-  imports: [TailngEmptyStateComponent],
+  imports: [TngEmptyState],
   templateUrl: './empty-state-demo.component.html',
 })
 export class EmptyStateDemoComponent {}

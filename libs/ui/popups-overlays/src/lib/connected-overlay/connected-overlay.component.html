@@ -1,0 +1,18 @@
+@if (open() && anchorEl()) {
+  @if (hasBackdrop()) {
+    <div
+      [class]="backdropClass()"
+      (pointerdown)="onBackdropPointerDown($event)"
+      aria-hidden="true"
+    ></div>
+  }
+
+  <div
+    #overlayRoot
+    class="fixed z-[1000]"
+    [ngStyle]="overlayStyle()"
+    role="presentation"
+  >
+    <ng-content />
+  </div>
+}

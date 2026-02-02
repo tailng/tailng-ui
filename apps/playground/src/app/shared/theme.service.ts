@@ -1,10 +1,10 @@
 import { Injectable, computed, effect, signal } from '@angular/core';
 
-export type TailngTheme = 'default' | 'slate' | 'indigo' | 'emerald' | 'rose';
-export type TailngMode = 'light' | 'dark';
+export type TngTheme = 'default' | 'slate' | 'indigo' | 'emerald' | 'rose';
+export type TngMode = 'light' | 'dark';
 
-export type ThemeOption = Readonly<{ id: TailngTheme; label: string }>;
-export type ModeOption = Readonly<{ id: TailngMode; label: string }>;
+export type ThemeOption = Readonly<{ id: TngTheme; label: string }>;
+export type ModeOption = Readonly<{ id: TngMode; label: string }>;
 
 const THEME_LIST = [
   { id: 'default', label: 'Default' },
@@ -27,8 +27,8 @@ export class ThemeService {
   readonly themeList = THEME_LIST;
   readonly modeList = MODE_LIST;
 
-  readonly theme = signal<TailngTheme>('default');
-  readonly mode = signal<TailngMode>('light');
+  readonly theme = signal<TngTheme>('default');
+  readonly mode = signal<TngMode>('light');
 
   readonly isDark = computed(() => this.mode() === 'dark');
   readonly themeLabel = computed(() => THEME_LIST.find(x => x.id === this.theme())?.label ?? 'Default');
@@ -42,11 +42,11 @@ export class ThemeService {
     });
   }
 
-  setTheme(theme: TailngTheme) {
+  setTheme(theme: TngTheme) {
     this.theme.set(theme);
   }
 
-  setMode(mode: TailngMode) {
+  setMode(mode: TngMode) {
     this.mode.set(mode);
   }
 

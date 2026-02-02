@@ -1,12 +1,12 @@
 import { Component, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TailngBadgeComponent, TailngButtonComponent } from '@tociva/tailng-ui';
+import { TngBadge, TngButton } from '@tociva/tailng-ui/buttons-indicators';
 
 @Component({
   standalone: true,
   selector: 'tng-project-home',
   host: { class: 'block flex-1 min-h-0 overflow-auto' },
-  imports: [RouterLink, TailngButtonComponent, TailngBadgeComponent],
+  imports: [RouterLink, TngButton, TngBadge],
   templateUrl: './home.component.html',
 })
 export class HomeComponent {

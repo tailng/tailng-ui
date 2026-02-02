@@ -1,15 +1,15 @@
 import { Component, signal } from '@angular/core';
-import { TailngIconComponent } from '@tociva/tailng-icons';
+import { TngIcon } from '@tociva/tailng-icons/icon';
 import {
-  TailngColComponent,
-  TailngTableComponent,
-  TailngCellDefDirective,
-  TailngHeaderDefDirective,
-  TailngFilterPanelComponent,
-  TailngFilterTriggerDirective,
-  TailngSortHeaderDirective,
-} from '@tociva/tailng-ui';
-import type { TailngColumnFilterMeta } from '@tociva/tailng-ui';
+  TngCol,
+  TngTable,
+  TngCellDef,
+  TngHeaderDef,
+  TngFilterPanel,
+  TngFilterTrigger,
+  TngSortHeaderDirective,
+  TngColumnFilterMeta,
+} from '@tociva/tailng-ui/data-table-structure';
 
 type InvoiceRow = {
   id: string;
@@ -23,14 +23,14 @@ type InvoiceRow = {
   selector: 'playground-filter-header-demo',
   standalone: true,
   imports: [
-    TailngTableComponent,
-    TailngColComponent,
-    TailngCellDefDirective,
-    TailngHeaderDefDirective,
-    TailngSortHeaderDirective,
-    TailngFilterTriggerDirective,
-    TailngFilterPanelComponent,
-    TailngIconComponent
+    TngTable,
+    TngCol,
+    TngCellDef,
+    TngHeaderDef,
+    TngSortHeaderDirective,
+    TngFilterTrigger,
+    TngFilterPanel,
+    TngIcon
   ],
   templateUrl: './filter-header-demo.component.html',
 })
@@ -50,16 +50,16 @@ export class FilterHeaderDemoComponent {
   readonly statusValue = (r: InvoiceRow) => r.status;
 
   // default filter meta helpers
-  filterText(placeholder?: string): TailngColumnFilterMeta {
+  filterText(placeholder?: string): TngColumnFilterMeta {
     return { type: 'text', placeholder };
   }
-  filterNumber(): TailngColumnFilterMeta {
+  filterNumber(): TngColumnFilterMeta {
     return { type: 'number' };
   }
-  filterDate(): TailngColumnFilterMeta {
+  filterDate(): TngColumnFilterMeta {
     return { type: 'date' };
   }
-  filterStatus(): TailngColumnFilterMeta {
+  filterStatus(): TngColumnFilterMeta {
     return {
       type: 'enum',
       options: [

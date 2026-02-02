@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { TailngProgressBarComponent } from '@tociva/tailng-ui';
+import { TngProgressBar } from '@tociva/tailng-ui/buttons-indicators';
 
 @Component({
   selector: 'playground-progress-bar-demo',
   standalone: true,
-  imports: [TailngProgressBarComponent],
+  imports: [TngProgressBar],
   templateUrl: './progress-bar-demo.component.html',
 })
 export class ProgressBarDemoComponent {

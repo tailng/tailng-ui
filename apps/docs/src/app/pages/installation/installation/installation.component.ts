@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { TailngCodeBlockComponent } from '@tociva/tailng-ui';
+import { TngCodeBlock } from '@tociva/tailng-ui/utilities';
 import { ShikiHighlighterService } from '../../../shared/shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../shared/tng-shiki.adapter';
 
@@ -7,7 +7,7 @@ import { TngShikiAdapter } from '../../../shared/tng-shiki.adapter';
   standalone: true,
   selector: 'docs-installation',
   templateUrl: './installation.component.html',
-  imports: [TailngCodeBlockComponent,],
+  imports: [TngCodeBlock,],
 })
 export class InstallationComponent {
 

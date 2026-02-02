@@ -34,12 +34,12 @@ npm install @tociva/tailng-ui
 
 ```typescript
 import { Component } from '@angular/core';
-import { TailngButtonComponent } from '@tociva/tailng-ui';
+import { TngButton } from '@tociva/tailng-ui';
 
 @Component({
   selector: 'app-example',
   standalone: true,
-  imports: [TailngButtonComponent],
+  imports: [TngButton],
   template: `
     <tng-button variant="primary">Click me</tng-button>
   `,
@@ -134,7 +134,7 @@ Helper components:
 ### Button
 
 ```typescript
-import { TailngButtonComponent } from '@tociva/tailng-ui';
+import { TngButton } from '@tociva/tailng-ui';
 
 @Component({
   template: `
@@ -142,7 +142,7 @@ import { TailngButtonComponent } from '@tociva/tailng-ui';
     <tng-button variant="outline">Outline</tng-button>
     <tng-button variant="text">Text</tng-button>
   `,
-  imports: [TailngButtonComponent],
+  imports: [TngButton],
 })
 export class MyComponent {}
 ```
@@ -150,7 +150,7 @@ export class MyComponent {}
 ### Form Input
 
 ```typescript
-import { TailngTextInputComponent } from '@tociva/tailng-ui';
+import { TngTextInput } from '@tociva/tailng-ui';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -161,7 +161,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
       placeholder="Enter email"
     />
   `,
-  imports: [TailngTextInputComponent, ReactiveFormsModule],
+  imports: [TngTextInput, ReactiveFormsModule],
 })
 export class MyComponent {
   email = new FormControl('');
@@ -171,7 +171,7 @@ export class MyComponent {
 ### Dialog
 
 ```typescript
-import { TailngDialogComponent } from '@tociva/tailng-ui';
+import { TngDialog } from '@tociva/tailng-ui';
 
 @Component({
   template: `
@@ -188,7 +188,7 @@ import { TailngDialogComponent } from '@tociva/tailng-ui';
       </div>
     </tng-dialog>
   `,
-  imports: [TailngDialogComponent, TailngButtonComponent],
+  imports: [TngDialog, TngButton],
 })
 export class MyComponent {}
 ```

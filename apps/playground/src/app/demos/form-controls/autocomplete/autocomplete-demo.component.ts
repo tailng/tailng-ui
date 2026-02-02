@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
-import { TailngAutocompleteComponent } from '@tociva/tailng-ui';
+import { TngAutocomplete } from '@tociva/tailng-ui/form-controls';
 
 import { Country, COUNTRY_LIST } from '../../util/country-list';
 import { toFlagEmoji } from '../../util/common.util';
@@ -8,7 +8,7 @@ import { toFlagEmoji } from '../../util/common.util';
 @Component({
   selector: 'playground-autocomplete-demo',
   standalone: true,
-  imports: [ReactiveFormsModule, TailngAutocompleteComponent],
+  imports: [ReactiveFormsModule, TngAutocomplete],
   templateUrl: './autocomplete-demo.component.html',
 })
 export class AutocompleteDemoComponent {

@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { TailngSliderComponent } from '@tociva/tailng-ui';
+import { TngSlider } from '@tociva/tailng-ui/form-controls';
 
 @Component({
   selector: 'playground-slider-demo',
   standalone: true,
-  imports: [TailngSliderComponent],
+  imports: [TngSlider],
   templateUrl: './slider-demo.component.html',
 })
 export class SliderDemoComponent {
