@@ -1,5 +1,5 @@
 import { Component, computed, Directive, inject, input, signal } from '@angular/core';
-import { TailngIconComponent } from '@tociva/tailng-icons';
+import { TailngIconComponent } from '@tociva/tailng-icons/icon';
 import { TailngExpansionPanelComponent, TailngTabComponent, TailngTabPanelComponent, TailngTabsComponent } from '@tociva/tailng-ui/layout';
 import { TailngCodeBlockComponent } from '@tociva/tailng-ui/utilities';
 import { ShikiHighlighterService } from '../shiki-highlighter.service';

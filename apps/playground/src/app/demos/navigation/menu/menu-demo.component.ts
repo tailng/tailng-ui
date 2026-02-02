@@ -1,6 +1,6 @@
 
 import { Component } from '@angular/core';
-import { TailngIconComponent } from '@tociva/tailng-icons';
+import { TailngIconComponent } from '@tociva/tailng-icons/icon';
 import { TailngMenuComponent, TailngMenuItemDirective, TailngMenuTemplateDirective } from '@tociva/tailng-ui/navigation';
 
 @Component({

@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 
 import { TailngOverlayCloseReason } from '../../../../popups-overlays/src/public-api';
-import { TailngFocusTrapDirective } from '@tociva/tailng-cdk';
+import { TailngFocusTrapDirective } from '@tociva/tailng-cdk/a11y';
 
 export type TngDrawerPlacement = 'left' | 'right' | 'top' | 'bottom';
 export type DrawerCloseReason = TailngOverlayCloseReason;

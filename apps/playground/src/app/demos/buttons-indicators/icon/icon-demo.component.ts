@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TailngIconComponent } from '@tociva/tailng-icons';
+import { TailngIconComponent } from '@tociva/tailng-icons/icon';
 
 @Component({
   selector: 'playground-icon-demo',

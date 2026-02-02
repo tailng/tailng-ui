@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TailngButtonComponent } from '@tociva/tailng-ui/buttons-indicators';
-import { TailngIconComponent } from '@tociva/tailng-icons';
+import { TailngIconComponent } from '@tociva/tailng-icons/icon';
 
 @Component({
   selector: 'playground-button-demo',

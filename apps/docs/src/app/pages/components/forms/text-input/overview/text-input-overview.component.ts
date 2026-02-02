@@ -1,5 +1,5 @@
 import { Component, computed } from '@angular/core';
-import { TailngIconComponent } from '@tociva/tailng-icons';
+import { TailngIconComponent } from '@tociva/tailng-icons/icon';
 import { TailngTagComponent } from '@tociva/tailng-ui/buttons-indicators';
 import { TailngTextInputComponent } from '@tociva/tailng-ui/form-controls';
 import { ExampleBlockComponent, TailngExampleDemoDirective } from '../../../../../shared/example-block/example-block.component';

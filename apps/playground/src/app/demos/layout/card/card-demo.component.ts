@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TailngCardComponent } from '@tociva/tailng-ui/layout';
-import { TailngIconComponent } from '@tociva/tailng-icons';
+import { TailngIconComponent } from '@tociva/tailng-icons/icon';
 
 @Component({
   selector: 'playground-card-demo',

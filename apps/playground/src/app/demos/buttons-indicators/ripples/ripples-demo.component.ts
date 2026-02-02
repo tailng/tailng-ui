@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TailngRippleDirective } from '@tociva/tailng-ui/buttons-indicators';
-import { TailngIconComponent } from '@tociva/tailng-icons';
+import { TailngIconComponent } from '@tociva/tailng-icons/icon';
 
 @Component({
   selector: 'playground-ripples-demo',

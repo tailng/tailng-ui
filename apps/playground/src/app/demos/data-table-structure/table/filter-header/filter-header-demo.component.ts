@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TailngIconComponent } from '@tociva/tailng-icons';
+import { TailngIconComponent } from '@tociva/tailng-icons/icon';
 import {
   TailngColComponent,
   TailngTableComponent,

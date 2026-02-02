@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { TailngIconComponent } from '@tociva/tailng-icons';
+import { TailngIconComponent } from '@tociva/tailng-icons/icon';
 import {
   TailngTextInputComponent
 } from '@tociva/tailng-ui/form-controls';

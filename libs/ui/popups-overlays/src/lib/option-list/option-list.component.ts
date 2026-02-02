@@ -11,7 +11,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { OptionTplContext } from '@tociva/tailng-cdk';
+import { OptionTplContext } from '@tociva/tailng-cdk/util';
 
 import { TailngOverlayPanelComponent } from '../overlay-panel/overlay-panel.component';
 

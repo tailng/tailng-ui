@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { TailngTextInputComponent } from '@tociva/tailng-ui/form-controls';
-import { TailngIconComponent } from '@tociva/tailng-icons';
+import { TailngIconComponent } from '@tociva/tailng-icons/icon';
 
 @Component({
   selector: 'playground-text-input-demo',

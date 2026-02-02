@@ -22,7 +22,7 @@ import {
   type TailngOverlayCloseReason,
 } from '../../../../popups-overlays/src/public-api';
 
-import { OptionTplContext } from '@tociva/tailng-cdk';
+import { OptionTplContext } from '@tociva/tailng-cdk/util';
 
 export type SelectCloseReason = TailngOverlayCloseReason;
 export type SelectValueTplContext<T> = { $implicit: T };

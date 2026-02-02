@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { TailngCopyButtonComponent } from '@tociva/tailng-ui/utilities';
-import { TailngIconComponent } from "@tociva/tailng-icons";
+import { TailngIconComponent } from "@tociva/tailng-icons/icon";
 
 @Component({
   selector: 'playground-copy-button-demo',

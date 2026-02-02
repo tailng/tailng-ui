@@ -8,7 +8,7 @@ import {
 import { TailngTextInputComponent } from '@tociva/tailng-ui/form-controls';
 import { TailngSidenavComponent } from '@tociva/tailng-ui/navigation';
 import { docsNav } from '../../data/nav';
-import { TailngIconComponent } from '@tociva/tailng-icons';
+import { TailngIconComponent } from '@tociva/tailng-icons/icon';
 
 @Component({
   standalone: true,

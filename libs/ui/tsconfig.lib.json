@@ -12,10 +12,14 @@
     "lib": ["ES2022", "DOM"],
 
     "paths": {
+      "@tociva/tailng-ui": ["libs/ui/src/public-api.ts"],
+      "@tociva/tailng-ui/*": ["libs/ui/*/src/public-api.ts"],
+
       "@tociva/tailng-cdk": ["libs/cdk/src/public-api.ts"],
+      "@tociva/tailng-cdk/*": ["libs/cdk/*/src/public-api.ts"],
+
       "@tociva/tailng-icons": ["libs/icons/src/public-api.ts"],
-      "@tociva/tailng-theme": ["libs/theme/src/public-api.ts"],
-      "@tociva/tailng-ui": ["libs/ui/src/public-api.ts"]
+      "@tociva/tailng-theme": ["libs/theme/src/public-api.ts"]
     }
   },
   "angularCompilerOptions": {
