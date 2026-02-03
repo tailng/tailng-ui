@@ -48,12 +48,12 @@ jobs:
           token: ${{ secrets.GH_PAT }}
 
       # ------------------------------------
-      # NODE AND YARN
+      # NODE AND YARN (Node 20 for reliable ng-packagr output)
       # ------------------------------------
-      - name: Setup Node 22
+      - name: Setup Node 20 LTS
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
           registry-url: "https://registry.npmjs.org"
 
       # IMPORTANT: upgrade npm for Trusted Publishing + provenance
@@ -66,7 +66,7 @@ jobs:
         run: |
           corepack enable
           corepack prepare yarn@4.12.0 --activate
-          corepack yarn --version
+          yarn --version
           which yarn
 
       - name: Cache yarn dependencies
@@ -80,7 +80,7 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Install dependencies
-        run: corepack yarn install --immutable
+        run: yarn install --immutable
 
       # ------------------------------------
       # INPUT VALIDATION
@@ -120,12 +120,12 @@ jobs:
       # DOCS
       # ------------------------------------
       - name: Build docs if selected
-        run: node tools/release/run-if.mjs "${{ inputs.targets }}" docs "corepack yarn docs:seo"
+        run: node tools/release/run-if.mjs "${{ inputs.targets }}" docs "yarn docs:seo"
 
       - name: Deploy docs to Cloudflare Pages
         if: contains(env.TARGETS, ',docs,')
         run: |
-          corepack yarn dlx wrangler pages deploy dist/apps/docs \
+          yarn dlx wrangler pages deploy dist/apps/docs \
             --project-name ${{ secrets.CF_DOCS_PROJECT_NAME }} \
             --branch main
         env:
@@ -140,6 +140,20 @@ jobs:
 
       - name: Verify build output
         run: node tools/release/verify-dist.mjs "${{ inputs.targets }}"
+
+      # ------------------------------------
+      # STRONGLY RECOMMENDED: SANITY CHECK (prevent publishing stub bundles)
+      # - Ensures expected dist files exist (fesm2022 + types)
+      # - Optionally checks minimum file sizes so stubbed outputs fail CI
+      # ------------------------------------
+      - name: Sanity check built bundles
+        run: node tools/release/assert-bundles.mjs "${{ inputs.targets }}"
+
+      # ------------------------------------
+      # OPTIONAL BUT USEFUL: npm pack dry-run per target (catches missing files/.npmignore issues)
+      # ------------------------------------
+      - name: npm pack dry-run (selected targets)
+        run: node tools/release/npm-pack-dry-run.mjs "${{ inputs.targets }}"
 
       # ------------------------------------
       # PUBLISH
