@@ -1,1 +1,29 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      <span class="font-mono">tng-expansion-panel</span> exposes rootKlass, headerKlass, titleKlass, iconWrapperKlass, chevronKlass, contentOuterKlass, contentClipKlass, contentBodyKlass, contentPaddingKlass.
+    </p>
+  </div>
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Themed panel (root / header / chevron / content)</h3>
+    <p class="text-sm text-fg">Override root, header, content padding, and chevron classes.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="themedHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-expansion-panel
+          rootKlass="rounded-xl border border-slate-200 bg-white shadow-sm"
+          headerKlass="flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-semibold text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-60"
+          contentPaddingKlass="px-5 pb-5 pt-2"
+          contentBodyKlass="text-sm text-slate-600"
+          chevronKlass="h-4 w-4 shrink-0 transition-transform duration-200 text-primary"
+        >
+          <div tngExpansionTitle>Custom styled header</div>
+          <div tngExpansionContent>
+            This example overrides root, header, content, and chevron classes using klass inputs.
+          </div>
+        </tng-expansion-panel>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

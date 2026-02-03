@@ -1,1 +1,57 @@
-Overview content.
+<div class="grid grid-cols-1 md:grid-cols-[10fr_auto_1fr] gap-5">
+  <section class="space-y-6">
+    <div id="overview" class="rounded-xl border bg-bg p-6 shadow-sm space-y-3 text-fg">
+      <h2 class="text-base font-semibold text-primary">Overview</h2>
+      <p class="text-sm leading-6 text-muted">
+        <span class="font-mono text-primary/20">tng-tabs</span> is a headless tab container. Use <span class="font-mono text-primary/20">tng-tab</span> with <span class="font-mono text-primary/20">value</span> for each tab and <span class="font-mono text-primary/20">tng-tab-panel</span> with matching <span class="font-mono text-primary/20">value</span> for content. Control active tab via <span class="font-mono text-primary/20">value</span> / <span class="font-mono text-primary/20">valueChange</span> (controlled) or <span class="font-mono text-primary/20">defaultValue</span> (uncontrolled). <span class="font-mono text-primary/20">orientation</span> can be horizontal or vertical. Class hooks: rootKlass, listKlass, panelKlass on the container; tabKlass, activeKlass, inactiveKlass, disabledKlass on each <span class="font-mono text-primary/20">tng-tab</span>.
+      </p>
+    </div>
+    <div id="QuickExample" class="relative rounded-xl border p-4 shadow-sm space-y-2 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Quick example</h3>
+      <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="basicHtml()" [tsContent]="basicTs()">
+        <span tngExampleTitle>Basic</span>
+        <div tngExampleDemo>
+          <tng-tabs defaultValue="overview">
+            <tng-tab value="overview">Overview</tng-tab>
+            <tng-tab value="activity">Activity</tng-tab>
+            <tng-tab value="settings">Settings</tng-tab>
+            <tng-tab-panel value="overview">
+              <div class="rounded-lg border border-border bg-bg p-4 text-sm">Overview content.</div>
+            </tng-tab-panel>
+            <tng-tab-panel value="activity">
+              <div class="rounded-lg border border-border bg-bg p-4 text-sm">Activity content.</div>
+            </tng-tab-panel>
+            <tng-tab-panel value="settings">
+              <div class="rounded-lg border border-border bg-bg p-4 text-sm">Settings content.</div>
+            </tng-tab-panel>
+          </tng-tabs>
+        </div>
+      </docs-example-block>
+    </div>
+    <div id="features" class="rounded-xl border bg-bg p-6 shadow-sm space-y-4 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Features</h3>
+      <div class="grid gap-3 sm:grid-cols-1">
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">Controlled / uncontrolled</div>
+          <p class="text-xs leading-5 text-muted">Use <code>value</code> and <code>valueChange</code> for controlled mode, or <code>defaultValue</code> for internal state.</p>
+        </div>
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">Orientation</div>
+          <p class="text-xs leading-5 text-muted">orientation: horizontal | vertical. Use listKlass/rootKlass for vertical layout (e.g. flex-col, grid).</p>
+        </div>
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">Class hooks</div>
+          <p class="text-xs leading-5 text-muted">TngTabs: rootKlass, listKlass, panelKlass. TngTab: tabKlass, activeKlass, inactiveKlass, disabledKlass.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
+    <h3 class="mb-3 text-xs font-semibold tracking-wide">On this page</h3>
+    <ul class="space-y-2 text-sm text-fg">
+      <li><a href="#overview" class="flex items-center gap-2 p-0 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Overview</a></li>
+      <li><a href="#QuickExample" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Quick example</a></li>
+      <li><a href="#features" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Features</a></li>
+    </ul>
+  </aside>
+</div>

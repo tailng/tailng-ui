@@ -1,1 +1,91 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Basic</h3>
+    <p class="text-sm text-fg">Single panel with title and content.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="basicHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-expansion-panel>
+          <div tngExpansionTitle>What is TailNG?</div>
+          <div tngExpansionContent>
+            TailNG is a minimal Angular + Tailwind UI kit with klass hooks for theming.
+          </div>
+        </tng-expansion-panel>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Open by default</h3>
+    <p class="text-sm text-fg">Set <span class="font-mono">open</span> to true to start expanded.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="openByDefaultHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-expansion-panel [open]="true">
+          <div tngExpansionTitle>Open initially</div>
+          <div tngExpansionContent>
+            This panel starts opened using the <code class="rounded bg-slate-100 px-1">open</code> input.
+          </div>
+        </tng-expansion-panel>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Disabled</h3>
+    <p class="text-sm text-fg">Set <span class="font-mono">disabled</span> to prevent toggling.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="disabledHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-expansion-panel [disabled]="true" [open]="true">
+          <div tngExpansionTitle>Disabled (non-interactive)</div>
+          <div tngExpansionContent>
+            Disabled panels show reduced opacity and prevent toggling.
+          </div>
+        </tng-expansion-panel>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">No content padding</h3>
+    <p class="text-sm text-fg">Set <span class="font-mono">padded="false"</span> and style the content area yourself.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="noPaddingHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-expansion-panel [padded]="false" contentBodyKlass="overflow-hidden text-sm text-muted-foreground">
+          <div tngExpansionTitle>Custom layout inside</div>
+          <div tngExpansionContent>
+            <div class="border-t border-border">
+              <div class="p-4">You can turn off internal padding and fully control the content layout.</div>
+              <div class="flex items-center justify-between border-t border-border p-4 text-sm">
+                <span class="text-muted-foreground">Footer area</span>
+                <button class="rounded-md bg-primary px-3 py-1.5 text-white">Action</button>
+              </div>
+            </div>
+          </div>
+        </tng-expansion-panel>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Stacked panels</h3>
+    <p class="text-sm text-fg">Use multiple panels in a list. For single-open behavior use <span class="font-mono">tng-accordion</span>.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="stackedHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="space-y-2">
+          <tng-expansion-panel>
+            <div tngExpansionTitle>Panel A</div>
+            <div tngExpansionContent>Content for panel A.</div>
+          </tng-expansion-panel>
+          <tng-expansion-panel>
+            <div tngExpansionTitle>Panel B</div>
+            <div tngExpansionContent>Content for panel B.</div>
+          </tng-expansion-panel>
+          <tng-expansion-panel>
+            <div tngExpansionTitle>Panel C</div>
+            <div tngExpansionContent>Content for panel C.</div>
+          </tng-expansion-panel>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

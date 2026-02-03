@@ -1,1 +1,38 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Horizontal with label</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">label</span> and <span class="font-mono">align</span> (start | center | end).</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="labelHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-divider label="OR" />
+        <tng-divider label="Start" align="start" />
+        <tng-divider label="End" align="end" />
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Vertical</h3>
+    <p class="text-sm text-fg">Set <span class="font-mono">orientation="vertical"</span>. Use a flex container with height so the divider is visible.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="verticalHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex items-center gap-4 h-10">
+          <span class="text-sm">Item A</span>
+          <tng-divider orientation="vertical" rootKlass="h-full shrink-0" lineKlass="border-border" />
+          <span class="text-sm">Item B</span>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Dashed</h3>
+    <p class="text-sm text-fg">Set <span class="font-mono">dashed</span> for dashed border style.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="dashedHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-divider [dashed]="true" />
+      </div>
+    </docs-example-block>
+  </div>
+</section>

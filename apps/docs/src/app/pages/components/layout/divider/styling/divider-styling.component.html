@@ -1,1 +1,18 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      <span class="font-mono">tng-divider</span> exposes rootKlass, lineKlass, labelKlass, gapKlass, thicknessKlass, verticalHeightKlass.
+    </p>
+  </div>
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">lineKlass / labelKlass</h3>
+    <p class="text-sm text-fg">Style the line and optional label.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="lineLabelHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-divider label="Themed" lineKlass="border-primary/40" labelKlass="text-primary text-xs font-medium" />
+      </div>
+    </docs-example-block>
+  </div>
+</section>

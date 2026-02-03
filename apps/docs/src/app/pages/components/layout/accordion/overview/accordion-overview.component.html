@@ -1,1 +1,57 @@
-Overview content.
+<div class="grid grid-cols-1 md:grid-cols-[10fr_auto_1fr] gap-5">
+  <section class="space-y-6">
+    <div id="overview" class="rounded-xl border bg-bg p-6 shadow-sm space-y-3 text-fg">
+      <h2 class="text-base font-semibold text-primary">Overview</h2>
+      <p class="text-sm leading-6 text-muted">
+        <span class="font-mono text-primary/20">tng-accordion</span> groups <span class="font-mono text-primary/20">tng-expansion-panel</span> children and enforces single-open (accordion) or multiple-open behavior. Use <span class="font-mono text-primary/20">multiple</span> to allow several panels open at once, <span class="font-mono text-primary/20">collapsible</span> to allow closing the last open panel, and <span class="font-mono text-primary/20">autoOpenFirst</span> to open the first panel on init. <span class="font-mono text-primary/20">openIndexesChange</span> emits the list of open panel indexes. Class hooks: rootKlass, stackKlass.
+      </p>
+    </div>
+    <div id="QuickExample" class="relative rounded-xl border p-4 shadow-sm space-y-2 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Quick example</h3>
+      <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="basicHtml()" [tsContent]="basicTs()">
+        <span tngExampleTitle>Basic (single open)</span>
+        <div tngExampleDemo>
+          <tng-accordion>
+            <tng-expansion-panel>
+              <div tngExpansionTitle>Panel A</div>
+              <div tngExpansionContent>Only one panel stays open at a time.</div>
+            </tng-expansion-panel>
+            <tng-expansion-panel>
+              <div tngExpansionTitle>Panel B</div>
+              <div tngExpansionContent>Opening this closes the others.</div>
+            </tng-expansion-panel>
+            <tng-expansion-panel>
+              <div tngExpansionTitle>Panel C</div>
+              <div tngExpansionContent>Classic accordion behavior.</div>
+            </tng-expansion-panel>
+          </tng-accordion>
+        </div>
+      </docs-example-block>
+    </div>
+    <div id="features" class="rounded-xl border bg-bg p-6 shadow-sm space-y-4 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Features</h3>
+      <div class="grid gap-3 sm:grid-cols-1">
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">Single vs multiple</div>
+          <p class="text-xs leading-5 text-muted">Default: only one panel open. Set <code>multiple</code> to true for collapsible sections (multiple open).</p>
+        </div>
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">Collapsible</div>
+          <p class="text-xs leading-5 text-muted">When false, at least one panel stays open. Use with <code>autoOpenFirst</code> to guarantee one open on load.</p>
+        </div>
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">Class hooks</div>
+          <p class="text-xs leading-5 text-muted">rootKlass, stackKlass. Panel visuals come from each <code>tng-expansion-panel</code> klass inputs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
+    <h3 class="mb-3 text-xs font-semibold tracking-wide">On this page</h3>
+    <ul class="space-y-2 text-sm text-fg">
+      <li><a href="#overview" class="flex items-center gap-2 p-0 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Overview</a></li>
+      <li><a href="#QuickExample" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Quick example</a></li>
+      <li><a href="#features" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Features</a></li>
+    </ul>
+  </aside>
+</div>

@@ -1,1 +1,87 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Single open (default)</h3>
+    <p class="text-sm text-fg">Only one panel stays open at a time.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="singleHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-accordion>
+          <tng-expansion-panel>
+            <div tngExpansionTitle>Panel A</div>
+            <div tngExpansionContent>Only one panel stays open (default).</div>
+          </tng-expansion-panel>
+          <tng-expansion-panel>
+            <div tngExpansionTitle>Panel B</div>
+            <div tngExpansionContent>Opening this closes the others.</div>
+          </tng-expansion-panel>
+          <tng-expansion-panel>
+            <div tngExpansionTitle>Panel C</div>
+            <div tngExpansionContent>Classic accordion behavior.</div>
+          </tng-expansion-panel>
+        </tng-accordion>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Multiple open</h3>
+    <p class="text-sm text-fg">Set <span class="font-mono">multiple="true"</span> to allow several panels open at once.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="multipleHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-accordion [multiple]="true">
+          <tng-expansion-panel>
+            <div tngExpansionTitle>Filters</div>
+            <div tngExpansionContent>Multiple panels can be open at the same time.</div>
+          </tng-expansion-panel>
+          <tng-expansion-panel>
+            <div tngExpansionTitle>Sort</div>
+            <div tngExpansionContent>Useful for settings panels / sidebars.</div>
+          </tng-expansion-panel>
+          <tng-expansion-panel>
+            <div tngExpansionTitle>Advanced</div>
+            <div tngExpansionContent>Collapsible sections style.</div>
+          </tng-expansion-panel>
+        </tng-accordion>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Non-collapsible + auto open first</h3>
+    <p class="text-sm text-fg">Set <span class="font-mono">collapsible="false"</span> so at least one panel stays open, and <span class="font-mono">autoOpenFirst="true"</span> to open the first on init.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="nonCollapsibleHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-accordion [collapsible]="false" [autoOpenFirst]="true">
+          <tng-expansion-panel>
+            <div tngExpansionTitle>Always one open</div>
+            <div tngExpansionContent>You cannot close the last open panel in this mode.</div>
+          </tng-expansion-panel>
+          <tng-expansion-panel>
+            <div tngExpansionTitle>Second panel</div>
+            <div tngExpansionContent>Switching panels is allowed; at least one remains open.</div>
+          </tng-expansion-panel>
+        </tng-accordion>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Track open indexes</h3>
+    <p class="text-sm text-fg">Listen to <span class="font-mono">openIndexesChange</span> to react to which panels are open.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="trackHtml()" [tsContent]="trackTs()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="mb-3 text-sm text-muted-foreground">Open indexes: <code class="rounded bg-slate-100 px-1">{{ openIndexes() | json }}</code></div>
+        <tng-accordion (openIndexesChange)="openIndexes.set($event)">
+          <tng-expansion-panel>
+            <div tngExpansionTitle>Panel A</div>
+            <div tngExpansionContent>Content A.</div>
+          </tng-expansion-panel>
+          <tng-expansion-panel>
+            <div tngExpansionTitle>Panel B</div>
+            <div tngExpansionContent>Content B.</div>
+          </tng-expansion-panel>
+        </tng-accordion>
+      </div>
+    </docs-example-block>
+  </div>
+</section>
