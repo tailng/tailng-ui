@@ -1,6 +1,6 @@
 {
   "name": "@tociva/tailng-ui",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "Modern Angular UI components powered by Tailwind CSS",
   "license": "MIT",
   "repository": {
@@ -16,7 +16,7 @@
     "@angular/core": "^21.0.0",
     "@angular/common": "^21.0.0",
     "@angular/forms": "^21.0.0",
-    "@tociva/tailng-cdk": "^0.11.0"
+    "@tociva/tailng-cdk": "^0.12.0"
   },
   "dependencies": {
     "tslib": "^2.6.0"

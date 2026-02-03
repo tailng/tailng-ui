@@ -1,6 +1,6 @@
 {
   "name": "@tociva/tailng-theme",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "TailNG theme tokens (CSS) + Tailwind preset/plugin helpers",
   "license": "MIT",
   "repository": {
