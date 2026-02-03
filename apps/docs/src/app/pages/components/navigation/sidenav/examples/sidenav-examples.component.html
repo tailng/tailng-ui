@@ -1,1 +1,42 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Minimal</h3>
+    <p class="text-sm text-fg">Default slot for nav links; optional header/footer.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="minimalHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex h-44 overflow-hidden rounded-md border border-border">
+          <tng-sidenav>
+            <div class="p-3 font-medium">Nav</div>
+            <div class="flex flex-col gap-1 p-2">
+              <a class="rounded px-3 py-2 text-sm hover:bg-slate-100">Dashboard</a>
+              <a class="rounded px-3 py-2 text-sm hover:bg-slate-100">Settings</a>
+            </div>
+          </tng-sidenav>
+          <div class="flex-1 p-4 text-sm text-muted">Main content</div>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Collapsible</h3>
+    <p class="text-sm text-fg">Bind <span class="font-mono">[collapsed]</span> and use <span class="font-mono">tngSidenavHeader</span> / <span class="font-mono">tngSidenavFooter</span> with <span class="font-mono">group-data-[collapsed=true]:max-h-0</span> to hide when collapsed.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="collapsibleHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button type="button" class="rounded border border-border px-3 py-2 text-sm" (click)="collapsed.set(!collapsed())">Toggle</button>
+        <div class="mt-3 flex h-44 overflow-hidden rounded-md border border-border">
+          <tng-sidenav [collapsed]="collapsed()">
+            <div tngSidenavHeader class="px-4 py-3 font-semibold overflow-hidden transition-[max-height,opacity] group-data-[collapsed=true]:max-h-0 group-data-[collapsed=true]:opacity-0">App</div>
+            <div class="flex flex-col gap-1 p-2">
+              <a class="rounded px-3 py-2 text-sm hover:bg-slate-100">Home</a>
+              <a class="rounded px-3 py-2 text-sm hover:bg-slate-100">Reports</a>
+            </div>
+            <div tngSidenavFooter class="border-t border-border px-3 py-2 text-xs text-muted overflow-hidden transition-[max-height,opacity] group-data-[collapsed=true]:max-h-0 group-data-[collapsed=true]:opacity-0">Footer</div>
+          </tng-sidenav>
+          <div class="flex-1 p-4 text-sm text-muted">Content</div>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

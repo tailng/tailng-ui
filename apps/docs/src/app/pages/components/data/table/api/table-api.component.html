@@ -1,1 +1,84 @@
-Api content.
+<div class="grid grid-cols-1 md:grid-cols-[10fr_auto_1fr] gap-5">
+  <section class="space-y-6">
+    <h3 class="text-2xl font-semibold text-primary">API reference for table</h3>
+    <div class="border border-border bg-bg">
+      <tng-code-block
+        [content]="importExample()"
+        [highlighter]="highlighter"
+        language="typescript"
+        preKlass="bg-bg h-15"
+        rootKlass="border-0 bg-bg h-20 overflow-y-hidden"
+      >
+      </tng-code-block>
+    </div>
+
+    <header class="flex flex-col gap-1">
+      <h3 class="text-2xl font-semibold text-primary">TngTable inputs</h3>
+    </header>
+    <section id="table-inputs" class="flex flex-col gap-4 text-fg">
+      <div class="rounded-md border text-fg">
+        <tng-table [rows]="tableInputRows()">
+          <tng-col id="property" header="Property" [value]="property"></tng-col>
+          <tng-col id="type" header="Type" [value]="type"></tng-col>
+          <tng-col id="default" header="Default" [value]="default"></tng-col>
+          <tng-col id="description" header="Description" [value]="description"></tng-col>
+        </tng-table>
+      </div>
+    </section>
+
+    <section id="table-klass" class="flex flex-col gap-4 text-fg">
+      <h3 class="text-base font-semibold text-primary">TngTable class hooks</h3>
+      <div class="rounded-md border text-fg">
+        <tng-table [rows]="tableKlassRows()">
+          <tng-col id="property" header="Property" [value]="property"></tng-col>
+          <tng-col id="type" header="Type" [value]="type"></tng-col>
+          <tng-col id="default" header="Default" [value]="default"></tng-col>
+          <tng-col id="description" header="Description" [value]="description"></tng-col>
+        </tng-table>
+      </div>
+    </section>
+
+    <header class="flex flex-col gap-1">
+      <h3 class="text-2xl font-semibold text-primary">TngTable outputs</h3>
+    </header>
+    <section id="table-outputs" class="flex flex-col gap-4 text-fg">
+      <div class="rounded-md border text-fg">
+        <tng-table [rows]="tableOutputRows()">
+          <tng-col id="property" header="Property" [value]="property"></tng-col>
+          <tng-col id="type" header="Type" [value]="type"></tng-col>
+          <tng-col id="description" header="Description" [value]="description"></tng-col>
+        </tng-table>
+      </div>
+    </section>
+
+    <header class="flex flex-col gap-1">
+      <h3 class="text-2xl font-semibold text-primary">TngCol inputs</h3>
+    </header>
+    <section id="col-inputs" class="flex flex-col gap-4 text-fg">
+      <div class="rounded-md border text-fg">
+        <tng-table [rows]="colInputRows()">
+          <tng-col id="property" header="Property" [value]="property"></tng-col>
+          <tng-col id="type" header="Type" [value]="type"></tng-col>
+          <tng-col id="default" header="Default" [value]="default"></tng-col>
+          <tng-col id="description" header="Description" [value]="description"></tng-col>
+        </tng-table>
+      </div>
+    </section>
+
+    <div id="templates" class="rounded-xl border border-border bg-bg p-6 shadow-sm space-y-4 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Cell and header templates</h3>
+      <p class="text-sm leading-6 text-muted">Inside <span class="font-mono">tng-col</span>, use <span class="font-mono">ng-template tngCell</span> with <span class="font-mono">let-row, let-value="value"</span> (and optional <span class="font-mono">let-rowIndex</span>). Use <span class="font-mono">ng-template tngHeader</span> with <span class="font-mono">let-header="header"</span> for custom header content. Import <span class="font-mono">TngCellDef</span> and <span class="font-mono">TngHeaderDef</span> from <span class="font-mono">@tociva/tailng-ui/table</span>.</p>
+    </div>
+  </section>
+
+  <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
+    <h3 class="mb-3 text-xs font-semibold tracking-wide">API Overview</h3>
+    <ul class="space-y-2 text-sm text-fg">
+      <li><a href="#table-inputs" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> TngTable inputs</a></li>
+      <li><a href="#table-klass" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> TngTable class hooks</a></li>
+      <li><a href="#table-outputs" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> TngTable outputs</a></li>
+      <li><a href="#col-inputs" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> TngCol inputs</a></li>
+      <li><a href="#templates" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Templates</a></li>
+    </ul>
+  </aside>
+</div>

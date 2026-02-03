@@ -1,1 +1,37 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Basic card with header and footer</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">tngCardHeader</span> and <span class="font-mono">tngCardFooter</span> for optional sections.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="basicHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-card class="max-w-sm">
+          <div tngCardHeader class="font-semibold">Title</div>
+          <p class="text-sm text-muted">Body content.</p>
+          <div tngCardFooter class="text-xs text-muted">Footer</div>
+        </tng-card>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Content only</h3>
+    <p class="text-sm text-fg">Omit header and footer for a simple content box.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="contentOnlyHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-card class="max-w-sm">
+          <p class="text-sm">Just body content, no header or footer.</p>
+        </tng-card>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

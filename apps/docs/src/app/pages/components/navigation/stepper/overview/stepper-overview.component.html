@@ -1,1 +1,47 @@
-Overview content.
+<div class="grid grid-cols-1 md:grid-cols-[10fr_auto_1fr] gap-5">
+  <section class="space-y-6">
+    <div id="overview" class="rounded-xl border bg-bg p-6 shadow-sm space-y-3 text-fg">
+      <h2 class="text-base font-semibold text-primary">Overview</h2>
+      <p class="text-sm leading-6 text-muted">
+        <span class="font-mono text-primary/20">tng-stepper</span> is a headless stepper: use <span class="font-mono text-primary/20">tng-step</span> for each step header and <span class="font-mono text-primary/20">tng-step-panel</span> with <span class="font-mono text-primary/20">[index]</span> for content. Controlled via <span class="font-mono text-primary/20">[activeIndex]</span> or uncontrolled with <span class="font-mono text-primary/20">defaultIndex</span>. <span class="font-mono text-primary/20">linear</span> mode requires steps to be marked complete before advancing. <span class="font-mono text-primary/20">orientation</span>: horizontal | vertical.
+      </p>
+    </div>
+    <div id="QuickExample" class="relative rounded-xl border p-4 shadow-sm space-y-2 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Quick example</h3>
+      <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="basicHtml()" [tsContent]="basicTs()">
+        <span tngExampleTitle>Basic</span>
+        <div tngExampleDemo>
+          <tng-stepper defaultIndex="0">
+            <tng-step>One</tng-step>
+            <tng-step>Two</tng-step>
+            <tng-step>Three</tng-step>
+            <tng-step-panel [index]="0"><div class="rounded border border-border p-4">Step 1 content</div></tng-step-panel>
+            <tng-step-panel [index]="1"><div class="rounded border border-border p-4">Step 2 content</div></tng-step-panel>
+            <tng-step-panel [index]="2"><div class="rounded border border-border p-4">Step 3 content</div></tng-step-panel>
+          </tng-stepper>
+        </div>
+      </docs-example-block>
+    </div>
+    <div id="features" class="rounded-xl border bg-bg p-6 shadow-sm space-y-4 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Features</h3>
+      <div class="grid gap-3 sm:grid-cols-1">
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">Steps & panels</div>
+          <p class="text-xs leading-5 text-muted">tng-step = header (click to activate). tng-step-panel [index] = content for that step. (activeIndexChange) for controlled usage.</p>
+        </div>
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">Linear & orientation</div>
+          <p class="text-xs leading-5 text-muted">linear: can't jump forward until previous steps are complete. orientation: horizontal | vertical. TngStep: label, complete, disabled, stepKlass, activeKlass, inactiveKlass.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
+    <h3 class="mb-3 text-xs font-semibold tracking-wide">On this page</h3>
+    <ul class="space-y-2 text-sm text-fg">
+      <li><a href="#overview" class="flex items-center gap-2 p-0 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Overview</a></li>
+      <li><a href="#QuickExample" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Quick example</a></li>
+      <li><a href="#features" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Features</a></li>
+    </ul>
+  </aside>
+</div>

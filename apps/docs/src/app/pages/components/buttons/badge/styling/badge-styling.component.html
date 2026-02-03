@@ -1,1 +1,42 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      <span class="font-mono">tng-badge</span> exposes <span class="font-mono">rootKlass</span> (wrapper),
+      <span class="font-mono">hostKlass</span> (positioning anchor), and <span class="font-mono">badgeKlass</span> (badge element).
+    </p>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">badgeKlass</h3>
+    <p class="text-sm text-fg">Applies to the badge element. Use for shadow, typography, etc.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="badgeKlassHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-badge [value]="5" variant="danger" badgeKlass="shadow-md">
+          <span class="rounded-md border border-border px-3 py-2 text-sm">Notifications</span>
+        </tng-badge>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">rootKlass / hostKlass</h3>
+    <p class="text-sm text-fg">Layout of wrapper and host (e.g. block vs inline-flex).</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="rootHostHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-badge [value]="3" variant="primary" rootKlass="inline-flex" hostKlass="relative inline-flex h-10 w-10 items-center justify-center rounded-md border border-border">
+        </tng-badge>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

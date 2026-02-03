@@ -1,1 +1,25 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      <span class="font-mono">tng-stepper</span>: rootKlass, headerKlass, headerVerticalKlass, panelWrapKlass. <span class="font-mono">tng-step</span>: stepKlass, activeKlass, inactiveKlass, disabledKlass.
+    </p>
+  </div>
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Step pills (headerKlass / stepKlass)</h3>
+    <p class="text-sm text-fg">Override header and step classes for pill-style steps.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="pillsHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-stepper defaultIndex="0" headerKlass="inline-flex gap-1 rounded-lg bg-slate-100 p-1">
+          <tng-step stepKlass="rounded-md px-3 py-2 text-sm font-medium" activeKlass="bg-white text-slate-900 shadow-sm" inactiveKlass="text-slate-600 hover:text-slate-900">One</tng-step>
+          <tng-step stepKlass="rounded-md px-3 py-2 text-sm font-medium" activeKlass="bg-white text-slate-900 shadow-sm" inactiveKlass="text-slate-600 hover:text-slate-900">Two</tng-step>
+          <tng-step stepKlass="rounded-md px-3 py-2 text-sm font-medium" activeKlass="bg-white text-slate-900 shadow-sm" inactiveKlass="text-slate-600 hover:text-slate-900">Three</tng-step>
+          <tng-step-panel [index]="0"><div class="pt-4 text-sm">Step 1</div></tng-step-panel>
+          <tng-step-panel [index]="1"><div class="pt-4 text-sm">Step 2</div></tng-step-panel>
+          <tng-step-panel [index]="2"><div class="pt-4 text-sm">Step 3</div></tng-step-panel>
+        </tng-stepper>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

@@ -1,1 +1,51 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      <span class="font-mono">tng-code-block</span> exposes rootKlass, bodyKlass, gutterKlass, preKlass, codeKlass.
+      Default root has border, rounded-lg, alternate background. Use these to theme the block and line gutter.
+    </p>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">rootKlass / preKlass</h3>
+    <p class="text-sm text-fg">Customize the outer wrapper and the pre (scroll + padding) area.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="rootPreHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-code-block
+          [content]="snippet()"
+          language="text"
+          rootKlass="rounded-xl border-2 border-primary bg-bg"
+          preKlass="text-sm p-4"
+        >
+        </tng-code-block>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Line numbers (gutterKlass)</h3>
+    <p class="text-sm text-fg">When <span class="font-mono">showLineNumbers</span> is true, <span class="font-mono">gutterKlass</span> styles the line-number column.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="gutterHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-code-block
+          [content]="snippet()"
+          [showLineNumbers]="true"
+          language="text"
+          gutterKlass="!text-primary/70"
+        >
+        </tng-code-block>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

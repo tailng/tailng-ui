@@ -1,1 +1,55 @@
-Overview content.
+<div class="grid grid-cols-1 md:grid-cols-[10fr_auto_1fr] gap-5">
+  <section class="space-y-6">
+    <div id="overview" class="rounded-xl border bg-bg p-6 shadow-sm space-y-3 text-fg">
+      <h2 class="text-base font-semibold text-primary">Overview</h2>
+      <p class="text-sm leading-6 text-muted">
+        <span class="font-mono text-primary/20">tng-code-block</span> displays code with optional syntax highlighting and line numbers.
+        Bind <span class="font-mono text-primary/20">[content]</span> (or project text), set <span class="font-mono text-primary/20">language</span>, and optionally pass a <span class="font-mono text-primary/20">highlighter</span> (e.g. Shiki adapter).
+        Copy is built-in; use slots <span class="font-mono text-primary/20">[tngCopy]</span> and <span class="font-mono text-primary/20">[tngCopied]</span> for custom copy/copied UI.
+      </p>
+    </div>
+
+    <div id="QuickExample" class="relative rounded-xl border p-4 shadow-sm space-y-2 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Quick example</h3>
+      <docs-example-block
+        [docLink]="'https://example.com/docs'"
+        [stackBlitzLink]="'https://stackblitz.com/example'"
+        [htmlContent]="basicHtml()"
+        [tsContent]="basicTs()"
+      >
+        <span tngExampleTitle>Basic</span>
+        <div tngExampleDemo>
+          <tng-code-block [content]="snippet()" language="typescript" rootKlass="max-w-lg">
+          </tng-code-block>
+        </div>
+      </docs-example-block>
+    </div>
+
+    <div id="features" class="rounded-xl border bg-bg p-6 shadow-sm space-y-4 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Features</h3>
+      <div class="grid gap-3 sm:grid-cols-1">
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">Content & language</div>
+          <p class="text-xs leading-5 text-muted">content input or projected text; language for highlighting (e.g. typescript, json, text). Optional highlighter service.</p>
+        </div>
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">Line numbers & wrap</div>
+          <p class="text-xs leading-5 text-muted">showLineNumbers, wrap. Class hooks: rootKlass, bodyKlass, gutterKlass, preKlass, codeKlass.</p>
+        </div>
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">Copy</div>
+          <p class="text-xs leading-5 text-muted">Built-in copy button; showCopy, copyVariant, copySize, copyResetMs. Project [tngCopy] / [tngCopied] for custom copy UI.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
+    <h3 class="mb-3 text-xs font-semibold tracking-wide">On this page</h3>
+    <ul class="space-y-2 text-sm text-fg">
+      <li><a href="#overview" class="flex items-center gap-2 p-0 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Overview</a></li>
+      <li><a href="#QuickExample" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Quick example</a></li>
+      <li><a href="#features" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Features</a></li>
+    </ul>
+  </aside>
+</div>

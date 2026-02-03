@@ -1,8 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
+import { TngCodeBlock } from '@tociva/tailng-ui/utilities';
+import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
   standalone: true,
   selector: 'docs-code-block-overview',
   templateUrl: './code-block-overview.component.html',
+  imports: [TngCodeBlock, ExampleBlockComponent, TngExampleDemo],
 })
-export class CodeBlockOverviewComponent {}
+export class CodeBlockOverviewComponent {
+  readonly snippet = computed(
+    () => `const greeting = 'Hello, tailng';
+console.log(greeting);`,
+  );
+
+  readonly basicHtml = computed(
+    () => `
+<tng-code-block [content]="snippet()" language="typescript">
+</tng-code-block>
+`,
+  );
+
+  readonly basicTs = computed(
+    () => `import { TngCodeBlock } from '@tociva/tailng-ui/utilities';
+
+snippet = computed(() => \`const x = 1;\`);`,
+  );
+}

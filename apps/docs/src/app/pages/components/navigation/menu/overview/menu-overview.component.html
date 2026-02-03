@@ -1,1 +1,61 @@
-Overview content.
+<div class="grid grid-cols-1 md:grid-cols-[10fr_auto_1fr] gap-5">
+  <section class="space-y-6">
+    <div id="overview" class="rounded-xl border bg-bg p-6 shadow-sm space-y-3 text-fg">
+      <h2 class="text-base font-semibold text-primary">Overview</h2>
+      <p class="text-sm leading-6 text-muted">
+        <span class="font-mono text-primary/20">tng-menu</span> is a dropdown menu anchored to a trigger. Use <span class="font-mono text-primary/20">[tngMenuTrigger]</span> for the trigger element and <span class="font-mono text-primary/20">ng-template tngMenuTemplate</span> for the panel content. Items with <span class="font-mono text-primary/20">tngMenuItem</span> close the menu on click by default. Supports <span class="font-mono text-primary/20">placement</span>, <span class="font-mono text-primary/20">modal</span> (backdrop), and <span class="font-mono text-primary/20">(closed)</span> with close reason.
+      </p>
+    </div>
+
+    <div id="QuickExample" class="relative rounded-xl border p-4 shadow-sm space-y-2 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Quick example</h3>
+      <docs-example-block
+        [docLink]="'https://example.com/docs'"
+        [stackBlitzLink]="'https://stackblitz.com/example'"
+        [htmlContent]="basicHtml()"
+        [tsContent]="basicTs()"
+      >
+        <span tngExampleTitle>Basic</span>
+        <div tngExampleDemo>
+          <tng-menu>
+            <button tngMenuTrigger type="button" class="rounded-md border border-border bg-bg px-3 py-2 text-sm">
+              Open menu
+            </button>
+            <ng-template tngMenuTemplate>
+              <button tngMenuItem type="button" class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-100">Profile</button>
+              <button tngMenuItem type="button" class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-100">Settings</button>
+              <button tngMenuItem type="button" class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-100">Logout</button>
+            </ng-template>
+          </tng-menu>
+        </div>
+      </docs-example-block>
+    </div>
+
+    <div id="features" class="rounded-xl border bg-bg p-6 shadow-sm space-y-4 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Features</h3>
+      <div class="grid gap-3 sm:grid-cols-1">
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">Trigger & template</div>
+          <p class="text-xs leading-5 text-muted">Project trigger with <span class="font-mono">[tngMenuTrigger]</span>. Menu content in <span class="font-mono">ng-template tngMenuTemplate</span>. Use <span class="font-mono">tngMenuItem</span> on clickable items to auto-close on selection.</p>
+        </div>
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">Placement & modal</div>
+          <p class="text-xs leading-5 text-muted">placement: bottom-start, bottom-end, top-start, top-end. modal: show backdrop and close on outside click / escape.</p>
+        </div>
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">Class hooks</div>
+          <p class="text-xs leading-5 text-muted">rootKlass, triggerKlass, panelKlass, backdropKlass for theming.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
+    <h3 class="mb-3 text-xs font-semibold tracking-wide">On this page</h3>
+    <ul class="space-y-2 text-sm text-fg">
+      <li><a href="#overview" class="flex items-center gap-2 p-0 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Overview</a></li>
+      <li><a href="#QuickExample" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Quick example</a></li>
+      <li><a href="#features" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Features</a></li>
+    </ul>
+  </aside>
+</div>

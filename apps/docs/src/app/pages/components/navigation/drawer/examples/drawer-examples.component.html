@@ -1,1 +1,40 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Left drawer</h3>
+    <p class="text-sm text-fg">Default <span class="font-mono">placement</span> is left. Bind <span class="font-mono">[open]</span> and handle <span class="font-mono">(closed)</span>.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="leftHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button type="button" class="rounded-md border border-border bg-bg px-3 py-2 text-sm" (click)="open.set(true)">Open left</button>
+        <tng-drawer [open]="open()" (closed)="open.set(false)" placement="left">
+          <div class="flex h-full flex-col p-4">
+            <div class="flex items-center justify-between border-b border-border pb-3">
+              <span class="font-semibold">Menu</span>
+              <button type="button" class="rounded border border-border px-2 py-1 text-sm" (click)="open.set(false)">Close</button>
+            </div>
+            <div class="mt-3 text-sm text-muted">Drawer content.</div>
+          </div>
+        </tng-drawer>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Placement: right, top, bottom</h3>
+    <p class="text-sm text-fg">Set <span class="font-mono">placement</span> to right, top, or bottom.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="placementHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex gap-2">
+          <button type="button" class="rounded border border-border px-3 py-2 text-sm" (click)="openRight.set(true)">Right</button>
+          <button type="button" class="rounded border border-border px-3 py-2 text-sm" (click)="openBottom.set(true)">Bottom</button>
+        </div>
+        <tng-drawer [open]="openRight()" (closed)="openRight.set(false)" placement="right">
+          <div class="p-4">Right drawer. <button type="button" class="rounded border px-2 py-1 text-sm" (click)="openRight.set(false)">Close</button></div>
+        </tng-drawer>
+        <tng-drawer [open]="openBottom()" (closed)="openBottom.set(false)" placement="bottom" heightKlass="h-48">
+          <div class="p-4">Bottom drawer. <button type="button" class="rounded border px-2 py-1 text-sm" (click)="openBottom.set(false)">Close</button></div>
+        </tng-drawer>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

@@ -1,1 +1,57 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Confirm / Cancel</h3>
+    <p class="text-sm text-fg">Control open with a signal; handle <span class="font-mono">(closed)</span> and set open to false. Use close reason for analytics or branching.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="confirmHtml()"
+      [tsContent]="confirmTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button type="button" class="rounded-md bg-primary px-3 py-2 text-sm text-on-primary" (click)="open.set(true)">
+          Open dialog
+        </button>
+        <tng-dialog [open]="open()" (closed)="onClosed($event)" ariaLabel="Confirm action">
+          <div tngDialogHeader class="flex items-center justify-between">
+            <span class="text-sm font-semibold text-foreground">Confirm action</span>
+            <button type="button" class="text-sm text-muted-foreground hover:text-foreground" (click)="onClosed('cancel')" aria-label="Close">✕</button>
+          </div>
+          <p class="text-sm text-foreground">Are you sure you want to continue?</p>
+          <div tngDialogFooter class="flex justify-end gap-2">
+            <button type="button" class="rounded-md border border-border px-3 py-2 text-sm" (click)="onClosed('cancel')">Cancel</button>
+            <button type="button" tngDialogInitialFocus class="rounded-md bg-primary px-3 py-2 text-sm text-on-primary" (click)="onClosed('confirm')">Confirm</button>
+          </div>
+        </tng-dialog>
+        @if (lastReason()) {
+          <span class="text-xs text-muted-foreground">Last close: <code class="rounded bg-muted px-1">{{ lastReason() }}</code></span>
+        }
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Close on backdrop only (no escape)</h3>
+    <p class="text-sm text-fg">Set <span class="font-mono">closeOnEscape="false"</span> to keep dialog open on Escape.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="noEscapeHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button type="button" class="rounded-md border border-border px-3 py-2 text-sm" (click)="openNoEscape.set(true)">
+          Open (no escape close)
+        </button>
+        <tng-dialog [open]="openNoEscape()" (closed)="openNoEscape.set(false)" [closeOnEscape]="false" ariaLabel="Backdrop only">
+          <div tngDialogHeader class="font-semibold">Close via backdrop or button</div>
+          <p class="text-sm text-muted">Escape key will not close this dialog.</p>
+          <div tngDialogFooter class="flex justify-end">
+            <button type="button" class="rounded-md bg-primary px-3 py-2 text-sm text-on-primary" (click)="openNoEscape.set(false)">Close</button>
+          </div>
+        </tng-dialog>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

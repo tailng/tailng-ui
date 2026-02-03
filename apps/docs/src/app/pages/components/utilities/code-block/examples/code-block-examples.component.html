@@ -1,1 +1,65 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Basic with content</h3>
+    <p class="text-sm text-fg">Bind <span class="font-mono">[content]</span> and set <span class="font-mono">language</span>. Optional <span class="font-mono">highlighter</span> for syntax highlighting.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="basicHtml()"
+      [tsContent]="basicTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-code-block [content]="tsSnippet()" [highlighter]="highlighter" language="typescript" rootKlass="max-w-xl">
+        </tng-code-block>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Line numbers and wrap</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">showLineNumbers</span> and <span class="font-mono">wrap</span> for docs-style code blocks.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="lineNumbersHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-code-block
+          [content]="tsSnippet()"
+          [showLineNumbers]="true"
+          [wrap]="true"
+          [highlighter]="highlighter"
+          language="typescript"
+          rootKlass="max-w-xl"
+        >
+        </tng-code-block>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Custom copy slot</h3>
+    <p class="text-sm text-fg">Project <span class="font-mono">[tngCopy]</span> and <span class="font-mono">[tngCopied]</span> to provide custom copy button and copied-state UI.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="copySlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-code-block
+          [content]="shortSnippet()"
+          [highlighter]="highlighter"
+          language="text"
+          copyVariant="outline"
+          rootKlass="max-w-xl"
+        >
+          <button type="button" tngCopy class="rounded border border-border px-2 py-1 text-xs">Copy</button>
+          <span tngCopied class="text-xs text-green-600">Copied!</span>
+        </tng-code-block>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

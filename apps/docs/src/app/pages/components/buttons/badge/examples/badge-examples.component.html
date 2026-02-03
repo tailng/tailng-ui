@@ -1,1 +1,82 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Numeric value + max overflow</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">[value]</span> and <span class="font-mono">[max]</span> for 99+ style overflow.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="numericHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex flex-wrap items-center gap-6">
+          <tng-badge [value]="count" variant="danger">
+            <button type="button" class="rounded-md border border-border px-3 py-2 text-sm">Notifications</button>
+          </tng-badge>
+          <tng-badge [value]="128" [max]="99" variant="danger">
+            <button type="button" class="rounded-md border border-border px-3 py-2 text-sm">Messages</button>
+          </tng-badge>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Dot badge</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">dot</span> for a simple indicator without a number.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="dotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-badge dot variant="primary">
+          <button type="button" class="rounded-md border border-border px-3 py-2 text-sm">Inbox</button>
+        </tng-badge>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Variants &amp; positions</h3>
+    <p class="text-sm text-fg">variant: primary, neutral, success, warning, danger, info. position: top-right, top-left, bottom-right, bottom-left.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="variantsHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex flex-wrap items-center gap-6">
+          <tng-badge [value]="1" variant="primary"><span class="rounded-md border border-border px-3 py-2 text-sm">primary</span></tng-badge>
+          <tng-badge [value]="1" variant="success"><span class="rounded-md border border-border px-3 py-2 text-sm">success</span></tng-badge>
+          <tng-badge [value]="1" variant="warning"><span class="rounded-md border border-border px-3 py-2 text-sm">warning</span></tng-badge>
+          <tng-badge [value]="3" position="top-left" variant="danger"><span class="rounded-md border border-border px-3 py-2 text-sm">top-left</span></tng-badge>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">showZero</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">showZero</span> to show the badge when value is 0.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="showZeroHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex flex-wrap items-center gap-6">
+          <tng-badge [value]="0" variant="neutral">
+            <button type="button" class="rounded-md border border-border px-3 py-2 text-sm">Cart (hidden when 0)</button>
+          </tng-badge>
+          <tng-badge [value]="0" showZero variant="neutral">
+            <button type="button" class="rounded-md border border-border px-3 py-2 text-sm">Cart (showZero)</button>
+          </tng-badge>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

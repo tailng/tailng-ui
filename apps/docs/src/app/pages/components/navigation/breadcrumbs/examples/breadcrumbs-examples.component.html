@@ -1,1 +1,32 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Basic</h3>
+    <p class="text-sm text-fg">Pass <span class="font-mono">[items]</span> with label and optional <span class="font-mono">route</span>. Last item is current by default.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="basicHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-breadcrumbs [items]="basicItems()"></tng-breadcrumbs>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">With home</h3>
+    <p class="text-sm text-fg">Set <span class="font-mono">[home]</span> to prepend a first item (e.g. Home).</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="homeHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-breadcrumbs [home]="homeItem()" [items]="withHomeItems()"></tng-breadcrumbs>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Custom separator</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">separator</span> (e.g. → or •).</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="separatorHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-breadcrumbs [items]="basicItems()" separator="→"></tng-breadcrumbs>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

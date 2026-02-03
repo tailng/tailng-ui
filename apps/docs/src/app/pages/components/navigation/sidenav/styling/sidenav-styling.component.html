@@ -1,1 +1,25 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      <span class="font-mono">tng-sidenav</span> exposes rootKlass, expandedKlass, collapsedKlass, contentKlass, footerKlass. Use <span class="font-mono">group</span> and <span class="font-mono">group-data-[collapsed=true]:...</span> on projected content to hide labels when collapsed.
+    </p>
+  </div>
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">expandedKlass / collapsedKlass</h3>
+    <p class="text-sm text-fg">Control width in each state.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="widthHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex h-40 overflow-hidden rounded-md border border-border">
+          <tng-sidenav [collapsed]="collapsed()" expandedKlass="w-48" collapsedKlass="w-14">
+            <div tngSidenavHeader class="px-3 py-2 font-semibold">Nav</div>
+            <div class="p-2"><a class="block rounded px-2 py-1 text-sm hover:bg-slate-100">Link</a></div>
+          </tng-sidenav>
+          <div class="flex-1 p-4 text-sm text-muted">Content</div>
+        </div>
+        <button type="button" class="mt-2 rounded border border-border px-3 py-2 text-sm" (click)="collapsed.set(!collapsed())">Toggle</button>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

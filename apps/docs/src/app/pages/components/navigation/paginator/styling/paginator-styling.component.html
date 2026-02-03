@@ -1,1 +1,26 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      <span class="font-mono">tng-paginator</span> exposes rootKlass, leftKlass, rightKlass, buttonKlass, activePageKlass, pageKlass, selectKlass, separatorKlass.
+    </p>
+  </div>
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">activePageKlass / pageKlass</h3>
+    <p class="text-sm text-fg">Style the active page button vs inactive.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="pageKlassHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-paginator
+          [count]="50"
+          [page]="page()"
+          [pageSize]="10"
+          (change)="onChange($event)"
+          [hidePageSize]="true"
+          activePageKlass="bg-primary text-on-primary rounded-full px-3"
+          pageKlass="rounded-full border border-border px-3 py-1.5 text-sm hover:bg-slate-50"
+        ></tng-paginator>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

@@ -1,1 +1,30 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      <span class="font-mono">tng-tag</span> has no class-hook inputs. Appearance is controlled by the
+      <span class="font-mono">color</span> input (default, primary, success, danger). Each variant applies
+      its own background and text classes internally.
+    </p>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Color variants</h3>
+    <p class="text-sm text-fg">Use the <span class="font-mono">color</span> input to switch variants.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="variantsHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex flex-wrap gap-2">
+          <tng-tag label="Default" color="default"></tng-tag>
+          <tng-tag label="Primary" color="primary"></tng-tag>
+          <tng-tag label="Success" color="success"></tng-tag>
+          <tng-tag label="Danger" color="danger"></tng-tag>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

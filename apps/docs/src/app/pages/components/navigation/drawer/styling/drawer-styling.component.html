@@ -1,1 +1,21 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      <span class="font-mono">tng-drawer</span> exposes backdropKlass, panelKlass, sizeKlass (left/right), heightKlass (top/bottom).
+    </p>
+  </div>
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">panelKlass / sizeKlass</h3>
+    <p class="text-sm text-fg">Style the panel and width (e.g. w-96) or height.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="panelHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button type="button" class="rounded border border-border px-3 py-2 text-sm" (click)="open.set(true)">Open</button>
+        <tng-drawer [open]="open()" (closed)="open.set(false)" panelKlass="bg-bg border-l border-border shadow-xl" sizeKlass="w-72">
+          <div class="p-4">Custom panel and width.</div>
+        </tng-drawer>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

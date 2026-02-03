@@ -1,1 +1,66 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Basic menu</h3>
+    <p class="text-sm text-fg">Trigger with <span class="font-mono">tngMenuTrigger</span>, content in <span class="font-mono">ng-template tngMenuTemplate</span>, items with <span class="font-mono">tngMenuItem</span>.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="basicHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-menu>
+          <button tngMenuTrigger type="button" class="rounded-md border border-border bg-bg px-3 py-2 text-sm">Open menu</button>
+          <ng-template tngMenuTemplate>
+            <button tngMenuItem type="button" class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-100" (click)="onAction('Profile')">Profile</button>
+            <button tngMenuItem type="button" class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-100" (click)="onAction('Settings')">Settings</button>
+            <div class="my-1 h-px bg-border"></div>
+            <button tngMenuItem type="button" class="w-full rounded px-3 py-2 text-left text-sm text-danger hover:bg-slate-100" (click)="onAction('Logout')">Logout</button>
+          </ng-template>
+        </tng-menu>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Placement</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">placement</span> (e.g. bottom-end) to align the panel.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="placementHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-menu placement="bottom-end" panelKlass="p-1 min-w-48">
+          <button tngMenuTrigger type="button" class="rounded-md border border-border bg-bg px-3 py-2 text-sm">Actions ▼</button>
+          <ng-template tngMenuTemplate>
+            <button tngMenuItem type="button" class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-100">Edit</button>
+            <button tngMenuItem type="button" class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-100">Duplicate</button>
+          </ng-template>
+        </tng-menu>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Modal (backdrop)</h3>
+    <p class="text-sm text-fg">Set <span class="font-mono">modal="true"</span> to show a backdrop and close on outside click or Escape.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="modalHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-menu [modal]="true" panelKlass="p-2 min-w-48">
+          <button tngMenuTrigger type="button" class="rounded-md border border-border bg-bg px-3 py-2 text-sm">Open modal menu</button>
+          <ng-template tngMenuTemplate>
+            <button tngMenuItem type="button" class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-100">Option A</button>
+            <button tngMenuItem type="button" class="w-full rounded px-3 py-2 text-left text-sm hover:bg-slate-100">Option B</button>
+          </ng-template>
+        </tng-menu>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

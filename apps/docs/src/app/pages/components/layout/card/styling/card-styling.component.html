@@ -1,1 +1,46 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      <span class="font-mono">tng-card</span> exposes rootKlass, headerKlass, contentKlass, footerKlass, and klass.
+      Default root has border, rounded-lg, shadow; header/footer have border-b/border-t.
+    </p>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">rootKlass / klass</h3>
+    <p class="text-sm text-fg">Customize the card container.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="rootHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-card rootKlass="border-2 border-primary" class="max-w-sm">
+          <div tngCardHeader>Header</div>
+          <p class="text-sm">Content</p>
+        </tng-card>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">headerKlass / footerKlass</h3>
+    <p class="text-sm text-fg">Style the header and footer sections.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="headerFooterHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-card class="max-w-sm" headerKlass="bg-primary/10 font-bold" footerKlass="text-xs text-muted">
+          <div tngCardHeader>Styled header</div>
+          <p class="text-sm">Content</p>
+          <div tngCardFooter>Styled footer</div>
+        </tng-card>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

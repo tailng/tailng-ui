@@ -1,1 +1,49 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      <span class="font-mono">tng-table</span> exposes tableKlass, theadKlass, thKlass, tdKlass, tbodyKlass.
+      Each <span class="font-mono">tng-col</span> supports <span class="font-mono">klass</span> for that column’s th/td.
+    </p>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">tableKlass / theadKlass</h3>
+    <p class="text-sm text-fg">Customize table and header row.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="tableTheadHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="overflow-auto rounded-md border border-border max-w-md">
+          <tng-table [rows]="rows()" rowKey="id" tableKlass="w-full text-sm" theadKlass="bg-primary/10">
+            <tng-col id="name" header="Name" [value]="nameValue"></tng-col>
+            <tng-col id="score" header="Score" align="right" [value]="scoreValue"></tng-col>
+          </tng-table>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Column klass</h3>
+    <p class="text-sm text-fg">Apply extra classes to a column’s th and td via <span class="font-mono">klass</span> on tng-col.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="colKlassHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="overflow-auto rounded-md border border-border max-w-md">
+          <tng-table [rows]="rows()" rowKey="id">
+            <tng-col id="name" header="Name" [value]="nameValue" klass="font-medium"></tng-col>
+            <tng-col id="score" header="Score" align="right" [value]="scoreValue" klass="text-primary"></tng-col>
+          </tng-table>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

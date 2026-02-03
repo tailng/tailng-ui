@@ -1,1 +1,34 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Basic</h3>
+    <p class="text-sm text-fg">Bind <span class="font-mono">count</span>, <span class="font-mono">page</span>, <span class="font-mono">pageSize</span> and handle <span class="font-mono">(change)</span> to update state.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="basicHtml()" [tsContent]="basicTs()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-paginator
+          [count]="count()"
+          [page]="page()"
+          [pageSize]="pageSize()"
+          (change)="onChange($event)"
+        ></tng-paginator>
+        <p class="mt-2 text-xs text-muted">Items {{ rangeStart() }}-{{ rangeEnd() }} of {{ count() }}</p>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Without page size selector</h3>
+    <p class="text-sm text-fg">Set <span class="font-mono">[hidePageSize]="true"</span>.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="noSizeHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-paginator
+          [count]="30"
+          [page]="page2()"
+          [pageSize]="5"
+          (change)="onChange2($event)"
+          [hidePageSize]="true"
+        ></tng-paginator>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

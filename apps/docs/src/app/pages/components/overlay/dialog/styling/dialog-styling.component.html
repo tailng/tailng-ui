@@ -1,1 +1,67 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      <span class="font-mono">tng-dialog</span> exposes backdropKlass, panelKlass, headerWrapKlass, bodyWrapKlass, and footerWrapKlass.
+      Default panel is centered, max-width 32rem, with border and shadow.
+    </p>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">backdropKlass / panelKlass</h3>
+    <p class="text-sm text-fg">Customize overlay and dialog panel.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="panelHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button type="button" class="rounded-md bg-primary px-3 py-2 text-sm text-on-primary" (click)="open.set(true)">
+          Open styled dialog
+        </button>
+        <tng-dialog
+          [open]="open()"
+          (closed)="open.set(false)"
+          backdropKlass="fixed inset-0 bg-primary/20"
+          panelKlass="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-80 rounded-xl border-2 border-primary bg-bg p-4 shadow-xl"
+        >
+          <div tngDialogHeader class="border-0 p-0 font-semibold">Custom panel</div>
+          <p class="text-sm text-muted">backdropKlass and panelKlass overrides.</p>
+          <div tngDialogFooter class="border-0 justify-end p-0 pt-2">
+            <button type="button" class="rounded-md bg-primary px-3 py-2 text-sm text-on-primary" (click)="open.set(false)">Close</button>
+          </div>
+        </tng-dialog>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">headerWrapKlass / footerWrapKlass</h3>
+    <p class="text-sm text-fg">Style header and footer wrappers (padding, borders).</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="headerFooterHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button type="button" class="rounded-md border border-border px-3 py-2 text-sm" (click)="open2.set(true)">
+          Open dialog
+        </button>
+        <tng-dialog
+          [open]="open2()"
+          (closed)="open2.set(false)"
+          headerWrapKlass="border-b border-primary bg-primary/10 px-4 py-3"
+          footerWrapKlass="border-t border-primary px-4 py-3 flex justify-end gap-2"
+        >
+          <div tngDialogHeader class="font-semibold">Styled header/footer</div>
+          <p class="text-sm text-muted">headerWrapKlass and footerWrapKlass.</p>
+          <div tngDialogFooter>
+            <button type="button" class="rounded-md bg-primary px-3 py-2 text-sm text-on-primary" (click)="open2.set(false)">OK</button>
+          </div>
+        </tng-dialog>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

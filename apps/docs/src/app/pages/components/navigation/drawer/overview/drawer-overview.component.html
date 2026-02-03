@@ -1,1 +1,47 @@
-Overview content.
+<div class="grid grid-cols-1 md:grid-cols-[10fr_auto_1fr] gap-5">
+  <section class="space-y-6">
+    <div id="overview" class="rounded-xl border bg-bg p-6 shadow-sm space-y-3 text-fg">
+      <h2 class="text-base font-semibold text-primary">Overview</h2>
+      <p class="text-sm leading-6 text-muted">
+        <span class="font-mono text-primary/20">tng-drawer</span> is a slide-out panel (left, right, top, bottom). Control visibility with <span class="font-mono text-primary/20">[open]</span>; handle <span class="font-mono text-primary/20">(closed)</span> to set open to false. Closes on backdrop click and Escape by default. Supports focus trap. Use <span class="font-mono text-primary/20">placement</span> and class hooks (backdropKlass, panelKlass, sizeKlass, heightKlass).
+      </p>
+    </div>
+    <div id="QuickExample" class="relative rounded-xl border p-4 shadow-sm space-y-2 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Quick example</h3>
+      <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="basicHtml()" [tsContent]="basicTs()">
+        <span tngExampleTitle>Basic</span>
+        <div tngExampleDemo>
+          <button type="button" class="rounded-md border border-border bg-bg px-3 py-2 text-sm" (click)="open.set(true)">Open drawer</button>
+          <tng-drawer [open]="open()" (closed)="open.set(false)" placement="right">
+            <div class="p-4">
+              <h3 class="font-semibold">Drawer</h3>
+              <p class="text-sm text-muted">Content. Close via backdrop or Escape.</p>
+              <button type="button" class="mt-2 rounded border border-border px-3 py-2 text-sm" (click)="open.set(false)">Close</button>
+            </div>
+          </tng-drawer>
+        </div>
+      </docs-example-block>
+    </div>
+    <div id="features" class="rounded-xl border bg-bg p-6 shadow-sm space-y-4 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Features</h3>
+      <div class="grid gap-3 sm:grid-cols-1">
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">Controlled open</div>
+          <p class="text-xs leading-5 text-muted">[open] and (closed). Close reasons: outside-click, escape, programmatic.</p>
+        </div>
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">Placement</div>
+          <p class="text-xs leading-5 text-muted">placement: left | right | top | bottom. sizeKlass / heightKlass for dimensions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
+    <h3 class="mb-3 text-xs font-semibold tracking-wide">On this page</h3>
+    <ul class="space-y-2 text-sm text-fg">
+      <li><a href="#overview" class="flex items-center gap-2 p-0 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Overview</a></li>
+      <li><a href="#QuickExample" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Quick example</a></li>
+      <li><a href="#features" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Features</a></li>
+    </ul>
+  </aside>
+</div>

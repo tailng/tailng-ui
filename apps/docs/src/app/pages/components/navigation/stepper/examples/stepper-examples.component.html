@@ -1,1 +1,38 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Basic (uncontrolled)</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">defaultIndex</span> and <span class="font-mono">tng-step</span> / <span class="font-mono">tng-step-panel</span>.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="basicHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-stepper defaultIndex="0">
+          <tng-step>Account</tng-step>
+          <tng-step>Profile</tng-step>
+          <tng-step>Confirm</tng-step>
+          <tng-step-panel [index]="0"><div class="rounded border border-border p-4">Step 1: Account</div></tng-step-panel>
+          <tng-step-panel [index]="1"><div class="rounded border border-border p-4">Step 2: Profile</div></tng-step-panel>
+          <tng-step-panel [index]="2"><div class="rounded border border-border p-4">Step 3: Confirm</div></tng-step-panel>
+        </tng-stepper>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Controlled index</h3>
+    <p class="text-sm text-fg">Bind <span class="font-mono">[activeIndex]</span> and <span class="font-mono">(activeIndexChange)</span>; use <span class="font-mono">next()</span> / <span class="font-mono">prev()</span> or set index programmatically.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="controlledHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-stepper [activeIndex]="index()" (activeIndexChange)="index.set($event)">
+          <tng-step>Step 1</tng-step>
+          <tng-step>Step 2</tng-step>
+          <tng-step-panel [index]="0"><div class="rounded border border-border p-4">Content 1</div></tng-step-panel>
+          <tng-step-panel [index]="1"><div class="rounded border border-border p-4">Content 2</div></tng-step-panel>
+        </tng-stepper>
+        <div class="mt-3 flex gap-2">
+          <button type="button" class="rounded border border-border px-3 py-2 text-sm" (click)="prev()">Prev</button>
+          <button type="button" class="rounded border border-border px-3 py-2 text-sm" (click)="next()">Next</button>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

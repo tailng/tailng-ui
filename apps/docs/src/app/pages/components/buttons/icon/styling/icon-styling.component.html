@@ -1,1 +1,27 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      <span class="font-mono">tng-icon</span> accepts a single <span class="font-mono">klass</span> input,
+      merged with inline-flex and align-middle. Use it for color, size overrides, or spacing.
+    </p>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">klass</h3>
+    <p class="text-sm text-fg">Applies to the icon host element.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="klassHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex items-center gap-4">
+          <tng-icon name="bootstrapAlarm" klass="text-primary"></tng-icon>
+          <tng-icon name="bootstrapBell" klass="text-danger text-2xl"></tng-icon>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

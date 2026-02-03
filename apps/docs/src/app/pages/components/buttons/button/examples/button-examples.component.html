@@ -1,1 +1,74 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Variants</h3>
+    <p class="text-sm text-fg">solid, outline, ghost.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="variantsHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex flex-wrap gap-3">
+          <tng-button variant="solid">Solid</tng-button>
+          <tng-button variant="outline">Outline</tng-button>
+          <tng-button variant="ghost">Ghost</tng-button>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Sizes</h3>
+    <p class="text-sm text-fg">sm, md, lg.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="sizesHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex flex-wrap items-center gap-3">
+          <tng-button size="sm">Small</tng-button>
+          <tng-button size="md">Medium</tng-button>
+          <tng-button size="lg">Large</tng-button>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Disabled &amp; loading</h3>
+    <p class="text-sm text-fg">disabled and loading states.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="statesHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex flex-wrap gap-3">
+          <tng-button [disabled]="true">Disabled</tng-button>
+          <tng-button [loading]="true">Loading…</tng-button>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Block</h3>
+    <p class="text-sm text-fg">Full-width button with <span class="font-mono">[block]="true"</span>.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="blockHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="max-w-xs">
+          <tng-button [block]="true">Block button</tng-button>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

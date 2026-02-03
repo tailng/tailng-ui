@@ -1,83 +1,55 @@
-<section class="space-y-6">
-  <!-- Intro card -->
-  <div class="rounded-xl border border-border bg-bg p-6 shadow-sm space-y-3">
-    <h2 class="text-base font-semibold text-foreground">Overview</h2>
-
-    <p class="text-sm leading-6 text-muted">
-      <span class="font-mono text-foreground">tng-tag</span> is a simple tag component for displaying labels,
-      categories, or status indicators. It supports multiple color variants and disabled states.
-    </p>
-
-    <div class="flex flex-wrap gap-2 pt-1">
-      <tng-badge variant="neutral">Color variants</tng-badge>
-      <tng-badge variant="neutral">Disabled state</tng-badge>
-      <tng-badge variant="neutral">Inline display</tng-badge>
-      <tng-badge variant="neutral">Standalone</tng-badge>
-    </div>
-  </div>
-
-  <!-- Quick example -->
-  <div class="rounded-xl border border-border bg-bg p-6 shadow-sm space-y-4">
-    <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-foreground">Quick example</h3>
-      <tng-badge variant="neutral">basic usage</tng-badge>
+<div class="grid grid-cols-1 md:grid-cols-[10fr_auto_1fr] gap-5">
+  <section class="space-y-6">
+    <div id="overview" class="rounded-xl border bg-bg p-6 shadow-sm space-y-3 text-fg">
+      <h2 class="text-base font-semibold text-primary">Overview</h2>
+      <p class="text-sm leading-6 text-muted">
+        <span class="font-mono text-primary/20">tng-tag</span> is a simple tag for labels, categories, or status.
+        It supports <span class="font-mono text-primary/20">label</span>, <span class="font-mono text-primary/20">color</span> (default, primary, success, danger),
+        and <span class="font-mono text-primary/20">disabled</span>. Styling is driven by the color variant.
+      </p>
     </div>
 
-    <div class="grid gap-4 sm:grid-cols-2">
-      <div class="space-y-2">
-        <label class="text-xs font-semibold text-muted">Default tag</label>
-        <tng-tag text="Default" />
-        <p class="text-xs text-muted">
-          Basic tag with default styling.
-        </p>
-      </div>
-
-      <div class="space-y-2">
-        <label class="text-xs font-semibold text-muted">Color variants</label>
-        <div class="flex flex-wrap gap-2">
-          <tng-tag text="Primary" color="primary" />
-          <tng-tag text="Success" color="success" />
-          <tng-tag text="Danger" color="danger" />
+    <div id="QuickExample" class="relative rounded-xl border p-4 shadow-sm space-y-2 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Quick example</h3>
+      <docs-example-block
+        [docLink]="'https://example.com/docs'"
+        [stackBlitzLink]="'https://stackblitz.com/example'"
+        [htmlContent]="basicHtml()"
+        [tsContent]="basicTs()"
+      >
+        <span tngExampleTitle>Basic</span>
+        <div tngExampleDemo>
+          <div class="flex flex-wrap gap-2">
+            <tng-tag label="Default" color="default"></tng-tag>
+            <tng-tag label="Primary" color="primary"></tng-tag>
+            <tng-tag label="Success" color="success"></tng-tag>
+            <tng-tag label="Danger" color="danger"></tng-tag>
+          </div>
         </div>
-        <p class="text-xs text-muted">
-          Use <span class="font-mono text-foreground">color</span> input for different variants.
-        </p>
+      </docs-example-block>
+    </div>
+
+    <div id="features" class="rounded-xl border bg-bg p-6 shadow-sm space-y-4 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Features</h3>
+      <div class="grid gap-3 sm:grid-cols-1">
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">color</div>
+          <p class="text-xs leading-5 text-muted">default, primary, success, danger. Each variant has its own background and text styles.</p>
+        </div>
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">disabled</div>
+          <p class="text-xs leading-5 text-muted">Reduced opacity and cursor when <span class="font-mono">[disabled]="true"</span>.</p>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Feature list -->
-  <div class="rounded-xl border border-border bg-bg p-6 shadow-sm space-y-4">
-    <h3 class="text-sm font-semibold text-foreground">Features</h3>
-
-    <div class="grid gap-3 sm:grid-cols-2">
-      <div class="rounded-lg border border-border bg-alternate-background p-4 space-y-1">
-        <div class="text-sm font-semibold text-foreground">Color variants</div>
-        <p class="text-xs leading-5 text-muted">
-          Four color options: default, primary, success, and danger for different use cases.
-        </p>
-      </div>
-
-      <div class="rounded-lg border border-border bg-alternate-background p-4 space-y-1">
-        <div class="text-sm font-semibold text-foreground">Disabled state</div>
-        <p class="text-xs leading-5 text-muted">
-          Visual feedback when disabled with reduced opacity and cursor styling.
-        </p>
-      </div>
-
-      <div class="rounded-lg border border-border bg-alternate-background p-4 space-y-1">
-        <div class="text-sm font-semibold text-foreground">Inline display</div>
-        <p class="text-xs leading-5 text-muted">
-          Designed for inline use in text, lists, or alongside other content.
-        </p>
-      </div>
-
-      <div class="rounded-lg border border-border bg-alternate-background p-4 space-y-1">
-        <div class="text-sm font-semibold text-foreground">Customizable</div>
-        <p class="text-xs leading-5 text-muted">
-          Computed root classes allow for easy styling customization via computed signals.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
+  <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
+    <h3 class="mb-3 text-xs font-semibold tracking-wide">On this page</h3>
+    <ul class="space-y-2 text-sm text-fg">
+      <li><a href="#overview" class="flex items-center gap-2 p-0 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Overview</a></li>
+      <li><a href="#QuickExample" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Quick example</a></li>
+      <li><a href="#features" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Features</a></li>
+    </ul>
+  </aside>
+</div>

@@ -1,1 +1,67 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Basic table with value accessors</h3>
+    <p class="text-sm text-fg">Bind <span class="font-mono">[rows]</span> and use <span class="font-mono">[value]</span> with a function per column. Use <span class="font-mono">rowKey</span> for stable tracking.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="basicHtml()"
+      [tsContent]="basicTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="overflow-auto rounded-md border border-border max-w-lg">
+          <tng-table [rows]="rows()" rowKey="id" emptyText="No items">
+            <tng-col id="date" header="Date" [value]="dateValue"></tng-col>
+            <tng-col id="label" header="Label" [value]="labelValue"></tng-col>
+            <tng-col id="amount" header="Amount" align="right" [value]="amountValue"></tng-col>
+          </tng-table>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Custom cell template (tngCell)</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">ng-template tngCell</span> with <span class="font-mono">let-row let-value="value"</span> to render custom content.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="customCellHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="overflow-auto rounded-md border border-border max-w-md">
+          <tng-table [rows]="rows()" rowKey="id">
+            <tng-col id="name" header="Name" [value]="nameValue"></tng-col>
+            <tng-col id="score" header="Score" align="right" [value]="scoreValue">
+              <ng-template tngCell let-value="value">
+                <span [class]="scoreClass(value)">{{ value }}</span>
+              </ng-template>
+            </tng-col>
+          </tng-table>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Empty state</h3>
+    <p class="text-sm text-fg">When <span class="font-mono">rows</span> is empty, <span class="font-mono">emptyText</span> is shown.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="emptyHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="overflow-auto rounded-md border border-border max-w-md">
+          <tng-table [rows]="emptyRows()" rowKey="id" emptyText="No data yet">
+            <tng-col id="name" header="Name" [value]="nameValue"></tng-col>
+            <tng-col id="score" header="Score" align="right" [value]="scoreValue"></tng-col>
+          </tng-table>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

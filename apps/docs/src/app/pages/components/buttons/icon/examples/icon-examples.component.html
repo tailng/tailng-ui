@@ -1,1 +1,35 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Size (number and string)</h3>
+    <p class="text-sm text-fg">size: number in px or string (e.g. 1em, 1.5rem).</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="sizeHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex items-center gap-6">
+          <tng-icon name="bootstrapAlarm" [size]="20"></tng-icon>
+          <tng-icon name="bootstrapAlarm" [size]="32"></tng-icon>
+          <tng-icon name="bootstrapAlarm" size="1.5em"></tng-icon>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Accessible icon</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">[decorative]="false"</span> and <span class="font-mono">ariaLabel</span> when the icon conveys meaning.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="a11yHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-icon name="bootstrapBell" [decorative]="false" ariaLabel="Notifications" [size]="24"></tng-icon>
+      </div>
+    </docs-example-block>
+  </div>
+</section>
