@@ -1,6 +1,6 @@
 {
   "name": "@tociva/tailng-cdk",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Headless Angular utilities and primitives for Tailng",
   "license": "MIT",
   "repository": {

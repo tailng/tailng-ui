@@ -1,6 +1,6 @@
 {
   "name": "@tociva/tailng-icons",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Angular icon components for Tailng",
   "license": "MIT",
   "repository": {
@@ -12,7 +12,14 @@
     "url": "https://github.com/tociva/tailng/issues"
   },
   "sideEffects": false,
-  "files": ["fesm2022", "types", "tailwind", "package.json", "README.md", "LICENSE"],
+  "files": [
+    "fesm2022",
+    "types",
+    "tailwind",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
   "peerDependencies": {
     "@angular/core": "^21.0.0",
     "@angular/common": "^21.0.0",
