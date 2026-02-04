@@ -22,16 +22,22 @@
   </div>
 
   <div class="space-y-2">
-    <h3 class="text-sm font-medium text-fg">Custom classes</h3>
-
+    <h3 class="text-sm font-medium text-fg">Base classes (trackKlass / thumbKlass)</h3>
+    <p class="text-xs text-muted">Base classes apply in both on/off states.</p>
     <tng-slide-toggle label="Experimental feature" [checked]="notifications()"
-      (checkedChange)="notifications.set($event)" trackKlass="bg-warning border-warning" thumbKlass="bg-on-warning"
+      (checkedChange)="notifications.set($event)" trackKlass="rounded-xl" thumbKlass="shadow-md"
       labelKlass="text-warning" />
   </div>
   <div class="space-y-2">
-    <h3 class="text-sm font-medium text-fg">Custom icons</h3>
-
-    <tng-slide-toggle label="Enable notifications" [thumbKlass]="'bg-white' ">
+    <h3 class="text-sm font-medium text-fg">On/off state classes (trackOnKlass, trackOffKlass, thumbOnKlass, thumbOffKlass)</h3>
+    <p class="text-xs text-muted">Per-state overrides for track and thumb when toggle is on vs off.</p>
+    <tng-slide-toggle label="Themed by state" trackOffKlass="bg-bg border-primary"
+      trackOnKlass="bg-primary border-primary" thumbOffKlass="bg-primary" thumbOnKlass="bg-on-primary" />
+  </div>
+  <div class="space-y-2">
+    <h3 class="text-sm font-medium text-fg">Custom icons (tngSlideToggleOn / tngSlideToggleOff)</h3>
+    <tng-slide-toggle label="Enable notifications" trackOffKlass="bg-bg border-primary"
+      trackOnKlass="bg-primary border-primary" thumbOffKlass="bg-primary text-on-primary" thumbOnKlass="bg-on-primary text-primary">
       <tng-icon name="bootstrapBell" tngSlideToggleOn></tng-icon>
       <tng-icon name="bootstrapCheck2Circle" tngSlideToggleOff></tng-icon>
     </tng-slide-toggle>

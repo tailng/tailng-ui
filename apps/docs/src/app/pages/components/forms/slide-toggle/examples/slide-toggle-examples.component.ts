@@ -54,4 +54,12 @@ form = new FormGroup({
 </form>
 `,
   );
+
+  readonly onOffKlassHtml = computed(
+    () => `
+<tng-slide-toggle formControlName="notifications" label="Themed by state"
+  trackOffKlass="bg-bg border-primary" trackOnKlass="bg-primary border-primary"
+  thumbOffKlass="bg-primary" thumbOnKlass="bg-on-primary" />
+`,
+  );
 }

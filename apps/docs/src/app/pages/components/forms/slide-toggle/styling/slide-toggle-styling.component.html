@@ -2,12 +2,11 @@
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-slide-toggle</span> exposes five klass hooks:
-      <span class="font-mono">rootKlass</span> (wrapper),
-      <span class="font-mono">trackKlass</span> (track),
-      <span class="font-mono">thumbKlass</span> (thumb),
-      <span class="font-mono">labelKlass</span> (label text),
-      <span class="font-mono">inputKlass</span> (hidden input).
+      <span class="font-mono">tng-slide-toggle</span> exposes
+      <span class="font-mono">rootKlass</span>, <span class="font-mono">labelKlass</span>, <span class="font-mono">inputKlass</span>;
+      base <span class="font-mono">trackKlass</span> / <span class="font-mono">thumbKlass</span> (both states);
+      and per-state <span class="font-mono">trackOnKlass</span>, <span class="font-mono">trackOffKlass</span>,
+      <span class="font-mono">thumbOnKlass</span>, <span class="font-mono">thumbOffKlass</span>.
     </p>
   </div>
 
@@ -66,6 +65,28 @@
       <div tngExampleDemo>
         <form [formGroup]="form">
           <tng-slide-toggle formControlName="on" label="Large thumb" thumbKlass="h-4 w-4 shadow-lg" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">trackOnKlass / trackOffKlass, thumbOnKlass / thumbOffKlass</h3>
+      <tng-tag label="on/off"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Per-state overrides when toggle is on vs off. Merged with base track/thumb and component defaults.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="trackThumbOnOffHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form">
+          <tng-slide-toggle formControlName="on" label="Themed by state"
+            trackOffKlass="bg-bg border-primary" trackOnKlass="bg-primary border-primary"
+            thumbOffKlass="bg-primary" thumbOnKlass="bg-on-primary" />
         </form>
       </div>
     </docs-example-block>

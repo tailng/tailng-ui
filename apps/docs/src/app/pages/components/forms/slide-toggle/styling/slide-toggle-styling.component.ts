@@ -46,6 +46,16 @@ export class SlideToggleStylingComponent {
 `,
   );
 
+  readonly trackThumbOnOffHtml = computed(
+    () => `
+<form [formGroup]="form">
+  <tng-slide-toggle formControlName="on" label="Themed by state"
+    trackOffKlass="bg-bg border-primary" trackOnKlass="bg-primary border-primary"
+    thumbOffKlass="bg-primary" thumbOnKlass="bg-on-primary" />
+</form>
+`,
+  );
+
   readonly labelKlassHtml = computed(
     () => `
 <form [formGroup]="form">
