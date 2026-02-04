@@ -1,12 +1,12 @@
 import { Component, computed } from '@angular/core';
-import { TngCard } from '@tociva/tailng-ui/layout';
+import { TngCard, TngCardFooter, TngCardHeader } from '@tociva/tailng-ui/layout';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
   standalone: true,
   selector: 'docs-card-overview',
   templateUrl: './card-overview.component.html',
-  imports: [TngCard, ExampleBlockComponent, TngExampleDemo],
+  imports: [TngCard, TngCardHeader, TngCardFooter, ExampleBlockComponent, TngExampleDemo],
 })
 export class CardOverviewComponent {
   readonly basicHtml = computed(
@@ -20,6 +20,6 @@ export class CardOverviewComponent {
   );
 
   readonly basicTs = computed(
-    () => `import { TngCard } from '@tociva/tailng-ui/layout';`,
+    () => `import { TngCard, TngCardHeader, TngCardFooter } from '@tociva/tailng-ui/layout';`,
   );
 }

@@ -1,4 +1,5 @@
 import { Component, computed, contentChild, input } from '@angular/core';
+import { TngCardFooter, TngCardHeader } from './card-slots.directive';
 
 @Component({
   selector: 'tng-card',
@@ -15,9 +16,8 @@ export class TngCard {
   footerKlass = input<string>('');
   klass = input<string>('');
 
-  // Presence checks only (no `read` needed)
-  private headerMarker = contentChild('[tngCardHeader]');
-  private footerMarker = contentChild('[tngCardFooter]');
+  private headerMarker = contentChild(TngCardHeader);
+  private footerMarker = contentChild(TngCardFooter);
 
   readonly hasHeader = computed(() => !!this.headerMarker());
   readonly hasFooter = computed(() => !!this.footerMarker());
