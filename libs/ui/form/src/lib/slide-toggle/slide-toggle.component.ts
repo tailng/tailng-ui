@@ -5,13 +5,16 @@ import {
   input,
   output,
   signal,
+  contentChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { TngSlideToggleOnSlot, TngSlideToggleOffSlot } from './slide-toggle-slots.directive';
 
 @Component({
   selector: 'tng-slide-toggle',
   standalone: true,
   templateUrl: './slide-toggle.component.html',
+  imports: [],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -41,8 +44,14 @@ export class TngSlideToggle implements ControlValueAccessor {
   readonly labelKlass = input<string>('text-sm text-fg');
   readonly inputKlass = input<string>('sr-only');
 
-  private readonly _value = signal(false);
+  // slot presence (consumer-provided)
+  private readonly onSlot = contentChild(TngSlideToggleOnSlot, { descendants: false });
+  private readonly offSlot = contentChild(TngSlideToggleOffSlot, { descendants: false });
 
+  readonly hasOnSlot = computed(() => Boolean(this.onSlot()));
+  readonly hasOffSlot = computed(() => Boolean(this.offSlot()));
+
+  private readonly _value = signal(false);
   private readonly _formDisabled = signal(false);
   readonly isDisabled = computed(() => this.disabled() || this._formDisabled());
 
@@ -55,15 +64,12 @@ export class TngSlideToggle implements ControlValueAccessor {
   writeValue(value: boolean | null): void {
     this._value.set(value ?? false);
   }
-
   registerOnChange(fn: (value: boolean) => void): void {
     this.onChange = fn;
   }
-
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
-
   setDisabledState(isDisabled: boolean): void {
     this._formDisabled.set(isDisabled);
   }
@@ -73,43 +79,41 @@ export class TngSlideToggle implements ControlValueAccessor {
       'relative inline-flex h-6 w-11 items-center rounded-full border transition-colors duration-200 ' +
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ' +
       'focus-visible:ring-offset-2 focus-visible:ring-offset-background';
-  
+
     const stateOn = 'bg-primary border-primary';
     const stateOff = 'bg-on-primary border-primary';
-  
+
     const disabled = this.isDisabled() ? ' opacity-60 pointer-events-none' : '';
     const state = this.value() ? stateOn : stateOff;
-  
-    return `${base} ${state}${disabled} ${this.trackKlass()}`.trim();
+
+    const classes = `${base} ${state}${disabled} ${this.trackKlass()}`.trim();
+    return classes;
   });
 
   readonly thumbClasses = computed(() => {
-    const base =
-      'inline-block h-5 w-5 rounded-full shadow transition-transform duration-200';
-  
+    const base = 'inline-block h-5 w-5 rounded-full shadow transition-transform duration-200';
+
     const posOn = 'translate-x-5';
     const posOff = 'translate-x-1';
-  
+
     const colorOn = 'bg-on-primary';
     const colorOff = 'bg-primary';
-  
+
     const pos = this.value() ? posOn : posOff;
     const color = this.value() ? colorOn : colorOff;
-  
-    return `${base} ${pos} ${color} ${this.thumbKlass()}`.trim();
+
+    const classes = `${base} ${pos} ${color} ${this.thumbKlass()}`.trim();
+    return classes;
   });
-  
+
   onToggle(ev: Event): void {
     if (this.isDisabled()) return;
 
     const next = (ev.target as HTMLInputElement).checked;
 
-    // internal (CVA path)
     this._value.set(next);
     this.onChange(next);
     this.onTouched();
-
-    // controlled usage (signal binding path)
     this.checkedChange.emit(next);
   }
 

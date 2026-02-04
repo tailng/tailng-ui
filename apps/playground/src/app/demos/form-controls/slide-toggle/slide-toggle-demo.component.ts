@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { TngSlideToggle } from '@tociva/tailng-ui/form';
+import { TngSlideToggle, TngSlideToggleOffSlot, TngSlideToggleOnSlot } from '@tociva/tailng-ui/form';
+import { TngIcon } from '@tociva/tailng-icons/icon';
 
 @Component({
   selector: 'playground-slide-toggle-demo',
   standalone: true,
-  imports: [TngSlideToggle],
+  imports: [TngSlideToggle, TngIcon, TngSlideToggleOnSlot, TngSlideToggleOffSlot],
   templateUrl: './slide-toggle-demo.component.html',
 })
 export class SlideToggleDemoComponent {

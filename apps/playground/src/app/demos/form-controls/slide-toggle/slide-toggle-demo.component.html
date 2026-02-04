@@ -8,11 +8,7 @@
   <div class="space-y-2">
     <h3 class="text-sm font-medium text-fg">Signal controlled</h3>
 
-    <tng-slide-toggle
-      label="Dark mode"
-      [checked]="darkMode()"
-      (checkedChange)="darkMode.set($event)"
-    />
+    <tng-slide-toggle label="Dark mode" [checked]="darkMode()" (checkedChange)="darkMode.set($event)" />
 
     <p class="text-xs text-disable">
       Value: {{ darkMode() }}
@@ -28,13 +24,16 @@
   <div class="space-y-2">
     <h3 class="text-sm font-medium text-fg">Custom classes</h3>
 
-    <tng-slide-toggle
-      label="Experimental feature"
-      [checked]="notifications()"
-      (checkedChange)="notifications.set($event)"
-      trackKlass="bg-warning border-warning"
-      thumbKlass="bg-on-warning"
-      labelKlass="text-warning"
-    />
+    <tng-slide-toggle label="Experimental feature" [checked]="notifications()"
+      (checkedChange)="notifications.set($event)" trackKlass="bg-warning border-warning" thumbKlass="bg-on-warning"
+      labelKlass="text-warning" />
+  </div>
+  <div class="space-y-2">
+    <h3 class="text-sm font-medium text-fg">Custom icons</h3>
+
+    <tng-slide-toggle label="Enable notifications" [thumbKlass]="'bg-white' ">
+      <tng-icon name="bootstrapBell" tngSlideToggleOn></tng-icon>
+      <tng-icon name="bootstrapCheck2Circle" tngSlideToggleOff></tng-icon>
+    </tng-slide-toggle>
   </div>
 </div>
