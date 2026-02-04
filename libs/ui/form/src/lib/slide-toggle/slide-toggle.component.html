@@ -12,7 +12,13 @@
   />
 
   <span [class]="trackClasses()" role="switch" [attr.aria-checked]="value()">
-    <span [class]="thumbClasses()"></span>
+    <span [class]="thumbClasses()">
+      @if (value() && hasOnSlot()) {
+        <ng-content select="[tngSlideToggleOn]"></ng-content>
+      } @else if (!value() && hasOffSlot()) {
+        <ng-content select="[tngSlideToggleOff]"></ng-content>
+      }
+    </span>
   </span>
 
   @if (label()) {
