@@ -1,1 +1,60 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Intents</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">intent</span>: default, success, info, warning, error. Each applies optional border/color via <span class="font-mono">intentKlass</span>.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="intentsHtml()" [tsContent]="intentsTs()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex flex-wrap gap-2">
+          <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm" (click)="push('default')">Default</button>
+          <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm" (click)="push('success')">Success</button>
+          <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm" (click)="push('info')">Info</button>
+          <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm" (click)="push('warning')">Warning</button>
+          <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm" (click)="push('error')">Error</button>
+        </div>
+        <tng-snackbar-host [items]="items()" position="bottom-center" (dismiss)="onDismiss($event)" />
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Action button</h3>
+    <p class="text-sm text-fg">Set <span class="font-mono">actionLabel</span> on an item; <span class="font-mono">dismiss</span> emits <span class="font-mono">reason: 'action'</span> when clicked.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="actionHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm" (click)="pushWithAction()">
+          Show with Undo
+        </button>
+        <tng-snackbar-host [items]="items()" position="bottom-center" (dismiss)="onDismiss($event)" />
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Position</h3>
+    <p class="text-sm text-fg">Set <span class="font-mono">position</span> to top-left, top-center, top-right, bottom-left, bottom-center, or bottom-right.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="positionHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex flex-wrap items-center gap-3 text-sm">
+          <label class="font-medium text-foreground">Position:</label>
+          <select
+            class="rounded-md border border-border bg-bg px-2 py-1 text-sm"
+            [value]="position()"
+            (change)="position.set($any($event.target).value)"
+          >
+            <option value="top-left">Top Left</option>
+            <option value="top-center">Top Center</option>
+            <option value="top-right">Top Right</option>
+            <option value="bottom-left">Bottom Left</option>
+            <option value="bottom-center">Bottom Center</option>
+            <option value="bottom-right">Bottom Right</option>
+          </select>
+          <button class="rounded-md bg-primary px-3 py-1.5 text-sm text-on-primary" (click)="push('default')">
+            Show
+          </button>
+        </div>
+        <tng-snackbar-host [items]="items()" [position]="position()" (dismiss)="onDismiss($event)" />
+      </div>
+    </docs-example-block>
+  </div>
+</section>

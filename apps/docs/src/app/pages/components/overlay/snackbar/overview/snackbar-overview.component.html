@@ -1,1 +1,53 @@
-Overview content.
+<div class="grid grid-cols-1 md:grid-cols-[10fr_auto_1fr] gap-5">
+  <section class="space-y-6">
+    <div id="overview" class="rounded-xl border bg-bg p-6 shadow-sm space-y-3 text-fg">
+      <h2 class="text-base font-semibold text-primary">Overview</h2>
+      <p class="text-sm leading-6 text-muted">
+        <span class="font-mono text-primary/20">tng-snackbar-host</span> shows transient, non-blocking notifications. You control the list via <span class="font-mono text-primary/20">items</span> (<span class="font-mono text-primary/20">TngSnackbarItem[]</span>) and handle <span class="font-mono text-primary/20">dismiss</span> to remove items. Each item has <span class="font-mono text-primary/20">id</span>, <span class="font-mono text-primary/20">message</span>, optional <span class="font-mono text-primary/20">intent</span> (default | success | info | warning | error), <span class="font-mono text-primary/20">actionLabel</span>, and <span class="font-mono text-primary/20">durationMs</span> (auto-dismiss). Use <span class="font-mono text-primary/20">position</span> and <span class="font-mono text-primary/20">max</span>. Class hooks: hostKlass, itemKlass, itemInnerKlass, messageKlass, actionKlass, dismissBtnKlass, intentKlass.
+      </p>
+    </div>
+    <div id="QuickExample" class="relative rounded-xl border p-4 shadow-sm space-y-2 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Quick example</h3>
+      <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="basicHtml()" [tsContent]="basicTs()">
+        <span tngExampleTitle>Basic</span>
+        <div tngExampleDemo>
+          <div class="flex flex-wrap gap-2">
+            <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm" (click)="showSnackbar()">
+              Show snackbar
+            </button>
+          </div>
+          <tng-snackbar-host
+            [items]="items()"
+            [position]="'bottom-center'"
+            (dismiss)="onDismiss($event)"
+          />
+        </div>
+      </docs-example-block>
+    </div>
+    <div id="features" class="rounded-xl border bg-bg p-6 shadow-sm space-y-4 text-fg">
+      <h3 class="text-sm font-semibold text-primary">Features</h3>
+      <div class="grid gap-3 sm:grid-cols-1">
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">Controlled items</div>
+          <p class="text-xs leading-5 text-muted">Bind <code>items</code> (TngSnackbarItem[]) and handle <code>dismiss</code> to remove items. Add items by pushing to your array/signal.</p>
+        </div>
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">Intents & auto-dismiss</div>
+          <p class="text-xs leading-5 text-muted">intent: default | success | info | warning | error. actionLabel for a button; durationMs for auto-dismiss (0 = no auto-dismiss).</p>
+        </div>
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">Class hooks</div>
+          <p class="text-xs leading-5 text-muted">hostKlass, itemKlass, itemInnerKlass, messageKlass, actionKlass, dismissBtnKlass, intentKlass (function per intent).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
+    <h3 class="mb-3 text-xs font-semibold tracking-wide">On this page</h3>
+    <ul class="space-y-2 text-sm text-fg">
+      <li><a href="#overview" class="flex items-center gap-2 p-0 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Overview</a></li>
+      <li><a href="#QuickExample" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Quick example</a></li>
+      <li><a href="#features" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Features</a></li>
+    </ul>
+  </aside>
+</div>

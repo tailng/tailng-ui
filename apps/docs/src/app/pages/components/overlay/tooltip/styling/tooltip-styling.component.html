@@ -1,1 +1,27 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      <span class="font-mono">tng-tooltip</span> exposes <span class="font-mono">panelKlass</span> (inner content padding/text) and <span class="font-mono">surfaceKlass</span> (outer panel: border, shadow, rounded).
+    </p>
+  </div>
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Custom panel / surface</h3>
+    <p class="text-sm text-fg">Override panelKlass and surfaceKlass for themed tooltips.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="themedHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-tooltip
+          text="Delete item (irreversible)"
+          placement="top-start"
+          surfaceKlass="rounded-md border border-border bg-bg shadow-md"
+          panelKlass="px-3 py-2 text-xs text-foreground"
+        >
+          <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm hover:bg-slate-50">
+            Delete
+          </button>
+        </tng-tooltip>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

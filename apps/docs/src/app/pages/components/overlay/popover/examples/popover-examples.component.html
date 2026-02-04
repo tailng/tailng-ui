@@ -1,1 +1,81 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Uncontrolled</h3>
+    <p class="text-sm text-fg">Open/close is managed internally. Use <span class="font-mono">#popoverContent</span> or <span class="font-mono">tngPopoverContent</span> for content.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="uncontrolledHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-popover>
+          <button tngPopoverTrigger class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm hover:bg-slate-50">
+            Open popover
+          </button>
+          <ng-template #popoverContent>
+            <div class="min-w-56 space-y-3 text-sm">
+              <div class="font-medium text-foreground">Quick settings</div>
+              <label class="flex items-center justify-between rounded-md border border-border px-3 py-2 text-sm">
+                <span>Notifications</span>
+                <input type="checkbox" />
+              </label>
+              <label class="flex items-center justify-between rounded-md border border-border px-3 py-2 text-sm">
+                <span>Auto refresh</span>
+                <input type="checkbox" />
+              </label>
+            </div>
+          </ng-template>
+        </tng-popover>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Controlled</h3>
+    <p class="text-sm text-fg">Bind <span class="font-mono">open</span> and <span class="font-mono">openChange</span> to control from the parent.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="controlledHtml()" [tsContent]="controlledTs()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="mb-3 flex items-center gap-2 text-sm text-muted-foreground">
+          open: <code class="rounded bg-slate-100 px-1">{{ popoverOpen() }}</code>
+          <button class="rounded-md border border-border bg-bg px-2 py-1 text-xs" (click)="popoverOpen.set(!popoverOpen())">
+            Toggle from outside
+          </button>
+        </div>
+        <tng-popover
+          [open]="popoverOpen()"
+          (openChange)="popoverOpen.set($event)"
+          placement="bottom-start"
+          panelKlass="p-3"
+        >
+          <button tngPopoverTrigger class="rounded-md bg-primary px-3 py-1.5 text-sm text-on-primary">
+            Controlled trigger
+          </button>
+          <div tngPopoverContent class="min-w-56 space-y-2">
+            <div class="text-sm font-medium text-foreground">Details</div>
+            <p class="text-sm text-muted-foreground">
+              This popover is controlled via <code class="rounded bg-slate-100 px-1">open</code> and <code class="rounded bg-slate-100 px-1">openChange</code>.
+            </p>
+            <div class="flex justify-end pt-2">
+              <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm" (click)="popoverOpen.set(false)">
+                Close
+              </button>
+            </div>
+          </div>
+        </tng-popover>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Projected content (tngPopoverContent)</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">tngPopoverContent</span> on an element instead of <span class="font-mono">#popoverContent</span> template.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="projectedHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-popover placement="bottom-end">
+          <button tngPopoverTrigger class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm">Open</button>
+          <div tngPopoverContent class="min-w-48 rounded border border-border bg-bg p-3 text-sm">
+            <p class="font-medium text-foreground">Projected content</p>
+            <p class="text-muted-foreground">Any element with tngPopoverContent is shown in the panel.</p>
+          </div>
+        </tng-popover>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

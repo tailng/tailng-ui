@@ -1,1 +1,28 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      <span class="font-mono">tng-popover</span> exposes <span class="font-mono">rootKlass</span>, <span class="font-mono">triggerKlass</span>, and <span class="font-mono">panelKlass</span>.
+    </p>
+  </div>
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Custom trigger and panel</h3>
+    <p class="text-sm text-fg">Override triggerKlass and panelKlass for themed popovers.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="themedHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-popover placement="bottom-start" panelKlass="p-3 rounded-lg border border-border bg-bg shadow-lg">
+          <button tngPopoverTrigger class="rounded-md bg-primary px-3 py-1.5 text-sm text-on-primary">
+            Styled trigger
+          </button>
+          <ng-template #popoverContent>
+            <div class="min-w-48 space-y-2 text-sm">
+              <div class="font-medium text-foreground">Styled panel</div>
+              <p class="text-muted-foreground">Custom panelKlass for padding and border.</p>
+            </div>
+          </ng-template>
+        </tng-popover>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

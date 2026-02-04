@@ -1,1 +1,58 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Text tooltip</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">text</span> for simple hints.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="textHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-tooltip text="Copy to clipboard" placement="top-start">
+          <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm hover:bg-slate-50">
+            Copy
+          </button>
+        </tng-tooltip>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Template tooltip</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">#tooltipContent</span> ng-template for custom HTML (e.g. wrapping text).</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="templateHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-tooltip placement="top-start">
+          <ng-template #tooltipContent>
+            <div class="max-w-56 text-xs whitespace-normal">
+              This is a longer tooltip that wraps nicely.
+            </div>
+          </ng-template>
+          <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm hover:bg-slate-50">
+            Template tooltip
+          </button>
+        </tng-tooltip>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Placement</h3>
+    <p class="text-sm text-fg">Set <span class="font-mono">placement</span> to top-start, top-end, bottom-start, or bottom-end.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="placementHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex flex-wrap items-center gap-4">
+          <tng-tooltip text="Top start" placement="top-start">
+            <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm">top-start</button>
+          </tng-tooltip>
+          <tng-tooltip text="Top end" placement="top-end">
+            <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm">top-end</button>
+          </tng-tooltip>
+          <tng-tooltip text="Bottom start" placement="bottom-start">
+            <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm">bottom-start</button>
+          </tng-tooltip>
+          <tng-tooltip text="Bottom end" placement="bottom-end">
+            <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm">bottom-end</button>
+          </tng-tooltip>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

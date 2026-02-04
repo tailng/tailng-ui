@@ -1,1 +1,29 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      <span class="font-mono">tng-snackbar-host</span> exposes hostKlass, itemKlass, itemInnerKlass, messageKlass, actionKlass, dismissBtnKlass, and intentKlass (function that returns a class string per intent).
+    </p>
+  </div>
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Custom item / intent</h3>
+    <p class="text-sm text-fg">Override itemKlass and intentKlass for themed snackbars.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="themedHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex gap-2">
+          <button class="rounded-md border border-border bg-bg px-3 py-1.5 text-sm" (click)="showThemed()">
+            Show themed
+          </button>
+        </div>
+        <tng-snackbar-host
+          [items]="themedItems()"
+          position="bottom-center"
+          itemKlass="pointer-events-auto w-[min(28rem,calc(100vw-2rem))] rounded-lg border-2 border-border bg-bg shadow-lg"
+          [intentKlass]="customIntentKlass"
+          (dismiss)="onThemedDismiss($event)"
+        />
+      </div>
+    </docs-example-block>
+  </div>
+</section>
