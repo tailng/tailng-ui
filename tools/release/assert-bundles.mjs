@@ -108,7 +108,7 @@ function assertUiSpecific() {
 
   // strongest check for the historically problematic bundle
   const candidates = [
-    path.join(root, "fesm2022", "tailng-ui-tailng-ui-form-controls.mjs"),
+    path.join(root, "fesm2022", "tailng-ui-ui-form-controls.mjs"),
   ].filter(exists);
 
   // If naming differs in future, fall back to pattern search

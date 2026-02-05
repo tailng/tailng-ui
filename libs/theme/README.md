@@ -1,15 +1,15 @@
-# @tailng-ui/tailng-theme
+# @tailng-ui/theme
 
 Tailwind CSS preset and design tokens for Tailng components.
 
 ## Overview
 
-`@tailng-ui/tailng-theme` provides a shared Tailwind CSS configuration used by Tailng components and applications. It defines colors, typography, spacing, border radius, and other design tokens in a reusable preset that ensures consistency across your application.
+`@tailng-ui/theme` provides a shared Tailwind CSS configuration used by Tailng components and applications. It defines colors, typography, spacing, border radius, and other design tokens in a reusable preset that ensures consistency across your application.
 
 ## Installation
 
 ```bash
-npm install @tailng-ui/tailng-theme
+npm install @tailng-ui/theme
 ```
 
 ## Peer Dependencies
@@ -34,7 +34,7 @@ Add the preset to your `tailwind.config.js`:
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   presets: [
-    require('@tailng-ui/tailng-theme/tailwind/preset'),
+    require('@tailng-ui/theme/tailwind/preset'),
   ],
   content: [
     './src/**/*.{html,ts}',
@@ -54,7 +54,7 @@ Extend the preset with your own theme:
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   presets: [
-    require('@tailng-ui/tailng-theme/tailwind/preset'),
+    require('@tailng-ui/theme/tailwind/preset'),
   ],
   theme: {
     extend: {
@@ -96,7 +96,7 @@ Define your theme variables in your global CSS:
 Import and use design tokens in TypeScript:
 
 ```typescript
-import { tailngTokens } from '@tailng-ui/tailng-theme';
+import { tailngTokens } from '@tailng-ui/theme';
 
 // Use tokens programmatically
 const radius = tailngTokens.radius.md; // '0.25rem'
@@ -131,7 +131,7 @@ The preset extends Tailwind's default theme with:
 
 ```javascript
 module.exports = {
-  presets: [require('@tailng-ui/tailng-theme/tailwind/preset')],
+  presets: [require('@tailng-ui/theme/tailwind/preset')],
   theme: {
     extend: {
       colors: {
@@ -154,9 +154,9 @@ module.exports = {
 
 ## Related Packages
 
-- [`@tailng-ui/tailng-ui`](../ui/README.md) - UI components that use this theme
-- [`@tailng-ui/tailng-icons`](../icons/README.md) - Icon components
-- [`@tailng-ui/tailng-cdk`](../cdk/README.md) - Component development kit
+- [`@tailng-ui/ui`](../ui/README.md) - UI components that use this theme
+- [`@tailng-ui/icons`](../icons/README.md) - Icon components
+- [`@tailng-ui/cdk`](../cdk/README.md) - Component development kit
 
 ## License
 

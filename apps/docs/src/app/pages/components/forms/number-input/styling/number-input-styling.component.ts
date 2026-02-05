@@ -1,7 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TngNumberInput } from '@tailng-ui/tailng-ui/form';
-import { TngTag } from '@tailng-ui/tailng-ui/primitives';
+import { TngNumberInput } from '@tailng-ui/ui/form';
+import { TngTag } from '@tailng-ui/ui/primitives';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
@@ -38,7 +38,7 @@ export class NumberInputStylingComponent {
     () => `
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TngNumberInput } from '@tailng-ui/tailng-ui/form';
+import { TngNumberInput } from '@tailng-ui/ui/form';
 
 @Component({
   selector: 'number-input-demo',
@@ -101,7 +101,7 @@ klass="text-lg font-semibold text-blue-600"
   readonly combinedExampleTs = computed(
     () => `
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TngNumberInput } from '@tailng-ui/tailng-ui/form';
+import { TngNumberInput } from '@tailng-ui/ui/form';
 
 @Component({
   selector: 'number-input-demo',

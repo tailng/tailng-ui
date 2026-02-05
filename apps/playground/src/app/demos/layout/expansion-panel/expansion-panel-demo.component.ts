@@ -1,6 +1,6 @@
   import { Component, signal } from '@angular/core';
-import { TngExpansionIconClose, TngExpansionIconOpen, TngExpansionPanel} from '@tailng-ui/tailng-ui/layout';
-import { TngButton } from '@tailng-ui/tailng-ui/primitives';
+import { TngExpansionIconClose, TngExpansionIconOpen, TngExpansionPanel} from '@tailng-ui/ui/layout';
+import { TngButton } from '@tailng-ui/ui/primitives';
 
 @Component({
   selector: 'playground-expansion-panel-demo',

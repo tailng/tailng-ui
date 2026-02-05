@@ -1,5 +1,5 @@
 import { Component, computed } from '@angular/core';
-import { TngStepper, TngStep, TngStepPanel } from '@tailng-ui/tailng-ui/navigation';
+import { TngStepper, TngStep, TngStepPanel } from '@tailng-ui/ui/navigation';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
@@ -22,6 +22,6 @@ export class StepperOverviewComponent {
 `,
   );
   readonly basicTs = computed(
-    () => `import { TngStepper, TngStep, TngStepPanel } from '@tailng-ui/tailng-ui/navigation';`,
+    () => `import { TngStepper, TngStep, TngStepPanel } from '@tailng-ui/ui/navigation';`,
   );
 }

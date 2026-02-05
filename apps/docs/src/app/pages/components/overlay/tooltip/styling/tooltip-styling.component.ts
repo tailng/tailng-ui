@@ -1,5 +1,5 @@
 import { Component, computed } from '@angular/core';
-import { TngTooltip } from '@tailng-ui/tailng-ui/overlay';
+import { TngTooltip } from '@tailng-ui/ui/overlay';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({

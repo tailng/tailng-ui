@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TngSlider } from '@tailng-ui/tailng-ui/form';
+import { TngSlider } from '@tailng-ui/ui/form';
 
 @Component({
   selector: 'playground-slider-demo',

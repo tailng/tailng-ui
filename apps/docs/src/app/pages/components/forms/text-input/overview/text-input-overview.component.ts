@@ -1,7 +1,7 @@
 import { Component, computed } from '@angular/core';
-import { TngIcon } from '@tailng-ui/tailng-icons/icon';
-import { TngTag } from '@tailng-ui/tailng-ui/primitives';
-import { TngTextInput } from '@tailng-ui/tailng-ui/form';
+import { TngIcon } from '@tailng-ui/icons/icon';
+import { TngTag } from '@tailng-ui/ui/primitives';
+import { TngTextInput } from '@tailng-ui/ui/form';
 import {
   ExampleBlockComponent,
   TngExampleDemo,
@@ -30,7 +30,7 @@ export class TextInputOverviewComponent {
     () => `
 import { Component } from '@angular/core';
 import {FormControl,FormGroup,ReactiveFormsModule} from '@angular/forms';
-import { TngTextInput } from '@tailng-ui/tailng-ui/form';
+import { TngTextInput } from '@tailng-ui/ui/form';
 @Component({
   selector: 'text-input-demo',
   standalone: true,
@@ -78,8 +78,8 @@ rootClass = flex h-10 w-full items-center rounded-md
     () => `
 import { Component } from '@angular/core';
 import {FormControl,FormGroup,ReactiveFormsModule} from '@angular/forms';
-import { TngIcon } from '@tailng-ui/tailng-icons/icon';
-import { TngTextInput } from '@tailng-ui/tailng-ui/form';
+import { TngIcon } from '@tailng-ui/icons/icon';
+import { TngTextInput } from '@tailng-ui/ui/form';
 @Component({
   selector: 'text-input-demo',
   standalone: true,

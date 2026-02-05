@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core';
-import { TngFocusTrap } from '@tailng-ui/tailng-cdk/a11y';
+import { TngFocusTrap } from '@tailng-ui/cdk/a11y';
 
 @Component({
   selector: 'tng-overlay-panel',

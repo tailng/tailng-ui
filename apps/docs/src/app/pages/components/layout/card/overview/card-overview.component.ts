@@ -1,5 +1,5 @@
 import { Component, computed } from '@angular/core';
-import { TngCard, TngCardFooter, TngCardHeader } from '@tailng-ui/tailng-ui/layout';
+import { TngCard, TngCardFooter, TngCardHeader } from '@tailng-ui/ui/layout';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
@@ -20,6 +20,6 @@ export class CardOverviewComponent {
   );
 
   readonly basicTs = computed(
-    () => `import { TngCard, TngCardHeader, TngCardFooter } from '@tailng-ui/tailng-ui/layout';`,
+    () => `import { TngCard, TngCardHeader, TngCardFooter } from '@tailng-ui/ui/layout';`,
   );
 }

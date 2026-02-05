@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { TngDialog, TngDialogCloseReason, TngDialogInitialFocus } from '@tailng-ui/tailng-ui/overlay';
+import { TngDialog, TngDialogCloseReason, TngDialogInitialFocus } from '@tailng-ui/ui/overlay';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, inject, signal } from '@angular/core';
-import { TngCol, TngTable } from '@tailng-ui/tailng-ui/table';
-import { TngCodeBlock } from '@tailng-ui/tailng-ui/utilities';
+import { TngCol, TngTable } from '@tailng-ui/ui/table';
+import { TngCodeBlock } from '@tailng-ui/ui/utilities';
 import { ShikiHighlighterService } from '../../../../../shared/shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../../../shared/tng-shiki.adapter';
 
@@ -16,7 +16,7 @@ export class TabsApiComponent implements AfterViewInit {
   private shiki = inject(ShikiHighlighterService);
   readonly highlighter = new TngShikiAdapter(this.shiki);
   readonly importExample = () =>
-    `import { TngTabs, TngTab, TngTabPanel } from '@tailng-ui/tailng-ui/layout';`;
+    `import { TngTabs, TngTab, TngTabPanel } from '@tailng-ui/ui/layout';`;
 
   private readonly tabsInputSeed: DisplayDetails[] = [
     { property: 'value', type: 'string | null', default: 'null', description: 'Controlled active tab value' },

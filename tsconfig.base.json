@@ -6,15 +6,15 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@tailng-ui/tailng-ui": ["libs/ui/src/public-api.ts"],
-      "@tailng-ui/tailng-ui/*": ["libs/ui/*/src/public-api.ts"],
-      "@tailng-ui/tailng-icons": ["libs/icons/src/public-api.ts"],
-      "@tailng-ui/tailng-icons/*": ["libs/icons/*/src/public-api.ts"],
-      "@tailng-ui/tailng-theme": [
+      "@tailng-ui/ui": ["libs/ui/src/public-api.ts"],
+      "@tailng-ui/ui/*": ["libs/ui/*/src/public-api.ts"],
+      "@tailng-ui/icons": ["libs/icons/src/public-api.ts"],
+      "@tailng-ui/icons/*": ["libs/icons/*/src/public-api.ts"],
+      "@tailng-ui/theme": [
         "libs/theme/src/public-api.ts"
       ],
-      "@tailng-ui/tailng-cdk": ["libs/cdk/src/public-api.ts"],
-      "@tailng-ui/tailng-cdk/*": ["libs/cdk/*/src/public-api.ts"]
+      "@tailng-ui/cdk": ["libs/cdk/src/public-api.ts"],
+      "@tailng-ui/cdk/*": ["libs/cdk/*/src/public-api.ts"]
     }
   }
 }

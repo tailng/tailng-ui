@@ -17,7 +17,7 @@ import {
   TngOverlayPanel,
   TngOverlayRef,
   type TngOverlayCloseReason,
-} from '@tailng-ui/tailng-ui/overlay';
+} from '@tailng-ui/ui/overlay';
 
 import { TngNativeDateAdapter } from './adapters/native-date.adapter';
 import { TNG_DATE_ADAPTER, TngDateAdapter } from './adapters/tng-date-adapter';

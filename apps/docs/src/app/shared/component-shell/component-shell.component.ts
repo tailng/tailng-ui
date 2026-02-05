@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, signal, ViewChild } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { TngIcon } from '@tailng-ui/tailng-icons/icon';
+import { TngIcon } from '@tailng-ui/icons/icon';
 
 @Component({
   standalone: true,

@@ -1,5 +1,5 @@
 {
-  "name": "@tailng-ui/tailng-cdk",
+  "name": "@tailng-ui/cdk",
   "version": "0.18.0",
   "description": "Headless Angular utilities and primitives for Tailng",
   "license": "MIT",

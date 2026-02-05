@@ -1,5 +1,5 @@
 import { Component, computed } from '@angular/core';
-import { TngMenu, TngMenuItem, TngMenuTemplate } from '@tailng-ui/tailng-ui/navigation';
+import { TngMenu, TngMenuItem, TngMenuTemplate } from '@tailng-ui/ui/navigation';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({

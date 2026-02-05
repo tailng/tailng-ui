@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { TngSnackbarHost, TngSnackbarItem, TngSnackbarIntent } from '@tailng-ui/tailng-ui/overlay';
+import { TngSnackbarHost, TngSnackbarItem, TngSnackbarIntent } from '@tailng-ui/ui/overlay';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 const uid = () => Math.random().toString(36).slice(2, 9);

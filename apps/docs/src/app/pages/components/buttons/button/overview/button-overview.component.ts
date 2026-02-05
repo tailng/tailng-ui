@@ -1,5 +1,5 @@
 import { Component, computed } from '@angular/core';
-import { TngButton } from '@tailng-ui/tailng-ui/primitives';
+import { TngButton } from '@tailng-ui/ui/primitives';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
@@ -21,7 +21,7 @@ export class ButtonOverviewComponent {
 
   readonly basicTs = computed(
     () => `
-import { TngButton } from '@tailng-ui/tailng-ui/primitives';
+import { TngButton } from '@tailng-ui/ui/primitives';
 `,
   );
 }

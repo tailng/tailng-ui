@@ -1,6 +1,6 @@
 import { Component, signal } from "@angular/core";
 import { TngCol, TngTable, TngCellDef, 
-  TngHeaderDef, TngSort, TngSortHeaderDirective, TngSortIcon } from "@tailng-ui/tailng-ui/table";
+  TngHeaderDef, TngSort, TngSortHeaderDirective, TngSortIcon } from "@tailng-ui/ui/table";
 
 type Txn = {
   id: string;

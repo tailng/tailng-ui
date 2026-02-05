@@ -4,11 +4,11 @@ import {
   TngMenu,
   TngMenuItem,
   TngMenuTemplate,
-} from '@tailng-ui/tailng-ui/navigation';
-import { TngIcon } from '@tailng-ui/tailng-icons/icon';
+} from '@tailng-ui/ui/navigation';
+import { TngIcon } from '@tailng-ui/icons/icon';
 import { docsNav } from '../../data/nav';
 import { DocsThemeService, TngTheme } from '../../shared/docs-theme.service';
-import { TngSlideToggle, TngSlideToggleOffSlot, TngSlideToggleOnSlot } from '@tailng-ui/tailng-ui/form';
+import { TngSlideToggle, TngSlideToggleOffSlot, TngSlideToggleOnSlot } from '@tailng-ui/ui/form';
 
 @Component({
   standalone: true,

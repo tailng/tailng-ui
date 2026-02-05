@@ -1,11 +1,11 @@
 import { Component, computed, Directive, inject, input, signal } from '@angular/core';
-import { TngIcon } from '@tailng-ui/tailng-icons/icon';
-import { TngExpansionPanel, TngTab, TngTabPanel, TngTabs } from '@tailng-ui/tailng-ui/layout';
+import { TngIcon } from '@tailng-ui/icons/icon';
+import { TngExpansionPanel, TngTab, TngTabPanel, TngTabs } from '@tailng-ui/ui/layout';
 import {
   TngCodeBlock,
   TngCodeBlockCopiedSlot,
   TngCodeBlockCopySlot,
-} from '@tailng-ui/tailng-ui/utilities';
+} from '@tailng-ui/ui/utilities';
 import { ShikiHighlighterService } from '../shiki-highlighter.service';
 import { TngShikiAdapter } from '../tng-shiki.adapter';
 

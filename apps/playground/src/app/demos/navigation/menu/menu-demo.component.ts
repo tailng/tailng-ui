@@ -1,7 +1,7 @@
 
 import { Component } from '@angular/core';
-import { TngIcon } from '@tailng-ui/tailng-icons/icon';
-import { TngMenu, TngMenuItem, TngMenuTemplate } from '@tailng-ui/tailng-ui/navigation';
+import { TngIcon } from '@tailng-ui/icons/icon';
+import { TngMenu, TngMenuItem, TngMenuTemplate } from '@tailng-ui/ui/navigation';
 
 @Component({
   selector: 'playground-menu-demo',

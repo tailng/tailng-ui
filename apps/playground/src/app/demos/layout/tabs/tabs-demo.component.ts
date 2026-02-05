@@ -3,7 +3,7 @@ import {
   TngTabs,
   TngTab,
   TngTabPanel,
-} from '@tailng-ui/tailng-ui/layout';
+} from '@tailng-ui/ui/layout';
 
 @Component({
   selector: 'playground-tabs-demo',

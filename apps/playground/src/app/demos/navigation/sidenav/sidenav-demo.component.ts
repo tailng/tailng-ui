@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { TngSidenav, TngSidenavFooterSlot, 
-  TngSidenavHeaderSlot } from '@tailng-ui/tailng-ui/navigation';
+  TngSidenavHeaderSlot } from '@tailng-ui/ui/navigation';
 
 @Component({
   selector: 'playground-sidenav-demo',

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { TngRipple } from '@tailng-ui/tailng-ui/primitives';
-import { TngIcon } from '@tailng-ui/tailng-icons/icon';
+import { TngRipple } from '@tailng-ui/ui/primitives';
+import { TngIcon } from '@tailng-ui/icons/icon';
 
 @Component({
   selector: 'playground-ripples-demo',

@@ -1,5 +1,5 @@
 import { Component, computed } from '@angular/core';
-import { TngDivider } from '@tailng-ui/tailng-ui/layout';
+import { TngDivider } from '@tailng-ui/ui/layout';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
@@ -16,6 +16,6 @@ export class DividerOverviewComponent {
 `,
   );
   readonly basicTs = computed(
-    () => `import { TngDivider } from '@tailng-ui/tailng-ui/layout';`,
+    () => `import { TngDivider } from '@tailng-ui/ui/layout';`,
   );
 }

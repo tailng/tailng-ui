@@ -2,7 +2,7 @@
 export const categories = [
   {
     name: 'Form Controls',
-    package: '@tailng-ui/tailng-ui',
+    package: '@tailng-ui/ui',
     components: [
       { name: 'Autocomplete', route: '/forms/autocomplete', status: 'done', priority: 'high' },
       { name: 'Checkbox', route: '/forms/checkbox', status: 'done', priority: 'high' },
@@ -32,7 +32,7 @@ export const categories = [
 
   {
     name: 'Buttons & Indicators',
-    package: '@tailng-ui/tailng-ui',
+    package: '@tailng-ui/ui',
     components: [
       { name: 'Button', route: '/buttons/button', status: 'done', priority: 'high' },
       { name: 'Badge', route: '/buttons/badge', status: 'done', priority: 'medium' },
@@ -49,7 +49,7 @@ export const categories = [
 
   {
     name: 'Layout',
-    package: '@tailng-ui/tailng-ui',
+    package: '@tailng-ui/ui',
     components: [
       { name: 'Card', route: '/layout/card', status: 'done', priority: 'high' },
       { name: 'Divider', route: '/layout/divider', status: 'done', priority: 'low' },
@@ -63,7 +63,7 @@ export const categories = [
 
   {
     name: 'Navigation',
-    package: '@tailng-ui/tailng-ui',
+    package: '@tailng-ui/ui',
     components: [
       { name: 'Menu', route: '/navigation/menu', status: 'done', priority: 'high' },
       { name: 'Sidenav', route: '/navigation/sidenav', status: 'done', priority: 'high' },
@@ -78,7 +78,7 @@ export const categories = [
 
   {
     name: 'Popups & Overlays',
-    package: '@tailng-ui/tailng-ui',
+    package: '@tailng-ui/ui',
     components: [
       { name: 'Dialog', route: '/overlay/dialog', status: 'done', priority: 'high' },
       { name: 'Snackbar', route: '/overlay/snackbar', status: 'done', priority: 'high' },
@@ -91,7 +91,7 @@ export const categories = [
 
   {
     name: 'Overlay Primitives',
-    package: '@tailng-ui/tailng-ui',
+    package: '@tailng-ui/ui',
     internal: true,
     components: [
       {
@@ -113,7 +113,7 @@ export const categories = [
 
   {
     name: 'Data Table & Structure',
-    package: '@tailng-ui/tailng-ui',
+    package: '@tailng-ui/ui',
     components: [
       { name: 'Table Basic', route: '/data/table', status: 'done', priority: 'high' },
       { name: 'Sort Header', route: '/data/sort-header', status: 'done', priority: 'medium' },
@@ -128,7 +128,7 @@ export const categories = [
 
   {
     name: 'Utilities',
-    package: '@tailng-ui/tailng-ui',
+    package: '@tailng-ui/ui',
     components: [
       { name: 'Code Block', route: '/utilities/code-block', status: 'done', priority: 'medium' },
       { name: 'Copy Button', route: '/utilities/copy-button', status: 'done', priority: 'medium' },

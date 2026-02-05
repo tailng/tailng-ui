@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
-import { TngAutocomplete } from '@tailng-ui/tailng-ui/form';
+import { TngAutocomplete } from '@tailng-ui/ui/form';
 
 import { Country, COUNTRY_LIST } from '../../util/country-list';
 import { toFlagEmoji } from '../../util/common.util';

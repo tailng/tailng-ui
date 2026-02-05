@@ -1,15 +1,15 @@
-# @tailng-ui/tailng-ui
+# @tailng-ui/ui
 
 Modern Angular UI components powered by Tailwind CSS. Built for Angular 21+ with standalone components, signals, and a clean API.
 
 ## Overview
 
-`@tailng-ui/tailng-ui` is a comprehensive component library for Angular applications. It provides 50+ production-ready components styled with Tailwind CSS, featuring a "Material-like" developer experience without heavy theming overhead.
+`@tailng-ui/ui` is a comprehensive component library for Angular applications. It provides 50+ production-ready components styled with Tailwind CSS, featuring a "Material-like" developer experience without heavy theming overhead.
 
 ## Installation
 
 ```bash
-npm install @tailng-ui/tailng-ui
+npm install @tailng-ui/ui
 ```
 
 ## Peer Dependencies
@@ -17,7 +17,7 @@ npm install @tailng-ui/tailng-ui
 - `@angular/core`: ^21.0.0
 - `@angular/common`: ^21.0.0
 - `@angular/forms`: ^21.0.0
-- `@tailng-ui/tailng-cdk`: ^0.1.0
+- `@tailng-ui/cdk`: ^0.1.0
 
 ## Features
 
@@ -34,7 +34,7 @@ npm install @tailng-ui/tailng-ui
 
 ```typescript
 import { Component } from '@angular/core';
-import { TngButton } from '@tailng-ui/tailng-ui';
+import { TngButton } from '@tailng-ui/ui';
 
 @Component({
   selector: 'app-example',
@@ -75,7 +75,7 @@ Interactive elements and status indicators:
 
 - **Button** - Primary, outline, and text variants
 - **Badge** - Status badges and labels
-- **Icon** - Icon component (from `@tailng-ui/tailng-icons`)
+- **Icon** - Icon component (from `@tailng-ui/icons`)
 - **Ripples** - Material-style ripple effect
 - **Progress Bar** - Linear progress indicator
 - **Progress Spinner** - Circular progress indicator
@@ -134,7 +134,7 @@ Helper components:
 ### Button
 
 ```typescript
-import { TngButton } from '@tailng-ui/tailng-ui';
+import { TngButton } from '@tailng-ui/ui';
 
 @Component({
   template: `
@@ -150,7 +150,7 @@ export class MyComponent {}
 ### Form Input
 
 ```typescript
-import { TngTextInput } from '@tailng-ui/tailng-ui';
+import { TngTextInput } from '@tailng-ui/ui';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -171,7 +171,7 @@ export class MyComponent {
 ### Dialog
 
 ```typescript
-import { TngDialog } from '@tailng-ui/tailng-ui';
+import { TngDialog } from '@tailng-ui/ui';
 
 @Component({
   template: `
@@ -206,7 +206,7 @@ Components support theming via CSS variables:
 }
 ```
 
-See [`@tailng-ui/tailng-theme`](../theme/README.md) for the complete theming guide.
+See [`@tailng-ui/theme`](../theme/README.md) for the complete theming guide.
 
 ## "klass signal" Pattern
 
@@ -231,9 +231,9 @@ export class MyButton {
 
 ## Related Packages
 
-- [`@tailng-ui/tailng-cdk`](../cdk/README.md) - Component development kit (required)
-- [`@tailng-ui/tailng-icons`](../icons/README.md) - Icon components
-- [`@tailng-ui/tailng-theme`](../theme/README.md) - Tailwind CSS theme preset
+- [`@tailng-ui/cdk`](../cdk/README.md) - Component development kit (required)
+- [`@tailng-ui/icons`](../icons/README.md) - Icon components
+- [`@tailng-ui/theme`](../theme/README.md) - Tailwind CSS theme preset
 
 ## Documentation
 

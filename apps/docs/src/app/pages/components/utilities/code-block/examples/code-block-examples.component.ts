@@ -1,5 +1,5 @@
 import { Component, computed, inject } from '@angular/core';
-import { TngCodeBlock } from '@tailng-ui/tailng-ui/utilities';
+import { TngCodeBlock } from '@tailng-ui/ui/utilities';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 import { ShikiHighlighterService } from '../../../../../shared/shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../../../shared/tng-shiki.adapter';
@@ -23,7 +23,7 @@ export class CodeBlockExamplesComponent {
 }`,
   );
 
-  readonly shortSnippet = computed(() => `npm i @tailng-ui/tailng-ui`);
+  readonly shortSnippet = computed(() => `npm i @tailng-ui/ui`);
 
   readonly basicHtml = computed(
     () => `
@@ -33,7 +33,7 @@ export class CodeBlockExamplesComponent {
   );
 
   readonly basicTs = computed(
-    () => `import { TngCodeBlock } from '@tailng-ui/tailng-ui/utilities';
+    () => `import { TngCodeBlock } from '@tailng-ui/ui/utilities';
 // Inject ShikiHighlighterService and use TngShikiAdapter for highlighter.`,
   );
 

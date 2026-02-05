@@ -1,5 +1,5 @@
 import { Component, computed } from '@angular/core';
-import { TngExpansionPanel } from '@tailng-ui/tailng-ui/layout';
+import { TngExpansionPanel } from '@tailng-ui/ui/layout';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
@@ -20,6 +20,6 @@ export class ExpansionPanelOverviewComponent {
 `,
   );
   readonly basicTs = computed(
-    () => `import { TngExpansionPanel } from '@tailng-ui/tailng-ui/layout';`,
+    () => `import { TngExpansionPanel } from '@tailng-ui/ui/layout';`,
   );
 }

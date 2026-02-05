@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import {
   TngSnackbarHost,
   TngSnackbarItem,
-} from '@tailng-ui/tailng-ui/overlay';
+} from '@tailng-ui/ui/overlay';
 
 const uid = () => Math.random().toString(36).slice(2, 9);
 

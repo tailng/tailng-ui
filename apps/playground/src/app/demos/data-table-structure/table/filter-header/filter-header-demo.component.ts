@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TngIcon } from '@tailng-ui/tailng-icons/icon';
+import { TngIcon } from '@tailng-ui/icons/icon';
 import {
   TngCol,
   TngTable,
@@ -9,7 +9,7 @@ import {
   TngFilterTrigger,
   TngSortHeaderDirective,
   TngColumnFilterMeta,
-} from '@tailng-ui/tailng-ui/table';
+} from '@tailng-ui/ui/table';
 
 type InvoiceRow = {
   id: string;

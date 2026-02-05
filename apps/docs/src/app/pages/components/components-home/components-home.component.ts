@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TngCard, TngAccordion, TngExpansionPanel, TngCardHeader, TngCardFooter } from "@tailng-ui/tailng-ui/layout";
+import { TngCard, TngAccordion, TngExpansionPanel, TngCardHeader, TngCardFooter } from "@tailng-ui/ui/layout";
 
 @Component({
   standalone: true,

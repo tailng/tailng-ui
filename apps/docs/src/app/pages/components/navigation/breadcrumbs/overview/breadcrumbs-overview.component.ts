@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { TngBreadcrumbs, TngBreadcrumbItem } from '@tailng-ui/tailng-ui/navigation';
+import { TngBreadcrumbs, TngBreadcrumbItem } from '@tailng-ui/ui/navigation';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
@@ -20,7 +20,7 @@ export class BreadcrumbsOverviewComponent {
 `,
   );
   readonly basicTs = computed(
-    () => `import { TngBreadcrumbs, TngBreadcrumbItem } from '@tailng-ui/tailng-ui/navigation';
+    () => `import { TngBreadcrumbs, TngBreadcrumbItem } from '@tailng-ui/ui/navigation';
 items = signal<TngBreadcrumbItem[]>([
   { label: 'Projects', route: '/projects' },
   { label: 'Tailng UI' },

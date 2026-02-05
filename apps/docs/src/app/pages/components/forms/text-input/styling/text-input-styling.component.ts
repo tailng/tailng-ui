@@ -1,7 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
-import { TngIcon } from '@tailng-ui/tailng-icons/icon';
-import { TngTextInput } from '@tailng-ui/tailng-ui/form';
-import { TngTag } from '@tailng-ui/tailng-ui/primitives';
+import { TngIcon } from '@tailng-ui/icons/icon';
+import { TngTextInput } from '@tailng-ui/ui/form';
+import { TngTag } from '@tailng-ui/ui/primitives';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
@@ -33,7 +33,7 @@ export class TextInputStylingComponent {
     () => `
 import { Component } from '@angular/core';
 import {FormControl,FormGroup,ReactiveFormsModule} from '@angular/forms';
-import { TngTextInput } from '@tailng-ui/tailng-ui/form';
+import { TngTextInput } from '@tailng-ui/ui/form';
 @Component({
   selector: 'text-input-demo',
   standalone: true,
@@ -111,8 +111,8 @@ inputKlass = h-full min-w-0 flex-1 bg-transparent px-3 text-sm outline-none plac
     () => `
 import { Component } from '@angular/core';
 import {FormControl,FormGroup,ReactiveFormsModule} from '@angular/forms';
-import { TngIcon } from '@tailng-ui/tailng-icons/icon';
-import { TngTextInput } from '@tailng-ui/tailng-ui/form';
+import { TngIcon } from '@tailng-ui/icons/icon';
+import { TngTextInput } from '@tailng-ui/ui/form';
 @Component({
   selector: 'text-input-demo',
   standalone: true,
@@ -184,8 +184,8 @@ readonly suffixKlassCustomTs = computed(
     () => `
 import { Component } from '@angular/core';
 import {FormControl,FormGroup,ReactiveFormsModule} from '@angular/forms';
-import { TngIcon } from '@tailng-ui/tailng-icons/icon';
-import { TngTextInput } from '@tailng-ui/tailng-ui/form';
+import { TngIcon } from '@tailng-ui/icons/icon';
+import { TngTextInput } from '@tailng-ui/ui/form';
 @Component({
   selector: 'text-input-demo',
   standalone: true,
@@ -229,8 +229,8 @@ export class TextInputDemoComponent {
     () => `
 import { Component } from '@angular/core';
 import {FormControl,FormGroup,ReactiveFormsModule} from '@angular/forms';
-import { TngIcon } from '@tailng-ui/tailng-icons/icon';
-import { TngTextInput } from '@tailng-ui/tailng-ui/form';
+import { TngIcon } from '@tailng-ui/icons/icon';
+import { TngTextInput } from '@tailng-ui/ui/form';
 @Component({
   selector: 'text-input-demo',
   standalone: true,

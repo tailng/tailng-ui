@@ -1,4 +1,4 @@
-import type { TngCodeHighlighter, TngCodeLanguage } from '@tailng-ui/tailng-ui/utilities';
+import type { TngCodeHighlighter, TngCodeLanguage } from '@tailng-ui/ui/utilities';
 import { ShikiHighlighterService } from './shiki-highlighter.service';
 
 const langMap: Record<TngCodeLanguage, string> = {

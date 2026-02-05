@@ -1,15 +1,15 @@
-# @tailng-ui/tailng-icons
+# @tailng-ui/icons
 
 Angular icon components built on top of `@ng-icons/core` with Tailwind CSS support.
 
 ## Overview
 
-`@tailng-ui/tailng-icons` provides a lightweight, tree-shakable icon system for modern Angular applications. Icons are rendered as SVG and styled via `currentColor`, making them fully compatible with Tailwind CSS utility classes.
+`@tailng-ui/icons` provides a lightweight, tree-shakable icon system for modern Angular applications. Icons are rendered as SVG and styled via `currentColor`, making them fully compatible with Tailwind CSS utility classes.
 
 ## Installation
 
 ```bash
-npm install @tailng-ui/tailng-icons
+npm install @tailng-ui/icons
 ```
 
 You'll also need to install the icon registry you want to use. For Bootstrap Icons:
@@ -40,7 +40,7 @@ npm install @ng-icons/bootstrap-icons
 
 ```typescript
 import { Component } from '@angular/core';
-import { TngIcon } from '@tailng-ui/tailng-icons';
+import { TngIcon } from '@tailng-ui/icons';
 import { bootstrapCheckCircle } from '@ng-icons/bootstrap-icons';
 
 @Component({
@@ -129,9 +129,9 @@ See the [`@ng-icons` documentation](https://ng-icons.github.io/ng-icons/) for a 
 
 ## Related Packages
 
-- [`@tailng-ui/tailng-ui`](../ui/README.md) - UI components that use these icons
-- [`@tailng-ui/tailng-cdk`](../cdk/README.md) - Component development kit
-- [`@tailng-ui/tailng-theme`](../theme/README.md) - Tailwind CSS theme preset
+- [`@tailng-ui/ui`](../ui/README.md) - UI components that use these icons
+- [`@tailng-ui/cdk`](../cdk/README.md) - Component development kit
+- [`@tailng-ui/theme`](../theme/README.md) - Tailwind CSS theme preset
 
 ## License
 

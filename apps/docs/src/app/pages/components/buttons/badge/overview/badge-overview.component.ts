@@ -1,5 +1,5 @@
 import { Component, computed } from '@angular/core';
-import { TngBadge } from '@tailng-ui/tailng-ui/primitives';
+import { TngBadge } from '@tailng-ui/ui/primitives';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
@@ -24,7 +24,7 @@ export class BadgeOverviewComponent {
 
   readonly basicTs = computed(
     () => `
-import { TngBadge } from '@tailng-ui/tailng-ui/primitives';
+import { TngBadge } from '@tailng-ui/ui/primitives';
 count = 12;
 `,
   );

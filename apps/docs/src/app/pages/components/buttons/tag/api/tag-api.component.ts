@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, inject, signal } from '@angular/core';
-import { TngCol, TngTable } from '@tailng-ui/tailng-ui/table';
-import { TngCodeBlock } from '@tailng-ui/tailng-ui/utilities';
+import { TngCol, TngTable } from '@tailng-ui/ui/table';
+import { TngCodeBlock } from '@tailng-ui/ui/utilities';
 import { ShikiHighlighterService } from '../../../../../shared/shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../../../shared/tng-shiki.adapter';
 
@@ -20,7 +20,7 @@ type DisplayDetails = {
 export class TagApiComponent implements AfterViewInit {
   private shiki = inject(ShikiHighlighterService);
   readonly highlighter = new TngShikiAdapter(this.shiki);
-  readonly importExample = () => `import { TngTag } from '@tailng-ui/tailng-ui/primitives';`;
+  readonly importExample = () => `import { TngTag } from '@tailng-ui/ui/primitives';`;
 
   private readonly seed: DisplayDetails[] = [
     { property: 'label', type: 'string | null', default: "'Text'", description: 'Tag text' },

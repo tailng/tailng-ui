@@ -1,5 +1,5 @@
 import { Component, computed } from '@angular/core';
-import { TngIcon } from '@tailng-ui/tailng-icons/icon';
+import { TngIcon } from '@tailng-ui/icons/icon';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({

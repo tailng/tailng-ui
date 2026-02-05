@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { TngCard } from '@tailng-ui/tailng-ui/layout';
-import { TngCodeBlock } from '@tailng-ui/tailng-ui/utilities';
+import { TngCard } from '@tailng-ui/ui/layout';
+import { TngCodeBlock } from '@tailng-ui/ui/utilities';
 import { ShikiHighlighterService } from '../../../shared/shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../shared/tng-shiki.adapter';
-import { TngButtonToggle, TngButtonToggleOption } from '@tailng-ui/tailng-ui/form';
+import { TngButtonToggle, TngButtonToggleOption } from '@tailng-ui/ui/form';
 
 @Component({
   standalone: true,
@@ -48,8 +48,8 @@ cd tailng-starter`;
   readonly npmCdk = `npm i @angular/cdk`;
 
   // Tailng packages
-  readonly yarnTailng = `yarn add @tailng-ui/tailng-cdk @tailng-ui/tailng-theme @tailng-ui/tailng-icons @tailng-ui/tailng-ui`;
-  readonly npmTailng = `npm i @tailng-ui/tailng-cdk @tailng-ui/tailng-theme @tailng-ui/tailng-icons @tailng-ui/tailng-ui`;
+  readonly yarnTailng = `yarn add @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons @tailng-ui/ui`;
+  readonly npmTailng = `npm i @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons @tailng-ui/ui`;
 
   // Tailwind install
   readonly yarnTailwind = `yarn add -D tailwindcss@^3.4 postcss autoprefixer
@@ -69,20 +69,20 @@ module.exports = {
 
   // Tailwind config
   readonly tailwindConfig = `// tailwind.config.js
-const tailngPreset = require("@tailng-ui/tailng-theme/tailwind/tailng.preset.cjs");
+const tailngPreset = require("@tailng-ui/theme/tailwind/tailng.preset.cjs");
 
 module.exports = {
   presets: [tailngPreset],
   content: [
     "./src/**/*.{html,ts}",
-    "./node_modules/@tailng-ui/tailng-ui/**/*.{mjs,js}",
-    "./node_modules/@tailng-ui/tailng-icons/**/*.{mjs,js}",
+    "./node_modules/@tailng-ui/ui/**/*.{mjs,js}",
+    "./node_modules/@tailng-ui/icons/**/*.{mjs,js}",
   ],
 };`;
 
   // Global styles
   readonly globalStyles = `/* src/styles.css */
-@import "@tailng-ui/tailng-theme/tokens/index.css";
+@import "@tailng-ui/theme/tokens/index.css";
 
 @tailwind base;
 @tailwind components;

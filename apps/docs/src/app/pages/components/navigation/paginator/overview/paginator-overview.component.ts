@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { TngPaginator, TngPaginatorChange } from '@tailng-ui/tailng-ui/navigation';
+import { TngPaginator, TngPaginatorChange } from '@tailng-ui/ui/navigation';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
@@ -25,7 +25,7 @@ export class PaginatorOverviewComponent {
 `,
   );
   readonly basicTs = computed(
-    () => `import { TngPaginator, TngPaginatorChange } from '@tailng-ui/tailng-ui/navigation';
+    () => `import { TngPaginator, TngPaginatorChange } from '@tailng-ui/ui/navigation';
 page = signal(1);
 pageSize = signal(10);
 onChange(e: TngPaginatorChange) {

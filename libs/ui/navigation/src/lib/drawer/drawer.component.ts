@@ -11,8 +11,8 @@ import {
   signal,
 } from '@angular/core';
 
-import { TngOverlayCloseReason } from '@tailng-ui/tailng-ui/overlay';
-import { TngFocusTrap } from '@tailng-ui/tailng-cdk/a11y';
+import { TngOverlayCloseReason } from '@tailng-ui/ui/overlay';
+import { TngFocusTrap } from '@tailng-ui/cdk/a11y';
 
 export type TngDrawerPlacement = 'left' | 'right' | 'top' | 'bottom';
 export type DrawerCloseReason = TngOverlayCloseReason;

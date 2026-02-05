@@ -1,5 +1,5 @@
 import { Component, computed } from '@angular/core';
-import { TngCodeBlock } from '@tailng-ui/tailng-ui/utilities';
+import { TngCodeBlock } from '@tailng-ui/ui/utilities';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({

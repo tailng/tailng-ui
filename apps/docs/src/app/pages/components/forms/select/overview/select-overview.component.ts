@@ -1,6 +1,6 @@
 import { Component, computed } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TngSelect } from '@tailng-ui/tailng-ui/form';
+import { TngSelect } from '@tailng-ui/ui/form';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({

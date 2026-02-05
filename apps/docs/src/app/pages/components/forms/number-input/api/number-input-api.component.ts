@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, computed, inject, signal } from '@angular/core';
-import { TngCodeBlock } from '@tailng-ui/tailng-ui/utilities';
-import { TngTable, TngCol } from '@tailng-ui/tailng-ui/table';
-import { TngTag } from '@tailng-ui/tailng-ui/primitives';
+import { TngCodeBlock } from '@tailng-ui/ui/utilities';
+import { TngTable, TngCol } from '@tailng-ui/ui/table';
+import { TngTag } from '@tailng-ui/ui/primitives';
 import { ShikiHighlighterService } from '../../../../../shared/shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../../../shared/tng-shiki.adapter';
 
@@ -28,7 +28,7 @@ export class NumberInputApiComponent implements AfterViewInit {
   private shiki = inject(ShikiHighlighterService);
   readonly highlighter = new TngShikiAdapter(this.shiki);
 
-  readonly inputKlassExample = computed(() => `import { TngNumberInput } from '@tailng-ui/tailng-ui/form';`);
+  readonly inputKlassExample = computed(() => `import { TngNumberInput } from '@tailng-ui/ui/form';`);
 
   private readonly seed: displayDetails[] = [
     { property: 'id', type: 'string', default: '', description: 'Input element id' },

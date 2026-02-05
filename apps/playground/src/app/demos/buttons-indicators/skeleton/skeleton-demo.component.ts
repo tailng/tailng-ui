@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TngSkeleton } from '@tailng-ui/tailng-ui/primitives';
+import { TngSkeleton } from '@tailng-ui/ui/primitives';
 
 @Component({
   selector: 'playground-skeleton-demo',

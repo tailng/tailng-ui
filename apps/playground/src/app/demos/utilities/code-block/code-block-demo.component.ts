@@ -1,10 +1,10 @@
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TngIcon } from '@tailng-ui/tailng-icons/icon';
-import { TngBadge, TngButton } from '@tailng-ui/tailng-ui/primitives';
+import { TngIcon } from '@tailng-ui/icons/icon';
+import { TngBadge, TngButton } from '@tailng-ui/ui/primitives';
 import {
   TngCodeBlock, TngCodeBlockCopiedSlot, TngCodeBlockCopySlot
-} from '@tailng-ui/tailng-ui/utilities';
+} from '@tailng-ui/ui/utilities';
 import { DemoShikiHighlighterService } from '../../../shared/demo-shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../shared/tng-shiki.adapter';
 
@@ -70,5 +70,5 @@ export class ButtonComponent {
 }`,
   );
 
-  readonly smallSnippet = computed(() => `npm i @tailng-ui/tailng-ui`);
+  readonly smallSnippet = computed(() => `npm i @tailng-ui/ui`);
 }

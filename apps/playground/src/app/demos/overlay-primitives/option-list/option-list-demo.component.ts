@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TngOptionList, TngOverlayPanel } from '@tailng-ui/tailng-ui/overlay';
+import { TngOptionList, TngOverlayPanel } from '@tailng-ui/ui/overlay';
 import { Country, COUNTRY_LIST } from '../../util/country-list';
 
 interface Person {

@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { TngDialog, TngDialogCloseReason } from '@tailng-ui/tailng-ui/overlay';
+import { TngDialog, TngDialogCloseReason } from '@tailng-ui/ui/overlay';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
@@ -27,7 +27,7 @@ export class DialogOverviewComponent {
 
   readonly basicTs = computed(
     () => `import { signal } from '@angular/core';
-import { TngDialog, TngDialogCloseReason } from '@tailng-ui/tailng-ui/overlay';
+import { TngDialog, TngDialogCloseReason } from '@tailng-ui/ui/overlay';
 
 // In component:
 open = signal(false);

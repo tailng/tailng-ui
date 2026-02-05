@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, inject, signal } from '@angular/core';
-import { TngCol, TngTable } from '@tailng-ui/tailng-ui/table';
-import { TngCodeBlock } from '@tailng-ui/tailng-ui/utilities';
+import { TngCol, TngTable } from '@tailng-ui/ui/table';
+import { TngCodeBlock } from '@tailng-ui/ui/utilities';
 import { ShikiHighlighterService } from '../../../../../shared/shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../../../shared/tng-shiki.adapter';
 
@@ -16,7 +16,7 @@ export class TooltipApiComponent implements AfterViewInit {
   private shiki = inject(ShikiHighlighterService);
   readonly highlighter = new TngShikiAdapter(this.shiki);
   readonly importExample = () =>
-    `import { TngTooltip, TngTooltipPlacement, TngTooltipCloseReason } from '@tailng-ui/tailng-ui/overlay';`;
+    `import { TngTooltip, TngTooltipPlacement, TngTooltipCloseReason } from '@tailng-ui/ui/overlay';`;
 
   private readonly inputSeed: DisplayDetails[] = [
     { property: 'text', type: 'string', default: "''", description: 'Simple text tooltip' },

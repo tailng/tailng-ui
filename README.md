@@ -118,7 +118,7 @@ libs/ui/
 3. **Create the demo component** (`my-component-demo.component.ts`):
    ```typescript
    import { Component } from '@angular/core';
-   import { TailngMyComponentComponent } from '@tailng-ui/tailng-ui';
+   import { TailngMyComponentComponent } from '@tailng-ui/ui';
 
    @Component({
      selector: 'playground-my-component-demo',

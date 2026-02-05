@@ -1,5 +1,5 @@
 import { Component, computed } from '@angular/core';
-import { TngCopyButton } from '@tailng-ui/tailng-ui/utilities';
+import { TngCopyButton } from '@tailng-ui/ui/utilities';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({
@@ -20,7 +20,7 @@ export class CopyButtonOverviewComponent {
 `,
   );
   readonly basicTs = computed(
-    () => `import { TngCopyButton } from '@tailng-ui/tailng-ui/utilities';
+    () => `import { TngCopyButton } from '@tailng-ui/ui/utilities';
 
 snippet = computed(() => 'Text to copy');`,
   );

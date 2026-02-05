@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { TngSlideToggle, TngSlideToggleOffSlot, TngSlideToggleOnSlot } from '@tailng-ui/tailng-ui/form';
-import { TngIcon } from '@tailng-ui/tailng-icons/icon';
+import { TngSlideToggle, TngSlideToggleOffSlot, TngSlideToggleOnSlot } from '@tailng-ui/ui/form';
+import { TngIcon } from '@tailng-ui/icons/icon';
 
 @Component({
   selector: 'playground-slide-toggle-demo',

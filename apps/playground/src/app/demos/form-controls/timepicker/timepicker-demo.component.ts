@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TngTimepicker } from '@tailng-ui/tailng-ui/form';
+import { TngTimepicker } from '@tailng-ui/ui/form';
 
 @Component({
   selector: 'playground-timepicker-demo',

@@ -1,6 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
-import { TngAccordion, TngExpansionPanel } from '@tailng-ui/tailng-ui/layout';
+import { TngAccordion, TngExpansionPanel } from '@tailng-ui/ui/layout';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 @Component({

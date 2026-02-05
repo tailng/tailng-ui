@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { TngFileUpload } from '@tailng-ui/tailng-ui/form';
+import { TngFileUpload } from '@tailng-ui/ui/form';
 
 @Component({
   selector: 'playground-file-upload-demo',

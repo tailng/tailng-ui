@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, inject, signal } from '@angular/core';
-import { TngCol, TngTable } from '@tailng-ui/tailng-ui/table';
-import { TngCodeBlock } from '@tailng-ui/tailng-ui/utilities';
+import { TngCol, TngTable } from '@tailng-ui/ui/table';
+import { TngCodeBlock } from '@tailng-ui/ui/utilities';
 import { ShikiHighlighterService } from '../../../../../shared/shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../../../shared/tng-shiki.adapter';
 
@@ -15,7 +15,7 @@ type DisplayDetails = { property: string; type: string; default?: string; descri
 export class DividerApiComponent implements AfterViewInit {
   private shiki = inject(ShikiHighlighterService);
   readonly highlighter = new TngShikiAdapter(this.shiki);
-  readonly importExample = () => `import { TngDivider } from '@tailng-ui/tailng-ui/layout';`;
+  readonly importExample = () => `import { TngDivider } from '@tailng-ui/ui/layout';`;
 
   private readonly inputSeed: DisplayDetails[] = [
     { property: 'orientation', type: 'TngDividerOrientation', default: "'horizontal'", description: 'horizontal | vertical' },

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, inject, signal } from '@angular/core';
-import { TngCol, TngTable } from '@tailng-ui/tailng-ui/table';
-import { TngCodeBlock } from '@tailng-ui/tailng-ui/utilities';
+import { TngCol, TngTable } from '@tailng-ui/ui/table';
+import { TngCodeBlock } from '@tailng-ui/ui/utilities';
 import { ShikiHighlighterService } from '../../../../../shared/shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../../../shared/tng-shiki.adapter';
 
@@ -16,7 +16,7 @@ export class StepperApiComponent implements AfterViewInit {
   private shiki = inject(ShikiHighlighterService);
   readonly highlighter = new TngShikiAdapter(this.shiki);
   readonly importExample = () =>
-    `import { TngStepper, TngStep, TngStepPanel } from '@tailng-ui/tailng-ui/navigation';`;
+    `import { TngStepper, TngStep, TngStepPanel } from '@tailng-ui/ui/navigation';`;
 
   private readonly stepperInputSeed: DisplayDetails[] = [
     { property: 'activeIndex', type: 'number | null', default: 'null', description: 'Controlled active step index' },

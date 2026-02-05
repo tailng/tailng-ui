@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { TngCol, TngTable } from '@tailng-ui/tailng-ui/table';
+import { TngCol, TngTable } from '@tailng-ui/ui/table';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 type Row = { id: string; name: string; score: number };

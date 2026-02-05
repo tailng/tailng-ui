@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { TngCol, TngTable } from '@tailng-ui/tailng-ui/table';
+import { TngCol, TngTable } from '@tailng-ui/ui/table';
 import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/example-block/example-block.component';
 
 type Row = { id: string; name: string; score: number };
@@ -29,7 +29,7 @@ export class TableOverviewComponent {
   );
 
   readonly basicTs = computed(
-    () => `import { TngTable, TngCol } from '@tailng-ui/tailng-ui/table';
+    () => `import { TngTable, TngCol } from '@tailng-ui/ui/table';
 
 rows = signal([{ id: '1', name: 'Alice', score: 92 }, ...]);
 nameValue = (r: Row) => r.name;

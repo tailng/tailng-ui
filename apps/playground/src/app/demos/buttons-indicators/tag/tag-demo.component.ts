@@ -1,5 +1,5 @@
 import { Component, signal } from "@angular/core";
-import { TngTag } from "@tailng-ui/tailng-ui/primitives";
+import { TngTag } from "@tailng-ui/ui/primitives";
 
 
 @Component({

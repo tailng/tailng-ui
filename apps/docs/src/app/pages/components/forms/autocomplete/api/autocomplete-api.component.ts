@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, computed, inject, signal } from '@angular/core';
-import { TngCodeBlock } from '@tailng-ui/tailng-ui/utilities';
-import { TngTable, TngCol } from '@tailng-ui/tailng-ui/table';
-import { TngTag } from '@tailng-ui/tailng-ui/primitives';
+import { TngCodeBlock } from '@tailng-ui/ui/utilities';
+import { TngTable, TngCol } from '@tailng-ui/ui/table';
+import { TngTag } from '@tailng-ui/ui/primitives';
 import { ShikiHighlighterService } from '../../../../../shared/shiki-highlighter.service';
 import { TngShikiAdapter } from '../../../../../shared/tng-shiki.adapter';
 
@@ -22,7 +22,7 @@ export class AutocompleteApiComponent implements AfterViewInit {
   private shiki = inject(ShikiHighlighterService);
   readonly highlighter = new TngShikiAdapter(this.shiki);
 
-  readonly importExample = computed(() => `import { TngAutocomplete } from '@tailng-ui/tailng-ui/form';`);
+  readonly importExample = computed(() => `import { TngAutocomplete } from '@tailng-ui/ui/form';`);
 
   private readonly seed: displayDetails[] = [
     { property: 'options', type: 'T[]', default: '[]', description: 'Options shown in the dropdown' },

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TngEmptyState } from '@tailng-ui/tailng-ui/table';
+import { TngEmptyState } from '@tailng-ui/ui/table';
 
 @Component({
   selector: 'playground-empty-state-demo',

@@ -6,8 +6,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TngTextInput } from '@tailng-ui/tailng-ui/form';
-import { TngIcon } from '@tailng-ui/tailng-icons/icon';
+import { TngTextInput } from '@tailng-ui/ui/form';
+import { TngIcon } from '@tailng-ui/icons/icon';
 
 @Component({
   selector: 'playground-text-input-demo',
