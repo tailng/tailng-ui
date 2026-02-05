@@ -9,6 +9,7 @@ import {
 } from '@tailng-ui/ui/navigation';
 import { docsNav } from '../../data/nav';
 import { DocsThemeService, TngTheme } from '../../shared/docs-theme.service';
+import { TngLogoComponent } from '../../shared/tng-logo/tng-logo.component';
 
 @Component({
   standalone: true,
@@ -22,7 +23,8 @@ import { DocsThemeService, TngTheme } from '../../shared/docs-theme.service';
     TngMenuTemplate,
     TngIcon,
     TngSlideToggle,
-    TngSlideToggleOnSlot, TngSlideToggleOffSlot
+    TngSlideToggleOnSlot, TngSlideToggleOffSlot,
+    TngLogoComponent
   ],
   templateUrl: './app-shell.component.html',
 })

@@ -9,6 +9,7 @@ import {
   TngCodeBlockCopySlot,
 } from '@tailng-ui/ui/utilities';
 import { ShikiHighlighterService } from '../../../shared/shiki-highlighter.service';
+import { TngLogoComponent } from '../../../shared/tng-logo/tng-logo.component';
 import { TngShikiAdapter } from '../../../shared/tng-shiki.adapter';
 
 @Component({
@@ -26,6 +27,7 @@ import { TngShikiAdapter } from '../../../shared/tng-shiki.adapter';
     TngIcon,
     TngCodeBlockCopySlot,
     TngCodeBlockCopiedSlot,
+    TngLogoComponent,
   ],
   templateUrl: './home.component.html',
 })
