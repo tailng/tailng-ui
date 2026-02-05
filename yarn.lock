@@ -14676,9 +14676,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailng@workspace:.":
+"tailng-ui@workspace:.":
   version: 0.0.0-use.local
-  resolution: "tailng@workspace:."
+  resolution: "tailng-ui@workspace:."
   dependencies:
     "@angular-devkit/build-angular": "npm:^21.0.0"
     "@angular-devkit/core": "npm:^21.0.0"
