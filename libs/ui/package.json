@@ -1,6 +1,6 @@
 {
   "name": "@tailng-ui/ui",
-  "version": "0.20.0",
+  "version": "0.21.0",
   "description": "Modern Angular UI components powered by Tailwind CSS",
   "license": "MIT",
   "repository": {
