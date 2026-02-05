@@ -27,7 +27,9 @@
         ],
         "scripts": [],
         "optimization": false
-      }
+      },
+      "baseHref": "/",
+      "deployUrl": "/"
     },
     "lint": {
       "executor": "@nx/eslint:lint",

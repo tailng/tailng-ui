@@ -5,7 +5,7 @@
     <p class="text-sm leading-6 text-fg">
       The <span class="font-mono">tng-text-input</span> component provides four
       klass hooks for customizing different parts of the input:
-      <span class="font-mono">rootKlass</span>,
+      <span class="font-mono">frameKlass</span>,
       <span class="font-mono">inputKlass</span>,
       <span class="font-mono">prefixKlass</span>, and
       <span class="font-mono">suffixKlass</span>. Each hook targets a specific
@@ -13,15 +13,15 @@
     </p>
   </div>
 
-  <!-- rootKlass -->
+  <!-- frameKlass -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-primary">rootKlass</h3>
+      <h3 class="text-sm font-semibold text-primary">frameKlass</h3>
       <tng-tag label="wrapper"></tng-tag>
     </div>
 
     <p class="text-sm text-fg">
-      The <span class="font-mono">rootKlass</span> input applies classes to the root
+      The <span class="font-mono">frameKlass</span> input applies classes to the root
       wrapper <span class="font-mono">&lt;div&gt;</span> that contains the entire
       input structure. Use this for styling the container: borders, background, rounded corners,
       shadows, and focus ring styles.
@@ -30,16 +30,16 @@
       <docs-example-block
         [docLink]="'https://example.com/docs'"
         [stackBlitzLink]="'https://stackblitz.com/example'"
-        [htmlContent]="rootKlassExampleHtml()"
-        [tsContent]="rootKlassExampleTs()"
-        [styleContent]="rootKlassExampleCss()"
+        [htmlContent]="frameKlassExampleHtml()"
+        [tsContent]="frameKlassExampleTs()"
+        [styleContent]="frameKlassExampleCss()"
       >
         <span tngExampleTitle>Example</span>
 
         <div tngExampleDemo>
           <tng-text-input
             placeholder="Custom root styling"
-            rootKlass="border-2 border-blue-900 rounded-md shadow-md focus-within:ring-blue-900 max-w-2xl"
+            frameKlass="border-2 border-blue-900 rounded-md shadow-md focus-within:ring-blue-900 max-w-2xl"
           />
         </div>
       </docs-example-block>
@@ -49,7 +49,7 @@
     >
       <strong class="text-sm font-bold text-muted text-primary">Tip:</strong>
       The default root classes include focus ring styling. When overriding
-      <span class="font-mono text-foreground">rootKlass</span>, you may want to include your own
+      <span class="font-mono text-foreground">frameKlass</span>, you may want to include your own
       focus states for consistency.
     </div>
   </div>
@@ -72,7 +72,7 @@
         [docLink]="'https://example.com/docs'"
         [stackBlitzLink]="'https://stackblitz.com/example'"
         [htmlContent]="inputKlassExampleHtml()"
-        [tsContent]="rootKlassExampleTs()"
+        [tsContent]="frameKlassExampleTs()"
         [styleContent]="inputKlassExampleCss()"
       >
         <span tngExampleTitle>Example</span>
@@ -255,7 +255,7 @@
             <!-- <label class="text-xs font-semibold text-muted">Fully Customized Input</label> -->
             <tng-text-input
               placeholder="Fully customized"
-              rootKlass="border-2 border-purple-500 rounded-xl"
+              frameKlass="border-2 border-purple-500 rounded-xl"
               inputKlass="text-purple-700 placeholder:text-purple-300"
               prefixKlass="bg-purple-50"
               suffixKlass="bg-purple-50"
@@ -282,7 +282,7 @@
       <li class="flex items-start gap-2">
         <span class="text-foreground">•</span>
         <span>
-          Use <span class="font-mono text-foreground">rootKlass</span> for container-level styling
+          Use <span class="font-mono text-foreground">frameKlass</span> for container-level styling
           (borders, shadows, focus rings).
         </span>
       </li>
@@ -304,7 +304,7 @@
       <li class="flex items-start gap-2">
         <span class="text-foreground">•</span>
         <span>
-          When overriding <span class="font-mono text-foreground">rootKlass</span>, include focus
+          When overriding <span class="font-mono text-foreground">frameKlass</span>, include focus
           states for accessibility.
         </span>
       </li>

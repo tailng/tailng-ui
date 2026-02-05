@@ -409,7 +409,7 @@ form = new FormGroup({
   <tng-text-input
     formControlName=search
     placeholder="Custom styled input"
-    rootKlass="border-2 border-purple-500 rounded-xl shadow-lg"
+    frameKlass="border-2 border-purple-500 rounded-xl shadow-lg"
     inputKlass="text-purple-700 placeholder:text-purple-300"
     >
     <tng-icon

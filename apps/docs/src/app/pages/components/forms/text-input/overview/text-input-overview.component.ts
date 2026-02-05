@@ -20,7 +20,7 @@ export class TextInputOverviewComponent {
   <tng-text-input
     formControlName="userName"
     placeholder="Enter username"
-    rootKlass="border-2 border-blue-900 rounded-md shadow-md focus-within:ring-blue-900"
+    frameKlass="border-2 border-blue-900 rounded-md shadow-md focus-within:ring-blue-900"
   />
 </form>
 `,

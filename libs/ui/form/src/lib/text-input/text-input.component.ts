@@ -49,7 +49,7 @@ export class TngTextInput implements ControlValueAccessor {
   /* ─────────────────────────
    * Klass hooks (theming)
    * ───────────────────────── */
-  rootKlass = input<string>('');
+  frameKlass = input<string>('');
   inputKlass = input<string>('');
   prefixKlass = input<string>('');
   suffixKlass = input<string>('');
@@ -91,7 +91,7 @@ export class TngTextInput implements ControlValueAccessor {
   /* ─────────────────────────
    * Klass finals (defaults + overrides)
    * ───────────────────────── */
-  readonly rootKlassFinal = computed(() =>
+  readonly frameClassFinal = computed(() =>
     this.join(
       'flex h-10 w-full items-center rounded-md border border-border bg-bg text-foreground',
       'focus-within:border-transparent',
@@ -99,7 +99,7 @@ export class TngTextInput implements ControlValueAccessor {
       'focus-within:ring-offset-1 focus-within:ring-offset-background',
       this.isDisabled() ? 'pointer-events-none opacity-50' : '',
       this.readonly() ? 'bg-muted/30 text-muted' : '',
-      this.rootKlass(),
+      this.frameKlass(),
     ),
   );
 

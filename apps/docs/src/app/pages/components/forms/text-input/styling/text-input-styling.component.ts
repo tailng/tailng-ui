@@ -18,18 +18,18 @@ import { ExampleBlockComponent, TngExampleDemo } from '../../../../../shared/exa
 ],
 })
 export class TextInputStylingComponent {
-   readonly rootKlassExampleHtml = computed(
+   readonly frameKlassExampleHtml = computed(
     () => `
 <form [formGroup]="form">
   <tng-text-input
     formControlName="text"
     placeholder="Custom root styling"
-    rootKlass="border-2 border-blue-900 rounded-md shadow-md focus-within:ring-blue-900 max-w-2xl"
+    frameKlass="border-2 border-blue-900 rounded-md shadow-md focus-within:ring-blue-900 max-w-2xl"
   />
 </form>
 `,
   );
-  readonly rootKlassExampleTs = computed(
+  readonly frameKlassExampleTs = computed(
     () => `
 import { Component } from '@angular/core';
 import {FormControl,FormGroup,ReactiveFormsModule} from '@angular/forms';
@@ -47,10 +47,10 @@ export class TextInputDemoComponent {
 `,
   );
 
-  readonly rootKlassExampleCss = computed(
+  readonly frameKlassExampleCss = computed(
     () => `
-// Default CSS for rootKlass
-rootClass = flex h-10 w-full items-center rounded-md border border-border bg-bg text-foreground
+// Default CSS for frameKlass
+frameClass = flex h-10 w-full items-center rounded-md border border-border bg-bg text-foreground
   focus-within:border-transparent focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-1 
   focus-within:ring-offset-background
 
@@ -206,7 +206,7 @@ export class TextInputDemoComponent {
   <tng-text-input
     formControlName="search"
     placeholder="Fully customized"
-    rootKlass="border-2 border-purple-500 rounded-xl"
+    frameKlass="border-2 border-purple-500 rounded-xl"
     inputKlass="text-purple-700 placeholder:text-purple-300"
     prefixKlass="bg-purple-50"
     suffixKlass="bg-purple-50"
@@ -244,7 +244,7 @@ export class TextInputDemoComponent {
 `,
   );
 readonly combinedExampleCss = computed(()=>
-  `rootKlass= border-2 border-purple-500 rounded-xl
+  `frameKlass= border-2 border-purple-500 rounded-xl
     inputKlass= text-purple-700
     prefixKlass= bg-purple-50
     suffixKlass= bg-purple-50`
