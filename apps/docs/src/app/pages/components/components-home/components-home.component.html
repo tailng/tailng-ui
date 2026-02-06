@@ -3,95 +3,111 @@
 
   <!-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"> -->
   <tng-accordion [multiple]="true" rootKlass="space-y-6">
-    <tng-expansion-panel [open]="true" rootKlass="border-0" >
+    <tng-expansion-panel [open]="true" rootKlass="border-0">
       <div tngExpansionTitle>Form Controls</div>
       <div tngExpansionContent class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/forms/autocomplete/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/forms/autocomplete/overview">
           <div tngCardHeader class="font-semibold">Auto Complete</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/forms/checkbox/overview">
-           <div tngCardHeader class="font-semibold">Checkbox</div>
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          headerKlass="px-0 py-0 border-transparent" routerLink="../components/forms/checkbox/overview">
+          <div tngCardHeader class="flex items-center justify-center bg-bg font-semibold">Checkbox</div>
+          <p class><img src="/assets/Check-box.png"class="block h-30 w-40 max-w-[100px] object-contain p-4" loading="lazy"></p>
+          <div tngCardFooter class="text-xs text-muted">Captures a boolean value with support for checked unchecked, and
+            optional labeling for clear selection feedback.</div>
+        </tng-card>
+
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/forms/chips/overview">
+          <div tngCardHeader class="font-semibold">Chips</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/forms/chips/overview">
-           <div tngCardHeader class="font-semibold">Chips</div>
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/forms/datepicker/overview">
+          <div tngCardHeader class="font-semibold">Datepicker</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/forms/datepicker/overview">
-           <div tngCardHeader class="font-semibold">Datepicker</div>
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/forms/timepicker/overview">
+          <div tngCardHeader class="font-semibold">Timepicker</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/forms/timepicker/overview">
-           <div tngCardHeader class="font-semibold">Timepicker</div>
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/forms/form-field/overview">
+          <div tngCardHeader class="font-semibold">Form Field</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/forms/form-field/overview">
-           <div tngCardHeader class="font-semibold">Form Field</div>
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+        headeKlass="px-0 py-0 border-transparent" routerLink="../components/forms/checkbox/overview">
+          <div tngCardHeader class="flex items-center justify-center bg-bg font-semibold">Textinput</div>
+          <p clas><img src="/assets/Text-input.png" class="block h-30 w-40 max-w-[130px] object-contain p-4" loading="lazy"></p>
+          <div tngCardFooter class="text-xs text-muted">Footer</div>
+        </tng-card>
+
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/forms/number-input/overview">
+          <div tngCardHeader class="font-semibold">Number Input</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/forms/text-input/overview">
-           <div tngCardHeader class="font-semibold">Text Input</div>
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/forms/textarea/overview">
+          <div tngCardHeader class="font-semibold">Textarea</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/forms/number-input/overview">
-           <div tngCardHeader class="font-semibold">Number Input</div>
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/forms/file-upload/overview">
+          <div tngCardHeader class="font-semibold">File Upload</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/forms/textarea/overview">
-           <div tngCardHeader class="font-semibold">Textarea</div>
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/forms/radio-button/overview">
+          <div tngCardHeader class="font-semibold">Radio Button</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/forms/file-upload/overview">
-           <div tngCardHeader class="font-semibold">File Upload</div>
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/forms/select/overview">
+          <div tngCardHeader class="font-semibold">Select</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/forms/radio-button/overview">
-           <div tngCardHeader class="font-semibold">Radio Button</div>
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/forms/slider/overview">
+          <div tngCardHeader class="font-semibold">Slider</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/forms/select/overview">
-           <div tngCardHeader class="font-semibold">Select</div>
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/forms/slide-toggle/overview">
+          <div tngCardHeader class="font-semibold">Slide Toggle</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/forms/slider/overview">
-           <div tngCardHeader class="font-semibold">Slider</div>
-          <p class="text-sm">Card body content goes here.</p>
-          <div tngCardFooter class="text-xs text-muted">Footer</div>
-        </tng-card>
-
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/forms/slide-toggle/overview">
-           <div tngCardHeader class="font-semibold">Slide Toggle</div>
-          <p class="text-sm">Card body content goes here.</p>
-          <div tngCardFooter class="text-xs text-muted">Footer</div>
-        </tng-card>
-
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/forms/button-toggle/overview">
-           <div tngCardHeader class="font-semibold">Button Toggle</div>
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/forms/button-toggle/overview">
+          <div tngCardHeader class="font-semibold">Button Toggle</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
@@ -100,53 +116,61 @@
   </tng-accordion>
 
   <tng-accordion [multiple]="true">
-    <tng-expansion-panel [open]="true"rootKlass="border-0">
+    <tng-expansion-panel [open]="true" rootKlass="border-0">
       <div tngExpansionTitle>Buttons & Indicators</div>
       <div tngExpansionContent class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/buttons/button/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/buttons/button/overview">
           <div tngCardHeader class="font-semibold">Button</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/buttons/badge/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/buttons/badge/overview">
           <div tngCardHeader class="font-semibold">Badge</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/buttons/tag/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/buttons/tag/overview">
           <div tngCardHeader class="font-semibold">Tag</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/buttons/icon/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/buttons/icon/overview">
           <div tngCardHeader class="font-semibold">Icon</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/buttons/ripples/overview">
-         <div tngCardHeader class="font-semibold">Ripples</div>
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/buttons/ripples/overview">
+          <div tngCardHeader class="font-semibold">Ripples</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/buttons/progress-bar/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/buttons/progress-bar/overview">
           <div tngCardHeader class="font-semibold">Progress Bar</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/buttons/progress-spinner/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/buttons/progress-spinner/overview">
           <div tngCardHeader class="font-semibold">Progress Spinner</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/buttons/skeleton/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/buttons/skeleton/overview">
           <div tngCardHeader class="font-semibold">Skeleton</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
@@ -156,35 +180,40 @@
   </tng-accordion>
 
   <tng-accordion [multiple]="true">
-    <tng-expansion-panel [open]="true"rootKlass="border-0">
+    <tng-expansion-panel [open]="true" rootKlass="border-0">
       <div tngExpansionTitle>Layout</div>
       <div tngExpansionContent class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/layout/card/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/layout/card/overview">
           <div tngCardHeader class="font-semibold">Card</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/layout/divider/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/layout/divider/overview">
           <div tngCardHeader class="font-semibold">Divider</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/layout/expansion-panel/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/layout/expansion-panel/overview">
           <div tngCardHeader class="font-semibold">Expansion panel</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/layout/tabs/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/layout/tabs/overview">
           <div tngCardHeader class="font-semibold">Tabs</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/layout/accordion/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/layout/accordion/overview">
           <div tngCardHeader class="font-semibold">Accordion</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
@@ -194,41 +223,47 @@
   </tng-accordion>
 
   <tng-accordion [multiple]="true">
-    <tng-expansion-panel [open]="true"rootKlass="border-0">
+    <tng-expansion-panel [open]="true" rootKlass="border-0">
       <div tngExpansionTitle>Navigation</div>
       <div tngExpansionContent class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/navigation/menu/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/navigation/menu/overview">
           <div tngCardHeader class="font-semibold">Menu</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/navigation/sidenav/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/navigation/sidenav/overview">
           <div tngCardHeader class="font-semibold">Sidenav</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/navigation/drawer/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/navigation/drawer/overview">
           <div tngCardHeader class="font-semibold">Drawer</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/navigation/stepper/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/navigation/stepper/overview">
           <div tngCardHeader class="font-semibold">Stepper</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/navigation/paginator/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/navigation/paginator/overview">
           <div tngCardHeader class="font-semibold">Paginator</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/navigation/breadcrumbs/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/navigation/breadcrumbs/overview">
           <div tngCardHeader class="font-semibold">Breadcrumbs</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
@@ -238,29 +273,33 @@
   </tng-accordion>
 
   <tng-accordion [multiple]="true">
-    <tng-expansion-panel [open]="true"rootKlass="border-0">
+    <tng-expansion-panel [open]="true" rootKlass="border-0">
       <div tngExpansionTitle>Popups & Overlays</div>
       <div tngExpansionContent class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/overlay/dialog/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/overlay/dialog/overview">
           <div tngCardHeader class="font-semibold">Dialog</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/overlay/snackbar/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/overlay/snackbar/overview">
           <div tngCardHeader class="font-semibold">Snackbar</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/overlay/tooltip/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/overlay/tooltip/overview">
           <div tngCardHeader class="font-semibold">Tooltip</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/overlay/popover/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/overlay/popover/overview">
           <div tngCardHeader class="font-semibold">Popover</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
@@ -271,41 +310,47 @@
   </tng-accordion>
 
   <tng-accordion [multiple]="true">
-    <tng-expansion-panel [open]="true"rootKlass="border-0">
+    <tng-expansion-panel [open]="true" rootKlass="border-0">
       <div tngExpansionTitle>Data Table & Structure</div>
       <div tngExpansionContent class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/data/table/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/data/table/overview">
           <div tngCardHeader class="font-semibold">Table Basic</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/data/sort-header/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/data/sort-header/overview">
           <div tngCardHeader class="font-semibold">Sort Header</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/data/filter-header/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/data/filter-header/overview">
           <div tngCardHeader class="font-semibold">Filter Header</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/data/tree/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/data/tree/overview">
           <div tngCardHeader class="font-semibold">Tree</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/data/virtual-scroll/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/data/virtual-scroll/overview">
           <div tngCardHeader class="font-semibold">Virtual Scroll</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/data/empty-state/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/data/empty-state/overview">
           <div tngCardHeader class="font-semibold">Empty State</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
@@ -316,17 +361,19 @@
   </tng-accordion>
 
   <tng-accordion [multiple]="true">
-    <tng-expansion-panel [open]="true"rootKlass="border-0">
+    <tng-expansion-panel [open]="true" rootKlass="border-0">
       <div tngExpansionTitle>Utilities</div>
       <div tngExpansionContent class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/utilities/code-block/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/utilities/code-block/overview">
           <div tngCardHeader class="font-semibold">Code Block</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
         </tng-card>
 
-        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer" routerLink="../components/utilities/copy-button/overview">
+        <tng-card rootKlass="h-64 hover:shadow-lg transition-shadow cursor-pointer"
+          routerLink="../components/utilities/copy-button/overview">
           <div tngCardHeader class="font-semibold">Copy Button</div>
           <p class="text-sm">Card body content goes here.</p>
           <div tngCardFooter class="text-xs text-muted">Footer</div>
