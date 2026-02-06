@@ -1,14 +1,14 @@
 <tng-card rootKlass="max-w-auto mx-6 py-4 px-4 space-y-6 mt-6">
   <div class="space-y-6">
     <div>
-      <h1 class="text-4xl font-bold text-primary mb-2">Installation</h1>
-      <p class="text-lg text-slate-600">Install tailng and get started quickly.</p>
+      <h1 class="text-4xl font-bold text-fg mb-2">Installation</h1>
+      <p class="text-lg text-fg">Install tailng and get started quickly.</p>
     </div>
     <div class="space-y-6 py-4">
       <div class="border rounded-lg p-4">
-        <h2 class="text-xl font-semibold text-primary mb-2">1) Create a fresh Angular 21 app</h2>
+        <h2 class="text-xl font-semibold text-fg mb-2">1) Create a fresh Angular 21 app</h2>
 
-        <p class="text-xs text-primary mt-0">
+        <p class="text-xs text-fg mt-0">
           
           <tng-code-block
             [content]="createApp"
@@ -20,7 +20,7 @@
       </div>
 
       <div class="border rounded-lg p-4">
-        <h2 class="text-xl font-semibold text-primary mb-2">2) Install Angular CDK</h2>
+        <h2 class="text-xl font-semibold text-fg mb-2">2) Install Angular CDK</h2>
         <tng-button-toggle
           [options]="titleOptions"
           [value]="cdkStatus"
@@ -38,7 +38,7 @@
       </div>
 
       <div class="border rounded-lg p-4">
-        <h2 class="text-xl font-semibold text-primary mb-2">3) Install Tailng packages</h2>
+        <h2 class="text-xl font-semibold text-fg mb-2">3) Install Tailng packages</h2>
          <tng-button-toggle
           [options]="titleOptions"
           [value]="packageStatus"
@@ -55,7 +55,7 @@
       </div>
 
         <div class="border rounded-lg p-4">
-        <h2 class="text-xl font-semibold text-primary mb-2">4) Install Tailwind CSS</h2>
+        <h2 class="text-xl font-semibold text-fg mb-2">4) Install Tailwind CSS</h2>
         <tng-button-toggle
           [options]="titleOptions"
           [value]="tailwindStatus"
@@ -72,27 +72,27 @@
       </div>
 
         <div class="border rounded-lg p-4">
-        <h2 class="text-xl font-semibold text-primary mb-2">5) Add PostCSS config</h2>
+        <h2 class="text-xl font-semibold text-fg mb-2">5) Add PostCSS config</h2>
         
         <tng-code-block
           [content]="postcssConfig"
-          language="js"
+          language="typescript"
           [highlighter]="highlighter"
         ></tng-code-block>
       </div>
 
         <div class="border rounded-lg p-4">
-        <h2 class="text-xl font-semibold text-primary mb-2">6) Configure Tailwind for Tailng</h2>
+        <h2 class="text-xl font-semibold text-fg mb-2">6) Configure Tailwind for Tailng</h2>
         
         <tng-code-block
           [content]="tailwindConfig"
-          language="js"
+          language="typescript"
           [highlighter]="highlighter"
         ></tng-code-block>
       </div>
 
         <div class="border rounded-lg p-4">
-        <h2 class="text-xl font-semibold text-primary mb-2">7) Global styles</h2>
+        <h2 class="text-xl font-semibold text-fg mb-2">7) Global styles</h2>
         
         <tng-code-block
           [content]="globalStyles"
@@ -102,7 +102,7 @@
       </div>
 
         <div class="border rounded-lg p-4">
-        <h2 class="text-xl font-semibold text-primary mb-2">8) Run the app</h2>
+        <h2 class="text-xl font-semibold text-fg mb-2">8) Run the app</h2>
         <tng-button-toggle
           [options]="titleOptions"
           [value]="runStatus"
@@ -119,8 +119,8 @@
     </div>
 
     <div class="pt-4">
-      <h2 class="text-xl font-semibold text-primary mb-2">Theme modes</h2>
-      <p class="text-slate-600 mb-3">
+      <h2 class="text-xl font-semibold text-fg mb-2">Theme modes</h2>
+      <p class="text-fg mb-3">
         Set mode + theme class on <span class="font-mono">body</span>.
       </p>
       <tng-code-block
@@ -129,7 +129,7 @@
         [highlighter]="highlighter"
       ></tng-code-block>
 
-      <p class="text-sm text-slate-600 mt-3">
+      <p class="text-sm text-fg mt-3">
         Modes: <span class="font-mono">mode-light</span>, <span class="font-mono">mode-dark</span
         ><br />
         Themes: <span class="font-mono">theme-default</span>,

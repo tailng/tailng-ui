@@ -1,9 +1,154 @@
-<div class="max-w-4xl mx-auto py-12 px-4">
-  <h1 class="text-4xl font-bold mb-4">Tailwind Setup</h1>
-  <p class="text-lg text-slate-600 mb-8">
-    Configure Tailwind for tailng.
-  </p>
-  <p class="text-slate-700">
-    Documentation coming soon...
-  </p>
-</div>
+<tng-card rootKlass="max-w-auto mx-6 py-4 px-4 space-y-6 mt-6">
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-4xl font-bold text-fg mb-2">Tailwind Setup</h1>
+      <p class="text-lg text-fg">Install and configure Tailwind CSS for tailng.</p>
+
+      <div class="mt-3 rounded-md border border-border bg-bg p-3 text-sm text-fg">
+        <div class="font-semibold text-fg">Important</div>
+        <p class="mt-1">
+          tailng is built on Tailwind CSS. These steps are required for tailng styles to compile.
+        </p>
+      </div>
+    </div>
+
+    <div class="space-y-6 py-4">
+      <!-- 1) Install -->
+      <div class="border rounded-lg p-4">
+        <h2 class="text-xl font-semibold text-fg mb-2">1) Install Tailwind dependencies</h2>
+        <p class="text-sm text-fg mb-3">
+          Install Tailwind, PostCSS, and Autoprefixer.
+        </p>
+
+        <tng-button-toggle
+          [options]="titleOptions"
+          [value]="installStatus"
+          (valueChange)="installStatus = $event"
+          groupKlass="!w-1/5"
+          buttonKlass="font-normal h-7 py-[0]"
+        />
+
+        <tng-code-block
+          [content]="installTailwind"
+          language="bash"
+          [highlighter]="highlighter"
+        ></tng-code-block>
+      </div>
+
+      <!-- 2) PostCSS -->
+      <div class="border rounded-lg p-4">
+        <h2 class="text-xl font-semibold text-fg mb-2">2) Add PostCSS config</h2>
+        <p class="text-sm text-fg mb-3">
+          Create <span class="font-mono">postcss.config.js</span> (or <span class="font-mono">.cjs</span>) at workspace root.
+        </p>
+
+        <tng-code-block
+          [content]="postcssConfig"
+          language="typescript"
+          [highlighter]="highlighter"
+        ></tng-code-block>
+      </div>
+
+      <!-- 3) Tailwind config -->
+      <div class="border rounded-lg p-4">
+        <h2 class="text-xl font-semibold text-fg mb-2">3) Configure Tailwind for tailng</h2>
+        <p class="text-sm text-fg mb-3">
+          Create <span class="font-mono">tailwind.config.ts</span> at workspace root.
+        </p>
+
+        <tng-code-block
+          [content]="tailwindConfig"
+          language="typescript"
+          [highlighter]="highlighter"
+        ></tng-code-block>
+
+        <div class="mt-3 rounded-md border border-border bg-bg p-3 text-sm text-fg">
+          <div class="font-semibold text-fg">Tip</div>
+          <p class="mt-1">
+            Keep your <span class="font-mono">content</span> list accurate — missing paths will cause styles not to appear.
+          </p>
+        </div>
+      </div>
+
+      <!-- 4) Global styles -->
+      <div class="border rounded-lg p-4">
+        <h2 class="text-xl font-semibold text-fg mb-2">4) Global styles</h2>
+        <p class="text-sm text-fg mb-3">
+          Add these directives to <span class="font-mono">src/styles.css</span> (or <span class="font-mono">styles.scss</span>).
+        </p>
+
+        <tng-code-block
+          [content]="globalStyles"
+          language="css"
+          [highlighter]="highlighter"
+        ></tng-code-block>
+      </div>
+
+      <!-- 5) Angular build includes styles -->
+      <div class="border rounded-lg p-4">
+        <h2 class="text-xl font-semibold text-fg mb-2">5) Ensure Angular includes your global styles</h2>
+        <p class="text-sm text-fg mb-3">
+          Confirm <span class="font-mono">styles</span> includes your stylesheet.
+        </p>
+
+        <tng-code-block
+          [content]="angularStylesConfig"
+          language="json"
+          [highlighter]="highlighter"
+        ></tng-code-block>
+      </div>
+
+      <!-- 6) Theme modes -->
+      <div class="border rounded-lg p-4">
+        <h2 class="text-xl font-semibold text-fg mb-2">6) Theme modes (optional)</h2>
+        <p class="text-sm text-fg mb-3">
+          Set mode + theme class on <span class="font-mono">body</span>.
+        </p>
+
+        <tng-code-block
+          [content]="themeExample"
+          language="html"
+          [highlighter]="highlighter"
+        ></tng-code-block>
+
+        <p class="text-sm text-fg mt-3">
+          Modes: <span class="font-mono">mode-light</span>, <span class="font-mono">mode-dark</span><br />
+          Themes:
+          <span class="font-mono">theme-default</span>,
+          <span class="font-mono">theme-slate</span>,
+          <span class="font-mono">theme-indigo</span>,
+          <span class="font-mono">theme-emerald</span>,
+          <span class="font-mono">theme-rose</span>
+        </p>
+      </div>
+
+      <!-- 7) Verify -->
+      <div class="border rounded-lg p-4">
+        <h2 class="text-xl font-semibold text-fg mb-2">7) Verify setup</h2>
+        <p class="text-sm text-fg mb-3">
+          Add a quick class in any template and confirm it renders.
+        </p>
+
+        <tng-code-block
+          [content]="verifyHtml"
+          language="html"
+          [highlighter]="highlighter"
+        ></tng-code-block>
+
+        <tng-button-toggle
+          [options]="titleOptions"
+          [value]="runStatus"
+          (valueChange)="runStatus = $event"
+          groupKlass="!w-1/5"
+          buttonKlass="font-normal h-7 py-[0]"
+        />
+
+        <tng-code-block
+          [content]="runCmd"
+          language="bash"
+          [highlighter]="highlighter"
+        ></tng-code-block>
+      </div>
+    </div>
+  </div>
+</tng-card>
