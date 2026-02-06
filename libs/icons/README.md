@@ -21,9 +21,14 @@
 
 Angular icon components built on top of `@ng-icons/core` with Tailwind CSS support.
 
+---
+
 ## Overview
 
-`@tailng-ui/icons` provides a lightweight, tree-shakable icon system for modern Angular applications. Icons are rendered as SVG and styled via `currentColor`, making them fully compatible with Tailwind CSS utility classes.
+`@tailng-ui/icons` provides a lightweight, tree-shakable icon system for modern Angular applications.  
+Icons are rendered as SVG and styled via `currentColor`, making them fully compatible with Tailwind CSS and TailNG theming.
+
+---
 
 ## Installation
 
@@ -33,11 +38,13 @@ npm install @tailng-ui/icons @ng-icons/core
 yarn add @tailng-ui/icons @ng-icons/core
 ```
 
-You'll also need to install the icon set you want to use. For Bootstrap Icons:
+Install an icon set of your choice. For example, Bootstrap Icons:
 
 ```bash
 npm install @ng-icons/bootstrap-icons
 ```
+
+---
 
 ## Peer Dependencies
 
@@ -45,23 +52,30 @@ npm install @ng-icons/bootstrap-icons
 - `@angular/common`: ^21.0.0
 - `@ng-icons/core`: ^30.0.0
 
+> `@ng-icons/core` is a peer dependency to avoid bundling the icon engine and to keep bundles small.
+
+---
+
 ## Features
 
 - Standalone Angular component
-- Signal-based API using Angular signals
+- Signal-based API (Angular signals)
 - Tree-shakable icon definitions
-- `currentColor`-based SVG icons (works with Tailwind)
-- Flexible sizing (number, string, or CSS units)
+- `currentColor`-based SVG icons
+- Flexible sizing (number or string)
 - Built-in accessibility support
 - No CSS or styling opinions
+
+---
 
 ## Usage
 
 ### Basic Usage
 
-```typescript
+```ts
 import { Component } from '@angular/core';
 import { TngIcon } from '@tailng-ui/icons';
+import { provideIcons } from '@ng-icons/core';
 import { bootstrapCheckCircle } from '@ng-icons/bootstrap-icons';
 
 @Component({
@@ -69,10 +83,9 @@ import { bootstrapCheckCircle } from '@ng-icons/bootstrap-icons';
   standalone: true,
   imports: [TngIcon],
   providers: [
-    {
-      provide: NgIconsToken,
-      useValue: { bootstrapCheckCircle },
-    },
+    provideIcons({
+      bootstrapCheckCircle,
+    }),
   ],
   template: `
     <tng-icon name="bootstrapCheckCircle" />
@@ -81,27 +94,34 @@ import { bootstrapCheckCircle } from '@ng-icons/bootstrap-icons';
 export class ExampleComponent {}
 ```
 
+---
+
 ### With Size
 
-```typescript
-// Number (pixels)
+```html
+<!-- Number = pixels -->
 <tng-icon name="bootstrapCheckCircle" [size]="24" />
 
-// String (CSS units)
+<!-- String = CSS units -->
 <tng-icon name="bootstrapCheckCircle" size="1.5rem" />
 <tng-icon name="bootstrapCheckCircle" size="2em" />
 ```
 
-### With Tailwind Classes
+---
 
-Icons use `currentColor`, so you can style them with Tailwind:
+### With Tailwind / TailNG Classes
+
+Icons use `currentColor`, so they inherit text color.
 
 ```html
-<tng-icon 
-  name="bootstrapCheckCircle" 
-  class="text-green-500" 
-/>
+<!-- Token-safe (recommended) -->
+<tng-icon name="bootstrapCheckCircle" class="text-fg" />
+
+<!-- Any Tailwind color also works -->
+<tng-icon name="bootstrapCheckCircle" class="text-green-500" />
 ```
+
+---
 
 ### Accessibility
 
@@ -109,13 +129,15 @@ Icons use `currentColor`, so you can style them with Tailwind:
 <!-- Decorative icon (default) -->
 <tng-icon name="bootstrapCheckCircle" />
 
-<!-- Semantic icon with label -->
-<tng-icon 
-  name="bootstrapCheckCircle" 
+<!-- Semantic icon -->
+<tng-icon
+  name="bootstrapCheckCircle"
   [decorative]="false"
-  ariaLabel="Success" 
+  ariaLabel="Success"
 />
 ```
+
+---
 
 ## API Reference
 
@@ -123,36 +145,47 @@ Icons use `currentColor`, so you can style them with Tailwind:
 
 #### Inputs
 
-- **`name`** (required): `string` - Icon name from the `@ng-icons` registry
-- **`size`**: `number | string` - Icon size. Number is treated as pixels, string is passed as-is (e.g., '1em', '20px', '1.25rem'). Default: `'1em'`
-- **`iconKlass`**: `string` - Additional CSS classes for the host element
-- **`decorative`**: `boolean` - Whether the icon is decorative. If `true`, `aria-hidden` is set. Default: `true`
-- **`ariaLabel`**: `string` - Accessibility label (used when `decorative` is `false`)
+- **`name`** *(required)*: `string`  
+  Icon name from the `@ng-icons` registry
 
-#### Computed Properties
+- **`size`**: `number | string`  
+  Number = pixels, string = CSS unit  
+  Default: `'1em'`
 
-- **`normalizedSize`**: Converts size to CSS string
-- **`iconKlassFinal`**: Computed class string including Tailwind utilities
-- **`ariaHidden`**: `'true' | null` based on decorative state
-- **`computedAriaLabel`**: Computed aria-label based on decorative state
+- **`iconKlass`**: `string`  
+  Additional CSS classes for the icon
+
+- **`decorative`**: `boolean`  
+  If `true`, sets `aria-hidden`  
+  Default: `true`
+
+- **`ariaLabel`**: `string`  
+  Required when `decorative` is `false`
+
+---
 
 ## Supported Icon Sets
 
-This package works with any icon set supported by `@ng-icons/core`, including:
+Works with all icon packs supported by `@ng-icons/core`, including:
 
 - Bootstrap Icons
 - Heroicons
 - Material Icons
 - Font Awesome
-- And many more...
+- and more
 
-See the [`@ng-icons` documentation](https://ng-icons.github.io/ng-icons/) for a complete list.
+See the official docs:  
+https://ng-icons.github.io/ng-icons/
+
+---
 
 ## Related Packages
 
-- [`@tailng-ui/ui`](../ui/README.md) - UI components that use these icons
-- [`@tailng-ui/cdk`](../cdk/README.md) - Component development kit
-- [`@tailng-ui/theme`](../theme/README.md) - Tailwind CSS theme preset
+- `@tailng-ui/ui` – UI components
+- `@tailng-ui/cdk` – Component utilities
+- `@tailng-ui/theme` – Tailwind preset & tokens
+
+---
 
 ## License
 
