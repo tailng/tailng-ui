@@ -60,8 +60,8 @@ cd tailng-starter`;
   readonly npmCdk = `npm i @angular/cdk`;
 
   // Tailng packages
-  readonly yarnTailng = `yarn add @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons @tailng-ui/ui`;
-  readonly npmTailng = `npm i @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons @tailng-ui/ui`;
+  readonly yarnTailng = `yarn add @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons @ng-icons/core @tailng-ui/ui`;
+  readonly npmTailng = `npm i @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons @ng-icons/core @tailng-ui/ui`;
 
   // Tailwind install
   readonly yarnTailwind = `yarn add -D tailwindcss@^3.4 postcss autoprefixer

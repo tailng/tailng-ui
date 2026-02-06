@@ -39,9 +39,9 @@ export class QuickStartComponent {
   }
 
   // 1) Install packages (minimal)
-  readonly yarnInstallPackages = `yarn add @tailng-ui/ui @tailng-ui/theme @tailng-ui/icons`;
+  readonly yarnInstallPackages = `yarn add @tailng-ui/ui @tailng-ui/theme @tailng-ui/icons @ng-icons/core`;
 
-  readonly npmInstallPackages = `npm i @tailng-ui/ui @tailng-ui/theme @tailng-ui/icons`;
+  readonly npmInstallPackages = `npm i @tailng-ui/ui @tailng-ui/theme @tailng-ui/icons @ng-icons/core`;
 
   // 2) Import styles reminder
   styleReminder = `/* styles.css */

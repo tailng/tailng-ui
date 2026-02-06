@@ -1,0 +1,227 @@
+<tng-card rootKlass="max-w-auto mx-6 py-4 px-4 space-y-6 mt-6">
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-4xl font-bold text-fg mb-2">Icons</h1>
+      <p class="text-lg text-fg">
+        Use <span class="font-mono">tng-icon</span> (powered by <span class="font-mono">@ng-icons/core</span>)
+        to render scalable SVG icons in tailng apps.
+      </p>
+    </div>
+
+    <div class="space-y-6 py-4">
+      <!-- Intro -->
+      <tng-card rootKlass="rounded-lg border border-border bg-bg" contentKlass="p-4">
+        <pre class="text-sm whitespace-pre-wrap text-fg m-0">tailng icons are built on top of @ng-icons/core.
+
+- You install @tailng-ui/icons + @ng-icons/core (peer dependency)
+- You register one or more icon packs in your app
+- Then you render icons via &lt;tng-icon name="..."&gt;</pre>
+      </tng-card>
+
+      <!-- 1) Install -->
+      <div class="border rounded-lg p-4">
+        <h2 class="text-xl font-semibold text-fg mb-2">1) Install</h2>
+
+        <tng-button-toggle
+          [options]="titleOptions"
+          [value]="installStatus"
+          (valueChange)="installStatus = $event"
+          groupKlass="!w-1/5"
+          buttonKlass="font-normal h-7 py-[0]"
+        />
+
+        <tng-code-block
+          [content]="install"
+          language="bash"
+          [highlighter]="highlighter"
+          [copyResetMs]="5000"
+        >
+          <tng-icon name="bootstrapCopy" tngCodeBlockCopy>Copy</tng-icon>
+          <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCodeBlockCopied></tng-icon>
+        </tng-code-block>
+
+        <tng-card rootKlass="mt-3 rounded-md border border-border bg-bg" contentKlass="p-3">
+          <pre class="text-sm whitespace-pre-wrap text-fg m-0">Why do I need to install @ng-icons/core?
+
+@tailng-ui/icons wraps ng-icons to keep bundles small and avoid shipping duplicated icon engines.
+That's why @ng-icons/core is a peer dependency (you install it explicitly).</pre>
+        </tng-card>
+      </div>
+
+      <!-- 2) Register icons -->
+      <div class="border rounded-lg p-4">
+        <h2 class="text-xl font-semibold text-fg mb-2">2) Register icons</h2>
+
+        <tng-card rootKlass="rounded-lg border border-border bg-bg mb-4" contentKlass="p-4">
+          <pre class="text-sm whitespace-pre-wrap text-fg m-0">Before you can use an icon name (like "bootstrapCopy"), you must register that icon in the ng-icons registry.
+
+You can register:
+- individual icons (recommended)
+- or entire packs (not recommended for bundle size)</pre>
+        </tng-card>
+
+        <tng-code-block
+          [content]="registerIconsExample"
+          language="typescript"
+          [highlighter]="highlighter"
+          [copyResetMs]="5000"
+        >
+          <tng-icon name="bootstrapCopy" tngCodeBlockCopy>Copy</tng-icon>
+          <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCodeBlockCopied></tng-icon>
+        </tng-code-block>
+
+        <div class="h-4"></div>
+
+        <tng-code-block
+          [content]="registerIconsLocalExample"
+          language="typescript"
+          [highlighter]="highlighter"
+          [copyResetMs]="5000"
+        >
+          <tng-icon name="bootstrapCopy" tngCodeBlockCopy>Copy</tng-icon>
+          <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCodeBlockCopied></tng-icon>
+        </tng-code-block>
+      </div>
+
+      <!-- 3) Basic usage -->
+      <div class="border rounded-lg p-4">
+        <h2 class="text-xl font-semibold text-fg mb-2">3) Use icons</h2>
+
+        <tng-code-block
+          [content]="usageBasic"
+          language="html"
+          [highlighter]="highlighter"
+          [copyResetMs]="5000"
+        >
+          <tng-icon name="bootstrapCopy" tngCodeBlockCopy>Copy</tng-icon>
+          <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCodeBlockCopied></tng-icon>
+        </tng-code-block>
+      </div>
+
+      <!-- 4) Size -->
+      <div class="border rounded-lg p-4">
+        <h2 class="text-xl font-semibold text-fg mb-2">4) Size</h2>
+
+        <tng-code-block
+          [content]="usageSize"
+          language="html"
+          [highlighter]="highlighter"
+          [copyResetMs]="5000"
+        >
+          <tng-icon name="bootstrapCopy" tngCodeBlockCopy>Copy</tng-icon>
+          <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCodeBlockCopied></tng-icon>
+        </tng-code-block>
+      </div>
+
+      <!-- 5) Classes -->
+      <div class="border rounded-lg p-4">
+        <h2 class="text-xl font-semibold text-fg mb-2">5) Styling (token-safe)</h2>
+        <p class="text-sm text-fg mb-3">
+          Prefer token-based classes like <span class="font-mono">text-fg</span>.
+        </p>
+
+        <tng-code-block
+          [content]="usageClass"
+          language="html"
+          [highlighter]="highlighter"
+          [copyResetMs]="5000"
+        >
+          <tng-icon name="bootstrapCopy" tngCodeBlockCopy>Copy</tng-icon>
+          <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCodeBlockCopied></tng-icon>
+        </tng-code-block>
+      </div>
+
+      <!-- 6) Accessibility -->
+      <div class="border rounded-lg p-4">
+        <h2 class="text-xl font-semibold text-fg mb-2">6) Accessibility</h2>
+
+        <tng-code-block
+          [content]="a11yDecorative"
+          language="html"
+          [highlighter]="highlighter"
+          [copyResetMs]="5000"
+        >
+          <tng-icon name="bootstrapCopy" tngCodeBlockCopy>Copy</tng-icon>
+          <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCodeBlockCopied></tng-icon>
+        </tng-code-block>
+
+        <div class="h-4"></div>
+
+        <tng-code-block
+          [content]="a11yMeaningful"
+          language="html"
+          [highlighter]="highlighter"
+          [copyResetMs]="5000"
+        >
+          <tng-icon name="bootstrapCopy" tngCodeBlockCopy>Copy</tng-icon>
+          <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCodeBlockCopied></tng-icon>
+        </tng-code-block>
+      </div>
+
+      <!-- 7) Common pattern -->
+      <div class="border rounded-lg p-4">
+        <h2 class="text-xl font-semibold text-fg mb-2">7) Common pattern: icon + text button</h2>
+
+        <tng-code-block
+          [content]="iconButton"
+          language="html"
+          [highlighter]="highlighter"
+          [copyResetMs]="5000"
+        >
+          <tng-icon name="bootstrapCopy" tngCodeBlockCopy>Copy</tng-icon>
+          <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCodeBlockCopied></tng-icon>
+        </tng-code-block>
+      </div>
+
+      <!-- 8) Tailng docs pattern -->
+      <div class="border rounded-lg p-4">
+        <h2 class="text-xl font-semibold text-fg mb-2">8) Pattern used in tailng docs</h2>
+        <p class="text-sm text-fg mb-3">
+          tailng docs often use icons as slots in <span class="font-mono">tng-code-block</span>.
+        </p>
+
+        <tng-code-block
+          [content]="codeBlockSlotExample"
+          language="html"
+          [highlighter]="highlighter"
+          [copyResetMs]="5000"
+        >
+          <tng-icon name="bootstrapCopy" tngCodeBlockCopy>Copy</tng-icon>
+          <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCodeBlockCopied></tng-icon>
+        </tng-code-block>
+      </div>
+
+      <!-- Best practices -->
+      <div>
+        <h2 class="text-xl font-semibold text-fg mb-2">Best practices</h2>
+        <tng-card rootKlass="rounded-lg border border-border bg-bg" contentKlass="p-4">
+          <pre class="text-sm whitespace-pre-wrap text-fg m-0">Best practices
+
+- Register only the icons you use (better tree-shaking and smaller bundles)
+- Keep a single icons provider file in your app (easy maintenance)
+- Use decorative icons by default; set ariaLabel only when the icon conveys meaning</pre>
+        </tng-card>
+      </div>
+
+      <!-- Troubleshooting -->
+      <div>
+        <h2 class="text-xl font-semibold text-fg mb-2">Troubleshooting</h2>
+        <tng-card rootKlass="rounded-lg border border-border bg-bg" contentKlass="p-4">
+          <pre class="text-sm whitespace-pre-wrap text-fg m-0">Troubleshooting
+
+1) Icon doesn't render:
+- Confirm you installed @ng-icons/core
+- Confirm the icon is registered via provideIcons(...)
+- Confirm the name matches the registered key (case-sensitive)
+
+2) Console says "No icon found for name ...":
+- You are using a name that was not registered.
+
+3) Bundle is too big:
+- Avoid importing/registering full packs
+- Register only the icons you use</pre>
+        </tng-card>
+      </div>
+    </div>
+  </div>
+</tng-card>

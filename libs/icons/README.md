@@ -13,10 +13,12 @@ Angular icon components built on top of `@ng-icons/core` with Tailwind CSS suppo
 ## Installation
 
 ```bash
-npm install @tailng-ui/icons
+npm install @tailng-ui/icons @ng-icons/core
+# or
+yarn add @tailng-ui/icons @ng-icons/core
 ```
 
-You'll also need to install the icon registry you want to use. For Bootstrap Icons:
+You'll also need to install the icon set you want to use. For Bootstrap Icons:
 
 ```bash
 npm install @ng-icons/bootstrap-icons

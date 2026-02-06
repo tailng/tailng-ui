@@ -28,6 +28,16 @@ export const routes: Routes = [
           description: 'Customize colors, tokens, and appearance for tailng.',
         },
       },
+      // Icons (/icons)
+      {
+        path: 'icons',
+        loadComponent: () =>
+          import('./pages/icons/icons.component').then((m) => m.IconsComponent),
+        data: {
+          title: 'Icons – tailng',
+          description: 'Icon component and @tailng-ui/icons package for tailng.',
+        },
+      },
       // Components (/components) – sidebar + content via docs-shell
       ...componentsRoutes,
     ],
