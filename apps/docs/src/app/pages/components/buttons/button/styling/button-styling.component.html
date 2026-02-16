@@ -1,38 +1,80 @@
 <section class="space-y-6 text-fg">
+  <!-- Intro -->
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-button</span> supports <span class="font-mono">klass</span> (button element) and
-      <span class="font-mono">spinnerKlass</span> (loading spinner). Default styles come from variant/size; use these to override or extend.
+      The <span class="font-mono">tng-button</span> component uses slot-based micro styling via the
+      <span class="font-mono">slot</span> input. The slot object accepts keys:
+      <span class="font-mono">button</span> (root button element) and <span class="font-mono">spinner</span> (loading spinner span).
+      Default styles come from variant/size; use slots to override or extend.
     </p>
   </div>
 
+  <!-- button slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">klass</h3>
-    <p class="text-sm text-fg">Applies to the button element. Use for custom colors or spacing.</p>
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">button slot</h3>
+      <tng-tag label="root"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Applies to the root button element. Use for custom colors, spacing, or layout.</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="klassHtml()"
+      [htmlContent]="buttonSlotHtml()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-button klass="bg-danger text-on-danger hover:bg-danger-hover">Custom danger</tng-button>
+        <tng-button [slot]="{ button: 'bg-danger text-on-danger hover:bg-danger-hover' }">
+          Custom danger
+        </tng-button>
       </div>
     </docs-example-block>
   </div>
 
+  <!-- spinner slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">spinnerKlass</h3>
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">spinner slot</h3>
+      <tng-tag label="loading"></tng-tag>
+    </div>
     <p class="text-sm text-fg">Applies to the loading spinner when <span class="font-mono">[loading]="true"</span>.</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="spinnerHtml()"
+      [htmlContent]="spinnerSlotHtml()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-button [loading]="true" spinnerKlass="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent">Loading</tng-button>
+        <tng-button
+          [loading]="true"
+          [slot]="{ spinner: 'h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent' }"
+        >
+          Loading
+        </tng-button>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- Combined example -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Combined slot example</h3>
+    <p class="text-sm text-fg">Multiple slots applied together.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="combinedSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-button
+          [loading]="true"
+          [slot]="{
+            button: 'bg-primary text-on-primary hover:bg-primary-hover rounded-full px-6',
+            spinner: 'h-4 w-4 border-2 border-on-primary/30 border-t-on-primary'
+          }"
+        >
+          Saving…
+        </tng-button>
       </div>
     </docs-example-block>
   </div>

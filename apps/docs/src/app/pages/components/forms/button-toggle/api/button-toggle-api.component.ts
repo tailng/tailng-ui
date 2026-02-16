@@ -29,16 +29,12 @@ export class ButtonToggleApiComponent implements AfterViewInit {
     { property: 'multiple', type: 'boolean', default: 'false', description: 'Allow multiple selection' },
     { property: 'allowDeselect', type: 'boolean', default: 'false', description: 'Allow clearing selection' },
     { property: 'valueChange', type: 'OutputEventEmitter<TngButtonToggleSelection<T>>', default: '—', description: 'Emits when selection changes' },
-    { property: 'groupKlass', type: 'string', default: "'block w-full'", description: 'Group (role="group") container classes' },
-    { property: 'buttonKlass', type: 'string', default: "''", description: 'Button base classes' },
-    { property: 'activeButtonKlass', type: 'string', default: "''", description: 'Active (selected) button classes' },
-    { property: 'inactiveButtonKlass', type: 'string', default: "''", description: 'Inactive button classes' },
-    { property: 'disabledButtonKlass', type: 'string', default: "''", description: 'Disabled option button classes' },
+    { property: 'slot', type: 'TngSlotMap<TngButtonToggleSlot>', default: '{}', description: 'Slot-based micro styling (container, button, buttonActive, buttonInactive, buttonDisabled)' },
   ];
 
   readonly inputRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['options', 'value', 'disabled', 'multiple', 'allowDeselect'].includes(p.property)));
   readonly outputRows = signal<DisplayDetails[]>(this.seed.filter((p) => p.property === 'valueChange'));
-  readonly klassRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['groupKlass', 'buttonKlass', 'activeButtonKlass', 'inactiveButtonKlass', 'disabledButtonKlass'].includes(p.property)));
+  readonly stylingRows = signal<DisplayDetails[]>(this.seed.filter((p) => p.property === 'slot'));
 
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;

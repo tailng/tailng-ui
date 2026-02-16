@@ -1,5 +1,8 @@
 import { Component, computed, input } from '@angular/core';
 import { booleanAttribute, numberAttribute } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
+
+import { TngBadgeSlot } from './badge.slots';
 
 export type TngBadgePosition =
   | 'top-right'
@@ -57,18 +60,8 @@ export class TngBadge {
   /** Accessible label override (recommended when badge is meaningful) */
   ariaLabel = input<string>('');
 
-  /* =====================
-   * Class hooks
-   * ===================== */
-
-  /** Outer wrapper (layout of projected content + badge) */
-  rootKlass = input<string>('inline-flex');
-
-  /** The element that becomes positioning anchor */
-  hostKlass = input<string>('relative inline-flex');
-
-  /** Badge element */
-  badgeKlass = input<string>('');
+  /* Slot hooks (micro styling) */
+  slot = input<TngSlotMap<TngBadgeSlot>>({});
 
   /* =====================
    * Derived values
@@ -186,26 +179,39 @@ export class TngBadge {
     }
   });
 
+  readonly containerClassFinal = computed(() =>
+    this.cx('inline-flex', this.slotClass('container')),
+  );
+
+  readonly anchorClassFinal = computed(() =>
+    this.cx('relative inline-flex', this.slotClass('anchor')),
+  );
+
   readonly badgeClasses = computed(() => {
     const base =
       'absolute z-10 inline-flex items-center justify-center ' +
       'rounded-full font-semibold select-none ' +
-      'ring-2 ring-background ' + // Material-ish separation from host
-      'pointer-events-none '; // badge shouldn't block clicks
-
+      'ring-2 ring-background pointer-events-none ';
     const dotShape = this.dot() ? 'p-0' : '';
-    const cls =
-      base +
-      this.variantClasses() +
-      ' ' +
-      this.sizeClasses() +
-      ' ' +
-      this.positionClasses() +
-      ' ' +
-      dotShape +
-      ' ' +
-      this.badgeKlass();
-
-    return cls.trim();
+    return this.cx(
+      base,
+      this.variantClasses(),
+      this.sizeClasses(),
+      this.positionClasses(),
+      dotShape,
+      this.slotClass('badge'),
+    );
   });
+
+  private slotClass(key: TngBadgeSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private cx(...parts: Array<TngSlotValue>): string {
+    return parts
+      .flatMap((p) => (Array.isArray(p) ? p : [p]))
+      .map((p) => (p ?? '').toString().trim())
+      .filter(Boolean)
+      .join(' ');
+  }
 }

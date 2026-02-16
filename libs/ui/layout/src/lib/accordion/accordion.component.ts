@@ -1,12 +1,16 @@
 import {
   booleanAttribute,
   Component,
+  computed,
   contentChildren,
   effect,
   input,
   output
 } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
+
 import { TngExpansionPanel } from '../expansion-panel/expansion-panel.component';
+import { TngAccordionSlot } from './accordion.slots';
 
 @Component({
   selector: 'tng-accordion',
@@ -38,11 +42,30 @@ export class TngAccordion {
   openIndexesChange = output<number[]>();
 
   /* =====================
-   * Klass hooks
+   * Slot hooks (micro styling)
    * ===================== */
 
-  rootKlass = input<string>('w-full');
-  stackKlass = input<string>('space-y-2');
+  slot = input<TngSlotMap<TngAccordionSlot>>({});
+
+  readonly containerClassFinal = computed(() =>
+    this.cx('w-full', this.slotClass('container')),
+  );
+
+  readonly stackClassFinal = computed(() =>
+    this.cx('space-y-2', this.slotClass('stack')),
+  );
+
+  private slotClass(key: TngAccordionSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private cx(...parts: Array<TngSlotValue>): string {
+    return parts
+      .flatMap((p) => (Array.isArray(p) ? p : [p]))
+      .map((p) => (p ?? '').toString().trim())
+      .filter(Boolean)
+      .join(' ');
+  }
 
   /* =====================
    * Children

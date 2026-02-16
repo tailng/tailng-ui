@@ -8,7 +8,10 @@ import {
   contentChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
 import { TngSlideToggleOnSlot, TngSlideToggleOffSlot } from './slide-toggle-slots.directive';
+import { TngSlideToggleSlot } from './slide-toggle.slots';
 
 @Component({
   selector: 'tng-slide-toggle',
@@ -37,24 +40,12 @@ export class TngSlideToggle implements ControlValueAccessor {
   readonly checked = input<boolean | null>(null);
   readonly checkedChange = output<boolean>();
 
-  // -------------------------
-  // class hooks (consumer overrides, additive)
-  // -------------------------
-  readonly rootKlass = input<string>('');
-  readonly labelKlass = input<string>('');
-  readonly inputKlass = input<string>('');
+  /* ─────────────────────────
+   * Slot hooks (micro styling)
+   * ───────────────────────── */
+  slot = input<TngSlotMap<TngSlideToggleSlot>>({});
 
-  /** base (applies in both states) */
-  readonly trackKlass = input<string>('');
-  readonly thumbKlass = input<string>('');
-
-  /** per-state overrides */
-  readonly trackOnKlass = input<string>('');
-  readonly trackOffKlass = input<string>('');
-  readonly thumbOnKlass = input<string>('');
-  readonly thumbOffKlass = input<string>('');
-
-  // slot presence (consumer-provided)
+  // slot presence (consumer-provided content)
   private readonly onSlot = contentChild(TngSlideToggleOnSlot, { descendants: false });
   private readonly offSlot = contentChild(TngSlideToggleOffSlot, { descendants: false });
 
@@ -84,56 +75,62 @@ export class TngSlideToggle implements ControlValueAccessor {
     this._formDisabled.set(isDisabled);
   }
 
-  // -------------------------
-  // KlassFinal: defaults + overrides via join()
-  // -------------------------
-  private join(...parts: Array<string | null | undefined>): string {
-    return parts.map((p) => (p ?? '').trim()).filter(Boolean).join(' ');
+  /* ─────────────────────────
+   * Computed slot classes
+   * ───────────────────────── */
+  readonly containerClassFinal = computed(() =>
+    this.cx(
+      'inline-flex items-center gap-2 select-none',
+      this.slotClass('container'),
+    ),
+  );
+
+  readonly labelClassFinal = computed(() =>
+    this.cx('text-sm text-fg', this.slotClass('label')),
+  );
+
+  readonly inputClassFinal = computed(() =>
+    this.cx('sr-only', this.slotClass('input')),
+  );
+
+  readonly trackClassFinal = computed(() => {
+    const base = this.cx(
+      'relative inline-flex h-6 w-11 items-center rounded-full border transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+      this.slotClass('track'),
+    );
+    const disabled = this.isDisabled() ? ' opacity-60 pointer-events-none' : '';
+    const state = this.value()
+      ? this.cx('bg-fg border-primary', this.slotClass('trackChecked'))
+      : this.cx('bg-bg border-primary', this.slotClass('trackUnchecked'));
+    return this.cx(base, state, disabled);
+  });
+
+  readonly thumbClassFinal = computed(() => {
+    const base = this.cx(
+      'inline-flex h-5 w-5 items-center justify-center rounded-full shadow transition-transform duration-200',
+      this.slotClass('thumb'),
+    );
+    const pos = this.value() ? 'translate-x-5' : 'translate-x-1';
+    const state = this.value()
+      ? this.cx('bg-bg', this.slotClass('thumbChecked'))
+      : this.cx('bg-fg', this.slotClass('thumbUnchecked'));
+    return this.cx(base, pos, state);
+  });
+
+  /* ─────────────────────────
+   * Helpers
+   * ───────────────────────── */
+  private slotClass(key: TngSlideToggleSlot): TngSlotValue {
+    return this.slot()?.[key];
   }
 
-  private static readonly defaultRootKlass =
-    'inline-flex items-center gap-2 select-none';
-  private static readonly defaultLabelKlass = 'text-sm text-fg';
-  private static readonly defaultInputKlass = 'sr-only';
-
-  readonly finalRootKlass = computed(() =>
-    this.join(TngSlideToggle.defaultRootKlass, this.rootKlass())
-  );
-  readonly finalLabelKlass = computed(() =>
-    this.join(TngSlideToggle.defaultLabelKlass, this.labelKlass())
-  );
-  readonly finalInputKlass = computed(() =>
-    this.join(TngSlideToggle.defaultInputKlass, this.inputKlass())
-  );
-
-  readonly finalTrackKlass = computed(() => {
-    const base =
-      'relative inline-flex h-6 w-11 items-center rounded-full border transition-colors duration-200 ' +
-      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ' +
-      'focus-visible:ring-offset-2 focus-visible:ring-offset-background';
-
-    const disabled = this.isDisabled() ? 'opacity-60 pointer-events-none' : '';
-
-    const state = this.value()
-      ? this.join('bg-fg border-primary', this.trackOnKlass())
-      : this.join('bg-bg border-primary', this.trackOffKlass());
-
-    return this.join(base, state, disabled, this.trackKlass());
-  });
-
-  readonly finalThumbKlass = computed(() => {
-    const base =
-      'inline-flex h-5 w-5 items-center justify-center rounded-full shadow ' +
-      'transition-transform duration-200';
-
-    const pos = this.value() ? 'translate-x-5' : 'translate-x-1';
-
-    const state = this.value()
-      ? this.join('bg-bg', this.thumbOnKlass())
-      : this.join('bg-fg', this.thumbOffKlass());
-
-    return this.join(base, pos, state, this.thumbKlass());
-  });
+  private cx(...parts: Array<TngSlotValue>): string {
+    return parts
+      .flatMap((p) => (Array.isArray(p) ? p : [p]))
+      .map((p) => (p ?? '').toString().trim())
+      .filter(Boolean)
+      .join(' ');
+  }
 
   // -------------------------
   // events

@@ -17,4 +17,16 @@ export class TagStylingComponent {
 <tng-tag label="Danger" color="danger"></tng-tag>
 `,
   );
+
+  readonly containerSlotHtml = computed(
+    () => `<tng-tag label="Custom" [slot]="{ container: 'shadow-md ring-1 ring-gray-200' }"></tng-tag>`,
+  );
+
+  readonly combinedSlotHtml = computed(
+    () => `<tng-tag
+  label="Rounded pill"
+  color="primary"
+  [slot]="{ container: 'rounded-full px-4' }">
+</tng-tag>`,
+  );
 }

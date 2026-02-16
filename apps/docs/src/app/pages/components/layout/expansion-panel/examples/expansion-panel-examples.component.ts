@@ -25,7 +25,7 @@ export class ExpansionPanelExamplesComponent {
   );
   readonly noPaddingHtml = computed(
     () => `
-<tng-expansion-panel [padded]="false" contentBodyKlass="overflow-hidden text-sm text-muted-foreground">
+<tng-expansion-panel [padded]="false" [slot]="{ contentBody: 'overflow-hidden text-sm text-muted-foreground' }">
   <div tngExpansionTitle>Custom layout inside</div>
   <div tngExpansionContent>...</div>
 </tng-expansion-panel>

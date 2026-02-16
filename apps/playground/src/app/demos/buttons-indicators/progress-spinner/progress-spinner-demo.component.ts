@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { TngProgressSpinner } from '@tailng-ui/ui/primitives';
 
 @Component({
@@ -12,9 +12,17 @@ export class ProgressSpinnerDemoComponent {
   value = 40;
   max = 100;
 
-  sizeKlass = 'w-10 h-10';
-  trackKlass = 'text-border';
-  indicatorKlass = 'text-primary';
+  slotSvg = 'w-10 h-10';
+  slotTrack = 'text-border';
+  slotIndicator = 'text-primary';
+
+  readonly slot = computed(() => {
+    const s: Record<string, string> = {};
+    if (this.slotSvg) s['svg'] = this.slotSvg;
+    if (this.slotTrack) s['track'] = this.slotTrack;
+    if (this.slotIndicator) s['indicator'] = this.slotIndicator;
+    return s;
+  });
 
   inc() {
     this.value = Math.min(this.max, this.value + 10);
@@ -27,16 +35,16 @@ export class ProgressSpinnerDemoComponent {
   preset(p: 'primary' | 'success' | 'danger' | 'neutral') {
     switch (p) {
       case 'success':
-        this.indicatorKlass = 'text-success';
+        this.slotIndicator = 'text-success';
         break;
       case 'danger':
-        this.indicatorKlass = 'text-danger';
+        this.slotIndicator = 'text-danger';
         break;
       case 'neutral':
-        this.indicatorKlass = 'text-fg/40';
+        this.slotIndicator = 'text-fg/40';
         break;
       default:
-        this.indicatorKlass = 'text-primary';
+        this.slotIndicator = 'text-primary';
     }
   }
 }

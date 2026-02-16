@@ -21,46 +21,79 @@ export class SlideToggleStylingComponent {
     on: new FormControl(false, { nonNullable: true }),
   });
 
-  readonly rootKlassHtml = computed(
+  readonly containerSlotHtml = computed(
     () => `
 <form [formGroup]="form">
-  <tng-slide-toggle formControlName="on" label="Custom root"
-    rootKlass="inline-flex items-center gap-3 p-2 rounded-lg border-2 border-primary/30" />
+  <tng-slide-toggle formControlName="on" label="Custom container"
+    [slot]="{ container: 'inline-flex items-center gap-3 p-2 rounded-lg border-2 border-primary/30' }" />
 </form>
 `,
   );
 
-  readonly trackKlassHtml = computed(
-    () => `
-<form [formGroup]="form">
-  <tng-slide-toggle formControlName="on" label="Wide track" trackKlass="h-4 w-14" />
-</form>
-`,
-  );
-
-  readonly thumbKlassHtml = computed(
-    () => `
-<form [formGroup]="form">
-  <tng-slide-toggle formControlName="on" label="Large thumb" thumbKlass="h-4 w-4 shadow-lg" />
-</form>
-`,
-  );
-
-  readonly trackThumbOnOffHtml = computed(
-    () => `
-<form [formGroup]="form">
-  <tng-slide-toggle formControlName="on" label="Themed by state"
-    trackOffKlass="bg-bg border-primary" trackOnKlass="bg-primary border-primary"
-    thumbOffKlass="bg-primary" thumbOnKlass="bg-on-primary" />
-</form>
-`,
-  );
-
-  readonly labelKlassHtml = computed(
+  readonly labelSlotHtml = computed(
     () => `
 <form [formGroup]="form">
   <tng-slide-toggle formControlName="on" label="Custom label"
-    labelKlass="text-lg font-bold text-primary" />
+    [slot]="{ label: 'text-lg font-bold text-primary' }" />
+</form>
+`,
+  );
+
+  readonly inputSlotHtml = computed(
+    () => `
+<form [formGroup]="form">
+  <tng-slide-toggle formControlName="on" label="Custom input (sr-only + focus ring)"
+    [slot]="{ input: 'sr-only focus:ring-2' }" />
+</form>
+`,
+  );
+
+  readonly trackSlotHtml = computed(
+    () => `
+<form [formGroup]="form">
+  <tng-slide-toggle formControlName="on" label="Wide track"
+    [slot]="{ track: 'h-4 w-14' }" />
+</form>
+`,
+  );
+
+  readonly trackCheckedUncheckedSlotHtml = computed(
+    () => `
+<form [formGroup]="form">
+  <tng-slide-toggle formControlName="on" label="Themed by state"
+    [slot]="{
+      trackChecked: 'bg-primary border-primary',
+      trackUnchecked: 'bg-bg border-primary',
+      thumbChecked: 'bg-on-primary',
+      thumbUnchecked: 'bg-primary'
+    }" />
+</form>
+`,
+  );
+
+  readonly thumbSlotHtml = computed(
+    () => `
+<form [formGroup]="form">
+  <tng-slide-toggle formControlName="on" label="Large thumb"
+    [slot]="{ thumb: 'h-6 w-6 shadow-lg' }" />
+</form>
+`,
+  );
+
+  readonly combinedSlotHtml = computed(
+    () => `
+<form [formGroup]="form">
+  <tng-slide-toggle formControlName="on" label="All slots"
+    [slot]="{
+      container: 'inline-flex items-center gap-3 p-2 rounded-xl border border-primary/30',
+      label: 'text-sm font-medium text-primary',
+      track: 'h-4 w-14',
+      trackChecked: 'bg-primary border-primary',
+      trackUnchecked: 'bg-bg border-primary',
+      thumb: 'shadow-md',
+      thumbChecked: 'bg-on-primary',
+      thumbUnchecked: 'bg-primary'
+    }" />
 </form>
 `,
   );

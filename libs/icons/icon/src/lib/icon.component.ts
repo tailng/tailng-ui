@@ -1,6 +1,9 @@
 import { Component, computed, input } from '@angular/core';
-import { NgIconComponent } from '@ng-icons/core';
 import { booleanAttribute } from '@angular/core';
+import { NgIconComponent } from '@ng-icons/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
+
+import { TngIconSlot } from './icon.slots';
 
 type TngIconSize = number | string;
 
@@ -21,8 +24,8 @@ export class TngIcon {
    */
   size = input<TngIconSize>('1em');
 
-  /** Additional classes for host element */
-  iconKlass = input<string>('');
+  /* Slot hooks (micro styling) */
+  slot = input<TngSlotMap<TngIconSlot>>({});
 
   /**
    * Accessibility:
@@ -37,10 +40,21 @@ export class TngIcon {
     return typeof s === 'number' ? `${s}px` : s;
   });
 
-  readonly iconKlassFinal = computed(() => {
-    const extra = this.iconKlass().trim();
-    return ['inline-flex', 'align-middle', extra].filter(Boolean).join(' ');
-  });
+  readonly iconClassFinal = computed(() =>
+    this.cx('inline-flex', 'align-middle', this.slotClass('icon')),
+  );
+
+  private slotClass(key: TngIconSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private cx(...parts: Array<TngSlotValue>): string {
+    return parts
+      .flatMap((p) => (Array.isArray(p) ? p : [p]))
+      .map((p) => (p ?? '').toString().trim())
+      .filter(Boolean)
+      .join(' ');
+  }
 
   readonly ariaHidden = computed(() => (this.decorative() ? 'true' : null));
 

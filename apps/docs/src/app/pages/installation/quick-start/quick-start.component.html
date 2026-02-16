@@ -1,4 +1,4 @@
-<tng-card rootKlass="max-w-auto mx-6 py-4 px-4 space-y-6 mt-6">
+<tng-card [slot]="{ container: 'max-w-auto mx-6 py-4 px-4 space-y-6 mt-6' }">
   <div class="space-y-6">
     <div>
       <h1 class="text-4xl font-bold text-fg mb-2">Quick Start</h1>
@@ -25,8 +25,7 @@
           [options]="titleOptions"
           [value]="installStatus"
           (valueChange)="installStatus = $event"
-          groupKlass="!w-1/5"
-          buttonKlass="font-normal h-7 py-[0]"
+          [slot]="{ container: '!w-1/5', button: 'font-normal h-7 py-[0]' }"
         />
 
         <tng-code-block
@@ -152,7 +151,7 @@
         <h2 class="text-xl font-semibold text-fg mb-2">
           What’s next?
         </h2>
-        <tng-card rootKlass="rounded-lg border border-border bg-bg" contentKlass="p-4">
+        <tng-card [slot]="{ container: 'rounded-lg border border-border bg-bg', body: 'p-4' }">
           <ul class="text-sm text-fg m-0 list-disc list-inside space-y-1">
             <li>Explore components</li>
             <li>Customize theme tokens</li>

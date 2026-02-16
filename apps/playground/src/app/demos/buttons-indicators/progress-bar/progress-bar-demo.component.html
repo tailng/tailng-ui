@@ -2,8 +2,8 @@
   <header class="space-y-2">
     <h2 class="text-base font-semibold text-slate-800">tng-progress-bar demo</h2>
     <p class="text-sm text-slate-600">
-      Features: determinate/indeterminate, value/max, disableAnimation, and klass hooks
-      (rootKlass/trackKlass/barKlass/heightKlass).
+      Features: determinate/indeterminate, value/max, disableAnimation, and slot-based micro styling
+      (container, track, indicator).
     </p>
   </header>
 
@@ -63,44 +63,34 @@
       </div>
 
       <div class="space-y-1">
-        <div class="text-xs text-slate-500">heightKlass</div>
+        <div class="text-xs text-slate-500">slot.container</div>
         <input
           class="w-full rounded-md border border-border px-3 py-2 text-sm"
-          [value]="heightKlass"
-          (input)="heightKlass = $any($event.target).value"
-          placeholder="h-1 / h-2 / h-3"
+          [value]="slotContainer"
+          (input)="slotContainer = $any($event.target).value"
+          placeholder="w-full"
         />
       </div>
     </div>
 
     <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
       <div class="space-y-1">
-        <div class="text-xs text-slate-500">trackKlass</div>
+        <div class="text-xs text-slate-500">slot.track</div>
         <input
           class="w-full rounded-md border border-border px-3 py-2 text-sm"
-          [value]="trackKlass"
-          (input)="trackKlass = $any($event.target).value"
-          placeholder="bg-border"
+          [value]="slotTrack"
+          (input)="slotTrack = $any($event.target).value"
+          placeholder="bg-border h-1"
         />
       </div>
 
       <div class="space-y-1">
-        <div class="text-xs text-slate-500">barKlass</div>
+        <div class="text-xs text-slate-500">slot.indicator</div>
         <input
           class="w-full rounded-md border border-border px-3 py-2 text-sm"
-          [value]="barKlass"
-          (input)="barKlass = $any($event.target).value"
+          [value]="slotIndicator"
+          (input)="slotIndicator = $any($event.target).value"
           placeholder="bg-primary"
-        />
-      </div>
-
-      <div class="space-y-1">
-        <div class="text-xs text-slate-500">rootKlass</div>
-        <input
-          class="w-full rounded-md border border-border px-3 py-2 text-sm"
-          [value]="rootKlass"
-          (input)="rootKlass = $any($event.target).value"
-          placeholder="w-full"
         />
       </div>
     </div>
@@ -131,10 +121,7 @@
         value: {{ value }},
         max: {{ max }},
         disableAnimation: {{ disableAnimation }},
-        rootKlass: "{{ rootKlass }}",
-        trackKlass: "{{ trackKlass }}",
-        barKlass: "{{ barKlass }}",
-        heightKlass: "{{ heightKlass }}"
+        slot: {{ slot() | json }}
         {{ '}' }}
       </span>
     </div>
@@ -149,10 +136,7 @@
       [value]="value"
       [max]="max"
       [disableAnimation]="disableAnimation"
-      [rootKlass]="rootKlass"
-      [trackKlass]="trackKlass"
-      [barKlass]="barKlass"
-      [heightKlass]="heightKlass"
+      [slot]="slot()"
     />
 
     <p class="text-xs text-slate-500">
@@ -167,27 +151,27 @@
 
     <div class="space-y-3">
       <div class="text-xs text-slate-500">Primary, thin</div>
-      <tng-progress-bar [value]="30" trackKlass="bg-border" barKlass="bg-primary" heightKlass="h-1" />
+      <tng-progress-bar [value]="30" [slot]="{ track: 'bg-border h-1', indicator: 'bg-primary' }" />
     </div>
 
     <div class="space-y-3">
       <div class="text-xs text-slate-500">Success, medium thickness</div>
-      <tng-progress-bar [value]="60" trackKlass="bg-border" barKlass="bg-success" heightKlass="h-2" />
+      <tng-progress-bar [value]="60" [slot]="{ track: 'bg-border h-2', indicator: 'bg-success' }" />
     </div>
 
     <div class="space-y-3">
       <div class="text-xs text-slate-500">Danger, thick</div>
-      <tng-progress-bar [value]="80" trackKlass="bg-border" barKlass="bg-danger" heightKlass="h-3" />
+      <tng-progress-bar [value]="80" [slot]="{ track: 'bg-border h-3', indicator: 'bg-danger' }" />
     </div>
 
     <div class="space-y-3">
       <div class="text-xs text-slate-500">Neutral/subtle</div>
-      <tng-progress-bar [value]="50" trackKlass="bg-alternate-background" barKlass="bg-fg/40" heightKlass="h-1" />
+      <tng-progress-bar [value]="50" [slot]="{ track: 'bg-alternate-background h-1', indicator: 'bg-fg/40' }" />
     </div>
 
     <div class="space-y-3">
       <div class="text-xs text-slate-500">Indeterminate (loading)</div>
-      <tng-progress-bar mode="indeterminate" trackKlass="bg-border" barKlass="bg-primary" heightKlass="h-1" />
+      <tng-progress-bar mode="indeterminate" [slot]="{ track: 'bg-border h-1', indicator: 'bg-primary' }" />
     </div>
 
     <div class="space-y-3">
@@ -195,25 +179,20 @@
       <tng-progress-bar
         mode="indeterminate"
         [disableAnimation]="true"
-        trackKlass="bg-border"
-        barKlass="bg-primary"
-        heightKlass="h-1"
+        [slot]="{ track: 'bg-border h-1', indicator: 'bg-primary' }"
       />
     </div>
 
     <div class="space-y-3">
       <div class="text-xs text-slate-500">Custom max (value=30, max=60 -> 50%)</div>
-      <tng-progress-bar [value]="30" [max]="60" trackKlass="bg-border" barKlass="bg-info" heightKlass="h-2" />
+      <tng-progress-bar [value]="30" [max]="60" [slot]="{ track: 'bg-border h-2', indicator: 'bg-info' }" />
     </div>
 
     <div class="space-y-3">
-      <div class="text-xs text-slate-500">Constrained width via rootKlass</div>
+      <div class="text-xs text-slate-500">Constrained width via slot.container</div>
       <tng-progress-bar
         [value]="45"
-        rootKlass="w-64"
-        trackKlass="bg-border"
-        barKlass="bg-warning"
-        heightKlass="h-2"
+        [slot]="{ container: 'w-64', track: 'bg-border h-2', indicator: 'bg-warning' }"
       />
     </div>
   </section>

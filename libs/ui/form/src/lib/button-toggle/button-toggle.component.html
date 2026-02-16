@@ -1,7 +1,7 @@
 <div
   role="group"
   [attr.aria-multiselectable]="multiple() ? true : null"
-  [class]="groupClasses()"
+  [class]="containerClassFinal()"
   (keydown)="onKeydown($event)"
 >
   @for (opt of options(); track opt.value) {

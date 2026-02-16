@@ -5,7 +5,7 @@
       <p class="text-sm leading-6 text-muted">
         <span class="font-mono text-primary/20">tng-icon</span> renders an icon from the <span class="font-mono text-primary/20">@ng-icons</span> registry (e.g. Bootstrap Icons).
         It supports <span class="font-mono text-primary/20">name</span> (required), <span class="font-mono text-primary/20">size</span> (number in px or string like 1em),
-        <span class="font-mono text-primary/20">iconKlass</span>, and accessibility: <span class="font-mono text-primary/20">decorative</span> / <span class="font-mono text-primary/20">ariaLabel</span>.
+        <span class="font-mono text-primary/20">slot</span> for micro styling, and accessibility: <span class="font-mono text-primary/20">decorative</span> / <span class="font-mono text-primary/20">ariaLabel</span>.
       </p>
     </div>
 
@@ -20,8 +20,8 @@
         <span tngExampleTitle>Basic</span>
         <div tngExampleDemo>
           <div class="flex items-center gap-4">
-            <tng-icon name="bootstrapAlarm" [size]="24" iconKlass="text-primary"></tng-icon>
-            <tng-icon name="bootstrapBell" size="1.5em" iconKlass="text-fg"></tng-icon>
+            <tng-icon name="bootstrapAlarm" [size]="24" [slot]="{ icon: 'text-primary' }"></tng-icon>
+            <tng-icon name="bootstrapBell" size="1.5em" [slot]="{ icon: 'text-fg' }"></tng-icon>
           </div>
         </div>
       </docs-example-block>
@@ -33,6 +33,10 @@
         <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
           <div class="text-sm font-semibold text-primary/20">name / size</div>
           <p class="text-xs leading-5 text-muted">name: icon id from the registry. size: number (px) or string (e.g. 1em, 1.25rem).</p>
+        </div>
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">slot</div>
+          <p class="text-xs leading-5 text-muted">Slot-based micro styling: icon (host element).</p>
         </div>
         <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
           <div class="text-sm font-semibold text-primary/20">decorative / ariaLabel</div>

@@ -1,4 +1,4 @@
-<tng-card rootKlass="max-w-auto mx-6 py-4 px-4 space-y-6 mt-6">
+<tng-card [slot]="{ container: 'max-w-auto mx-6 py-4 px-4 space-y-6 mt-6' }">
   <div class="space-y-6">
     <div>
       <h1 class="text-4xl font-bold text-fg mb-2">Installation</h1>
@@ -29,8 +29,7 @@
           [options]="titleOptions"
           [value]="cdkStatus"
           (valueChange)="cdkStatus = $event"
-            groupKlass="!w-1/5"
-            buttonKlass="font-normal h-7 py-[0]"
+            [slot]="{ container: '!w-1/5', button: 'font-normal h-7 py-[0]' }"
         />
         
         <tng-code-block
@@ -50,8 +49,7 @@
           [options]="titleOptions"
           [value]="packageStatus"
           (valueChange)="packageStatus = $event"
-            groupKlass="!w-1/5"
-            buttonKlass="font-normal h-7 py-[0]"
+            [slot]="{ container: '!w-1/5', button: 'font-normal h-7 py-[0]' }"
         />
         
         <tng-code-block
@@ -71,8 +69,7 @@
           [options]="titleOptions"
           [value]="tailwindStatus"
           (valueChange)="tailwindStatus = $event"
-            groupKlass="!w-1/5"
-            buttonKlass="font-normal h-7 py-[0]"
+            [slot]="{ container: '!w-1/5', button: 'font-normal h-7 py-[0]' }"
           />
           
         <tng-code-block
@@ -134,8 +131,7 @@
           [options]="titleOptions"
           [value]="runStatus"
           (valueChange)="runStatus = $event"
-            groupKlass="!w-1/5"
-            buttonKlass="font-normal h-7 py-[0]"
+            [slot]="{ container: '!w-1/5', button: 'font-normal h-7 py-[0]' }"
         />
         <tng-code-block
           [content]="tailngRun"

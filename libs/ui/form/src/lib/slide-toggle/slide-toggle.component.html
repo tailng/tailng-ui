@@ -1,4 +1,4 @@
-<label [class]="finalRootKlass()">
+<label [class]="containerClassFinal()">
   <input
     type="checkbox"
     [id]="id() || null"
@@ -6,13 +6,13 @@
     [checked]="value()"
     [disabled]="isDisabled()"
     [required]="required()"
-    [class]="finalInputKlass()"
+    [class]="inputClassFinal()"
     (change)="onToggle($event)"
     (blur)="onBlur()"
   />
 
-  <span [class]="finalTrackKlass()" role="switch" [attr.aria-checked]="value()">
-    <span [class]="finalThumbKlass()">
+  <span [class]="trackClassFinal()" role="switch" [attr.aria-checked]="value()">
+    <span [class]="thumbClassFinal()">
       @if (value() && hasOnSlot()) {
         <ng-content select="[tngSlideToggleOn]"></ng-content>
       } @else if (!value() && hasOffSlot()) {
@@ -22,7 +22,7 @@
   </span>
 
   @if (label()) {
-    <span [class]="finalLabelKlass()">
+    <span [class]="labelClassFinal()">
       {{ label() }}
     </span>
   }

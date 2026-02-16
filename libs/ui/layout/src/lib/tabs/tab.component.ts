@@ -4,9 +4,13 @@ import {
   HostListener,
   inject,
   input,
+  computed,
 } from '@angular/core';
 import { booleanAttribute } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
+
 import { TngTabs } from './tabs.component';
+import { TngTabSlot } from './tab.slots';
 
 @Component({
   selector: 'tng-tab',
@@ -19,12 +23,22 @@ export class TngTab {
   value = input.required<string>();
   disabled = input(false, { transform: booleanAttribute });
 
-  tabKlass = input<string>(
-    'px-3 py-2 text-sm font-medium border-b-2 border-transparent'
-  );
-  activeKlass = input<string>('border-primary text-primary');
-  inactiveKlass = input<string>('text-muted-foreground');
-  disabledKlass = input<string>('opacity-50 cursor-not-allowed');
+  /** Slot-based micro styling */
+  slot = input<TngSlotMap<TngTabSlot>>({});
+
+  readonly tabClassFinal = computed(() => {
+    const base =
+      this.slotClass('tab') || 'px-3 py-2 text-sm font-medium border-b-2 border-transparent';
+    if (this.disabled()) {
+      return this.cx(
+        base,
+        this.slotClass('disabled') || 'opacity-50 cursor-not-allowed',
+      );
+    }
+    return this.tabs.isActive(this.value())
+      ? this.cx(base, this.slotClass('active') || 'border-primary text-primary')
+      : this.cx(base, this.slotClass('inactive') || 'text-muted-foreground');
+  });
 
   @HostBinding('attr.role') role = 'tab';
 
@@ -39,11 +53,8 @@ export class TngTab {
   }
 
   @HostBinding('class')
-  get klass() {
-    if (this.disabled()) return `${this.tabKlass()} ${this.disabledKlass()}`;
-    return this.tabs.isActive(this.value())
-      ? `${this.tabKlass()} ${this.activeKlass()}`
-      : `${this.tabKlass()} ${this.inactiveKlass()}`;
+  get hostClass() {
+    return this.tabClassFinal();
   }
 
   @HostListener('click')
@@ -51,5 +62,17 @@ export class TngTab {
     if (!this.disabled()) {
       this.tabs.setValue(this.value());
     }
+  }
+
+  private slotClass(key: TngTabSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private cx(...parts: Array<TngSlotValue>): string {
+    return parts
+      .flatMap((p) => (Array.isArray(p) ? p : [p]))
+      .map((p) => (p ?? '').toString().trim())
+      .filter(Boolean)
+      .join(' ');
   }
 }

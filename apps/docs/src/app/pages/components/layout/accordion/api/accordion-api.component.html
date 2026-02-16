@@ -25,10 +25,10 @@
         </tng-table>
       </div>
     </section>
-    <section id="klass" class="flex flex-col gap-4 text-fg">
-      <h3 class="text-base font-semibold text-primary">Class hooks</h3>
+    <section id="slot" class="flex flex-col gap-4 text-fg">
+      <h3 class="text-base font-semibold text-primary">Styling (slot)</h3>
       <div class="rounded-md border text-fg">
-        <tng-table [rows]="klassRows()">
+        <tng-table [rows]="slotRows()">
           <tng-col id="property" header="Property" [value]="property"></tng-col>
           <tng-col id="type" header="Type" [value]="type"></tng-col>
           <tng-col id="default" header="Default" [value]="default"></tng-col>
@@ -36,14 +36,14 @@
         </tng-table>
       </div>
     </section>
-    <p class="text-sm text-muted">Content: place <span class="font-mono">tng-expansion-panel</span> components as direct (or descendant) children. See Expansion Panel API for panel inputs/outputs and class hooks.</p>
+    <p class="text-sm text-muted">Content: place <span class="font-mono">tng-expansion-panel</span> components as direct (or descendant) children. See Expansion Panel API for panel inputs/outputs and slot styling.</p>
   </section>
   <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
     <h3 class="mb-3 text-xs font-semibold tracking-wide">API Overview</h3>
     <ul class="space-y-2 text-sm text-fg">
       <li><a href="#inputs" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Inputs</a></li>
       <li><a href="#outputs" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Outputs</a></li>
-      <li><a href="#klass" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Class hooks</a></li>
+      <li><a href="#slot" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Styling (slot)</a></li>
     </ul>
   </aside>
 </div>

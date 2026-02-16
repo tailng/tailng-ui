@@ -1,19 +1,19 @@
 <div
-  [class]="rootClasses()"
+  [class]="containerClassFinal()"
   role="separator"
   [attr.aria-orientation]="orientation()"
 >
   @if (isVertical()) {
     <!-- Vertical divider -->
-    <div [class]="lineClasses()"></div>
+    <div [class]="lineClassFinal()"></div>
   } @else {
     <!-- Horizontal divider -->
     @if (!label()) {
-      <div class="w-full" [class]="lineClasses()"></div>
+      <div class="w-full" [class]="lineClassFinal()"></div>
     } @else {
-      <div [class]="leftGrow() + ' ' + lineClasses()"></div>
-      <span [class]="labelClasses()">{{ label() }}</span>
-      <div [class]="rightGrow() + ' ' + lineClasses()"></div>
+      <div [class]="leftGrow() + ' ' + lineClassFinal()"></div>
+      <span [class]="labelClassFinal()">{{ label() }}</span>
+      <div [class]="rightGrow() + ' ' + lineClassFinal()"></div>
     }
   }
 </div>

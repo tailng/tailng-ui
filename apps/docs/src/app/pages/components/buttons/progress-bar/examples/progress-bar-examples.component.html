@@ -1,1 +1,99 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Determinate</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">[value]</span> and <span class="font-mono">[max]</span> for percentage-based progress. Default max is 100.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="determinateHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="space-y-4">
+          <tng-progress-bar [value]="value" />
+          <tng-progress-bar [value]="75" />
+          <tng-progress-bar [value]="100" />
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Indeterminate</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">mode="indeterminate"</span> for loading states without a known percentage.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="indeterminateHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-progress-bar mode="indeterminate" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Custom max</h3>
+    <p class="text-sm text-fg">Override <span class="font-mono">[max]</span> for different scales. value=30, max=60 displays 50%.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="customMaxHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-progress-bar [value]="30" [max]="60" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Slot variants</h3>
+    <p class="text-sm text-fg">Use the <span class="font-mono">slot</span> input to customize track (background + size) and indicator (foreground) colors.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="slotVariantsHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="space-y-4">
+          <tng-progress-bar [value]="60" [slot]="{ track: 'bg-border h-2', indicator: 'bg-success' }" />
+          <tng-progress-bar [value]="80" [slot]="{ indicator: 'bg-danger' }" />
+          <tng-progress-bar [value]="50" [slot]="{ track: 'bg-alternate-background h-1', indicator: 'bg-fg/40' }" />
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Constrained width</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">slot.container</span> to limit the progress bar width (e.g. <span class="font-mono">w-64</span>).</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="constrainedWidthHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-progress-bar [value]="45" [slot]="{ container: 'w-64', track: 'bg-border h-2', indicator: 'bg-warning' }" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Disable animation</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">[disableAnimation]="true"</span> for reduced motion or when animation is unnecessary.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="disableAnimationHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-progress-bar mode="indeterminate" [disableAnimation]="true" />
+      </div>
+    </docs-example-block>
+  </div>
+</section>

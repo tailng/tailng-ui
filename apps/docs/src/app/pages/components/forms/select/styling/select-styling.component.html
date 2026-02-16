@@ -1,50 +1,225 @@
 <section class="space-y-6 text-fg">
+  <!-- Intro -->
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-select</span> exposes klass hooks:
-      <span class="font-mono">rootKlass</span>, <span class="font-mono">triggerKlass</span>,
-      <span class="font-mono">valueKlass</span>, <span class="font-mono">placeholderKlass</span>,
-      <span class="font-mono">iconKlass</span>.
+      The <span class="font-mono">tng-select</span> component uses slot-based micro styling via the
+      <span class="font-mono">slot</span> input. The slot object accepts keys:
+      <span class="font-mono">container</span>, <span class="font-mono">triggerButton</span>,
+      <span class="font-mono">triggerValue</span>, <span class="font-mono">triggerPlaceholder</span>,
+      <span class="font-mono">triggerIcon</span>, <span class="font-mono">overlayPanel</span>,
+      <span class="font-mono">optionListContainer</span>, <span class="font-mono">option</span>,
+      <span class="font-mono">optionActive</span>, <span class="font-mono">optionInactive</span>, and
+      <span class="font-mono">optionListEmpty</span>. Each slot targets a specific element in the component structure.
     </p>
   </div>
 
+  <!-- container slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-primary">triggerKlass</h3>
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
+      <tng-tag label="root wrapper"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">The root wrapper element. Default: relative.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="containerSlotHtml()"
+      [tsContent]="containerSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full">
+          <tng-select formControlName="fruit" [options]="fruits" [displayWith]="displayFruit" [slot]="containerSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- triggerButton slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">triggerButton slot</h3>
       <tng-tag label="trigger"></tng-tag>
     </div>
     <p class="text-sm text-fg">Applies to the trigger button (border, padding, focus ring).</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="triggerKlassHtml()"
+      [htmlContent]="triggerButtonSlotHtml()"
+      [tsContent]="triggerButtonSlotTs()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <form [formGroup]="form" class="w-full max-w-xs">
-          <tng-select
-            formControlName="fruit"
-            [options]="fruits"
-            [displayWith]="displayFruit"
-            placeholder="Choose…"
-            triggerKlass="w-full flex items-center justify-between border-2 border-primary rounded-lg px-4 py-2 text-sm bg-bg text-fg focus:ring-2 focus:ring-primary"
-          />
+          <tng-select formControlName="fruit" [options]="fruits" [displayWith]="displayFruit" [slot]="triggerButtonSlot" />
         </form>
       </div>
     </docs-example-block>
   </div>
 
+  <!-- triggerValue slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-primary">valueKlass & placeholderKlass</h3>
-      <tng-tag label="text"></tng-tag>
+      <h3 class="text-sm font-semibold text-primary">triggerValue slot</h3>
+      <tng-tag label="selected value text"></tng-tag>
     </div>
-    <p class="text-sm text-fg">Style the selected value and placeholder text.</p>
+    <p class="text-sm text-fg">Style the selected value text. Default: truncate text-left.</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="valuePlaceholderHtml()"
+      [htmlContent]="triggerValueSlotHtml()"
+      [tsContent]="triggerValueSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-xs">
+          <tng-select formControlName="fruit" [options]="fruits" [displayWith]="displayFruit" [slot]="triggerValueSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- triggerPlaceholder slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">triggerPlaceholder slot</h3>
+      <tng-tag label="placeholder"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Style the placeholder text when no value is selected. Default: text-disable.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="triggerPlaceholderSlotHtml()"
+      [tsContent]="triggerPlaceholderSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-xs">
+          <tng-select formControlName="fruit" [options]="fruits" [displayWith]="displayFruit" placeholder="Choose…" [slot]="triggerPlaceholderSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- triggerIcon slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">triggerIcon slot</h3>
+      <tng-tag label="dropdown icon"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Style the dropdown chevron icon. Default: ml-2 text-disable.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="triggerIconSlotHtml()"
+      [tsContent]="triggerIconSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-xs">
+          <tng-select formControlName="fruit" [options]="fruits" [displayWith]="displayFruit" [slot]="triggerIconSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- overlayPanel slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">overlayPanel slot</h3>
+      <tng-tag label="dropdown panel"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Style the dropdown panel (shadow, border, rounded corners).</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="overlayPanelSlotHtml()"
+      [tsContent]="overlayPanelSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-xs">
+          <tng-select formControlName="fruit" [options]="fruits" [displayWith]="displayFruit" [slot]="overlayPanelSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- option slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">option slot</h3>
+      <tng-tag label="dropdown option"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Base styles for each option in the dropdown list.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="optionSlotHtml()"
+      [tsContent]="optionSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-xs">
+          <tng-select formControlName="fruit" [options]="fruits" [displayWith]="displayFruit" [slot]="optionSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- optionActive slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">optionActive slot</h3>
+      <tng-tag label="active option"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Styles for the focused/highlighted option (keyboard or hover).</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="optionActiveSlotHtml()"
+      [tsContent]="optionActiveSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-xs">
+          <tng-select formControlName="fruit" [options]="fruits" [displayWith]="displayFruit" [slot]="optionActiveSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- optionListContainer & optionListEmpty -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">optionListContainer & optionListEmpty</h3>
+      <tng-tag label="list"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Style the option list container and empty-state message.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="optionListSlotHtml()"
+      [tsContent]="optionListSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-xs">
+          <tng-select formControlName="fruit" [options]="[]" [displayWith]="displayFruit" [slot]="optionListEmptySlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- Combined example -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Combined slot example</h3>
+    <p class="text-sm text-fg">Multiple slots applied together.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="combinedSlotHtml()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
@@ -53,9 +228,7 @@
             formControlName="fruit"
             [options]="fruits"
             [displayWith]="displayFruit"
-            placeholder="Pick one"
-            valueKlass="truncate text-left font-semibold text-primary"
-            placeholderKlass="text-disable italic"
+            [slot]="{ triggerButton: 'border-2 border-primary', overlayPanel: 'rounded-xl border-primary', optionActive: 'bg-primary text-on-primary' }"
           />
         </form>
       </div>

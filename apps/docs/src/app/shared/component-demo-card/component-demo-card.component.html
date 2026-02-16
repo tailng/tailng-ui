@@ -1,7 +1,6 @@
 <tng-card
   [routerLink]="routerLink()"
-  contentKlass="!px-0 !py-0"
-  rootKlass="h-[300px] cursor-pointer overflow-hidden"
+  [slot]="{ body: '!px-0 !py-0', container: 'h-[300px] cursor-pointer overflow-hidden' }"
 >
   <img
         [src]="imageUrl()"

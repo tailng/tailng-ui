@@ -12,15 +12,15 @@ export class SkeletonDemoComponent {
 
   // interactive inputs
   variant: 'text' | 'circular' | 'rectangular' = 'text';
-  widthKlass = 'w-full';
-  heightKlass = 'h-4';
+  widthClass = 'w-full';
+  heightClass = 'h-4';
 
   // escape hatch (exact CSS values)
   width = '';
   height = '';
 
-  // theming override
-  klass = '';
+  // theming override via slot
+  slotContainer = '';
 
   toggleShimmer() {
     this.shimmer = !this.shimmer;
@@ -33,27 +33,27 @@ export class SkeletonDemoComponent {
   preset(p: 'default' | 'subtle' | 'strong' | 'card') {
     switch (p) {
       case 'default':
-        this.klass = '';
-        this.widthKlass = 'w-full';
-        this.heightKlass = 'h-4';
+        this.slotContainer = '';
+        this.widthClass = 'w-full';
+        this.heightClass = 'h-4';
         this.width = '';
         this.height = '';
         this.variant = 'text';
         break;
 
       case 'subtle':
-        this.klass = 'bg-alternate-background/70';
+        this.slotContainer = 'bg-alternate-background/70';
         break;
 
       case 'strong':
-        this.klass = 'bg-border/90';
+        this.slotContainer = 'bg-border/90';
         break;
 
       case 'card':
         this.variant = 'rectangular';
-        this.widthKlass = 'w-full';
-        this.heightKlass = 'h-32';
-        this.klass = 'bg-border/70';
+        this.widthClass = 'w-full';
+        this.heightClass = 'h-32';
+        this.slotContainer = 'bg-border/70';
         this.width = '';
         this.height = '';
         break;
@@ -61,8 +61,8 @@ export class SkeletonDemoComponent {
   }
 
   useExactSize() {
-    this.widthKlass = '';
-    this.heightKlass = '';
+    this.widthClass = '';
+    this.heightClass = '';
     this.width = '240px';
     this.height = '14px';
   }
@@ -70,7 +70,11 @@ export class SkeletonDemoComponent {
   clearExactSize() {
     this.width = '';
     this.height = '';
-    if (!this.widthKlass) this.widthKlass = 'w-full';
-    if (!this.heightKlass) this.heightKlass = 'h-4';
+    if (!this.widthClass) this.widthClass = 'w-full';
+    if (!this.heightClass) this.heightClass = 'h-4';
+  }
+
+  get slot() {
+    return this.slotContainer ? { container: this.slotContainer } : {};
   }
 }

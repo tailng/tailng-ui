@@ -1,1 +1,51 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <!-- Intro -->
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      The <span class="font-mono">tng-skeleton</span> component uses slot-based micro styling via the
+      <span class="font-mono">slot</span> input. The slot object accepts a single key:
+      <span class="font-mono">container</span> (the root div). Use it for background overrides, border-radius overrides, or other Tailwind classes.
+      Width and height are controlled via <span class="font-mono">widthClass</span> and <span class="font-mono">heightClass</span> inputs.
+    </p>
+  </div>
+
+  <!-- container slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
+      <tng-tag label="root"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">The root element. Default: relative overflow-hidden bg-slate-200/70 dark:bg-slate-700/40. Use for background overrides (bg-border/50, bg-alternate-background/70).</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="containerSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-skeleton [slot]="{ container: 'bg-border/50' }" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- Combined example -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Combined example</h3>
+    <p class="text-sm text-fg">widthClass, heightClass, and slot.container together.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="combinedHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-skeleton
+          widthClass="w-64"
+          heightClass="h-6"
+          [slot]="{ container: 'bg-alternate-background/70 rounded-lg' }"
+        />
+      </div>
+    </docs-example-block>
+  </div>
+</section>

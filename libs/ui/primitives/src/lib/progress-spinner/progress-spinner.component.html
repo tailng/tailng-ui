@@ -1,5 +1,5 @@
 <div
-  [class]="rootKlass()"
+  [class]="containerClassFinal()"
   role="progressbar"
   [attr.aria-valuemin]="mode() === 'determinate' ? 0 : null"
   [attr.aria-valuemax]="mode() === 'determinate' ? max() : null"
@@ -7,8 +7,7 @@
 >
   <svg
     viewBox="0 0 100 100"
-    class="block"
-    [class]="sizeKlass()"
+    [class]="svgClassFinal()"
   >
     <!-- Track -->
     <circle
@@ -18,8 +17,7 @@
       fill="none"
       stroke="currentColor"
       [attr.stroke-width]="strokeWidth()"
-      class="opacity-30"
-      [class]="trackKlass()"
+      [class]="trackClassFinal()"
     ></circle>
 
     <!-- Indicator -->
@@ -33,11 +31,7 @@
       [attr.stroke-width]="strokeWidth()"
       [attr.stroke-dasharray]="circumference()"
       [attr.stroke-dashoffset]="progressOffset()"
-      [class]="
-        indicatorKlass() +
-        ' ' +
-        (mode() === 'indeterminate' ? 'tng-spinner-indeterminate' : '')
-      "
+      [class]="indicatorClassFinal()"
     ></circle>
   </svg>
 </div>

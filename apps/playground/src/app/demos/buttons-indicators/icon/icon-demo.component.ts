@@ -16,7 +16,7 @@ export class IconDemoComponent {
 
   dynamicName = this.iconNames.alarm;
   dynamicSize: number | string = 20;
-  dynamicKlass = 'text-slate-700';
+  dynamicSlot: { icon?: string } = { icon: 'text-slate-700' };
   decorative = true;
   ariaLabel = 'Alarm';
 }

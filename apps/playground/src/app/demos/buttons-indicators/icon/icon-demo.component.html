@@ -6,12 +6,12 @@
   <!-- Static examples -->
   <div class="flex items-center gap-6">
     <div class="flex items-center gap-2">
-      <tng-icon name="bootstrapAlarm" [size]="20" iconKlass="text-primary" />
+      <tng-icon name="bootstrapAlarm" [size]="20" [slot]="{ icon: 'text-primary' }" />
       <span class="text-sm">bootstrapAlarm</span>
     </div>
 
     <div class="flex items-center gap-2">
-      <tng-icon name="bootstrapBell" size="1.5em" iconKlass="text-danger" />
+      <tng-icon name="bootstrapBell" size="1.5em" [slot]="{ icon: 'text-danger' }" />
       <span class="text-sm">bootstrapBell</span>
     </div>
   </div>
@@ -23,7 +23,7 @@
       [decorative]="false"
       ariaLabel="Notifications"
       [size]="24"
-      iconKlass="text-slate-800"
+      [slot]="{ icon: 'text-slate-800' }"
     />
     <span class="text-sm">Accessible icon</span>
   </div>
@@ -48,7 +48,7 @@
     <tng-icon
       [name]="dynamicName"
       [size]="dynamicSize"
-      [iconKlass]="dynamicKlass"
+      [slot]="dynamicSlot"
       [decorative]="decorative"
       [ariaLabel]="ariaLabel"
     />

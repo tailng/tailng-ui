@@ -1,4 +1,4 @@
-<tng-card rootKlass="mx-6 md:mx-auto md:max-w-6xl py-4 px-4 space-y-6 mt-6">
+<tng-card [slot]="{ container: 'mx-6 md:mx-auto md:max-w-6xl py-4 px-4 space-y-6 mt-6' }">
   <div class="space-y-6">
     <div>
       <h1 class="text-4xl font-bold text-fg mb-2">Icons</h1>
@@ -10,7 +10,7 @@
 
     <div class="space-y-6 py-4">
       <!-- Intro -->
-      <tng-card rootKlass="rounded-lg border border-border bg-bg" contentKlass="p-4">
+      <tng-card [slot]="{ container: 'rounded-lg border border-border bg-bg', body: 'p-4' }">
         <pre class="text-sm whitespace-pre-wrap text-fg m-0">tailng icons are built on top of @ng-icons/core.
 
 - You install @tailng-ui/icons + @ng-icons/core (peer dependency)
@@ -26,8 +26,7 @@
           [options]="titleOptions"
           [value]="installStatus"
           (valueChange)="installStatus = $event"
-          groupKlass="!w-1/5"
-          buttonKlass="font-normal h-7 py-[0]"
+          [slot]="{ container: '!w-1/5', button: 'font-normal h-7 py-[0]' }"
         />
 
         <tng-code-block
@@ -40,7 +39,7 @@
           <tng-icon name="bootstrapCheck2Circle" size="1rem" tngCodeBlockCopied></tng-icon>
         </tng-code-block>
 
-        <tng-card rootKlass="mt-3 rounded-md border border-border bg-bg" contentKlass="p-3">
+        <tng-card [slot]="{ container: 'mt-3 rounded-md border border-border bg-bg', body: 'p-3' }">
           <pre class="text-sm whitespace-pre-wrap text-fg m-0">Why do I need to install @ng-icons/core?
 
 @tailng-ui/icons wraps ng-icons to keep bundles small and avoid shipping duplicated icon engines.
@@ -52,7 +51,7 @@ That's why @ng-icons/core is a peer dependency (you install it explicitly).</pre
       <div class="border rounded-lg p-4">
         <h2 class="text-xl font-semibold text-fg mb-2">2) Register icons</h2>
 
-        <tng-card rootKlass="rounded-lg border border-border bg-bg mb-4" contentKlass="p-4">
+        <tng-card [slot]="{ container: 'rounded-lg border border-border bg-bg mb-4', body: 'p-4' }">
           <pre class="text-sm whitespace-pre-wrap text-fg m-0">Before you can use an icon name (like "bootstrapCopy"), you must register that icon in the ng-icons registry.
 
 You can register:
@@ -194,7 +193,7 @@ You can register:
       <!-- Best practices -->
       <div>
         <h2 class="text-xl font-semibold text-fg mb-2">Best practices</h2>
-        <tng-card rootKlass="rounded-lg border border-border bg-bg" contentKlass="p-4">
+        <tng-card [slot]="{ container: 'rounded-lg border border-border bg-bg', body: 'p-4' }">
           <pre class="text-sm whitespace-pre-wrap text-fg m-0">Best practices
 
 - Register only the icons you use (better tree-shaking and smaller bundles)
@@ -206,7 +205,7 @@ You can register:
       <!-- Troubleshooting -->
       <div>
         <h2 class="text-xl font-semibold text-fg mb-2">Troubleshooting</h2>
-        <tng-card rootKlass="rounded-lg border border-border bg-bg" contentKlass="p-4">
+        <tng-card [slot]="{ container: 'rounded-lg border border-border bg-bg', body: 'p-4' }">
           <pre class="text-sm whitespace-pre-wrap text-fg m-0">Troubleshooting
 
 1) Icon doesn't render:

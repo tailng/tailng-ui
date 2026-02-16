@@ -1,55 +1,145 @@
 <section class="space-y-6 text-fg">
+  <!-- Intro -->
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-button-toggle</span> exposes klass hooks:
-      <span class="font-mono">groupKlass</span>,
-      <span class="font-mono">buttonKlass</span>, <span class="font-mono">activeButtonKlass</span>,
-      <span class="font-mono">inactiveButtonKlass</span>, <span class="font-mono">disabledButtonKlass</span>.
+      The <span class="font-mono">tng-button-toggle</span> component uses slot-based micro styling via the
+      <span class="font-mono">slot</span> input. The slot object accepts keys:
+      <span class="font-mono">container</span>, <span class="font-mono">button</span>,
+      <span class="font-mono">buttonActive</span>, <span class="font-mono">buttonInactive</span>, and
+      <span class="font-mono">buttonDisabled</span>. Each slot targets a specific element in the component structure.
     </p>
   </div>
 
+  <!-- container slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-primary">groupKlass</h3>
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
       <tng-tag label="group"></tng-tag>
     </div>
-    <p class="text-sm text-fg">Applies to the <span class="font-mono">role="group"</span> container (button row).</p>
+    <p class="text-sm text-fg">The root <span class="font-mono">role="group"</span> container (button row). Default: flex w-full overflow-hidden rounded-md border.</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="groupKlassHtml()"
+      [htmlContent]="containerSlotHtml()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <form [formGroup]="form" class="w-full max-w-md">
-          <tng-button-toggle formControlName="view" [options]="options" groupKlass="inline-flex rounded-lg border border-border overflow-hidden" />
+          <tng-button-toggle formControlName="view" [options]="options"
+            [slot]="{ container: 'inline-flex rounded-lg border-2 border-primary/30 overflow-hidden' }" />
         </form>
       </div>
     </docs-example-block>
   </div>
 
+  <!-- button slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-primary">activeButtonKlass & inactiveButtonKlass</h3>
-      <tng-tag label="buttons"></tng-tag>
+      <h3 class="text-sm font-semibold text-primary">button slot</h3>
+      <tng-tag label="base"></tng-tag>
     </div>
-    <p class="text-sm text-fg">Style the selected vs unselected buttons.</p>
+    <p class="text-sm text-fg">Base styles for all buttons. Applies in all states.</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="activeInactiveHtml()"
+      [htmlContent]="buttonSlotHtml()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <form [formGroup]="form" class="w-full max-w-md">
-          <tng-button-toggle
-            formControlName="view"
-            [options]="options"
-            buttonKlass="px-4 py-2 text-sm font-medium transition"
-            activeButtonKlass="bg-primary text-on-primary"
-            inactiveButtonKlass="bg-bg text-fg hover:bg-on-primary/10"
-          />
+          <tng-button-toggle formControlName="view" [options]="options"
+            [slot]="{ button: 'px-4 py-2 text-sm font-medium transition' }" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- buttonActive slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">buttonActive slot</h3>
+      <tng-tag label="selected"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Styles for the selected/active button.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="buttonActiveSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-md">
+          <tng-button-toggle formControlName="view" [options]="options"
+            [slot]="{ buttonActive: 'bg-primary text-on-primary' }" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- buttonInactive slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">buttonInactive slot</h3>
+      <tng-tag label="unselected"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Styles for unselected buttons.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="buttonInactiveSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-md">
+          <tng-button-toggle formControlName="view" [options]="options"
+            [slot]="{ buttonInactive: 'hover:bg-primary/20' }" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- buttonDisabled slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">buttonDisabled slot</h3>
+      <tng-tag label="disabled"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Styles for disabled buttons (when toggle or option is disabled).</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="buttonDisabledSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-md">
+          <tng-button-toggle formControlName="view" [options]="options"
+            [slot]="{ buttonDisabled: 'bg-slate-100 text-slate-400' }" [disabled]="true" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- Combined example -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Combined slot example</h3>
+    <p class="text-sm text-fg">Multiple slots applied together.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="combinedSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-md">
+          <tng-button-toggle formControlName="view" [options]="options"
+            [slot]="{
+              container: 'inline-flex rounded-xl border border-primary/30 overflow-hidden',
+              button: 'px-4 py-2 text-sm font-medium transition',
+              buttonActive: 'bg-primary text-on-primary',
+              buttonInactive: 'bg-bg text-fg hover:bg-on-primary/10'
+            }" />
         </form>
       </div>
     </docs-example-block>

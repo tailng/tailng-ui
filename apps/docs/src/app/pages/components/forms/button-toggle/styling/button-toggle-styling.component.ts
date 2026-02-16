@@ -27,22 +27,62 @@ export class ButtonToggleStylingComponent {
     view: new FormControl<string | null>('list'),
   });
 
-  readonly groupKlassHtml = computed(
+  readonly containerSlotHtml = computed(
     () => `
 <form [formGroup]="form">
   <tng-button-toggle formControlName="view" [options]="options"
-    groupKlass="inline-flex rounded-lg border border-border overflow-hidden" />
+    [slot]="{ container: 'inline-flex rounded-lg border-2 border-primary/30 overflow-hidden' }" />
 </form>
 `,
   );
 
-  readonly activeInactiveHtml = computed(
+  readonly buttonSlotHtml = computed(
     () => `
 <form [formGroup]="form">
   <tng-button-toggle formControlName="view" [options]="options"
-    buttonKlass="px-4 py-2 text-sm font-medium transition"
-    activeButtonKlass="bg-primary text-on-primary"
-    inactiveButtonKlass="bg-bg text-fg hover:bg-on-primary/10" />
+    [slot]="{ button: 'px-4 py-2 text-sm font-medium transition' }" />
+</form>
+`,
+  );
+
+  readonly buttonActiveSlotHtml = computed(
+    () => `
+<form [formGroup]="form">
+  <tng-button-toggle formControlName="view" [options]="options"
+    [slot]="{ buttonActive: 'bg-primary text-on-primary' }" />
+</form>
+`,
+  );
+
+  readonly buttonInactiveSlotHtml = computed(
+    () => `
+<form [formGroup]="form">
+  <tng-button-toggle formControlName="view" [options]="options"
+    [slot]="{ buttonInactive: 'hover:bg-primary/20' }" />
+</form>
+`,
+  );
+
+  readonly buttonDisabledSlotHtml = computed(
+    () => `
+<form [formGroup]="form">
+  <tng-button-toggle formControlName="view" [options]="options"
+    [slot]="{ buttonDisabled: 'bg-slate-100 text-slate-400' }"
+    [disabled]="true" />
+</form>
+`,
+  );
+
+  readonly combinedSlotHtml = computed(
+    () => `
+<form [formGroup]="form">
+  <tng-button-toggle formControlName="view" [options]="options"
+    [slot]="{
+      container: 'inline-flex rounded-xl border border-primary/30 overflow-hidden',
+      button: 'px-4 py-2 text-sm font-medium transition',
+      buttonActive: 'bg-primary text-on-primary',
+      buttonInactive: 'bg-bg text-fg hover:bg-on-primary/10'
+    }" />
 </form>
 `,
   );

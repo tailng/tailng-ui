@@ -55,15 +55,25 @@
   </div>
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
     <h3 class="text-sm font-semibold text-primary">Vertical tabs</h3>
-    <p class="text-sm text-fg">Set <span class="font-mono">orientation="vertical"</span> and use <span class="font-mono">rootKlass</span> / <span class="font-mono">listKlass</span> for layout (e.g. grid, flex-col).</p>
+    <p class="text-sm text-fg">Set <span class="font-mono">orientation="vertical"</span> and use <span class="font-mono">slot.container</span> / <span class="font-mono">slot.tabList</span> for layout (e.g. grid, flex-col).</p>
     <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="verticalHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-tabs orientation="vertical" defaultValue="profile" rootKlass="grid gap-6 md:grid-cols-[180px_1fr]" listKlass="flex flex-col gap-1 rounded-lg border border-border bg-bg p-2" panelKlass="pt-0">
-          <tng-tab value="profile" tabKlass="rounded-md px-3 py-2 text-sm font-medium" activeKlass="bg-primary text-on-primary" inactiveKlass="text-muted-foreground hover:text-foreground">
+        <tng-tabs
+          orientation="vertical"
+          defaultValue="profile"
+          [slot]="{ container: 'grid gap-6 md:grid-cols-[180px_1fr]', tabList: 'flex flex-col gap-1 rounded-lg border border-border bg-bg p-2', panelContainer: 'pt-0' }"
+        >
+          <tng-tab
+            value="profile"
+            [slot]="{ tab: 'rounded-md px-3 py-2 text-sm font-medium', active: 'bg-primary text-on-primary', inactive: 'text-muted-foreground hover:text-foreground' }"
+          >
             Profile
           </tng-tab>
-          <tng-tab value="team" tabKlass="rounded-md px-3 py-2 text-sm font-medium" activeKlass="bg-primary text-on-primary" inactiveKlass="text-muted-foreground hover:text-foreground">
+          <tng-tab
+            value="team"
+            [slot]="{ tab: 'rounded-md px-3 py-2 text-sm font-medium', active: 'bg-primary text-on-primary', inactive: 'text-muted-foreground hover:text-foreground' }"
+          >
             Team
           </tng-tab>
           <tng-tab-panel value="profile"><div class="rounded-lg border border-border bg-bg p-4 text-sm">Profile panel.</div></tng-tab-panel>

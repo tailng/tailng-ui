@@ -1,4 +1,4 @@
-<tng-card rootKlass="mx-6 md:mx-auto md:max-w-6xl py-4 px-4 space-y-6 mt-6">
+<tng-card [slot]="{ container: 'mx-6 md:mx-auto md:max-w-6xl py-4 px-4 space-y-6 mt-6' }">
   <div class="space-y-6">
     <div>
       <h1 class="text-4xl font-bold">Theme</h1>
@@ -8,7 +8,7 @@
     </div>
 
     <!-- Intro -->
-    <tng-card rootKlass="rounded-lg border border-border bg-bg" contentKlass="p-4 space-y-4">
+    <tng-card [slot]="{ container: 'rounded-lg border border-border bg-bg', body: 'p-4 space-y-4' }">
       <pre class="text-sm whitespace-pre-wrap text-fg m-0">tailng uses a token-based theming system built on CSS variables.
 
 You apply:
@@ -46,8 +46,7 @@ Avoid hard-coded Tailwind colors like bg-slate-* or text-slate-* because they br
         [options]="titleOptions"
         [value]="installStatus"
         (valueChange)="installStatus = $event"
-        groupKlass="!w-1/5"
-        buttonKlass="font-normal h-7 py-[0]"
+        [slot]="{ container: '!w-1/5', button: 'font-normal h-7 py-[0]' }"
       />
 
       <tng-code-block
@@ -64,7 +63,7 @@ Avoid hard-coded Tailwind colors like bg-slate-* or text-slate-* because they br
     <!-- Map -->
     <div>
       <h2 class="text-xl font-semibold mb-2">Where themes live</h2>
-      <tng-card rootKlass="rounded-lg border border-border bg-bg" contentKlass="p-4">
+      <tng-card [slot]="{ container: 'rounded-lg border border-border bg-bg', body: 'p-4' }">
         <pre class="text-sm whitespace-pre-wrap text-fg m-0">tailng provides tokens in:
 @tailng-ui/theme/tokens/index.css
 
@@ -79,7 +78,7 @@ src/styles.css</pre>
     <!-- Step 1 -->
     <div>
       <h2 class="text-xl font-semibold mb-2">Step 1: Create a theme file in your app</h2>
-      <tng-card rootKlass="rounded-lg border border-border bg-bg mb-4" contentKlass="p-4">
+      <tng-card [slot]="{ container: 'rounded-lg border border-border bg-bg mb-4', body: 'p-4' }">
         <pre class="text-sm whitespace-pre-wrap text-fg m-0">Step 1) Create a new theme file in your app
 
 Create:
@@ -103,7 +102,7 @@ theme-&lt;name&gt;  e.g. theme-mybrand, theme-acme, theme-foo</pre>
     <!-- Step 2 -->
     <div>
       <h2 class="text-xl font-semibold mb-2">Step 2: Import the theme globally</h2>
-      <tng-card rootKlass="rounded-lg border border-border bg-bg mb-4" contentKlass="p-4">
+      <tng-card [slot]="{ container: 'rounded-lg border border-border bg-bg mb-4', body: 'p-4' }">
         <pre class="text-sm whitespace-pre-wrap text-fg m-0">Step 2) Import it globally AFTER tailng tokens
 
 Order matters:
@@ -125,7 +124,7 @@ Order matters:
     <!-- Step 3 -->
     <div>
       <h2 class="text-xl font-semibold mb-2">Step 3: Activate your theme</h2>
-      <tng-card rootKlass="rounded-lg border border-border bg-bg mb-4" contentKlass="p-4">
+      <tng-card [slot]="{ container: 'rounded-lg border border-border bg-bg mb-4', body: 'p-4' }">
         <pre class="text-sm whitespace-pre-wrap text-fg m-0">Step 3) Activate your theme with one mode + one theme
 
 You must apply:
@@ -147,16 +146,16 @@ You must apply:
     <!-- Step 4 -->
     <div>
       <h2 class="text-xl font-semibold mb-2">Step 4: Use token-based utilities</h2>
-      <tng-card rootKlass="rounded-lg border border-border bg-bg mb-4" contentKlass="p-4">
+      <tng-card [slot]="{ container: 'rounded-lg border border-border bg-bg mb-4', body: 'p-4' }">
         <p class="text-sm text-fg m-0 mb-2">Step 4) Use token-based utilities in templates</p>
         <p class="text-sm text-fg m-0 mb-1 flex items-center gap-2">
-          <tng-icon name="bootstrapCheck" iconKlass="text-success shrink-0" [size]="18"></tng-icon>
+          <tng-icon name="bootstrapCheck" [slot]="{ icon: 'text-success shrink-0' }" [size]="18"></tng-icon>
           Correct:
         </p>
         <pre class="text-sm whitespace-pre-wrap text-fg m-0 ml-6 mb-3">- bg-bg / text-fg
 - components that use tokens (tailng)</pre>
         <p class="text-sm text-fg m-0 mb-1 flex items-center gap-2">
-          <tng-icon name="bootstrapX" iconKlass="text-danger shrink-0" [size]="18"></tng-icon>
+          <tng-icon name="bootstrapX" [slot]="{ icon: 'text-danger shrink-0' }" [size]="18"></tng-icon>
           Incorrect:
         </p>
         <pre class="text-sm whitespace-pre-wrap text-fg m-0 ml-6">- bg-slate-* / text-slate-* / text-white (hard-coded)</pre>
@@ -188,7 +187,7 @@ You must apply:
     <!-- Step 5 -->
     <div>
       <h2 class="text-xl font-semibold mb-2">Optional: Multiple brand themes</h2>
-      <tng-card rootKlass="rounded-lg border border-border bg-bg" contentKlass="p-4">
+      <tng-card [slot]="{ container: 'rounded-lg border border-border bg-bg', body: 'p-4' }">
         <pre class="text-sm whitespace-pre-wrap text-fg m-0">Optional) Multiple brand themes
 
 Create multiple files:
@@ -204,7 +203,7 @@ No rebuild required.</pre>
     <!-- Checklist -->
     <div>
       <h2 class="text-xl font-semibold mb-2">Checklist</h2>
-      <tng-card rootKlass="rounded-lg border border-border bg-bg" contentKlass="p-4">
+      <tng-card [slot]="{ container: 'rounded-lg border border-border bg-bg', body: 'p-4' }">
         <pre class="text-sm whitespace-pre-wrap text-fg m-0">Checklist
 
 - [ ] Created src/theme/theme-&lt;name&gt;.css
@@ -218,7 +217,7 @@ No rebuild required.</pre>
     <!-- Troubleshooting -->
     <div>
       <h2 class="text-xl font-semibold mb-2">Troubleshooting</h2>
-      <tng-card rootKlass="rounded-lg border border-border bg-bg" contentKlass="p-4">
+      <tng-card [slot]="{ container: 'rounded-lg border border-border bg-bg', body: 'p-4' }">
         <pre class="text-sm whitespace-pre-wrap text-fg m-0">Troubleshooting
 
 If the theme doesn't apply:

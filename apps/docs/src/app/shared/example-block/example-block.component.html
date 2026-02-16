@@ -34,27 +34,21 @@
   </div>
 
   <!-- Code Panel -->
-  <tng-expansion-panel rootKlass="border-0 mt-4" headerKlass="hidden" [open]="isCodePanelOpen()">
-    <tng-tabs defaultValue="html" tngExpansionContent>
+  <tng-expansion-panel [slot]="{ container: 'border-0 mt-4', header: 'hidden' }" [open]="isCodePanelOpen()">
+    <tng-tabs defaultValue="html" tngExpansionContent [slot]="{ panelContainer: 'pt-0' }">
       <tng-tab
         value="html"
-        tabKlass="px-3 py-2 text-sm font-medium cursor-pointer"
-        activeKlass="text-primary border-b-2 border-primary"
-        inactiveKlass="text-muted-foreground hover:text-foreground hover:bg-gray-50"
+        [slot]="{ tab: 'px-3 py-2 text-sm font-medium cursor-pointer', active: 'text-primary border-b-2 border-primary', inactive: 'text-muted-foreground hover:text-foreground hover:bg-gray-50' }"
         >HTML</tng-tab
       >
       <tng-tab
         value="ts"
-        tabKlass="px-3 py-2 text-sm font-medium cursor-pointer"
-        activeKlass="text-primary border-b-2 border-primary"
-        inactiveKlass="text-muted-foreground hover:text-foreground hover:bg-gray-50"
+        [slot]="{ tab: 'px-3 py-2 text-sm font-medium cursor-pointer', active: 'text-primary border-b-2 border-primary', inactive: 'text-muted-foreground hover:text-foreground hover:bg-gray-50' }"
         >TS</tng-tab
       >
       <tng-tab
         value="css"
-        tabKlass="px-3 py-2 text-sm font-medium cursor-pointer"
-        activeKlass="text-primary border-b-2 border-primary"
-        inactiveKlass="text-muted-foreground hover:text-foreground hover:bg-gray-50"
+        [slot]="{ tab: 'px-3 py-2 text-sm font-medium cursor-pointer', active: 'text-primary border-b-2 border-primary', inactive: 'text-muted-foreground hover:text-foreground hover:bg-gray-50' }"
         >CSS</tng-tab
       >
       <tng-tab-panel value="html">

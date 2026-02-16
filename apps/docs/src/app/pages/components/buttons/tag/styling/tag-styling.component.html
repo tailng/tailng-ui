@@ -1,13 +1,15 @@
 <section class="space-y-6 text-fg">
+  <!-- Intro -->
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-tag</span> has no class-hook inputs. Appearance is controlled by the
-      <span class="font-mono">color</span> input (default, primary, success, danger). Each variant applies
-      its own background and text classes internally.
+      The <span class="font-mono">tng-tag</span> component uses slot-based micro styling via the
+      <span class="font-mono">slot</span> input. The slot object accepts the <span class="font-mono">container</span> key
+      for the root span element. Default styles come from the <span class="font-mono">color</span> variant; use the slot to override or extend.
     </p>
   </div>
 
+  <!-- Color variants (existing) -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <h3 class="text-sm font-semibold text-primary">Color variants</h3>
     <p class="text-sm text-fg">Use the <span class="font-mono">color</span> input to switch variants.</p>
@@ -24,6 +26,46 @@
           <tng-tag label="Success" color="success"></tng-tag>
           <tng-tag label="Danger" color="danger"></tng-tag>
         </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- container slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
+      <tng-tag label="root"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Applies to the root span. Use for shadow, ring, rounded overrides, or spacing.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="containerSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-tag label="Custom" [slot]="{ container: 'shadow-md ring-1 ring-gray-200' }"></tng-tag>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- Combined example -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Combined slot example</h3>
+    <p class="text-sm text-fg">Slot with color variant for a pill-style tag.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="combinedSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-tag
+          label="Rounded pill"
+          color="primary"
+          [slot]="{ container: 'rounded-full px-4' }"
+        >
+        </tng-tag>
       </div>
     </docs-example-block>
   </div>

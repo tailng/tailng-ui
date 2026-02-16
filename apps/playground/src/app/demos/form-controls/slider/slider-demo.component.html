@@ -32,8 +32,7 @@
       [max]="100"
       [value]="brightness()"
       (valueChange)="brightness.set($event)"
-      trackKlass="h-3"
-      thumbKlass="h-5 w-5"
+      [slot]="{ track: 'h-3', thumb: 'h-5 w-5' }"
     />
 
     <p class="text-xs text-disable">Value: {{ brightness() }}</p>

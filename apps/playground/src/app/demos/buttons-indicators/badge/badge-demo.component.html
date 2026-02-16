@@ -191,25 +191,23 @@
 
   <!-- 10) Class hooks -->
   <section class="space-y-3">
-    <h3 class="text-sm font-semibold text-slate-700">Class hooks (badgeKlass / hostKlass / rootKlass)</h3>
+    <h3 class="text-sm font-semibold text-slate-700">Slot styling (container / anchor / badge)</h3>
 
     <div class="flex flex-wrap items-center gap-6">
       <tng-badge
         [value]="count"
         variant="danger"
-        rootKlass="block"
-        hostKlass="relative inline-flex"
-        badgeKlass="shadow-md"
+        [slot]="{ container: 'block', anchor: 'relative inline-flex', badge: 'shadow-md' }"
       >
         <button class="rounded-md border border-border px-3 py-2 text-sm">
-          badgeKlass=shadow-md
+          badge slot=shadow-md
         </button>
       </tng-badge>
 
       <tng-badge
         value="HOT"
         variant="warning"
-        badgeKlass="uppercase tracking-wide"
+        [slot]="{ badge: 'uppercase tracking-wide' }"
       >
         <button class="rounded-md border border-border px-3 py-2 text-sm">
           uppercase + tracking
@@ -223,16 +221,24 @@
     <h3 class="text-sm font-semibold text-slate-700">Badge-only usage</h3>
 
     <div class="flex flex-wrap items-center gap-6">
-      <tng-badge [value]="count" variant="danger" rootKlass="inline-flex" hostKlass="relative inline-flex h-8 w-8 items-center justify-center rounded-md border border-border">
-        <!-- empty projected content is allowed; hostKlass provides a box -->
+      <tng-badge
+        [value]="count"
+        variant="danger"
+        [slot]="{ container: 'inline-flex', anchor: 'relative inline-flex h-8 w-8 items-center justify-center rounded-md border border-border' }"
+      >
+        <!-- empty projected content is allowed; anchor slot provides a box -->
       </tng-badge>
 
-      <tng-badge dot variant="primary" rootKlass="inline-flex" hostKlass="relative inline-flex h-8 w-8 items-center justify-center rounded-md border border-border">
+      <tng-badge
+        dot
+        variant="primary"
+        [slot]="{ container: 'inline-flex', anchor: 'relative inline-flex h-8 w-8 items-center justify-center rounded-md border border-border' }"
+      >
       </tng-badge>
     </div>
 
     <p class="text-xs text-slate-500">
-      Badge-only works if you provide a visible host via hostKlass.
+      Badge-only works if you provide a visible host via the anchor slot.
     </p>
   </section>
 </div>

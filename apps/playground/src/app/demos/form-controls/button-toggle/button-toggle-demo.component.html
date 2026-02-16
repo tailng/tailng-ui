@@ -11,8 +11,7 @@
       [options]="sizeOptions"
       [formControl]="sizeControl"
       [allowDeselect]="true"
-      rootKlass="block w-full"
-      groupKlass="w-full"
+      [slot]="{ container: 'block w-full' }"
     />
 
 
@@ -35,8 +34,7 @@
       [multiple]="true"
       [formControl]="featuresControl"
       [allowDeselect]="true"
-      rootKlass="block w-full"
-      groupKlass="w-full"
+      [slot]="{ container: 'block w-full' }"
     />
 
     <p class="text-xs text-slate-500">
@@ -59,8 +57,7 @@
       [options]="statusOptions"
       [value]="status"
       (valueChange)="status = $event"
-      rootKlass="block w-full"
-      groupKlass="w-full"
+      [slot]="{ container: 'block w-full' }"
     />
 
     <p class="text-xs text-slate-500">

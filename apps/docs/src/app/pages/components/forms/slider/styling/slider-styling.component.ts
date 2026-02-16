@@ -21,26 +21,62 @@ export class SliderStylingComponent {
     val: new FormControl(40, { nonNullable: true }),
   });
 
-  readonly rootKlassHtml = computed(
+  readonly containerSlotHtml = computed(
     () => `
 <form [formGroup]="form">
-  <tng-slider formControlName="val" rootKlass="w-full p-4 rounded-xl border-2 border-primary/30" />
+  <tng-slider formControlName="val"
+    [slot]="{ container: 'w-full p-4 rounded-xl border-2 border-primary/30' }" />
 </form>
 `,
   );
 
-  readonly trackFillHtml = computed(
+  readonly trackWrapperSlotHtml = computed(
     () => `
 <form [formGroup]="form">
-  <tng-slider formControlName="val" trackKlass="h-3 bg-on-primary/50" fillKlass="bg-primary" />
+  <tng-slider formControlName="val"
+    [slot]="{ trackWrapper: 'relative w-full h-10' }" />
 </form>
 `,
   );
 
-  readonly thumbKlassHtml = computed(
+  readonly trackFillSlotHtml = computed(
     () => `
 <form [formGroup]="form">
-  <tng-slider formControlName="val" thumbKlass="h-5 w-5 shadow-lg border-2 border-primary" />
+  <tng-slider formControlName="val"
+    [slot]="{ track: 'h-3 bg-on-primary/50', trackFill: 'bg-primary' }" />
+</form>
+`,
+  );
+
+  readonly thumbSlotHtml = computed(
+    () => `
+<form [formGroup]="form">
+  <tng-slider formControlName="val"
+    [slot]="{ thumb: 'h-5 w-5 shadow-lg border-2 border-primary' }" />
+</form>
+`,
+  );
+
+  readonly valueTextSlotHtml = computed(
+    () => `
+<form [formGroup]="form">
+  <tng-slider formControlName="val"
+    [slot]="{ valueText: 'mt-1 text-sm font-medium text-primary' }" />
+</form>
+`,
+  );
+
+  readonly combinedSlotHtml = computed(
+    () => `
+<form [formGroup]="form">
+  <tng-slider formControlName="val"
+    [slot]="{
+      container: 'w-full p-4 rounded-xl border border-primary/30',
+      track: 'h-3 bg-on-primary/50',
+      trackFill: 'bg-primary',
+      thumb: 'h-5 w-5 shadow-lg border-2 border-primary',
+      valueText: 'mt-1 text-sm font-medium text-primary'
+    }" />
 </form>
 `,
   );

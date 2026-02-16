@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { TngSelect } from '@tailng-ui/ui/form';
+import { TngSelect, TngSelectSlot, TngSlotMap } from '@tailng-ui/ui/form';
 
 interface Country {
   code: string;
@@ -45,6 +45,19 @@ export class SelectDemoComponent {
 
   lastCloseReason = signal<string>('-');
   lastCloseReason2 = signal<string>('-');
+
+  /** Slot-based styling example */
+  selectSlot: TngSlotMap<TngSelectSlot> = {
+    triggerButton: 'border border-border rounded-md focus:ring-2 focus:ring-primary',
+    overlayPanel: 'rounded-lg shadow-lg',
+    optionActive: 'bg-primary/10',
+  };
+
+  selectSlot2: TngSlotMap<TngSelectSlot> = {
+    overlayPanel: 'rounded-xl border border-primary',
+    option: 'px-4 py-2',
+    optionActive: 'bg-primary text-on-primary',
+  };
 
   displayCountry = (c: Country) => `${c.name} (${c.dialCode})`;
 

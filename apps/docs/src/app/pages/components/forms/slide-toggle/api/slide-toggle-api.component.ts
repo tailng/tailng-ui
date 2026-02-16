@@ -24,20 +24,12 @@ export class SlideToggleApiComponent implements AfterViewInit {
     { property: 'required', type: 'boolean', default: 'false', description: 'Required (HTML)' },
     { property: 'checked', type: 'boolean | null', default: 'null', description: 'Controlled value (optional)' },
     { property: 'checkedChange', type: 'OutputEventEmitter<boolean>', default: '—', description: 'Emits when toggled' },
-    { property: 'rootKlass', type: 'string', default: "'inline-flex items-center gap-2 select-none'", description: 'Root wrapper' },
-    { property: 'labelKlass', type: 'string', default: "'text-sm text-fg'", description: 'Label span' },
-    { property: 'inputKlass', type: 'string', default: "'sr-only'", description: 'Hidden input (accessibility)' },
-    { property: 'trackKlass', type: 'string', default: "''", description: 'Track base (both states)' },
-    { property: 'trackOnKlass', type: 'string', default: "''", description: 'Track when on (e.g. bg-primary)' },
-    { property: 'trackOffKlass', type: 'string', default: "''", description: 'Track when off (e.g. bg-on-primary)' },
-    { property: 'thumbKlass', type: 'string', default: "''", description: 'Thumb base (both states)' },
-    { property: 'thumbOnKlass', type: 'string', default: "''", description: 'Thumb when on' },
-    { property: 'thumbOffKlass', type: 'string', default: "''", description: 'Thumb when off' },
+    { property: 'slot', type: 'TngSlotMap<TngSlideToggleSlot>', default: '{}', description: 'Slot-based micro styling (container, label, input, track, trackChecked, trackUnchecked, thumb, thumbChecked, thumbUnchecked)' },
   ];
   readonly identityRows = signal<displayDetails[]>(this.seed.filter((p) => ['id', 'name', 'label'].includes(p.property)));
   readonly stateRows = signal<displayDetails[]>(this.seed.filter((p) => ['disabled', 'required', 'checked'].includes(p.property)));
   readonly outputRows = signal<displayDetails[]>(this.seed.filter((p) => p.property === 'checkedChange'));
-  readonly klassRows = signal<displayDetails[]>(this.seed.filter((p) => ['rootKlass', 'labelKlass', 'inputKlass', 'trackKlass', 'trackOnKlass', 'trackOffKlass', 'thumbKlass', 'thumbOnKlass', 'thumbOffKlass'].includes(p.property)));
+  readonly stylingRows = signal<displayDetails[]>(this.seed.filter((p) => p.property === 'slot'));
   readonly property = (r: displayDetails) => r.property;
   readonly type = (r: displayDetails) => r.type;
   readonly default = (r: displayDetails) => r.default;

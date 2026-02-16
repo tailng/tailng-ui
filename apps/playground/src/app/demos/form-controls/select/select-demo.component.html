@@ -15,6 +15,7 @@
       placeholder="Choose a country…"
       [formControl]="countryCtrl"
       (closed)="onClosed($event)"
+      [slot]="selectSlot"
     />
 
     <div class="flex items-center gap-3">
@@ -57,7 +58,7 @@
   <div class="space-y-3">
     <label class="block text-sm font-medium text-gray-700">Country</label>
 
-    <tng-select [options]="countries2()" [displayWith]="displayCountry2" [formControl]="countryCtrl2" (closed)="onClosed2($event)">
+    <tng-select [options]="countries2()" [displayWith]="displayCountry2" [formControl]="countryCtrl2" (closed)="onClosed2($event)" [slot]="selectSlot2">
       <ng-template #valueTpl let-item>
         <div class="flex items-center gap-2">
           <span class="opacity-70">({{ item.code }})</span>

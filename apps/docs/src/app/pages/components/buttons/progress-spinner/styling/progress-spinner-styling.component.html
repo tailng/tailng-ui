@@ -1,1 +1,115 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <!-- Intro -->
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      The <span class="font-mono">tng-progress-spinner</span> component uses slot-based micro styling via the
+      <span class="font-mono">slot</span> input. The slot object accepts keys:
+      <span class="font-mono">container</span> (root wrapper),
+      <span class="font-mono">svg</span> (SVG element for size),
+      <span class="font-mono">track</span> (background circle), and
+      <span class="font-mono">indicator</span> (foreground stroke). Each slot targets a specific element. The indicator uses <span class="font-mono">currentColor</span> via SVG stroke, so use <span class="font-mono">text-*</span> utilities for colors.
+    </p>
+  </div>
+
+  <!-- container slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
+      <tng-tag label="wrapper"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Root wrapper. Default: inline-flex. Use for layout (e.g. padding, alignment, centering).</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="containerSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-progress-spinner [slot]="{ container: 'inline-flex items-center justify-center p-4' }" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- svg slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">svg slot</h3>
+      <tng-tag label="size"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">The SVG element. Default: block w-6 h-6. Use for size (w-8 h-8, w-10 h-10, w-14 h-14).</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="svgSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-progress-spinner [slot]="{ svg: 'w-10 h-10' }" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- track slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">track slot</h3>
+      <tng-tag label="background"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">The track circle (background). Default: opacity-30 text-border. Use for opacity and color (opacity-20, text-fg/50).</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="trackSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-progress-spinner [slot]="{ track: 'opacity-20 text-fg/50' }" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- indicator slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">indicator slot</h3>
+      <tng-tag label="foreground"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">The indicator stroke (foreground). Default: text-primary. Uses currentColor via SVG stroke. Use for color variants (text-success, text-danger, text-info, text-fg/40).</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="indicatorSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-progress-spinner mode="determinate" [value]="60" [slot]="{ indicator: 'text-success' }" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- Combined example -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Combined slot example</h3>
+    <p class="text-sm text-fg">Multiple slots applied together.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="combinedSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-progress-spinner
+          mode="determinate"
+          [value]="70"
+          [slot]="{
+            container: 'p-6',
+            svg: 'w-14 h-14',
+            track: 'opacity-20 text-border',
+            indicator: 'text-info'
+          }"
+        />
+      </div>
+    </docs-example-block>
+  </div>
+</section>

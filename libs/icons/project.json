@@ -15,6 +15,14 @@
       "options": {
         "lintFilePatterns": ["libs/icons/**/*.ts", "libs/icons/**/*.html"]
       }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/icons"],
+      "options": {
+        "jestConfig": "libs/icons/jest.config.ts",
+        "passWithNoTests": true
+      }
     }
   },
   "tags": []

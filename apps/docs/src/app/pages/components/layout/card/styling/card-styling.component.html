@@ -1,23 +1,33 @@
 <section class="space-y-6 text-fg">
+  <!-- Intro -->
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-card</span> exposes rootKlass, headerKlass, contentKlass, and footerKlass.
-      Default root has border, rounded-lg, shadow; header/footer have border-b/border-t.
+      The <span class="font-mono">tng-card</span> component uses slot-based micro styling via the
+      <span class="font-mono">slot</span> input. The slot object accepts keys:
+      <span class="font-mono">container</span> (root wrapper),
+      <span class="font-mono">header</span>,
+      <span class="font-mono">body</span>,
+      <span class="font-mono">footer</span>.
+      Defaults: container has border, rounded-lg, shadow; header/footer have border-b/border-t; body has px-4 py-4.
     </p>
   </div>
 
+  <!-- container slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">rootKlass</h3>
-    <p class="text-sm text-fg">Customize the card container.</p>
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
+      <tng-tag label="wrapper"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Root wrapper. Default: block rounded-lg border border-border bg-bg text-fg shadow-sm. Use for border, shadow, width (max-w-sm, w-64).</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="rootHtml()"
+      [htmlContent]="containerSlotHtml()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-card rootKlass="border-2 border-primary" class="max-w-sm">
+        <tng-card [slot]="{ container: 'border-2 border-primary shadow-lg' }" class="max-w-sm">
           <div tngCardHeader>Header</div>
           <p class="text-sm">Content</p>
         </tng-card>
@@ -25,20 +35,96 @@
     </docs-example-block>
   </div>
 
+  <!-- header slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">headerKlass / footerKlass</h3>
-    <p class="text-sm text-fg">Style the header and footer sections.</p>
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">header slot</h3>
+      <tng-tag label="header"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Header section. Default: border-b border-border px-4 py-3. Use for background, font weight, padding.</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="headerFooterHtml()"
+      [htmlContent]="headerSlotHtml()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-card class="max-w-sm" headerKlass="bg-primary/10 font-bold" footerKlass="text-xs text-muted">
+        <tng-card class="max-w-sm" [slot]="{ header: 'bg-primary/10 font-bold' }">
           <div tngCardHeader>Styled header</div>
           <p class="text-sm">Content</p>
+        </tng-card>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- body slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">body slot</h3>
+      <tng-tag label="body"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Body section. Default: px-4 py-4. Use for padding, spacing (space-y-3), background overrides.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="bodySlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-card class="max-w-sm" [slot]="{ body: 'space-y-3 bg-alternate-background/30 p-6' }">
+          <div tngCardHeader>Header</div>
+          <p class="text-sm">Body with custom padding and background.</p>
+        </tng-card>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- footer slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">footer slot</h3>
+      <tng-tag label="footer"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Footer section. Default: border-t border-border px-4 py-3. Use for background, text size, border.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="footerSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-card class="max-w-sm" [slot]="{ footer: 'bg-primary/5 text-xs text-muted' }">
+          <div tngCardHeader>Header</div>
+          <p class="text-sm">Content</p>
           <div tngCardFooter>Styled footer</div>
+        </tng-card>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- Combined example -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Combined slot example</h3>
+    <p class="text-sm text-fg">All slots applied together.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="combinedSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-card
+          class="max-w-sm"
+          [slot]="{
+            container: 'border-2 border-primary/50',
+            header: 'bg-primary/10 font-semibold',
+            body: 'p-6 space-y-2',
+            footer: 'border-t-2 border-primary/30 pt-4'
+          }"
+        >
+          <div tngCardHeader>Card title</div>
+          <p class="text-sm">Body content.</p>
+          <div tngCardFooter>Footer</div>
         </tng-card>
       </div>
     </docs-example-block>

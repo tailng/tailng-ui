@@ -1,112 +1,177 @@
 <section class="space-y-6 text-fg">
+  <!-- Intro -->
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-slide-toggle</span> exposes
-      <span class="font-mono">rootKlass</span>, <span class="font-mono">labelKlass</span>, <span class="font-mono">inputKlass</span>;
-      base <span class="font-mono">trackKlass</span> / <span class="font-mono">thumbKlass</span> (both states);
-      and per-state <span class="font-mono">trackOnKlass</span>, <span class="font-mono">trackOffKlass</span>,
-      <span class="font-mono">thumbOnKlass</span>, <span class="font-mono">thumbOffKlass</span>.
+      The <span class="font-mono">tng-slide-toggle</span> component uses slot-based micro styling via the
+      <span class="font-mono">slot</span> input. The slot object accepts keys:
+      <span class="font-mono">container</span>, <span class="font-mono">label</span>, <span class="font-mono">input</span>,
+      <span class="font-mono">track</span>, <span class="font-mono">trackChecked</span>, <span class="font-mono">trackUnchecked</span>,
+      <span class="font-mono">thumb</span>, <span class="font-mono">thumbChecked</span>, and <span class="font-mono">thumbUnchecked</span>.
+      Each slot targets a specific element in the component structure.
     </p>
   </div>
 
+  <!-- container slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-primary">rootKlass</h3>
-      <tng-tag label="wrapper"></tng-tag>
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
+      <tng-tag label="root wrapper"></tng-tag>
     </div>
-    <p class="text-sm text-fg">Applies to the root wrapper. Default: inline-flex items-center gap-2 select-none.</p>
+    <p class="text-sm text-fg">The root <span class="font-mono">&lt;label&gt;</span>. Default: inline-flex items-center gap-2 select-none.</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="rootKlassHtml()"
+      [htmlContent]="containerSlotHtml()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <form [formGroup]="form">
-          <tng-slide-toggle formControlName="on" label="Custom root" rootKlass="inline-flex items-center gap-3 p-2 rounded-lg border-2 border-primary/30" />
+          <tng-slide-toggle formControlName="on" label="Custom container"
+            [slot]="{ container: 'inline-flex items-center gap-3 p-2 rounded-lg border-2 border-primary/30' }" />
         </form>
       </div>
     </docs-example-block>
   </div>
 
+  <!-- label slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-primary">trackKlass</h3>
-      <tng-tag label="track"></tng-tag>
+      <h3 class="text-sm font-semibold text-primary">label slot</h3>
+      <tng-tag label="label text"></tng-tag>
     </div>
-    <p class="text-sm text-fg">Applies to the track (pill background). Use for color or size.</p>
+    <p class="text-sm text-fg">The label <span class="font-mono">&lt;span&gt;</span>. Default: text-sm text-fg.</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="trackKlassHtml()"
+      [htmlContent]="labelSlotHtml()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <form [formGroup]="form">
-          <tng-slide-toggle formControlName="on" label="Wide track" trackKlass="h-4 w-14" />
+          <tng-slide-toggle formControlName="on" label="Custom label"
+            [slot]="{ label: 'text-lg font-bold text-primary' }" />
         </form>
       </div>
     </docs-example-block>
   </div>
 
+  <!-- input slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-primary">thumbKlass</h3>
-      <tng-tag label="thumb"></tng-tag>
+      <h3 class="text-sm font-semibold text-primary">input slot</h3>
+      <tng-tag label="checkbox"></tng-tag>
     </div>
-    <p class="text-sm text-fg">Applies to the thumb (moving circle). Use for size or shadow.</p>
+    <p class="text-sm text-fg">The hidden checkbox (accessibility). Default: sr-only.</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="thumbKlassHtml()"
+      [htmlContent]="inputSlotHtml()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <form [formGroup]="form">
-          <tng-slide-toggle formControlName="on" label="Large thumb" thumbKlass="h-4 w-4 shadow-lg" />
+          <tng-slide-toggle formControlName="on" label="Custom input"
+            [slot]="{ input: 'sr-only focus:ring-2' }" />
         </form>
       </div>
     </docs-example-block>
   </div>
 
+  <!-- track slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-primary">trackOnKlass / trackOffKlass, thumbOnKlass / thumbOffKlass</h3>
-      <tng-tag label="on/off"></tng-tag>
+      <h3 class="text-sm font-semibold text-primary">track slot</h3>
+      <tng-tag label="pill background"></tng-tag>
     </div>
-    <p class="text-sm text-fg">Per-state overrides when toggle is on vs off. Merged with base track/thumb and component defaults.</p>
+    <p class="text-sm text-fg">Base styles for the track (pill). Applies in both checked/unchecked states.</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="trackThumbOnOffHtml()"
+      [htmlContent]="trackSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form">
+          <tng-slide-toggle formControlName="on" label="Wide track"
+            [slot]="{ track: 'h-4 w-14' }" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- trackChecked & trackUnchecked slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">trackChecked & trackUnchecked, thumbChecked & thumbUnchecked slot</h3>
+      <tng-tag label="per-state"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Per-state overrides when toggle is checked vs unchecked. Merged with base track/thumb and component defaults.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="trackCheckedUncheckedSlotHtml()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <form [formGroup]="form">
           <tng-slide-toggle formControlName="on" label="Themed by state"
-            trackOffKlass="bg-bg border-primary" trackOnKlass="bg-primary border-primary"
-            thumbOffKlass="bg-primary" thumbOnKlass="bg-on-primary" />
+            [slot]="{
+              trackChecked: 'bg-primary border-primary',
+              trackUnchecked: 'bg-bg border-primary',
+              thumbChecked: 'bg-on-primary',
+              thumbUnchecked: 'bg-primary'
+            }" />
         </form>
       </div>
     </docs-example-block>
   </div>
 
+  <!-- thumb slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-primary">labelKlass</h3>
-      <tng-tag label="label text"></tng-tag>
+      <h3 class="text-sm font-semibold text-primary">thumb slot</h3>
+      <tng-tag label="moving circle"></tng-tag>
     </div>
-    <p class="text-sm text-fg">Applies to the label <span class="font-mono">&lt;span&gt;</span>. Default: text-sm text-fg.</p>
+    <p class="text-sm text-fg">Base styles for the thumb (moving circle). Applies in both checked/unchecked states.</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="labelKlassHtml()"
+      [htmlContent]="thumbSlotHtml()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <form [formGroup]="form">
-          <tng-slide-toggle formControlName="on" label="Custom label" labelKlass="text-lg font-bold text-primary" />
+          <tng-slide-toggle formControlName="on" label="Large thumb"
+            [slot]="{ thumb: 'h-6 w-6 shadow-lg' }" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- Combined example -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Combined slot example</h3>
+    <p class="text-sm text-fg">Multiple slots applied together.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="combinedSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form">
+          <tng-slide-toggle formControlName="on" label="All slots"
+            [slot]="{
+              container: 'inline-flex items-center gap-3 p-2 rounded-xl border border-primary/30',
+              label: 'text-sm font-medium text-primary',
+              track: 'h-4 w-14',
+              trackChecked: 'bg-primary border-primary',
+              trackUnchecked: 'bg-bg border-primary',
+              thumb: 'shadow-md',
+              thumbChecked: 'bg-on-primary',
+              thumbUnchecked: 'bg-primary'
+            }" />
         </form>
       </div>
     </docs-example-block>

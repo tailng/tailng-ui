@@ -63,7 +63,7 @@ export class QuickStartComponent {
 `;
 
   // 4) Card example
-  cardExample = `<tng-card rootKlass="max-w-sm p-4 space-y-3">
+  cardExample = `<tng-card [slot]="{ container: 'max-w-sm p-4 space-y-3' }">
   <h3 class="text-lg font-semibold">Card title</h3>
   <p class="text-slate-600">
     Cards are layout primitives with sensible defaults.

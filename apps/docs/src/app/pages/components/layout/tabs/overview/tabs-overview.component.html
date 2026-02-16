@@ -3,7 +3,7 @@
     <div id="overview" class="rounded-xl border bg-bg p-6 shadow-sm space-y-3 text-fg">
       <h2 class="text-base font-semibold text-primary">Overview</h2>
       <p class="text-sm leading-6 text-muted">
-        <span class="font-mono text-primary/20">tng-tabs</span> is a headless tab container. Use <span class="font-mono text-primary/20">tng-tab</span> with <span class="font-mono text-primary/20">value</span> for each tab and <span class="font-mono text-primary/20">tng-tab-panel</span> with matching <span class="font-mono text-primary/20">value</span> for content. Control active tab via <span class="font-mono text-primary/20">value</span> / <span class="font-mono text-primary/20">valueChange</span> (controlled) or <span class="font-mono text-primary/20">defaultValue</span> (uncontrolled). <span class="font-mono text-primary/20">orientation</span> can be horizontal or vertical. Class hooks: rootKlass, listKlass, panelKlass on the container; tabKlass, activeKlass, inactiveKlass, disabledKlass on each <span class="font-mono text-primary/20">tng-tab</span>.
+        <span class="font-mono text-primary/20">tng-tabs</span> is a headless tab container. Use <span class="font-mono text-primary/20">tng-tab</span> with <span class="font-mono text-primary/20">value</span> for each tab and <span class="font-mono text-primary/20">tng-tab-panel</span> with matching <span class="font-mono text-primary/20">value</span> for content. Control active tab via <span class="font-mono text-primary/20">value</span> / <span class="font-mono text-primary/20">valueChange</span> (controlled) or <span class="font-mono text-primary/20">defaultValue</span> (uncontrolled). <span class="font-mono text-primary/20">orientation</span> can be horizontal or vertical. Slot-based styling: container, tabList, panelContainer on <span class="font-mono text-primary/20">tng-tabs</span>; tab, active, inactive, disabled on each <span class="font-mono text-primary/20">tng-tab</span>.
       </p>
     </div>
     <div id="QuickExample" class="relative rounded-xl border p-4 shadow-sm space-y-2 text-fg">
@@ -37,11 +37,11 @@
         </div>
         <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
           <div class="text-sm font-semibold text-primary/20">Orientation</div>
-          <p class="text-xs leading-5 text-muted">orientation: horizontal | vertical. Use listKlass/rootKlass for vertical layout (e.g. flex-col, grid).</p>
+          <p class="text-xs leading-5 text-muted">orientation: horizontal | vertical. Use slot.tabList / slot.container for vertical layout (e.g. flex-col, grid).</p>
         </div>
         <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
           <div class="text-sm font-semibold text-primary/20">Class hooks</div>
-          <p class="text-xs leading-5 text-muted">TngTabs: rootKlass, listKlass, panelKlass. TngTab: tabKlass, activeKlass, inactiveKlass, disabledKlass.</p>
+          <p class="text-xs leading-5 text-muted">TngTabs: slot.container, slot.tabList, slot.panelContainer. TngTab: slot.tab, slot.active, slot.inactive, slot.disabled.</p>
         </div>
       </div>
     </div>

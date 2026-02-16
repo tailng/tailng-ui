@@ -1,4 +1,7 @@
 import { Component, computed, input } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
+
+import { TngTagSlot } from './tag.slots';
 
 type TagColor = 'default' | 'primary' | 'success' | 'danger';
 
@@ -13,9 +16,11 @@ export class TngTag {
 
   color = input<TagColor>('default');
 
-  containerKlass = computed(() => {
-    const base = 'flex items-center rounded-md px-3 py-1 text-xs font-bold';
+  /* Slot hooks (micro styling) */
+  slot = input<TngSlotMap<TngTagSlot>>({});
 
+  readonly containerClassFinal = computed(() => {
+    const base = 'flex items-center rounded-md px-3 py-1 text-xs font-bold';
     const disabledClass = this.disabled() ? 'opacity-50 cursor-not-allowed' : 'cursor-default';
 
     const colorMap: Record<TagColor, string> = {
@@ -25,6 +30,18 @@ export class TngTag {
       danger: 'bg-red-100 text-red-800 hover:bg-red-200',
     };
 
-    return `${base} ${colorMap[this.color()]} ${disabledClass}`;
+    return this.cx(base, colorMap[this.color()], disabledClass, this.slotClass('container'));
   });
+
+  private slotClass(key: TngTagSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private cx(...parts: Array<TngSlotValue>): string {
+    return parts
+      .flatMap((p) => (Array.isArray(p) ? p : [p]))
+      .map((p) => (p ?? '').toString().trim())
+      .filter(Boolean)
+      .join(' ');
+  }
 }

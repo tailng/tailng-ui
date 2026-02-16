@@ -2,25 +2,132 @@
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-expansion-panel</span> exposes rootKlass, headerKlass, titleKlass, iconWrapperKlass, chevronKlass, contentOuterKlass, contentClipKlass, contentBodyKlass, contentPaddingKlass.
+      <span class="font-mono">tng-expansion-panel</span> uses slot-based micro styling. Slots:
+      <span class="font-mono">container</span>, <span class="font-mono">header</span>, <span class="font-mono">title</span>,
+      <span class="font-mono">iconWrapper</span>, <span class="font-mono">chevron</span>, <span class="font-mono">contentOuter</span>,
+      <span class="font-mono">contentClip</span>, <span class="font-mono">contentBody</span>, <span class="font-mono">contentPadding</span>.
     </p>
   </div>
+
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">Themed panel (root / header / chevron / content)</h3>
-    <p class="text-sm text-fg">Override root, header, content padding, and chevron classes.</p>
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
+      <tng-tag label="wrapper"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Root wrapper. Default: rounded-lg border border-border bg-bg.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="containerSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-expansion-panel [slot]="{ container: 'rounded-xl border-2 border-primary' }">
+          <div tngExpansionTitle>Container slot</div>
+          <div tngExpansionContent>Custom container styling.</div>
+        </tng-expansion-panel>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">header slot</h3>
+      <tng-tag label="button"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Header button. Include focus and disabled styles.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="headerSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-expansion-panel [slot]="{ header: 'flex w-full items-center justify-between gap-4 px-4 py-3 text-left text-sm font-bold text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-60' }">
+          <div tngExpansionTitle>Bold header</div>
+          <div tngExpansionContent>Header slot styling.</div>
+        </tng-expansion-panel>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">title slot</h3>
+      <tng-tag label="span"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Title span. Default: flex-1.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="titleSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-expansion-panel [slot]="{ title: 'flex-1 text-primary font-semibold' }">
+          <div tngExpansionTitle>Title slot</div>
+          <div tngExpansionContent>Title styling.</div>
+        </tng-expansion-panel>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">chevron slot</h3>
+      <tng-tag label="icon"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Default chevron SVG (when no custom icon). Default: h-4 w-4 transition-transform.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="chevronSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-expansion-panel [slot]="{ chevron: 'h-5 w-5 text-primary' }">
+          <div tngExpansionTitle>Chevron slot</div>
+          <div tngExpansionContent>Chevron sizing and color.</div>
+        </tng-expansion-panel>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">contentBody slot</h3>
+      <tng-tag label="content"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Content body. Default: text-sm text-muted-foreground.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="contentBodySlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-expansion-panel [open]="true" [slot]="{ contentBody: 'text-sm text-primary' }">
+          <div tngExpansionTitle>Content slot</div>
+          <div tngExpansionContent>Content body styling.</div>
+        </tng-expansion-panel>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">contentPadding slot</h3>
+      <tng-tag label="spacing"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Content padding (when padded=true). Default: px-4 pb-4 pt-2.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="contentPaddingSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-expansion-panel [open]="true" [slot]="{ contentPadding: 'px-6 pb-6 pt-4' }">
+          <div tngExpansionTitle>Padding slot</div>
+          <div tngExpansionContent>More padding around content.</div>
+        </tng-expansion-panel>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Combined slot example</h3>
     <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="themedHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <tng-expansion-panel
-          rootKlass="rounded-xl border border-slate-200 bg-white shadow-sm"
-          headerKlass="flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-semibold text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-60"
-          contentPaddingKlass="px-5 pb-5 pt-2"
-          contentBodyKlass="text-sm text-slate-600"
-          chevronKlass="h-4 w-4 shrink-0 transition-transform duration-200 text-primary"
+          [slot]="{
+            container: 'rounded-xl border border-slate-200 bg-white shadow-sm',
+            header: 'flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-semibold text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-60',
+            contentPadding: 'px-5 pb-5 pt-2',
+            contentBody: 'text-sm text-slate-600',
+            chevron: 'h-4 w-4 shrink-0 transition-transform duration-200 text-primary'
+          }"
         >
           <div tngExpansionTitle>Custom styled header</div>
           <div tngExpansionContent>
-            This example overrides root, header, content, and chevron classes using klass inputs.
+            This example overrides container, header, content, and chevron via the slot object.
           </div>
         </tng-expansion-panel>
       </div>

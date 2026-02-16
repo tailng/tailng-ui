@@ -20,7 +20,7 @@
       <nav class="flex-1 overflow-y-auto p-1 space-y-6">
         @for (section of filteredNav(); track section.title) {
           <tng-accordion [multiple]="true">
-            <tng-expansion-panel [open]="true" rootKlass="border-0">
+            <tng-expansion-panel [open]="true" [slot]="{ container: 'border-0' }">
               <div tngExpansionTitle>{{ section.title }}</div>
               <div tngExpansionContent>
                 @for (item of section.children ?? []; track item.title) {

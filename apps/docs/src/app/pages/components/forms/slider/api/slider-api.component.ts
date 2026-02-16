@@ -31,18 +31,13 @@ export class SliderApiComponent implements AfterViewInit {
     { property: 'step', type: 'number', default: '1', description: 'Step increment' },
     { property: 'disabled', type: 'boolean', default: 'false', description: 'Disabled state' },
     { property: 'value', type: 'number | null', default: 'null', description: 'Controlled value (when set, overrides form value)' },
-    { property: 'rootKlass', type: 'string', default: "'w-full'", description: 'Root wrapper classes' },
-    { property: 'labelKlass', type: 'string', default: "'text-sm text-fg'", description: 'Label text classes' },
-    { property: 'trackKlass', type: 'string', default: "''", description: 'Track (background) classes' },
-    { property: 'fillKlass', type: 'string', default: "''", description: 'Filled segment classes' },
-    { property: 'thumbKlass', type: 'string', default: "''", description: 'Thumb (handle) classes' },
-    { property: 'rangeKlass', type: 'string', default: "''", description: 'Native range input classes' },
+    { property: 'slot', type: 'TngSlotMap<TngSliderSlot>', default: '{}', description: 'Slot-based micro styling (container, trackWrapper, track, trackFill, thumb, input, valueText)' },
   ];
 
   readonly identityRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['id', 'name', 'ariaLabel'].includes(p.property)));
   readonly configRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['min', 'max', 'step'].includes(p.property)));
   readonly stateRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['disabled', 'value'].includes(p.property)));
-  readonly klassRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['rootKlass', 'labelKlass', 'trackKlass', 'fillKlass', 'thumbKlass', 'rangeKlass'].includes(p.property)));
+  readonly stylingRows = signal<DisplayDetails[]>(this.seed.filter((p) => p.property === 'slot'));
 
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;

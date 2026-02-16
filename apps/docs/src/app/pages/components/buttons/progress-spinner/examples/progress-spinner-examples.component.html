@@ -1,1 +1,88 @@
-Examples content.
+<section class="grid gap-4 text-fg">
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Indeterminate</h3>
+    <p class="text-sm text-fg">Default mode. Use for loading states without a known percentage.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="indeterminateHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-progress-spinner />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Determinate</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">mode="determinate"</span> with <span class="font-mono">[value]</span> and <span class="font-mono">[max]</span> for percentage-based progress.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="determinateHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex items-center gap-6">
+          <tng-progress-spinner mode="determinate" [value]="value" />
+          <tng-progress-spinner mode="determinate" [value]="75" />
+          <tng-progress-spinner mode="determinate" [value]="100" />
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Custom max</h3>
+    <p class="text-sm text-fg">Override <span class="font-mono">[max]</span> for different scales. value=30, max=60 displays 50%.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="customMaxHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-progress-spinner mode="determinate" [value]="30" [max]="60" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Slot sizes</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">slot.svg</span> to change spinner size (e.g. <span class="font-mono">w-6 h-6</span>, <span class="font-mono">w-10 h-10</span>).</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="slotSizesHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex items-center gap-6">
+          <tng-progress-spinner [slot]="{ svg: 'w-6 h-6' }" />
+          <tng-progress-spinner [slot]="{ svg: 'w-10 h-10', indicator: 'text-success' }" />
+          <tng-progress-spinner [slot]="{ svg: 'w-14 h-14', indicator: 'text-danger' }" />
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
+    <h3 class="text-sm font-semibold text-primary">Slot variants</h3>
+    <p class="text-sm text-fg">Use <span class="font-mono">slot.indicator</span> for color variants (text-success, text-danger, etc.). Uses <span class="font-mono">currentColor</span> via SVG stroke.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="slotVariantsHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex items-center gap-6">
+          <tng-progress-spinner mode="determinate" [value]="75" [slot]="{ indicator: 'text-success' }" />
+          <tng-progress-spinner mode="determinate" [value]="60" [slot]="{ indicator: 'text-danger' }" />
+          <tng-progress-spinner mode="determinate" [value]="50" [slot]="{ indicator: 'text-fg/40' }" />
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+</section>

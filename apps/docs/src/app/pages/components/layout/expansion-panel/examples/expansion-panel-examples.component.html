@@ -8,7 +8,7 @@
         <tng-expansion-panel>
           <div tngExpansionTitle>What is TailNG?</div>
           <div tngExpansionContent>
-            TailNG is a minimal Angular + Tailwind UI kit with klass hooks for theming.
+            TailNG is a minimal Angular + Tailwind UI kit with slot-based theming.
           </div>
         </tng-expansion-panel>
       </div>
@@ -50,7 +50,7 @@
     <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="noPaddingHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-expansion-panel [padded]="false" contentBodyKlass="overflow-hidden text-sm text-muted-foreground">
+        <tng-expansion-panel [padded]="false" [slot]="{ contentBody: 'overflow-hidden text-sm text-muted-foreground' }">
           <div tngExpansionTitle>Custom layout inside</div>
           <div tngExpansionContent>
             <div class="border-t border-border">

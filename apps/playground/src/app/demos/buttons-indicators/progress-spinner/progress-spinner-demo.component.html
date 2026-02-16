@@ -4,7 +4,7 @@
       tng-progress-spinner demo
     </h2>
     <p class="text-sm text-slate-600">
-      Klass-based spinner with determinate & indeterminate modes.
+      Slot-based micro styling with determinate & indeterminate modes.
     </p>
   </header>
 
@@ -44,25 +44,23 @@
       [mode]="mode"
       [value]="value"
       [max]="max"
-      [sizeKlass]="sizeKlass"
-      [trackKlass]="trackKlass"
-      [indicatorKlass]="indicatorKlass"
+      [slot]="slot()"
     />
   </section>
 
   <!-- Static examples -->
   <section class="space-y-4">
     <div class="flex items-center gap-6">
-      <tng-progress-spinner sizeKlass="w-6 h-6" />
-      <tng-progress-spinner sizeKlass="w-10 h-10" indicatorKlass="text-success" />
-      <tng-progress-spinner sizeKlass="w-14 h-14" indicatorKlass="text-danger" />
+      <tng-progress-spinner [slot]="{ svg: 'w-6 h-6' }" />
+      <tng-progress-spinner [slot]="{ svg: 'w-10 h-10', indicator: 'text-success' }" />
+      <tng-progress-spinner [slot]="{ svg: 'w-14 h-14', indicator: 'text-danger' }" />
     </div>
 
     <div class="flex items-center gap-6">
       <tng-progress-spinner
         mode="determinate"
         [value]="75"
-        indicatorKlass="text-info"
+        [slot]="{ indicator: 'text-info' }"
       />
       <span class="text-sm text-slate-500">75%</span>
     </div>

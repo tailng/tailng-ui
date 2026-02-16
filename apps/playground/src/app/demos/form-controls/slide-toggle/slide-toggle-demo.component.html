@@ -22,22 +22,21 @@
   </div>
 
   <div class="space-y-2">
-    <h3 class="text-sm font-medium text-fg">Base classes (trackKlass / thumbKlass)</h3>
-    <p class="text-xs text-muted">Base classes apply in both on/off states.</p>
+    <h3 class="text-sm font-medium text-fg">Base slots (track / thumb)</h3>
+    <p class="text-xs text-muted">Base slots apply in both on/off states.</p>
     <tng-slide-toggle label="Experimental feature" [checked]="notifications()"
-      (checkedChange)="notifications.set($event)" trackKlass="rounded-xl" thumbKlass="shadow-md"
-      labelKlass="text-warning" />
+      (checkedChange)="notifications.set($event)" [slot]="{ track: 'rounded-xl', thumb: 'shadow-md', label: 'text-warning' }" />
   </div>
   <div class="space-y-2">
-    <h3 class="text-sm font-medium text-fg">On/off state classes (trackOnKlass, trackOffKlass, thumbOnKlass, thumbOffKlass)</h3>
+    <h3 class="text-sm font-medium text-fg">Per-state slots (trackChecked, trackUnchecked, thumbChecked, thumbUnchecked)</h3>
     <p class="text-xs text-muted">Per-state overrides for track and thumb when toggle is on vs off.</p>
-    <tng-slide-toggle label="Themed by state" trackOffKlass="bg-bg border-primary"
-      trackOnKlass="bg-primary border-primary" thumbOffKlass="bg-primary" thumbOnKlass="bg-on-primary" />
+    <tng-slide-toggle label="Themed by state"
+      [slot]="{ trackChecked: 'bg-primary border-primary', trackUnchecked: 'bg-bg border-primary', thumbChecked: 'bg-on-primary', thumbUnchecked: 'bg-primary' }" />
   </div>
   <div class="space-y-2">
     <h3 class="text-sm font-medium text-fg">Custom icons (tngSlideToggleOn / tngSlideToggleOff)</h3>
-    <tng-slide-toggle label="Enable notifications" trackOffKlass="bg-bg border-primary"
-      trackOnKlass="bg-primary border-primary" thumbOffKlass="bg-primary text-on-primary" thumbOnKlass="bg-on-primary text-primary">
+    <tng-slide-toggle label="Enable notifications"
+      [slot]="{ trackChecked: 'bg-primary border-primary', trackUnchecked: 'bg-bg border-primary', thumbChecked: 'bg-on-primary text-primary', thumbUnchecked: 'bg-primary text-on-primary' }">
       <tng-icon name="bootstrapBell" tngSlideToggleOn></tng-icon>
       <tng-icon name="bootstrapCheck2Circle" tngSlideToggleOff></tng-icon>
     </tng-slide-toggle>

@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { JsonPipe } from '@angular/common';
+import { Component, computed } from '@angular/core';
 import { TngProgressBar } from '@tailng-ui/ui/primitives';
 
 @Component({
   selector: 'playground-progress-bar-demo',
   standalone: true,
-  imports: [TngProgressBar],
+  imports: [JsonPipe, TngProgressBar],
   templateUrl: './progress-bar-demo.component.html',
 })
 export class ProgressBarDemoComponent {
@@ -15,11 +16,18 @@ export class ProgressBarDemoComponent {
 
   disableAnimation = false;
 
-  // klass hooks
-  rootKlass = 'w-full';
-  trackKlass = 'bg-border';
-  barKlass = 'bg-primary';
-  heightKlass = 'h-1';
+  // slot overrides (micro styling)
+  slotContainer = 'w-full';
+  slotTrack = 'bg-border h-1';
+  slotIndicator = 'bg-primary';
+
+  readonly slot = computed(() => {
+    const s: Record<string, string> = {};
+    if (this.slotContainer) s['container'] = this.slotContainer;
+    if (this.slotTrack) s['track'] = this.slotTrack;
+    if (this.slotIndicator) s['indicator'] = this.slotIndicator;
+    return s;
+  });
 
   setMode(mode: 'determinate' | 'indeterminate') {
     this.mode = mode;
@@ -39,43 +47,37 @@ export class ProgressBarDemoComponent {
     this.mode = 'determinate';
     this.disableAnimation = false;
 
-    this.rootKlass = 'w-full';
-    this.trackKlass = 'bg-border';
-    this.barKlass = 'bg-primary';
-    this.heightKlass = 'h-1';
+    this.slotContainer = 'w-full';
+    this.slotTrack = 'bg-border h-1';
+    this.slotIndicator = 'bg-primary';
   }
 
-  // quick theming presets (klass-only, Tailng-style)
+  // quick theming presets (slot-based)
   preset(p: 'default' | 'success' | 'danger' | 'neutral' | 'thick') {
     switch (p) {
       case 'default':
-        this.trackKlass = 'bg-border';
-        this.barKlass = 'bg-primary';
-        this.heightKlass = 'h-1';
+        this.slotTrack = 'bg-border h-1';
+        this.slotIndicator = 'bg-primary';
         break;
 
       case 'success':
-        this.trackKlass = 'bg-border';
-        this.barKlass = 'bg-success';
-        this.heightKlass = 'h-1';
+        this.slotTrack = 'bg-border h-1';
+        this.slotIndicator = 'bg-success';
         break;
 
       case 'danger':
-        this.trackKlass = 'bg-border';
-        this.barKlass = 'bg-danger';
-        this.heightKlass = 'h-1';
+        this.slotTrack = 'bg-border h-1';
+        this.slotIndicator = 'bg-danger';
         break;
 
       case 'neutral':
-        this.trackKlass = 'bg-alternate-background';
-        this.barKlass = 'bg-fg/40';
-        this.heightKlass = 'h-1';
+        this.slotTrack = 'bg-alternate-background h-1';
+        this.slotIndicator = 'bg-fg/40';
         break;
 
       case 'thick':
-        this.trackKlass = 'bg-border';
-        this.barKlass = 'bg-primary';
-        this.heightKlass = 'h-2';
+        this.slotTrack = 'bg-border h-2';
+        this.slotIndicator = 'bg-primary';
         break;
     }
   }

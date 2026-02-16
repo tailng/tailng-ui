@@ -2,7 +2,7 @@
   <div class="space-y-1">
     <h1 class="text-xl font-semibold text-foreground">Expansion Panel</h1>
     <p class="text-sm text-muted-foreground">
-      Headless expansion panel with klass-based theming hooks (Tailwind utilities).
+      Headless expansion panel with slot-based theming (Tailwind utilities).
     </p>
   </div>
 
@@ -46,7 +46,7 @@
   <section class="space-y-3">
     <h2 class="text-sm font-semibold text-foreground">No content padding</h2>
 
-    <tng-expansion-panel [padded]="false" contentInnerKlass="overflow-hidden text-sm text-muted-foreground">
+    <tng-expansion-panel [padded]="false" [slot]="{ contentBody: 'overflow-hidden text-sm text-muted-foreground' }">
       <div tngExpansionTitle>Custom layout inside</div>
       <div tngExpansionContent>
         <div class="border-t border-border">
@@ -62,20 +62,22 @@
     </tng-expansion-panel>
   </section>
 
-  <!-- 5) Themed using klass hooks -->
+  <!-- 5) Themed using slot -->
   <section class="space-y-3">
-    <h2 class="text-sm font-semibold text-foreground">Theming (klass hooks)</h2>
+    <h2 class="text-sm font-semibold text-foreground">Theming (slot)</h2>
 
     <tng-expansion-panel
-      rootKlass="rounded-xl border border-slate-200 bg-white shadow-sm"
-      headerKlass="flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-semibold text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-60"
-      contentPaddingKlass="px-5 pb-5 pt-2"
-      contentInnerKlass="overflow-hidden text-sm text-slate-600"
-      chevronKlass="h-4 w-4 shrink-0 transition-transform duration-200 text-primary"
+      [slot]="{
+        container: 'rounded-xl border border-slate-200 bg-white shadow-sm',
+        header: 'flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-semibold text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-60',
+        contentPadding: 'px-5 pb-5 pt-2',
+        contentBody: 'overflow-hidden text-sm text-slate-600',
+        chevron: 'h-4 w-4 shrink-0 transition-transform duration-200 text-primary'
+      }"
     >
       <div tngExpansionTitle>Custom styled header</div>
       <div tngExpansionContent>
-        This example overrides root/header/content/chevron classes using klass inputs.
+        This example overrides container/header/content/chevron via the slot object.
       </div>
     </tng-expansion-panel>
   </section>
@@ -200,7 +202,7 @@
         <tng-button (click)="toggleOutsidePanel()">Click</tng-button>  
     </h2>
 
-      <tng-expansion-panel [open]="outsideOpen()" rootKlass="border-0" headerKlass="hidden">
+      <tng-expansion-panel [open]="outsideOpen()" [slot]="{ container: 'border-0', header: 'hidden' }">
         <div tngExpansionTitle>Open/Close from outside</div>
         <div tngExpansionContent>Content…</div>
       </tng-expansion-panel>

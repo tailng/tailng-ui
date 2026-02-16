@@ -87,7 +87,7 @@ export const provideAppIcons = () =>
 
   usageClass = `<tng-icon
   name="bootstrapCopy"
-  iconKlass="text-fg"
+  [slot]="{ icon: 'text-fg' }"
 ></tng-icon>`;
 
   // Accessibility examples based on your component API

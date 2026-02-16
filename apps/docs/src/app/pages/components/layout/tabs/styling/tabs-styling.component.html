@@ -2,20 +2,124 @@
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-tabs</span> exposes rootKlass, listKlass, panelKlass. Each <span class="font-mono">tng-tab</span> exposes tabKlass, activeKlass, inactiveKlass, disabledKlass.
+      <span class="font-mono">tng-tabs</span> uses slot-based micro styling. Slots:
+      <span class="font-mono">container</span>, <span class="font-mono">tabList</span>, <span class="font-mono">panelContainer</span>.
+      Each <span class="font-mono">tng-tab</span> exposes <span class="font-mono">tab</span>, <span class="font-mono">active</span>, <span class="font-mono">inactive</span>, <span class="font-mono">disabled</span>.
     </p>
   </div>
+
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">Underline style (list + tab klass)</h3>
-    <p class="text-sm text-fg">Override listKlass and tab active/inactive classes.</p>
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">container slot (tng-tabs)</h3>
+      <tng-tag label="wrapper"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Root wrapper. Default: w-full.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="containerSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-tabs defaultValue="a" [slot]="{ container: 'max-w-md' }">
+          <tng-tab value="a">Tab A</tng-tab>
+          <tng-tab value="b">Tab B</tng-tab>
+          <tng-tab-panel value="a"><div class="rounded-lg border border-border bg-bg p-4 text-sm">Container slot example.</div></tng-tab-panel>
+          <tng-tab-panel value="b"><div class="rounded-lg border border-border bg-bg p-4 text-sm">Content B.</div></tng-tab-panel>
+        </tng-tabs>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">tabList slot (tng-tabs)</h3>
+      <tng-tag label="list"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Tab list. Default: flex gap-2 border-b border-border.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="tabListSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-tabs defaultValue="a" [slot]="{ tabList: 'flex gap-6 border-b-2 border-primary' }">
+          <tng-tab value="a">Tab A</tng-tab>
+          <tng-tab value="b">Tab B</tng-tab>
+          <tng-tab-panel value="a"><div class="rounded-lg border border-border bg-bg p-4 text-sm">Tab list slot.</div></tng-tab-panel>
+          <tng-tab-panel value="b"><div class="rounded-lg border border-border bg-bg p-4 text-sm">Content B.</div></tng-tab-panel>
+        </tng-tabs>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">panelContainer slot (tng-tabs)</h3>
+      <tng-tag label="content"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Panel content wrapper. Default: pt-4.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="panelContainerSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-tabs defaultValue="a" [slot]="{ panelContainer: 'pt-6 border-t border-border' }">
+          <tng-tab value="a">Tab A</tng-tab>
+          <tng-tab value="b">Tab B</tng-tab>
+          <tng-tab-panel value="a"><div class="rounded-lg border border-border bg-bg p-4 text-sm">Panel container slot.</div></tng-tab-panel>
+          <tng-tab-panel value="b"><div class="rounded-lg border border-border bg-bg p-4 text-sm">Content B.</div></tng-tab-panel>
+        </tng-tabs>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">tab slot (tng-tab)</h3>
+      <tng-tag label="base"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Base tab styles. Default: px-3 py-2 text-sm font-medium border-b-2 border-transparent.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="tabSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-tabs defaultValue="a">
+          <tng-tab value="a" [slot]="{ tab: 'px-4 py-2 font-semibold' }">Tab A</tng-tab>
+          <tng-tab value="b">Tab B</tng-tab>
+          <tng-tab-panel value="a"><div class="rounded-lg border border-border bg-bg p-4 text-sm">Tab slot.</div></tng-tab-panel>
+          <tng-tab-panel value="b"><div class="rounded-lg border border-border bg-bg p-4 text-sm">Content B.</div></tng-tab-panel>
+        </tng-tabs>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">active / inactive slots (tng-tab)</h3>
+      <tng-tag label="state"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Active: border-primary text-primary. Inactive: text-muted-foreground.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="activeSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-tabs defaultValue="a">
+          <tng-tab value="a" [slot]="{ active: 'border-primary text-primary font-bold' }">Active</tng-tab>
+          <tng-tab value="b" [slot]="{ inactive: 'text-muted-foreground hover:text-foreground' }">Inactive</tng-tab>
+          <tng-tab-panel value="a"><div class="rounded-lg border border-border bg-bg p-4 text-sm">Active/inactive styling.</div></tng-tab-panel>
+          <tng-tab-panel value="b"><div class="rounded-lg border border-border bg-bg p-4 text-sm">Content B.</div></tng-tab-panel>
+        </tng-tabs>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Underline style</h3>
+    <p class="text-sm text-fg">Override tabList and panelContainer slots, plus tab active/inactive.</p>
     <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="underlineHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-tabs defaultValue="one" listKlass="flex gap-6 border-b border-border" panelKlass="pt-5">
-          <tng-tab value="one" tabKlass="pb-3 text-sm font-medium border-b-2 border-transparent" activeKlass="border-primary text-primary" inactiveKlass="text-muted-foreground hover:text-foreground">
+        <tng-tabs defaultValue="one" [slot]="{ tabList: 'flex gap-6 border-b border-border', panelContainer: 'pt-5' }">
+          <tng-tab
+            value="one"
+            [slot]="{ tab: 'pb-3 text-sm font-medium border-b-2 border-transparent', active: 'border-primary text-primary', inactive: 'text-muted-foreground hover:text-foreground' }"
+          >
             Tab One
           </tng-tab>
-          <tng-tab value="two" tabKlass="pb-3 text-sm font-medium border-b-2 border-transparent" activeKlass="border-primary text-primary" inactiveKlass="text-muted-foreground hover:text-foreground">
+          <tng-tab
+            value="two"
+            [slot]="{ tab: 'pb-3 text-sm font-medium border-b-2 border-transparent', active: 'border-primary text-primary', inactive: 'text-muted-foreground hover:text-foreground' }"
+          >
             Tab Two
           </tng-tab>
           <tng-tab-panel value="one"><div class="rounded-lg bg-slate-50 p-4 text-sm text-slate-700">Underline style.</div></tng-tab-panel>
@@ -26,15 +130,21 @@
   </div>
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <h3 class="text-sm font-semibold text-primary">Pills style</h3>
-    <p class="text-sm text-fg">Use a rounded list container and active/inactive tab classes for pill appearance.</p>
+    <p class="text-sm text-fg">Use a rounded tabList and active/inactive tab classes for pill appearance.</p>
     <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="pillsHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-tabs defaultValue="a" listKlass="inline-flex gap-1 rounded-lg bg-slate-100 p-1" panelKlass="pt-4">
-          <tng-tab value="a" tabKlass="rounded-md px-3 py-1.5 text-sm font-medium" activeKlass="bg-white text-slate-900 shadow-sm" inactiveKlass="text-slate-600 hover:text-slate-900">
+        <tng-tabs defaultValue="a" [slot]="{ tabList: 'inline-flex gap-1 rounded-lg bg-slate-100 p-1', panelContainer: 'pt-4' }">
+          <tng-tab
+            value="a"
+            [slot]="{ tab: 'rounded-md px-3 py-1.5 text-sm font-medium', active: 'bg-white text-slate-900 shadow-sm', inactive: 'text-slate-600 hover:text-slate-900' }"
+          >
             Alpha
           </tng-tab>
-          <tng-tab value="b" tabKlass="rounded-md px-3 py-1.5 text-sm font-medium" activeKlass="bg-white text-slate-900 shadow-sm" inactiveKlass="text-slate-600 hover:text-slate-900">
+          <tng-tab
+            value="b"
+            [slot]="{ tab: 'rounded-md px-3 py-1.5 text-sm font-medium', active: 'bg-white text-slate-900 shadow-sm', inactive: 'text-slate-600 hover:text-slate-900' }"
+          >
             Beta
           </tng-tab>
           <tng-tab-panel value="a"><div class="rounded-lg border border-border bg-bg p-4 text-sm">Pills: Alpha.</div></tng-tab-panel>

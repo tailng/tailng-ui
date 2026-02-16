@@ -1,17 +1,17 @@
-<div [class]="rootKlass()">
+<div [class]="containerClassFinal()">
   <!-- Visual slider -->
-  <div class="relative w-full h-6">
+  <div [class]="trackWrapperClassFinal()">
     <!-- Track -->
-    <div [class]="trackClasses()">
+    <div [class]="trackClassFinal()">
       <!-- Fill -->
       <div
-        [class]="fillClasses()"
+        [class]="trackFillClassFinal()"
         [style.width.%]="percent()"
       ></div>
 
       <!-- Thumb -->
       <div
-        [class]="thumbClasses()"
+        [class]="thumbClassFinal()"
         [style.left.%]="percent()"
         style="transform: translate(-50%, -50%);"
       ></div>
@@ -27,15 +27,15 @@
         [value]="clampedValue()"
         [disabled]="isDisabled()"
         [attr.aria-label]="ariaLabel()"
-        [class]="rangeClasses()"
+        [class]="inputClassFinal()"
         (input)="onInput($event)"
         (blur)="onBlur()"
       />
     </div>
   </div>
 
-  <!-- Value (optional simple display; remove if you don't want it) -->
-  <div class="mt-1 text-xs text-disable">
+  <!-- Value display -->
+  <div [class]="valueTextClassFinal()">
     {{ clampedValue() }}
   </div>
 </div>

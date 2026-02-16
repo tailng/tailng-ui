@@ -26,9 +26,11 @@ export class TagApiComponent implements AfterViewInit {
     { property: 'label', type: 'string | null', default: "'Text'", description: 'Tag text' },
     { property: 'disabled', type: 'boolean', default: 'false', description: 'Disabled state' },
     { property: 'color', type: "'default' | 'primary' | 'success' | 'danger'", default: "'default'", description: 'Visual variant' },
+    { property: 'slot', type: 'TngSlotMap<TngTagSlot>', default: '{}', description: 'Slot-based micro styling (container)' },
   ];
 
-  readonly inputRows = signal<DisplayDetails[]>(this.seed);
+  readonly inputRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['label', 'disabled', 'color'].includes(p.property)));
+  readonly stylingRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['slot'].includes(p.property)));
 
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;

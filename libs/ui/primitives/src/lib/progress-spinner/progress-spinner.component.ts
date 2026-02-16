@@ -1,5 +1,8 @@
 import { Component, computed, input } from '@angular/core';
 import { numberAttribute } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
+
+import { TngProgressSpinnerSlot } from './progress-spinner.slots';
 
 export type TngSpinnerMode = 'indeterminate' | 'determinate';
 
@@ -23,24 +26,11 @@ export class TngProgressSpinner {
   /** Max value (default 100) */
   max = input(100, { transform: numberAttribute });
 
-  /* =====================
-   * Klass hooks (theming)
-   * ===================== */
-
-  /** Root wrapper */
-  rootKlass = input<string>('inline-flex');
-
-  /** SVG size (Tailwind-friendly: w-6 h-6, w-8 h-8, etc.) */
-  sizeKlass = input<string>('w-6 h-6');
-
-  /** Track (background circle) */
-  trackKlass = input<string>('text-border');
-
-  /** Indicator (foreground stroke) */
-  indicatorKlass = input<string>('text-primary');
-
   /** Stroke width */
   strokeWidth = input(4, { transform: numberAttribute });
+
+  /* Slot hooks (micro styling) */
+  slot = input<TngSlotMap<TngProgressSpinnerSlot>>({});
 
   /* =====================
    * Computed
@@ -60,4 +50,36 @@ export class TngProgressSpinner {
     const pct = Math.min(100, Math.max(0, (v / m) * 100));
     return this.circumference() * (1 - pct / 100);
   });
+
+  readonly containerClassFinal = computed(() =>
+    this.cx('inline-flex', this.slotClass('container')),
+  );
+
+  readonly svgClassFinal = computed(() =>
+    this.cx('block', 'w-6', 'h-6', this.slotClass('svg')),
+  );
+
+  readonly trackClassFinal = computed(() =>
+    this.cx('opacity-30', 'text-border', this.slotClass('track')),
+  );
+
+  readonly indicatorClassFinal = computed(() =>
+    this.cx(
+      'text-primary',
+      this.slotClass('indicator'),
+      this.mode() === 'indeterminate' ? 'tng-spinner-indeterminate' : '',
+    ),
+  );
+
+  private slotClass(key: TngProgressSpinnerSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private cx(...parts: Array<TngSlotValue>): string {
+    return parts
+      .flatMap((p) => (Array.isArray(p) ? p : [p]))
+      .map((p) => (p ?? '').toString().trim())
+      .filter(Boolean)
+      .join(' ');
+  }
 }

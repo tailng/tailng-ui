@@ -5,7 +5,7 @@
       <p class="text-sm leading-6 text-muted">
         <span class="font-mono text-primary/20">tng-tag</span> is a simple tag for labels, categories, or status.
         It supports <span class="font-mono text-primary/20">label</span>, <span class="font-mono text-primary/20">color</span> (default, primary, success, danger),
-        and <span class="font-mono text-primary/20">disabled</span>. Styling is driven by the color variant.
+        <span class="font-mono text-primary/20">disabled</span>, and slot-based micro styling for the container.
       </p>
     </div>
 
@@ -39,6 +39,10 @@
         <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
           <div class="text-sm font-semibold text-primary/20">disabled</div>
           <p class="text-xs leading-5 text-muted">Reduced opacity and cursor when <span class="font-mono">[disabled]="true"</span>.</p>
+        </div>
+        <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
+          <div class="text-sm font-semibold text-primary/20">slot</div>
+          <p class="text-xs leading-5 text-muted">Slot-based micro styling: container (root span).</p>
         </div>
       </div>
     </div>

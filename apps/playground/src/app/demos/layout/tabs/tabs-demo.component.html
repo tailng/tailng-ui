@@ -3,7 +3,7 @@
   <div class="space-y-1">
     <h1 class="text-xl font-semibold text-foreground">Tabs</h1>
     <p class="text-sm text-muted-foreground">
-      Headless tabs with klass hooks, controlled/uncontrolled value, disabled tabs, and orientation.
+      Headless tabs with slot-based styling, controlled/uncontrolled value, disabled tabs, and orientation.
     </p>
   </div>
 
@@ -109,38 +109,31 @@
     </tng-tabs>
   </section>
 
-  <!-- 4) Theming with klass hooks (underline style) -->
+  <!-- 4) Theming (underline style) -->
   <section class="space-y-3">
-    <h2 class="text-sm font-semibold text-foreground">Theming (klass hooks)</h2>
+    <h2 class="text-sm font-semibold text-foreground">Theming (slot)</h2>
 
     <tng-tabs
       defaultValue="one"
-      listKlass="flex gap-6 border-b border-border"
-      panelKlass="pt-5"
+      [slot]="{ tabList: 'flex gap-6 border-b border-border', panelContainer: 'pt-5' }"
     >
       <tng-tab
         value="one"
-        tabKlass="pb-3 text-sm font-medium border-b-2 border-transparent"
-        activeKlass="border-primary text-primary"
-        inactiveKlass="text-muted-foreground hover:text-foreground"
+        [slot]="{ tab: 'pb-3 text-sm font-medium border-b-2 border-transparent', active: 'border-primary text-primary', inactive: 'text-muted-foreground hover:text-foreground' }"
       >
         Tab One
       </tng-tab>
 
       <tng-tab
         value="two"
-        tabKlass="pb-3 text-sm font-medium border-b-2 border-transparent"
-        activeKlass="border-primary text-primary"
-        inactiveKlass="text-muted-foreground hover:text-foreground"
+        [slot]="{ tab: 'pb-3 text-sm font-medium border-b-2 border-transparent', active: 'border-primary text-primary', inactive: 'text-muted-foreground hover:text-foreground' }"
       >
         Tab Two
       </tng-tab>
 
       <tng-tab
         value="three"
-        tabKlass="pb-3 text-sm font-medium border-b-2 border-transparent"
-        activeKlass="border-primary text-primary"
-        inactiveKlass="text-muted-foreground hover:text-foreground"
+        [slot]="{ tab: 'pb-3 text-sm font-medium border-b-2 border-transparent', active: 'border-primary text-primary', inactive: 'text-muted-foreground hover:text-foreground' }"
       >
         Tab Three
       </tng-tab>
@@ -153,7 +146,7 @@
 
       <tng-tab-panel value="two">
         <div class="rounded-lg bg-slate-50 p-4 text-sm text-slate-700">
-          All visuals are controlled via klass hooks.
+          All visuals are controlled via slot object.
         </div>
       </tng-tab-panel>
 
@@ -171,32 +164,25 @@
 
     <tng-tabs
       defaultValue="a"
-      listKlass="inline-flex gap-1 rounded-lg bg-slate-100 p-1"
-      panelKlass="pt-4"
+      [slot]="{ tabList: 'inline-flex gap-1 rounded-lg bg-slate-100 p-1', panelContainer: 'pt-4' }"
     >
       <tng-tab
         value="a"
-        tabKlass="rounded-md px-3 py-1.5 text-sm font-medium"
-        activeKlass="bg-white text-slate-900 shadow-sm"
-        inactiveKlass="text-slate-600 hover:text-slate-900"
+        [slot]="{ tab: 'rounded-md px-3 py-1.5 text-sm font-medium', active: 'bg-white text-slate-900 shadow-sm', inactive: 'text-slate-600 hover:text-slate-900' }"
       >
         Alpha
       </tng-tab>
 
       <tng-tab
         value="b"
-        tabKlass="rounded-md px-3 py-1.5 text-sm font-medium"
-        activeKlass="bg-white text-slate-900 shadow-sm"
-        inactiveKlass="text-slate-600 hover:text-slate-900"
+        [slot]="{ tab: 'rounded-md px-3 py-1.5 text-sm font-medium', active: 'bg-white text-slate-900 shadow-sm', inactive: 'text-slate-600 hover:text-slate-900' }"
       >
         Beta
       </tng-tab>
 
       <tng-tab
         value="c"
-        tabKlass="rounded-md px-3 py-1.5 text-sm font-medium"
-        activeKlass="bg-white text-slate-900 shadow-sm"
-        inactiveKlass="text-slate-600 hover:text-slate-900"
+        [slot]="{ tab: 'rounded-md px-3 py-1.5 text-sm font-medium', active: 'bg-white text-slate-900 shadow-sm', inactive: 'text-slate-600 hover:text-slate-900' }"
       >
         Gamma
       </tng-tab>
@@ -228,33 +214,25 @@
     <tng-tabs
       orientation="vertical"
       defaultValue="profile"
-      rootKlass="grid gap-6 md:grid-cols-[220px_1fr]"
-      listKlass="flex flex-col gap-1 rounded-lg border border-border bg-bg p-2"
-      panelKlass="pt-0"
+      [slot]="{ container: 'grid gap-6 md:grid-cols-[220px_1fr]', tabList: 'flex flex-col gap-1 rounded-lg border border-border bg-bg p-2', panelContainer: 'pt-0' }"
     >
       <tng-tab
         value="profile"
-        tabKlass="rounded-md px-3 py-2 text-sm font-medium"
-        activeKlass="bg-primary text-on-primary"
-        inactiveKlass="text-muted-foreground hover:text-foreground hover:bg-slate-50"
+        [slot]="{ tab: 'rounded-md px-3 py-2 text-sm font-medium', active: 'bg-primary text-on-primary', inactive: 'text-muted-foreground hover:text-foreground hover:bg-slate-50' }"
       >
         Profile
       </tng-tab>
 
       <tng-tab
         value="team"
-        tabKlass="rounded-md px-3 py-2 text-sm font-medium"
-        activeKlass="bg-primary text-on-primary"
-        inactiveKlass="text-muted-foreground hover:text-foreground hover:bg-slate-50"
+        [slot]="{ tab: 'rounded-md px-3 py-2 text-sm font-medium', active: 'bg-primary text-on-primary', inactive: 'text-muted-foreground hover:text-foreground hover:bg-slate-50' }"
       >
         Team
       </tng-tab>
 
       <tng-tab
         value="notifications"
-        tabKlass="rounded-md px-3 py-2 text-sm font-medium"
-        activeKlass="bg-primary text-on-primary"
-        inactiveKlass="text-muted-foreground hover:text-foreground hover:bg-slate-50"
+        [slot]="{ tab: 'rounded-md px-3 py-2 text-sm font-medium', active: 'bg-primary text-on-primary', inactive: 'text-muted-foreground hover:text-foreground hover:bg-slate-50' }"
       >
         Notifications
       </tng-tab>

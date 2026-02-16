@@ -16,6 +16,7 @@
     </header>
 
     <section id="inputs" class="flex flex-col gap-4 text-fg">
+      <h3 class="text-base font-semibold text-primary">Label, state &amp; variant</h3>
       <div class="rounded-md border text-fg">
         <tng-table [rows]="inputRows()">
           <tng-col id="property" header="Property" [value]="property"></tng-col>
@@ -25,13 +26,25 @@
         </tng-table>
       </div>
     </section>
-    <p class="text-sm text-muted">Tag has no class hooks; styling is determined by the <span class="font-mono">color</span> variant.</p>
+
+    <section id="styling" class="flex flex-col gap-4 text-fg">
+      <h3 class="text-base font-semibold text-primary">Styling (slot)</h3>
+      <div class="rounded-md border text-fg">
+        <tng-table [rows]="stylingRows()">
+          <tng-col id="property" header="Property" [value]="property"></tng-col>
+          <tng-col id="type" header="Type" [value]="type"></tng-col>
+          <tng-col id="default" header="Default" [value]="default"></tng-col>
+          <tng-col id="description" header="Description" [value]="description"></tng-col>
+        </tng-table>
+      </div>
+    </section>
   </section>
 
   <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
     <h3 class="mb-3 text-xs font-semibold tracking-wide">API Overview</h3>
     <ul class="space-y-2 text-sm text-fg">
       <li><a href="#inputs" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Inputs</a></li>
+      <li><a href="#styling" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Styling</a></li>
     </ul>
   </aside>
 </div>

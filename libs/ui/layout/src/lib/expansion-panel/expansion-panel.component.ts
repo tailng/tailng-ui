@@ -9,6 +9,9 @@ import {
   signal,
 } from '@angular/core';
 import { booleanAttribute } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
+
+import { TngExpansionPanelSlot } from './expansion-panel.slots';
 
 /**
  * OPEN-state icon marker.
@@ -51,34 +54,10 @@ export class TngExpansionPanel {
   openChange = output<boolean>();
 
   /* =====================
-   * Klass hooks
+   * Slot hooks (micro styling)
    * ===================== */
 
-  rootKlass = input<string>('rounded-lg border border-border bg-bg');
-
-  headerKlass = input<string>(
-    'flex w-full items-center justify-between gap-4 px-4 py-3 text-left text-sm font-medium text-foreground ' +
-      'focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ' +
-      'disabled:cursor-not-allowed disabled:opacity-60'
-  );
-
-  titleKlass = input<string>('flex-1');
-
-  iconWrapperKlass = input<string>(
-    'ml-2 shrink-0 inline-flex items-center justify-center'
-  );
-
-  chevronKlass = input<string>(
-    'h-4 w-4 shrink-0 transition-transform duration-200'
-  );
-
-  contentOuterKlass = input<string>(
-    'grid transition-[grid-template-rows] duration-200 ease-in-out'
-  );
-
-  contentClipKlass = input<string>('overflow-hidden');
-  contentBodyKlass = input<string>('text-sm text-muted-foreground');
-  contentPaddingKlass = input<string>('px-4 pb-4 pt-2');
+  slot = input<TngSlotMap<TngExpansionPanelSlot>>({});
 
     /* =====================
    * Slots (state icons only)
@@ -128,61 +107,68 @@ export class TngExpansionPanel {
   }
 
   /* =====================
-   * Computed
+   * Internal computed classes
    * ===================== */
 
-  readonly contentRowsKlass = computed(() =>
+  readonly contentRowsClass = computed(() =>
     this.isOpen() ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
   );
 
-  readonly chevronRotateKlass = computed(() => (this.isOpen() ? 'rotate-180' : ''));
+  readonly chevronRotateClass = computed(() => (this.isOpen() ? 'rotate-180' : ''));
 
   /* =====================
-   * Final Klass (defaults + user overrides)
+   * Class finals (defaults + slot overrides)
    * ===================== */
 
-  readonly finalRootKlass = computed(() =>
-    this.join('rounded-lg border border-border bg-bg', this.rootKlass()),
+  readonly containerClassFinal = computed(() =>
+    this.cx('rounded-lg border border-border bg-bg', this.slotClass('container')),
   );
 
-  readonly finalHeaderKlass = computed(() =>
-    this.join(
+  readonly headerClassFinal = computed(() =>
+    this.cx(
       'flex w-full items-center justify-between gap-4 px-4 py-3 text-left text-sm font-medium text-foreground',
       'focus:outline-none focus-visible:ring-2 focus-visible:ring-primary',
       'disabled:cursor-not-allowed disabled:opacity-60',
-      this.headerKlass(),
+      this.slotClass('header'),
     ),
   );
 
-  readonly finalTitleKlass = computed(() => this.join('flex-1', this.titleKlass()));
-
-  readonly finalIconWrapperKlass = computed(() =>
-    this.join('ml-2 shrink-0 inline-flex items-center justify-center', this.iconWrapperKlass()),
+  readonly titleClassFinal = computed(() =>
+    this.cx('flex-1', this.slotClass('title')),
   );
 
-  readonly finalChevronKlass = computed(() =>
-    this.join('h-4 w-4 shrink-0 transition-transform duration-200', this.chevronKlass()),
+  readonly iconWrapperClassFinal = computed(() =>
+    this.cx('ml-2 shrink-0 inline-flex items-center justify-center', this.slotClass('iconWrapper')),
   );
 
-  readonly finalContentOuterKlass = computed(() =>
-    this.join(
+  readonly chevronClassFinal = computed(() =>
+    this.cx('h-4 w-4 shrink-0 transition-transform duration-200', this.slotClass('chevron')),
+  );
+
+  readonly contentOuterClassFinal = computed(() =>
+    this.cx(
       'grid transition-[grid-template-rows] duration-200 ease-in-out',
-      this.contentOuterKlass(),
+      this.slotClass('contentOuter'),
     ),
   );
 
-  readonly finalContentClipKlass = computed(() =>
-    this.join('overflow-hidden', this.contentClipKlass()),
+  readonly contentClipClassFinal = computed(() =>
+    this.cx('overflow-hidden', this.slotClass('contentClip')),
   );
 
-  readonly finalContentBodyKlass = computed(() => {
-    const pad = this.padded() ? this.contentPaddingKlass() : '';
-    return this.join('text-sm text-muted-foreground', pad, this.contentBodyKlass());
+  readonly contentBodyClassFinal = computed(() => {
+    const pad = this.padded() ? (this.slotClass('contentPadding') || 'px-4 pb-4 pt-2') : '';
+    return this.cx('text-sm text-muted-foreground', pad, this.slotClass('contentBody'));
   });
 
-  private join(...parts: Array<string | null | undefined>): string {
+  private slotClass(key: TngExpansionPanelSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private cx(...parts: Array<TngSlotValue>): string {
     return parts
-      .map((p) => (p ?? '').trim())
+      .flatMap((p) => (Array.isArray(p) ? p : [p]))
+      .map((p) => (p ?? '').toString().trim())
       .filter(Boolean)
       .join(' ');
   }

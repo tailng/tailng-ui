@@ -1,0 +1,25 @@
+{
+  "extends": "./tsconfig.lib.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc",
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "types": ["jest", "node"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
+  },
+  "angularCompilerOptions": {
+    "compilationMode": "full"
+  },
+  "include": [
+    "icon/**/*.spec.ts",
+    "src/**/*.spec.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

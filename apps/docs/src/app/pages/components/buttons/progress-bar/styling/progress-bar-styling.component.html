@@ -1,1 +1,93 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <!-- Intro -->
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      The <span class="font-mono">tng-progress-bar</span> component uses slot-based micro styling via the
+      <span class="font-mono">slot</span> input. The slot object accepts keys:
+      <span class="font-mono">container</span> (root wrapper),
+      <span class="font-mono">track</span> (background + height), and
+      <span class="font-mono">indicator</span> (foreground bar). Each slot targets a specific element in the component structure.
+    </p>
+  </div>
+
+  <!-- container slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
+      <tng-tag label="wrapper"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Root wrapper. Default: w-full. Use for width constraints (e.g. <span class="font-mono">w-64</span>, <span class="font-mono">max-w-md</span>).</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="containerSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-progress-bar [value]="50" [slot]="{ container: 'w-64' }" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- track slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">track slot</h3>
+      <tng-tag label="background"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">The progress track (background). Default: relative w-full overflow-hidden rounded-full bg-border h-1. Use for background color and height (h-1, h-2, h-3).</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="trackSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-progress-bar [value]="60" [slot]="{ track: 'bg-border h-2' }" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- indicator slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">indicator slot</h3>
+      <tng-tag label="foreground"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">The progress bar (foreground). Default: bg-primary. Use for color variants (bg-success, bg-danger, bg-warning, etc.).</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="indicatorSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-progress-bar [value]="75" [slot]="{ indicator: 'bg-success' }" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- Combined example -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Combined slot example</h3>
+    <p class="text-sm text-fg">Multiple slots applied together.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="combinedSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-progress-bar
+          [value]="45"
+          [slot]="{
+            container: 'w-80',
+            track: 'bg-alternate-background h-2',
+            indicator: 'bg-info'
+          }"
+        />
+      </div>
+    </docs-example-block>
+  </div>
+</section>

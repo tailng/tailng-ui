@@ -1,5 +1,8 @@
 import { Component, computed, input } from '@angular/core';
 import { booleanAttribute } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
+
+import { TngSkeletonSlot } from './skeleton.slots';
 
 export type TngSkeletonVariant = 'text' | 'circular' | 'rectangular';
 
@@ -17,11 +20,11 @@ export class TngSkeleton {
   variant = input<TngSkeletonVariant>('text');
 
   /**
-   * Prefer widthKlass/heightKlass for Tailwind-first usage.
+   * Prefer widthClass/heightClass for Tailwind-first usage.
    * width/height are optional escape hatches for exact CSS values.
    */
-  widthKlass = input<string>('w-full');
-  heightKlass = input<string>('h-4');
+  widthClass = input<string>('w-full');
+  heightClass = input<string>('h-4');
 
   width = input<string>('');  // e.g. '240px', '60%', '12rem'
   height = input<string>(''); // e.g. '16px'
@@ -29,8 +32,8 @@ export class TngSkeleton {
   /** shimmer=true => shimmer animation, else pulse */
   shimmer = input(false, { transform: booleanAttribute });
 
-  /** class hook */
-  klass = input<string>('');
+  /* Slot hooks (micro styling) */
+  slot = input<TngSlotMap<TngSkeletonSlot>>({});
 
   /* =====================
    * Computed
@@ -49,30 +52,36 @@ export class TngSkeleton {
   });
 
   readonly animationClasses = computed(() => {
-    // prefer shimmer if enabled, else pulse
     return this.shimmer() ? 'tng-skeleton-shimmer' : 'animate-pulse';
   });
 
   /**
    * Tailng theming: no hardcoded colors.
-   * Default uses border-ish token; consumers override via klass.
+   * Default uses border-ish token; consumers override via slot.container.
    */
-  readonly classes = computed(() => {
-    const base = 'relative overflow-hidden bg-slate-200/70 dark:bg-slate-700/40';
-
-    return [
-      base,
+  readonly classes = computed(() =>
+    this.cx(
+      'relative overflow-hidden bg-slate-200/70 dark:bg-slate-700/40',
       this.animationClasses(),
       this.shapeClasses(),
-      this.widthKlass(),
-      this.heightKlass(),
-      this.klass(),
-    ]
-      .map((s) => s.trim())
-      .filter(Boolean)
-      .join(' ');
-  });
+      this.widthClass(),
+      this.heightClass(),
+      this.slotClass('container'),
+    ),
+  );
 
   readonly styleWidth = computed(() => (this.width().trim() ? this.width().trim() : null));
   readonly styleHeight = computed(() => (this.height().trim() ? this.height().trim() : null));
+
+  private slotClass(key: TngSkeletonSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private cx(...parts: Array<TngSlotValue>): string {
+    return parts
+      .flatMap((p) => (Array.isArray(p) ? p : [p]))
+      .map((p) => (p ?? '').toString().trim())
+      .filter(Boolean)
+      .join(' ');
+  }
 }

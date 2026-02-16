@@ -31,12 +31,11 @@ export class ButtonApiComponent implements AfterViewInit {
     { property: 'type', type: "'button' | 'submit' | 'reset'", default: "'button'", description: 'Button type' },
     { property: 'ariaLabel', type: 'string', default: "''", description: 'Accessibility label (recommended for icon-only)' },
     { property: 'pressed', type: 'boolean | null', default: 'null', description: 'aria-pressed for toggle' },
-    { property: 'klass', type: 'string', default: "''", description: 'Extra classes for the button' },
-    { property: 'spinnerKlass', type: 'string', default: '…', description: 'Classes for the loading spinner' },
+    { property: 'slot', type: 'TngSlotMap<TngButtonSlot>', default: '{}', description: 'Slot-based micro styling (button, spinner)' },
   ];
 
   readonly inputRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['variant', 'size', 'disabled', 'loading', 'block', 'type', 'ariaLabel', 'pressed'].includes(p.property)));
-  readonly klassRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['klass', 'spinnerKlass'].includes(p.property)));
+  readonly stylingRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['slot'].includes(p.property)));
 
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;

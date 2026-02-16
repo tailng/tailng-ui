@@ -55,11 +55,15 @@ form = new FormGroup({
 `,
   );
 
-  readonly onOffKlassHtml = computed(
+  readonly onOffSlotHtml = computed(
     () => `
 <tng-slide-toggle formControlName="notifications" label="Themed by state"
-  trackOffKlass="bg-bg border-primary" trackOnKlass="bg-primary border-primary"
-  thumbOffKlass="bg-primary" thumbOnKlass="bg-on-primary" />
+  [slot]="{
+    trackChecked: 'bg-primary border-primary',
+    trackUnchecked: 'bg-bg border-primary',
+    thumbChecked: 'bg-on-primary',
+    thumbUnchecked: 'bg-primary'
+  }" />
 `,
   );
 }

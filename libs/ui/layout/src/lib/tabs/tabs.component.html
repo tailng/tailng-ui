@@ -1,13 +1,13 @@
-<div [class]="rootKlass()">
+<div [class]="containerClassFinal()">
   <div
     role="tablist"
     [attr.aria-orientation]="orientationAttr()"
-    [class]="listKlass()"
+    [class]="tabListClassFinal()"
   >
     <ng-content select="tng-tab"></ng-content>
   </div>
 
-  <div [class]="panelKlass()">
+  <div [class]="panelContainerClassFinal()">
     <ng-content select="tng-tab-panel"></ng-content>
   </div>
 </div>

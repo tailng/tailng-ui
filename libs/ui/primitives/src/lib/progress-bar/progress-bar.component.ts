@@ -1,5 +1,8 @@
 import { Component, computed, input } from '@angular/core';
 import { booleanAttribute, numberAttribute } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
+
+import { TngProgressBarSlot } from './progress-bar.slots';
 
 export type TngProgressMode = 'determinate' | 'indeterminate';
 
@@ -26,21 +29,8 @@ export class TngProgressBar {
   /** Disable animation (useful for reduced motion) */
   disableAnimation = input(false, { transform: booleanAttribute });
 
-  /* =====================
-   * Klass hooks (theming)
-   * ===================== */
-
-  /** Root wrapper */
-  rootKlass = input<string>('w-full');
-
-  /** Track (background) */
-  trackKlass = input<string>('bg-border');
-
-  /** Bar (foreground) */
-  barKlass = input<string>('bg-primary');
-
-  /** Height utility (Tailwind) */
-  heightKlass = input<string>('h-1');
+  /* Slot hooks (micro styling) */
+  slot = input<TngSlotMap<TngProgressBarSlot>>({});
 
   /* =====================
    * Computed
@@ -57,4 +47,42 @@ export class TngProgressBar {
     if (this.mode() === 'indeterminate') return {};
     return { width: `${this.percentage()}%` };
   });
+
+  readonly containerClassFinal = computed(() =>
+    this.cx('w-full', this.slotClass('container')),
+  );
+
+  readonly trackClassFinal = computed(() =>
+    this.cx(
+      'relative w-full overflow-hidden rounded-full bg-border h-1',
+      this.slotClass('track'),
+    ),
+  );
+
+  readonly indicatorClassFinal = computed(() =>
+    this.cx(
+      'h-full rounded-full transition-[width] duration-300 ease-out bg-primary',
+      this.slotClass('indicator'),
+    ),
+  );
+
+  readonly indeterminateIndicatorClass = computed(() =>
+    this.cx(
+      'absolute inset-y-0 left-0 w-1/3 rounded-full bg-primary',
+      this.slotClass('indicator'),
+      this.disableAnimation() ? '' : 'tng-progress-indeterminate',
+    ),
+  );
+
+  private slotClass(key: TngProgressBarSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private cx(...parts: Array<TngSlotValue>): string {
+    return parts
+      .flatMap((p) => (Array.isArray(p) ? p : [p]))
+      .map((p) => (p ?? '').toString().trim())
+      .filter(Boolean)
+      .join(' ');
+  }
 }

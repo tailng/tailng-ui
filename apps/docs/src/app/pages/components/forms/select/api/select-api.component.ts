@@ -30,16 +30,12 @@ export class SelectApiComponent implements AfterViewInit {
     { property: 'displayWith', type: '(item: T) => string', default: '(v) => String(v)', description: 'Format option for display' },
     { property: 'selected', type: 'OutputEventEmitter<T>', default: '—', description: 'Emits when user selects an option' },
     { property: 'closed', type: 'OutputEventEmitter<SelectCloseReason>', default: '—', description: 'Emits when overlay closes' },
-    { property: 'rootKlass', type: 'string', default: "'relative'", description: 'Root wrapper classes' },
-    { property: 'triggerKlass', type: 'string', default: '…', description: 'Trigger button classes' },
-    { property: 'valueKlass', type: 'string', default: "'truncate text-left'", description: 'Selected value text classes' },
-    { property: 'placeholderKlass', type: 'string', default: "'text-disable'", description: 'Placeholder text classes' },
-    { property: 'iconKlass', type: 'string', default: "'ml-2 text-disable'", description: 'Dropdown icon classes' },
+    { property: 'slot', type: 'TngSlotMap<TngSelectSlot>', default: '{}', description: 'Slot-based micro styling object' },
   ];
 
   readonly inputRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['options', 'value', 'placeholder', 'disabled', 'displayWith'].includes(p.property)));
   readonly outputRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['selected', 'closed'].includes(p.property)));
-  readonly klassRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['rootKlass', 'triggerKlass', 'valueKlass', 'placeholderKlass', 'iconKlass'].includes(p.property)));
+  readonly stylingRows = signal<DisplayDetails[]>(this.seed.filter((p) => p.property === 'slot'));
 
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;

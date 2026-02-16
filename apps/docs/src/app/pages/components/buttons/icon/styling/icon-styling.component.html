@@ -1,26 +1,53 @@
 <section class="space-y-6 text-fg">
+  <!-- Intro -->
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-icon</span> accepts a single <span class="font-mono">iconKlass</span> input,
-      merged with inline-flex and align-middle. Use it for color, size overrides, or spacing.
+      The <span class="font-mono">tng-icon</span> component uses slot-based micro styling via the
+      <span class="font-mono">slot</span> input. The slot object accepts the <span class="font-mono">icon</span> key
+      for the ng-icon host element. Default styles include inline-flex and align-middle; use the slot to override or extend.
     </p>
   </div>
 
+  <!-- icon slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">iconKlass</h3>
-    <p class="text-sm text-fg">Applies to the icon host element.</p>
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">icon slot</h3>
+      <tng-tag label="host"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Applies to the icon host element. Use for color, size overrides, or spacing.</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="klassHtml()"
+      [htmlContent]="iconSlotHtml()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <div class="flex items-center gap-4">
-          <tng-icon name="bootstrapAlarm" iconKlass="text-primary"></tng-icon>
-          <tng-icon name="bootstrapBell" iconKlass="text-danger text-2xl"></tng-icon>
+          <tng-icon name="bootstrapAlarm" [slot]="{ icon: 'text-primary' }"></tng-icon>
+          <tng-icon name="bootstrapBell" [slot]="{ icon: 'text-danger text-2xl' }"></tng-icon>
         </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- Combined example -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Combined slot example</h3>
+    <p class="text-sm text-fg">Slot with size for a styled status icon.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="combinedSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-icon
+          name="bootstrapCheck"
+          size="1.5em"
+          [slot]="{ icon: 'text-success ring-2 ring-success/30 rounded-full p-1' }"
+        >
+        </tng-icon>
       </div>
     </docs-example-block>
   </div>

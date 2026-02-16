@@ -1,5 +1,8 @@
 import { Component, computed, input } from '@angular/core';
 import { booleanAttribute } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
+
+import { TngDividerSlot } from './divider.slots';
 
 export type TngDividerOrientation = 'horizontal' | 'vertical';
 export type TngDividerAlign = 'start' | 'center' | 'end';
@@ -15,41 +18,32 @@ export class TngDivider {
   align = input<TngDividerAlign>('center');
   dashed = input(false, { transform: booleanAttribute });
 
-  /* klass hooks */
-  rootKlass = input<string>('');
-
-  /** Must include border color: border-border or border-slate-300 */
-  lineKlass = input<string>('border-border');
-
-  labelKlass = input<string>('text-xs text-fg/70');
-  gapKlass = input<string>('my-4');
-  thicknessKlass = input<string>('border-t');
-
-  /** NEW: vertical height that does NOT depend on parent height */
-  verticalHeightKlass = input<string>('h-6');
+  /** Slot-based micro styling */
+  slot = input<TngSlotMap<TngDividerSlot>>({});
 
   readonly isVertical = computed(() => this.orientation() === 'vertical');
 
-  readonly rootClasses = computed(() => {
-    if (this.isVertical()) {
-      // no h-full dependency anymore
-      return (`inline-flex shrink-0 items-stretch ${this.rootKlass()}`).trim();
-    }
-    return (`flex w-full items-center ${this.gapKlass()} ${this.rootKlass()}`).trim();
+  readonly containerClassFinal = computed(() => {
+    const base = this.isVertical()
+      ? 'inline-flex shrink-0 items-stretch'
+      : `flex w-full items-center ${this.slotClass('gap') || 'my-4'}`;
+    return this.cx(base.trim(), this.slotClass('container'));
   });
 
-  readonly lineClasses = computed(() => {
+  readonly lineClassFinal = computed(() => {
     const style = this.dashed() ? 'border-dashed' : 'border-solid';
+    const lineBase = this.slotClass('line') || 'border-border';
 
     if (this.isVertical()) {
-      // Always visible: w-px + explicit height
-      return (
-        `w-px ${this.verticalHeightKlass()} self-stretch shrink-0 ` +
-        `border-l ${style} ${this.lineKlass()}`
-      ).trim();
+      const vh = this.slotClass('verticalHeight') || 'h-6';
+      return this.cx(
+        `w-px ${vh} self-stretch shrink-0 border-l ${style}`,
+        lineBase,
+      );
     }
 
-    return (`${this.thicknessKlass()} ${style} ${this.lineKlass()}`).trim();
+    const th = this.slotClass('thickness') || 'border-t';
+    return this.cx(th, style, lineBase);
   });
 
   readonly leftGrow = computed(() => {
@@ -66,7 +60,19 @@ export class TngDivider {
     return 'grow';
   });
 
-  readonly labelClasses = computed(
-    () => (`px-3 whitespace-nowrap ${this.labelKlass()}`).trim()
+  readonly labelClassFinal = computed(() =>
+    this.cx('px-3 whitespace-nowrap', this.slotClass('label') || 'text-xs text-fg/70'),
   );
+
+  private slotClass(key: TngDividerSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private cx(...parts: Array<TngSlotValue>): string {
+    return parts
+      .flatMap((p) => (Array.isArray(p) ? p : [p]))
+      .map((p) => (p ?? '').toString().trim())
+      .filter(Boolean)
+      .join(' ');
+  }
 }

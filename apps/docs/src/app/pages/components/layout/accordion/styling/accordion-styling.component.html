@@ -2,30 +2,66 @@
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-accordion</span> exposes rootKlass and stackKlass. Panel appearance is controlled via each <span class="font-mono">tng-expansion-panel</span> (rootKlass, headerKlass, contentBodyKlass, etc.).
+      <span class="font-mono">tng-accordion</span> uses slot-based micro styling (container, stack). Panel appearance is controlled via each <span class="font-mono">tng-expansion-panel</span> slot (container, header, contentBody, etc.).
     </p>
   </div>
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">Themed panels inside accordion</h3>
-    <p class="text-sm text-fg">Override accordion stackKlass and each panel's rootKlass, headerKlass, contentPaddingKlass, contentBodyKlass.</p>
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
+      <tng-tag label="wrapper"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Root wrapper. Default: w-full.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="containerSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-accordion [slot]="{ container: 'max-w-2xl py-4' }">
+          <tng-expansion-panel><div tngExpansionTitle>Panel A</div><div tngExpansionContent>Content A</div></tng-expansion-panel>
+          <tng-expansion-panel><div tngExpansionTitle>Panel B</div><div tngExpansionContent>Content B</div></tng-expansion-panel>
+        </tng-accordion>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">stack slot</h3>
+      <tng-tag label="spacing"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Inner stack holding panels. Default: space-y-2. Use space-y-4, space-y-6 for more gap.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="stackSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-accordion [slot]="{ stack: 'space-y-6' }">
+          <tng-expansion-panel><div tngExpansionTitle>Panel A</div><div tngExpansionContent>Content A</div></tng-expansion-panel>
+          <tng-expansion-panel><div tngExpansionTitle>Panel B</div><div tngExpansionContent>Content B</div></tng-expansion-panel>
+        </tng-accordion>
+      </div>
+    </docs-example-block>
+  </div>
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Combined: themed panels inside accordion</h3>
+    <p class="text-sm text-fg">Override accordion stack slot and each panel's container, header, contentPadding, contentBody slots.</p>
     <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="themedHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-accordion rootKlass="w-full" stackKlass="space-y-3">
+        <tng-accordion [slot]="{ container: 'w-full', stack: 'space-y-3' }">
           <tng-expansion-panel
-            rootKlass="rounded-xl border border-slate-200 bg-white shadow-sm"
-            headerKlass="flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-semibold text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-60"
-            contentPaddingKlass="px-5 pb-5 pt-2"
-            contentBodyKlass="text-sm text-slate-600"
+            [slot]="{
+              container: 'rounded-xl border border-slate-200 bg-white shadow-sm',
+              header: 'flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-semibold text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-60',
+              contentPadding: 'px-5 pb-5 pt-2',
+              contentBody: 'text-sm text-slate-600'
+            }"
           >
             <div tngExpansionTitle>Styled header</div>
-            <div tngExpansionContent>Accordion is headless; panels control visuals via klass inputs.</div>
+            <div tngExpansionContent>Accordion is headless; panels control visuals via slot object.</div>
           </tng-expansion-panel>
           <tng-expansion-panel
-            rootKlass="rounded-xl border border-slate-200 bg-white shadow-sm"
-            headerKlass="flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-semibold text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-60"
-            contentPaddingKlass="px-5 pb-5 pt-2"
-            contentBodyKlass="text-sm text-slate-600"
+            [slot]="{
+              container: 'rounded-xl border border-slate-200 bg-white shadow-sm',
+              header: 'flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-semibold text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-60',
+              contentPadding: 'px-5 pb-5 pt-2',
+              contentBody: 'text-sm text-slate-600'
+            }"
           >
             <div tngExpansionTitle>Another panel</div>
             <div tngExpansionContent>Works for FAQs, settings, sidebars.</div>

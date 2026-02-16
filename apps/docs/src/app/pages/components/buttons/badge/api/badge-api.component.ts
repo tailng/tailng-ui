@@ -33,14 +33,12 @@ export class BadgeApiComponent implements AfterViewInit {
     { property: 'variant', type: 'TngBadgeVariant', default: "'danger'", description: 'primary | neutral | success | warning | danger | info' },
     { property: 'size', type: "'sm' | 'md'", default: "'md'", description: 'Badge size' },
     { property: 'ariaLabel', type: 'string', default: "''", description: 'Accessible label override' },
-    { property: 'rootKlass', type: 'string', default: "'inline-flex'", description: 'Root wrapper classes' },
-    { property: 'hostKlass', type: 'string', default: "'relative inline-flex'", description: 'Host anchor classes' },
-    { property: 'badgeKlass', type: 'string', default: "''", description: 'Badge element classes' },
+    { property: 'slot', type: 'TngSlotMap<TngBadgeSlot>', default: '{}', description: 'Slot-based micro styling (container, anchor, badge)' },
   ];
 
   readonly contentRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['value', 'dot', 'hide', 'showZero', 'max'].includes(p.property)));
   readonly layoutRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['position', 'overlap', 'variant', 'size', 'ariaLabel'].includes(p.property)));
-  readonly klassRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['rootKlass', 'hostKlass', 'badgeKlass'].includes(p.property)));
+  readonly stylingRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['slot'].includes(p.property)));
 
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;

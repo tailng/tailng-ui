@@ -1,9 +1,9 @@
-<div [class]="rootKlass()">
+<div [class]="containerClassFinal()">
   <!-- Trigger -->
   <button
     #triggerEl
     type="button"
-    [class]="triggerClasses()"
+    [class]="triggerButtonClassFinal()"
     [disabled]="isDisabled()"
     (click)="onTriggerClick()"
     (keydown)="onKeydown($event)"
@@ -11,7 +11,7 @@
     aria-haspopup="listbox"
     [attr.aria-expanded]="isOpen()"
   >
-    <span [class]="valueKlass()">
+    <span [class]="triggerValueClassFinal()">
       @if (currentValue()) {
         @if (valueTpl) {
           <ng-container
@@ -22,11 +22,11 @@
           {{ display(currentValue()) }}
         }
       } @else {
-        <span [class]="placeholderKlass()">{{ placeholder() }}</span>
+        <span [class]="triggerPlaceholderClassFinal()">{{ placeholder() }}</span>
       }
     </span>
 
-    <span [class]="iconKlass()">▾</span>
+    <span [class]="triggerIconClassFinal()">▾</span>
   </button>
 
   <!-- Overlay -->
@@ -43,7 +43,7 @@
       width="anchor"
       (closed)="overlayRef.close($event)"
     >
-      <tng-overlay-panel>
+      <tng-overlay-panel [slot]="overlayPanelSlot()">
         <tng-option-list
           [items]="options()"
           [activeIndex]="activeIndex()"
@@ -51,6 +51,7 @@
           [optionTemplate]="optionTpl ?? null"
           [loop]="false"
           [typeahead]="false"
+          [slot]="optionListSlot()"
           (activeIndexChange)="onActiveIndexChange($event)"
           (requestSelectActive)="requestSelectActive()"
           (optionMouseDown)="select($event.item)"

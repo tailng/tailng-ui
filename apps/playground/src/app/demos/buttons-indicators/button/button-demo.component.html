@@ -2,7 +2,7 @@
   <div class="space-y-1">
     <h1 class="text-2xl font-bold text-fg">Button</h1>
     <p class="text-sm text-disable">
-      Variants • Sizes • Disabled • Loading • Block • Pressed • Aria • Spinner theming • Custom klass
+      Variants • Sizes • Disabled • Loading • Block • Pressed • Aria • Slot styling (button, spinner)
     </p>
   </div>
 
@@ -47,9 +47,9 @@
     </div>
   </section>
 
-  <!-- Loading + spinnerKlass -->
+  <!-- Loading + spinner slot -->
   <section class="space-y-3">
-    <h2 class="text-lg font-semibold text-fg">Loading (spinnerKlass theming)</h2>
+    <h2 class="text-lg font-semibold text-fg">Loading (spinner slot)</h2>
     <div class="flex flex-wrap items-center gap-3">
       <!-- Default spinner (inherits current text color) -->
       <tng-button [loading]="true">Saving…</tng-button>
@@ -60,7 +60,7 @@
       <!-- Custom spinner: uses on-primary color explicitly -->
       <tng-button
         [loading]="true"
-        spinnerKlass="h-4 w-4 animate-spin rounded-full border-2 border-on-primary border-t-transparent"
+        [slot]="{ spinner: 'h-4 w-4 animate-spin rounded-full border-2 border-on-primary border-t-transparent' }"
       >
         Submit
       </tng-button>
@@ -69,7 +69,7 @@
       <tng-button
         variant="ghost"
         [loading]="true"
-        spinnerKlass="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent"
+        [slot]="{ spinner: 'h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent' }"
       >
         Sync
       </tng-button>
@@ -121,19 +121,19 @@
     </div>
   </section>
 
-  <!-- Custom klass -->
+  <!-- Custom slot (button) -->
   <section class="space-y-3">
-    <h2 class="text-lg font-semibold text-fg">Custom klass</h2>
+    <h2 class="text-lg font-semibold text-fg">Custom slot (button)</h2>
     <div class="flex flex-wrap gap-3">
-      <tng-button klass="bg-danger text-on-danger hover:bg-danger-hover">
-        Danger (custom klass)
+      <tng-button [slot]="{ button: 'bg-danger text-on-danger hover:bg-danger-hover' }">
+        Danger (custom button slot)
       </tng-button>
 
       <tng-button
         variant="outline"
-        klass="border-primary text-primary hover:bg-alternate-background"
+        [slot]="{ button: 'border-primary text-primary hover:bg-alternate-background' }"
       >
-        Primary Outline (custom klass)
+        Primary Outline (custom button slot)
       </tng-button>
     </div>
   </section>

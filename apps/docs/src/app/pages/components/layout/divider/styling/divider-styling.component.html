@@ -2,16 +2,115 @@
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-divider</span> exposes rootKlass, lineKlass, labelKlass, gapKlass, thicknessKlass, verticalHeightKlass.
+      <span class="font-mono">tng-divider</span> uses slot-based micro styling. Slots:
+      <span class="font-mono">container</span>, <span class="font-mono">line</span>, <span class="font-mono">label</span>,
+      <span class="font-mono">gap</span>, <span class="font-mono">thickness</span>, <span class="font-mono">verticalHeight</span>.
     </p>
   </div>
+
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">lineKlass / labelKlass</h3>
-    <p class="text-sm text-fg">Style the line and optional label.</p>
-    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="lineLabelHtml()">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
+      <tng-tag label="wrapper"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Root wrapper. Horizontal: flex w-full items-center. Vertical: inline-flex shrink-0 items-stretch.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="containerSlotHtml()">
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-divider label="Themed" lineKlass="border-primary/40" labelKlass="text-primary text-xs font-medium" />
+        <tng-divider [slot]="{ container: 'max-w-md' }" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">line slot</h3>
+      <tng-tag label="line"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Line element. Default: border-border. Include border color (border-primary, border-border/50).</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="lineSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-divider [slot]="{ line: 'border-primary' }" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">label slot</h3>
+      <tng-tag label="label"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Label span. Default: text-xs text-fg/70.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="labelSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-divider label="Themed" [slot]="{ label: 'text-primary text-xs font-medium' }" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">gap slot</h3>
+      <tng-tag label="spacing"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Vertical gap (horizontal mode). Default: my-4.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="gapSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-divider [slot]="{ gap: 'my-8' }" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">thickness slot</h3>
+      <tng-tag label="horizontal"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Line thickness (horizontal). Default: border-t. Use border-t-2 for thicker.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="thicknessSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-divider [slot]="{ thickness: 'border-t-2' }" />
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">verticalHeight slot</h3>
+      <tng-tag label="vertical"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Line height (vertical mode). Default: h-6. Use h-10, h-12 for taller.</p>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="verticalHeightSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <div class="flex items-center gap-4 h-16">
+          <span>Left</span>
+          <tng-divider orientation="vertical" [slot]="{ verticalHeight: 'h-10', container: 'h-full shrink-0' }" />
+          <span>Right</span>
+        </div>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Combined slot example</h3>
+    <docs-example-block [docLink]="'#'" [stackBlitzLink]="'#'" [htmlContent]="combinedSlotHtml()">
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-divider
+          label="Styled"
+          [slot]="{
+            container: 'max-w-sm',
+            line: 'border-primary/50',
+            label: 'text-primary font-medium',
+            gap: 'my-6',
+            thickness: 'border-t-2'
+          }"
+        />
       </div>
     </docs-example-block>
   </div>

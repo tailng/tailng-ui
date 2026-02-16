@@ -20,7 +20,7 @@ export class DividerExamplesComponent {
     () => `
 <div class="flex items-center gap-4 h-10">
   <span>Item A</span>
-  <tng-divider orientation="vertical" rootKlass="h-full shrink-0" />
+  <tng-divider orientation="vertical" [slot]="{ container: 'h-full shrink-0' }" />
   <span>Item B</span>
 </div>
 `,

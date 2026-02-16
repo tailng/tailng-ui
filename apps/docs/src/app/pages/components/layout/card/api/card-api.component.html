@@ -7,18 +7,19 @@
         [highlighter]="highlighter"
         language="typescript"
         preKlass="bg-bg h-15"
-        rootKlass="border-0 bg-bg h-20 overflow-y-hidden"
+        containerClass="border-0 bg-bg h-20 overflow-y-hidden"
       >
       </tng-code-block>
     </div>
     <header class="flex flex-col gap-1">
-      <h3 class="text-2xl font-semibold text-primary">Inputs (class hooks)</h3>
-      <p class="text-sm text-fg">Card has no content inputs; use content projection and class hooks.</p>
+      <h3 class="text-2xl font-semibold text-primary">Inputs</h3>
+      <p class="text-sm text-fg">Card has no content inputs; use content projection and slot-based micro styling.</p>
     </header>
 
-    <section id="klass" class="flex flex-col gap-4 text-fg">
+    <section id="slot" class="flex flex-col gap-4 text-fg">
+      <h3 class="text-base font-semibold text-primary">Styling (slot)</h3>
       <div class="rounded-md border text-fg">
-        <tng-table [rows]="klassRows()">
+        <tng-table [rows]="slotRows()">
           <tng-col id="property" header="Property" [value]="property"></tng-col>
           <tng-col id="type" header="Type" [value]="type"></tng-col>
           <tng-col id="default" header="Default" [value]="default"></tng-col>
@@ -35,7 +36,7 @@
   <aside class="hidden md:block p-4 sticky text-fg top-10 h-[calc(50vh-1rem)] z-20 border-l-4 border-primary overflow-y-hidden">
     <h3 class="mb-3 text-xs font-semibold tracking-wide">API Overview</h3>
     <ul class="space-y-2 text-sm text-fg">
-      <li><a href="#klass" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Class hooks</a></li>
+      <li><a href="#slot" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Styling (slot)</a></li>
       <li><a href="#projection" class="flex items-center gap-2 p-1 hover:text-primary scroll-link"><span class="h-1.5 w-1.5 rounded-full bg-primary"></span> Content projection</a></li>
     </ul>
   </aside>

@@ -25,12 +25,13 @@ export class IconApiComponent implements AfterViewInit {
   private readonly seed: DisplayDetails[] = [
     { property: 'name', type: 'string', default: '—', description: 'Icon name from @ng-icons registry (required)' },
     { property: 'size', type: 'number | string', default: "'1em'", description: 'Number => px; string => as-is (e.g. 1em, 20px)' },
-    { property: 'iconKlass', type: 'string', default: "''", description: 'Additional classes for the host' },
+    { property: 'slot', type: 'TngSlotMap<TngIconSlot>', default: '{}', description: 'Slot-based micro styling (icon)' },
     { property: 'decorative', type: 'boolean', default: 'true', description: 'true => aria-hidden; false => use ariaLabel' },
     { property: 'ariaLabel', type: 'string', default: "''", description: 'Accessible label when decorative=false' },
   ];
 
-  readonly inputRows = signal<DisplayDetails[]>(this.seed);
+  readonly inputRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['name', 'size', 'decorative', 'ariaLabel'].includes(p.property)));
+  readonly stylingRows = signal<DisplayDetails[]>(this.seed.filter((p) => ['slot'].includes(p.property)));
 
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;

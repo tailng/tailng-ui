@@ -109,16 +109,16 @@ export class ExampleComponent {}
 
 ---
 
-### With Tailwind / TailNG Classes
+### With Tailwind / TailNG Classes (Slot)
 
-Icons use `currentColor`, so they inherit text color.
+Icons use `currentColor`, so they inherit text color. Use the `slot` input for micro styling:
 
 ```html
 <!-- Token-safe (recommended) -->
-<tng-icon name="bootstrapCheckCircle" class="text-fg" />
+<tng-icon name="bootstrapCheckCircle" [slot]="{ icon: 'text-fg' }" />
 
 <!-- Any Tailwind color also works -->
-<tng-icon name="bootstrapCheckCircle" class="text-green-500" />
+<tng-icon name="bootstrapCheckCircle" [slot]="{ icon: 'text-green-500' }" />
 ```
 
 ---
@@ -152,8 +152,8 @@ Icons use `currentColor`, so they inherit text color.
   Number = pixels, string = CSS unit  
   Default: `'1em'`
 
-- **`iconKlass`**: `string`  
-  Additional CSS classes for the icon
+- **`slot`**: `TngSlotMap<TngIconSlot>`  
+  Slot-based micro styling. Accepts `icon` key for the ng-icon host element.
 
 - **`decorative`**: `boolean`  
   If `true`, sets `aria-hidden`  

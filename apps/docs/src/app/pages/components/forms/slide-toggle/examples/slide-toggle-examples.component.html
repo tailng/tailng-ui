@@ -67,21 +67,20 @@
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-4">
     <div class="flex items-center justify-between">
       <h3 class="text-sm font-semibold text-primary">On/off state classes</h3>
-      <tng-tag label="trackOnKlass / trackOffKlass / thumbOnKlass / thumbOffKlass"></tng-tag>
+      <tng-tag label="trackChecked / trackUnchecked / thumbChecked / thumbUnchecked"></tng-tag>
     </div>
-    <p class="text-sm text-fg">Use <span class="font-mono">trackOnKlass</span>, <span class="font-mono">trackOffKlass</span>, <span class="font-mono">thumbOnKlass</span>, <span class="font-mono">thumbOffKlass</span> to style track and thumb per state.</p>
+    <p class="text-sm text-fg">Use <span class="font-mono">slot</span> with <span class="font-mono">trackChecked</span>, <span class="font-mono">trackUnchecked</span>, <span class="font-mono">thumbChecked</span>, <span class="font-mono">thumbUnchecked</span> to style track and thumb per state.</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="onOffKlassHtml()"
+      [htmlContent]="onOffSlotHtml()"
       [tsContent]="basicTs()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <form [formGroup]="form">
           <tng-slide-toggle formControlName="notifications" label="Themed by state"
-            trackOffKlass="bg-bg border-primary" trackOnKlass="bg-primary border-primary"
-            thumbOffKlass="bg-primary" thumbOnKlass="bg-on-primary" />
+            [slot]="{ trackChecked: 'bg-primary border-primary', trackUnchecked: 'bg-bg border-primary', thumbChecked: 'bg-on-primary', thumbUnchecked: 'bg-primary' }" />
         </form>
       </div>
     </docs-example-block>

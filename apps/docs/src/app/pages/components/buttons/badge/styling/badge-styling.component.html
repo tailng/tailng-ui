@@ -1,40 +1,102 @@
 <section class="space-y-6 text-fg">
+  <!-- Intro -->
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-badge</span> exposes <span class="font-mono">rootKlass</span> (wrapper),
-      <span class="font-mono">hostKlass</span> (positioning anchor), and <span class="font-mono">badgeKlass</span> (badge element).
+      The <span class="font-mono">tng-badge</span> component uses slot-based micro styling via the
+      <span class="font-mono">slot</span> input. The slot object accepts keys:
+      <span class="font-mono">container</span> (outer wrapper),
+      <span class="font-mono">anchor</span> (positioning anchor), and
+      <span class="font-mono">badge</span> (badge element). Each slot targets a specific element in the component structure.
     </p>
   </div>
 
+  <!-- container slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">badgeKlass</h3>
-    <p class="text-sm text-fg">Applies to the badge element. Use for shadow, typography, etc.</p>
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
+      <tng-tag label="wrapper"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Outer wrapper for layout of projected content and badge. Default: inline-flex.</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="badgeKlassHtml()"
+      [htmlContent]="containerSlotHtml()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-badge [value]="5" variant="danger" badgeKlass="shadow-md">
+        <tng-badge [value]="5" variant="danger" [slot]="{ container: 'inline-flex' }">
           <span class="rounded-md border border-border px-3 py-2 text-sm">Notifications</span>
         </tng-badge>
       </div>
     </docs-example-block>
   </div>
 
+  <!-- anchor slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
-    <h3 class="text-sm font-semibold text-primary">rootKlass / hostKlass</h3>
-    <p class="text-sm text-fg">Layout of wrapper and host (e.g. block vs inline-flex).</p>
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">anchor slot</h3>
+      <tng-tag label="positioning"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">The element that becomes the positioning anchor for the badge. Default: relative inline-flex.</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="rootHostHtml()"
+      [htmlContent]="anchorSlotHtml()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
-        <tng-badge [value]="3" variant="primary" rootKlass="inline-flex" hostKlass="relative inline-flex h-10 w-10 items-center justify-center rounded-md border border-border">
+        <tng-badge
+          [value]="3"
+          variant="primary"
+          [slot]="{ anchor: 'relative inline-flex h-10 w-10 items-center justify-center rounded-md border border-border' }"
+        >
+        </tng-badge>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- badge slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">badge slot</h3>
+      <tng-tag label="badge"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Applies to the badge element. Use for shadow, typography, or ring overrides.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="badgeSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-badge [value]="5" variant="danger" [slot]="{ badge: 'shadow-md' }">
+          <span class="rounded-md border border-border px-3 py-2 text-sm">Notifications</span>
+        </tng-badge>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- Combined example -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Combined slot example</h3>
+    <p class="text-sm text-fg">Multiple slots applied together.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="combinedSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <tng-badge
+          [value]="3"
+          variant="primary"
+          [slot]="{
+            container: 'inline-flex',
+            anchor: 'relative inline-flex h-10 w-10 items-center justify-center rounded-md border border-border',
+            badge: 'shadow-lg ring-primary/50'
+          }"
+        >
         </tng-badge>
       </div>
     </docs-example-block>

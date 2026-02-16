@@ -5,7 +5,7 @@
       <p class="text-sm leading-6 text-muted">
         <span class="font-mono text-primary/20">tng-slide-toggle</span> is an on/off toggle that implements
         <span class="font-mono text-primary/20">ControlValueAccessor</span>. Value is <span class="font-mono text-primary/20">boolean</span>.
-        Optional <span class="font-mono text-primary/20">label</span>; klass hooks for root, label, and track/thumb with base + on/off state (<span class="font-mono text-primary/20">trackOnKlass</span>, <span class="font-mono text-primary/20">trackOffKlass</span>, <span class="font-mono text-primary/20">thumbOnKlass</span>, <span class="font-mono text-primary/20">thumbOffKlass</span>).
+        Optional <span class="font-mono text-primary/20">label</span>; slot-based micro styling for container, label, input, track, thumb with per-state <span class="font-mono text-primary/20">trackChecked</span>, <span class="font-mono text-primary/20">trackUnchecked</span>, <span class="font-mono text-primary/20">thumbChecked</span>, <span class="font-mono text-primary/20">thumbUnchecked</span>.
       </p>
       <div class="flex flex-wrap gap-2 pt-1">
         <tng-tag label="CVA" color="default"></tng-tag>
@@ -39,8 +39,8 @@
           <p class="text-xs leading-5 text-muted">Form value is <span class="font-mono">true</span> or <span class="font-mono">false</span>.</p>
         </div>
         <div class="rounded-lg border bg-alternate-background p-4 space-y-1">
-          <div class="text-sm font-semibold text-primary/20">Klass hooks (base + on/off)</div>
-          <p class="text-xs leading-5 text-muted">rootKlass, labelKlass, inputKlass; base trackKlass/thumbKlass; per-state trackOnKlass, trackOffKlass, thumbOnKlass, thumbOffKlass.</p>
+          <div class="text-sm font-semibold text-primary/20">Slot-based micro styling</div>
+          <p class="text-xs leading-5 text-muted">slot: container, label, input, track, thumb; per-state trackChecked, trackUnchecked, thumbChecked, thumbUnchecked.</p>
         </div>
       </div>
     </div>

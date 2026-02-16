@@ -23,13 +23,10 @@ export class CardApiComponent implements AfterViewInit {
   readonly importExample = () => `import { TngCard, TngCardHeader, TngCardFooter } from '@tailng-ui/ui/layout';`;
 
   private readonly seed: DisplayDetails[] = [
-    { property: 'rootKlass', type: 'string', default: "''", description: 'Root wrapper (merged with default border, rounded, shadow)' },
-    { property: 'headerKlass', type: 'string', default: "''", description: 'Header section' },
-    { property: 'contentKlass', type: 'string', default: "''", description: 'Body section' },
-    { property: 'footerKlass', type: 'string', default: "''", description: 'Footer section' },
+    { property: 'slot', type: 'TngSlotMap<TngCardSlot>', default: '{}', description: 'Slot-based micro styling: container, header, body, footer' },
   ];
 
-  readonly klassRows = signal<DisplayDetails[]>(this.seed);
+  readonly slotRows = signal<DisplayDetails[]>(this.seed);
 
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;

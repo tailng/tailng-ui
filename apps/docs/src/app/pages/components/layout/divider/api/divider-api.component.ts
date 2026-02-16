@@ -23,17 +23,12 @@ export class DividerApiComponent implements AfterViewInit {
     { property: 'align', type: 'TngDividerAlign', default: "'center'", description: 'start | center | end' },
     { property: 'dashed', type: 'boolean', default: 'false', description: 'Dashed border' },
   ];
-  private readonly klassSeed: DisplayDetails[] = [
-    { property: 'rootKlass', type: 'string', default: "''", description: 'Root wrapper' },
-    { property: 'lineKlass', type: 'string', default: "'border-border'", description: 'Line (include border color)' },
-    { property: 'labelKlass', type: 'string', default: "'text-xs text-fg/70'", description: 'Label text' },
-    { property: 'gapKlass', type: 'string', default: "'my-4'", description: 'Vertical gap (horizontal)' },
-    { property: 'thicknessKlass', type: 'string', default: "'border-t'", description: 'e.g. border-t, border-t-2' },
-    { property: 'verticalHeightKlass', type: 'string', default: "'h-6'", description: 'Height when vertical' },
+  private readonly slotSeed: DisplayDetails[] = [
+    { property: 'slot', type: 'TngSlotMap<TngDividerSlot>', default: '{}', description: 'Slot-based styling: container, line, label, gap, thickness, verticalHeight' },
   ];
 
   readonly inputRows = signal<DisplayDetails[]>(this.inputSeed);
-  readonly klassRows = signal<DisplayDetails[]>(this.klassSeed);
+  readonly slotRows = signal<DisplayDetails[]>(this.slotSeed);
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;
   readonly default = (r: DisplayDetails) => r.default ?? '—';

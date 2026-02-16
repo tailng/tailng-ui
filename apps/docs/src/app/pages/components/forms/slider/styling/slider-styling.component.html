@@ -1,71 +1,144 @@
 <section class="space-y-6 text-fg">
+  <!-- Intro -->
   <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
     <h2 class="text-sm font-semibold text-primary">Styling</h2>
     <p class="text-sm leading-6 text-fg">
-      <span class="font-mono">tng-slider</span> exposes six klass hooks:
-      <span class="font-mono">rootKlass</span>, <span class="font-mono">labelKlass</span>,
-      <span class="font-mono">trackKlass</span> (track background),
-      <span class="font-mono">fillKlass</span> (filled segment),
-      <span class="font-mono">thumbKlass</span> (handle),
-      <span class="font-mono">rangeKlass</span> (native input).
+      The <span class="font-mono">tng-slider</span> component uses slot-based micro styling via the
+      <span class="font-mono">slot</span> input. The slot object accepts keys:
+      <span class="font-mono">container</span>, <span class="font-mono">trackWrapper</span>,
+      <span class="font-mono">track</span>, <span class="font-mono">trackFill</span>,
+      <span class="font-mono">thumb</span>, <span class="font-mono">input</span>, and
+      <span class="font-mono">valueText</span>. Each slot targets a specific element in the component structure.
     </p>
   </div>
 
+  <!-- container slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-primary">rootKlass</h3>
-      <tng-tag label="wrapper"></tng-tag>
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
+      <tng-tag label="root wrapper"></tng-tag>
     </div>
-    <p class="text-sm text-fg">Applies to the root wrapper. Default: w-full.</p>
+    <p class="text-sm text-fg">The root wrapper element. Default: w-full.</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="rootKlassHtml()"
+      [htmlContent]="containerSlotHtml()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <form [formGroup]="form" class="w-full max-w-sm">
-          <tng-slider formControlName="val" rootKlass="w-full p-4 rounded-xl border-2 border-primary/30" />
+          <tng-slider formControlName="val" [slot]="{ container: 'w-full p-4 rounded-xl border-2 border-primary/30' }" />
         </form>
       </div>
     </docs-example-block>
   </div>
 
+  <!-- trackWrapper slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-primary">trackKlass & fillKlass</h3>
+      <h3 class="text-sm font-semibold text-primary">trackWrapper slot</h3>
+      <tng-tag label="visual area"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">The div wrapping the track, fill, and thumb. Default: relative w-full h-6.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="trackWrapperSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-slider formControlName="val" [slot]="{ trackWrapper: 'relative w-full h-10' }" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- track & trackFill slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">track & trackFill slot</h3>
       <tng-tag label="track / fill"></tng-tag>
     </div>
     <p class="text-sm text-fg">Customize the track background and the filled portion.</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="trackFillHtml()"
+      [htmlContent]="trackFillSlotHtml()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <form [formGroup]="form" class="w-full max-w-sm">
-          <tng-slider formControlName="val" trackKlass="h-3 bg-on-primary/50" fillKlass="bg-primary" />
+          <tng-slider formControlName="val" [slot]="{ track: 'h-3 bg-on-primary/50', trackFill: 'bg-primary' }" />
         </form>
       </div>
     </docs-example-block>
   </div>
 
+  <!-- thumb slot -->
   <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
     <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-primary">thumbKlass</h3>
-      <tng-tag label="thumb"></tng-tag>
+      <h3 class="text-sm font-semibold text-primary">thumb slot</h3>
+      <tng-tag label="handle"></tng-tag>
     </div>
     <p class="text-sm text-fg">Applies to the draggable thumb (handle).</p>
     <docs-example-block
       [docLink]="'https://example.com/docs'"
       [stackBlitzLink]="'https://stackblitz.com/example'"
-      [htmlContent]="thumbKlassHtml()"
+      [htmlContent]="thumbSlotHtml()"
     >
       <span tngExampleTitle>Example</span>
       <div tngExampleDemo>
         <form [formGroup]="form" class="w-full max-w-sm">
-          <tng-slider formControlName="val" thumbKlass="h-5 w-5 shadow-lg border-2 border-primary" />
+          <tng-slider formControlName="val" [slot]="{ thumb: 'h-5 w-5 shadow-lg border-2 border-primary' }" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- valueText slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">valueText slot</h3>
+      <tng-tag label="value display"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Style the value display below the track. Default: mt-1 text-xs text-disable.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="valueTextSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-slider formControlName="val" [slot]="{ valueText: 'mt-1 text-sm font-medium text-primary' }" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- Combined example -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <h3 class="text-sm font-semibold text-primary">Combined slot example</h3>
+    <p class="text-sm text-fg">Multiple slots applied together.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="combinedSlotHtml()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-slider
+            formControlName="val"
+            [slot]="{
+              container: 'w-full p-4 rounded-xl border border-primary/30',
+              track: 'h-3 bg-on-primary/50',
+              trackFill: 'bg-primary',
+              thumb: 'h-5 w-5 shadow-lg border-2 border-primary',
+              valueText: 'mt-1 text-sm font-medium text-primary'
+            }"
+          />
         </form>
       </div>
     </docs-example-block>

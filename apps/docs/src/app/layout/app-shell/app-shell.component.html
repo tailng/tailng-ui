@@ -12,7 +12,7 @@
             panelKlass="fixed left-0 z-30 max-h-screen w-80 bg-bg p-2 overflow-y-auto border-r"
             klass="h-full"
           >
-            <tng-icon tngMenuTrigger name="bootstrapList" iconKlass="text-2xl"></tng-icon>
+            <tng-icon tngMenuTrigger name="bootstrapList" [slot]="{ icon: 'text-2xl' }"></tng-icon>
 
             <ng-template tngMenuTemplate>
               <div class="mb-2 text-xs w-full font-semibold uppercase tracking-wide text-primary">
@@ -117,8 +117,7 @@
         <tng-slide-toggle
           [checked]="docsThemeService.isDark()"
           (checkedChange)="onModeToggle($event)"
-          thumbOffKlass="bg-fg text-bg pt-1"
-          thumbOnKlass="bg-bg text-fg pl-1 pt-1"
+          [slot]="{ thumbUnchecked: 'bg-fg text-bg pt-1', thumbChecked: 'bg-bg text-fg pl-1 pt-1' }"
         >
           <tng-icon name="bootstrapMoonFill" tngSlideToggleOn></tng-icon>
           <tng-icon name="bootstrapSunFill" tngSlideToggleOff></tng-icon>
@@ -185,7 +184,7 @@
           target="_blank"
           class="text-sm text-fg hover:text-fg-100 flex items-center gap-1"
         >
-          <tng-icon name="bootstrapGithub" iconKlass="me-1 text-xl"></tng-icon>
+          <tng-icon name="bootstrapGithub" [slot]="{ icon: 'me-1 text-xl' }"></tng-icon>
         </a>
       </div>
     </div>

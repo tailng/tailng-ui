@@ -6,7 +6,9 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { booleanAttribute } from '@angular/core';
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
+
+import { TngTabsSlot } from './tabs.slots';
 
 @Component({
   selector: 'tng-tabs',
@@ -34,12 +36,34 @@ export class TngTabs {
   valueChange = output<string>();
 
   /* =====================
-   * Klass hooks
+   * Slot hooks (micro styling)
    * ===================== */
 
-  rootKlass = input<string>('w-full');
-  listKlass = input<string>('flex gap-2 border-b border-border');
-  panelKlass = input<string>('pt-4');
+  slot = input<TngSlotMap<TngTabsSlot>>({});
+
+  readonly containerClassFinal = computed(() =>
+    this.cx('w-full', this.slotClass('container')),
+  );
+
+  readonly tabListClassFinal = computed(() =>
+    this.cx('flex gap-2 border-b border-border', this.slotClass('tabList')),
+  );
+
+  readonly panelContainerClassFinal = computed(() =>
+    this.cx('pt-4', this.slotClass('panelContainer')),
+  );
+
+  private slotClass(key: TngTabsSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private cx(...parts: Array<TngSlotValue>): string {
+    return parts
+      .flatMap((p) => (Array.isArray(p) ? p : [p]))
+      .map((p) => (p ?? '').toString().trim())
+      .filter(Boolean)
+      .join(' ');
+  }
 
   /* =====================
    * State

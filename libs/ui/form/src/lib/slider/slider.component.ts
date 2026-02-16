@@ -8,6 +8,9 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
+import { TngSliderSlot } from './slider.slots';
+
 @Component({
   selector: 'tng-slider',
   standalone: true,
@@ -45,13 +48,10 @@ export class TngSlider implements ControlValueAccessor {
   readonly value = input<number | null>(null);
   readonly valueChange = output<number>();
 
-  // theming / section-wise klass hooks
-  readonly rootKlass = input<string>('w-full');
-  readonly labelKlass = input<string>('text-sm text-fg');
-  readonly trackKlass = input<string>(''); // base track
-  readonly fillKlass = input<string>('');  // filled part
-  readonly thumbKlass = input<string>(''); // thumb
-  readonly rangeKlass = input<string>(''); // native input
+  /* ─────────────────────────
+   * Slot hooks (micro styling)
+   * ───────────────────────── */
+  slot = input<TngSlotMap<TngSliderSlot>>({});
 
   private readonly _value = signal(0);
 
@@ -85,39 +85,69 @@ export class TngSlider implements ControlValueAccessor {
     return ((v - min) / span) * 100;
   });
 
-  // classes (Tailng theme tokens)
-  readonly trackClasses = computed(() => {
-    const base =
-      'relative h-2 w-full rounded-full border border-primary bg-on-primary';
+  /* ─────────────────────────
+   * Computed slot classes
+   * ───────────────────────── */
+  readonly containerClassFinal = computed(() =>
+    this.cx('w-full', this.slotClass('container')),
+  );
 
+  readonly trackWrapperClassFinal = computed(() =>
+    this.cx('relative w-full h-6', this.slotClass('trackWrapper')),
+  );
+
+  readonly trackClassFinal = computed(() => {
+    const base = this.cx(
+      'relative h-2 w-full rounded-full border border-primary bg-on-primary',
+      this.slotClass('track'),
+    );
     const disabled = this.isDisabled() ? ' opacity-60 pointer-events-none' : '';
-    return `${base}${disabled} ${this.trackKlass()}`.trim();
+    return `${base}${disabled}`.trim();
   });
 
-  readonly fillClasses = computed(() => {
-    const base = 'absolute left-0 top-0 h-full rounded-full bg-primary';
-    return `${base} ${this.fillKlass()}`.trim();
-  });
+  readonly trackFillClassFinal = computed(() =>
+    this.cx(
+      'absolute left-0 top-0 h-full rounded-full bg-primary',
+      this.slotClass('trackFill'),
+    ),
+  );
 
-  readonly thumbClasses = computed(() => {
-    const base =
-      'absolute top-1/2 -translate-y-1/2 h-4 w-4 rounded-full bg-primary border border-primary ' +
-      'shadow transition-transform';
-
+  readonly thumbClassFinal = computed(() => {
+    const base = this.cx(
+      'absolute top-1/2 -translate-y-1/2 h-4 w-4 rounded-full bg-primary border border-primary shadow transition-transform',
+      this.slotClass('thumb'),
+    );
     const disabled = this.isDisabled() ? ' opacity-60 pointer-events-none' : '';
-    return `${base}${disabled} ${this.thumbKlass()}`.trim();
+    return `${base}${disabled}`.trim();
   });
 
-  readonly rangeClasses = computed(() => {
-    // make native range invisible but still interactive + keyboard accessible
-    const base =
-      'absolute inset-0 h-full w-full cursor-pointer opacity-0 ' +
-      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ' +
-      'focus-visible:ring-offset-2 focus-visible:ring-offset-background';
-
+  readonly inputClassFinal = computed(() => {
+    const base = this.cx(
+      'absolute inset-0 h-full w-full cursor-pointer opacity-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+      this.slotClass('input'),
+    );
     const disabled = this.isDisabled() ? ' cursor-not-allowed' : '';
-    return `${base}${disabled} ${this.rangeKlass()}`.trim();
+    return `${base}${disabled}`.trim();
   });
+
+  readonly valueTextClassFinal = computed(() =>
+    this.cx('mt-1 text-xs text-disable', this.slotClass('valueText')),
+  );
+
+  /* ─────────────────────────
+   * Helpers
+   * ───────────────────────── */
+  private slotClass(key: TngSliderSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private cx(...parts: Array<TngSlotValue>): string {
+    return parts
+      .flatMap((p) => (Array.isArray(p) ? p : [p]))
+      .map((p) => (p ?? '').toString().trim())
+      .filter(Boolean)
+      .join(' ');
+  }
 
   /* =====================
    * CVA

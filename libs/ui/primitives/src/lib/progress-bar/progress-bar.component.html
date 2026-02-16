@@ -1,8 +1,7 @@
-<div [class]="rootKlass()">
+<div [class]="containerClassFinal()">
   <div
     role="progressbar"
-    class="relative w-full overflow-hidden rounded-full"
-    [class]="trackKlass() + ' ' + heightKlass()"
+    [class]="trackClassFinal()"
     [attr.aria-valuemin]="mode() === 'determinate' ? 0 : null"
     [attr.aria-valuemax]="mode() === 'determinate' ? max() : null"
     [attr.aria-valuenow]="mode() === 'determinate' ? value() : null"
@@ -10,22 +9,14 @@
     <!-- Determinate -->
     @if (mode() === 'determinate') {
       <div
-        class="h-full rounded-full transition-[width] duration-300 ease-out"
-        [class]="barKlass()"
+        [class]="indicatorClassFinal()"
         [style.width.%]="percentage()"
       ></div>
     }
 
     <!-- Indeterminate -->
     @if (mode() === 'indeterminate') {
-      <div
-        class="absolute inset-y-0 left-0 w-1/3 rounded-full"
-        [class]="
-          barKlass() +
-          ' ' +
-          (disableAnimation() ? '' : 'tng-progress-indeterminate')
-        "
-      ></div>
+      <div [class]="indeterminateIndicatorClass()"></div>
     }
   </div>
 </div>

@@ -40,10 +40,8 @@ export class TabsExamplesComponent {
   readonly verticalHtml = computed(
     () => `
 <tng-tabs orientation="vertical" defaultValue="profile"
-  rootKlass="grid gap-6 md:grid-cols-[180px_1fr]"
-  listKlass="flex flex-col gap-1 rounded-lg border border-border bg-bg p-2"
-  panelKlass="pt-0">
-  <tng-tab value="profile" ...>Profile</tng-tab>
+  [slot]="{ container: 'grid gap-6 md:grid-cols-[180px_1fr]', tabList: 'flex flex-col gap-1 rounded-lg border border-border bg-bg p-2', panelContainer: 'pt-0' }">
+  <tng-tab value="profile" [slot]="{ tab: '...', active: '...', inactive: '...' }">Profile</tng-tab>
   ...
 </tng-tabs>
 `,

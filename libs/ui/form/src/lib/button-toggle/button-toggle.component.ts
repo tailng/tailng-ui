@@ -9,6 +9,9 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
+import { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';
+import { TngButtonToggleSlot } from './button-toggle.slots';
+
 export type TngButtonToggleValue = string | number;
 
 export type TngButtonToggleOption<T extends TngButtonToggleValue = TngButtonToggleValue> = {
@@ -50,24 +53,17 @@ export class TngButtonToggle<T extends TngButtonToggleValue> implements ControlV
   multiple = input(false);
   allowDeselect = input(false);
 
-  /* =====================
-   * Theming / class hooks
-   * ===================== */
-
-  /** Root container (the role="group" element) */
-  groupKlass = input<string>('block w-full');
-
-  /** Button base */
-  buttonKlass = input<string>('');
-  activeButtonKlass = input<string>('');
-  inactiveButtonKlass = input<string>('');
-  disabledButtonKlass = input<string>('');
+  /* ─────────────────────────
+   * Slot hooks (micro styling)
+   * ───────────────────────── */
+  slot = input<TngSlotMap<TngButtonToggleSlot>>({});
 
   /* =====================
    * Internal state
    * ===================== */
 
-  protected isDisabled = signal(false);
+  private readonly formDisabled = signal(false);
+  readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
 
   /** Authoritative selected value inside component */
   private selectedValue = signal<TngButtonToggleSelection<T>>(null);
@@ -86,10 +82,6 @@ export class TngButtonToggle<T extends TngButtonToggleValue> implements ControlV
   private onTouched: () => void = () => {};
 
   constructor() {
-    // sync external disabled -> internal
-    effect(() => {
-      this.isDisabled.set(this.disabled());
-    });
 
     // sync external [value] -> internal only when NOT using CVA
     effect(() => {
@@ -140,7 +132,7 @@ export class TngButtonToggle<T extends TngButtonToggleValue> implements ControlV
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.isDisabled.set(isDisabled);
+    this.formDisabled.set(isDisabled);
   }
 
   /* =====================
@@ -244,26 +236,26 @@ export class TngButtonToggle<T extends TngButtonToggleValue> implements ControlV
     }
   }
 
-  /* =====================
-   * Classes
-   * ===================== */
+  /* ─────────────────────────
+   * Computed slot classes
+   * ───────────────────────── */
+  readonly containerClassFinal = computed(() => {
+    const base = this.cx(
+      'flex w-full overflow-hidden rounded-md border border-border bg-bg',
+      this.slotClass('container'),
+    );
+    const disabled = this.isDisabled() ? ' opacity-60 pointer-events-none' : '';
+    return this.cx(base, disabled);
+  });
 
-  readonly groupClasses = computed(() =>
-    (
-      'flex w-full overflow-hidden rounded-md border border-border bg-bg ' +
-      (this.isDisabled() ? 'opacity-60 pointer-events-none ' : '') +
-      this.groupKlass()
-    ).trim(),
-  );
-
-  private readonly baseBtn = computed(() =>
-    (
-      'flex-1 px-3 py-2 text-sm font-medium text-center transition-colors select-none ' +
-      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ' +
-      'focus-visible:ring-offset-2 focus-visible:ring-offset-background ' +
-      'border-r border-border last:border-r-0 ' +
-      this.buttonKlass()
-    ).trim(),
+  private readonly buttonBaseClasses = computed(() =>
+    this.cx(
+      'flex-1 px-3 py-2 text-sm font-medium text-center transition-colors select-none',
+      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+      'focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+      'border-r border-border last:border-r-0',
+      this.slotClass('button'),
+    ),
   );
 
   buttonClasses(opt: TngButtonToggleOption<T>): string {
@@ -271,12 +263,27 @@ export class TngButtonToggle<T extends TngButtonToggleValue> implements ControlV
     const disabled = this.isOptionDisabled(opt);
 
     const state = disabled
-      ? 'text-disable bg-bg ' + this.disabledButtonKlass()
+      ? this.cx('text-disable bg-bg', this.slotClass('buttonDisabled'))
       : active
-        ? 'bg-fg text-bg ' + this.activeButtonKlass()
-        : 'bg-bg text-fg hover:bg-alternate-background ' + this.inactiveButtonKlass();
+        ? this.cx('bg-fg text-bg', this.slotClass('buttonActive'))
+        : this.cx('bg-bg text-fg hover:bg-alternate-background', this.slotClass('buttonInactive'));
 
-    return `${this.baseBtn()} ${state}`.trim();
+    return this.cx(this.buttonBaseClasses(), state);
+  }
+
+  /* ─────────────────────────
+   * Helpers
+   * ───────────────────────── */
+  private slotClass(key: TngButtonToggleSlot): TngSlotValue {
+    return this.slot()?.[key];
+  }
+
+  private cx(...parts: Array<TngSlotValue>): string {
+    return parts
+      .flatMap((p) => (Array.isArray(p) ? p : [p]))
+      .map((p) => (p ?? '').toString().trim())
+      .filter(Boolean)
+      .join(' ');
   }
 
   /* =====================

@@ -26,20 +26,22 @@ export class TabsApiComponent implements AfterViewInit {
   private readonly tabsOutputSeed: DisplayDetails[] = [
     { property: 'valueChange', type: 'EventEmitter<string>', description: 'Emitted when active tab changes' },
   ];
-  private readonly tabsKlassSeed: DisplayDetails[] = [
-    { property: 'rootKlass', type: 'string', default: "'w-full'", description: 'Root wrapper' },
-    { property: 'listKlass', type: 'string', default: "'flex gap-2 border-b border-border'", description: 'Tab list (tablist)' },
-    { property: 'panelKlass', type: 'string', default: "'pt-4'", description: 'Panel container' },
+  private readonly tabsSlotSeed: DisplayDetails[] = [
+    { property: 'slot', type: 'TngSlotMap<TngTabsSlot>', default: '{}', description: 'Slot-based micro styling' },
+    { property: 'slot.container', type: 'string', default: "'w-full'", description: 'Root wrapper' },
+    { property: 'slot.tabList', type: 'string', default: "'flex gap-2 border-b border-border'", description: 'Tab list (tablist)' },
+    { property: 'slot.panelContainer', type: 'string', default: "'pt-4'", description: 'Panel container' },
   ];
   private readonly tabInputSeed: DisplayDetails[] = [
     { property: 'value', type: 'string', description: 'Unique tab value (required)' },
     { property: 'disabled', type: 'boolean', default: 'false', description: 'Disables the tab' },
   ];
-  private readonly tabKlassSeed: DisplayDetails[] = [
-    { property: 'tabKlass', type: 'string', default: "'px-3 py-2 text-sm font-medium border-b-2 border-transparent'", description: 'Base tab button' },
-    { property: 'activeKlass', type: 'string', default: "'border-primary text-primary'", description: 'Active tab' },
-    { property: 'inactiveKlass', type: 'string', default: "'text-muted-foreground'", description: 'Inactive tab' },
-    { property: 'disabledKlass', type: 'string', default: "'opacity-50 cursor-not-allowed'", description: 'Disabled tab' },
+  private readonly tabSlotSeed: DisplayDetails[] = [
+    { property: 'slot', type: 'TngSlotMap<TngTabSlot>', default: '{}', description: 'Slot-based micro styling' },
+    { property: 'slot.tab', type: 'string', default: "'px-3 py-2 text-sm font-medium border-b-2 border-transparent'", description: 'Base tab button' },
+    { property: 'slot.active', type: 'string', default: "'border-primary text-primary'", description: 'Active tab' },
+    { property: 'slot.inactive', type: 'string', default: "'text-muted-foreground'", description: 'Inactive tab' },
+    { property: 'slot.disabled', type: 'string', default: "'opacity-50 cursor-not-allowed'", description: 'Disabled tab' },
   ];
   private readonly panelInputSeed: DisplayDetails[] = [
     { property: 'value', type: 'string', description: 'Matches a tng-tab value (required)' },
@@ -47,9 +49,9 @@ export class TabsApiComponent implements AfterViewInit {
 
   readonly tabsInputRows = signal<DisplayDetails[]>(this.tabsInputSeed);
   readonly tabsOutputRows = signal<DisplayDetails[]>(this.tabsOutputSeed);
-  readonly tabsKlassRows = signal<DisplayDetails[]>(this.tabsKlassSeed);
+  readonly tabsSlotRows = signal<DisplayDetails[]>(this.tabsSlotSeed);
   readonly tabInputRows = signal<DisplayDetails[]>(this.tabInputSeed);
-  readonly tabKlassRows = signal<DisplayDetails[]>(this.tabKlassSeed);
+  readonly tabSlotRows = signal<DisplayDetails[]>(this.tabSlotSeed);
   readonly panelInputRows = signal<DisplayDetails[]>(this.panelInputSeed);
   readonly property = (r: DisplayDetails) => r.property;
   readonly type = (r: DisplayDetails) => r.type;

@@ -11,9 +11,9 @@
     </tng-text-input>
   </form>
 
-  <tng-accordion rootKlass="space-y-6 py-2">
+  <tng-accordion [slot]="{ container: 'space-y-6 py-2' }">
     @for (section of filteredNav(); track section.sectionTitle) {
-      <tng-expansion-panel [open]="!isMobile() || sectionMatchesQuery(section)" rootKlass="border-0">
+      <tng-expansion-panel [open]="!isMobile() || sectionMatchesQuery(section)" [slot]="{ container: 'border-0' }">
         <div tngExpansionTitle>{{ section.sectionTitle }}</div>
         <div tngExpansionContent class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           @for (item of section.components; track item.routerLink) {
