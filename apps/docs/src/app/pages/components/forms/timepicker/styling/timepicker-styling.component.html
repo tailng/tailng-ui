@@ -1,1 +1,758 @@
-Styling content.
+<section class="space-y-6 text-fg">
+  <!-- Intro -->
+  <div class="rounded-xl border bg-bg p-6 shadow-sm space-y-3">
+    <h2 class="text-sm font-semibold text-primary">Styling</h2>
+    <p class="text-sm leading-6 text-fg">
+      The <span class="font-mono">tng-timepicker</span> component uses slot-based micro styling via
+      the <span class="font-mono">slot</span> input. The slot object accepts keys for all internal
+      elements: <span class="font-mono">container</span>, <span class="font-mono">disabled</span>,
+      <span class="font-mono">field</span>, <span class="font-mono">input</span>,
+      <span class="font-mono">toggle</span>, <span class="font-mono">toggleIcon</span>,
+      <span class="font-mono">overlayPanel</span>, <span class="font-mono">panelFrame</span>,
+      <span class="font-mono">panelLayout</span>, <span class="font-mono">panelFrameHeader</span>,
+      <span class="font-mono">timeDisplay</span>
+      <span class="font-mono">hourRail</span>, <span class="font-mono">hourNavPrev</span>,
+      <span class="font-mono">hourNavNext</span>, <span class="font-mono">hourList</span>,
+      <span class="font-mono">hourItem</span>, <span class="font-mono">minuteRail</span>,
+      <span class="font-mono">minuteNavPrev</span>, <span class="font-mono">minuteNavPrev</span>,
+      <span class="font-mono">minuteList</span>, <span class="font-mono">minuteItem</span>,
+      <span class="font-mono">secondRail</span>, <span class="font-mono">secondNavPrev</span>,
+      <span class="font-mono">secondNavNext</span>, <span class="font-mono">secondList</span>,
+      <span class="font-mono">secondItem</span>, <span class="font-mono">timeValue</span>,
+      <span class="font-mono">timeValueRail</span>, <span class="font-mono">actionBar</span>,
+      <span class="font-mono">cancel</span>, <span class="font-mono">confirm</span>. Each slot
+      targets a specific element in the component structure.
+    </p>
+  </div>
+
+  <!-- container slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">container slot</h3>
+      <tng-tag label="root wrapper"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">The root wrapper element. Default: relative.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="containerSlotHtml()"
+      [tsContent]="containerSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="containerSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+  <!-- Disabled slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">disabled slot</h3>
+      <tng-tag label="disabled wrapper"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+      Wrapper around the field when disabled. Automatically applies opacity-60 and
+      pointer-events-none when disabled.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="disabledSlotHtml()"
+      [tsContent]="disabledSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="disabledSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- field slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">field slot</h3>
+      <tng-tag label="input wrapper"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Wrapper around the input and toggle button. Default: relative.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="fieldSlotHtml()"
+      [tsContent]="fieldSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="fieldSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- input slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">input slot</h3>
+      <tng-tag label="text input"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+      The text input element. Default includes border, padding, focus ring.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="inputSlotHtml()"
+      [tsContent]="inputSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="inputSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- toggle slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">toggle slot</h3>
+      <tng-tag label="clock button"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+      The calendar toggle button (right side of the field). Default includes absolute positioning,
+      hover effects.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="toggleSlotHtml()"
+      [tsContent]="toggleSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="toggleSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- toggleIcon slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">toggleIcon slot</h3>
+      <tng-tag label="clock icon"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">The calendar icon SVG inside the toggle button. Default: h-5 w-5.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="toggleIconSlotHtml()"
+      [tsContent]="toggleIconSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="toggleIconSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- overlayPanel slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">overlayPanel slot</h3>
+      <tng-tag label="overlay panel"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Passed to the internal tng-overlay-panel component.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="overlayPanelSlotHtml()"
+      [tsContent]="overlayPanelSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="overlayPanelSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- panelFrame slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">panelFrame slot</h3>
+      <tng-tag label="panel frame"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+      The outer frame of the calendar panel. Default includes border, shadow, rounded corners.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="panelFrameSlotHtml()"
+      [tsContent]="panelFrameSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="panelFrameSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">panelLayout slot</h3>
+      <tng-tag label="panel Layout"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+      The outer frame of the calendar panel. Default includes border, shadow, rounded corners.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="panelFrameSlotHtml()"
+      [tsContent]="panelFrameSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="panelLayoutSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- HourRail slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">hourRail slot</h3>
+      <tng-tag label="hour sidebar"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+      The left sidebar containing hour buttons. Default: bg-bg p-1 text-fg flex flex-col.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="hourRailSlotHtml()"
+      [tsContent]="hourRailSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="hourRailSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- hourNavPrev slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">hourNavPrev slot</h3>
+      <tng-tag label="prev hour button"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+      Button to navigate to previous hour. Default includes rounded, bg-bg/10, hover effects, disabled styles.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="hourNavPreSlotHtml()"
+      [tsContent]="hourNavPreSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="hourNavPreSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- hourNavNext slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">hourNavNext slot</h3>
+      <tng-tag label="next hour button"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+     Button to navigate to next hour. Default includes rounded, bg-bg/10, hover effects, disabled styles.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="hourNavNextSlotHtml()"
+      [tsContent]="hourNavNextSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="hourNavNextSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- hourList slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">hourList slot</h3>
+      <tng-tag label="hours list"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+      Container for the list of hour buttons. Default: space-y-0.5.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="hourListSlotHtml()"
+      [tsContent]="hourListSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="hourListSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- hourItem slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">hourItem slot</h3>
+      <tng-tag label="hour button"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+      Individual hour button. Default includes flex, flex-col, rounded, padding, font-semibold.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="hourItemSlotHtml()"
+      [tsContent]="hourItemSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="hourItemSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- minuteRail slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">minuteRail slot</h3>
+      <tng-tag label="minute sidebar"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+      The middle sidebar containing minute buttons. Default: bg-bg p-1 text-fg flex flex-col.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="minuteRailSlotHtml()"
+      [tsContent]="minuteRailSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="minuteRailSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- minuteNavPrev slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">minuteNavPrev slot</h3>
+      <tng-tag label="prev minute button"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+       Button to navigate to previous minute. Default includes rounded, bg-bg/10, hover effects, disabled styles.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="minuteNavPrevSlotHtml()"
+      [tsContent]="minuteNavPrevSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="minuteNavPrevSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- minuteNavNext slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">minuteNavNext slot</h3>
+      <tng-tag label="next minute button"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+     Button to navigate to next minute. Default includes rounded, bg-bg/10, hover effects, disabled styles.
+
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="minuteNavNextSlotHtml()"
+      [tsContent]="minuteNavNextSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="minuteNavNextSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- minuteList slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">minuteList slot</h3>
+      <tng-tag label="minutes list"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+      Container for the list of minute buttons. Default: space-y-0.5.
+
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="minuteListSlotHtml()"
+      [tsContent]="minuteListSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="minuteListSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- minuteItem slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">minuteItem slot</h3>
+      <tng-tag label="minute button"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+      Individual minute button. Default includes flex, flex-col, rounded, padding, font-semibold.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="minuteItemSlotHtml()"
+      [tsContent]="minuteItemSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="minuteItemSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- secondRail slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">secondRail slot</h3>
+      <tng-tag label="second sidebar"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+      The left sidebar containing seconds buttons. Default: bg-bg p-1 text-fg flex flex-col.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="secondRailSlotHtml()"
+      [tsContent]="secondRailSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [showSeconds]="true" [slot]="secondRailSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- secondNavPrev slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">secondNavPrev slot</h3>
+      <tng-tag label="prev second button"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+       Button to navigate to previous second. Default includes rounded, bg-bg/10, hover effects, disabled styles.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="secondNavPrevSlotHtml()"
+      [tsContent]="secondNavPrevSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [showSeconds]="true" [slot]="secondNavPrevSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- secondNavNext slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">secondNavNext slot</h3>
+      <tng-tag label="next second button"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+     Button to navigate to next second. Default includes rounded, bg-bg/10, hover effects, disabled styles.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="secondNavNextSlotHtml()"
+      [tsContent]="secondNavNextSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [showSeconds]="true" [slot]="secondNavNextSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- secondList slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">secondList slot</h3>
+      <tng-tag label="seconds list"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+      Container for the list of second buttons. Default: space-y-0.5.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="secondListSlotHtml()"
+      [tsContent]="secondListSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [showSeconds]="true" [slot]="secondListSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">secondItem slot</h3>
+      <tng-tag label="seconds button"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+      Individual second button. Default includes flex, flex-col, rounded, padding, font-semibold.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="secondItemSlotHtml()"
+      [tsContent]="secondItemSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [showSeconds]="true" [slot]="secondItemSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- title slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">title slot</h3>
+      <tng-tag label="clock title"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+     The "Select Date" title above the calendar. Default: w-full, text-center, text-sm, font-semibold.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="titleSlotHtml()"
+      [tsContent]="titleSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="titleSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- timeDisplay slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">timeDisplay slot</h3>
+      <tng-tag label="time display"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+      The time display. Default includes w-full, padding, text-center.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="timeDisplayHtml()"
+      [tsContent]="timeDisplayTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="timeDisplay" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- periodRail slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">periodRail slot</h3>
+      <tng-tag label="time period label"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+      The period container. Default includes flex, items-center, border, rounded.
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="periodRailSlotHtml()"
+      [tsContent]="periodRailSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [hourFormat]="12" [slot]="periodRailSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- period slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">period slot</h3>
+      <tng-tag label="time periods list"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">
+      The period text view. Default includes w-full, text-center, border, padding , hover effect
+    </p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="periodSlotHtml()"
+      [tsContent]="periodSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [hourFormat]="12" [slot]="periodSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+  
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">actionBar slot</h3>
+      <tng-tag label="action buttons"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">Container for Cancel and Confirm buttons. Default: mt-auto flex items-center justify-end gap-2 pt-4.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="actionBarSlotHtml()"
+      [tsContent]="actionBarSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="actionBarSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- cancel slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">cancel slot</h3>
+      <tng-tag label="cancel button"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">The Cancel button. Default includes rounded-md, border, padding, font-semibold, hover effects.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="cancelSlotHtml()"
+      [tsContent]="cancelSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="cancelSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+  <!-- confirm slot -->
+  <div class="rounded-xl border bg-bg p-4 shadow-sm space-y-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-primary">confirm slot</h3>
+      <tng-tag label="confirm button"></tng-tag>
+    </div>
+    <p class="text-sm text-fg">The Confirm button. Default includes rounded-md, bg-fg, padding, font-semibold, hover effects.</p>
+    <docs-example-block
+      [docLink]="'https://example.com/docs'"
+      [stackBlitzLink]="'https://stackblitz.com/example'"
+      [htmlContent]="confirmSlotHtml()"
+      [tsContent]="confirmSlotTs()"
+    >
+      <span tngExampleTitle>Example</span>
+      <div tngExampleDemo>
+        <form [formGroup]="form" class="w-full max-w-sm">
+          <tng-timepicker formControlName="timeValue" [slot]="confirmSlot" />
+        </form>
+      </div>
+    </docs-example-block>
+  </div>
+
+</section>

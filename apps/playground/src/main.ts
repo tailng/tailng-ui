@@ -3,7 +3,10 @@ import { provideRouter } from '@angular/router';
 import { provideIcons } from '@ng-icons/core';
 import { provideAppInitializer, inject } from '@angular/core';
 import { bootstrapAlarm, bootstrapBell, bootstrapCheck2Circle, bootstrapClipboard, 
-  bootstrapFunnel, bootstrapSearch, bootstrapCopy } from '@ng-icons/bootstrap-icons';
+  bootstrapFunnel, bootstrapSearch, bootstrapCopy, 
+  bootstrapArrowUp,
+  bootstrapArrowDown,
+  bootstrapClock} from '@ng-icons/bootstrap-icons';
 
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
@@ -20,6 +23,9 @@ bootstrapApplication(AppComponent, {
       bootstrapClipboard,
       bootstrapCheck2Circle,
       bootstrapCopy,
+      bootstrapArrowUp,
+      bootstrapArrowDown,
+      bootstrapClock
     }),
 
     provideAppInitializer(() => {

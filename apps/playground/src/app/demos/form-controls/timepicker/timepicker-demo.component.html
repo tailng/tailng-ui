@@ -1,10 +1,117 @@
-<div>
-  <h1 class="text-2xl font-bold mb-6">Timepicker</h1>
-  <div class="space-y-4">
-    <section>
-      <h2 class="text-lg font-semibold mb-3">Basic Usage</h2>
-      <tng-timepicker></tng-timepicker>
-    </section>
-  </div>
-</div>
+<div class="p-6 bg-bg min-h-screen">
+  <h1 class="text-2xl font-bold mb-2">Timepicker</h1>
 
+  <section class="flex flex-col gap-4">
+    <h2 class="text-xs text-slate-600 font-semibold">
+      Reactive Forms + CVA + Overlay popup (input + calendar icon)
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Time Picker 1 -->
+      <div class="border border-gray-300 rounded-md p-3 hover:shadow-md transition-shadow">
+        <label class="block text-sm font-medium mb-2">Pick a time</label>
+        <form [formGroup]="form">
+          <tng-timepicker formControlName="timeValue"></tng-timepicker>
+          <!-- @if (form.controls.timeValue.invalid) {
+          <div class="rounded-md bg-warning px-3 py-2 text-sm text-slate-900">
+            Please enter a valid time.
+          </div>
+        } -->
+        </form>
+      </div>
+      <div class="border border-gray-300 rounded-md p-3 hover:shadow-md transition-shadow">
+        <!-- Header + Content -->
+        <div class="flex flex-col border px-4 py-2 rounded">
+          <h6 class="text-slate-600 px-2 mb-2 font-semibold">Selected Time</h6>
+          <p class="px-2">{{ selectedTimeCrtl | json }}</p>
+        </div>
+      </div>
+      <div class="border border-gray-300 rounded-md p-3 hover:shadow-md transition-shadow">
+        <div class="rounded-md border border-border bg-alternate-background p-3">
+          <div class="text-xs text-slate-500">Control status</div>
+          <div class="mt-1 flex flex-wrap gap-2 text-sm text-slate-800">
+            <span class="rounded-md border border-border bg-bg px-2 py-1">
+              touched: {{ form.controls.timeValue.touched }}
+            </span>
+            <span class="rounded-md border border-border bg-bg px-2 py-1">
+              dirty: {{ form.controls.timeValue.dirty }}
+            </span>
+            <span class="rounded-md border border-border bg-bg px-2 py-1">
+              valid: {{ form.controls.timeValue.valid }}
+            </span>
+            <span class="rounded-md border border-border bg-bg px-2 py-1">
+              disabled: {{ form.controls.timeValue.disabled }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mb-4">
+      <div class="mb-1">
+        <h3 class="text-sm font-semibold text-slate-800 mb-2">Time Format Options</h3>
+        <div class="flex flex-wrap gap-2">
+          <button
+            class="rounded-md border border-border bg-alternate-background px-3 py-2 text-sm hover:bg-alternate-background active:translate-y-[1px]"
+            (click)="toggleDisable()"
+          >
+            {{ isDisabled() ? 'Enable' : 'Disable' }}
+          </button>
+          <button
+            class="rounded-md border border-border bg-alternate-background px-3 py-2 text-sm hover:bg-alternate-background active:translate-y-[1px]"
+            (click)="updateTimeFormat(12)"
+          >
+            12 Format
+          </button>
+          <button
+            class="rounded-md border border-border bg-alternate-background px-3 py-2 text-sm hover:bg-alternate-background active:translate-y-[1px]"
+            (click)="updateTimeFormat(24)"
+          >
+            24 Format
+          </button>
+          <button
+            class="rounded-md border border-border bg-alternate-background px-3 py-2 text-sm hover:bg-alternate-background active:translate-y-[1px]"
+            (click)="updateShowSeconds(12)"
+          >
+            12 Format without seconds
+          </button>
+          <button
+            class="rounded-md border border-border bg-alternate-background px-3 py-2 text-sm hover:bg-alternate-background active:translate-y-[1px]"
+            (click)="updateShowSeconds(24)"
+          >
+            24 Format without seconds
+          </button>
+          <button
+            class="rounded-md border border-border bg-alternate-background px-3 py-2 text-sm hover:bg-alternate-background active:translate-y-[1px]"
+            (click)="clear()"
+          >
+            Clear
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Time Picker 2 -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="border border-gray-300 rounded-md p-3 hover:shadow-md transition-shadow w-full">
+        <label class="block text-sm font-medium mb-2">Time Format Options Shows</label>
+        <tng-timepicker
+          [hourFormat]="timeFormatValue()"
+          [showSeconds]="showSecondsValue()"
+          [disabled]="isDisabled()"
+        ></tng-timepicker>
+      </div>
+
+      <!-- Time Picker 3 -->
+      <div class="border border-gray-300 rounded-md p-3 hover:shadow-md transition-shadow">
+        <label class="block text-sm font-medium mb-2"> Time Picker with custom icons </label>
+        <tng-timepicker>
+          <tng-icon tngTimePickerHourUpArrow name="bootstrapArrowUp"></tng-icon>
+          <tng-icon tngTimePickerHourDownArrow name="bootstrapArrowDown"></tng-icon>
+          <tng-icon tngTimePickerMinuteUpArrow name="bootstrapArrowUp"></tng-icon>
+          <tng-icon tngTimePickerMinuteDownArrow name="bootstrapArrowDown"></tng-icon>
+          <tng-icon tngTimePickerIcon name="bootstrapClock" iconKlass="text-primary"></tng-icon>
+        </tng-timepicker>
+      </div>
+      </div>
+  </section>
+</div>

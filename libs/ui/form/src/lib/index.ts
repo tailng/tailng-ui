@@ -31,4 +31,6 @@ export * from './textarea/textarea.slots';
 export * from './text-input/text-input.component';
 export * from './text-input/text-input.slots';
 export * from './timepicker/timepicker.component';
+export * from './timepicker/timepicker.slots';
+export * from './timepicker/time-picker.directive';
 export { TngSlotMap, TngSlotValue } from '@tailng-ui/ui';

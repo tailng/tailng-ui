@@ -1,4 +1,165 @@
-<div class="p-4 border border-gray-200 rounded-md">
-  <p class="text-gray-600">Welcome hello component - Timepicker</p>
-</div>
+<div [class]="containerClassFinal()">
+  <!-- Input + Time Icon -->
+  <div
+    [class]="disabledClassFinal()"
+    [class.opacity-60]="isDisabled()"
+    [class.pointer-events-none]="isDisabled()"
+  >
+    <div [class]="fieldClassFinal()">
+      <input
+        #inputEl
+        type="text"
+        [class]="inputClassFinal()"
+        [value]="inputValue()"
+        [placeholder]="timeDisplayFormat()"
+        [disabled]="disabledFinal()"
+        (input)="onInput($event)"
+        (focus)="open('programmatic')"
+        (blur)="onBlur()"
+      />
 
+      <!-- Toggle Button -->
+      <button
+        type="button"
+        [class]="toggleClassFinal()"
+        (click)="toggleOverlay()"
+        aria-label="Toggle time picker"
+      >
+        <ng-content select="[tngTimePickerIcon]">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            [class]="toggleIconClassFinal()"
+          >
+            <path
+              d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8a8 8 0 0 1-8 8Zm.5-12a1 1 0 0 0-1 1v4.38l3.45 2.07a1 1 0 1 0 1.03-1.72L13.5 12.62V9a1 1 0 0 0-1-1Z"
+            />
+          </svg>
+        </ng-content>
+      </button>
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  <tng-overlay-ref
+    #overlayRef="tngOverlayRef"
+    [open]="isOpen()"
+    (openChange)="onOverlayOpenChange($event)"
+    (closed)="onOverlayClosed($event)"
+  >
+    <tng-connected-overlay
+      [open]="overlayRef.isOpen()"
+      [anchor]="inputEl"
+      placement="bottom-end"
+      width="content"
+      [closeOnInsideClick]="false"
+      (closed)="overlayRef.close($event)"
+    >
+      <tng-overlay-panel [slot]="overlayPanelSlot()">
+        <!-- Panel Frame -->
+        <div [class]="panelFrameClassFinal()">
+          <!-- Panel Header -->
+          <div [class]="titleClassFinal()">Select Time</div>
+          <tng-divider></tng-divider>
+          <!-- Spinners Layout: Hours | Minutes | Seconds -->
+          <div [class]="panelLayoutClassFinal()">
+            <!-- Hours Spinner -->
+            <div [class]="hourRailClassFinal()">
+              <button type="button" (click)="adjustHour(-1)" [class]="hourNavPrevClassFinal()">
+                <ng-content select="[tngTimePickerHourUpArrow]">▲</ng-content>
+              </button>
+              <div class="hourListClassFinal()">
+                <button (click)="selectHour(hourSelection())" [class]="hourItemClassFinal()">
+                  {{ hourSelection() }}
+                  <span [class]="hourTitleClassFinal()">{{ hourLabel() }}</span>
+                </button>
+              </div>
+              <button type="button" (click)="adjustHour(1)" [class]="hourNavNextClassFinal()">
+                <ng-content select="[tngTimePickerHourDownArrow]">▼</ng-content>
+              </button>
+            </div>
+
+            <!-- Minutes Spinner -->
+            <div [class]="minuteRailClassFinal()">
+              <!-- Up Button -->
+              <button type="button" (click)="adjustMinute(-1)" [class]="minuteNavPrevClassFinal()">
+                <ng-content select="[tngTimePickerMinuteUpArrow]">▲</ng-content>
+              </button>
+
+              <!-- Visible Minute -->
+              <div [class]="minuteListClassFinal()">
+                @for (m of visibleMinutes(); track $index) {
+                  <button (click)="selectMinute(m)" [class]="minuteItemClassFinal()">
+                    {{ m }}
+                    <span [class]="minutesTitleClassFinal()">{{ minuteLabel() }}</span>
+                  </button>
+                }
+              </div>
+
+              <!-- Down Button -->
+              <button type="button" (click)="adjustMinute(1)" [class]="minuteNavNextClassFinal()">
+                <ng-content select="[tngTimePickerMinuteDownArrow]">▼</ng-content>
+              </button>
+            </div>
+            @if (showSeconds()) {
+              <!-- Seconds Spinner -->
+              <div [class]="secondRailClassFinal()">
+                <button
+                  type="button"
+                  (click)="adjustSecond(-1)"
+                  [class]="secondNavPrevClassFinal()"
+                >
+                  <ng-content select="[tngTimePickerSecondUpArrow]">▲</ng-content>
+                </button>
+                <div [class]="secondListClassFinal()">
+                  @for (s of visibleSeconds(); track $index) {
+                    <button (click)="selectSeconds(s)" [class]="secondItemClassFinal()">
+                      {{ s }}
+                      <span [class]="secondsTitleClassFinal()">{{ secondLabel() }}</span>
+                    </button>
+                  }
+                </div>
+                <button
+                  type="button"
+                  (click)="adjustSecond(1)"
+                  [class]="secondNavNextClassFinal()"
+                >
+                  <ng-content select="[tngTimePickerSecondDownArrow]">▼</ng-content>
+                </button>
+              </div>
+            }
+          </div>
+
+          <!-- AM/PM Selection -->
+          @if (isTwelveHourFormat) {
+            <div [class]="periodRailClassFinal()">
+              @for (p of periods; track $index) {
+                <button
+                  (click)="selectPeriod(p)"
+                  [class]="periodClassFinal()"
+                  [class.bg-fg]="periodSelection() === p"
+                  [class.text-bg]="periodSelection() === p"
+                >
+                  {{ p }}
+                </button>
+              }
+            </div>
+          }
+
+          <!-- Time Display -->
+          <div [class]="timeDisplayClassFinal()">
+            <span>{{ draftValue() }}</span>
+          </div>
+          <tng-divider></tng-divider>
+
+          <!-- Action Buttons -->
+          <div [class]="actionBarClassFinal()">
+            <button type="button" [class]="cancelClassFinal()" (click)="cancel()">Cancel</button>
+            <button type="button" [class]="confirmClassFinal()" (click)="confirm()">Confirm</button>
+          </div>
+        </div>
+      </tng-overlay-panel>
+    </tng-connected-overlay>
+  </tng-overlay-ref>
+</div>
