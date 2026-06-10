@@ -66,7 +66,7 @@ function normalizePatternInput(value: PatternInput): readonly RegExp[] {
   return value;
 }
 
-function formatPatternAttr(patterns: readonly RegExp[]): string | null {
+function formatPatternAttr(patterns: readonly Readonly<RegExp>[]): string | null {
   return patterns[0]?.source ?? null;
 }
 
@@ -293,6 +293,10 @@ export class TngInputComponent implements ControlValueAccessor {
 
     if (!this.isNumberInput || this.effectiveDisabled) return;
 
+    this.handleNumberKeydown(event);
+  }
+
+  private handleNumberKeydown(event: KeyboardEvent): void {
     switch (event.key) {
       case 'ArrowUp':
         this.stepNumberFromKey(event, 1);
@@ -329,7 +333,12 @@ export class TngInputComponent implements ControlValueAccessor {
     if (inputElement === undefined) return;
 
     inputElement.focus();
+    this.executeDomStep(inputElement, delta, stepCount);
 
+    this.commitValue(inputElement.value, createInputEvent(inputElement));
+  }
+
+  private executeDomStep(inputElement: HTMLInputElement, delta: -1 | 1, stepCount: number): void {
     try {
       if (delta > 0) {
         inputElement.stepUp(stepCount);
@@ -340,7 +349,6 @@ export class TngInputComponent implements ControlValueAccessor {
       inputElement.value = this.nextSteppedValue(inputElement.value, delta, stepCount);
     }
 
-    this.commitValue(inputElement.value, createInputEvent(inputElement));
   }
 
   private stepNumberFromKey(event: KeyboardEvent, delta: -1 | 1, stepCount = 1): void {
@@ -429,7 +437,7 @@ export class TngInputComponent implements ControlValueAccessor {
     return normalizeNumberAttr(value);
   }
 
-  protected formatPatternAttrValue(value: readonly RegExp[]): string | null {
+  protected formatPatternAttrValue(value: readonly Readonly<RegExp>[]): string | null {
     return formatPatternAttr(value);
   }
 
