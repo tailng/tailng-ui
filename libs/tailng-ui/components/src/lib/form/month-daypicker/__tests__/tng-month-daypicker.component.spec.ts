@@ -28,12 +28,12 @@ async function waitForAnimationFrame(): Promise<void> {
 }
 
 function getRequired<T extends Element>(root: ParentNode, selector: string): T {
-  const element = root.querySelector(selector);
+  const element = root.querySelector<T>(selector);
   if (element === null) {
     throw new Error(`Expected selector ${selector} to exist.`);
   }
 
-  return element as T;
+  return element;
 }
 
 @Component({
@@ -80,7 +80,7 @@ describe('tng-month-daypicker component', () => {
     await settle(fixture);
 
     const input = getRequired<HTMLInputElement>(
-      fixture.nativeElement,
+      fixture.nativeElement as HTMLElement,
       '[data-slot="datepicker-input"]',
     );
     expect(input.value).toBe('04-22');
@@ -94,7 +94,7 @@ describe('tng-month-daypicker component', () => {
     await settle(fixture);
 
     const input = getRequired<HTMLInputElement>(
-      fixture.nativeElement,
+      fixture.nativeElement as HTMLElement,
       '[data-slot="datepicker-input"]',
     );
     input.value = '09-14';
@@ -102,7 +102,7 @@ describe('tng-month-daypicker component', () => {
     await settle(fixture);
 
     getRequired<HTMLButtonElement>(
-      fixture.nativeElement,
+      fixture.nativeElement as HTMLElement,
       '[data-slot="datepicker-trigger"]',
     ).click();
     await settle(fixture);
@@ -121,7 +121,7 @@ describe('tng-month-daypicker component', () => {
     await settle(fixture);
 
     getRequired<HTMLButtonElement>(
-      fixture.nativeElement,
+      fixture.nativeElement as HTMLElement,
       '[data-slot="datepicker-trigger"]',
     ).click();
     await settle(fixture);
@@ -147,13 +147,13 @@ describe('tng-month-daypicker component', () => {
     await settle(fixture);
 
     const scrollParent = getRequired<HTMLElement>(
-      fixture.nativeElement,
+      fixture.nativeElement as HTMLElement,
       '[data-testid="month-day-scroll-parent"]',
     );
     expect(scrollParent.style.overflow).toBe('auto');
 
     getRequired<HTMLButtonElement>(
-      fixture.nativeElement,
+      fixture.nativeElement as HTMLElement,
       '[data-slot="datepicker-trigger"]',
     ).click();
     await settle(fixture);
@@ -164,7 +164,7 @@ describe('tng-month-daypicker component', () => {
     expect(scrollParent.style.overflow).toBe('hidden');
 
     getRequired<HTMLButtonElement>(
-      fixture.nativeElement,
+      fixture.nativeElement as HTMLElement,
       '[data-slot="datepicker-trigger"]',
     ).click();
     await settle(fixture);
