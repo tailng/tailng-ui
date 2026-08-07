@@ -20,6 +20,7 @@ function queryByTestId<T extends Element>(
   fixture: { nativeElement: HTMLElement },
   testId: string,
 ): T | null {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
   return fixture.nativeElement.querySelector(`[data-testid="${testId}"]`) as T | null;
 }
 
@@ -152,7 +153,7 @@ describe('tng-tag component', () => {
 
     const closeButton = queryTagRoot(getByTestId<HTMLElement>(fixture, 'tag-host')).querySelector(
       '.tng-tag__close',
-    ) as HTMLButtonElement | null;
+    );
     expect(closeButton?.getAttribute('aria-label')).toBe('Remove Preview');
   });
 
@@ -166,7 +167,7 @@ describe('tng-tag component', () => {
 
     const closeButton = queryTagRoot(getByTestId<HTMLElement>(fixture, 'tag-host')).querySelector(
       '.tng-tag__close',
-    ) as HTMLButtonElement | null;
+    );
     expect(closeButton?.getAttribute('aria-label')).toBe('Remove release tag');
   });
 
@@ -179,7 +180,7 @@ describe('tng-tag component', () => {
 
     const closeButton = queryTagRoot(getByTestId<HTMLElement>(fixture, 'tag-host')).querySelector(
       '.tng-tag__close',
-    ) as HTMLButtonElement;
+    )!;
     dispatchEvent(closeButton, 'click');
     fixture.detectChanges();
 
@@ -195,7 +196,7 @@ describe('tng-tag component', () => {
 
     const closeButton = queryTagRoot(getByTestId<HTMLElement>(fixture, 'tag-host')).querySelector(
       '.tng-tag__close',
-    ) as HTMLButtonElement;
+    )!;
     dispatchKeyboard(closeButton, 'Enter');
     dispatchKeyboard(closeButton, ' ');
     fixture.detectChanges();
@@ -212,7 +213,7 @@ describe('tng-tag component', () => {
     fixture.detectChanges();
 
     const root = queryTagRoot(getByTestId<HTMLElement>(fixture, 'tag-host'));
-    const closeButton = root.querySelector('.tng-tag__close') as HTMLButtonElement;
+    const closeButton = root.querySelector('.tng-tag__close')!;
     dispatchEvent(closeButton, 'click');
     dispatchKeyboard(closeButton, 'Enter');
     fixture.detectChanges();

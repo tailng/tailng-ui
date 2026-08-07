@@ -1,10 +1,6 @@
-import {
-  booleanAttribute,
-  Component,
-  input,
-  output,
-  viewChild,
-} from '@angular/core';
+import { booleanAttribute, Component, input, output, viewChild } from '@angular/core';
+import type { TngOverlayScrollStrategy } from '@tailng-ui/cdk';
+
 import {
   TngPopover as TngPopoverPrimitive,
   TngPopoverPanel,
@@ -16,7 +12,6 @@ import {
   type TngPopoverPanelRole,
   type TngPopoverSide,
 } from '@tailng-ui/primitives';
-import type { TngOverlayScrollStrategy } from '@tailng-ui/cdk';
 export type {
   TngPopoverAlign,
   TngPopoverAriaHasPopup,

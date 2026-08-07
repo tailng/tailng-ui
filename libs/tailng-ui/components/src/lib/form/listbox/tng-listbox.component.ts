@@ -12,13 +12,13 @@ import {
   input,
 } from '@angular/core';
 
-import { TngListboxDirective, TngOptionDirective, type ListboxValue } from '@tailng-ui/primitives';
+import { TngListboxDirective, TngOptionDirective } from '@tailng-ui/primitives';
 
+import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 import {
   TNG_FORM_FIELD_CONTROL,
   type TngFormFieldControl,
 } from '../form-field/tng-form-field.control';
-import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 
 export type TngListboxGetValue<O, V> = (option: O) => V;
 export type TngListboxGetLabel<O> = (option: O) => string;
@@ -63,13 +63,13 @@ function normalizeAttr(value: string | null | undefined): string | null {
   providers: [
     {
       provide: TNG_FORM_FIELD_CONTROL,
-      useFactory: (cmp: TngListboxComponent) => cmp.formFieldControl,
+      useFactory: (cmp: { readonly formFieldControl: TngFormFieldControl }): TngFormFieldControl => cmp.formFieldControl,
       deps: [forwardRef(() => TngListboxComponent)],
     },
   ],
 })
 export class TngListboxComponent<O = unknown, V = unknown> {
-  private readonly hostEl: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
+  private readonly hostEl: HTMLElement = inject(ElementRef).nativeElement as HTMLElement;
   protected readonly primitive = inject<TngListboxDirective<V>>(TngListboxDirective);
 
   public readonly options = input<readonly O[]>([]);
@@ -103,40 +103,32 @@ export class TngListboxComponent<O = unknown, V = unknown> {
   });
 
   public readonly getOptionValue = input<TngListboxGetValue<O, V>>(
-    ((option: any) =>
-      option?.value ??
-      option?.id ??
-      option?.key ??
-      option?.code ??
-      option) as TngListboxGetValue<O, V>,
+    ((option: Readonly<Record<string, unknown>>): unknown => {
+      return [option['value'], option['id'], option['key'], option['code'], option].find((x) => x != null);
+    }) as TngListboxGetValue<O, V>,
   );
+
   public readonly getOptionLabel = input<TngListboxGetLabel<O>>(
-    ((option: any) =>
-      String(
-        option?.label ??
-          option?.title ??
-          option?.name ??
-          option?.value ??
-          option?.id ??
-          option?.key ??
-          option?.code ??
-          option,
-      )) as TngListboxGetLabel<O>,
+    ((option: Readonly<Record<string, unknown>>): string => {
+      const v = [option['label'], option['title'], option['name'], option['value'], option['id'], option['key'], option['code'], option].find((x) => x != null);
+      return String(v as string | number | boolean);
+    }) as TngListboxGetLabel<O>,
   );
+
   public readonly getOptionDescription = input<TngListboxGetDescription<O>>(
-    ((option: any) =>
-      option?.description ??
-      option?.copy ??
-      option?.supportingText ??
-      option?.details ??
-      null) as TngListboxGetDescription<O>,
+    ((option: Readonly<Record<string, unknown>>): string | null => {
+      const v = [option['description'], option['copy'], option['supportingText'], option['details']].find((x) => x != null);
+      return v === undefined ? null : String(v as string | number | boolean);
+    }) as TngListboxGetDescription<O>,
   );
+
   public readonly isOptionDisabled = input<TngListboxIsDisabled<O>>(
-    ((option: any) =>
-      option?.disabled === true ||
-      option?.unavailable === true) as TngListboxIsDisabled<O>,
+    ((option: Readonly<Record<string, unknown>>): boolean => {
+      return option['disabled'] === true || option['unavailable'] === true;
+    }) as TngListboxIsDisabled<O>,
   );
-  public readonly trackBy = input<TngListboxTrackBy<O>>((_, option) => option as unknown);
+
+  public readonly trackBy = input<TngListboxTrackBy<O>>((_, option) => option);
 
   @ContentChild('tngListboxOptionTpl', { read: TemplateRef })
   protected optionTpl?: TemplateRef<TngListboxOptionContext<O, V>>;
@@ -202,7 +194,7 @@ export class TngListboxComponent<O = unknown, V = unknown> {
   }
 
   private isSelectedValue(value: V): boolean {
-    const current = this.primitive.value() as ListboxValue<V>;
+    const current = this.primitive.value();
 
     if (current === null) {
       return false;

@@ -19,11 +19,11 @@ import {
 } from '@tailng-ui/primitives';
 import { TngDatepickerComponent } from '../datepicker/tng-datepicker.component';
 
+import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 import {
   TNG_FORM_FIELD_CONTROL,
   type TngFormFieldControl,
 } from '../form-field/tng-form-field.control';
-import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 
 export type TngMonthDayValue = Readonly<{
   day: number;
@@ -38,7 +38,7 @@ function normalizeYear(value: number | string): number {
   return Math.trunc(typeof value === 'number' ? value : Number(value));
 }
 
-function normalizeMonthDay(value: TngMonthDayValue): TngMonthDayValue {
+function normalizeMonthDay(value: Readonly<TngMonthDayValue>): TngMonthDayValue {
   return Object.freeze({
     day: Math.max(1, Math.min(31, Math.trunc(value.day))),
     month: Math.max(1, Math.min(12, Math.trunc(value.month))),
@@ -53,7 +53,7 @@ function createDate(year: number, value: TngMonthDayValue): Date {
   return defaultDatepickerDateAdapter.createDate(year, value.month - 1, value.day);
 }
 
-function toMonthDay(date: Date): TngMonthDayValue {
+function toMonthDay(date: Readonly<Date>): TngMonthDayValue {
   return Object.freeze({
     day: defaultDatepickerDateAdapter.getDate(date),
     month: defaultDatepickerDateAdapter.getMonth(date) + 1,
@@ -63,7 +63,7 @@ function toMonthDay(date: Date): TngMonthDayValue {
 function createMonthDayAdapter(year: number): TngDateAdapter<Date> {
   return {
     ...defaultDatepickerDateAdapter,
-    format: (date, format, locale) => {
+    format: (date: Readonly<Date>, format, locale): string => {
       if (format === 'input') {
         return `${pad2(defaultDatepickerDateAdapter.getMonth(date) + 1)}-${pad2(
           defaultDatepickerDateAdapter.getDate(date),
@@ -72,7 +72,7 @@ function createMonthDayAdapter(year: number): TngDateAdapter<Date> {
 
       return defaultDatepickerDateAdapter.format(date, format, locale);
     },
-    parse: (text, locale) => {
+    parse: (text, locale): Date | null => {
       const match = /^(\d{2})-(\d{2})$/.exec(text.trim());
       if (match !== null) {
         return createDate(year, {
@@ -112,20 +112,25 @@ function createMonthDayAdapter(year: number): TngDateAdapter<Date> {
   providers: [
     {
       provide: TNG_FORM_FIELD_CONTROL,
-      useFactory: (cmp: TngMonthDaypickerComponent) => cmp.formFieldControl,
+      useFactory: (cmp: Readonly<TngMonthDaypickerComponent>): TngFormFieldControl =>
+        cmp.formFieldControl,
       deps: [forwardRef(() => TngMonthDaypickerComponent)],
     },
   ],
 })
 export class TngMonthDaypickerComponent implements FormValueControl<TngMonthDayValue | undefined> {
-  private readonly hostEl: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
+  private readonly hostEl: HTMLElement =
+  inject(ElementRef<HTMLElement>).nativeElement as HTMLElement;
   private readonly datepicker = viewChild<TngDatepickerComponent<Date>>('datepicker');
   private hasObservedInitialValue = false;
 
   public readonly value = model<TngMonthDayValue | undefined>(undefined);
-  public readonly defaultValue = input<TngMonthDayValue, TngMonthDayValue>({ day: 1, month: 1 }, {
-    transform: normalizeMonthDay,
-  });
+  public readonly defaultValue = input<TngMonthDayValue, TngMonthDayValue>(
+    { day: 1, month: 1 },
+    {
+      transform: normalizeMonthDay,
+    },
+  );
   public readonly year = input<number, number | string>(currentYear(), {
     transform: normalizeYear,
   });
@@ -165,11 +170,15 @@ export class TngMonthDaypickerComponent implements FormValueControl<TngMonthDayV
     return controlled === undefined ? this.defaultValue() : normalizeMonthDay(controlled);
   });
   protected readonly selectedDate = computed(() => createDate(this.year(), this.selectedValue()));
-  protected readonly minDate = computed(() => defaultDatepickerDateAdapter.createDate(this.year(), 0, 1));
-  protected readonly maxDate = computed(() => defaultDatepickerDateAdapter.createDate(this.year(), 11, 31));
+  protected readonly minDate = computed(() =>
+    defaultDatepickerDateAdapter.createDate(this.year(), 0, 1),
+  );
+  protected readonly maxDate = computed(() =>
+    defaultDatepickerDateAdapter.createDate(this.year(), 11, 31),
+  );
   protected readonly adapter = computed(() => createMonthDayAdapter(this.year()));
 
-  protected handleDateValueChange(value: TngDateSelectionInput<Date> | undefined): void {
+  protected handleDateValueChange(value: Readonly<TngDateSelectionInput<Date>> | undefined): void {
     if (!(value instanceof Date)) {
       return;
     }

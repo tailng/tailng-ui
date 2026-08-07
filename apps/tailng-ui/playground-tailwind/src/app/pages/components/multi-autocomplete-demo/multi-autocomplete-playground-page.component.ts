@@ -1,8 +1,7 @@
-import { Component, computed, OnInit, signal } from '@angular/core';
+import { Component, computed, signal, type OnInit } from '@angular/core';
 
 import { TngMultiAutocompleteComponent } from '@tailng-ui/components';
 import {
-  TngMultiAutocomplete,
   TngMultiAutocompleteChip,
   TngMultiAutocompleteContent,
   TngMultiAutocompleteListbox,
@@ -15,8 +14,8 @@ type Country = { code: string; name: string };
 
 @Component({
   selector: 'app-multi-autocomplete-playground-page',
+  standalone: true,
   imports: [
-    TngMultiAutocomplete,
     TngMultiAutocompleteChip,
     TngMultiAutocompleteTrigger,
     TngMultiAutocompleteContent,
@@ -29,16 +28,16 @@ type Country = { code: string; name: string };
   styleUrl: './multi-autocomplete-playground-page.component.css',
 })
 export class MultiAutocompletePlaygroundPageComponent implements OnInit {
-  readonly countries = signal<Country[]>([]);
-  readonly query = signal('');
-  readonly value = signal<readonly string[]>([]);
-  readonly valueC = signal<readonly string[]>([]);
-  readonly open = signal(false);
+  public readonly countries = signal<Country[]>([]);
+  public readonly query = signal('');
+  public readonly value = signal<readonly string[]>([]);
+  public readonly valueC = signal<readonly string[]>([]);
+  public readonly open = signal(false);
 
-  readonly getCountryValue = (c: Country) => c.name;
-  readonly getCountryLabel = (c: Country) => c.name;
+  public readonly getCountryValue = (c: Country): string => c.name;
+  public readonly getCountryLabel = (c: Country): string => c.name;
 
-  readonly filteredOptions = computed(() => {
+  public readonly filteredOptions = computed(() => {
     const q = this.query().toLowerCase().trim();
     const list = this.countries();
     const selected = new Set(this.value());
@@ -56,14 +55,14 @@ export class MultiAutocompletePlaygroundPageComponent implements OnInit {
     return [...pinnedSelected, ...remaining].slice(0, 50);
   });
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     fetch('/assets/country-list.json')
       .then((response) => response.json())
       .then((data: Country[]) => this.countries.set(data))
       .catch(() => this.countries.set([]));
   }
 
-  onOpenChange(open: boolean): void {
+  public onOpenChange(open: boolean): void {
     this.open.set(open);
 
     if (!open) {
@@ -71,15 +70,15 @@ export class MultiAutocompletePlaygroundPageComponent implements OnInit {
     }
   }
 
-  onQueryChange(query: string): void {
+  public onQueryChange(query: string): void {
     this.query.set(query);
   }
 
-  onValueChange(value: readonly string[]): void {
+  public onValueChange(value: readonly string[]): void {
     this.value.set(value);
   }
 
-  removeItem(item: string): void {
+  public removeItem(item: string): void {
     this.value.update((current) => current.filter((entry) => entry !== item));
   }
 }

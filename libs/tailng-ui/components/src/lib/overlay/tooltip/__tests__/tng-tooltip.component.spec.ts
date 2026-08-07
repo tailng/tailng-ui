@@ -1,7 +1,7 @@
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import {
   normalizeTngTooltipDelay,
@@ -13,20 +13,21 @@ const TOOLTIP_Z_INDEX_CHAIN =
   'var(--tng-tooltip-z-overlay, var(--tng-tooltip-overlay-z-index, var(--tng-z-overlay, 20)))';
 
 const tooltipComponentCss = readFileSync(
-  join(process.cwd(), 'libs/tailng-ui/components/src/lib/overlay/tooltip/tng-tooltip.component.css'),
-  'utf8',
-);
-
-const tooltipThemeContractCss = readFileSync(
   join(
     process.cwd(),
-    'libs/tailng-ui/theme/src/lib/component-contracts/utility/tooltip.css',
+    'libs/tailng-ui/components/src/lib/overlay/tooltip/tng-tooltip.component.css',
   ),
   'utf8',
 );
 
+const tooltipThemeContractCss = readFileSync(
+  join(process.cwd(), 'libs/tailng-ui/theme/src/lib/component-contracts/utility/tooltip.css'),
+  'utf8',
+);
+
 function findTrigger(fixture: { nativeElement: HTMLElement }): HTMLButtonElement | null {
-  return fixture.nativeElement.querySelector('.tng-tooltip-trigger') as HTMLButtonElement | null;
+  const element = fixture.nativeElement.querySelector('.tng-tooltip-trigger');
+  return element instanceof HTMLButtonElement ? element : null;
 }
 
 function findContent(fixture: { nativeElement: HTMLElement }): HTMLElement | null {
@@ -47,7 +48,10 @@ function createRect(left: number, top: number, width: number, height: number): D
   } as DOMRect;
 }
 
-async function settle(fixture: { detectChanges(): void; whenStable(): Promise<unknown> }): Promise<void> {
+async function settle(fixture: {
+  detectChanges(): void;
+  whenStable(): Promise<unknown>;
+}): Promise<void> {
   fixture.detectChanges();
   await fixture.whenStable();
   fixture.detectChanges();
@@ -69,19 +73,23 @@ async function settle(fixture: { detectChanges(): void; whenStable(): Promise<un
   `,
 })
 class TooltipHostComponent {
-  readonly ariaLabel = signal<string | null>('More info');
-  readonly openDelay = signal(120);
-  readonly closeDelay = signal(60);
-  readonly disabled = signal(false);
-  readonly side = signal<'top' | 'right' | 'bottom' | 'left'>('top');
-  readonly text = signal('Tooltip body');
-  readonly triggerLabel = signal('Info');
-  readonly openChanges: boolean[] = [];
+  public ariaLabel = signal<string | null>('More info');
+  public openDelay = signal(120);
+  public closeDelay = signal(60);
+  public disabled = signal(false);
+  public side = signal<'top' | 'right' | 'bottom' | 'left'>('top');
+  public text = signal('Tooltip body');
+  public triggerLabel = signal('Info');
+  public openChanges: boolean[] = [];
 }
 
 @Component({
   imports: [TngTooltipComponent],
-  template: `<tng-tooltip style="--tng-tooltip-z-overlay: 42" text="Stacked" triggerLabel="Info" />`,
+  template: `<tng-tooltip
+    style="--tng-tooltip-z-overlay: 42"
+    text="Stacked"
+    triggerLabel="Info"
+  />`,
 })
 class TooltipComponentTokenHostComponent {}
 
@@ -93,7 +101,11 @@ class TooltipGlobalTokenHostComponent {}
 
 @Component({
   imports: [TngTooltipComponent],
-  template: `<tng-tooltip style="--tng-tooltip-overlay-z-index: 55" text="Alias stack" triggerLabel="Info" />`,
+  template: `<tng-tooltip
+    style="--tng-tooltip-overlay-z-index: 55"
+    text="Alias stack"
+    triggerLabel="Info"
+  />`,
 })
 class TooltipAliasTokenHostComponent {}
 
@@ -293,10 +305,12 @@ describe('tng-tooltip component behavior', () => {
   it('uses edge-aware CDK positioning and flips tooltip side near viewport bounds', async () => {
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: 360 });
     Object.defineProperty(window, 'innerHeight', { configurable: true, value: 220 });
-    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback: FrameRequestCallback): number => {
-      callback(0);
-      return 1;
-    });
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation(
+      (callback: FrameRequestCallback): number => {
+        callback(0);
+        return 1;
+      },
+    );
 
     const fixture = TestBed.configureTestingModule({
       imports: [TooltipHostComponent],
@@ -343,7 +357,9 @@ describe('tng-tooltip component behavior', () => {
     expect(content).not.toBeNull();
     expect(getComputedStyle(content!).zIndex).toBe(TOOLTIP_Z_INDEX_CHAIN);
     expect(tooltip!.style.getPropertyValue('--tng-tooltip-z-overlay').trim()).toBe('42');
-    expect(getComputedStyle(tooltip!).getPropertyValue('--tng-tooltip-z-overlay').trim()).toBe('42');
+    expect(getComputedStyle(tooltip!).getPropertyValue('--tng-tooltip-z-overlay').trim()).toBe(
+      '42',
+    );
   });
 
   it('falls back to the global overlay token when the component token is unset', async () => {
@@ -396,8 +412,8 @@ describe('tng-tooltip component behavior', () => {
     expect(content).not.toBeNull();
     expect(getComputedStyle(content!).zIndex).toBe(TOOLTIP_Z_INDEX_CHAIN);
     expect(tooltip!.style.getPropertyValue('--tng-tooltip-overlay-z-index').trim()).toBe('55');
-    expect(getComputedStyle(tooltip!).getPropertyValue('--tng-tooltip-overlay-z-index').trim()).toBe(
-      '55',
-    );
+    expect(
+      getComputedStyle(tooltip!).getPropertyValue('--tng-tooltip-overlay-z-index').trim(),
+    ).toBe('55');
   });
 });

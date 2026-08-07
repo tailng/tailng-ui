@@ -14,7 +14,7 @@ import { TngMenubar as TngMenubarPrimitive } from '@tailng-ui/primitives';
   exportAs: 'tngMenubarComponent',
 })
 export class TngMenubarComponent {
-  readonly ariaLabel = input<string>('Menubar');
+  public readonly ariaLabel = input<string>('Menubar');
 
   @HostBinding('attr.aria-label')
   protected get hostAriaLabel(): string {

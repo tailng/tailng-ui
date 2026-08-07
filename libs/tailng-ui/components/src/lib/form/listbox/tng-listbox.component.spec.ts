@@ -7,19 +7,19 @@ import { TngListboxComponent } from './tng-listbox.component';
 type PriorityId = 'low' | 'medium' | 'high';
 type ChannelId = 'docs' | 'support' | 'team';
 
-interface PriorityOption {
+type PriorityOption = {
   readonly description: string;
   readonly disabled?: boolean;
   readonly id: PriorityId;
   readonly label: string;
-}
+};
 
-interface ChannelOption {
+type ChannelOption = {
   readonly copy: string;
   readonly key: ChannelId;
   readonly title: string;
   readonly unavailable?: boolean;
-}
+};
 
 const PRIORITY_OPTIONS: readonly PriorityOption[] = [
   {
@@ -75,11 +75,12 @@ class BasicListboxHostComponent {
   public readonly ariaLabel = signal('Priority queue');
   public readonly options = signal<readonly PriorityOption[]>(PRIORITY_OPTIONS);
   public readonly value = signal<PriorityId | null>('medium');
-  public readonly changes: Array<PriorityId | readonly PriorityId[] | null> = [];
+  public readonly changes: (PriorityId | readonly PriorityId[] | null)[] = [];
 
   public onValueChange(value: PriorityId | readonly PriorityId[] | null): void {
     this.changes.push(value);
-    this.value.set((Array.isArray(value) ? value[0] : value) ?? null);
+    const next: PriorityId | null = Array.isArray(value) ? (value as readonly PriorityId[])[0] ?? null : (value as PriorityId | null);
+    this.value.set(next);
   }
 }
 
@@ -102,7 +103,7 @@ class BasicListboxHostComponent {
 class MultiListboxHostComponent {
   public readonly options = signal<readonly ChannelOption[]>(CHANNEL_OPTIONS);
   public readonly value = signal<readonly ChannelId[]>(['docs']);
-  public readonly changes: Array<readonly ChannelId[]> = [];
+  public readonly changes: (readonly ChannelId[])[] = [];
 
   public readonly getOptionValue = (option: ChannelOption): ChannelId => option.key;
   public readonly getOptionLabel = (option: ChannelOption): string => option.title;
@@ -110,7 +111,7 @@ class MultiListboxHostComponent {
   public readonly isOptionDisabled = (option: ChannelOption): boolean => option.unavailable === true;
 
   public onValueChange(value: ChannelId | readonly ChannelId[] | null): void {
-    const next = value == null ? [] : Array.isArray(value) ? value : [value];
+    const next = value == null ? [] : Array.isArray(value) ? (value as readonly ChannelId[]) : [value as ChannelId];
     this.changes.push(next);
     this.value.set(next);
   }
@@ -146,7 +147,8 @@ class TemplateListboxHostComponent {
   public readonly isOptionDisabled = (option: ChannelOption): boolean => option.unavailable === true;
 
   public onValueChange(value: ChannelId | readonly ChannelId[] | null): void {
-    this.value.set((Array.isArray(value) ? value[0] : value) ?? null);
+    const next: ChannelId | null = Array.isArray(value) ? (value as readonly ChannelId[])[0] ?? null : (value as ChannelId | null);
+    this.value.set(next);
   }
 }
 
@@ -172,10 +174,10 @@ class HostAttrsListboxComponent {
   public readonly labelledby = signal('  field-label  ');
   public readonly describedBy = signal('  field-help  ');
   public readonly value = signal<readonly PriorityId[]>(['medium']);
-  public readonly changes: Array<readonly PriorityId[]> = [];
+  public readonly changes: (readonly PriorityId[])[] = [];
 
   public onValueChange(value: PriorityId | readonly PriorityId[] | null): void {
-    const next = value == null ? [] : Array.isArray(value) ? value : [value];
+    const next = value == null ? [] : Array.isArray(value) ? (value as readonly PriorityId[]) : [value as PriorityId];
     this.changes.push(next);
     this.value.set(next);
   }
@@ -195,10 +197,10 @@ class HostAttrsListboxComponent {
 class DynamicSingleListboxHostComponent {
   public readonly options = signal<readonly PriorityOption[]>(PRIORITY_OPTIONS);
   public readonly value = signal<PriorityId | null>('medium');
-  public readonly changes: Array<PriorityId | null> = [];
+  public readonly changes: (PriorityId | null)[] = [];
 
   public onValueChange(value: PriorityId | readonly PriorityId[] | null): void {
-    const next = (Array.isArray(value) ? value[0] : value) ?? null;
+    const next: PriorityId | null = Array.isArray(value) ? (value as readonly PriorityId[])[0] ?? null : (value as PriorityId | null);
     this.changes.push(next);
     this.value.set(next);
   }
@@ -223,7 +225,7 @@ class DynamicSingleListboxHostComponent {
 class DynamicMultiListboxHostComponent {
   public readonly options = signal<readonly ChannelOption[]>(CHANNEL_OPTIONS);
   public readonly value = signal<readonly ChannelId[]>(['docs', 'support']);
-  public readonly changes: Array<readonly ChannelId[]> = [];
+  public readonly changes: (readonly ChannelId[])[] = [];
 
   public readonly getOptionValue = (option: ChannelOption): ChannelId => option.key;
   public readonly getOptionLabel = (option: ChannelOption): string => option.title;
@@ -231,13 +233,13 @@ class DynamicMultiListboxHostComponent {
   public readonly isOptionDisabled = (option: ChannelOption): boolean => option.unavailable === true;
 
   public onValueChange(value: ChannelId | readonly ChannelId[] | null): void {
-    const next = value == null ? [] : Array.isArray(value) ? value : [value];
+    const next = value == null ? [] : Array.isArray(value) ? (value as readonly ChannelId[]) : [value as ChannelId];
     this.changes.push(next);
     this.value.set(next);
   }
 }
 
-function getListboxHost<T>(fixture: { nativeElement: HTMLElement }): HTMLElement {
+function getListboxHost(fixture: { nativeElement: HTMLElement }): HTMLElement {
   const host = fixture.nativeElement.querySelector('[data-testid="listbox"]');
   if (!(host instanceof HTMLElement)) {
     throw new Error('Expected listbox host.');
@@ -247,7 +249,7 @@ function getListboxHost<T>(fixture: { nativeElement: HTMLElement }): HTMLElement
 }
 
 function getOptions(host: HTMLElement): HTMLButtonElement[] {
-  return Array.from(host.querySelectorAll('.tng-listbox-option')) as HTMLButtonElement[];
+  return Array.from(host.querySelectorAll('.tng-listbox-option'));
 }
 
 function pointerSelect(option: HTMLButtonElement): void {
@@ -262,7 +264,7 @@ function key(host: HTMLElement, keyValue: string): void {
   host.dispatchEvent(new KeyboardEvent('keydown', { key: keyValue, bubbles: true }));
 }
 
-function renderAndRegister<T>(fixture: { detectChanges(): void }): void {
+function renderAndRegister(fixture: { detectChanges(): void }): void {
   fixture.detectChanges();
   fixture.detectChanges();
 }
@@ -315,7 +317,7 @@ describe('tng-listbox component', () => {
 
     const host = fixture.componentInstance;
     const options = getOptions(getListboxHost(fixture));
-    pointerSelect(options[0]!);
+    pointerSelect(options[0]);
     fixture.detectChanges();
 
     expect(host.changes).toEqual(['low']);
@@ -332,7 +334,7 @@ describe('tng-listbox component', () => {
 
     const host = fixture.componentInstance;
     const options = getOptions(getListboxHost(fixture));
-    pointerSelect(options[2]!);
+    pointerSelect(options[2]);
     fixture.detectChanges();
 
     expect(host.changes).toEqual([]);
@@ -351,7 +353,7 @@ describe('tng-listbox component', () => {
     const options = getOptions(getListboxHost(fixture));
     expect(options[0]?.hasAttribute('data-selected')).toBe(true);
 
-    pointerSelect(options[1]!);
+    pointerSelect(options[1]);
     fixture.detectChanges();
 
     expect(host.changes.at(-1)).toEqual(['docs', 'support']);
@@ -431,7 +433,7 @@ describe('tng-listbox component', () => {
 
     expect(host.getAttribute('aria-disabled')).toBe('true');
     expect(host.getAttribute('tabindex')).toBe('-1');
-    pointerSelect(getOptions(host)[0]!);
+    pointerSelect(getOptions(host)[0]);
     fixture.detectChanges();
     expect(hostCmp.changes).toEqual([]);
   });

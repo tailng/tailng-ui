@@ -1,17 +1,11 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it } from 'vitest';
 import {
-  TngButtonAppearance,
+  type TngButtonAppearance,
   TngButtonComponent,
-  TngButtonTone,
+  type TngButtonTone,
 } from '../tng-button.component';
-
-@Component({
-  imports: [TngButtonComponent],
-  template: `<tng-button appearance="solid" tone="primary">Click</tng-button>`,
-})
-class DefaultButtonHarness {}
 
 function getInnerButton(fixture: ComponentFixture<unknown>): HTMLButtonElement {
   const btn = fixture.nativeElement.querySelector('button') as HTMLButtonElement | null;
@@ -34,7 +28,7 @@ describe('tng-button hover styles — data attribute contract', () => {
           template: `<tng-button [appearance]="appearance">Click</tng-button>`,
         })
         class Harness {
-          appearance: TngButtonAppearance = appearance;
+          public appearance: TngButtonAppearance = appearance;
         }
 
         const fixture = TestBed.configureTestingModule({ imports: [Harness] }).createComponent(Harness);
@@ -58,7 +52,7 @@ describe('tng-button hover styles — data attribute contract', () => {
           template: `<tng-button [tone]="tone">Click</tng-button>`,
         })
         class Harness {
-          tone: TngButtonTone = tone;
+          public tone: TngButtonTone = tone;
         }
 
         const fixture = TestBed.configureTestingModule({ imports: [Harness] }).createComponent(Harness);
@@ -122,7 +116,7 @@ describe('tng-button hover styles — data attribute contract', () => {
           template: `<tng-button appearance="solid" [tone]="tone">Click</tng-button>`,
         })
         class Harness {
-          tone: TngButtonTone = tone;
+          public tone: TngButtonTone = tone;
         }
 
         const fixture = TestBed.configureTestingModule({ imports: [Harness] }).createComponent(Harness);
@@ -144,7 +138,7 @@ describe('tng-button hover styles — data attribute contract', () => {
           template: `<tng-button [appearance]="appearance">Click</tng-button>`,
         })
         class Harness {
-          appearance: TngButtonAppearance = appearance;
+          public appearance: TngButtonAppearance = appearance;
         }
 
         const fixture = TestBed.configureTestingModule({ imports: [Harness] }).createComponent(Harness);
@@ -175,8 +169,8 @@ describe('tng-button hover styles — data attribute contract', () => {
         template: `<tng-button [appearance]="appearance" [tone]="tone" [disabled]="true">Click</tng-button>`,
       })
       class Harness {
-        appearance: TngButtonAppearance = appearance;
-        tone: TngButtonTone = tone;
+        public appearance: TngButtonAppearance = appearance;
+        public tone: TngButtonTone = tone;
       }
 
       const fixture = TestBed.configureTestingModule({ imports: [Harness] }).createComponent(Harness);

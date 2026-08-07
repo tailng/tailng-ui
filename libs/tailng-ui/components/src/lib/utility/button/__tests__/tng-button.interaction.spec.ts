@@ -11,15 +11,15 @@ import { TngButtonComponent } from '../tng-button.component';
   `,
 })
 class ButtonHostHarnessComponent {
-  clickCount = 0;
+  public clickCount = 0;
 
-  onClick(): void {
+  public onClick(): void {
     this.clickCount += 1;
   }
 }
 
 function getByTestId<T extends Element>(fixture: { nativeElement: HTMLElement }, testId: string): T {
-  const element = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`) as T | null;
+  const element = fixture.nativeElement.querySelector<T>(`[data-testid="${testId}"]`);
   if (element === null) {
     throw new Error(`Expected element [data-testid="${testId}"] to exist.`);
   }
@@ -42,7 +42,7 @@ describe('tng-button host click interaction', () => {
     fixture.detectChanges();
 
     const hostButton = getByTestId<HTMLElement>(fixture, 'host-button');
-    const nativeButton = hostButton.querySelector('button') as HTMLButtonElement | null;
+    const nativeButton = hostButton.querySelector('button');
     expect(nativeButton).not.toBeNull();
 
     nativeButton?.click();

@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest';
 import { coerceTngPressAriaHasPopup, coerceTngPressNullableBoolean } from '@tailng-ui/primitives';
+import { describe, expect, it } from 'vitest';
 import { TngButtonComponent } from './tng-button.component';
 
 describe('tng-button component', () => {

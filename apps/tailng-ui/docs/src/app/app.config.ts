@@ -6,7 +6,7 @@ import { provideTngCodeHighlighting } from '@tailng-ui/components';
 import { provideTngIcons } from '@tailng-ui/icons';
 import { provideTailngTheme } from '@tailng-ui/theme';
 import { appRoutes } from './app.routes';
-import { shikiCodeHighlighterAdapter } from './code-highlighting/shiki-code-highlighter.adapter';
+import { lazyShikiCodeHighlighterAdapter } from './code-highlighting/lazy-shiki-code-highlighter.adapter';
 import { resolveStoredDocsTheme } from './shared/theme/docs-theme-preference';
 
 export const appConfig: ApplicationConfig = {
@@ -17,7 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideTailngTheme({ theme: resolveStoredDocsTheme() }),
     provideTngIcons(),
     provideTngCodeHighlighting({
-      adapters: [shikiCodeHighlighterAdapter],
+      adapters: [lazyShikiCodeHighlighterAdapter],
       defaultAdapter: 'shiki',
     }),
   ],

@@ -1,12 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { afterEach, describe, expect, it } from 'vitest';
 
 import {
   TngContextMenuTrigger,
   TngMenuItem,
   type TngMenuSelectEvent,
 } from '@tailng-ui/primitives';
+import { afterEach, describe, expect, it } from 'vitest';
+
 import { TngContextMenuComponent } from '../tng-context-menu.component';
 
 function contextmenu(el: HTMLElement, x = 24, y = 48): MouseEvent {
@@ -75,10 +76,10 @@ function pointerdown(el: HTMLElement): PointerEvent {
   `,
 })
 class ContextMenuComponentHost {
-  readonly disabled = signal(false);
-  readonly events: TngMenuSelectEvent[] = [];
+  public readonly disabled = signal(false);
+  public readonly events: TngMenuSelectEvent[] = [];
 
-  onSelect(event: TngMenuSelectEvent): void {
+  public onSelect(event: TngMenuSelectEvent): void {
     this.events.push(event);
   }
 }

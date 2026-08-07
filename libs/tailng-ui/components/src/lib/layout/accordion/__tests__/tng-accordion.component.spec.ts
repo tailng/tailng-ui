@@ -10,7 +10,7 @@ import {
 } from '../tng-accordion.component';
 
 function getByTestId<T extends Element>(fixture: { nativeElement: HTMLElement }, testId: string): T {
-  const element = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`) as T | null;
+  const element = fixture.nativeElement.querySelector<T>(`[data-testid="${testId}"]`);
   if (element === null) {
     throw new Error(`Expected element for data-testid="${testId}".`);
   }
@@ -52,10 +52,10 @@ function click(element: HTMLElement): MouseEvent {
   `,
 })
 class AccordionWrapperHostComponent {
-  type: 'single' | 'multiple' = 'single';
-  defaultValue: string | string[] | null = null;
-  readonly valueChanges: Array<string | readonly string[] | null> = [];
-  readonly valuesChanges: Array<readonly string[]> = [];
+  public type: 'single' | 'multiple' = 'single';
+  public defaultValue: string | string[] | null = null;
+  public readonly valueChanges: (string | readonly string[] | null)[] = [];
+  public readonly valuesChanges: readonly string[][] = [];
 }
 
 @Component({

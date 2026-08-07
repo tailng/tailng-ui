@@ -9,37 +9,17 @@ import {
   type BundledTheme,
   type HighlighterGeneric,
 } from 'shiki/bundle/web';
+import {
+  DOCS_SHIKI_LANGUAGES,
+  DOCS_SHIKI_THEMES,
+  isDocsShikiLanguage,
+  isDocsShikiTheme,
+  normalizeDocsShikiValue,
+} from './shiki-code-highlighter.constants';
 
 type ShikiHighlighter = HighlighterGeneric<BundledLanguage, BundledTheme>;
 
-const SHIKI_LANGS = [
-  'ts',
-  'tsx',
-  'js',
-  'jsx',
-  'bash',
-  'html',
-  'json',
-  'css',
-  'scss',
-  'shell',
-] as const satisfies readonly BundledLanguage[];
-
-const SHIKI_THEMES = ['github-dark', 'github-light'] as const satisfies readonly BundledTheme[];
-
 let cachedHighlighter: ShikiHighlighter | null = null;
-
-function normalizeString(value: string | null | undefined): string {
-  return (value ?? '').trim();
-}
-
-function isShikiLanguage(value: string): value is (typeof SHIKI_LANGS)[number] {
-  return (SHIKI_LANGS as readonly string[]).includes(value);
-}
-
-function isShikiTheme(value: string): value is (typeof SHIKI_THEMES)[number] {
-  return (SHIKI_THEMES as readonly string[]).includes(value);
-}
 
 function extractCodeInnerHtml(shikiHtml: string): string {
   const codeOpenTagIndex = shikiHtml.indexOf('<code');
@@ -78,7 +58,7 @@ function normalizeShikiHtmlForTailng(shikiHtml: string): string {
     .join('\n');
 }
 
-function getPreferredShikiThemeFromEnvironment(): (typeof SHIKI_THEMES)[number] {
+function getPreferredShikiThemeFromEnvironment(): (typeof DOCS_SHIKI_THEMES)[number] {
   const documentRef = globalThis.document;
   if (!documentRef?.documentElement) {
     return 'github-light';
@@ -108,8 +88,8 @@ async function getOrCreateHighlighter(): Promise<ShikiHighlighter> {
   }
 
   cachedHighlighter = await createHighlighter({
-    themes: [...SHIKI_THEMES],
-    langs: [...SHIKI_LANGS],
+    themes: [...DOCS_SHIKI_THEMES],
+    langs: [...DOCS_SHIKI_LANGUAGES],
   });
 
   return cachedHighlighter;
@@ -120,10 +100,10 @@ export const shikiCodeHighlighterAdapter = createTngCodeHighlighterAdapter(
   async (input: TngCodeHighlightInput): Promise<TngCodeHighlightResult> => {
     const highlighter = await getOrCreateHighlighter();
 
-    const requestedLanguage = normalizeString(input.language ?? 'ts').toLowerCase();
-    const requestedTheme = normalizeString(input.theme).toLowerCase();
-    const language = isShikiLanguage(requestedLanguage) ? requestedLanguage : null;
-    const theme = isShikiTheme(requestedTheme)
+    const requestedLanguage = normalizeDocsShikiValue(input.language ?? 'ts');
+    const requestedTheme = normalizeDocsShikiValue(input.theme);
+    const language = isDocsShikiLanguage(requestedLanguage) ? requestedLanguage : null;
+    const theme = isDocsShikiTheme(requestedTheme)
       ? requestedTheme
       : getPreferredShikiThemeFromEnvironment();
 

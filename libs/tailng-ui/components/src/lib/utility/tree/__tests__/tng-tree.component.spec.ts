@@ -17,7 +17,7 @@ const SAMPLE_NODES: readonly TngTreeItem[] = Object.freeze([
 const DEFAULT_EXPANDED: readonly string[] = Object.freeze(['workspace', 'libs', 'apps']);
 
 function getRoot(fixture: { nativeElement: HTMLElement }): HTMLElement {
-  const root = fixture.nativeElement.querySelector('.tng-tree-root') as HTMLElement | null;
+  const root = fixture.nativeElement.querySelector('.tng-tree-root');
   if (root === null) {
     throw new Error('Expected .tng-tree-root to exist.');
   }
@@ -38,11 +38,11 @@ function getItemById(fixture: { nativeElement: HTMLElement }, nodeId: string): H
 }
 
 function getToggleButton(item: HTMLElement): HTMLButtonElement | null {
-  return item.querySelector('button.tng-tree-toggle') as HTMLButtonElement | null;
+  return item.querySelector('button.tng-tree-toggle');
 }
 
 function getLabelButton(item: HTMLElement): HTMLButtonElement {
-  const btn = item.querySelector('button.tng-tree-node') as HTMLButtonElement | null;
+  const btn = item.querySelector('button.tng-tree-node');
   if (btn === null) {
     throw new Error('Expected label button to exist.');
   }
@@ -76,13 +76,13 @@ function click(element: HTMLElement): void {
   `,
 })
 class TreeTestHost {
-  readonly nodes = signal<readonly TngTreeItem[]>(SAMPLE_NODES);
-  readonly defaultExpandedIds = signal<readonly string[]>(DEFAULT_EXPANDED);
-  readonly defaultSelectedId = signal<string | null>(null);
-  readonly ariaLabel = signal('Test tree');
-  readonly selectedIds: (string | null)[] = [];
+  public readonly nodes = signal<readonly TngTreeItem[]>(SAMPLE_NODES);
+  public readonly defaultExpandedIds = signal<readonly string[]>(DEFAULT_EXPANDED);
+  public readonly defaultSelectedId = signal<string | null>(null);
+  public readonly ariaLabel = signal('Test tree');
+  public readonly selectedIds: (string | null)[] = [];
 
-  onSelectedIdChange(id: string | null): void {
+  public onSelectedIdChange(id: string | null): void {
     this.selectedIds.push(id);
   }
 }
@@ -434,7 +434,7 @@ describe('tng-tree component', () => {
       (el) => el.getAttribute('aria-disabled') !== 'true',
     );
     expect(lastEnabled.length).toBeGreaterThan(0);
-    expect(activedescendant).toBe(lastEnabled[lastEnabled.length - 1]!.id);
+    expect(activedescendant).toBe(lastEnabled[lastEnabled.length - 1].id);
   });
 
   it('ArrowRight expands a collapsed branch node', () => {

@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { afterEach, describe, expect, it, vi } from 'vitest';
-import { TngMenuComponent } from './tng-menu.component';
 import { TngMenuItem } from '@tailng-ui/primitives';
+
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { TngMenuTriggerFor } from './tng-menu-trigger-for.directive';
+
+import { TngMenuComponent } from './tng-menu.component';
 
 @Component({
   imports: [TngMenuComponent, TngMenuItem],
@@ -35,12 +37,7 @@ class PositionedHostComponent {}
   imports: [TngMenuComponent, TngMenuItem, TngMenuTriggerFor],
   template: `
     <button type="button" [tngMenuTriggerFor]="menu" data-testid="trigger">Open</button>
-    <tng-menu
-      #menu="tngMenu"
-      ariaLabel="Actions"
-      data-testid="menu"
-      scrollStrategy="close"
-    >
+    <tng-menu #menu="tngMenu" ariaLabel="Actions" data-testid="menu" scrollStrategy="close">
       <button type="button" tngMenuItem>Item</button>
     </tng-menu>
   `,
@@ -51,12 +48,7 @@ class CloseOnScrollHostComponent {}
   imports: [TngMenuComponent, TngMenuItem, TngMenuTriggerFor],
   template: `
     <button type="button" [tngMenuTriggerFor]="menu" data-testid="trigger">Open</button>
-    <tng-menu
-      #menu="tngMenu"
-      ariaLabel="Actions"
-      data-testid="menu"
-      scrollStrategy="block"
-    >
+    <tng-menu #menu="tngMenu" ariaLabel="Actions" data-testid="menu" scrollStrategy="block">
       <button type="button" tngMenuItem>Item</button>
     </tng-menu>
   `,
@@ -78,10 +70,20 @@ class BlockScrollHostComponent {}
       </button>
 
       <tng-menu #childMenu="tngMenu" ariaLabel="Child menu" data-testid="child-menu">
-        <button type="button" tngMenuItem tngMenuItemValue="First child" data-testid="child-item-first">
+        <button
+          type="button"
+          tngMenuItem
+          tngMenuItemValue="First child"
+          data-testid="child-item-first"
+        >
           First child
         </button>
-        <button type="button" tngMenuItem tngMenuItemValue="Second child" data-testid="child-item-second">
+        <button
+          type="button"
+          tngMenuItem
+          tngMenuItemValue="Second child"
+          data-testid="child-item-second"
+        >
           Second child
         </button>
       </tng-menu>
@@ -196,7 +198,9 @@ describe('tng-menu component', () => {
 
     fixture.detectChanges();
 
-    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLButtonElement;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-testid="trigger"]',
+    ) as HTMLButtonElement;
     const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
 
     mockOverlayRects(trigger, menu);
@@ -218,7 +222,9 @@ describe('tng-menu component', () => {
 
     fixture.detectChanges();
 
-    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLButtonElement;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-testid="trigger"]',
+    ) as HTMLButtonElement;
     const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
     const menuFocus = vi.spyOn(menu, 'focus');
     mockOverlayRects(trigger, menu);
@@ -238,7 +244,9 @@ describe('tng-menu component', () => {
 
     fixture.detectChanges();
 
-    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLButtonElement;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-testid="trigger"]',
+    ) as HTMLButtonElement;
     const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
     mockOverlayRects(trigger, menu);
 
@@ -265,7 +273,9 @@ describe('tng-menu component', () => {
 
     fixture.detectChanges();
 
-    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLButtonElement;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-testid="trigger"]',
+    ) as HTMLButtonElement;
     const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
     mockOverlayRects(trigger, menu);
 
@@ -290,7 +300,9 @@ describe('tng-menu component', () => {
 
     fixture.detectChanges();
 
-    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLButtonElement;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-testid="trigger"]',
+    ) as HTMLButtonElement;
     const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
     mockOverlayRects(trigger, menu);
 
@@ -314,7 +326,9 @@ describe('tng-menu component', () => {
 
     fixture.detectChanges();
 
-    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLButtonElement;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-testid="trigger"]',
+    ) as HTMLButtonElement;
     const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
     mockOverlayRects(trigger, menu);
 
@@ -340,11 +354,21 @@ describe('tng-menu component', () => {
 
     fixture.detectChanges();
 
-    const rootTrigger = fixture.nativeElement.querySelector('[data-testid="root-trigger"]') as HTMLButtonElement;
-    const rootMenu = fixture.nativeElement.querySelector('[data-testid="root-menu"]') as HTMLElement;
-    const childTrigger = fixture.nativeElement.querySelector('[data-testid="child-trigger"]') as HTMLButtonElement;
-    const childMenu = fixture.nativeElement.querySelector('[data-testid="child-menu"]') as HTMLElement;
-    const childItem = fixture.nativeElement.querySelector('[data-testid="child-item-first"]') as HTMLButtonElement;
+    const rootTrigger = fixture.nativeElement.querySelector(
+      '[data-testid="root-trigger"]',
+    ) as HTMLButtonElement;
+    const rootMenu = fixture.nativeElement.querySelector(
+      '[data-testid="root-menu"]',
+    ) as HTMLElement;
+    const childTrigger = fixture.nativeElement.querySelector(
+      '[data-testid="child-trigger"]',
+    ) as HTMLButtonElement;
+    const childMenu = fixture.nativeElement.querySelector(
+      '[data-testid="child-menu"]',
+    ) as HTMLElement;
+    const childItem = fixture.nativeElement.querySelector(
+      '[data-testid="child-item-first"]',
+    ) as HTMLButtonElement;
 
     mockElementRect(rootTrigger, { left: 20, top: 24, width: 112, height: 34 });
     mockElementRect(rootMenu, { left: 0, top: 0, width: 180, height: 96 });
@@ -383,10 +407,18 @@ describe('tng-menu component', () => {
 
     fixture.detectChanges();
 
-    const rootTrigger = fixture.nativeElement.querySelector('[data-testid="root-trigger"]') as HTMLButtonElement;
-    const rootMenu = fixture.nativeElement.querySelector('[data-testid="root-menu"]') as HTMLElement;
-    const childTrigger = fixture.nativeElement.querySelector('[data-testid="child-trigger"]') as HTMLButtonElement;
-    const childMenu = fixture.nativeElement.querySelector('[data-testid="child-menu"]') as HTMLElement;
+    const rootTrigger = fixture.nativeElement.querySelector(
+      '[data-testid="root-trigger"]',
+    ) as HTMLButtonElement;
+    const rootMenu = fixture.nativeElement.querySelector(
+      '[data-testid="root-menu"]',
+    ) as HTMLElement;
+    const childTrigger = fixture.nativeElement.querySelector(
+      '[data-testid="child-trigger"]',
+    ) as HTMLButtonElement;
+    const childMenu = fixture.nativeElement.querySelector(
+      '[data-testid="child-menu"]',
+    ) as HTMLElement;
 
     mockElementRect(rootTrigger, { left: 20, top: 24, width: 112, height: 34 });
     mockElementRect(rootMenu, { left: 0, top: 0, width: 180, height: 96 });
@@ -416,10 +448,18 @@ describe('tng-menu component', () => {
 
     fixture.detectChanges();
 
-    const rootTrigger = fixture.nativeElement.querySelector('[data-testid="root-trigger"]') as HTMLButtonElement;
-    const rootMenu = fixture.nativeElement.querySelector('[data-testid="root-menu"]') as HTMLElement;
-    const childTrigger = fixture.nativeElement.querySelector('[data-testid="child-trigger"]') as HTMLButtonElement;
-    const childMenu = fixture.nativeElement.querySelector('[data-testid="child-menu"]') as HTMLElement;
+    const rootTrigger = fixture.nativeElement.querySelector(
+      '[data-testid="root-trigger"]',
+    ) as HTMLButtonElement;
+    const rootMenu = fixture.nativeElement.querySelector(
+      '[data-testid="root-menu"]',
+    ) as HTMLElement;
+    const childTrigger = fixture.nativeElement.querySelector(
+      '[data-testid="child-trigger"]',
+    ) as HTMLButtonElement;
+    const childMenu = fixture.nativeElement.querySelector(
+      '[data-testid="child-menu"]',
+    ) as HTMLElement;
     const childFocus = vi.spyOn(childMenu, 'focus');
 
     mockElementRect(rootTrigger, { left: 20, top: 24, width: 112, height: 34 });
@@ -455,10 +495,18 @@ describe('tng-menu component', () => {
 
     fixture.detectChanges();
 
-    const rootTrigger = fixture.nativeElement.querySelector('[data-testid="root-trigger"]') as HTMLButtonElement;
-    const rootMenu = fixture.nativeElement.querySelector('[data-testid="root-menu"]') as HTMLElement;
-    const childTrigger = fixture.nativeElement.querySelector('[data-testid="child-trigger"]') as HTMLButtonElement;
-    const childMenu = fixture.nativeElement.querySelector('[data-testid="child-menu"]') as HTMLElement;
+    const rootTrigger = fixture.nativeElement.querySelector(
+      '[data-testid="root-trigger"]',
+    ) as HTMLButtonElement;
+    const rootMenu = fixture.nativeElement.querySelector(
+      '[data-testid="root-menu"]',
+    ) as HTMLElement;
+    const childTrigger = fixture.nativeElement.querySelector(
+      '[data-testid="child-trigger"]',
+    ) as HTMLButtonElement;
+    const childMenu = fixture.nativeElement.querySelector(
+      '[data-testid="child-menu"]',
+    ) as HTMLElement;
 
     mockElementRect(rootTrigger, { left: 20, top: 24, width: 112, height: 34 });
     mockElementRect(rootMenu, { left: 0, top: 0, width: 180, height: 96 });

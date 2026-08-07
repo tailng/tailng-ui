@@ -3,13 +3,16 @@ import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it } from 'vitest';
 import { TngDialogComponent, type TngDialogCloseReason } from '../tng-dialog.component';
 
-function getByTestId<T extends Element>(fixture: { nativeElement: HTMLElement }, testId: string): T {
-  const element = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`) as T | null;
+function getByTestId<T extends Element>(
+  fixture: { nativeElement: HTMLElement },
+  testId: string,
+): T {
+  const element = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`);
   if (element === null) {
     throw new Error(`Expected element [data-testid="${testId}"] to exist.`);
   }
 
-  return element;
+  return element as T;
 }
 
 function findPanel(fixture: { nativeElement: HTMLElement }): HTMLElement | null {
@@ -24,7 +27,11 @@ function findContentSlot(fixture: { nativeElement: HTMLElement }): HTMLElement |
   return fixture.nativeElement.querySelector('[data-slot="dialog-content"]');
 }
 
-function keydown(target: EventTarget, key: string, init: Partial<KeyboardEventInit> = {}): KeyboardEvent {
+function keydown(
+  target: EventTarget,
+  key: string,
+  init: Partial<KeyboardEventInit> = {},
+): KeyboardEvent {
   const event = new KeyboardEvent('keydown', {
     bubbles: true,
     cancelable: true,
@@ -45,7 +52,10 @@ function pointerdown(target: EventTarget): PointerEvent {
   return event;
 }
 
-async function settle(fixture: { detectChanges(): void; whenStable(): Promise<unknown> }): Promise<void> {
+async function settle(fixture: {
+  detectChanges(): void;
+  whenStable(): Promise<unknown>;
+}): Promise<void> {
   fixture.detectChanges();
   await fixture.whenStable();
   fixture.detectChanges();
@@ -75,17 +85,17 @@ async function settle(fixture: { detectChanges(): void; whenStable(): Promise<un
   `,
 })
 class ManagedDialogHostComponent {
-  readonly open = signal(false);
-  readonly title = signal('Create Session');
-  readonly description = signal('Configure project, owner, and notes.');
-  readonly closeOnBackdrop = signal(true);
-  readonly closeOnEscape = signal(true);
-  readonly syncOpenOnChange = signal(true);
+  public open = signal(false);
+  public title = signal('Create Session');
+  public description = signal('Configure project, owner, and notes.');
+  public closeOnBackdrop = signal(true);
+  public closeOnEscape = signal(true);
+  public syncOpenOnChange = signal(true);
 
-  readonly openChanges: boolean[] = [];
-  readonly closedReasons: TngDialogCloseReason[] = [];
+  public openChanges: boolean[] = [];
+  public closedReasons: TngDialogCloseReason[] = [];
 
-  onOpenChange(next: boolean): void {
+  public onOpenChange(next: boolean): void {
     this.openChanges.push(next);
     if (this.syncOpenOnChange()) {
       this.open.set(next);
@@ -96,15 +106,19 @@ class ManagedDialogHostComponent {
 @Component({
   imports: [TngDialogComponent],
   template: `
-    <tng-dialog [open]="open()" (openChange)="openChanges.push($event)" (closed)="closedReasons.push($event)">
+    <tng-dialog
+      [open]="open()"
+      (openChange)="openChanges.push($event)"
+      (closed)="closedReasons.push($event)"
+    >
       <button type="button" data-testid="inside">Inside</button>
     </tng-dialog>
   `,
 })
 class ControlledNoSyncHostComponent {
-  readonly open = signal(true);
-  readonly openChanges: boolean[] = [];
-  readonly closedReasons: TngDialogCloseReason[] = [];
+  public open = signal(true);
+  public openChanges: boolean[] = [];
+  public closedReasons: TngDialogCloseReason[] = [];
 }
 
 describe('tng-dialog component behavior', () => {
@@ -178,7 +192,9 @@ describe('tng-dialog component behavior', () => {
 
     await settle(fixture);
 
-    const closeButton = fixture.nativeElement.querySelector('.tng-dialog-close') as HTMLButtonElement | null;
+    const closeButton = fixture.nativeElement.querySelector(
+      '.tng-dialog-close',
+    ) as HTMLButtonElement | null;
     expect(closeButton).not.toBeNull();
     closeButton?.click();
     await settle(fixture);
@@ -234,7 +250,7 @@ describe('tng-dialog component behavior', () => {
 
     const backdrop = findBackdrop(fixture);
     expect(backdrop).not.toBeNull();
-    pointerdown(backdrop as HTMLElement);
+    pointerdown(backdrop!);
     await settle(fixture);
 
     expect(fixture.componentInstance.closedReasons).toEqual(['backdrop']);
@@ -249,7 +265,9 @@ describe('tng-dialog component behavior', () => {
 
     await settle(fixture);
 
-    const close = fixture.nativeElement.querySelector('.tng-dialog-close') as HTMLButtonElement | null;
+    const close = fixture.nativeElement.querySelector(
+      '.tng-dialog-close',
+    ) as HTMLButtonElement | null;
     const last = getByTestId<HTMLButtonElement>(fixture, 'inside-last');
     expect(close).not.toBeNull();
 
@@ -259,8 +277,8 @@ describe('tng-dialog component behavior', () => {
     expect(forward.defaultPrevented).toBe(true);
     expect(document.activeElement).toBe(close);
 
-    close?.focus();
-    const backward = keydown(close as HTMLButtonElement, 'Tab', { shiftKey: true });
+    close!.focus();
+    const backward = keydown(close!, 'Tab', { shiftKey: true });
     await settle(fixture);
     expect(backward.defaultPrevented).toBe(true);
     expect(document.activeElement).toBe(last);
@@ -328,7 +346,9 @@ describe('tng-dialog component behavior', () => {
 
     const trigger = getByTestId<HTMLButtonElement>(fixture, 'trigger');
     const after = getByTestId<HTMLButtonElement>(fixture, 'after');
-    const close = fixture.nativeElement.querySelector('.tng-dialog-close') as HTMLButtonElement | null;
+    const close = fixture.nativeElement.querySelector(
+      '.tng-dialog-close',
+    ) as HTMLButtonElement | null;
     const last = getByTestId<HTMLButtonElement>(fixture, 'inside-last');
     expect(close).not.toBeNull();
 
@@ -370,7 +390,9 @@ describe('tng-dialog component behavior', () => {
 
     await settle(fixture);
 
-    const closeButton = fixture.nativeElement.querySelector('.tng-dialog-close') as HTMLButtonElement | null;
+    const closeButton = fixture.nativeElement.querySelector(
+      '.tng-dialog-close',
+    ) as HTMLButtonElement | null;
     expect(closeButton).not.toBeNull();
     closeButton?.click();
     await settle(fixture);

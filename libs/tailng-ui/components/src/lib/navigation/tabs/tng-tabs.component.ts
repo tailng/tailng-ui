@@ -26,7 +26,7 @@ import { TngTabs as TngTabsPrimitive } from '@tailng-ui/primitives';
   exportAs: 'tngTabsComponent',
 })
 export class TngTabsComponent {
-  readonly ariaLabel = input<string>('Tabs');
+  public readonly ariaLabel = input<string>('Tabs');
 
   @HostBinding('attr.aria-label')
   protected get hostAriaLabel(): string {

@@ -20,7 +20,7 @@ import {
   exportAs: 'tngAccordionComponent',
 })
 export class TngAccordionComponent {
-  readonly ariaLabel = input<string>('Accordion');
+  public readonly ariaLabel = input<string>('Accordion');
 
   @HostBinding('attr.aria-label')
   protected get hostAriaLabel(): string {

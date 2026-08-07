@@ -50,14 +50,14 @@ type Option = { value: string; label: string };
   `,
 })
 class HostComponent {
-  readonly options: Option[] = [
+  public readonly options: Option[] = [
     { value: 'a', label: 'Option A' },
     { value: 'b', label: 'Option B' },
     { value: 'c', label: 'Option C' },
   ];
-  readonly value = signal<string | null>(null);
-  readonly query = signal('');
-  readonly filteredOptions = computed(() => {
+  public readonly value = signal<string | null>(null);
+  public readonly query = signal('');
+  public readonly filteredOptions = computed(() => {
     const query = this.query().toLowerCase().trim();
 
     if (!query) {
@@ -68,8 +68,8 @@ class HostComponent {
       option.label.toLowerCase().includes(query),
     );
   });
-  readonly getOptionValue = (o: Option) => o.value;
-  readonly getOptionLabel = (o: Option) => o.label;
+  public readonly getOptionValue = (o: Option) => o.value;
+  public readonly getOptionLabel = (o: Option) => o.label;
 }
 
 @Component({
@@ -86,17 +86,17 @@ class HostComponent {
   `,
 })
 class QueryHostComponent {
-  readonly options = signal<Option[]>([
+  public readonly options = signal<Option[]>([
     { value: 'a', label: 'Option A' },
     { value: 'b', label: 'Option B' },
     { value: 'c', label: 'Option C' },
   ]);
-  readonly query = signal('');
-  readonly queryChangeCalls: string[] = [];
-  readonly getOptionValue = (o: Option) => o.value;
-  readonly getOptionLabel = (o: Option) => o.label;
+  public readonly query = signal('');
+  public readonly queryChangeCalls: string[] = [];
+  public readonly getOptionValue = (o: Option) => o.value;
+  public readonly getOptionLabel = (o: Option) => o.label;
 
-  onQueryChange(query: string): void {
+  public onQueryChange(query: string): void {
     this.queryChangeCalls.push(query);
     this.query.set(query);
   }
@@ -121,23 +121,23 @@ class QueryHostComponent {
   `,
 })
 class ProgrammaticOpenQueryHostComponent {
-  readonly options: Option[] = [
+  public readonly options: Option[] = [
     { value: 'us', label: 'United States' },
     { value: 'uk', label: 'United Kingdom' },
     { value: 'in', label: 'India' },
   ];
-  readonly open = signal(false);
-  readonly value = signal<string | null>(null);
-  readonly query = signal('');
-  readonly filteredOptions = computed(() => {
+  public readonly open = signal(false);
+  public readonly value = signal<string | null>(null);
+  public readonly query = signal('');
+  public readonly filteredOptions = computed(() => {
     const query = this.query().toLowerCase().trim();
     if (!query) {
       return this.options;
     }
     return this.options.filter((option) => option.label.toLowerCase().includes(query));
   });
-  readonly getOptionValue = (o: Option) => o.value;
-  readonly getOptionLabel = (o: Option) => o.label;
+  public readonly getOptionValue = (o: Option) => o.value;
+  public readonly getOptionLabel = (o: Option) => o.label;
 }
 
 async function openAutocomplete(
@@ -259,7 +259,7 @@ describe('tng-autocomplete component', () => {
     await openAutocomplete(fixture, trigger);
 
     const allOptions = () =>
-      Array.from(getOpenOverlay().querySelectorAll('[data-slot="autocomplete-option"]')) as HTMLElement[];
+      Array.from(getOpenOverlay().querySelectorAll('[data-slot="autocomplete-option"]'));
     const emptyState = () => getOpenOverlay().querySelector('[data-slot="autocomplete-empty"]');
 
     expect(allOptions().map((el) => el.textContent?.trim())).toEqual(['Option A', 'Option B', 'Option C']);
@@ -328,7 +328,7 @@ describe('tng-autocomplete component', () => {
 
     const options = Array.from(
       getOpenOverlay().querySelectorAll('[data-slot="autocomplete-option"]'),
-    ) as HTMLElement[];
+    );
 
     expect(host.query()).toBe('remote');
     expect(options.map((el) => el.textContent?.trim())).toEqual(['Option B']);
@@ -354,7 +354,7 @@ describe('tng-autocomplete component', () => {
 
     const options = Array.from(
       getOpenOverlay().querySelectorAll('[data-slot="autocomplete-option"]'),
-    ) as HTMLElement[];
+    );
 
     expect(host.open()).toBe(true);
     expect(host.query()).toBe('un');

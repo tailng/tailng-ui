@@ -1,23 +1,24 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { afterEach, describe, expect, it } from 'vitest';
-import {
-  TngPopoverComponent,
-  type TngPopoverCloseReason,
-} from '../tng-popover.component';
-import { TngSelectComponent } from '../../../form/select/tng-select.component';
-import { TngMultiSelectComponent } from '../../../form/multiselect/tng-multiselect.component';
-import { TngMenuComponent } from '../../../navigation/menu/tng-menu.component';
-import { TngMenuTriggerFor } from '../../../navigation/menu/tng-menu-trigger-for.directive';
 import { TngMenuItem } from '@tailng-ui/primitives';
+import { afterEach, describe, expect, it } from 'vitest';
+import { TngMultiSelectComponent } from '../../../form/multiselect/tng-multiselect.component';
+import { TngSelectComponent } from '../../../form/select/tng-select.component';
+import { TngMenuTriggerFor } from '../../../navigation/menu/tng-menu-trigger-for.directive';
+import { TngMenuComponent } from '../../../navigation/menu/tng-menu.component';
+
+import { TngPopoverComponent, type TngPopoverCloseReason } from '../tng-popover.component';
 
 type OverlayOption = Readonly<{
   label: string;
   value: string;
 }>;
 
-function getByTestId<T extends Element>(fixture: { nativeElement: HTMLElement }, testId: string): T {
-  const element = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`) as T | null;
+function getByTestId<T extends Element>(
+  fixture: { nativeElement: HTMLElement },
+  testId: string,
+): T {
+  const element = fixture.nativeElement.querySelector<T>(`[data-testid="${testId}"]`);
   if (element === null) {
     throw new Error(`Expected element [data-testid="${testId}"] to exist.`);
   }
@@ -26,7 +27,7 @@ function getByTestId<T extends Element>(fixture: { nativeElement: HTMLElement },
 }
 
 function findTrigger(fixture: { nativeElement: HTMLElement }): HTMLButtonElement | null {
-  return fixture.nativeElement.querySelector('.tng-popover-trigger') as HTMLButtonElement | null;
+  return fixture.nativeElement.querySelector<HTMLButtonElement>('.tng-popover-trigger');
 }
 
 function findPanel(fixture: { nativeElement: HTMLElement }): HTMLElement | null {
@@ -50,7 +51,7 @@ function pointerdown(target: EventTarget): PointerEvent {
 }
 
 function getFromDocument<T extends Element>(selector: string): T {
-  const element = document.querySelector(selector) as T | null;
+  const element = document.querySelector<T>(selector);
   if (element === null) {
     throw new Error(`Expected document element ${selector} to exist.`);
   }
@@ -58,7 +59,10 @@ function getFromDocument<T extends Element>(selector: string): T {
   return element;
 }
 
-async function settle(fixture: { detectChanges(): void; whenStable(): Promise<unknown> }): Promise<void> {
+async function settle(fixture: {
+  detectChanges(): void;
+  whenStable(): Promise<unknown>;
+}): Promise<void> {
   fixture.detectChanges();
   await fixture.whenStable();
   fixture.detectChanges();
@@ -77,9 +81,7 @@ async function settle(fixture: { detectChanges(): void; whenStable(): Promise<un
       (openChange)="openChanges.push($event)"
       (closed)="closeReasons.push($event)"
     >
-      <button type="button" data-testid="inside-first" data-tng-popover-initial-focus>
-        First
-      </button>
+      <button type="button" data-testid="inside-first" data-tng-popover-initial-focus>First</button>
       <button type="button" data-testid="inside-last">Last</button>
     </tng-popover>
 
@@ -87,14 +89,14 @@ async function settle(fixture: { detectChanges(): void; whenStable(): Promise<un
   `,
 })
 class UncontrolledPopoverHostComponent {
-  readonly defaultOpen = signal(false);
-  readonly disabled = signal(false);
-  readonly closeOnEscape = signal(true);
-  readonly closeOnOutsidePointer = signal(true);
-  readonly ariaLabel = signal('Actions');
-  readonly ariaHasPopup = signal<'dialog' | 'menu' | 'listbox'>('dialog');
-  readonly openChanges: boolean[] = [];
-  readonly closeReasons: TngPopoverCloseReason[] = [];
+  public defaultOpen = signal(false);
+  public disabled = signal(false);
+  public closeOnEscape = signal(true);
+  public closeOnOutsidePointer = signal(true);
+  public ariaLabel = signal('Actions');
+  public ariaHasPopup = signal<'dialog' | 'menu' | 'listbox'>('dialog');
+  public openChanges: boolean[] = [];
+  public closeReasons: TngPopoverCloseReason[] = [];
 }
 
 @Component({
@@ -112,9 +114,9 @@ class UncontrolledPopoverHostComponent {
   `,
 })
 class ControlledPopoverHostComponent {
-  readonly open = signal(true);
-  readonly openChanges: boolean[] = [];
-  readonly closeReasons: TngPopoverCloseReason[] = [];
+  public open = signal(true);
+  public openChanges: boolean[] = [];
+  public closeReasons: TngPopoverCloseReason[] = [];
 }
 
 @Component({
@@ -126,22 +128,18 @@ class ControlledPopoverHostComponent {
       [restoreFocus]="false"
       (closed)="closeReasons.push($event)"
     >
-      <tng-select
-        data-testid="select"
-        [options]="options"
-        [placeholder]="'Pick one'"
-      />
+      <tng-select data-testid="select" [options]="options" [placeholder]="'Pick one'" />
     </tng-popover>
 
     <button type="button" data-testid="outside">Outside</button>
   `,
 })
 class PopoverWithSelectHostComponent {
-  readonly options: readonly OverlayOption[] = [
+  public options: readonly OverlayOption[] = [
     { label: 'Alpha', value: 'alpha' },
     { label: 'Beta', value: 'beta' },
   ];
-  readonly closeReasons: TngPopoverCloseReason[] = [];
+  public closeReasons: TngPopoverCloseReason[] = [];
 }
 
 @Component({
@@ -153,20 +151,16 @@ class PopoverWithSelectHostComponent {
       [restoreFocus]="false"
       (closed)="closeReasons.push($event)"
     >
-      <tng-multiselect
-        data-testid="multiselect"
-        [options]="options"
-        [placeholder]="'Pick many'"
-      />
+      <tng-multiselect data-testid="multiselect" [options]="options" [placeholder]="'Pick many'" />
     </tng-popover>
   `,
 })
 class PopoverWithMultiSelectHostComponent {
-  readonly options: readonly OverlayOption[] = [
+  public options: readonly OverlayOption[] = [
     { label: 'Alpha', value: 'alpha' },
     { label: 'Beta', value: 'beta' },
   ];
-  readonly closeReasons: TngPopoverCloseReason[] = [];
+  public closeReasons: TngPopoverCloseReason[] = [];
 }
 
 @Component({
@@ -186,7 +180,7 @@ class PopoverWithMultiSelectHostComponent {
   `,
 })
 class PopoverWithMenuHostComponent {
-  readonly closeReasons: TngPopoverCloseReason[] = [];
+  public closeReasons: TngPopoverCloseReason[] = [];
 }
 
 describe('tng-popover component behavior', () => {
@@ -384,7 +378,9 @@ describe('tng-popover component behavior', () => {
 
     expect(fixture.componentInstance.closeReasons).toEqual([]);
     expect(findPanel(fixture)?.getAttribute('hidden')).toBeNull();
-    expect(getFromDocument<HTMLElement>('[data-slot="select-overlay"]').getAttribute('hidden')).toBeNull();
+    expect(
+      getFromDocument<HTMLElement>('[data-slot="select-overlay"]').getAttribute('hidden'),
+    ).toBeNull();
   });
 
   it('keeps the popover open when an inner menu item closes its menu', async () => {
@@ -402,6 +398,8 @@ describe('tng-popover component behavior', () => {
 
     expect(fixture.componentInstance.closeReasons).toEqual([]);
     expect(findPanel(fixture)?.getAttribute('hidden')).toBeNull();
-    expect(getFromDocument<HTMLElement>('[data-testid="menu"]').getAttribute('data-state')).toBe('closed');
+    expect(getFromDocument<HTMLElement>('[data-testid="menu"]').getAttribute('data-state')).toBe(
+      'closed',
+    );
   });
 });
