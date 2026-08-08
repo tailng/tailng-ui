@@ -87,7 +87,11 @@ export class TngSelectComponent<O = unknown, V = unknown> {
   readonly isOptionDisabled = input<TngSelectIsDisabled<O>>(
     ((opt: any) => !!opt?.disabled) as TngSelectIsDisabled<O>,
   );
-  readonly trackBy = input<TngSelectTrackBy<O>>((_, opt) => opt as unknown);
+  /**
+   * Optional identity for `@for`. When omitted, defaults to `getOptionValue(opt)`
+   * so mapped option objects can be recreated each CD without remounting rows.
+   */
+  readonly trackBy = input<TngSelectTrackBy<O> | undefined>(undefined);
 
   // ----- optional: icon text/slot (still headless) -----
   readonly iconText = input<string>('▾');
@@ -112,6 +116,14 @@ export class TngSelectComponent<O = unknown, V = unknown> {
     const opt = this.selectedOption();
     return opt ? this.getOptionLabel()(opt) : this.placeholder();
   });
+
+  protected trackOption(index: number, opt: O): unknown {
+    const trackBy = this.trackBy();
+    if (trackBy) {
+      return trackBy(index, opt);
+    }
+    return this.getOptionValue()(opt);
+  }
 
   // Context helpers for templates
   protected valueContext(): TngSelectValueContext<O, V> {

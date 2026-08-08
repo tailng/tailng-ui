@@ -38,7 +38,8 @@
 }
 
 .docs-component-select-examples-stage-shell,
-.docs-component-select-examples-owner-shell {
+.docs-component-select-examples-owner-shell,
+.docs-component-select-examples-mapped-shell {
   display: block;
   width: 100%;
   min-width: 0;
@@ -47,6 +48,31 @@
   --tng-select-trigger-px: 0.875rem;
   --tng-select-option-py: 0.625rem;
   --tng-select-option-px: 0.875rem;
+}
+
+.docs-component-select-examples-mapped-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.docs-component-select-examples-mapped-remap {
+  appearance: none;
+  margin: 0;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.65rem;
+  background: var(--tng-semantic-background-elevated, transparent);
+  color: var(--tng-semantic-foreground-primary);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.docs-component-select-examples-mapped-remap:hover {
+  border-color: var(--tng-semantic-border-strong, var(--tng-semantic-border-subtle));
 }
 
 .docs-component-select-examples-owner-value-row,

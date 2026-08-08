@@ -185,4 +185,87 @@
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
+
+  <section id="mapped-options" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Mapped options"
+      description="Derive option rows from source records each change detection. Selection and keyboard navigation stay stable because the wrapper tracks by getOptionValue by default."
+      ariaLabel="Select mapped options examples"
+      tabListAriaLabel="Select mapped options variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Mapped options (Plain-CSS)" [codeTabs]="mappedOptionsPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+        <section class="docs-component-select-examples-live-shell">
+          <div class="docs-component-select-examples-live-header">
+            <span class="docs-component-select-examples-live-kicker">Mapped options</span>
+            <p class="docs-component-select-examples-live-copy">
+              Options are remapped from OAuth client records on every change detection. Open the menu, use arrow keys or click — the selection holds after remap.
+            </p>
+          </div>
+
+          <div class="docs-component-select-examples-live-control docs-component-select-examples-mapped-shell">
+            <tng-select
+              [options]="mappedClientOptions()"
+              [value]="mappedClientPlainSelectedValue()"
+              (valueChange)="onMappedClientPlainSelectedValueChange($event)"
+              [getOptionValue]="getMappedClientValue"
+              [getOptionLabel]="getMappedClientLabel"
+              placeholder="Choose OAuth client"
+              [ariaLabel]="'OAuth client'"
+            ></tng-select>
+          </div>
+
+          <div class="docs-component-select-examples-mapped-actions">
+            <button
+              type="button"
+              class="docs-component-select-examples-mapped-remap"
+              (click)="remapMappedClientOptions()"
+            >
+              Remap options
+            </button>
+            <p class="docs-component-select-examples-live-summary">
+              Selected: {{ mappedClientPlainSummary() }} · remaps: {{ mappedClientRemapCount() }}
+            </p>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Mapped options (Tailwind CSS)" [codeTabs]="mappedOptionsTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
+        <section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Mapped options</span>
+            <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
+              Options are remapped from OAuth client records on every change detection. Open the menu, use arrow keys or click — the selection holds after remap.
+            </p>
+          </div>
+
+          <div class="block w-full min-w-0 [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem]">
+            <tng-select
+              [options]="mappedClientOptions()"
+              [value]="mappedClientTailwindSelectedValue()"
+              (valueChange)="onMappedClientTailwindSelectedValueChange($event)"
+              [getOptionValue]="getMappedClientValue"
+              [getOptionLabel]="getMappedClientLabel"
+              placeholder="Choose OAuth client"
+              [ariaLabel]="'OAuth client'"
+            ></tng-select>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              class="rounded-lg border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-elevated,transparent)] px-3 py-1.5 text-xs font-semibold text-[var(--tng-semantic-foreground-primary)]"
+              (click)="remapMappedClientOptions()"
+            >
+              Remap options
+            </button>
+            <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">
+              Selected: {{ mappedClientTailwindSummary() }} · remaps: {{ mappedClientRemapCount() }}
+            </p>
+          </div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
 </article>

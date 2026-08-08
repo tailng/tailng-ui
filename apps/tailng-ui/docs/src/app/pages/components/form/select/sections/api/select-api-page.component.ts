@@ -158,7 +158,8 @@ export class SelectApiPageComponent {
     {
       name: 'trackBy',
       type: '(index: number, option: O) => unknown',
-      details: 'Custom identity function for stable option rendering when the input list changes.',
+      details:
+        'Optional identity for option rows. Defaults to getOptionValue(option) so remapped option objects stay stable across change detection.',
     },
   ]);
 

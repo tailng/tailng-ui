@@ -3,6 +3,7 @@ import { createTngIdFactory } from '@tailng-ui/cdk';
 import { normalizeToSingle } from '../../internal/combobox';
 import { TngListboxDirective } from '../listbox/listbox.directive';
 import { TngOptionDirective } from '../listbox/option.directive';
+import { TNG_LISTBOX_PRESERVE_VALUE_ON_UNREGISTER } from '../listbox/tokens';
 import { TNG_SELECT } from './tng-select.tokens';
 import type { TngSelect } from './tng-select';
 import { TngSelectListboxApi } from './tng-select.listbox.types';
@@ -11,7 +12,11 @@ import { TNG_SELECT_LISTBOX } from './tng-select.listbox.tokens';
 const createListboxId = createTngIdFactory('tng-select-listbox');
 @Directive({
   selector: '[tngSelectListbox]',
-  providers: [{ provide: TNG_SELECT_LISTBOX, useExisting: TngSelectListbox }],
+  providers: [
+    { provide: TNG_SELECT_LISTBOX, useExisting: TngSelectListbox },
+    // Keep selection across option remounts (e.g. unstable mapped [options] arrays).
+    { provide: TNG_LISTBOX_PRESERVE_VALUE_ON_UNREGISTER, useValue: true },
+  ],
   hostDirectives: [
     {
       directive: TngListboxDirective,
@@ -96,14 +101,14 @@ export class TngSelectListbox<T = unknown> implements TngSelectListboxApi<T> {
       return;
     }
 
-    if (!this.select.open()) {
-      this.select.value.set(next as T | null);
+    // Null from option remount/teardown must not clear the controlled select value
+    // or close the overlay. Real clears go through select.value / selectValue.
+    if (next === null) {
       return;
     }
 
-    if (next === null) {
-      this.select.value.set(null);
-      this.select.close();
+    if (!this.select.open()) {
+      this.select.value.set(next as T);
       return;
     }
 

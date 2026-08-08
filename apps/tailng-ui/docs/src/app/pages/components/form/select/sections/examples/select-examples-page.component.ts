@@ -28,6 +28,16 @@ type ReleaseOwnerOption = {
   readonly disabled?: boolean;
 }
 
+type OAuthClientRecord = {
+  readonly client_id: string;
+  readonly client_name: string;
+}
+
+type MappedSelectOption = {
+  readonly value: string;
+  readonly label: string;
+}
+
 const RELEASE_STAGE_OPTIONS: readonly ReleaseStageOption[] = Object.freeze([
   { value: 'draft', label: 'Draft', note: 'Internal drafting only.' },
   { value: 'review', label: 'In review', note: 'Editorial sign-off in progress.' },
@@ -40,6 +50,13 @@ const RELEASE_OWNER_OPTIONS: readonly ReleaseOwnerOption[] = Object.freeze([
   { id: 'mina', name: 'Mina Lee', team: 'Core UI', timezone: 'UTC-5' },
   { id: 'omar', name: 'Omar Aziz', team: 'Compliance', timezone: 'UTC+1', disabled: true },
   { id: 'sanjay', name: 'Sanjay Patel', team: 'Documentation', timezone: 'UTC+5:30' },
+]);
+
+const OAUTH_CLIENT_RECORDS: readonly OAuthClientRecord[] = Object.freeze([
+  { client_id: 'docs-portal', client_name: 'Docs portal' },
+  { client_id: 'admin-console', client_name: 'Admin console' },
+  { client_id: 'mobile-app', client_name: 'Mobile app' },
+  { client_id: 'partner-api', client_name: 'Partner API' },
 ]);
 
 const STAGE_PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
@@ -498,6 +515,284 @@ const OWNER_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[
 
 const OWNER_TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in the template. */';
 
+const MAPPED_PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
+import { TngSelectComponent } from '@tailng-ui/components';
+
+interface ComponentSelectExamplesPlainOAuthClientRecord {
+  readonly client_id: string;
+  readonly client_name: string;
+}
+
+interface ComponentSelectExamplesPlainMappedOption {
+  readonly value: string;
+  readonly label: string;
+}
+
+const COMPONENT_SELECT_EXAMPLES_PLAIN_OAUTH_CLIENTS: readonly ComponentSelectExamplesPlainOAuthClientRecord[] = Object.freeze([
+  { client_id: 'docs-portal', client_name: 'Docs portal' },
+  { client_id: 'admin-console', client_name: 'Admin console' },
+  { client_id: 'mobile-app', client_name: 'Mobile app' },
+  { client_id: 'partner-api', client_name: 'Partner API' },
+]);
+
+@Component({
+  selector: 'app-component-select-examples-mapped-plain',
+  standalone: true,
+  imports: [TngSelectComponent],
+  templateUrl: './component-select-examples-mapped-plain.component.html',
+  styleUrl: './component-select-examples-mapped-plain.component.css',
+})
+export class ComponentSelectExamplesMappedPlainComponent {
+  readonly componentSelectExamplesPlainOauthClients = COMPONENT_SELECT_EXAMPLES_PLAIN_OAUTH_CLIENTS;
+  readonly componentSelectExamplesPlainSelectedClientId = signal<string | null>('admin-console');
+  readonly componentSelectExamplesPlainRemapCount = signal(0);
+  readonly componentSelectExamplesPlainSelectedClientSummary = computed(() => {
+    const selectedValue = this.componentSelectExamplesPlainSelectedClientId();
+    if (selectedValue === null) {
+      return 'none';
+    }
+
+    return this.componentSelectExamplesPlainOauthClients.find((client) => client.client_id === selectedValue)?.client_name ?? 'none';
+  });
+  readonly getComponentSelectExamplesPlainMappedValue = (option: ComponentSelectExamplesPlainMappedOption) => option.value;
+  readonly getComponentSelectExamplesPlainMappedLabel = (option: ComponentSelectExamplesPlainMappedOption) => option.label;
+
+  /** New object identities each call — safe because trackBy defaults to getOptionValue. */
+  componentSelectExamplesPlainMappedOptions(): ComponentSelectExamplesPlainMappedOption[] {
+    this.componentSelectExamplesPlainRemapCount();
+    return this.componentSelectExamplesPlainOauthClients.map((client) => ({
+      value: client.client_id,
+      label: client.client_name,
+    }));
+  }
+
+  onComponentSelectExamplesPlainSelectedClientChange(value: unknown): void {
+    this.componentSelectExamplesPlainSelectedClientId.set(this.toComponentSelectExamplesPlainSingleValue(value));
+  }
+
+  remapComponentSelectExamplesPlainOptions(): void {
+    this.componentSelectExamplesPlainRemapCount.update((count) => count + 1);
+  }
+
+  private toComponentSelectExamplesPlainSingleValue(value: unknown): string | null {
+    if (typeof value === 'string') {
+      return value;
+    }
+
+    if (Array.isArray(value)) {
+      const first = value[0];
+      return typeof first === 'string' ? first : null;
+    }
+
+    return null;
+  }
+}`;
+
+const MAPPED_PLAIN_HTML_CODE = String.raw`<section class="docs-component-select-examples-mapped-plain-shell">
+  <div class="docs-component-select-examples-mapped-plain-header">
+    <span class="docs-component-select-examples-mapped-plain-kicker">Mapped options</span>
+    <p class="docs-component-select-examples-mapped-plain-copy">
+      Options are remapped from OAuth client records on every change detection. Open the menu, use arrow keys or click — the selection holds after remap.
+    </p>
+  </div>
+
+  <div class="docs-component-select-examples-mapped-plain-control">
+    <tng-select
+      [options]="componentSelectExamplesPlainMappedOptions()"
+      [value]="componentSelectExamplesPlainSelectedClientId()"
+      (valueChange)="onComponentSelectExamplesPlainSelectedClientChange($event)"
+      [getOptionValue]="getComponentSelectExamplesPlainMappedValue"
+      [getOptionLabel]="getComponentSelectExamplesPlainMappedLabel"
+      placeholder="Choose OAuth client"
+      [ariaLabel]="'OAuth client'"
+    ></tng-select>
+  </div>
+
+  <div class="docs-component-select-examples-mapped-plain-actions">
+    <button
+      type="button"
+      class="docs-component-select-examples-mapped-plain-remap"
+      (click)="remapComponentSelectExamplesPlainOptions()"
+    >
+      Remap options
+    </button>
+    <p class="docs-component-select-examples-mapped-plain-summary">
+      Selected: {{ componentSelectExamplesPlainSelectedClientSummary() }} · remaps: {{ componentSelectExamplesPlainRemapCount() }}
+    </p>
+  </div>
+</section>`;
+
+const MAPPED_PLAIN_CSS_CODE = String.raw`.docs-component-select-examples-mapped-plain-shell {
+  display: grid;
+  gap: 0.9rem;
+  inline-size: min(100%, 36rem);
+  margin-inline: auto;
+  padding: 1.1rem;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1.25rem;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+.docs-component-select-examples-mapped-plain-header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.docs-component-select-examples-mapped-plain-kicker {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--tng-semantic-foreground-muted);
+}
+
+.docs-component-select-examples-mapped-plain-copy,
+.docs-component-select-examples-mapped-plain-summary {
+  margin: 0;
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.docs-component-select-examples-mapped-plain-control {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  --tng-select-radius: 1rem;
+  --tng-select-trigger-py: 0.625rem;
+  --tng-select-trigger-px: 0.875rem;
+  --tng-select-option-py: 0.625rem;
+  --tng-select-option-px: 0.875rem;
+}
+
+.docs-component-select-examples-mapped-plain-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.docs-component-select-examples-mapped-plain-remap {
+  appearance: none;
+  margin: 0;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.65rem;
+  background: var(--tng-semantic-background-elevated, transparent);
+  color: var(--tng-semantic-foreground-primary);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}`;
+
+const MAPPED_TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
+import { TngSelectComponent } from '@tailng-ui/components';
+
+interface ComponentSelectExamplesTailwindOAuthClientRecord {
+  readonly client_id: string;
+  readonly client_name: string;
+}
+
+interface ComponentSelectExamplesTailwindMappedOption {
+  readonly value: string;
+  readonly label: string;
+}
+
+const COMPONENT_SELECT_EXAMPLES_TAILWIND_OAUTH_CLIENTS: readonly ComponentSelectExamplesTailwindOAuthClientRecord[] = Object.freeze([
+  { client_id: 'docs-portal', client_name: 'Docs portal' },
+  { client_id: 'admin-console', client_name: 'Admin console' },
+  { client_id: 'mobile-app', client_name: 'Mobile app' },
+  { client_id: 'partner-api', client_name: 'Partner API' },
+]);
+
+@Component({
+  selector: 'app-component-select-examples-mapped-tailwind',
+  standalone: true,
+  imports: [TngSelectComponent],
+  templateUrl: './component-select-examples-mapped-tailwind.component.html',
+  styleUrl: './component-select-examples-mapped-tailwind.component.css',
+})
+export class ComponentSelectExamplesMappedTailwindComponent {
+  readonly componentSelectExamplesTailwindOauthClients = COMPONENT_SELECT_EXAMPLES_TAILWIND_OAUTH_CLIENTS;
+  readonly componentSelectExamplesTailwindSelectedClientId = signal<string | null>('mobile-app');
+  readonly componentSelectExamplesTailwindRemapCount = signal(0);
+  readonly componentSelectExamplesTailwindSelectedClientSummary = computed(() => {
+    const selectedValue = this.componentSelectExamplesTailwindSelectedClientId();
+    if (selectedValue === null) {
+      return 'none';
+    }
+
+    return this.componentSelectExamplesTailwindOauthClients.find((client) => client.client_id === selectedValue)?.client_name ?? 'none';
+  });
+  readonly getComponentSelectExamplesTailwindMappedValue = (option: ComponentSelectExamplesTailwindMappedOption) => option.value;
+  readonly getComponentSelectExamplesTailwindMappedLabel = (option: ComponentSelectExamplesTailwindMappedOption) => option.label;
+
+  /** New object identities each call — safe because trackBy defaults to getOptionValue. */
+  componentSelectExamplesTailwindMappedOptions(): ComponentSelectExamplesTailwindMappedOption[] {
+    this.componentSelectExamplesTailwindRemapCount();
+    return this.componentSelectExamplesTailwindOauthClients.map((client) => ({
+      value: client.client_id,
+      label: client.client_name,
+    }));
+  }
+
+  onComponentSelectExamplesTailwindSelectedClientChange(value: unknown): void {
+    this.componentSelectExamplesTailwindSelectedClientId.set(this.toComponentSelectExamplesTailwindSingleValue(value));
+  }
+
+  remapComponentSelectExamplesTailwindOptions(): void {
+    this.componentSelectExamplesTailwindRemapCount.update((count) => count + 1);
+  }
+
+  private toComponentSelectExamplesTailwindSingleValue(value: unknown): string | null {
+    if (typeof value === 'string') {
+      return value;
+    }
+
+    if (Array.isArray(value)) {
+      const first = value[0];
+      return typeof first === 'string' ? first : null;
+    }
+
+    return null;
+  }
+}`;
+
+const MAPPED_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
+  <div class="grid gap-1">
+    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Mapped options</span>
+    <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
+      Options are remapped from OAuth client records on every change detection. Open the menu, use arrow keys or click — the selection holds after remap.
+    </p>
+  </div>
+
+  <div class="block w-full min-w-0 [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem]">
+    <tng-select
+      [options]="componentSelectExamplesTailwindMappedOptions()"
+      [value]="componentSelectExamplesTailwindSelectedClientId()"
+      (valueChange)="onComponentSelectExamplesTailwindSelectedClientChange($event)"
+      [getOptionValue]="getComponentSelectExamplesTailwindMappedValue"
+      [getOptionLabel]="getComponentSelectExamplesTailwindMappedLabel"
+      placeholder="Choose OAuth client"
+      [ariaLabel]="'OAuth client'"
+    ></tng-select>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-3">
+    <button
+      type="button"
+      class="rounded-lg border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-elevated,transparent)] px-3 py-1.5 text-xs font-semibold text-[var(--tng-semantic-foreground-primary)]"
+      (click)="remapComponentSelectExamplesTailwindOptions()"
+    >
+      Remap options
+    </button>
+    <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">
+      Selected: {{ componentSelectExamplesTailwindSelectedClientSummary() }} · remaps: {{ componentSelectExamplesTailwindRemapCount() }}
+    </p>
+  </div>
+</section>`;
+
+const MAPPED_TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in the template. */';
+
 @Component({
   selector: 'app-select-examples-page',
   imports: [
@@ -517,6 +812,9 @@ export class SelectExamplesPageComponent implements OnDestroy {
   private readonly releaseOwnerLabelByValue = new Map(
     RELEASE_OWNER_OPTIONS.map((owner) => [owner.id, owner.name]),
   );
+  private readonly oauthClientLabelByValue = new Map(
+    OAUTH_CLIENT_RECORDS.map((client) => [client.client_id, client.client_name]),
+  );
 
   protected readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
@@ -529,10 +827,14 @@ export class SelectExamplesPageComponent implements OnDestroy {
 
   protected readonly releaseStages = RELEASE_STAGE_OPTIONS;
   protected readonly releaseOwners = RELEASE_OWNER_OPTIONS;
+  protected readonly oauthClients = OAUTH_CLIENT_RECORDS;
   protected readonly releaseStagePlainSelectedValue = signal<string | null>('review');
   protected readonly releaseStageTailwindSelectedValue = signal<string | null>('qa');
   protected readonly releaseOwnerPlainSelectedValue = signal<string | null>('mina');
   protected readonly releaseOwnerTailwindSelectedValue = signal<string | null>('abigail');
+  protected readonly mappedClientPlainSelectedValue = signal<string | null>('admin-console');
+  protected readonly mappedClientTailwindSelectedValue = signal<string | null>('mobile-app');
+  protected readonly mappedClientRemapCount = signal(0);
   protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
@@ -560,17 +862,42 @@ export class SelectExamplesPageComponent implements OnDestroy {
     { value: 'css', label: 'CSS', language: 'css', title: 'component-select-examples-owner-tailwind.component.css', code: OWNER_TAILWIND_CSS_CODE },
   ]);
 
+  protected readonly mappedOptionsPlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    { value: 'ts', label: 'TS', language: 'ts', title: 'component-select-examples-mapped-plain.component.ts', code: MAPPED_PLAIN_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'component-select-examples-mapped-plain.component.html', code: MAPPED_PLAIN_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'component-select-examples-mapped-plain.component.css', code: MAPPED_PLAIN_CSS_CODE },
+  ]);
+
+  protected readonly mappedOptionsTailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    { value: 'ts', label: 'TS', language: 'ts', title: 'component-select-examples-mapped-tailwind.component.ts', code: MAPPED_TAILWIND_TS_CODE },
+    { value: 'html', label: 'HTML', language: 'html', title: 'component-select-examples-mapped-tailwind.component.html', code: MAPPED_TAILWIND_HTML_CODE },
+    { value: 'css', label: 'CSS', language: 'css', title: 'component-select-examples-mapped-tailwind.component.css', code: MAPPED_TAILWIND_CSS_CODE },
+  ]);
+
   protected readonly getReleaseStageValue = (stage: ReleaseStageOption): string => stage.value;
   protected readonly getReleaseStageLabel = (stage: ReleaseStageOption): string => stage.label;
   protected readonly isReleaseStageDisabled = (stage: ReleaseStageOption): boolean => stage.disabled === true;
   protected readonly getReleaseOwnerValue = (owner: ReleaseOwnerOption): string => owner.id;
   protected readonly getReleaseOwnerLabel = (owner: ReleaseOwnerOption): string => owner.name;
   protected readonly isReleaseOwnerDisabled = (owner: ReleaseOwnerOption): boolean => owner.disabled === true;
+  protected readonly getMappedClientValue = (option: MappedSelectOption): string => option.value;
+  protected readonly getMappedClientLabel = (option: MappedSelectOption): string => option.label;
 
   protected readonly releaseStagePlainSummary = computed(() => this.resolveReleaseStageLabel(this.releaseStagePlainSelectedValue()));
   protected readonly releaseStageTailwindSummary = computed(() => this.resolveReleaseStageLabel(this.releaseStageTailwindSelectedValue()));
   protected readonly releaseOwnerPlainSummary = computed(() => this.resolveReleaseOwnerLabel(this.releaseOwnerPlainSelectedValue()));
   protected readonly releaseOwnerTailwindSummary = computed(() => this.resolveReleaseOwnerLabel(this.releaseOwnerTailwindSelectedValue()));
+  protected readonly mappedClientPlainSummary = computed(() => this.resolveOAuthClientLabel(this.mappedClientPlainSelectedValue()));
+  protected readonly mappedClientTailwindSummary = computed(() => this.resolveOAuthClientLabel(this.mappedClientTailwindSelectedValue()));
+
+  /** New object identities each call — safe because trackBy defaults to getOptionValue. */
+  protected mappedClientOptions(): MappedSelectOption[] {
+    this.mappedClientRemapCount();
+    return this.oauthClients.map((client) => ({
+      value: client.client_id,
+      label: client.client_name,
+    }));
+  }
 
   protected onReleaseStagePlainSelectedValueChange(value: unknown): void {
     this.releaseStagePlainSelectedValue.set(this.toSingleValue(value));
@@ -586,6 +913,18 @@ export class SelectExamplesPageComponent implements OnDestroy {
 
   protected onReleaseOwnerTailwindSelectedValueChange(value: unknown): void {
     this.releaseOwnerTailwindSelectedValue.set(this.toSingleValue(value));
+  }
+
+  protected onMappedClientPlainSelectedValueChange(value: unknown): void {
+    this.mappedClientPlainSelectedValue.set(this.toSingleValue(value));
+  }
+
+  protected onMappedClientTailwindSelectedValueChange(value: unknown): void {
+    this.mappedClientTailwindSelectedValue.set(this.toSingleValue(value));
+  }
+
+  protected remapMappedClientOptions(): void {
+    this.mappedClientRemapCount.update((count) => count + 1);
   }
 
   public ngOnDestroy(): void {
@@ -606,6 +945,14 @@ export class SelectExamplesPageComponent implements OnDestroy {
     }
 
     return this.releaseOwnerLabelByValue.get(value) ?? 'none';
+  }
+
+  private resolveOAuthClientLabel(value: string | null): string {
+    if (value === null) {
+      return 'none';
+    }
+
+    return this.oauthClientLabelByValue.get(value) ?? 'none';
   }
 
   private toSingleValue(value: unknown): string | null {

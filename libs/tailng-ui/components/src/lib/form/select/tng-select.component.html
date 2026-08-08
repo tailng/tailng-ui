@@ -15,7 +15,7 @@
 <div tngSelectContent>
   <div tngSelectOverlay [scrollStrategy]="scrollStrategy()">
     <ul tngSelectListbox>
-      @for (opt of options(); track trackBy()($index, opt)) {
+      @for (opt of options(); track trackOption($index, opt)) {
         <li
           tngSelectOption
           [tngValue]="getOptionValue()(opt)"

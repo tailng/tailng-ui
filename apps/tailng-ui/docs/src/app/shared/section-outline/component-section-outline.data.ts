@@ -951,8 +951,10 @@ export const docsComponentOutlineItemsBySlug: Readonly<
       { id: 'wrapper-style-variants', label: 'Wrapper style variants' },
     ],
     examples: [
+      { id: 'form-usage', label: 'Form usage' },
       { id: 'release-stage-select', label: 'Release stage select' },
       { id: 'custom-owner-template', label: 'Custom owner template' },
+      { id: 'mapped-options', label: 'Mapped options' },
     ],
     'ownable-install': [
       { id: 'install-from-registry', label: 'Install from registry' },
