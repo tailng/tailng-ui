@@ -83,6 +83,10 @@ const sliderItem = group.items.find((item) => item.slug === 'slider');
 if (sliderItem === undefined) {
   throw new Error('Missing "slider" in components form docs group.');
 }
+const rangeSliderItem = group.items.find((item) => item.slug === 'range-slider');
+if (rangeSliderItem === undefined) {
+  throw new Error('Missing "range-slider" in components form docs group.');
+}
 const chipsItem = group.items.find((item) => item.slug === 'chips');
 if (chipsItem === undefined) {
   throw new Error('Missing "chips" in components form docs group.');
@@ -124,6 +128,7 @@ const landingSlugs = new Set([
   selectItem.slug,
   multiselectItem.slug,
   sliderItem.slug,
+  rangeSliderItem.slug,
   chipsItem.slug,
   switchItem.slug,
   monthDaypickerItem.slug,
@@ -237,6 +242,11 @@ export const COMPONENTS_FORM_ROUTES: Routes = [
     path: sliderItem.slug,
     loadChildren: () =>
       import('./slider/routes').then((module) => module.COMPONENTS_FORM_SLIDER_ROUTES),
+  },
+  {
+    path: rangeSliderItem.slug,
+    loadChildren: () =>
+      import('./range-slider/routes').then((module) => module.COMPONENTS_FORM_RANGE_SLIDER_ROUTES),
   },
   {
     path: chipsItem.slug,

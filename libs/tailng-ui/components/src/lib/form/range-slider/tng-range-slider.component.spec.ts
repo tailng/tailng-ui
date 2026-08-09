@@ -6,10 +6,9 @@ import { TngRangeSliderComponent } from './tng-range-slider.component';
 import {
   normalizeTngRangeSliderGap,
   normalizeTngRangeSliderValue,
-  snapTngSliderValue,
-  tngSliderValuePercent,
   type TngRangeSliderValue,
-} from './tng-slider.utils';
+} from './tng-range-slider.utils';
+import { snapTngSliderValue, tngSliderValuePercent } from '../slider/tng-slider.utils';
 
 @Component({
   imports: [TngRangeSliderComponent],
@@ -18,8 +17,8 @@ import {
       data-testid="range"
       [value]="range()"
       (valueChange)="range.set($event)"
-      [min]="0"
-      [max]="100"
+      [lowerBound]="0"
+      [upperBound]="100"
       [step]="5"
       [minGap]="10"
       aria-label="Price range"
@@ -93,9 +92,11 @@ describe('tng-range-slider component', () => {
     const fill = host.querySelector('[data-slot="range-slider-fill"]');
 
     expect(minInput.value).toBe('20');
-    expect(minInput.max).toBe('70');
+    expect(minInput.min).toBe('0');
+    expect(minInput.max).toBe('100');
     expect(maxInput.value).toBe('80');
-    expect(maxInput.min).toBe('30');
+    expect(maxInput.min).toBe('0');
+    expect(maxInput.max).toBe('100');
     expect(fill).toBeTruthy();
     expect(minInput.getAttribute('aria-labelledby')).toContain('-min-label');
     expect(maxInput.getAttribute('aria-labelledby')).toContain('-max-label');
@@ -135,5 +136,35 @@ describe('tng-range-slider component', () => {
     maxInput.dispatchEvent(new Event('input', { bubbles: true }));
     fixture.detectChanges();
     expect(fixture.componentInstance.range()).toEqual({ min: 70, max: 80 });
+  });
+
+  it('supports deprecated bounds while preferring the form-safe bound names', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TngRangeSliderComponent],
+    }).createComponent(TngRangeSliderComponent);
+    fixture.componentRef.setInput('value', { min: 20, max: 80 });
+    fixture.componentRef.setInput('min', 10);
+    fixture.componentRef.setInput('max', 90);
+    fixture.detectChanges();
+
+    let inputs = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLInputElement>(
+        'input[type="range"]',
+      ),
+    );
+    expect(inputs[0]?.min).toBe('10');
+    expect(inputs[1]?.max).toBe('90');
+
+    fixture.componentRef.setInput('lowerBound', 15);
+    fixture.componentRef.setInput('upperBound', 85);
+    fixture.detectChanges();
+
+    inputs = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLInputElement>(
+        'input[type="range"]',
+      ),
+    );
+    expect(inputs[0]?.min).toBe('15');
+    expect(inputs[1]?.max).toBe('85');
   });
 });

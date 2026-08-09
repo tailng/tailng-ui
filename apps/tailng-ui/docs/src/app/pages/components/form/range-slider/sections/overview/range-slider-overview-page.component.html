@@ -1,0 +1,101 @@
+<article class="range-slider-docs">
+  <section id="imports">
+    <h2>Imports</h2>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Component import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
+  </section>
+
+  <section id="basic-usage">
+    <h2>Basic usage</h2>
+    <app-docs-example-tabs-section
+      heading="Controlled price range"
+      description="Choose either a plain CSS shell or a Tailwind utility shell around the same controlled range-slider contract."
+      ariaLabel="Range slider overview examples"
+      tabListAriaLabel="Range slider overview style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain CSS"
+        panelTitle="Controlled price range (Plain CSS)"
+        [codeTabs]="plainCodeTabs"
+      >
+        <div class="range-slider-demo price-range-card">
+          <tng-range-slider
+            [value]="plainPriceRange()"
+            (valueChange)="plainPriceRange.set($event)"
+            [lowerBound]="0"
+            [upperBound]="100"
+            [step]="5"
+            [minGap]="10"
+            aria-label="Price range"
+            minAriaLabel="Minimum price"
+            maxAriaLabel="Maximum price"
+          />
+          <div class="range-slider-values price-range-values">
+            <span>Minimum: ${{ plainPriceRange().min }}</span>
+            <span>Maximum: ${{ plainPriceRange().max }}</span>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Controlled price range (Tailwind CSS)"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div
+          class="grid w-full max-w-[38rem] gap-3 rounded-lg border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4"
+        >
+          <tng-range-slider
+            class="[--tng-semantic-accent-brand:#2563eb]"
+            [value]="tailwindPriceRange()"
+            (valueChange)="tailwindPriceRange.set($event)"
+            [lowerBound]="0"
+            [upperBound]="100"
+            [step]="5"
+            [minGap]="10"
+            aria-label="Price range"
+            minAriaLabel="Minimum price"
+            maxAriaLabel="Maximum price"
+          />
+          <div
+            class="flex justify-between gap-4 text-sm text-[var(--tng-semantic-foreground-muted)]"
+          >
+            <span>Minimum: ${{ tailwindPriceRange().min }}</span>
+            <span>Maximum: ${{ tailwindPriceRange().max }}</span>
+          </div>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="value-model">
+    <h2>Value model</h2>
+    <p>
+      The component exposes one typed <code>&#123; min, max &#125;</code> value. Bounds describe the
+      control's permitted domain; they are separate from the selected endpoints.
+    </p>
+  </section>
+
+  <section id="behavior-baseline">
+    <h2>Behavior baseline</h2>
+    <ul>
+      <li>Both thumbs stay ordered and aligned to the configured step.</li>
+      <li><code>minGap</code> maintains the required separation between endpoints.</li>
+      <li>Each thumb receives its own accessible label and value text.</li>
+    </ul>
+  </section>
+</article>

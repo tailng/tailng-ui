@@ -5,7 +5,14 @@ import { Component, Directive, ElementRef, inject, signal } from '@angular/core'
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { TngInput, TngInputGroup, TngLabel, TngInputFieldPrefix, TngInputFieldSuffix, TngTextarea } from '@tailng-ui/primitives';
+import {
+  TngInput,
+  TngInputGroup,
+  TngLabel,
+  TngInputFieldPrefix,
+  TngInputFieldSuffix,
+  TngTextarea,
+} from '@tailng-ui/primitives';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import { TngDatepickerComponent } from '../../datepicker/tng-datepicker.component';
 import { TngInputComponent } from '../../input/tng-input.component';
@@ -14,7 +21,7 @@ import { TngInputOtpComponent } from '../../input-otp/tng-input-otp.component';
 import { TngListboxComponent } from '../../listbox/tng-listbox.component';
 import { TngMultiSelectComponent } from '../../multiselect/tng-multiselect.component';
 import { TngRadioComponent } from '../../radio/tng-radio.component';
-import { TngRangeSliderComponent } from '../../slider/tng-range-slider.component';
+import { TngRangeSliderComponent } from '../../range-slider/tng-range-slider.component';
 import { TngSliderComponent } from '../../slider/tng-slider.component';
 import { TngSwitchComponent } from '../../switch/tng-switch.component';
 import { TngToggleComponent } from '../../toggle/tng-toggle.component';
@@ -22,10 +29,7 @@ import { TngToggleGroupComponent } from '../../toggle-group/tng-toggle-group.com
 import { TngFormFieldPrefix, TngFormFieldSuffix } from '../tng-form-field-adornment';
 import { TngError, TngHint } from '../tng-form-field-message';
 import { TngFormFieldComponent } from '../tng-form-field.component';
-import {
-  TNG_FORM_FIELD_CONTROL,
-  type TngFormFieldControl,
-} from '../tng-form-field.control';
+import { TNG_FORM_FIELD_CONTROL, type TngFormFieldControl } from '../tng-form-field.control';
 
 @Directive({
   selector: '[testFormFieldControl]',
@@ -177,7 +181,15 @@ class ErrorStaticHostComponent {}
 class CustomControlHostComponent {}
 
 @Component({
-  imports: [TngFormFieldComponent, TngHint, TngInputGroup, TngInput, TngLabel, TngInputFieldPrefix, TngInputFieldSuffix],
+  imports: [
+    TngFormFieldComponent,
+    TngHint,
+    TngInputGroup,
+    TngInput,
+    TngLabel,
+    TngInputFieldPrefix,
+    TngInputFieldSuffix,
+  ],
   template: `
     <tng-form-field>
       <label tngLabel>Amount</label>
@@ -193,7 +205,15 @@ class CustomControlHostComponent {}
 class InputGroupHostComponent {}
 
 @Component({
-  imports: [TngFormFieldComponent, TngHint, TngInputFieldComponent, TngInput, TngLabel, TngInputFieldPrefix, TngInputFieldSuffix],
+  imports: [
+    TngFormFieldComponent,
+    TngHint,
+    TngInputFieldComponent,
+    TngInput,
+    TngLabel,
+    TngInputFieldPrefix,
+    TngInputFieldSuffix,
+  ],
   template: `
     <tng-form-field>
       <label tngLabel>Amount</label>
@@ -226,7 +246,14 @@ class MultiSelectHostComponent {
 }
 
 @Component({
-  imports: [TngFormFieldComponent, TngHint, TngInput, TngLabel, TngFormFieldPrefix, TngFormFieldSuffix],
+  imports: [
+    TngFormFieldComponent,
+    TngHint,
+    TngInput,
+    TngLabel,
+    TngFormFieldPrefix,
+    TngFormFieldSuffix,
+  ],
   template: `
     <tng-form-field [slot]="slot">
       <label tngLabel>Amount</label>
@@ -262,11 +289,7 @@ class TextareaHostComponent {}
   template: `
     <tng-form-field>
       <label tngLabel>Fiscal date</label>
-      <tng-datepicker
-        ariaLabel="Fiscal date"
-        [invalid]="invalid()"
-        [required]="required()"
-      />
+      <tng-datepicker ariaLabel="Fiscal date" [invalid]="invalid()" [required]="required()" />
       <p tngHint id="fiscal-hint">Use a date in the fiscal window.</p>
       <p tngError id="fiscal-error" [show]="invalid()">Date is required.</p>
     </tng-form-field>
@@ -278,7 +301,9 @@ class DatepickerFormFieldHostComponent {
 }
 
 describe('tng-form-field', () => {
-  async function createNativeHost(): Promise<ReturnType<typeof TestBed.createComponent<NativeHostComponent>>> {
+  async function createNativeHost(): Promise<
+    ReturnType<typeof TestBed.createComponent<NativeHostComponent>>
+  > {
     await TestBed.configureTestingModule({ imports: [NativeHostComponent] }).compileComponents();
     const fixture = TestBed.createComponent(NativeHostComponent);
     fixture.detectChanges(false);
@@ -290,7 +315,10 @@ describe('tng-form-field', () => {
     return fixture;
   }
 
-  async function flush(fixture: { detectChanges: (checkNoChanges?: boolean) => void; whenStable: () => Promise<unknown> }): Promise<void> {
+  async function flush(fixture: {
+    detectChanges: (checkNoChanges?: boolean) => void;
+    whenStable: () => Promise<unknown>;
+  }): Promise<void> {
     fixture.detectChanges(false);
     await fixture.whenStable();
     fixture.detectChanges(false);
@@ -327,8 +355,10 @@ describe('tng-form-field', () => {
 
   it('associates a projected label with the native input and preserves external described-by ids', async () => {
     const fixture = await createNativeHost();
-    const label = fixture.debugElement.query(By.css('label[tngLabel]')).nativeElement as HTMLLabelElement;
-    const input = fixture.debugElement.query(By.css('input[tngInput]')).nativeElement as HTMLInputElement;
+    const label = fixture.debugElement.query(By.css('label[tngLabel]'))
+      .nativeElement as HTMLLabelElement;
+    const input = fixture.debugElement.query(By.css('input[tngInput]'))
+      .nativeElement as HTMLInputElement;
 
     expect(input.id).toMatch(/^tng-input-/u);
     expect(label.htmlFor).toBe(input.id);
@@ -336,14 +366,19 @@ describe('tng-form-field', () => {
   });
 
   it('keeps a user-provided input id and adds required marker/state when required', async () => {
-    await TestBed.configureTestingModule({ imports: [RequiredStaticHostComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [RequiredStaticHostComponent],
+    }).compileComponents();
     const fixture = TestBed.createComponent(RequiredStaticHostComponent);
     await flush(fixture);
 
     const field = fixture.debugElement.query(By.css('tng-form-field')).nativeElement as HTMLElement;
-    const label = fixture.debugElement.query(By.css('label[tngLabel]')).nativeElement as HTMLLabelElement;
-    const marker = fixture.debugElement.query(By.css('[data-slot="form-field-required-marker"]')).nativeElement as HTMLElement;
-    const input = fixture.debugElement.query(By.css('input[tngInput]')).nativeElement as HTMLInputElement;
+    const label = fixture.debugElement.query(By.css('label[tngLabel]'))
+      .nativeElement as HTMLLabelElement;
+    const marker = fixture.debugElement.query(By.css('[data-slot="form-field-required-marker"]'))
+      .nativeElement as HTMLElement;
+    const input = fixture.debugElement.query(By.css('input[tngInput]'))
+      .nativeElement as HTMLInputElement;
 
     expect(input.id).toBe('email-control');
     expect(label.htmlFor).toBe('email-control');
@@ -358,17 +393,21 @@ describe('tng-form-field', () => {
     fixture.componentInstance.requiredMarker = false;
     await flush(fixture);
 
-    const marker = fixture.debugElement.query(By.css('[data-slot="form-field-required-marker"]')).nativeElement as HTMLElement;
+    const marker = fixture.debugElement.query(By.css('[data-slot="form-field-required-marker"]'))
+      .nativeElement as HTMLElement;
     expect(marker.hasAttribute('hidden')).toBe(true);
   });
 
   it('adds visible error ids, reflects invalid state, and can hide hints while errors are visible', async () => {
-    await TestBed.configureTestingModule({ imports: [ErrorStaticHostComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [ErrorStaticHostComponent],
+    }).compileComponents();
     const fixture = TestBed.createComponent(ErrorStaticHostComponent);
     await flush(fixture);
 
     const field = fixture.debugElement.query(By.css('tng-form-field')).nativeElement as HTMLElement;
-    const input = fixture.debugElement.query(By.css('input[tngInput]')).nativeElement as HTMLInputElement;
+    const input = fixture.debugElement.query(By.css('input[tngInput]'))
+      .nativeElement as HTMLInputElement;
     const hint = fixture.debugElement.query(By.css('[tngHint]')).nativeElement as HTMLElement;
 
     expect(hint.hasAttribute('hidden')).toBe(true);
@@ -383,7 +422,8 @@ describe('tng-form-field', () => {
     fixture.componentInstance.errorVisible = false;
     await flush(fixture);
 
-    const input = fixture.debugElement.query(By.css('input[tngInput]')).nativeElement as HTMLInputElement;
+    const input = fixture.debugElement.query(By.css('input[tngInput]'))
+      .nativeElement as HTMLInputElement;
     expect(input.getAttribute('aria-describedby')).toBe('external-help email-hint');
     expect(input.getAttribute('aria-invalid')).toBeNull();
   });
@@ -400,12 +440,17 @@ describe('tng-form-field', () => {
     })
     class HorizontalPlainHostComponent {}
 
-    await TestBed.configureTestingModule({ imports: [HorizontalPlainHostComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [HorizontalPlainHostComponent],
+    }).compileComponents();
     const horizontalFixture = TestBed.createComponent(HorizontalPlainHostComponent);
     await flush(horizontalFixture);
 
-    const horizontalField = horizontalFixture.debugElement.query(By.css('tng-form-field')).nativeElement as HTMLElement;
-    const messages = horizontalFixture.debugElement.query(By.css('[data-slot="form-field-messages"]')).nativeElement as HTMLElement;
+    const horizontalField = horizontalFixture.debugElement.query(By.css('tng-form-field'))
+      .nativeElement as HTMLElement;
+    const messages = horizontalFixture.debugElement.query(
+      By.css('[data-slot="form-field-messages"]'),
+    ).nativeElement as HTMLElement;
     expect(horizontalField.getAttribute('data-label-position')).toBe('left');
     expect(messages.getAttribute('data-slot')).toBe('form-field-messages');
   });
@@ -433,15 +478,19 @@ describe('tng-form-field', () => {
     })
     class OutlineHostComponent {}
 
-    await TestBed.configureTestingModule({ imports: [AboveHostComponent, OutlineHostComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [AboveHostComponent, OutlineHostComponent],
+    }).compileComponents();
     const aboveFixture = TestBed.createComponent(AboveHostComponent);
     await flush(aboveFixture);
-    const aboveField = aboveFixture.debugElement.query(By.css('tng-form-field')).nativeElement as HTMLElement;
+    const aboveField = aboveFixture.debugElement.query(By.css('tng-form-field'))
+      .nativeElement as HTMLElement;
     expect(aboveField.getAttribute('data-label-position')).toBe('above');
 
     const outlineFixture = TestBed.createComponent(OutlineHostComponent);
     await flush(outlineFixture);
-    const outlineField = outlineFixture.debugElement.query(By.css('tng-form-field')).nativeElement as HTMLElement;
+    const outlineField = outlineFixture.debugElement.query(By.css('tng-form-field'))
+      .nativeElement as HTMLElement;
     expect(outlineField.getAttribute('data-label-position')).toBe('outline');
   });
 
@@ -457,7 +506,9 @@ describe('tng-form-field', () => {
     })
     class InvalidLabelPositionHostComponent {}
 
-    await TestBed.configureTestingModule({ imports: [InvalidLabelPositionHostComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [InvalidLabelPositionHostComponent],
+    }).compileComponents();
     const fixture = TestBed.createComponent(InvalidLabelPositionHostComponent);
     await flush(fixture);
     const field = fixture.debugElement.query(By.css('tng-form-field')).nativeElement as HTMLElement;
@@ -474,7 +525,8 @@ describe('tng-form-field', () => {
     await flush(fixture);
 
     const field = fixture.debugElement.query(By.css('tng-form-field')).nativeElement as HTMLElement;
-    const input = fixture.debugElement.query(By.css('input[tngInput]')).nativeElement as HTMLInputElement;
+    const input = fixture.debugElement.query(By.css('input[tngInput]'))
+      .nativeElement as HTMLInputElement;
 
     input.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
     await flush(fixture);
@@ -488,10 +540,10 @@ describe('tng-form-field', () => {
 
   it('focuses the control when non-interactive field chrome is clicked', async () => {
     const fixture = await createNativeHost();
-    const frame = fixture.debugElement.query(
-      By.css('[data-slot="form-field-control-row"]'),
-    ).nativeElement as HTMLElement;
-    const input = fixture.debugElement.query(By.css('input[tngInput]')).nativeElement as HTMLInputElement;
+    const frame = fixture.debugElement.query(By.css('[data-slot="form-field-control-row"]'))
+      .nativeElement as HTMLElement;
+    const input = fixture.debugElement.query(By.css('input[tngInput]'))
+      .nativeElement as HTMLInputElement;
 
     frame.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
     await flush(fixture);
@@ -505,8 +557,10 @@ describe('tng-form-field', () => {
     await flush(fixture);
 
     const field = fixture.debugElement.query(By.css('tng-form-field')).nativeElement as HTMLElement;
-    const label = fixture.debugElement.query(By.css('label[tngLabel]')).nativeElement as HTMLLabelElement;
-    const textarea = fixture.debugElement.query(By.css('textarea[tngTextarea]')).nativeElement as HTMLTextAreaElement;
+    const label = fixture.debugElement.query(By.css('label[tngLabel]'))
+      .nativeElement as HTMLLabelElement;
+    const textarea = fixture.debugElement.query(By.css('textarea[tngTextarea]'))
+      .nativeElement as HTMLTextAreaElement;
 
     expect(label.htmlFor).toBe(textarea.id);
     expect(field.getAttribute('data-required')).toBe('');
@@ -514,14 +568,17 @@ describe('tng-form-field', () => {
   });
 
   it('passes label and described-by ids to a custom form-field control', async () => {
-    await TestBed.configureTestingModule({ imports: [CustomControlHostComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [CustomControlHostComponent],
+    }).compileComponents();
     const fixture = TestBed.createComponent(CustomControlHostComponent);
     await flush(fixture);
 
     const customDebug = fixture.debugElement.query(By.directive(TestFormFieldControlDirective));
     const custom = customDebug.injector.get(TestFormFieldControlDirective);
     const host = customDebug.nativeElement as HTMLElement;
-    const label = fixture.debugElement.query(By.css('label[tngLabel]')).nativeElement as HTMLLabelElement;
+    const label = fixture.debugElement.query(By.css('label[tngLabel]'))
+      .nativeElement as HTMLLabelElement;
 
     expect(custom.describedByIds).toEqual(['country-hint', 'country-error']);
     expect(custom.labelledById).toBe(label.id);
@@ -534,11 +591,17 @@ describe('tng-form-field', () => {
   describe('input group inside outlined form-field', () => {
     const inputGroupThemeContractCss = [
       readFileSync(
-        join(process.cwd(), 'libs/tailng-ui/theme/src/lib/component-contracts/form/input/input.css'),
+        join(
+          process.cwd(),
+          'libs/tailng-ui/theme/src/lib/component-contracts/form/input/input.css',
+        ),
         'utf8',
       ),
       readFileSync(
-        join(process.cwd(), 'libs/tailng-ui/theme/src/lib/component-contracts/form/form-field/form-field.css'),
+        join(
+          process.cwd(),
+          'libs/tailng-ui/theme/src/lib/component-contracts/form/form-field/form-field.css',
+        ),
         'utf8',
       ),
     ].join('\n');
@@ -580,14 +643,18 @@ describe('tng-form-field', () => {
     });
 
     it('projects an input group as the control area without disrupting prefix or suffix content', async () => {
-      await TestBed.configureTestingModule({ imports: [InputGroupHostComponent] }).compileComponents();
+      await TestBed.configureTestingModule({
+        imports: [InputGroupHostComponent],
+      }).compileComponents();
       const fixture = TestBed.createComponent(InputGroupHostComponent);
       await flush(fixture);
 
       const control = fixture.debugElement.query(By.css('[data-slot="form-field-control"]'))
         .nativeElement as HTMLElement;
-      const group = fixture.debugElement.query(By.css('[tngInputGroup]')).nativeElement as HTMLElement;
-      const input = fixture.debugElement.query(By.css('input[tngInput]')).nativeElement as HTMLInputElement;
+      const group = fixture.debugElement.query(By.css('[tngInputGroup]'))
+        .nativeElement as HTMLElement;
+      const input = fixture.debugElement.query(By.css('input[tngInput]'))
+        .nativeElement as HTMLInputElement;
 
       expect(control.contains(group)).toBe(true);
       expect(input.getAttribute('aria-describedby') ?? '').toMatch(/^tng-hint-/u);
@@ -596,18 +663,25 @@ describe('tng-form-field', () => {
     });
 
     it('suppresses the input-group shell border and focus ring so the form-field frame owns chrome', async () => {
-      await TestBed.configureTestingModule({ imports: [InputGroupHostComponent] }).compileComponents();
+      await TestBed.configureTestingModule({
+        imports: [InputGroupHostComponent],
+      }).compileComponents();
       const fixture = TestBed.createComponent(InputGroupHostComponent);
       await flush(fixture);
 
-      const formField = fixture.debugElement.query(By.directive(TngFormFieldComponent)).nativeElement as HTMLElement;
-      const group = fixture.debugElement.query(By.css('[data-slot="input-group"]')).nativeElement as HTMLElement;
-      const input = fixture.debugElement.query(By.css('input[tngInput]')).nativeElement as HTMLInputElement;
+      const formField = fixture.debugElement.query(By.directive(TngFormFieldComponent))
+        .nativeElement as HTMLElement;
+      const group = fixture.debugElement.query(By.css('[data-slot="input-group"]'))
+        .nativeElement as HTMLElement;
+      const input = fixture.debugElement.query(By.css('input[tngInput]'))
+        .nativeElement as HTMLInputElement;
 
       expect(formField.getAttribute('data-appearance')).toBe('outlined');
       expect(getComputedStyle(group).borderWidth).toBe('0px');
       expect(getComputedStyle(group).boxShadow).toBe('none');
-      expect(getComputedStyle(group).getPropertyValue('--_tng-input-border').trim()).toBe('transparent');
+      expect(getComputedStyle(group).getPropertyValue('--_tng-input-border').trim()).toBe(
+        'transparent',
+      );
       expect(input.type).toBe('number');
       expect(input.getAttribute('data-slot')).toBe('input');
       expect(formField.getAttribute('data-slot')).toBe('form-field');
@@ -624,13 +698,18 @@ describe('tng-form-field', () => {
   });
 
   it('projects an input-field component as the control area with prefix and suffix content', async () => {
-    await TestBed.configureTestingModule({ imports: [InputFieldHostComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [InputFieldHostComponent],
+    }).compileComponents();
     const fixture = TestBed.createComponent(InputFieldHostComponent);
     await flush(fixture);
 
-    const control = fixture.debugElement.query(By.css('[data-slot="form-field-control"]')).nativeElement as HTMLElement;
-    const inputField = fixture.debugElement.query(By.css('tng-input-field')).nativeElement as HTMLElement;
-    const input = fixture.debugElement.query(By.css('input[tngInput]')).nativeElement as HTMLInputElement;
+    const control = fixture.debugElement.query(By.css('[data-slot="form-field-control"]'))
+      .nativeElement as HTMLElement;
+    const inputField = fixture.debugElement.query(By.css('tng-input-field'))
+      .nativeElement as HTMLElement;
+    const input = fixture.debugElement.query(By.css('input[tngInput]'))
+      .nativeElement as HTMLInputElement;
 
     expect(control.contains(inputField)).toBe(true);
     expect(input.getAttribute('aria-describedby') ?? '').toMatch(/^tng-hint-/u);
@@ -639,27 +718,38 @@ describe('tng-form-field', () => {
   });
 
   it('projects a multiselect component as the control area', async () => {
-    await TestBed.configureTestingModule({ imports: [MultiSelectHostComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [MultiSelectHostComponent],
+    }).compileComponents();
     const fixture = TestBed.createComponent(MultiSelectHostComponent);
     await flush(fixture);
 
-    const control = fixture.debugElement.query(By.css('[data-slot="form-field-control"]')).nativeElement as HTMLElement;
-    const multiselect = fixture.debugElement.query(By.css('tng-multiselect')).nativeElement as HTMLElement;
+    const control = fixture.debugElement.query(By.css('[data-slot="form-field-control"]'))
+      .nativeElement as HTMLElement;
+    const multiselect = fixture.debugElement.query(By.css('tng-multiselect'))
+      .nativeElement as HTMLElement;
 
     expect(control.contains(multiselect)).toBe(true);
     expect(control.textContent).toContain('Select status');
   });
 
   it('projects form-field prefix and suffix outside the control slot', async () => {
-    await TestBed.configureTestingModule({ imports: [FieldAdornmentHostComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [FieldAdornmentHostComponent],
+    }).compileComponents();
     const fixture = TestBed.createComponent(FieldAdornmentHostComponent);
     await flush(fixture);
 
-    const row = fixture.debugElement.query(By.css('[data-slot="form-field-control-row"]')).nativeElement as HTMLElement;
-    const control = fixture.debugElement.query(By.css('[data-slot="form-field-control"]')).nativeElement as HTMLElement;
-    const prefix = fixture.debugElement.query(By.css('[tngFormFieldPrefix]')).nativeElement as HTMLElement;
-    const suffix = fixture.debugElement.query(By.css('[tngFormFieldSuffix]')).nativeElement as HTMLElement;
-    const input = fixture.debugElement.query(By.css('input[tngInput]')).nativeElement as HTMLInputElement;
+    const row = fixture.debugElement.query(By.css('[data-slot="form-field-control-row"]'))
+      .nativeElement as HTMLElement;
+    const control = fixture.debugElement.query(By.css('[data-slot="form-field-control"]'))
+      .nativeElement as HTMLElement;
+    const prefix = fixture.debugElement.query(By.css('[tngFormFieldPrefix]'))
+      .nativeElement as HTMLElement;
+    const suffix = fixture.debugElement.query(By.css('[tngFormFieldSuffix]'))
+      .nativeElement as HTMLElement;
+    const input = fixture.debugElement.query(By.css('input[tngInput]'))
+      .nativeElement as HTMLInputElement;
 
     expect(row.className).toContain('control-row-slot');
     expect(row.contains(prefix)).toBe(true);
@@ -685,7 +775,9 @@ describe('tng-form-field', () => {
 
     const warn = vi.spyOn(globalThis.console, 'warn').mockImplementation(() => undefined);
 
-    await TestBed.configureTestingModule({ imports: [MultipleControlsHostComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [MultipleControlsHostComponent],
+    }).compileComponents();
     const fixture = TestBed.createComponent(MultipleControlsHostComponent);
     fixture.detectChanges();
 
@@ -859,8 +951,10 @@ describe('tng-form-field: new control integrations', () => {
     const fixture = TestBed.createComponent(HostComponent);
     await flush(fixture);
 
-    const label = fixture.debugElement.query(By.css('label[tngLabel]')).nativeElement as HTMLLabelElement;
-    const button = fixture.debugElement.query(By.css('button[tngSwitch]')).nativeElement as HTMLButtonElement;
+    const label = fixture.debugElement.query(By.css('label[tngLabel]'))
+      .nativeElement as HTMLLabelElement;
+    const button = fixture.debugElement.query(By.css('button[tngSwitch]'))
+      .nativeElement as HTMLButtonElement;
 
     expect(button.id.length).toBeGreaterThan(0);
     expect(label.htmlFor).toBe(button.id);
@@ -884,8 +978,10 @@ describe('tng-form-field: new control integrations', () => {
     const fixture = TestBed.createComponent(HostComponent);
     await flush(fixture);
 
-    const label = fixture.debugElement.query(By.css('label[tngLabel]')).nativeElement as HTMLLabelElement;
-    const range = fixture.debugElement.query(By.css('input[tngSlider]')).nativeElement as HTMLInputElement;
+    const label = fixture.debugElement.query(By.css('label[tngLabel]'))
+      .nativeElement as HTMLLabelElement;
+    const range = fixture.debugElement.query(By.css('input[tngSlider]'))
+      .nativeElement as HTMLInputElement;
 
     expect(range.id.length).toBeGreaterThan(0);
     expect(label.htmlFor).toBe(range.id);
@@ -909,13 +1005,12 @@ describe('tng-form-field: new control integrations', () => {
     const fixture = TestBed.createComponent(HostComponent);
     await flush(fixture);
 
-    const label = fixture.debugElement.query(By.css('label[tngLabel]')).nativeElement as HTMLLabelElement;
-    const minInput = fixture.debugElement.query(
-      By.css('[data-slot="range-slider-min-thumb"]'),
-    ).nativeElement as HTMLInputElement;
-    const maxInput = fixture.debugElement.query(
-      By.css('[data-slot="range-slider-max-thumb"]'),
-    ).nativeElement as HTMLInputElement;
+    const label = fixture.debugElement.query(By.css('label[tngLabel]'))
+      .nativeElement as HTMLLabelElement;
+    const minInput = fixture.debugElement.query(By.css('[data-slot="range-slider-min-thumb"]'))
+      .nativeElement as HTMLInputElement;
+    const maxInput = fixture.debugElement.query(By.css('[data-slot="range-slider-max-thumb"]'))
+      .nativeElement as HTMLInputElement;
 
     expect(label.htmlFor).toBe(minInput.id);
     expect(minInput.getAttribute('aria-labelledby')).toContain(label.id);
@@ -945,7 +1040,8 @@ describe('tng-form-field: new control integrations', () => {
     const fixture = TestBed.createComponent(HostComponent);
     await flush(fixture);
 
-    const radio = fixture.debugElement.query(By.css('input[tngRadio]')).nativeElement as HTMLInputElement;
+    const radio = fixture.debugElement.query(By.css('input[tngRadio]'))
+      .nativeElement as HTMLInputElement;
     expect(radio.getAttribute('aria-describedby')).toBe('plan-hint');
   });
 
@@ -966,20 +1062,23 @@ describe('tng-form-field: new control integrations', () => {
     const fixture = TestBed.createComponent(HostComponent);
     await flush(fixture);
 
-    const button = fixture.debugElement.query(By.css('button[tngToggle]')).nativeElement as HTMLButtonElement;
+    const button = fixture.debugElement.query(By.css('button[tngToggle]'))
+      .nativeElement as HTMLButtonElement;
     expect(button.getAttribute('aria-describedby')).toBe('bold-hint');
   });
 
   it('routes label and described-by state to the datepicker input', async () => {
-    await TestBed.configureTestingModule({ imports: [DatepickerFormFieldHostComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [DatepickerFormFieldHostComponent],
+    }).compileComponents();
     const fixture = TestBed.createComponent(DatepickerFormFieldHostComponent);
     await flush(fixture);
 
     const field = fixture.debugElement.query(By.css('tng-form-field')).nativeElement as HTMLElement;
-    const label = fixture.debugElement.query(By.css('label[tngLabel]')).nativeElement as HTMLLabelElement;
-    const input = fixture.debugElement.query(
-      By.css('input[data-slot="datepicker-input"]'),
-    ).nativeElement as HTMLInputElement;
+    const label = fixture.debugElement.query(By.css('label[tngLabel]'))
+      .nativeElement as HTMLLabelElement;
+    const input = fixture.debugElement.query(By.css('input[data-slot="datepicker-input"]'))
+      .nativeElement as HTMLInputElement;
 
     expect(input.id.length).toBeGreaterThan(0);
     expect(label.htmlFor).toBe(input.id);
@@ -1053,7 +1152,8 @@ describe('tng-form-field: new control integrations', () => {
     const fixture = TestBed.createComponent(HostComponent);
     await flush(fixture);
 
-    const label = fixture.debugElement.query(By.css('label[tngLabel]')).nativeElement as HTMLLabelElement;
+    const label = fixture.debugElement.query(By.css('label[tngLabel]'))
+      .nativeElement as HTMLLabelElement;
     const listbox = fixture.debugElement.query(By.css('tng-listbox')).nativeElement as HTMLElement;
 
     expect(listbox.getAttribute('aria-labelledby')).toBe(label.id);
@@ -1096,8 +1196,10 @@ describe('tng-form-field: new control integrations', () => {
     const fixture = TestBed.createComponent(HostComponent);
     await flush(fixture);
 
-    const label = fixture.debugElement.query(By.css('label[tngLabel]')).nativeElement as HTMLLabelElement;
-    const firstSlot = fixture.debugElement.query(By.css('[data-tng-otp-slot="0"]')).nativeElement as HTMLInputElement;
+    const label = fixture.debugElement.query(By.css('label[tngLabel]'))
+      .nativeElement as HTMLLabelElement;
+    const firstSlot = fixture.debugElement.query(By.css('[data-tng-otp-slot="0"]'))
+      .nativeElement as HTMLInputElement;
 
     label.click();
     await flush(fixture);
@@ -1107,7 +1209,13 @@ describe('tng-form-field: new control integrations', () => {
 
   it('routes aria-describedby to the toggle-group host', async () => {
     @Component({
-      imports: [TngFormFieldComponent, TngToggleGroupComponent, TngToggleComponent, TngLabel, TngHint],
+      imports: [
+        TngFormFieldComponent,
+        TngToggleGroupComponent,
+        TngToggleComponent,
+        TngLabel,
+        TngHint,
+      ],
       template: `
         <tng-form-field>
           <label tngLabel>Alignment</label>
@@ -1126,7 +1234,8 @@ describe('tng-form-field: new control integrations', () => {
     const fixture = TestBed.createComponent(HostComponent);
     await flush(fixture);
 
-    const group = fixture.debugElement.query(By.css('tng-toggle-group')).nativeElement as HTMLElement;
+    const group = fixture.debugElement.query(By.css('tng-toggle-group'))
+      .nativeElement as HTMLElement;
     expect(group.getAttribute('aria-describedby')).toBe('align-hint');
   });
 
@@ -1149,8 +1258,10 @@ describe('tng-form-field: new control integrations', () => {
     const fixture = TestBed.createComponent(HostComponent);
     await flush(fixture);
 
-    const label = fixture.debugElement.query(By.css('label[tngLabel]')).nativeElement as HTMLLabelElement;
-    const firstButton = fixture.debugElement.query(By.css('button[tngToggle]')).nativeElement as HTMLButtonElement;
+    const label = fixture.debugElement.query(By.css('label[tngLabel]'))
+      .nativeElement as HTMLLabelElement;
+    const firstButton = fixture.debugElement.query(By.css('button[tngToggle]'))
+      .nativeElement as HTMLButtonElement;
 
     label.click();
     await flush(fixture);
@@ -1176,7 +1287,9 @@ describe('tng-form-field: new control integrations', () => {
 
     const switchDebug = fixture.debugElement.query(By.directive(TngSwitchComponent));
     const adapter = switchDebug.injector.get(TNG_FORM_FIELD_CONTROL);
-    const button = switchDebug.nativeElement.querySelector('button[tngSwitch]') as HTMLButtonElement;
+    const button = switchDebug.nativeElement.querySelector(
+      'button[tngSwitch]',
+    ) as HTMLButtonElement;
 
     expect(adapter.focusableElement).toBe(button);
     expect(adapter.controlKind).toBe('inline');
@@ -1205,7 +1318,9 @@ describe('tng-form-field: new control integrations', () => {
     })
     class NumberInputFieldHostComponent {}
 
-    await TestBed.configureTestingModule({ imports: [NumberInputFieldHostComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [NumberInputFieldHostComponent],
+    }).compileComponents();
     const fixture = TestBed.createComponent(NumberInputFieldHostComponent);
     await flush(fixture);
 

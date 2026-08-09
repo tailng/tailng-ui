@@ -32,6 +32,7 @@ import { popoverRegistryItem } from './popover/popover.registry';
 import { progressBarRegistryItem } from './progress-bar/progress-bar.registry';
 import { progressSpinnerRegistryItem } from './progress-spinner/progress-spinner.registry';
 import { radioRegistryItem } from './radio/radio.registry';
+import { rangeSliderRegistryItem } from './range-slider/range-slider.registry';
 import { withRegistryInstallMetadata } from './registry.install';
 import type { RegistryItem, RegistryItemSource } from './registry.types';
 import { selectRegistryItem } from './select/select.registry';
@@ -98,6 +99,7 @@ const rawRegistry: readonly RegistryItemSource[] = [
   progressBarRegistryItem,
   progressSpinnerRegistryItem,
   radioRegistryItem,
+  rangeSliderRegistryItem,
   separatorRegistryItem,
   skeletonRegistryItem,
   sliderRegistryItem,

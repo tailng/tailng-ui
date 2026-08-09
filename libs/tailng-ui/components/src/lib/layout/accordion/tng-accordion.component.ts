@@ -40,7 +40,7 @@ export class TngAccordionComponent {
   styles: `
     :host {
       display: block;
-      border-top: 1px solid var(--tng-semantic-border-subtle);
+      border-top: var(--tng-accordion-item-border, 1px solid var(--tng-semantic-border-subtle));
     }
 
     :host(:first-child) {
@@ -118,7 +118,7 @@ export class TngAccordionIndicator {
   styles: `
     :host {
       align-items: center;
-      background: var(--tng-semantic-background-surface);
+      background: var(--tng-accordion-trigger-background, var(--tng-semantic-background-surface));
       border: 0;
       color: var(--tng-semantic-foreground-primary);
       cursor: pointer;
@@ -127,7 +127,7 @@ export class TngAccordionIndicator {
       gap: 0.5rem;
       justify-content: space-between;
       min-height: 2.75rem;
-      padding: 0.8rem 1rem;
+      padding: var(--tng-accordion-trigger-padding, 0.8rem 1rem);
       transition:
         background-color 160ms ease,
         color 160ms ease;
@@ -150,10 +150,10 @@ export class TngAccordionIndicator {
 
     :host(:focus-visible):not([data-disabled='true']) {
       outline: none;
-      background: color-mix(
-        in srgb,
-        var(--tng-semantic-accent-brand) 12%,
-        var(--tng-semantic-background-surface)
+      box-shadow: var(
+        --tng-accordion-trigger-focus-ring,
+        inset 0 0 0 var(--tng-focus-ring-width, 3px)
+          var(--tng-focus-ring-color, var(--tng-semantic-focus-ring))
       );
     }
 
@@ -233,13 +233,13 @@ export class TngAccordionTriggerComponent {
     }
 
     .tng-accordion__panel {
-      background: var(--tng-semantic-background-base);
-      border-top: 1px solid var(--tng-semantic-border-subtle);
+      background: var(--tng-accordion-panel-background, var(--tng-semantic-background-base));
+      border-top: var(--tng-accordion-panel-border, 1px solid var(--tng-semantic-border-subtle));
       color: var(--tng-semantic-foreground-primary);
       display: block;
       min-height: 0;
       overflow: hidden;
-      padding: 0.9rem 1rem;
+      padding: var(--tng-accordion-panel-padding, 0.9rem 1rem);
       transform: translateY(0);
       transition:
         border-color 180ms ease,

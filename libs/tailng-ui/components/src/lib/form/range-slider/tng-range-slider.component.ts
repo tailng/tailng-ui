@@ -22,14 +22,13 @@ import {
   TNG_FORM_FIELD_CONTROL,
   type TngFormFieldControl,
 } from '../form-field/tng-form-field.control';
+import { snapTngSliderValue, tngSliderValuePercent } from '../slider/tng-slider.utils';
 import {
   normalizeTngRangeSliderGap,
   normalizeTngRangeSliderValue,
-  snapTngSliderValue,
-  tngSliderValuePercent,
   type TngRangeSliderThumb,
   type TngRangeSliderValue,
-} from './tng-slider.utils';
+} from './tng-range-slider.utils';
 
 let nextRangeSliderId = 0;
 
@@ -41,6 +40,14 @@ function createRangeSliderId(): string {
 function normalizeMinGap(value: number | string): number {
   const numericValue = typeof value === 'number' ? value : Number(value);
   return Number.isFinite(numericValue) && numericValue > 0 ? numericValue : 0;
+}
+
+function normalizeOptionalBound(
+  value: unknown,
+  normalize: (bound: number) => number,
+): number | undefined {
+  if (value === undefined || value === null || value === '') return undefined;
+  return normalize(typeof value === 'number' ? value : Number(value));
 }
 
 function joinIds(...groups: readonly (string | null | readonly string[])[]): string | null {
@@ -96,13 +103,23 @@ export class TngRangeSliderComponent implements FormValueControl<TngRangeSliderV
   public readonly required = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly max = input<number | undefined, unknown>(100, {
-    transform: (value: unknown): number =>
-      normalizeTngSliderMax(typeof value === 'number' ? value : Number(value)),
+  public readonly lowerBound = input<number | undefined, unknown>(undefined, {
+    transform: (value: unknown): number | undefined =>
+      normalizeOptionalBound(value, normalizeTngSliderMin),
   });
-  public readonly min = input<number | undefined, unknown>(0, {
-    transform: (value: unknown): number =>
-      normalizeTngSliderMin(typeof value === 'number' ? value : Number(value)),
+  public readonly upperBound = input<number | undefined, unknown>(undefined, {
+    transform: (value: unknown): number | undefined =>
+      normalizeOptionalBound(value, normalizeTngSliderMax),
+  });
+  /** @deprecated Use lowerBound. The min binding conflicts with Signal Forms formField. */
+  public readonly min = input<number | undefined, unknown>(undefined, {
+    transform: (value: unknown): number | undefined =>
+      normalizeOptionalBound(value, normalizeTngSliderMin),
+  });
+  /** @deprecated Use upperBound. The max binding conflicts with Signal Forms formField. */
+  public readonly max = input<number | undefined, unknown>(undefined, {
+    transform: (value: unknown): number | undefined =>
+      normalizeOptionalBound(value, normalizeTngSliderMax),
   });
   public readonly step = input<number, number | string>(1, {
     transform: (value: number | string): number =>
@@ -129,30 +146,30 @@ export class TngRangeSliderComponent implements FormValueControl<TngRangeSliderV
   protected readonly groupLabelId = computed(() => `${this.resolvedId()}-label`);
   protected readonly minThumbLabelId = computed(() => `${this.resolvedId()}-min-label`);
   protected readonly maxThumbLabelId = computed(() => `${this.resolvedId()}-max-label`);
-  protected readonly lowerBound = computed(() => Math.min(this.min() ?? 0, this.max() ?? 100));
-  protected readonly upperBound = computed(() => Math.max(this.min() ?? 0, this.max() ?? 100));
+  protected readonly minimum = computed(() =>
+    Math.min(this.lowerBound() ?? this.min() ?? 0, this.upperBound() ?? this.max() ?? 100),
+  );
+  protected readonly maximum = computed(() =>
+    Math.max(this.lowerBound() ?? this.min() ?? 0, this.upperBound() ?? this.max() ?? 100),
+  );
   protected readonly effectiveGap = computed(() =>
-    normalizeTngRangeSliderGap(this.minGap(), this.lowerBound(), this.upperBound(), this.step()),
+    normalizeTngRangeSliderGap(this.minGap(), this.minimum(), this.maximum(), this.step()),
   );
   protected readonly currentValue = computed(() =>
     normalizeTngRangeSliderValue(
       this.value(),
-      this.lowerBound(),
-      this.upperBound(),
+      this.minimum(),
+      this.maximum(),
       this.step(),
       this.effectiveGap(),
     ),
   );
   protected readonly minPercent = computed(
-    () =>
-      `${tngSliderValuePercent(this.currentValue().min, this.lowerBound(), this.upperBound())}%`,
+    () => `${tngSliderValuePercent(this.currentValue().min, this.minimum(), this.maximum())}%`,
   );
   protected readonly maxPercent = computed(
-    () =>
-      `${tngSliderValuePercent(this.currentValue().max, this.lowerBound(), this.upperBound())}%`,
+    () => `${tngSliderValuePercent(this.currentValue().max, this.minimum(), this.maximum())}%`,
   );
-  protected readonly minInputMax = computed(() => this.currentValue().max - this.effectiveGap());
-  protected readonly maxInputMin = computed(() => this.currentValue().min + this.effectiveGap());
   protected readonly effectiveInvalid = computed(() => this.invalid() || this.formFieldInvalid());
   protected readonly effectiveRequired = computed(
     () => this.required() || this.formFieldRequired(),
@@ -251,14 +268,14 @@ export class TngRangeSliderComponent implements FormValueControl<TngRangeSliderV
     if (thumb === 'min') {
       const maximum = value.max - gap;
       next = {
-        min: snapTngSliderValue(rawValue, this.lowerBound(), maximum, this.step()),
+        min: snapTngSliderValue(rawValue, this.minimum(), maximum, this.step()),
         max: value.max,
       };
     } else {
       const minimum = value.min + gap;
       next = {
         min: value.min,
-        max: snapTngSliderValue(rawValue, minimum, this.upperBound(), this.step()),
+        max: snapTngSliderValue(rawValue, minimum, this.maximum(), this.step()),
       };
     }
 
@@ -275,7 +292,7 @@ export class TngRangeSliderComponent implements FormValueControl<TngRangeSliderV
 
     let ratio = Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width));
     if (this.resolveDirection() === 'rtl') ratio = 1 - ratio;
-    return this.lowerBound() + ratio * (this.upperBound() - this.lowerBound());
+    return this.minimum() + ratio * (this.maximum() - this.minimum());
   }
 
   private resolveDirection(): 'ltr' | 'rtl' {

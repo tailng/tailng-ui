@@ -1,0 +1,29 @@
+<article class="range-slider-docs">
+  <section id="supported-contract">
+    <h2>Supported contract</h2>
+    <p>Apply slider CSS tokens to the component host. Labels and summaries remain in your shell.</p>
+  </section>
+
+  <section id="host-tokens">
+    <h2>Host tokens</h2>
+    <tng-code-block [code]="tokenCode" language="css" title="range-slider.tokens.css" />
+  </section>
+
+  <section id="styled-example">
+    <h2>Styled example</h2>
+    <div class="range-slider-demo">
+      <tng-range-slider
+        class="range-slider-token-demo"
+        [value]="range()"
+        (valueChange)="range.set($event)"
+        [lowerBound]="0"
+        [upperBound]="100"
+        aria-label="Price filter"
+      />
+      <div class="range-slider-values">
+        <span>${{ range().min }}</span
+        ><span>${{ range().max }}</span>
+      </div>
+    </div>
+  </section>
+</article>

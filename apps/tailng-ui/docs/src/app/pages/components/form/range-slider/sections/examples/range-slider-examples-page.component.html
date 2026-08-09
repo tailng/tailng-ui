@@ -1,0 +1,177 @@
+<article class="range-slider-docs">
+  <section id="signal-form-usage">
+    <app-docs-example-tabs-section
+      heading="Signal Forms usage"
+      description="Bind the range slider directly to a Signal Forms field with either plain CSS or Tailwind CSS presentation."
+      ariaLabel="Range slider Signal Forms examples"
+      tabListAriaLabel="Range slider Signal Forms style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain CSS"
+        panelTitle="Signal Forms price filter (Plain CSS)"
+        [codeTabs]="signalFormsPlainCodeTabs"
+      >
+        <div class="range-slider-demo range-slider-example">
+          <tng-range-slider
+            [formField]="plainFiltersForm.priceRange"
+            [lowerBound]="0"
+            [upperBound]="100"
+            [step]="5"
+            aria-label="Price range"
+            minAriaLabel="Minimum price"
+            maxAriaLabel="Maximum price"
+          />
+          <div class="range-slider-values">
+            <span>${{ plainFiltersModel().priceRange.min }}</span>
+            <span>${{ plainFiltersModel().priceRange.max }}</span>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Signal Forms price filter (Tailwind CSS)"
+        [codeTabs]="signalFormsTailwindCodeTabs"
+      >
+        <div
+          class="grid w-full max-w-[38rem] gap-3 rounded-lg border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4"
+        >
+          <tng-range-slider
+            class="[--tng-semantic-accent-brand:#2563eb]"
+            [formField]="tailwindFiltersForm.priceRange"
+            [lowerBound]="0"
+            [upperBound]="100"
+            [step]="5"
+            aria-label="Price range"
+            minAriaLabel="Minimum price"
+            maxAriaLabel="Maximum price"
+          />
+          <div
+            class="flex justify-between gap-4 text-sm text-[var(--tng-semantic-foreground-muted)]"
+          >
+            <span>${{ tailwindFiltersModel().priceRange.min }}</span>
+            <span>${{ tailwindFiltersModel().priceRange.max }}</span>
+          </div>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="minimum-gap">
+    <app-docs-example-tabs-section
+      heading="Minimum gap"
+      description="Keep a required distance between endpoints while choosing the surrounding styling approach."
+      ariaLabel="Range slider minimum-gap examples"
+      tabListAriaLabel="Range slider minimum-gap style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain CSS"
+        panelTitle="Booking window with a minimum gap (Plain CSS)"
+        [codeTabs]="minimumGapPlainCodeTabs"
+      >
+        <div class="range-slider-demo range-slider-example">
+          <tng-range-slider
+            [value]="plainBookingWindow()"
+            (valueChange)="plainBookingWindow.set($event)"
+            [lowerBound]="0"
+            [upperBound]="100"
+            [step]="5"
+            [minGap]="20"
+            aria-label="Booking window"
+            minAriaLabel="Start day"
+            maxAriaLabel="End day"
+          />
+          <strong>Day {{ plainBookingWindow().min }} to {{ plainBookingWindow().max }}</strong>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Booking window with a minimum gap (Tailwind CSS)"
+        [codeTabs]="minimumGapTailwindCodeTabs"
+      >
+        <div
+          class="grid w-full max-w-[38rem] gap-3 rounded-lg border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4"
+        >
+          <tng-range-slider
+            class="[--tng-semantic-accent-brand:#2563eb]"
+            [value]="tailwindBookingWindow()"
+            (valueChange)="tailwindBookingWindow.set($event)"
+            [lowerBound]="0"
+            [upperBound]="100"
+            [step]="5"
+            [minGap]="20"
+            aria-label="Booking window"
+            minAriaLabel="Start day"
+            maxAriaLabel="End day"
+          />
+          <strong class="text-sm text-[var(--tng-semantic-foreground-primary)]">
+            Day {{ tailwindBookingWindow().min }} to {{ tailwindBookingWindow().max }}
+          </strong>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="disabled-state">
+    <app-docs-example-tabs-section
+      heading="Disabled state"
+      description="Present the same disabled range in a plain CSS or Tailwind CSS container."
+      ariaLabel="Range slider disabled examples"
+      tabListAriaLabel="Range slider disabled style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain CSS"
+        panelTitle="Locked budget (Plain CSS)"
+        [codeTabs]="disabledPlainCodeTabs"
+      >
+        <div class="range-slider-demo range-slider-example">
+          <tng-range-slider
+            disabled
+            [value]="{ min: 25, max: 70 }"
+            [lowerBound]="0"
+            [upperBound]="100"
+            aria-label="Locked budget"
+          />
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Locked budget (Tailwind CSS)"
+        [codeTabs]="disabledTailwindCodeTabs"
+      >
+        <div
+          class="grid w-full max-w-[38rem] gap-3 rounded-lg border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4"
+        >
+          <tng-range-slider
+            class="[--tng-semantic-accent-brand:#2563eb]"
+            disabled
+            [value]="{ min: 25, max: 70 }"
+            [lowerBound]="0"
+            [upperBound]="100"
+            aria-label="Locked budget"
+          />
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

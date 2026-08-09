@@ -1,10 +1,6 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, computed, inject, signal, type OnDestroy } from '@angular/core';
-import {
-  TngRangeSliderComponent,
-  TngSliderComponent,
-  type TngRangeSliderValue,
-} from '@tailng-ui/components';
+import { Component, inject, signal, type OnDestroy } from '@angular/core';
+import { TngSliderComponent } from '@tailng-ui/components';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -133,95 +129,9 @@ const STEP_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[3
   </div>
 </section>`;
 
-const RANGE_PLAIN_TS_CODE = String.raw`import { Component, signal } from '@angular/core';
-import { TngRangeSliderComponent, type TngRangeSliderValue } from '@tailng-ui/components';
-
-@Component({
-  selector: 'app-component-slider-examples-range-plain',
-  standalone: true,
-  imports: [TngRangeSliderComponent],
-  templateUrl: './component-slider-examples-range-plain.component.html',
-  styleUrl: './component-slider-examples-range-plain.component.css',
-})
-export class ComponentSliderExamplesRangePlainComponent {
-  readonly componentSliderExamplesPlainRange = signal<TngRangeSliderValue>({
-    min: 20,
-    max: 75,
-  });
-}`;
-
-const RANGE_PLAIN_HTML_CODE = String.raw`<section class="docs-component-slider-examples-range-plain-shell">
-  <div class="docs-component-slider-examples-range-plain-header">
-    <span class="docs-component-slider-examples-range-plain-kicker">Price range</span>
-    <p class="docs-component-slider-examples-range-plain-copy">
-      Both pointers and their minimum separation are owned by one component.
-    </p>
-  </div>
-
-  <tng-range-slider
-    class="docs-component-slider-examples-range-plain-control"
-    [value]="componentSliderExamplesPlainRange()"
-    (valueChange)="componentSliderExamplesPlainRange.set($event)"
-    [min]="0"
-    [max]="100"
-    [step]="5"
-    [minGap]="5"
-    aria-label="Price range"
-    minAriaLabel="Minimum price"
-    maxAriaLabel="Maximum price"
-  />
-
-  <div class="docs-component-slider-examples-range-plain-values">
-    <span>Min: USD {{ componentSliderExamplesPlainRange().min }}</span>
-    <span>Max: USD {{ componentSliderExamplesPlainRange().max }}</span>
-  </div>
-</section>`;
-
-const RANGE_PLAIN_CSS_CODE = String.raw`.docs-component-slider-examples-range-plain-shell {
-  display: grid;
-  gap: 0.9rem;
-  inline-size: min(100%, 36rem);
-  margin-inline: auto;
-  padding: 1.1rem;
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 1.25rem;
-  background: var(--tng-semantic-background-surface);
-  color: var(--tng-semantic-foreground-primary);
-}
-
-.docs-component-slider-examples-range-plain-header {
-  display: grid;
-  gap: 0.35rem;
-}
-
-.docs-component-slider-examples-range-plain-kicker {
-  color: var(--tng-semantic-foreground-muted);
-  font-size: 0.8rem;
-  font-weight: 700;
-}
-
-.docs-component-slider-examples-range-plain-copy {
-  margin: 0;
-  color: var(--tng-semantic-foreground-secondary);
-}
-
-.docs-component-slider-examples-range-plain-control {
-  --tng-slider-range-color: #0f766e;
-  --tng-slider-thumb-border-color: #0f766e;
-}
-
-.docs-component-slider-examples-range-plain-values {
-  display: flex;
-  justify-content: space-between;
-  color: var(--tng-semantic-foreground-secondary);
-  font-size: 0.85rem;
-  font-weight: 600;
-}`;
-
 @Component({
   selector: 'app-slider-examples-page',
   imports: [
-    TngRangeSliderComponent,
     TngSliderComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
@@ -243,12 +153,6 @@ export class SliderExamplesPageComponent implements OnDestroy {
   protected readonly formPriority = signal(70);
   protected readonly stepPlainValue = signal(30);
   protected readonly stepTailwindValue = signal(45);
-  protected readonly rangeValue = signal<TngRangeSliderValue>({ min: 20, max: 75 });
-  protected readonly constrainedRangeValue = signal<TngRangeSliderValue>({ min: 35, max: 65 });
-  protected readonly rangeSummary = computed(() => {
-    return `$${this.rangeValue().min} - $${this.rangeValue().max}`;
-  });
-
   protected readonly stepPlainCodeTabs: readonly DocsExampleCodeTab[] = [
     {
       value: 'ts',
@@ -287,30 +191,6 @@ export class SliderExamplesPageComponent implements OnDestroy {
       language: 'html',
       title: 'component-slider-examples-step-tailwind.component.html',
       code: STEP_TAILWIND_HTML_CODE,
-    },
-  ];
-
-  protected readonly rangePlainCodeTabs: readonly DocsExampleCodeTab[] = [
-    {
-      value: 'ts',
-      label: 'TS',
-      language: 'ts',
-      title: 'component-slider-examples-range-plain.component.ts',
-      code: RANGE_PLAIN_TS_CODE,
-    },
-    {
-      value: 'html',
-      label: 'HTML',
-      language: 'html',
-      title: 'component-slider-examples-range-plain.component.html',
-      code: RANGE_PLAIN_HTML_CODE,
-    },
-    {
-      value: 'css',
-      label: 'CSS',
-      language: 'css',
-      title: 'component-slider-examples-range-plain.component.css',
-      code: RANGE_PLAIN_CSS_CODE,
     },
   ];
 

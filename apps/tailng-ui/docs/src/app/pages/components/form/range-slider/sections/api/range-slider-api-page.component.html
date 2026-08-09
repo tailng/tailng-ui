@@ -1,0 +1,46 @@
+<article class="range-slider-docs">
+  <section id="component-api">
+    <h2><code>tng-range-slider</code></h2>
+    <div class="range-slider-table-wrap">
+      <table class="range-slider-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of rows; track row.name) {
+            <tr>
+              <td>
+                <code>{{ row.name }}</code>
+              </td>
+              <td>
+                <code>{{ row.type }}</code>
+              </td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="bounds">
+    <h2>Bounds</h2>
+    <p>
+      Use <code>lowerBound</code> and <code>upperBound</code> for the control domain. The selected
+      value continues to use <code>min</code> and <code>max</code> endpoint properties.
+    </p>
+  </section>
+
+  <section id="signal-forms">
+    <h2>Angular Signal Forms</h2>
+    <p>
+      Signal Forms reserves <code>min</code> and <code>max</code> bindings. The range-specific bound
+      names can be bound safely on the same element as <code>formField</code>.
+    </p>
+    <tng-code-block [code]="signalFormsCode" language="html" title="Signal Forms binding" />
+  </section>
+</article>

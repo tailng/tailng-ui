@@ -1,7 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { FormField, form, pattern as patternValidator } from '@angular/forms/signals';
+import {
+  FormField,
+  form,
+  max as maxValidator,
+  min as minValidator,
+  pattern as patternValidator,
+} from '@angular/forms/signals';
 import { describe, expect, it } from 'vitest';
 
 import {
@@ -24,9 +30,9 @@ import { TngMultiSelectComponent } from '../multiselect/tng-multiselect.componen
 import { TngNumberRangeComponent } from '../number-range/tng-number-range.component';
 import { TngRadioComponent } from '../radio/tng-radio.component';
 import { TngSelectComponent } from '../select/tng-select.component';
-import { TngRangeSliderComponent } from '../slider/tng-range-slider.component';
+import { TngRangeSliderComponent } from '../range-slider/tng-range-slider.component';
 import { TngSliderComponent } from '../slider/tng-slider.component';
-import type { TngRangeSliderValue } from '../slider/tng-slider.utils';
+import type { TngRangeSliderValue } from '../range-slider/tng-range-slider.utils';
 import { TngSwitchComponent } from '../switch/tng-switch.component';
 import { TngTextareaComponent } from '../textarea/tng-textarea.component';
 import { TngToggleComponent } from '../toggle/tng-toggle.component';
@@ -45,7 +51,11 @@ const teamOptions: readonly TeamOption[] = Object.freeze([
 
 @Component({
   imports: [FormField, TngInputComponent],
-  template: `<tng-input data-testid="input" ariaLabel="Project name" [formField]="projectForm.name"></tng-input>`,
+  template: `<tng-input
+    data-testid="input"
+    ariaLabel="Project name"
+    [formField]="projectForm.name"
+  ></tng-input>`,
 })
 class InputSignalFormsHostComponent {
   readonly projectModel = signal({ name: 'Initial name' });
@@ -54,7 +64,11 @@ class InputSignalFormsHostComponent {
 
 @Component({
   imports: [FormField, TngInputComponent],
-  template: `<tng-input data-testid="input" ariaLabel="Project code" [formField]="projectForm.code"></tng-input>`,
+  template: `<tng-input
+    data-testid="input"
+    ariaLabel="Project code"
+    [formField]="projectForm.code"
+  ></tng-input>`,
 })
 class InputPatternSignalFormsHostComponent {
   readonly projectModel = signal({ code: 'ABC' });
@@ -65,7 +79,11 @@ class InputPatternSignalFormsHostComponent {
 
 @Component({
   imports: [FormField, TngTextareaComponent],
-  template: `<tng-textarea data-testid="textarea" ariaLabel="Description" [formField]="projectForm.description"></tng-textarea>`,
+  template: `<tng-textarea
+    data-testid="textarea"
+    ariaLabel="Description"
+    [formField]="projectForm.description"
+  ></tng-textarea>`,
 })
 class TextareaSignalFormsHostComponent {
   readonly projectModel = signal({ description: 'Initial notes' });
@@ -78,12 +96,20 @@ class TextareaSignalFormsHostComponent {
 })
 class SliderSignalFormsHostComponent {
   readonly settingsModel = signal({ volume: 25 });
-  readonly settingsForm = form(this.settingsModel);
+  readonly settingsForm = form(this.settingsModel, (settings) => {
+    minValidator(settings.volume, 0);
+    maxValidator(settings.volume, 100);
+  });
 }
 
 @Component({
   imports: [FormField, TngRangeSliderComponent],
-  template: `<tng-range-slider data-testid="range-slider" [formField]="filtersForm.price"></tng-range-slider>`,
+  template: `<tng-range-slider
+    data-testid="range-slider"
+    [formField]="filtersForm.price"
+    [lowerBound]="10"
+    [upperBound]="90"
+  ></tng-range-slider>`,
 })
 class RangeSliderSignalFormsHostComponent {
   readonly filtersModel = signal<{ price: TngRangeSliderValue }>({
@@ -108,9 +134,7 @@ class CheckboxSignalFormsHostComponent {
 @Component({
   imports: [FormField, TngRadioComponent],
   template: `
-    <tng-radio data-testid="radio" [formField]="settingsForm.selected">
-      Primary option
-    </tng-radio>
+    <tng-radio data-testid="radio" [formField]="settingsForm.selected"> Primary option </tng-radio>
   `,
 })
 class RadioSignalFormsHostComponent {
@@ -121,9 +145,7 @@ class RadioSignalFormsHostComponent {
 @Component({
   imports: [FormField, TngSwitchComponent],
   template: `
-    <tng-switch data-testid="switch" [formField]="settingsForm.enabled">
-      Enable sync
-    </tng-switch>
+    <tng-switch data-testid="switch" [formField]="settingsForm.enabled"> Enable sync </tng-switch>
   `,
 })
 class SwitchSignalFormsHostComponent {
@@ -134,9 +156,7 @@ class SwitchSignalFormsHostComponent {
 @Component({
   imports: [FormField, TngToggleComponent],
   template: `
-    <tng-toggle data-testid="toggle" [formField]="preferencesForm.pinned">
-      Pin sidebar
-    </tng-toggle>
+    <tng-toggle data-testid="toggle" [formField]="preferencesForm.pinned"> Pin sidebar </tng-toggle>
   `,
 })
 class ToggleSignalFormsHostComponent {
@@ -146,7 +166,11 @@ class ToggleSignalFormsHostComponent {
 
 @Component({
   imports: [FormField, TngInputOtpComponent],
-  template: `<tng-input-otp data-testid="otp" [length]="4" [formField]="verificationForm.code"></tng-input-otp>`,
+  template: `<tng-input-otp
+    data-testid="otp"
+    [length]="4"
+    [formField]="verificationForm.code"
+  ></tng-input-otp>`,
 })
 class InputOtpSignalFormsHostComponent {
   readonly verificationModel = signal({ code: '12' });
@@ -155,7 +179,12 @@ class InputOtpSignalFormsHostComponent {
 
 @Component({
   imports: [FormField, TngInputOtpComponent],
-  template: `<tng-input-otp data-testid="otp" type="custom" [length]="4" [formField]="verificationForm.code"></tng-input-otp>`,
+  template: `<tng-input-otp
+    data-testid="otp"
+    type="custom"
+    [length]="4"
+    [formField]="verificationForm.code"
+  ></tng-input-otp>`,
 })
 class InputOtpPatternSignalFormsHostComponent {
   readonly verificationModel = signal({ code: 'AB' });
@@ -166,7 +195,11 @@ class InputOtpPatternSignalFormsHostComponent {
 
 @Component({
   imports: [FormField, TngNumberRangeComponent],
-  template: `<tng-number-range data-testid="range" ariaLabel="Price range" [formField]="pricingForm.range"></tng-number-range>`,
+  template: `<tng-number-range
+    data-testid="range"
+    ariaLabel="Price range"
+    [formField]="pricingForm.range"
+  ></tng-number-range>`,
 })
 class NumberRangeSignalFormsHostComponent {
   readonly pricingModel = signal<{ range: TngNumberRangeValue }>({
@@ -177,7 +210,10 @@ class NumberRangeSignalFormsHostComponent {
 
 @Component({
   imports: [FormField, TngDatepickerComponent],
-  template: `<tng-datepicker data-testid="datepicker" [formField]="bookingForm.date"></tng-datepicker>`,
+  template: `<tng-datepicker
+    data-testid="datepicker"
+    [formField]="bookingForm.date"
+  ></tng-datepicker>`,
 })
 class DatepickerSignalFormsHostComponent {
   readonly bookingModel = signal<{ date: Date | null }>({ date: new Date(2026, 2, 31) });
@@ -186,7 +222,10 @@ class DatepickerSignalFormsHostComponent {
 
 @Component({
   imports: [FormField, TngDateRangePickerComponent],
-  template: `<tng-date-range-picker data-testid="date-range" [formField]="bookingForm.range"></tng-date-range-picker>`,
+  template: `<tng-date-range-picker
+    data-testid="date-range"
+    [formField]="bookingForm.range"
+  ></tng-date-range-picker>`,
 })
 class DateRangePickerSignalFormsHostComponent {
   readonly bookingModel = signal({
@@ -217,7 +256,10 @@ class DateRangePickerEmptySignalFormsHostComponent {
 
 @Component({
   imports: [FormField, TngMonthDaypickerComponent],
-  template: `<tng-month-daypicker data-testid="month-day" [formField]="reminderForm.date"></tng-month-daypicker>`,
+  template: `<tng-month-daypicker
+    data-testid="month-day"
+    [formField]="reminderForm.date"
+  ></tng-month-daypicker>`,
 })
 class MonthDaypickerSignalFormsHostComponent {
   readonly reminderModel = signal({ date: { month: 4, day: 22 } });
@@ -379,12 +421,7 @@ async function selectDatepickerDay(
   await settle(fixture);
 }
 
-function expectDateParts(
-  value: Date | null,
-  year: number,
-  monthIndex: number,
-  day: number,
-): void {
+function expectDateParts(value: Date | null, year: number, monthIndex: number, day: number): void {
   expect(value).toBeInstanceOf(Date);
   expect(value?.getFullYear()).toBe(year);
   expect(value?.getMonth()).toBe(monthIndex);
@@ -470,11 +507,7 @@ describe('tailng-ui signal forms interop', () => {
     fixture.detectChanges();
 
     const host = fixture.componentInstance;
-    const input = queryRequiredElement(
-      fixture,
-      '[data-testid="input"] input',
-      HTMLInputElement,
-    );
+    const input = queryRequiredElement(fixture, '[data-testid="input"] input', HTMLInputElement);
 
     expect(input.value).toBe('Initial name');
 
@@ -496,11 +529,7 @@ describe('tailng-ui signal forms interop', () => {
 
     fixture.detectChanges();
 
-    const input = queryRequiredElement(
-      fixture,
-      '[data-testid="input"] input',
-      HTMLInputElement,
-    );
+    const input = queryRequiredElement(fixture, '[data-testid="input"] input', HTMLInputElement);
 
     expect(input.getAttribute('pattern')).toBe('^[A-Z]+$');
   });
@@ -628,11 +657,7 @@ describe('tailng-ui signal forms interop', () => {
     fixture.detectChanges();
 
     const host = fixture.componentInstance;
-    const input = queryRequiredElement(
-      fixture,
-      '[data-testid="radio"] input',
-      HTMLInputElement,
-    );
+    const input = queryRequiredElement(fixture, '[data-testid="radio"] input', HTMLInputElement);
 
     expect(input.checked).toBe(false);
 

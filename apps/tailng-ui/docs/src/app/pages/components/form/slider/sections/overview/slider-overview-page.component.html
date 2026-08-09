@@ -25,31 +25,6 @@
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
-    <tng-code-block
-      [code]="rangeUsageCode"
-      adapter="shiki"
-      language="html"
-      title="Controlled min/max value"
-      [theme]="codeBlockTheme()"
-      [lineNumbers]="false"
-      [wrap]="true"
-      [sanitizeHtml]="false"
-    ></tng-code-block>
-
-    <div class="docs-component-slider-overview-range-demo">
-      <tng-range-slider
-        [value]="overviewRangeValue()"
-        (valueChange)="overviewRangeValue.set($event)"
-        [min]="0"
-        [max]="100"
-        [step]="5"
-        [minGap]="5"
-        aria-label="Price range"
-        minAriaLabel="Minimum price"
-        maxAriaLabel="Maximum price"
-      />
-      <strong>${{ overviewRangeValue().min }} - ${{ overviewRangeValue().max }}</strong>
-    </div>
   </section>
 
   <section id="slider-variants" class="docs-page-section">
@@ -137,10 +112,6 @@
       <li>
         <code>min</code>, <code>max</code>, and <code>step</code> are forwarded to the native range
         input.
-      </li>
-      <li>
-        <code>tng-range-slider</code> owns both pointers and emits one typed
-        <code>&#123; min, max &#125;</code> value.
       </li>
     </ul>
   </section>

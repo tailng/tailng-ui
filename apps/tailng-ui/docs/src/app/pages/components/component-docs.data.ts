@@ -200,7 +200,13 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       id: 'slider',
       slug: 'slider',
       title: 'Slider',
-      description: 'Range input wrapper for numeric settings and continuous values.',
+      description: 'Single-value slider for numeric settings and continuous values.',
+    },
+    {
+      id: 'range-slider',
+      slug: 'range-slider',
+      title: 'Range Slider',
+      description: 'Dual-thumb slider for selecting bounded minimum and maximum values.',
     },
     {
       id: 'chips',

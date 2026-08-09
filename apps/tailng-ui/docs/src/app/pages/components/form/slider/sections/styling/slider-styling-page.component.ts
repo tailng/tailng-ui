@@ -18,7 +18,7 @@ type ContractRow = {
   readonly purpose: string;
 };
 
-const HOST_TOKEN_GUIDANCE_CODE = String.raw`:is(tng-slider, tng-range-slider).docs-component-slider-styling-brand-shell {
+const HOST_TOKEN_GUIDANCE_CODE = String.raw`tng-slider.docs-component-slider-styling-brand-shell {
   --tng-slider-range-color: #0f766e;
   --tng-slider-thumb-border-color: #0f766e;
   --tng-slider-track-size: 0.5rem;
@@ -191,7 +191,7 @@ export class SliderStylingPageComponent implements OnDestroy {
 
   protected readonly contractRows: readonly ContractRow[] = Object.freeze([
     {
-      selector: 'tng-slider, tng-range-slider',
+      selector: 'tng-slider',
       appliedOn: 'Wrapper host',
       purpose: 'Own layout width and component-level semantic tokens.',
     },

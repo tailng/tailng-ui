@@ -971,7 +971,6 @@ export const docsComponentOutlineItemsBySlug: Readonly<
     ],
     api: [
       { id: 'wrapper-api', label: 'Wrapper API' },
-      { id: 'range-wrapper-api', label: 'Range wrapper API' },
       { id: 'primitive-api', label: 'Primitive API' },
       { id: 'signal-forms', label: 'Signal forms' },
     ],
@@ -983,8 +982,34 @@ export const docsComponentOutlineItemsBySlug: Readonly<
     examples: [
       { id: 'form-usage', label: 'Form usage' },
       { id: 'stepped-slider', label: 'Stepped slider' },
-      { id: 'range-slider', label: 'Range slider' },
-      { id: 'range-states', label: 'Range constraints and states' },
+    ],
+    'ownable-install': [
+      { id: 'install-from-registry', label: 'Install from registry' },
+      { id: 'generated-files', label: 'Generated files' },
+      { id: 'import-and-usage', label: 'Import in your feature module/component' },
+    ],
+  },
+  'range-slider': {
+    overview: [
+      { id: 'imports', label: 'Imports' },
+      { id: 'basic-usage', label: 'Basic usage' },
+      { id: 'value-model', label: 'Value model' },
+      { id: 'behavior-baseline', label: 'Behavior baseline' },
+    ],
+    api: [
+      { id: 'component-api', label: 'Component API' },
+      { id: 'bounds', label: 'Bounds' },
+      { id: 'signal-forms', label: 'Signal Forms' },
+    ],
+    styling: [
+      { id: 'supported-contract', label: 'Supported contract' },
+      { id: 'host-tokens', label: 'Host tokens' },
+      { id: 'styled-example', label: 'Styled example' },
+    ],
+    examples: [
+      { id: 'signal-form-usage', label: 'Signal Forms usage' },
+      { id: 'minimum-gap', label: 'Minimum gap' },
+      { id: 'disabled-state', label: 'Disabled state' },
     ],
     'ownable-install': [
       { id: 'install-from-registry', label: 'Install from registry' },

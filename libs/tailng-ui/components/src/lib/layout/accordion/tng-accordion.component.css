@@ -1,9 +1,10 @@
 :host {
   display: block;
+  border: var(--tng-accordion-border, 1px solid var(--tng-semantic-border-subtle));
+  border-radius: var(--tng-accordion-radius, var(--tng-radius-panel, 0.75rem));
+  overflow: hidden;
 }
 
 .tng-accordion {
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: var(--tng-accordion-radius, var(--tng-radius-panel, 0.75rem));
-  overflow: hidden;
+  display: block;
 }

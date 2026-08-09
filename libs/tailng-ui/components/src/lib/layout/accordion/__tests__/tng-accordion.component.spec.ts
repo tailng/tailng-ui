@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { readFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { afterEach, describe, expect, it } from 'vitest';
 import {
   TngAccordionComponent,
@@ -9,7 +12,27 @@ import {
   TngAccordionTriggerComponent,
 } from '../tng-accordion.component';
 
-function getByTestId<T extends Element>(fixture: { nativeElement: HTMLElement }, testId: string): T {
+const specDirectory = dirname(fileURLToPath(import.meta.url));
+const accordionComponentCss = readFileSync(
+  resolve(specDirectory, '../tng-accordion.component.css'),
+  'utf8',
+);
+const accordionComponentSource = readFileSync(
+  resolve(specDirectory, '../tng-accordion.component.ts'),
+  'utf8',
+);
+const accordionThemeContractCss = readFileSync(
+  resolve(
+    specDirectory,
+    '../../../../../../theme/src/lib/component-contracts/layout/accordion.css',
+  ),
+  'utf8',
+);
+
+function getByTestId<T extends Element>(
+  fixture: { nativeElement: HTMLElement },
+  testId: string,
+): T {
   const element = fixture.nativeElement.querySelector<T>(`[data-testid="${testId}"]`);
   if (element === null) {
     throw new Error(`Expected element for data-testid="${testId}".`);
@@ -79,6 +102,44 @@ class AccordionWrapperHostComponent {
   `,
 })
 class AccordionCustomIndicatorHostComponent {}
+
+@Component({
+  imports: [
+    TngAccordionComponent,
+    TngAccordionItemComponent,
+    TngAccordionTriggerComponent,
+    TngAccordionPanelComponent,
+  ],
+  styles: `
+    .filter-rail {
+      --tng-semantic-border-subtle: rgb(100, 116, 139);
+    }
+
+    .flat-accordion {
+      --tng-accordion-border: 0;
+      --tng-accordion-panel-border: 0;
+      --tng-accordion-panel-padding: 0;
+    }
+  `,
+  template: `
+    <div class="filter-rail" data-testid="filter-rail">
+      <tng-accordion
+        class="flat-accordion"
+        ariaLabel="Filters"
+        data-testid="accordion"
+        [defaultValue]="'orientation'"
+      >
+        <tng-accordion-item value="orientation">
+          <tng-accordion-trigger>Orientation</tng-accordion-trigger>
+          <tng-accordion-panel data-testid="panel">
+            <span data-testid="panel-control">Panel control</span>
+          </tng-accordion-panel>
+        </tng-accordion-item>
+      </tng-accordion>
+    </div>
+  `,
+})
+class AccordionConsumerChromeHostComponent {}
 
 describe('tng-accordion component wrappers', () => {
   afterEach(() => {
@@ -178,5 +239,41 @@ describe('tng-accordion component wrappers', () => {
     fixture.detectChanges();
 
     expect(indicator.getAttribute('data-state')).toBe('closed');
+  });
+
+  it('lets a consumer flatten group and panel chrome without overriding shared semantic tokens', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [AccordionConsumerChromeHostComponent],
+    }).createComponent(AccordionConsumerChromeHostComponent);
+    fixture.detectChanges();
+
+    const filterRail = getByTestId<HTMLElement>(fixture, 'filter-rail');
+    const accordion = getByTestId<HTMLElement>(fixture, 'accordion');
+    const accordionSurface = accordion.querySelector<HTMLElement>('.tng-accordion');
+    const panel = getByTestId<HTMLElement>(fixture, 'panel');
+    const panelSurface = panel.querySelector<HTMLElement>('.tng-accordion__panel');
+    const consumerStyles = getComputedStyle(accordion);
+
+    expect(accordionSurface).not.toBeNull();
+    expect(panelSurface).not.toBeNull();
+    expect(consumerStyles.getPropertyValue('--tng-accordion-border').trim()).toBe('0');
+    expect(consumerStyles.getPropertyValue('--tng-accordion-panel-border').trim()).toBe('0');
+    expect(consumerStyles.getPropertyValue('--tng-accordion-panel-padding').trim()).toBe('0');
+    expect(
+      getComputedStyle(filterRail).getPropertyValue('--tng-semantic-border-subtle').trim(),
+    ).toBe('rgb(100, 116, 139)');
+
+    // jsdom does not resolve inherited custom properties in component CSS, so verify the
+    // contract and the inaccessible internal surfaces are wired to the consumer tokens.
+    expect(accordionThemeContractCss).toMatch(/--tng-accordion-border\s*:/);
+    expect(accordionThemeContractCss).toMatch(/--tng-accordion-panel-border\s*:/);
+    expect(accordionThemeContractCss).toMatch(/--tng-accordion-panel-padding\s*:/);
+    expect(accordionComponentCss).toMatch(/border:\s*var\(\s*--tng-accordion-border(?:\s*,|\s*\))/);
+    expect(accordionComponentSource).toMatch(
+      /border-top:\s*var\(\s*--tng-accordion-panel-border(?:\s*,|\s*\))/,
+    );
+    expect(accordionComponentSource).toMatch(
+      /padding:\s*var\(\s*--tng-accordion-panel-padding(?:\s*,|\s*\))/,
+    );
   });
 });

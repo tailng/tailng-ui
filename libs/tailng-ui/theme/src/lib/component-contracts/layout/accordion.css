@@ -1,5 +1,14 @@
 @layer tng.contracts {
   :where(tng-accordion, [tngAccordion]) {
     --tng-accordion-radius: var(--tng-radius-panel);
+    --tng-accordion-border: 1px solid var(--tng-semantic-border-subtle);
+    --tng-accordion-item-border: 1px solid var(--tng-semantic-border-subtle);
+    --tng-accordion-trigger-background: var(--tng-semantic-background-surface);
+    --tng-accordion-trigger-padding: 0.8rem 1rem;
+    --tng-accordion-trigger-focus-ring: inset 0 0 0 var(--tng-focus-ring-width, 3px)
+      var(--tng-focus-ring-color, var(--tng-semantic-focus-ring));
+    --tng-accordion-panel-background: var(--tng-semantic-background-base);
+    --tng-accordion-panel-border: 1px solid var(--tng-semantic-border-subtle);
+    --tng-accordion-panel-padding: 0.9rem 1rem;
   }
 }

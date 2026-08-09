@@ -16,18 +16,6 @@ const WRAPPER_ATTACHMENT_CODE = String.raw`<tng-slider
   aria-label="Brightness"
 ></tng-slider>`;
 
-const RANGE_WRAPPER_ATTACHMENT_CODE = String.raw`<tng-range-slider
-  [value]="priceRange()"
-  (valueChange)="priceRange.set($event)"
-  [min]="0"
-  [max]="100"
-  [step]="5"
-  [minGap]="10"
-  aria-label="Price range"
-  minAriaLabel="Minimum price"
-  maxAriaLabel="Maximum price"
-></tng-range-slider>`;
-
 const PRIMITIVE_ATTACHMENT_CODE = String.raw`<input
   tngSlider
   [value]="brightness()"
@@ -39,42 +27,26 @@ const PRIMITIVE_ATTACHMENT_CODE = String.raw`<input
 />`;
 
 const SIGNAL_FORMS_CODE = String.raw`import { Component, signal } from '@angular/core';
-import { FormField, form } from '@angular/forms/signals';
-import {
-  TngRangeSliderComponent,
-  TngSliderComponent,
-  type TngRangeSliderValue,
-} from '@tailng-ui/components';
+import { FormField, form, max, min } from '@angular/forms/signals';
+import { TngSliderComponent } from '@tailng-ui/components';
 
 @Component({
   selector: 'app-volume-signal-form',
   standalone: true,
-  imports: [FormField, TngRangeSliderComponent, TngSliderComponent],
+  imports: [FormField, TngSliderComponent],
   template: \`
     <tng-slider
       [formField]="settingsForm.volume"
-      [min]="0"
-      [max]="100"
       aria-label="Volume"
     ></tng-slider>
-    <tng-range-slider
-      [formField]="settingsForm.priceRange"
-      [min]="0"
-      [max]="100"
-      minAriaLabel="Minimum price"
-      maxAriaLabel="Maximum price"
-    ></tng-range-slider>
   \`,
 })
 export class VolumeSignalFormComponent {
-  readonly settingsModel = signal<{
-    volume: number;
-    priceRange: TngRangeSliderValue;
-  }>({
-    volume: 25,
-    priceRange: { min: 20, max: 80 },
+  readonly settingsModel = signal({ volume: 25 });
+  readonly settingsForm = form(this.settingsModel, (settings) => {
+    min(settings.volume, 0);
+    max(settings.volume, 100);
   });
-  readonly settingsForm = form(this.settingsModel);
 }`;
 
 @Component({
@@ -85,7 +57,6 @@ export class VolumeSignalFormComponent {
 })
 export class SliderApiPageComponent {
   protected readonly wrapperAttachmentCode = WRAPPER_ATTACHMENT_CODE;
-  protected readonly rangeWrapperAttachmentCode = RANGE_WRAPPER_ATTACHMENT_CODE;
   protected readonly primitiveAttachmentCode = PRIMITIVE_ATTACHMENT_CODE;
   protected readonly signalFormsCode = SIGNAL_FORMS_CODE;
 
@@ -143,49 +114,6 @@ export class SliderApiPageComponent {
       name: 'data-disabled',
       type: 'Attribute',
       details: 'Presence attribute reflected when the primitive is disabled.',
-    },
-  ]);
-
-  protected readonly rangeRows: readonly ApiRow[] = Object.freeze([
-    {
-      name: 'value / valueChange',
-      type: 'TngRangeSliderValue / output',
-      details: 'Controlled { min, max } model updated by either pointer.',
-    },
-    {
-      name: 'min, max',
-      type: 'number',
-      details: 'Outer bounds for both pointers. Defaults to 0 and 100.',
-    },
-    {
-      name: 'step',
-      type: 'number',
-      details: 'Positive increment used for pointer and keyboard changes. Defaults to 1.',
-    },
-    {
-      name: 'minGap',
-      type: 'number',
-      details: 'Minimum permitted distance between pointers. Defaults to 0.',
-    },
-    {
-      name: 'minAriaLabel, maxAriaLabel',
-      type: 'string',
-      details: 'Distinct accessible names for the minimum and maximum pointers.',
-    },
-    {
-      name: 'minValueText, maxValueText',
-      type: 'string | null',
-      details: 'Optional human-readable aria-valuetext for each pointer.',
-    },
-    {
-      name: 'aria-label, aria-labelledby, aria-describedby',
-      type: 'string | null',
-      details: 'Group context and descriptions combined with each pointer label.',
-    },
-    {
-      name: 'disabled, invalid, required',
-      type: 'boolean',
-      details: 'Shared state applied to both pointers and form-field integration.',
     },
   ]);
 }
