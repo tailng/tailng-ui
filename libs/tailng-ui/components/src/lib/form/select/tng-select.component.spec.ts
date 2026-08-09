@@ -96,6 +96,25 @@ class UnstableOptionsHostComponent {
   }
 }
 
+@Component({
+  imports: [TngSelectComponent],
+  template: `
+    <tng-select
+      data-testid="select"
+      [options]="options"
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      [getOptionLabel]="getOptionLabel"
+      placeholder="Select orientation"
+    />
+  `,
+})
+class PrimitiveOptionsHostComponent {
+  readonly options = ['ALL', 'LANDSCAPE', 'PORTRAIT'] as const;
+  readonly value = signal<string | null>(null);
+  readonly getOptionLabel = (option: string): string => option;
+}
+
 describe('tng-select component (headless wrapper)', () => {
   it('attaches the primitive [tngSelect] to the host and wires aria-label', () => {
     const fixture = TestBed.configureTestingModule({
@@ -112,6 +131,36 @@ describe('tng-select component (headless wrapper)', () => {
 
     // From wrapper HostBinding('attr.aria-label')
     expect(host.getAttribute('aria-label')).toBe('Choose item');
+  });
+});
+
+describe('tng-select component (primitive options)', () => {
+  afterEach(() => {
+    TestBed.resetTestingModule();
+    document.querySelectorAll('[data-slot="select-overlay"]').forEach((el) => el.remove());
+  });
+
+  it('uses primitive option values by default when getOptionValue is omitted', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [PrimitiveOptionsHostComponent],
+    }).createComponent(PrimitiveOptionsHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const trigger = getTrigger(fixture.nativeElement);
+
+    pointerdown(trigger);
+    fixture.detectChanges();
+
+    const landscape = getOptions().find((el) => el.textContent?.trim() === 'LANDSCAPE');
+    expect(landscape).toBeTruthy();
+
+    pointerdown(landscape!);
+    fixture.detectChanges();
+
+    expect(host.value()).toBe('LANDSCAPE');
+    expect(trigger.textContent).toContain('LANDSCAPE');
   });
 });
 

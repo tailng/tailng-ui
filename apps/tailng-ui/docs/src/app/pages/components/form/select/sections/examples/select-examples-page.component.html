@@ -8,7 +8,12 @@
       defaultValue="live-demo"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Select form usage">
+      <ng-template
+        appDocsExampleVariant
+        value="live-demo"
+        label="Live demo"
+        panelTitle="Select form usage"
+      >
         <app-docs-form-demo-shell
           title="Schedule a release"
           description="Choose the current stage as part of a larger release configuration form."
@@ -41,16 +46,26 @@
       defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Release stage select (Plain-CSS)" [codeTabs]="releaseStagePlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Release stage select (Plain-CSS)"
+        [codeTabs]="releaseStagePlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
         <section class="docs-component-select-examples-live-shell">
           <div class="docs-component-select-examples-live-header">
             <span class="docs-component-select-examples-live-kicker">Release stage</span>
             <p class="docs-component-select-examples-live-copy">
-              Keep a controlled release-stage value while the wrapper handles trigger and menu plumbing.
+              Keep a controlled release-stage value while the wrapper handles trigger and menu
+              plumbing.
             </p>
           </div>
 
-          <div class="docs-component-select-examples-live-control docs-component-select-examples-stage-shell">
+          <div
+            class="docs-component-select-examples-live-control docs-component-select-examples-stage-shell"
+          >
             <tng-select
               [options]="releaseStages"
               [value]="releaseStagePlainSelectedValue()"
@@ -63,20 +78,37 @@
             ></tng-select>
           </div>
 
-          <p class="docs-component-select-examples-live-summary">Selected: {{ releaseStagePlainSummary() }}</p>
+          <p class="docs-component-select-examples-live-summary">
+            Selected: {{ releaseStagePlainSummary() }}
+          </p>
         </section>
       </ng-template>
 
-      <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Release stage select (Tailwind CSS)" [codeTabs]="releaseStageTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
-        <section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Release stage select (Tailwind CSS)"
+        [codeTabs]="releaseStageTailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section
+          class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm"
+        >
           <div class="grid gap-1">
-            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Release stage</span>
+            <span
+              class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]"
+              >Release stage</span
+            >
             <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
-              Keep a controlled release-stage value while the wrapper handles trigger and menu plumbing.
+              Keep a controlled release-stage value while the wrapper handles trigger and menu
+              plumbing.
             </p>
           </div>
 
-          <div class="block w-full min-w-0 [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem]">
+          <div
+            class="block w-full min-w-0 [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem]"
+          >
             <tng-select
               [options]="releaseStages"
               [value]="releaseStageTailwindSelectedValue()"
@@ -89,7 +121,97 @@
             ></tng-select>
           </div>
 
-          <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ releaseStageTailwindSummary() }}</p>
+          <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">
+            Selected: {{ releaseStageTailwindSummary() }}
+          </p>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="primitive-options" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Primitive options"
+      description="Use strings or other primitive option values directly. When getOptionValue is omitted, the option itself becomes the value."
+      ariaLabel="Select primitive options examples"
+      tabListAriaLabel="Select primitive options variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Primitive options (Plain-CSS)"
+        [codeTabs]="primitiveOptionsPlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="docs-component-select-examples-live-shell">
+          <div class="docs-component-select-examples-live-header">
+            <span class="docs-component-select-examples-live-kicker">Primitive options</span>
+            <p class="docs-component-select-examples-live-copy">
+              String options can be used directly. Omit getOptionValue when each option is already
+              the value.
+            </p>
+          </div>
+
+          <div
+            class="docs-component-select-examples-live-control docs-component-select-examples-primitive-shell"
+          >
+            <tng-select
+              [options]="primitiveOrientations"
+              [value]="primitiveOrientationPlainSelectedValue()"
+              (valueChange)="onPrimitiveOrientationPlainSelectedValueChange($event)"
+              [getOptionLabel]="getPrimitiveOrientationLabel"
+              placeholder="Choose orientation"
+              [ariaLabel]="'Image orientation'"
+            ></tng-select>
+          </div>
+
+          <p class="docs-component-select-examples-live-summary">
+            Selected: {{ primitiveOrientationPlainSummary() }}
+          </p>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Primitive options (Tailwind CSS)"
+        [codeTabs]="primitiveOptionsTailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section
+          class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm"
+        >
+          <div class="grid gap-1">
+            <span
+              class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]"
+              >Primitive options</span
+            >
+            <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
+              String options can be used directly. Omit getOptionValue when each option is already
+              the value.
+            </p>
+          </div>
+
+          <div
+            class="block w-full min-w-0 [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem]"
+          >
+            <tng-select
+              [options]="primitiveOrientations"
+              [value]="primitiveOrientationTailwindSelectedValue()"
+              (valueChange)="onPrimitiveOrientationTailwindSelectedValueChange($event)"
+              [getOptionLabel]="getPrimitiveOrientationLabel"
+              placeholder="Choose orientation"
+              [ariaLabel]="'Image orientation'"
+            ></tng-select>
+          </div>
+
+          <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">
+            Selected: {{ primitiveOrientationTailwindSummary() }}
+          </p>
         </section>
       </ng-template>
     </app-docs-example-tabs-section>
@@ -104,16 +226,26 @@
       defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Release owner roster (Plain-CSS)" [codeTabs]="releaseOwnerPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Release owner roster (Plain-CSS)"
+        [codeTabs]="releaseOwnerPlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
         <section class="docs-component-select-examples-live-shell">
           <div class="docs-component-select-examples-live-header">
             <span class="docs-component-select-examples-live-kicker">Release owner roster</span>
             <p class="docs-component-select-examples-live-copy">
-              Custom templates let the wrapper show richer trigger and option content without rebuilding the select primitive.
+              Custom templates let the wrapper show richer trigger and option content without
+              rebuilding the select primitive.
             </p>
           </div>
 
-          <div class="docs-component-select-examples-live-control docs-component-select-examples-owner-shell">
+          <div
+            class="docs-component-select-examples-live-control docs-component-select-examples-owner-shell"
+          >
             <tng-select
               [options]="releaseOwners"
               [value]="releaseOwnerPlainSelectedValue()"
@@ -133,27 +265,48 @@
 
               <ng-template #tngSelectOptionTpl let-option>
                 <div class="docs-component-select-examples-owner-option-row">
-                  <span class="docs-component-select-examples-owner-option-label">{{ option.label }}</span>
-                  <small class="docs-component-select-examples-owner-option-meta">{{ option.option.team }} · {{ option.option.timezone }}</small>
+                  <span class="docs-component-select-examples-owner-option-label">{{
+                    option.label
+                  }}</span>
+                  <small class="docs-component-select-examples-owner-option-meta"
+                    >{{ option.option.team }} · {{ option.option.timezone }}</small
+                  >
                 </div>
               </ng-template>
             </tng-select>
           </div>
 
-          <p class="docs-component-select-examples-live-summary">Selected: {{ releaseOwnerPlainSummary() }}</p>
+          <p class="docs-component-select-examples-live-summary">
+            Selected: {{ releaseOwnerPlainSummary() }}
+          </p>
         </section>
       </ng-template>
 
-      <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Release owner roster (Tailwind CSS)" [codeTabs]="releaseOwnerTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
-        <section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Release owner roster (Tailwind CSS)"
+        [codeTabs]="releaseOwnerTailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section
+          class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm"
+        >
           <div class="grid gap-1">
-            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Release owner roster</span>
+            <span
+              class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]"
+              >Release owner roster</span
+            >
             <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
-              Custom templates let the wrapper show richer trigger and option content without rebuilding the select primitive.
+              Custom templates let the wrapper show richer trigger and option content without
+              rebuilding the select primitive.
             </p>
           </div>
 
-          <div class="block w-full min-w-0 [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem]">
+          <div
+            class="block w-full min-w-0 [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem]"
+          >
             <tng-select
               [options]="releaseOwners"
               [value]="releaseOwnerTailwindSelectedValue()"
@@ -174,13 +327,17 @@
               <ng-template #tngSelectOptionTpl let-option>
                 <div class="grid gap-0.5">
                   <span class="text-sm font-medium text-slate-900">{{ option.label }}</span>
-                  <small class="text-xs text-slate-500">{{ option.option.team }} · {{ option.option.timezone }}</small>
+                  <small class="text-xs text-slate-500"
+                    >{{ option.option.team }} · {{ option.option.timezone }}</small
+                  >
                 </div>
               </ng-template>
             </tng-select>
           </div>
 
-          <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ releaseOwnerTailwindSummary() }}</p>
+          <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">
+            Selected: {{ releaseOwnerTailwindSummary() }}
+          </p>
         </section>
       </ng-template>
     </app-docs-example-tabs-section>
@@ -195,16 +352,26 @@
       defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template appDocsExampleVariant value="plain-css" label="Plain-CSS" panelTitle="Mapped options (Plain-CSS)" [codeTabs]="mappedOptionsPlainCodeTabs" [stackblitzUrl]="stackblitzVanillaUrl">
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Mapped options (Plain-CSS)"
+        [codeTabs]="mappedOptionsPlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
         <section class="docs-component-select-examples-live-shell">
           <div class="docs-component-select-examples-live-header">
             <span class="docs-component-select-examples-live-kicker">Mapped options</span>
             <p class="docs-component-select-examples-live-copy">
-              Options are remapped from OAuth client records on every change detection. Open the menu, use arrow keys or click — the selection holds after remap.
+              Options are remapped from OAuth client records on every change detection. Open the
+              menu, use arrow keys or click — the selection holds after remap.
             </p>
           </div>
 
-          <div class="docs-component-select-examples-live-control docs-component-select-examples-mapped-shell">
+          <div
+            class="docs-component-select-examples-live-control docs-component-select-examples-mapped-shell"
+          >
             <tng-select
               [options]="mappedClientOptions()"
               [value]="mappedClientPlainSelectedValue()"
@@ -231,16 +398,31 @@
         </section>
       </ng-template>
 
-      <ng-template appDocsExampleVariant value="tailwind-css" label="Tailwind CSS" panelTitle="Mapped options (Tailwind CSS)" [codeTabs]="mappedOptionsTailwindCodeTabs" [stackblitzUrl]="stackblitzTailwindUrl">
-        <section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Mapped options (Tailwind CSS)"
+        [codeTabs]="mappedOptionsTailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section
+          class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm"
+        >
           <div class="grid gap-1">
-            <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Mapped options</span>
+            <span
+              class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]"
+              >Mapped options</span
+            >
             <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
-              Options are remapped from OAuth client records on every change detection. Open the menu, use arrow keys or click — the selection holds after remap.
+              Options are remapped from OAuth client records on every change detection. Open the
+              menu, use arrow keys or click — the selection holds after remap.
             </p>
           </div>
 
-          <div class="block w-full min-w-0 [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem]">
+          <div
+            class="block w-full min-w-0 [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem]"
+          >
             <tng-select
               [options]="mappedClientOptions()"
               [value]="mappedClientTailwindSelectedValue()"

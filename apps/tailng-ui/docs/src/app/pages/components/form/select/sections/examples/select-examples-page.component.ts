@@ -18,7 +18,7 @@ type ReleaseStageOption = {
   readonly label: string;
   readonly note: string;
   readonly disabled?: boolean;
-}
+};
 
 type ReleaseOwnerOption = {
   readonly id: string;
@@ -26,17 +26,19 @@ type ReleaseOwnerOption = {
   readonly team: string;
   readonly timezone: string;
   readonly disabled?: boolean;
-}
+};
 
 type OAuthClientRecord = {
   readonly client_id: string;
   readonly client_name: string;
-}
+};
 
 type MappedSelectOption = {
   readonly value: string;
   readonly label: string;
-}
+};
+
+type PrimitiveOrientationValue = 'ALL' | 'LANDSCAPE' | 'PORTRAIT';
 
 const RELEASE_STAGE_OPTIONS: readonly ReleaseStageOption[] = Object.freeze([
   { value: 'draft', label: 'Draft', note: 'Internal drafting only.' },
@@ -57,6 +59,12 @@ const OAUTH_CLIENT_RECORDS: readonly OAuthClientRecord[] = Object.freeze([
   { client_id: 'admin-console', client_name: 'Admin console' },
   { client_id: 'mobile-app', client_name: 'Mobile app' },
   { client_id: 'partner-api', client_name: 'Partner API' },
+]);
+
+const PRIMITIVE_ORIENTATION_OPTIONS: readonly PrimitiveOrientationValue[] = Object.freeze([
+  'ALL',
+  'LANDSCAPE',
+  'PORTRAIT',
 ]);
 
 const STAGE_PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
@@ -263,6 +271,172 @@ const STAGE_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[
 </section>`;
 
 const STAGE_TAILWIND_CSS_CODE = '/* Tailwind utilities are applied directly in the template. */';
+
+const PRIMITIVE_PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
+import { TngSelectComponent } from '@tailng-ui/components';
+
+type ComponentSelectExamplesPlainOrientationValue = 'ALL' | 'LANDSCAPE' | 'PORTRAIT';
+
+const COMPONENT_SELECT_EXAMPLES_PLAIN_ORIENTATIONS: readonly ComponentSelectExamplesPlainOrientationValue[] = Object.freeze([
+  'ALL',
+  'LANDSCAPE',
+  'PORTRAIT',
+]);
+
+@Component({
+  selector: 'app-component-select-examples-primitive-plain',
+  standalone: true,
+  imports: [TngSelectComponent],
+  templateUrl: './component-select-examples-primitive-plain.component.html',
+  styleUrl: './component-select-examples-primitive-plain.component.css',
+})
+export class ComponentSelectExamplesPrimitivePlainComponent {
+  readonly componentSelectExamplesPlainOrientations = COMPONENT_SELECT_EXAMPLES_PLAIN_ORIENTATIONS;
+  readonly componentSelectExamplesPlainSelectedOrientation = signal<ComponentSelectExamplesPlainOrientationValue | null>('ALL');
+  readonly componentSelectExamplesPlainSelectedOrientationSummary = computed(() => {
+    return this.componentSelectExamplesPlainSelectedOrientation() ?? 'none';
+  });
+  readonly getComponentSelectExamplesPlainOrientationLabel = (orientation: ComponentSelectExamplesPlainOrientationValue) => {
+    return orientation.toLowerCase().replace('_', ' ');
+  };
+
+  onComponentSelectExamplesPlainSelectedOrientationChange(value: unknown): void {
+    this.componentSelectExamplesPlainSelectedOrientation.set(this.toComponentSelectExamplesPlainOrientationValue(value));
+  }
+
+  private toComponentSelectExamplesPlainOrientationValue(value: unknown): ComponentSelectExamplesPlainOrientationValue | null {
+    return this.componentSelectExamplesPlainOrientations.includes(value as ComponentSelectExamplesPlainOrientationValue)
+      ? (value as ComponentSelectExamplesPlainOrientationValue)
+      : null;
+  }
+}`;
+
+const PRIMITIVE_PLAIN_HTML_CODE = String.raw`<section class="docs-component-select-examples-primitive-plain-shell">
+  <div class="docs-component-select-examples-primitive-plain-header">
+    <span class="docs-component-select-examples-primitive-plain-kicker">Primitive options</span>
+    <p class="docs-component-select-examples-primitive-plain-copy">
+      String options can be used directly. Omit getOptionValue when each option is already the value.
+    </p>
+  </div>
+
+  <div class="docs-component-select-examples-primitive-plain-control">
+    <tng-select
+      [options]="componentSelectExamplesPlainOrientations"
+      [value]="componentSelectExamplesPlainSelectedOrientation()"
+      (valueChange)="onComponentSelectExamplesPlainSelectedOrientationChange($event)"
+      [getOptionLabel]="getComponentSelectExamplesPlainOrientationLabel"
+      placeholder="Choose orientation"
+      [ariaLabel]="'Image orientation'"
+    ></tng-select>
+  </div>
+
+  <p class="docs-component-select-examples-primitive-plain-summary">Selected: {{ componentSelectExamplesPlainSelectedOrientationSummary() }}</p>
+</section>`;
+
+const PRIMITIVE_PLAIN_CSS_CODE = String.raw`.docs-component-select-examples-primitive-plain-shell {
+  display: grid;
+  gap: 0.9rem;
+  inline-size: min(100%, 36rem);
+  margin-inline: auto;
+  padding: 1.1rem;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1.25rem;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+.docs-component-select-examples-primitive-plain-header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.docs-component-select-examples-primitive-plain-kicker {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--tng-semantic-foreground-muted);
+}
+
+.docs-component-select-examples-primitive-plain-copy,
+.docs-component-select-examples-primitive-plain-summary {
+  margin: 0;
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.docs-component-select-examples-primitive-plain-control {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  --tng-select-radius: 1rem;
+  --tng-select-trigger-py: 0.625rem;
+  --tng-select-trigger-px: 0.875rem;
+  --tng-select-option-py: 0.625rem;
+  --tng-select-option-px: 0.875rem;
+}`;
+
+const PRIMITIVE_TAILWIND_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
+import { TngSelectComponent } from '@tailng-ui/components';
+
+type ComponentSelectExamplesTailwindOrientationValue = 'ALL' | 'LANDSCAPE' | 'PORTRAIT';
+
+const COMPONENT_SELECT_EXAMPLES_TAILWIND_ORIENTATIONS: readonly ComponentSelectExamplesTailwindOrientationValue[] = Object.freeze([
+  'ALL',
+  'LANDSCAPE',
+  'PORTRAIT',
+]);
+
+@Component({
+  selector: 'app-component-select-examples-primitive-tailwind',
+  standalone: true,
+  imports: [TngSelectComponent],
+  templateUrl: './component-select-examples-primitive-tailwind.component.html',
+  styleUrl: './component-select-examples-primitive-tailwind.component.css',
+})
+export class ComponentSelectExamplesPrimitiveTailwindComponent {
+  readonly componentSelectExamplesTailwindOrientations = COMPONENT_SELECT_EXAMPLES_TAILWIND_ORIENTATIONS;
+  readonly componentSelectExamplesTailwindSelectedOrientation = signal<ComponentSelectExamplesTailwindOrientationValue | null>('LANDSCAPE');
+  readonly componentSelectExamplesTailwindSelectedOrientationSummary = computed(() => {
+    return this.componentSelectExamplesTailwindSelectedOrientation() ?? 'none';
+  });
+  readonly getComponentSelectExamplesTailwindOrientationLabel = (orientation: ComponentSelectExamplesTailwindOrientationValue) => {
+    return orientation.toLowerCase().replace('_', ' ');
+  };
+
+  onComponentSelectExamplesTailwindSelectedOrientationChange(value: unknown): void {
+    this.componentSelectExamplesTailwindSelectedOrientation.set(this.toComponentSelectExamplesTailwindOrientationValue(value));
+  }
+
+  private toComponentSelectExamplesTailwindOrientationValue(value: unknown): ComponentSelectExamplesTailwindOrientationValue | null {
+    return this.componentSelectExamplesTailwindOrientations.includes(value as ComponentSelectExamplesTailwindOrientationValue)
+      ? (value as ComponentSelectExamplesTailwindOrientationValue)
+      : null;
+  }
+}`;
+
+const PRIMITIVE_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.75rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
+  <div class="grid gap-1">
+    <span class="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--tng-semantic-foreground-muted)]">Primitive options</span>
+    <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
+      String options can be used directly. Omit getOptionValue when each option is already the value.
+    </p>
+  </div>
+
+  <div class="block w-full min-w-0 [--tng-select-radius:1rem] [--tng-select-trigger-py:0.625rem] [--tng-select-trigger-px:0.875rem] [--tng-select-option-py:0.625rem] [--tng-select-option-px:0.875rem]">
+    <tng-select
+      [options]="componentSelectExamplesTailwindOrientations"
+      [value]="componentSelectExamplesTailwindSelectedOrientation()"
+      (valueChange)="onComponentSelectExamplesTailwindSelectedOrientationChange($event)"
+      [getOptionLabel]="getComponentSelectExamplesTailwindOrientationLabel"
+      placeholder="Choose orientation"
+      [ariaLabel]="'Image orientation'"
+    ></tng-select>
+  </div>
+
+  <p class="m-0 text-xs text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ componentSelectExamplesTailwindSelectedOrientationSummary() }}</p>
+</section>`;
+
+const PRIMITIVE_TAILWIND_CSS_CODE =
+  '/* Tailwind utilities are applied directly in the template. */';
 
 const OWNER_PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
 import { TngSelectComponent } from '@tailng-ui/components';
@@ -828,8 +1002,13 @@ export class SelectExamplesPageComponent implements OnDestroy {
   protected readonly releaseStages = RELEASE_STAGE_OPTIONS;
   protected readonly releaseOwners = RELEASE_OWNER_OPTIONS;
   protected readonly oauthClients = OAUTH_CLIENT_RECORDS;
+  protected readonly primitiveOrientations = PRIMITIVE_ORIENTATION_OPTIONS;
   protected readonly releaseStagePlainSelectedValue = signal<string | null>('review');
   protected readonly releaseStageTailwindSelectedValue = signal<string | null>('qa');
+  protected readonly primitiveOrientationPlainSelectedValue =
+    signal<PrimitiveOrientationValue | null>('ALL');
+  protected readonly primitiveOrientationTailwindSelectedValue =
+    signal<PrimitiveOrientationValue | null>('LANDSCAPE');
   protected readonly releaseOwnerPlainSelectedValue = signal<string | null>('mina');
   protected readonly releaseOwnerTailwindSelectedValue = signal<string | null>('abigail');
   protected readonly mappedClientPlainSelectedValue = signal<string | null>('admin-console');
@@ -839,56 +1018,236 @@ export class SelectExamplesPageComponent implements OnDestroy {
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
 
   protected readonly releaseStagePlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    { value: 'ts', label: 'TS', language: 'ts', title: 'component-select-examples-stage-plain.component.ts', code: STAGE_PLAIN_TS_CODE },
-    { value: 'html', label: 'HTML', language: 'html', title: 'component-select-examples-stage-plain.component.html', code: STAGE_PLAIN_HTML_CODE },
-    { value: 'css', label: 'CSS', language: 'css', title: 'component-select-examples-stage-plain.component.css', code: STAGE_PLAIN_CSS_CODE },
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'component-select-examples-stage-plain.component.ts',
+      code: STAGE_PLAIN_TS_CODE,
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'component-select-examples-stage-plain.component.html',
+      code: STAGE_PLAIN_HTML_CODE,
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'component-select-examples-stage-plain.component.css',
+      code: STAGE_PLAIN_CSS_CODE,
+    },
   ]);
 
   protected readonly releaseStageTailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    { value: 'ts', label: 'TS', language: 'ts', title: 'component-select-examples-stage-tailwind.component.ts', code: STAGE_TAILWIND_TS_CODE },
-    { value: 'html', label: 'HTML', language: 'html', title: 'component-select-examples-stage-tailwind.component.html', code: STAGE_TAILWIND_HTML_CODE },
-    { value: 'css', label: 'CSS', language: 'css', title: 'component-select-examples-stage-tailwind.component.css', code: STAGE_TAILWIND_CSS_CODE },
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'component-select-examples-stage-tailwind.component.ts',
+      code: STAGE_TAILWIND_TS_CODE,
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'component-select-examples-stage-tailwind.component.html',
+      code: STAGE_TAILWIND_HTML_CODE,
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'component-select-examples-stage-tailwind.component.css',
+      code: STAGE_TAILWIND_CSS_CODE,
+    },
   ]);
 
+  protected readonly primitiveOptionsPlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'component-select-examples-primitive-plain.component.ts',
+      code: PRIMITIVE_PLAIN_TS_CODE,
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'component-select-examples-primitive-plain.component.html',
+      code: PRIMITIVE_PLAIN_HTML_CODE,
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'component-select-examples-primitive-plain.component.css',
+      code: PRIMITIVE_PLAIN_CSS_CODE,
+    },
+  ]);
+
+  protected readonly primitiveOptionsTailwindCodeTabs: readonly DocsExampleCodeTab[] =
+    Object.freeze([
+      {
+        value: 'ts',
+        label: 'TS',
+        language: 'ts',
+        title: 'component-select-examples-primitive-tailwind.component.ts',
+        code: PRIMITIVE_TAILWIND_TS_CODE,
+      },
+      {
+        value: 'html',
+        label: 'HTML',
+        language: 'html',
+        title: 'component-select-examples-primitive-tailwind.component.html',
+        code: PRIMITIVE_TAILWIND_HTML_CODE,
+      },
+      {
+        value: 'css',
+        label: 'CSS',
+        language: 'css',
+        title: 'component-select-examples-primitive-tailwind.component.css',
+        code: PRIMITIVE_TAILWIND_CSS_CODE,
+      },
+    ]);
+
   protected readonly releaseOwnerPlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    { value: 'ts', label: 'TS', language: 'ts', title: 'component-select-examples-owner-plain.component.ts', code: OWNER_PLAIN_TS_CODE },
-    { value: 'html', label: 'HTML', language: 'html', title: 'component-select-examples-owner-plain.component.html', code: OWNER_PLAIN_HTML_CODE },
-    { value: 'css', label: 'CSS', language: 'css', title: 'component-select-examples-owner-plain.component.css', code: OWNER_PLAIN_CSS_CODE },
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'component-select-examples-owner-plain.component.ts',
+      code: OWNER_PLAIN_TS_CODE,
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'component-select-examples-owner-plain.component.html',
+      code: OWNER_PLAIN_HTML_CODE,
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'component-select-examples-owner-plain.component.css',
+      code: OWNER_PLAIN_CSS_CODE,
+    },
   ]);
 
   protected readonly releaseOwnerTailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    { value: 'ts', label: 'TS', language: 'ts', title: 'component-select-examples-owner-tailwind.component.ts', code: OWNER_TAILWIND_TS_CODE },
-    { value: 'html', label: 'HTML', language: 'html', title: 'component-select-examples-owner-tailwind.component.html', code: OWNER_TAILWIND_HTML_CODE },
-    { value: 'css', label: 'CSS', language: 'css', title: 'component-select-examples-owner-tailwind.component.css', code: OWNER_TAILWIND_CSS_CODE },
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'component-select-examples-owner-tailwind.component.ts',
+      code: OWNER_TAILWIND_TS_CODE,
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'component-select-examples-owner-tailwind.component.html',
+      code: OWNER_TAILWIND_HTML_CODE,
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'component-select-examples-owner-tailwind.component.css',
+      code: OWNER_TAILWIND_CSS_CODE,
+    },
   ]);
 
   protected readonly mappedOptionsPlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    { value: 'ts', label: 'TS', language: 'ts', title: 'component-select-examples-mapped-plain.component.ts', code: MAPPED_PLAIN_TS_CODE },
-    { value: 'html', label: 'HTML', language: 'html', title: 'component-select-examples-mapped-plain.component.html', code: MAPPED_PLAIN_HTML_CODE },
-    { value: 'css', label: 'CSS', language: 'css', title: 'component-select-examples-mapped-plain.component.css', code: MAPPED_PLAIN_CSS_CODE },
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'component-select-examples-mapped-plain.component.ts',
+      code: MAPPED_PLAIN_TS_CODE,
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'component-select-examples-mapped-plain.component.html',
+      code: MAPPED_PLAIN_HTML_CODE,
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'component-select-examples-mapped-plain.component.css',
+      code: MAPPED_PLAIN_CSS_CODE,
+    },
   ]);
 
   protected readonly mappedOptionsTailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
-    { value: 'ts', label: 'TS', language: 'ts', title: 'component-select-examples-mapped-tailwind.component.ts', code: MAPPED_TAILWIND_TS_CODE },
-    { value: 'html', label: 'HTML', language: 'html', title: 'component-select-examples-mapped-tailwind.component.html', code: MAPPED_TAILWIND_HTML_CODE },
-    { value: 'css', label: 'CSS', language: 'css', title: 'component-select-examples-mapped-tailwind.component.css', code: MAPPED_TAILWIND_CSS_CODE },
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'component-select-examples-mapped-tailwind.component.ts',
+      code: MAPPED_TAILWIND_TS_CODE,
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'component-select-examples-mapped-tailwind.component.html',
+      code: MAPPED_TAILWIND_HTML_CODE,
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'component-select-examples-mapped-tailwind.component.css',
+      code: MAPPED_TAILWIND_CSS_CODE,
+    },
   ]);
 
   protected readonly getReleaseStageValue = (stage: ReleaseStageOption): string => stage.value;
   protected readonly getReleaseStageLabel = (stage: ReleaseStageOption): string => stage.label;
-  protected readonly isReleaseStageDisabled = (stage: ReleaseStageOption): boolean => stage.disabled === true;
+  protected readonly isReleaseStageDisabled = (stage: ReleaseStageOption): boolean =>
+    stage.disabled === true;
+  protected readonly getPrimitiveOrientationLabel = (
+    orientation: PrimitiveOrientationValue,
+  ): string => orientation.toLowerCase();
   protected readonly getReleaseOwnerValue = (owner: ReleaseOwnerOption): string => owner.id;
   protected readonly getReleaseOwnerLabel = (owner: ReleaseOwnerOption): string => owner.name;
-  protected readonly isReleaseOwnerDisabled = (owner: ReleaseOwnerOption): boolean => owner.disabled === true;
+  protected readonly isReleaseOwnerDisabled = (owner: ReleaseOwnerOption): boolean =>
+    owner.disabled === true;
   protected readonly getMappedClientValue = (option: MappedSelectOption): string => option.value;
   protected readonly getMappedClientLabel = (option: MappedSelectOption): string => option.label;
 
-  protected readonly releaseStagePlainSummary = computed(() => this.resolveReleaseStageLabel(this.releaseStagePlainSelectedValue()));
-  protected readonly releaseStageTailwindSummary = computed(() => this.resolveReleaseStageLabel(this.releaseStageTailwindSelectedValue()));
-  protected readonly releaseOwnerPlainSummary = computed(() => this.resolveReleaseOwnerLabel(this.releaseOwnerPlainSelectedValue()));
-  protected readonly releaseOwnerTailwindSummary = computed(() => this.resolveReleaseOwnerLabel(this.releaseOwnerTailwindSelectedValue()));
-  protected readonly mappedClientPlainSummary = computed(() => this.resolveOAuthClientLabel(this.mappedClientPlainSelectedValue()));
-  protected readonly mappedClientTailwindSummary = computed(() => this.resolveOAuthClientLabel(this.mappedClientTailwindSelectedValue()));
+  protected readonly releaseStagePlainSummary = computed(() =>
+    this.resolveReleaseStageLabel(this.releaseStagePlainSelectedValue()),
+  );
+  protected readonly releaseStageTailwindSummary = computed(() =>
+    this.resolveReleaseStageLabel(this.releaseStageTailwindSelectedValue()),
+  );
+  protected readonly primitiveOrientationPlainSummary = computed(
+    () => this.primitiveOrientationPlainSelectedValue() ?? 'none',
+  );
+  protected readonly primitiveOrientationTailwindSummary = computed(
+    () => this.primitiveOrientationTailwindSelectedValue() ?? 'none',
+  );
+  protected readonly releaseOwnerPlainSummary = computed(() =>
+    this.resolveReleaseOwnerLabel(this.releaseOwnerPlainSelectedValue()),
+  );
+  protected readonly releaseOwnerTailwindSummary = computed(() =>
+    this.resolveReleaseOwnerLabel(this.releaseOwnerTailwindSelectedValue()),
+  );
+  protected readonly mappedClientPlainSummary = computed(() =>
+    this.resolveOAuthClientLabel(this.mappedClientPlainSelectedValue()),
+  );
+  protected readonly mappedClientTailwindSummary = computed(() =>
+    this.resolveOAuthClientLabel(this.mappedClientTailwindSelectedValue()),
+  );
 
   /** New object identities each call — safe because trackBy defaults to getOptionValue. */
   protected mappedClientOptions(): MappedSelectOption[] {
@@ -905,6 +1264,14 @@ export class SelectExamplesPageComponent implements OnDestroy {
 
   protected onReleaseStageTailwindSelectedValueChange(value: unknown): void {
     this.releaseStageTailwindSelectedValue.set(this.toSingleValue(value));
+  }
+
+  protected onPrimitiveOrientationPlainSelectedValueChange(value: unknown): void {
+    this.primitiveOrientationPlainSelectedValue.set(this.toPrimitiveOrientationValue(value));
+  }
+
+  protected onPrimitiveOrientationTailwindSelectedValueChange(value: unknown): void {
+    this.primitiveOrientationTailwindSelectedValue.set(this.toPrimitiveOrientationValue(value));
   }
 
   protected onReleaseOwnerPlainSelectedValueChange(value: unknown): void {
@@ -953,6 +1320,12 @@ export class SelectExamplesPageComponent implements OnDestroy {
     }
 
     return this.oauthClientLabelByValue.get(value) ?? 'none';
+  }
+
+  private toPrimitiveOrientationValue(value: unknown): PrimitiveOrientationValue | null {
+    return this.primitiveOrientations.includes(value as PrimitiveOrientationValue)
+      ? (value as PrimitiveOrientationValue)
+      : null;
   }
 
   private toSingleValue(value: unknown): string | null {

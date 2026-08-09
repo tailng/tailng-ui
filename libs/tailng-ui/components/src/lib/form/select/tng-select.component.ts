@@ -26,12 +26,23 @@ export type TngSelectGetLabel<O> = (opt: O) => string;
 export type TngSelectIsDisabled<O> = (opt: O) => boolean;
 export type TngSelectTrackBy<O> = (index: number, opt: O) => unknown;
 
+function defaultGetOptionValue(opt: unknown): unknown {
+  return opt !== null && typeof opt === 'object' && 'value' in opt ? opt.value : opt;
+}
+
 // Slot templates (optional)
 export type TngSelectValueContext<O, V> = {
   $implicit: { value: V | readonly V[] | null; option: O | null; label: string };
 };
 export type TngSelectOptionContext<O, V> = {
-  $implicit: { option: O; value: V; label: string; disabled: boolean; selected: boolean; active: boolean };
+  $implicit: {
+    option: O;
+    value: V;
+    label: string;
+    disabled: boolean;
+    selected: boolean;
+    active: boolean;
+  };
 };
 
 @Component({
@@ -79,11 +90,10 @@ export class TngSelectComponent<O = unknown, V = unknown> {
   readonly scrollStrategy = input<TngOverlayScrollStrategy>('block');
 
   readonly getOptionValue = input<TngSelectGetValue<O, V>>(
-    ((opt: any) => opt?.value) as TngSelectGetValue<O, V>,
+    defaultGetOptionValue as TngSelectGetValue<O, V>,
   );
-  readonly getOptionLabel = input<TngSelectGetLabel<O>>(
-    ((opt: any) => String(opt?.label ?? opt?.value ?? opt)) as TngSelectGetLabel<O>,
-  );
+  readonly getOptionLabel = input<TngSelectGetLabel<O>>(((opt: any) =>
+    String(opt?.label ?? opt?.value ?? opt)) as TngSelectGetLabel<O>);
   readonly isOptionDisabled = input<TngSelectIsDisabled<O>>(
     ((opt: any) => !!opt?.disabled) as TngSelectIsDisabled<O>,
   );
@@ -97,8 +107,12 @@ export class TngSelectComponent<O = unknown, V = unknown> {
   readonly iconText = input<string>('▾');
 
   // ----- slots (optional) -----
-  @ContentChild('tngSelectValueTpl', { read: TemplateRef }) valueTpl?: TemplateRef<TngSelectValueContext<O, V>>;
-  @ContentChild('tngSelectOptionTpl', { read: TemplateRef }) optionTpl?: TemplateRef<TngSelectOptionContext<O, V>>;
+  @ContentChild('tngSelectValueTpl', { read: TemplateRef }) valueTpl?: TemplateRef<
+    TngSelectValueContext<O, V>
+  >;
+  @ContentChild('tngSelectOptionTpl', { read: TemplateRef }) optionTpl?: TemplateRef<
+    TngSelectOptionContext<O, V>
+  >;
 
   // ----- derived state for default rendering -----
   protected readonly selectedOption = computed<O | null>(() => {
