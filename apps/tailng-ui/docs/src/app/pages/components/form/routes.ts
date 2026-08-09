@@ -79,6 +79,10 @@ const multiselectItem = group.items.find((item) => item.slug === 'multiselect');
 if (multiselectItem === undefined) {
   throw new Error('Missing "multiselect" in components form docs group.');
 }
+const sliderItem = group.items.find((item) => item.slug === 'slider');
+if (sliderItem === undefined) {
+  throw new Error('Missing "slider" in components form docs group.');
+}
 const chipsItem = group.items.find((item) => item.slug === 'chips');
 if (chipsItem === undefined) {
   throw new Error('Missing "chips" in components form docs group.');
@@ -119,6 +123,7 @@ const landingSlugs = new Set([
   multiAutocompleteItem.slug,
   selectItem.slug,
   multiselectItem.slug,
+  sliderItem.slug,
   chipsItem.slug,
   switchItem.slug,
   monthDaypickerItem.slug,
@@ -140,9 +145,7 @@ export const COMPONENTS_FORM_ROUTES: Routes = [
   {
     path: numberRangeItem.slug,
     loadChildren: () =>
-      import('./number-range/routes').then(
-        (module) => module.COMPONENTS_FORM_NUMBER_RANGE_ROUTES,
-      ),
+      import('./number-range/routes').then((module) => module.COMPONENTS_FORM_NUMBER_RANGE_ROUTES),
   },
   {
     path: inputFieldItem.slug,
@@ -229,6 +232,11 @@ export const COMPONENTS_FORM_ROUTES: Routes = [
     path: multiselectItem.slug,
     loadChildren: () =>
       import('./multiselect/routes').then((module) => module.COMPONENTS_FORM_MULTISELECT_ROUTES),
+  },
+  {
+    path: sliderItem.slug,
+    loadChildren: () =>
+      import('./slider/routes').then((module) => module.COMPONENTS_FORM_SLIDER_ROUTES),
   },
   {
     path: chipsItem.slug,

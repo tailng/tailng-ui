@@ -1760,6 +1760,54 @@
     ]
   },
   {
+    "title": "Slider API",
+    "description": "Slider API documentation.",
+    "section": "Components / Form / Slider",
+    "url": "/components/form/slider/api",
+    "tags": [
+      "components",
+      "form",
+      "slider",
+      "api"
+    ]
+  },
+  {
+    "title": "Slider Examples",
+    "description": "Slider Examples documentation.",
+    "section": "Components / Form / Slider",
+    "url": "/components/form/slider/examples",
+    "tags": [
+      "components",
+      "form",
+      "slider",
+      "examples"
+    ]
+  },
+  {
+    "title": "Slider Overview",
+    "description": "Slider Overview documentation.",
+    "section": "Components / Form / Slider",
+    "url": "/components/form/slider/overview",
+    "tags": [
+      "components",
+      "form",
+      "slider",
+      "overview"
+    ]
+  },
+  {
+    "title": "Slider Styling",
+    "description": "Slider Styling documentation.",
+    "section": "Components / Form / Slider",
+    "url": "/components/form/slider/styling",
+    "tags": [
+      "components",
+      "form",
+      "slider",
+      "styling"
+    ]
+  },
+  {
     "title": "Switch",
     "description": "Two-state on/off toggle with track/thumb rendering and arrow-key support.",
     "section": "Components / Form",

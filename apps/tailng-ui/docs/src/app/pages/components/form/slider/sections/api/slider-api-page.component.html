@@ -1,0 +1,137 @@
+<article class="slider-api">
+  <h2 class="slider-api-title">API reference</h2>
+  <p class="slider-api-lead">
+    <code>&lt;tng-slider&gt;</code> wraps the headless slider primitive for controlled numeric
+    input. The wrapper owns the range input and integrates with form-field labeling.
+  </p>
+
+  <section id="wrapper-api" class="slider-api-block">
+    <h3><code>tng-slider</code></h3>
+    <tng-code-block
+      [code]="wrapperAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Wrapper attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="slider-api-table-wrap">
+      <table class="slider-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Property</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of wrapperRows; track row.name) {
+            <tr>
+              <td>
+                <code>{{ row.name }}</code>
+              </td>
+              <td>
+                <code>{{ row.type }}</code>
+              </td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="primitive-api" class="slider-api-block">
+    <h3><code>input[tngSlider]</code></h3>
+    <p>
+      Use the primitive directive when the visual shell needs direct access to the native range
+      input.
+    </p>
+    <tng-code-block
+      [code]="primitiveAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Primitive attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="slider-api-table-wrap">
+      <table class="slider-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Hook</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of primitiveRows; track row.name) {
+            <tr>
+              <td>
+                <code>{{ row.name }}</code>
+              </td>
+              <td>
+                <code>{{ row.type }}</code>
+              </td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="signal-forms" class="slider-api-block">
+    <h3>Angular Signal Forms</h3>
+    <p>
+      <code>&lt;tng-slider&gt;</code> implements a numeric value model, so it can bind directly with
+      <code>[formField]</code>.
+    </p>
+    <tng-code-block
+      [code]="signalFormsCode"
+      adapter="shiki"
+      language="ts"
+      title="Signal forms wiring"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="range-guidance" class="slider-api-block">
+    <h3>Range guidance</h3>
+    <p>
+      The wrapper is a single-value slider. Build min/max range selection by coordinating two slider
+      values in the parent component.
+    </p>
+
+    <div class="slider-api-table-wrap">
+      <table class="slider-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Pattern</th>
+            <th scope="col">Use</th>
+            <th scope="col">Guidance</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of rangeGuidanceRows; track row.name) {
+            <tr>
+              <td>
+                <code>{{ row.name }}</code>
+              </td>
+              <td>
+                <code>{{ row.type }}</code>
+              </td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

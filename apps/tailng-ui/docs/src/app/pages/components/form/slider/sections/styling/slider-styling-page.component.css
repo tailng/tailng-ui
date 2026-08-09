@@ -1,0 +1,128 @@
+:host {
+  display: block;
+}
+
+.slider-styling {
+  display: grid;
+  gap: 1rem;
+}
+
+.slider-styling-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.slider-styling-block h2 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.slider-styling-lead {
+  margin: 0;
+}
+
+.slider-styling-table-wrap {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  overflow-x: auto;
+}
+
+.slider-styling-table {
+  border-collapse: collapse;
+  min-width: 42rem;
+  width: 100%;
+}
+
+.slider-styling-table thead th {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  padding: 0.7rem 0.75rem;
+  text-align: left;
+}
+
+.slider-styling-table tbody td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  padding: 0.68rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.slider-styling-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.slider-styling-table code {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.82rem;
+}
+
+.docs-component-slider-styling-live-shell {
+  display: grid;
+  gap: 0.85rem;
+  inline-size: min(100%, 36rem);
+  margin-inline: auto;
+  padding: 1.1rem;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1.25rem;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+.docs-component-slider-styling-live-header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.docs-component-slider-styling-live-kicker {
+  color: var(--tng-semantic-foreground-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.docs-component-slider-styling-live-copy {
+  margin: 0;
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.docs-component-slider-styling-live-control-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 4rem;
+  align-items: center;
+  gap: 1rem;
+}
+
+.docs-component-slider-styling-brand-shell {
+  --tng-semantic-accent-brand: #0f766e;
+}
+
+.docs-component-slider-styling-live-marks {
+  display: flex;
+  justify-content: space-between;
+  color: var(--tng-semantic-foreground-muted);
+  font-size: 0.75rem;
+}
+
+@media (max-width: 760px) {
+  .slider-styling-table {
+    min-width: 36rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .docs-component-slider-styling-live-control-row {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,183 @@
+<article class="slider-examples">
+  <section id="form-usage" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Form usage"
+      description="Place the slider inside a standard form and keep the chosen numeric value ready for submission."
+      ariaLabel="Slider form usage example"
+      tabListAriaLabel="Slider form usage variants"
+      defaultValue="live-demo"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="live-demo"
+        label="Live demo"
+        panelTitle="Slider form usage"
+      >
+        <app-docs-form-demo-shell
+          title="Tune priority"
+          description="Choose the escalation priority as part of a larger notification settings form."
+          submitLabel="Save settings"
+        >
+          <div docsFormDemoField class="docs-component-slider-examples-form-field">
+            <tng-slider
+              [value]="formPriority()"
+              (valueChange)="formPriority.set($event)"
+              [min]="0"
+              [max]="100"
+              [step]="10"
+              aria-label="Escalation priority"
+            />
+          </div>
+          <p docsFormDemoSummary>Priority: {{ formPriority() }}%</p>
+        </app-docs-form-demo-shell>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="stepped-slider" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Stepped slider"
+      description="Use step when the value should move through a fixed set of increments."
+      ariaLabel="Slider stepped examples"
+      tabListAriaLabel="Slider stepped variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Stepped slider (Plain-CSS)"
+        [codeTabs]="stepPlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="docs-component-slider-examples-live-shell">
+          <div class="docs-component-slider-examples-live-header">
+            <span class="docs-component-slider-examples-live-kicker">Cache buffer</span>
+            <p class="docs-component-slider-examples-live-copy">
+              Stepped values keep a predictable set of allowed choices.
+            </p>
+          </div>
+
+          <tng-slider
+            class="docs-component-slider-examples-step-control"
+            [value]="stepPlainValue()"
+            (valueChange)="stepPlainValue.set($event)"
+            [min]="0"
+            [max]="60"
+            [step]="5"
+            aria-label="Cache buffer minutes"
+          />
+
+          <div class="docs-component-slider-examples-step-footer">
+            <span>0m</span>
+            <strong>{{ stepPlainValue() }}m</strong>
+            <span>60m</span>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Stepped slider (Tailwind CSS)"
+        [codeTabs]="stepTailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section
+          class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.25rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm"
+        >
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold text-[var(--tng-semantic-foreground-muted)]"
+              >Cache buffer</span
+            >
+            <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
+              Stepped values keep a predictable set of allowed choices.
+            </p>
+          </div>
+
+          <tng-slider
+            class="[--tng-semantic-accent-brand:#2563eb]"
+            [value]="stepTailwindValue()"
+            (valueChange)="stepTailwindValue.set($event)"
+            [min]="0"
+            [max]="60"
+            [step]="5"
+            aria-label="Cache buffer minutes"
+          />
+
+          <div class="flex justify-between text-xs text-[var(--tng-semantic-foreground-muted)]">
+            <span>0m</span>
+            <strong>{{ stepTailwindValue() }}m</strong>
+            <span>60m</span>
+          </div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="range-slider" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Range slider"
+      description="Coordinate two slider values to adjust both minimum and maximum pointers."
+      ariaLabel="Slider range examples"
+      tabListAriaLabel="Slider range variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Range slider (Plain-CSS)"
+        [codeTabs]="rangePlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section
+          class="docs-component-slider-examples-range-shell"
+          [style.--slider-range-min]="rangeMinPercent()"
+          [style.--slider-range-max]="rangeMaxPercent()"
+        >
+          <div class="docs-component-slider-examples-live-header">
+            <span class="docs-component-slider-examples-live-kicker">Price range</span>
+            <p class="docs-component-slider-examples-live-copy">
+              Two coordinated range inputs provide adjustable minimum and maximum pointers.
+            </p>
+          </div>
+
+          <div class="docs-component-slider-examples-range-control">
+            <div class="docs-component-slider-examples-range-track" aria-hidden="true"></div>
+            <input
+              tngSlider
+              class="docs-component-slider-examples-range-input docs-component-slider-examples-range-input--min"
+              [value]="rangeMinValue()"
+              (input)="onRangeMinInput($event)"
+              [min]="0"
+              [max]="100"
+              [step]="5"
+              aria-label="Minimum price"
+            />
+            <input
+              tngSlider
+              class="docs-component-slider-examples-range-input docs-component-slider-examples-range-input--max"
+              [value]="rangeMaxValue()"
+              (input)="onRangeMaxInput($event)"
+              [min]="0"
+              [max]="100"
+              [step]="5"
+              aria-label="Maximum price"
+            />
+          </div>
+
+          <div class="docs-component-slider-examples-range-values">
+            <span>Min: ${{ rangeMinValue() }}</span>
+            <strong>{{ rangeSummary() }}</strong>
+            <span>Max: ${{ rangeMaxValue() }}</span>
+          </div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

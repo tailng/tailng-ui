@@ -962,6 +962,35 @@ export const docsComponentOutlineItemsBySlug: Readonly<
       { id: 'import-and-usage', label: 'Import in your feature module/component' },
     ],
   },
+  slider: {
+    overview: [
+      { id: 'imports', label: 'Imports' },
+      { id: 'basic-usage', label: 'Basic usage' },
+      { id: 'slider-variants', label: 'Slider variants' },
+      { id: 'behavior-baseline', label: 'Behavior baseline' },
+    ],
+    api: [
+      { id: 'wrapper-api', label: 'Wrapper API' },
+      { id: 'primitive-api', label: 'Primitive API' },
+      { id: 'signal-forms', label: 'Signal forms' },
+      { id: 'range-guidance', label: 'Range guidance' },
+    ],
+    styling: [
+      { id: 'supported-contract', label: 'Supported contract' },
+      { id: 'host-tokens', label: 'Host tokens' },
+      { id: 'wrapper-style-variants', label: 'Wrapper style variants' },
+    ],
+    examples: [
+      { id: 'form-usage', label: 'Form usage' },
+      { id: 'stepped-slider', label: 'Stepped slider' },
+      { id: 'range-slider', label: 'Range slider' },
+    ],
+    'ownable-install': [
+      { id: 'install-from-registry', label: 'Install from registry' },
+      { id: 'generated-files', label: 'Generated files' },
+      { id: 'import-and-usage', label: 'Import in your feature module/component' },
+    ],
+  },
   separator: {
     overview: [
       { id: 'imports', label: 'Imports' },

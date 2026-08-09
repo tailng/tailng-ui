@@ -1,0 +1,142 @@
+<article class="slider-styling">
+  <section id="supported-contract" class="slider-styling-block">
+    <h2>Supported contract</h2>
+    <p class="slider-styling-lead">
+      Theme the wrapper from its host. Keep labels, marks, value badges, and range-pair layouts in
+      your surrounding shell.
+    </p>
+
+    <div class="slider-styling-table-wrap">
+      <table class="slider-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Selector or token</th>
+            <th scope="col">Applied on</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of contractRows; track row.selector) {
+            <tr>
+              <td>
+                <code>{{ row.selector }}</code>
+              </td>
+              <td>{{ row.appliedOn }}</td>
+              <td>{{ row.purpose }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="host-tokens" class="slider-styling-block">
+    <h2>Host tokens</h2>
+    <p>
+      The default wrapper intentionally keeps its CSS surface small because browser range inputs
+      differ across engines.
+    </p>
+    <tng-code-block
+      [code]="hostTokenGuidanceCode"
+      adapter="shiki"
+      language="css"
+      title="slider.tokens.css"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="wrapper-style-variants" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Settings density shell"
+      description="The slider contract stays the same while the host token and surrounding marks change the presentation."
+      ariaLabel="Slider styling examples"
+      tabListAriaLabel="Slider styling variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Settings density shell (Plain-CSS)"
+        [codeTabs]="plainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="docs-component-slider-styling-live-shell">
+          <div class="docs-component-slider-styling-live-header">
+            <span class="docs-component-slider-styling-live-kicker">Panel density</span>
+            <p class="docs-component-slider-styling-live-copy">
+              Host tokens change the slider accent while labels and marks stay in the outer shell.
+            </p>
+          </div>
+
+          <div class="docs-component-slider-styling-live-control-row">
+            <tng-slider
+              class="docs-component-slider-styling-brand-shell"
+              [value]="stylingPlainValue()"
+              (valueChange)="stylingPlainValue.set($event)"
+              [min]="0"
+              [max]="100"
+              [step]="5"
+              aria-label="Panel density"
+            />
+            <strong>{{ stylingPlainSummary() }}</strong>
+          </div>
+
+          <div class="docs-component-slider-styling-live-marks" aria-hidden="true">
+            <span>Loose</span>
+            <span>Balanced</span>
+            <span>Dense</span>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Settings density shell (Tailwind CSS)"
+        [codeTabs]="tailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section
+          class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.25rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm"
+        >
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold text-[var(--tng-semantic-foreground-muted)]"
+              >Panel density</span
+            >
+            <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
+              Utility classes own the shell while the component receives the same accent token.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-[minmax(0,1fr)_4rem] items-center gap-4">
+            <tng-slider
+              class="[--tng-semantic-accent-brand:#7c3aed]"
+              [value]="stylingTailwindValue()"
+              (valueChange)="stylingTailwindValue.set($event)"
+              [min]="0"
+              [max]="100"
+              [step]="5"
+              aria-label="Panel density"
+            />
+            <strong>{{ stylingTailwindSummary() }}</strong>
+          </div>
+
+          <div
+            class="flex justify-between text-xs text-[var(--tng-semantic-foreground-muted)]"
+            aria-hidden="true"
+          >
+            <span>Loose</span>
+            <span>Balanced</span>
+            <span>Dense</span>
+          </div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+</article>

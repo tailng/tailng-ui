@@ -1,0 +1,84 @@
+:host {
+  display: block;
+}
+
+.slider-api {
+  display: grid;
+  gap: 1rem;
+}
+
+.slider-api-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.slider-api-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.slider-api-block {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.slider-api-block h3 {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.slider-api-table-wrap {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  overflow-x: auto;
+}
+
+.slider-api-table {
+  border-collapse: collapse;
+  min-width: 42rem;
+  width: 100%;
+}
+
+.slider-api-table thead th {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  padding: 0.7rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.slider-api-table tbody td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  padding: 0.68rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.slider-api-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.slider-api-table code {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.82rem;
+}
+
+@media (max-width: 760px) {
+  .slider-api-table {
+    min-width: 36rem;
+  }
+}

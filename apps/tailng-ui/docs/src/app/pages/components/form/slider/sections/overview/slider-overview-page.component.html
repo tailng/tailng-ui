@@ -1,0 +1,121 @@
+<article class="docs-page-article">
+  <section id="imports" class="docs-page-section">
+    <h2>Imports</h2>
+    <tng-code-block
+      [code]="componentImportCode"
+      adapter="shiki"
+      language="ts"
+      title="Styled component import"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="basic-usage" class="docs-page-section">
+    <h2>Basic usage</h2>
+    <tng-code-block
+      [code]="basicUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Controlled value"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="slider-variants" class="docs-page-section">
+    <app-docs-example-tabs-section
+      heading="Slider variants"
+      description="The wrapper keeps numeric state controlled while the surrounding shell carries labels and summaries."
+      ariaLabel="Slider overview variants"
+      tabListAriaLabel="Slider overview style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Volume slider (Plain-CSS)"
+        [codeTabs]="plainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
+      >
+        <section class="docs-component-slider-overview-live-shell">
+          <div class="docs-component-slider-overview-live-header">
+            <span class="docs-component-slider-overview-live-kicker">Volume</span>
+            <p class="docs-component-slider-overview-live-copy">
+              Controlled value with a compact summary beside the slider.
+            </p>
+          </div>
+
+          <div class="docs-component-slider-overview-live-control-row">
+            <tng-slider
+              class="docs-component-slider-overview-live-control docs-component-slider-overview-live-control--plain"
+              [value]="overviewPlainValue()"
+              (valueChange)="overviewPlainValue.set($event)"
+              [min]="0"
+              [max]="100"
+              aria-label="Volume"
+            />
+            <strong>{{ overviewPlainSummary() }}</strong>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Volume slider (Tailwind CSS)"
+        [codeTabs]="tailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section
+          class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.25rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm"
+        >
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold text-[var(--tng-semantic-foreground-muted)]"
+              >Volume</span
+            >
+            <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
+              Utility shell with the same controlled slider contract.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-[minmax(0,1fr)_4rem] items-center gap-4">
+            <tng-slider
+              class="[--tng-semantic-accent-brand:#2563eb]"
+              [value]="overviewTailwindValue()"
+              (valueChange)="overviewTailwindValue.set($event)"
+              [min]="0"
+              [max]="100"
+              aria-label="Volume"
+            />
+            <strong>{{ overviewTailwindSummary() }}</strong>
+          </div>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="behavior-baseline" class="docs-page-section">
+    <h2>Behavior baseline</h2>
+    <ul>
+      <li>
+        The wrapper exposes a controlled numeric model through <code>value</code> and
+        <code>valueChange</code>.
+      </li>
+      <li>
+        <code>min</code>, <code>max</code>, and <code>step</code> are forwarded to the native range
+        input.
+      </li>
+      <li>
+        Use a pair of coordinated sliders when the workflow needs adjustable lower and upper bounds.
+      </li>
+    </ul>
+  </section>
+</article>

@@ -741,6 +741,10 @@
 /components/form/select/overview
 /components/form/select/styling
 /components/form/slider
+/components/form/slider/api
+/components/form/slider/examples
+/components/form/slider/overview
+/components/form/slider/styling
 /components/form/switch
 /components/form/switch/api
 /components/form/switch/examples

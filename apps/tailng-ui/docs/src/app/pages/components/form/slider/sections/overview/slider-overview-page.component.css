@@ -1,0 +1,49 @@
+:host {
+  display: block;
+}
+
+.docs-component-slider-overview-live-shell {
+  display: grid;
+  gap: 0.9rem;
+  inline-size: min(100%, 36rem);
+  margin-inline: auto;
+  padding: 1.1rem;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1.25rem;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+.docs-component-slider-overview-live-header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.docs-component-slider-overview-live-kicker {
+  color: var(--tng-semantic-foreground-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.docs-component-slider-overview-live-copy {
+  margin: 0;
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.docs-component-slider-overview-live-control-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 4rem;
+  align-items: center;
+  gap: 1rem;
+}
+
+.docs-component-slider-overview-live-control--plain {
+  --tng-semantic-accent-brand: #0f766e;
+}
+
+@media (max-width: 560px) {
+  .docs-component-slider-overview-live-control-row {
+    grid-template-columns: 1fr;
+  }
+}
