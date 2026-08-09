@@ -14,6 +14,7 @@ import { TngInputOtpComponent } from '../../input-otp/tng-input-otp.component';
 import { TngListboxComponent } from '../../listbox/tng-listbox.component';
 import { TngMultiSelectComponent } from '../../multiselect/tng-multiselect.component';
 import { TngRadioComponent } from '../../radio/tng-radio.component';
+import { TngRangeSliderComponent } from '../../slider/tng-range-slider.component';
 import { TngSliderComponent } from '../../slider/tng-slider.component';
 import { TngSwitchComponent } from '../../switch/tng-switch.component';
 import { TngToggleComponent } from '../../toggle/tng-toggle.component';
@@ -889,6 +890,42 @@ describe('tng-form-field: new control integrations', () => {
     expect(range.id.length).toBeGreaterThan(0);
     expect(label.htmlFor).toBe(range.id);
     expect(range.getAttribute('aria-describedby')).toBe('volume-hint');
+  });
+
+  it('routes labels, descriptions, and validity to both range-slider thumbs', async () => {
+    @Component({
+      imports: [TngFormFieldComponent, TngRangeSliderComponent, TngLabel, TngHint],
+      template: `
+        <tng-form-field [invalid]="true">
+          <label tngLabel>Price range</label>
+          <tng-range-slider required [value]="{ min: 20, max: 80 }" />
+          <p tngHint id="price-hint">Choose the minimum and maximum price.</p>
+        </tng-form-field>
+      `,
+    })
+    class HostComponent {}
+
+    await TestBed.configureTestingModule({ imports: [HostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(HostComponent);
+    await flush(fixture);
+
+    const label = fixture.debugElement.query(By.css('label[tngLabel]')).nativeElement as HTMLLabelElement;
+    const minInput = fixture.debugElement.query(
+      By.css('[data-slot="range-slider-min-thumb"]'),
+    ).nativeElement as HTMLInputElement;
+    const maxInput = fixture.debugElement.query(
+      By.css('[data-slot="range-slider-max-thumb"]'),
+    ).nativeElement as HTMLInputElement;
+
+    expect(label.htmlFor).toBe(minInput.id);
+    expect(minInput.getAttribute('aria-labelledby')).toContain(label.id);
+    expect(maxInput.getAttribute('aria-labelledby')).toContain(label.id);
+    expect(minInput.getAttribute('aria-describedby')).toBe('price-hint');
+    expect(maxInput.getAttribute('aria-describedby')).toBe('price-hint');
+    expect(minInput.getAttribute('aria-invalid')).toBe('true');
+    expect(maxInput.getAttribute('aria-invalid')).toBe('true');
+    expect(minInput.getAttribute('aria-required')).toBe('true');
+    expect(maxInput.getAttribute('aria-required')).toBe('true');
   });
 
   it('routes aria-describedby to the radio input', async () => {

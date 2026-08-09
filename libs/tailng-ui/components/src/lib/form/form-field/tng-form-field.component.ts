@@ -68,6 +68,7 @@ const PLAIN_APPEARANCE_TAGS: readonly string[] = [
   'tng-checkbox',
   'tng-radio',
   'tng-slider',
+  'tng-range-slider',
   'tng-listbox',
   'tng-input-otp',
 ];
@@ -94,6 +95,7 @@ const GROUP_CONTROL_TAGS: readonly string[] = ['tng-toggle-group', 'tng-button-t
  */
 const COMPOSITE_CONTROL_TAGS: readonly string[] = [
   'tng-slider',
+  'tng-range-slider',
   'tng-listbox',
   'tng-input-otp',
 ];

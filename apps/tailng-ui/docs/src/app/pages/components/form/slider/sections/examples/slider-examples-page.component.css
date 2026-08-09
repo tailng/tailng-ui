@@ -27,8 +27,8 @@
 }
 
 .docs-component-slider-examples-range-shell {
-  --slider-range-min: 20%;
-  --slider-range-max: 75%;
+  --tng-slider-range-color: #0f766e;
+  --tng-slider-thumb-border-color: #0f766e;
 }
 
 .docs-component-slider-examples-live-header {
@@ -58,51 +58,6 @@
   font-size: 0.8rem;
 }
 
-.docs-component-slider-examples-range-control {
-  position: relative;
-  block-size: 2.25rem;
-}
-
-.docs-component-slider-examples-range-track {
-  position: absolute;
-  inset-inline: 0;
-  inset-block-start: calc(50% - 0.25rem);
-  block-size: 0.5rem;
-  border-radius: 999px;
-  background: linear-gradient(
-    to right,
-    var(--tng-semantic-border-subtle) 0 var(--slider-range-min),
-    #0f766e var(--slider-range-min) var(--slider-range-max),
-    var(--tng-semantic-border-subtle) var(--slider-range-max) 100%
-  );
-}
-
-.docs-component-slider-examples-range-input {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  margin: 0;
-  appearance: none;
-  background: transparent;
-  pointer-events: none;
-}
-
-.docs-component-slider-examples-range-input::-webkit-slider-runnable-track {
-  background: transparent;
-}
-
-.docs-component-slider-examples-range-input::-webkit-slider-thumb {
-  pointer-events: auto;
-}
-
-.docs-component-slider-examples-range-input::-moz-range-track {
-  background: transparent;
-}
-
-.docs-component-slider-examples-range-input::-moz-range-thumb {
-  pointer-events: auto;
-}
-
 .docs-component-slider-examples-range-values {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -116,7 +71,29 @@
   text-align: right;
 }
 
+.docs-component-slider-examples-state-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.docs-component-slider-examples-state-example {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1rem;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.5rem;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.docs-component-slider-examples-state-example strong {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.85rem;
+}
+
 @media (max-width: 560px) {
+  .docs-component-slider-examples-state-grid,
   .docs-component-slider-examples-range-values {
     grid-template-columns: 1fr;
   }

@@ -18,8 +18,11 @@ type ContractRow = {
   readonly purpose: string;
 };
 
-const HOST_TOKEN_GUIDANCE_CODE = String.raw`tng-slider.docs-component-slider-styling-brand-shell {
-  --tng-semantic-accent-brand: #0f766e;
+const HOST_TOKEN_GUIDANCE_CODE = String.raw`:is(tng-slider, tng-range-slider).docs-component-slider-styling-brand-shell {
+  --tng-slider-range-color: #0f766e;
+  --tng-slider-thumb-border-color: #0f766e;
+  --tng-slider-track-size: 0.5rem;
+  --tng-slider-thumb-size: 1.25rem;
   --tng-disabled-opacity: 0.5;
 }
 
@@ -188,7 +191,7 @@ export class SliderStylingPageComponent implements OnDestroy {
 
   protected readonly contractRows: readonly ContractRow[] = Object.freeze([
     {
-      selector: 'tng-slider',
+      selector: 'tng-slider, tng-range-slider',
       appliedOn: 'Wrapper host',
       purpose: 'Own layout width and component-level semantic tokens.',
     },
@@ -198,14 +201,24 @@ export class SliderStylingPageComponent implements OnDestroy {
       purpose: 'Style disabled state without depending on component internals.',
     },
     {
-      selector: '--tng-semantic-accent-brand',
+      selector: '--tng-slider-range-color',
       appliedOn: 'Wrapper host or ancestor',
-      purpose: 'Sets the native range accent color used by the default slider.',
+      purpose: 'Sets the selected portion of the track.',
     },
     {
-      selector: 'input[tngSlider]',
-      appliedOn: 'Native input',
-      purpose: 'Use when you need direct pseudo-element styling for a custom track or thumb.',
+      selector: '--tng-slider-track-color',
+      appliedOn: 'Wrapper host or ancestor',
+      purpose: 'Sets the unselected track color.',
+    },
+    {
+      selector: '--tng-slider-thumb-color, --tng-slider-thumb-border-color',
+      appliedOn: 'Wrapper host or ancestor',
+      purpose: 'Sets the pointer surface and border colors.',
+    },
+    {
+      selector: '--tng-slider-track-size, --tng-slider-thumb-size',
+      appliedOn: 'Wrapper host or ancestor',
+      purpose: 'Adjusts the shared track and pointer dimensions.',
     },
   ]);
 

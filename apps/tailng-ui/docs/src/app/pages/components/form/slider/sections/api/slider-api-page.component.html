@@ -43,6 +43,48 @@
     </div>
   </section>
 
+  <section id="range-wrapper-api" class="slider-api-block">
+    <h3><code>tng-range-slider</code></h3>
+    <p>
+      The range wrapper owns both pointers, their shared track, ordering, step alignment, and
+      minimum separation.
+    </p>
+    <tng-code-block
+      [code]="rangeWrapperAttachmentCode"
+      adapter="shiki"
+      language="html"
+      title="Range wrapper attachment"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    ></tng-code-block>
+
+    <div class="slider-api-table-wrap">
+      <table class="slider-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Property</th>
+            <th scope="col">Type</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of rangeRows; track row.name) {
+            <tr>
+              <td>
+                <code>{{ row.name }}</code>
+              </td>
+              <td>
+                <code>{{ row.type }}</code>
+              </td>
+              <td>{{ row.details }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <section id="primitive-api" class="slider-api-block">
     <h3><code>input[tngSlider]</code></h3>
     <p>
@@ -88,7 +130,7 @@
   <section id="signal-forms" class="slider-api-block">
     <h3>Angular Signal Forms</h3>
     <p>
-      <code>&lt;tng-slider&gt;</code> implements a numeric value model, so it can bind directly with
+      Both slider components implement typed value models, so they bind directly with
       <code>[formField]</code>.
     </p>
     <tng-code-block
@@ -100,38 +142,5 @@
       [wrap]="true"
       [sanitizeHtml]="false"
     ></tng-code-block>
-  </section>
-
-  <section id="range-guidance" class="slider-api-block">
-    <h3>Range guidance</h3>
-    <p>
-      The wrapper is a single-value slider. Build min/max range selection by coordinating two slider
-      values in the parent component.
-    </p>
-
-    <div class="slider-api-table-wrap">
-      <table class="slider-api-table">
-        <thead>
-          <tr>
-            <th scope="col">Pattern</th>
-            <th scope="col">Use</th>
-            <th scope="col">Guidance</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (row of rangeGuidanceRows; track row.name) {
-            <tr>
-              <td>
-                <code>{{ row.name }}</code>
-              </td>
-              <td>
-                <code>{{ row.type }}</code>
-              </td>
-              <td>{{ row.details }}</td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
   </section>
 </article>

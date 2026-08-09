@@ -5,7 +5,7 @@ describe('slider registry item', () => {
   it('contains expected metadata', () => {
     expect(sliderRegistryItem.name).toBe('slider');
     expect(sliderRegistryItem.dependencies).toEqual([]);
-    expect(sliderRegistryItem.files).toHaveLength(5);
+    expect(sliderRegistryItem.files).toHaveLength(8);
   });
 
   it('generates local slider source files', () => {
@@ -20,5 +20,12 @@ describe('slider registry item', () => {
     );
     expect(primitiveFile).toBeDefined();
     expect(primitiveFile?.content).toContain("selector: 'input[tngSlider]'");
+
+    const rangeComponentFile = sliderRegistryItem.files.find((file) =>
+      file.path.endsWith('tailng-ui/slider/tng-range-slider.ts'),
+    );
+    expect(rangeComponentFile).toBeDefined();
+    expect(rangeComponentFile?.content).toContain("selector: 'tng-range-slider'");
+    expect(rangeComponentFile?.content).toContain('minGap');
   });
 });

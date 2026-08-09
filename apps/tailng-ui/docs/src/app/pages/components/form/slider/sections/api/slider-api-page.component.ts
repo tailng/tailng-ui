@@ -16,6 +16,18 @@ const WRAPPER_ATTACHMENT_CODE = String.raw`<tng-slider
   aria-label="Brightness"
 ></tng-slider>`;
 
+const RANGE_WRAPPER_ATTACHMENT_CODE = String.raw`<tng-range-slider
+  [value]="priceRange()"
+  (valueChange)="priceRange.set($event)"
+  [min]="0"
+  [max]="100"
+  [step]="5"
+  [minGap]="10"
+  aria-label="Price range"
+  minAriaLabel="Minimum price"
+  maxAriaLabel="Maximum price"
+></tng-range-slider>`;
+
 const PRIMITIVE_ATTACHMENT_CODE = String.raw`<input
   tngSlider
   [value]="brightness()"
@@ -28,12 +40,16 @@ const PRIMITIVE_ATTACHMENT_CODE = String.raw`<input
 
 const SIGNAL_FORMS_CODE = String.raw`import { Component, signal } from '@angular/core';
 import { FormField, form } from '@angular/forms/signals';
-import { TngSliderComponent } from '@tailng-ui/components';
+import {
+  TngRangeSliderComponent,
+  TngSliderComponent,
+  type TngRangeSliderValue,
+} from '@tailng-ui/components';
 
 @Component({
   selector: 'app-volume-signal-form',
   standalone: true,
-  imports: [FormField, TngSliderComponent],
+  imports: [FormField, TngRangeSliderComponent, TngSliderComponent],
   template: \`
     <tng-slider
       [formField]="settingsForm.volume"
@@ -41,10 +57,23 @@ import { TngSliderComponent } from '@tailng-ui/components';
       [max]="100"
       aria-label="Volume"
     ></tng-slider>
+    <tng-range-slider
+      [formField]="settingsForm.priceRange"
+      [min]="0"
+      [max]="100"
+      minAriaLabel="Minimum price"
+      maxAriaLabel="Maximum price"
+    ></tng-range-slider>
   \`,
 })
 export class VolumeSignalFormComponent {
-  readonly settingsModel = signal({ volume: 25 });
+  readonly settingsModel = signal<{
+    volume: number;
+    priceRange: TngRangeSliderValue;
+  }>({
+    volume: 25,
+    priceRange: { min: 20, max: 80 },
+  });
   readonly settingsForm = form(this.settingsModel);
 }`;
 
@@ -56,6 +85,7 @@ export class VolumeSignalFormComponent {
 })
 export class SliderApiPageComponent {
   protected readonly wrapperAttachmentCode = WRAPPER_ATTACHMENT_CODE;
+  protected readonly rangeWrapperAttachmentCode = RANGE_WRAPPER_ATTACHMENT_CODE;
   protected readonly primitiveAttachmentCode = PRIMITIVE_ATTACHMENT_CODE;
   protected readonly signalFormsCode = SIGNAL_FORMS_CODE;
 
@@ -90,6 +120,11 @@ export class SliderApiPageComponent {
       type: 'boolean',
       details: 'Forwarded to form-field integration for validation and labeling state.',
     },
+    {
+      name: 'aria-label, ariaValueText',
+      type: 'string | null',
+      details: 'Accessible name and optional human-readable value text for the pointer.',
+    },
   ]);
 
   protected readonly primitiveRows: readonly ApiRow[] = Object.freeze([
@@ -111,24 +146,46 @@ export class SliderApiPageComponent {
     },
   ]);
 
-  protected readonly rangeGuidanceRows: readonly ApiRow[] = Object.freeze([
+  protected readonly rangeRows: readonly ApiRow[] = Object.freeze([
     {
-      name: 'Single value',
-      type: 'tng-slider',
-      details:
-        'Use the wrapper when one numeric value is enough and the native range track is acceptable.',
+      name: 'value / valueChange',
+      type: 'TngRangeSliderValue / output',
+      details: 'Controlled { min, max } model updated by either pointer.',
     },
     {
-      name: 'Min/max range',
-      type: 'Two sliders',
-      details:
-        'Coordinate two slider values in parent state and clamp each thumb against the other.',
+      name: 'min, max',
+      type: 'number',
+      details: 'Outer bounds for both pointers. Defaults to 0 and 100.',
     },
     {
-      name: 'Custom range visuals',
-      type: 'input[tngSlider]',
-      details:
-        'Use the primitive when the track, fill, or multi-thumb layout needs custom DOM ownership.',
+      name: 'step',
+      type: 'number',
+      details: 'Positive increment used for pointer and keyboard changes. Defaults to 1.',
+    },
+    {
+      name: 'minGap',
+      type: 'number',
+      details: 'Minimum permitted distance between pointers. Defaults to 0.',
+    },
+    {
+      name: 'minAriaLabel, maxAriaLabel',
+      type: 'string',
+      details: 'Distinct accessible names for the minimum and maximum pointers.',
+    },
+    {
+      name: 'minValueText, maxValueText',
+      type: 'string | null',
+      details: 'Optional human-readable aria-valuetext for each pointer.',
+    },
+    {
+      name: 'aria-label, aria-labelledby, aria-describedby',
+      type: 'string | null',
+      details: 'Group context and descriptions combined with each pointer label.',
+    },
+    {
+      name: 'disabled, invalid, required',
+      type: 'boolean',
+      details: 'Shared state applied to both pointers and form-field integration.',
     },
   ]);
 }

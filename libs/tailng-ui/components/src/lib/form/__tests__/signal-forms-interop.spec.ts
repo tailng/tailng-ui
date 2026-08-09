@@ -24,7 +24,9 @@ import { TngMultiSelectComponent } from '../multiselect/tng-multiselect.componen
 import { TngNumberRangeComponent } from '../number-range/tng-number-range.component';
 import { TngRadioComponent } from '../radio/tng-radio.component';
 import { TngSelectComponent } from '../select/tng-select.component';
+import { TngRangeSliderComponent } from '../slider/tng-range-slider.component';
 import { TngSliderComponent } from '../slider/tng-slider.component';
+import type { TngRangeSliderValue } from '../slider/tng-slider.utils';
 import { TngSwitchComponent } from '../switch/tng-switch.component';
 import { TngTextareaComponent } from '../textarea/tng-textarea.component';
 import { TngToggleComponent } from '../toggle/tng-toggle.component';
@@ -77,6 +79,17 @@ class TextareaSignalFormsHostComponent {
 class SliderSignalFormsHostComponent {
   readonly settingsModel = signal({ volume: 25 });
   readonly settingsForm = form(this.settingsModel);
+}
+
+@Component({
+  imports: [FormField, TngRangeSliderComponent],
+  template: `<tng-range-slider data-testid="range-slider" [formField]="filtersForm.price"></tng-range-slider>`,
+})
+class RangeSliderSignalFormsHostComponent {
+  readonly filtersModel = signal<{ price: TngRangeSliderValue }>({
+    price: { min: 20, max: 80 },
+  });
+  readonly filtersForm = form(this.filtersModel);
 }
 
 @Component({
@@ -544,6 +557,40 @@ describe('tailng-ui signal forms interop', () => {
     fixture.detectChanges();
 
     expect(host.settingsModel().volume).toBe(42);
+  });
+
+  it('binds tng-range-slider through its signal forms value model', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [RangeSliderSignalFormsHostComponent],
+    }).createComponent(RangeSliderSignalFormsHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const minSlider = queryRequiredElement(
+      fixture,
+      '[data-testid="range-slider"] [data-slot="range-slider-min-thumb"]',
+      HTMLInputElement,
+    );
+    const maxSlider = queryRequiredElement(
+      fixture,
+      '[data-testid="range-slider"] [data-slot="range-slider-max-thumb"]',
+      HTMLInputElement,
+    );
+
+    expect(minSlider.value).toBe('20');
+    expect(maxSlider.value).toBe('80');
+
+    host.filtersModel.set({ price: { min: 30, max: 70 } });
+    fixture.detectChanges();
+    expect(minSlider.value).toBe('30');
+    expect(maxSlider.value).toBe('70');
+
+    minSlider.value = '40';
+    minSlider.dispatchEvent(new Event('input', { bubbles: true }));
+    fixture.detectChanges();
+
+    expect(host.filtersModel().price).toEqual({ min: 40, max: 70 });
   });
 
   it('binds tng-checkbox through its signal forms checked model', () => {

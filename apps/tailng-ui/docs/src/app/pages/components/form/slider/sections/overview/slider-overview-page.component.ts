@@ -1,6 +1,11 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, inject, signal, type OnDestroy } from '@angular/core';
-import { TngCodeBlockComponent, TngSliderComponent } from '@tailng-ui/components';
+import {
+  TngCodeBlockComponent,
+  TngRangeSliderComponent,
+  TngSliderComponent,
+  type TngRangeSliderValue,
+} from '@tailng-ui/components';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -12,7 +17,11 @@ import {
 } from '../../../../../../shared/util';
 import { stackblitzTailwindUrl, stackblitzVanillaUrl } from '../../slider.util';
 
-const COMPONENT_IMPORT_CODE = String.raw`import { TngSliderComponent } from '@tailng-ui/components';`;
+const COMPONENT_IMPORT_CODE = String.raw`import {
+  TngRangeSliderComponent,
+  TngSliderComponent,
+  type TngRangeSliderValue,
+} from '@tailng-ui/components';`;
 
 const BASIC_USAGE_CODE = String.raw`<tng-slider
   [value]="volume()"
@@ -22,6 +31,18 @@ const BASIC_USAGE_CODE = String.raw`<tng-slider
   [step]="1"
   aria-label="Volume"
 ></tng-slider>`;
+
+const RANGE_USAGE_CODE = String.raw`<tng-range-slider
+  [value]="priceRange()"
+  (valueChange)="priceRange.set($event)"
+  [min]="0"
+  [max]="100"
+  [step]="5"
+  [minGap]="5"
+  aria-label="Price range"
+  minAriaLabel="Minimum price"
+  maxAriaLabel="Maximum price"
+></tng-range-slider>`;
 
 const PLAIN_TS_CODE = String.raw`import { Component, signal } from '@angular/core';
 import { TngSliderComponent } from '@tailng-ui/components';
@@ -136,6 +157,7 @@ const TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[36rem]
   selector: 'app-slider-overview-page',
   imports: [
     TngCodeBlockComponent,
+    TngRangeSliderComponent,
     TngSliderComponent,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
@@ -153,10 +175,12 @@ export class SliderOverviewPageComponent implements OnDestroy {
 
   protected readonly componentImportCode = COMPONENT_IMPORT_CODE;
   protected readonly basicUsageCode = BASIC_USAGE_CODE;
+  protected readonly rangeUsageCode = RANGE_USAGE_CODE;
   protected readonly stackblitzVanillaUrl = stackblitzVanillaUrl;
   protected readonly stackblitzTailwindUrl = stackblitzTailwindUrl;
   protected readonly overviewPlainValue = signal(42);
   protected readonly overviewTailwindValue = signal(68);
+  protected readonly overviewRangeValue = signal<TngRangeSliderValue>({ min: 20, max: 75 });
   protected readonly overviewPlainSummary = computed(() => `${this.overviewPlainValue()}%`);
   protected readonly overviewTailwindSummary = computed(() => `${this.overviewTailwindValue()}%`);
 

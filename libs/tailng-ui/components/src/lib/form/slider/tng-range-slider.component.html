@@ -1,0 +1,73 @@
+<div
+  #root
+  class="tng-range-slider-root"
+  data-slot="range-slider"
+  role="group"
+  [attr.aria-label]="ariaLabel()"
+  [attr.aria-labelledby]="ariaLabelledBy()"
+  [attr.data-active-thumb]="activeThumb()"
+  [attr.data-disabled]="disabled() ? '' : null"
+  [attr.data-invalid]="effectiveInvalid() ? '' : null"
+  [style.--tng-slider-range-start]="minPercent()"
+  [style.--tng-slider-range-end]="maxPercent()"
+  (focusin)="onFocusIn()"
+  (focusout)="onFocusOut($event)"
+  (pointerdown)="onTrackPointerDown($event)"
+  (pointermove)="onTrackPointerMove($event)"
+  (pointerup)="onTrackPointerEnd($event)"
+  (pointercancel)="onTrackPointerEnd($event)"
+>
+  @if (ariaLabel(); as label) {
+    <span class="tng-range-slider-visually-hidden" [id]="groupLabelId()">{{ label }}</span>
+  }
+  <span class="tng-range-slider-visually-hidden" [id]="minThumbLabelId()">
+    {{ minAriaLabel() }}
+  </span>
+  <span class="tng-range-slider-visually-hidden" [id]="maxThumbLabelId()">
+    {{ maxAriaLabel() }}
+  </span>
+
+  <div #track class="tng-range-slider-track" data-slot="range-slider-track" aria-hidden="true">
+    <div class="tng-range-slider-fill" data-slot="range-slider-fill"></div>
+  </div>
+
+  <input
+    class="tng-range-slider-input tng-range-slider-input--min"
+    data-slot="range-slider-min-thumb"
+    type="range"
+    [id]="minInputId()"
+    [disabled]="disabled()"
+    [min]="lowerBound()"
+    [max]="minInputMax()"
+    [step]="step()"
+    [value]="currentValue().min"
+    [required]="effectiveRequired()"
+    [attr.aria-describedby]="describedBy()"
+    [attr.aria-invalid]="effectiveInvalid() ? 'true' : null"
+    [attr.aria-labelledby]="minLabelledBy()"
+    [attr.aria-required]="effectiveRequired() ? 'true' : null"
+    [attr.aria-valuetext]="minValueText()"
+    (input)="onThumbInput('min', $event)"
+    (pointerdown)="onThumbPointerDown('min')"
+  />
+
+  <input
+    class="tng-range-slider-input tng-range-slider-input--max"
+    data-slot="range-slider-max-thumb"
+    type="range"
+    [id]="maxInputId()"
+    [disabled]="disabled()"
+    [min]="maxInputMin()"
+    [max]="upperBound()"
+    [step]="step()"
+    [value]="currentValue().max"
+    [required]="effectiveRequired()"
+    [attr.aria-describedby]="describedBy()"
+    [attr.aria-invalid]="effectiveInvalid() ? 'true' : null"
+    [attr.aria-labelledby]="maxLabelledBy()"
+    [attr.aria-required]="effectiveRequired() ? 'true' : null"
+    [attr.aria-valuetext]="maxValueText()"
+    (input)="onThumbInput('max', $event)"
+    (pointerdown)="onThumbPointerDown('max')"
+  />
+</div>

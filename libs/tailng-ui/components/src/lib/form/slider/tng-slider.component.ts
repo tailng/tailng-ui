@@ -2,6 +2,7 @@ import {
   booleanAttribute,
   Component,
   ElementRef,
+  computed,
   forwardRef,
   inject,
   input,
@@ -20,6 +21,7 @@ import {
   type TngFormFieldControl,
 } from '../form-field/tng-form-field.control';
 import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
+import { tngSliderValuePercent } from './tng-slider.utils';
 
 export function readTngSliderEventValue(event: unknown): number | null {
   if (!(event instanceof Event)) {
@@ -71,7 +73,13 @@ export class TngSliderComponent implements FormValueControl<number> {
     transform: (value: number | string): number =>
       normalizeTngSliderStep(typeof value === 'number' ? value : Number(value)),
   });
+  public readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
+  public readonly ariaValueText = input<string | null>(null);
   public readonly value = model<number>(0);
+
+  protected readonly valuePercent = computed(
+    () => `${tngSliderValuePercent(this.value(), this.min() ?? 0, this.max() ?? 100)}%`,
+  );
 
   /**
    * Form-field integration. The slider's focusable element is its inner

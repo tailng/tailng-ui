@@ -2,6 +2,23 @@
   display: block;
 }
 
+.docs-component-slider-overview-range-demo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.5rem;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.docs-component-slider-overview-range-demo tng-range-slider {
+  --tng-slider-range-color: #0f766e;
+  --tng-slider-thumb-border-color: #0f766e;
+}
+
 .docs-component-slider-overview-live-shell {
   display: grid;
   gap: 0.9rem;
@@ -43,6 +60,7 @@
 }
 
 @media (max-width: 560px) {
+  .docs-component-slider-overview-range-demo,
   .docs-component-slider-overview-live-control-row {
     grid-template-columns: 1fr;
   }

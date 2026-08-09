@@ -1,7 +1,10 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, inject, signal, type OnDestroy } from '@angular/core';
-import { TngSliderComponent } from '@tailng-ui/components';
-import { TngSlider as TngSliderPrimitive } from '@tailng-ui/primitives';
+import {
+  TngRangeSliderComponent,
+  TngSliderComponent,
+  type TngRangeSliderValue,
+} from '@tailng-ui/components';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -130,80 +133,51 @@ const STEP_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w-[3
   </div>
 </section>`;
 
-const RANGE_PLAIN_TS_CODE = String.raw`import { Component, computed, signal } from '@angular/core';
-import { TngSlider } from '@tailng-ui/primitives';
-
-function readSliderValue(event: Event): number {
-  return Number((event.target as HTMLInputElement).value);
-}
+const RANGE_PLAIN_TS_CODE = String.raw`import { Component, signal } from '@angular/core';
+import { TngRangeSliderComponent, type TngRangeSliderValue } from '@tailng-ui/components';
 
 @Component({
   selector: 'app-component-slider-examples-range-plain',
   standalone: true,
-  imports: [TngSlider],
+  imports: [TngRangeSliderComponent],
   templateUrl: './component-slider-examples-range-plain.component.html',
   styleUrl: './component-slider-examples-range-plain.component.css',
 })
 export class ComponentSliderExamplesRangePlainComponent {
-  readonly componentSliderExamplesPlainMin = signal(20);
-  readonly componentSliderExamplesPlainMax = signal(75);
-  readonly componentSliderExamplesPlainMinPercent = computed(() => this.componentSliderExamplesPlainMin() + '%');
-  readonly componentSliderExamplesPlainMaxPercent = computed(() => this.componentSliderExamplesPlainMax() + '%');
-
-  onComponentSliderExamplesPlainMinInput(event: Event): void {
-    this.componentSliderExamplesPlainMin.set(Math.min(readSliderValue(event), this.componentSliderExamplesPlainMax() - 5));
-  }
-
-  onComponentSliderExamplesPlainMaxInput(event: Event): void {
-    this.componentSliderExamplesPlainMax.set(Math.max(readSliderValue(event), this.componentSliderExamplesPlainMin() + 5));
-  }
+  readonly componentSliderExamplesPlainRange = signal<TngRangeSliderValue>({
+    min: 20,
+    max: 75,
+  });
 }`;
 
-const RANGE_PLAIN_HTML_CODE = String.raw`<section
-  class="docs-component-slider-examples-range-plain-shell"
-  [style.--slider-range-min]="componentSliderExamplesPlainMinPercent()"
-  [style.--slider-range-max]="componentSliderExamplesPlainMaxPercent()"
->
+const RANGE_PLAIN_HTML_CODE = String.raw`<section class="docs-component-slider-examples-range-plain-shell">
   <div class="docs-component-slider-examples-range-plain-header">
     <span class="docs-component-slider-examples-range-plain-kicker">Price range</span>
     <p class="docs-component-slider-examples-range-plain-copy">
-      Two coordinated range inputs provide adjustable minimum and maximum pointers.
+      Both pointers and their minimum separation are owned by one component.
     </p>
   </div>
 
-  <div class="docs-component-slider-examples-range-plain-control">
-    <div class="docs-component-slider-examples-range-plain-track" aria-hidden="true"></div>
-    <input
-      tngSlider
-      class="docs-component-slider-examples-range-plain-input docs-component-slider-examples-range-plain-input--min"
-      [value]="componentSliderExamplesPlainMin()"
-      (input)="onComponentSliderExamplesPlainMinInput($event)"
-      [min]="0"
-      [max]="100"
-      [step]="5"
-      aria-label="Minimum price"
-    />
-    <input
-      tngSlider
-      class="docs-component-slider-examples-range-plain-input docs-component-slider-examples-range-plain-input--max"
-      [value]="componentSliderExamplesPlainMax()"
-      (input)="onComponentSliderExamplesPlainMaxInput($event)"
-      [min]="0"
-      [max]="100"
-      [step]="5"
-      aria-label="Maximum price"
-    />
-  </div>
+  <tng-range-slider
+    class="docs-component-slider-examples-range-plain-control"
+    [value]="componentSliderExamplesPlainRange()"
+    (valueChange)="componentSliderExamplesPlainRange.set($event)"
+    [min]="0"
+    [max]="100"
+    [step]="5"
+    [minGap]="5"
+    aria-label="Price range"
+    minAriaLabel="Minimum price"
+    maxAriaLabel="Maximum price"
+  />
 
   <div class="docs-component-slider-examples-range-plain-values">
-    <span>Min: USD {{ componentSliderExamplesPlainMin() }}</span>
-    <span>Max: USD {{ componentSliderExamplesPlainMax() }}</span>
+    <span>Min: USD {{ componentSliderExamplesPlainRange().min }}</span>
+    <span>Max: USD {{ componentSliderExamplesPlainRange().max }}</span>
   </div>
 </section>`;
 
 const RANGE_PLAIN_CSS_CODE = String.raw`.docs-component-slider-examples-range-plain-shell {
-  --slider-range-min: 20%;
-  --slider-range-max: 75%;
   display: grid;
   gap: 0.9rem;
   inline-size: min(100%, 36rem);
@@ -232,40 +206,8 @@ const RANGE_PLAIN_CSS_CODE = String.raw`.docs-component-slider-examples-range-pl
 }
 
 .docs-component-slider-examples-range-plain-control {
-  position: relative;
-  block-size: 2.25rem;
-}
-
-.docs-component-slider-examples-range-plain-track {
-  position: absolute;
-  inset-inline: 0;
-  inset-block-start: calc(50% - 0.25rem);
-  block-size: 0.5rem;
-  border-radius: 999px;
-  background: linear-gradient(
-    to right,
-    var(--tng-semantic-border-subtle) 0 var(--slider-range-min),
-    #0f766e var(--slider-range-min) var(--slider-range-max),
-    var(--tng-semantic-border-subtle) var(--slider-range-max) 100%
-  );
-}
-
-.docs-component-slider-examples-range-plain-input {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  margin: 0;
-  appearance: none;
-  background: transparent;
-  pointer-events: none;
-}
-
-.docs-component-slider-examples-range-plain-input::-webkit-slider-thumb {
-  pointer-events: auto;
-}
-
-.docs-component-slider-examples-range-plain-input::-moz-range-thumb {
-  pointer-events: auto;
+  --tng-slider-range-color: #0f766e;
+  --tng-slider-thumb-border-color: #0f766e;
 }
 
 .docs-component-slider-examples-range-plain-values {
@@ -276,16 +218,11 @@ const RANGE_PLAIN_CSS_CODE = String.raw`.docs-component-slider-examples-range-pl
   font-weight: 600;
 }`;
 
-function readSliderEventValue(event: Event): number {
-  const target = event.target;
-  return target instanceof HTMLInputElement ? Number(target.value) : 0;
-}
-
 @Component({
   selector: 'app-slider-examples-page',
   imports: [
+    TngRangeSliderComponent,
     TngSliderComponent,
-    TngSliderPrimitive,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
     DocsFormDemoShellComponent,
@@ -306,12 +243,10 @@ export class SliderExamplesPageComponent implements OnDestroy {
   protected readonly formPriority = signal(70);
   protected readonly stepPlainValue = signal(30);
   protected readonly stepTailwindValue = signal(45);
-  protected readonly rangeMinValue = signal(20);
-  protected readonly rangeMaxValue = signal(75);
-  protected readonly rangeMinPercent = computed(() => `${this.rangeMinValue()}%`);
-  protected readonly rangeMaxPercent = computed(() => `${this.rangeMaxValue()}%`);
+  protected readonly rangeValue = signal<TngRangeSliderValue>({ min: 20, max: 75 });
+  protected readonly constrainedRangeValue = signal<TngRangeSliderValue>({ min: 35, max: 65 });
   protected readonly rangeSummary = computed(() => {
-    return `$${this.rangeMinValue()} - $${this.rangeMaxValue()}`;
+    return `$${this.rangeValue().min} - $${this.rangeValue().max}`;
   });
 
   protected readonly stepPlainCodeTabs: readonly DocsExampleCodeTab[] = [
@@ -378,16 +313,6 @@ export class SliderExamplesPageComponent implements OnDestroy {
       code: RANGE_PLAIN_CSS_CODE,
     },
   ];
-
-  protected onRangeMinInput(event: Event): void {
-    const nextValue = readSliderEventValue(event);
-    this.rangeMinValue.set(Math.min(nextValue, this.rangeMaxValue() - 5));
-  }
-
-  protected onRangeMaxInput(event: Event): void {
-    const nextValue = readSliderEventValue(event);
-    this.rangeMaxValue.set(Math.max(nextValue, this.rangeMinValue() + 5));
-  }
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();

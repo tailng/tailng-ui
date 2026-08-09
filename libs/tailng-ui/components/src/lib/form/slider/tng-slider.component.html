@@ -1,4 +1,13 @@
-<div class="tng-slider-root" [attr.data-disabled]="disabled() ? '' : null">
+<div
+  class="tng-slider-root"
+  data-slot="slider-root"
+  [attr.data-disabled]="disabled() ? '' : null"
+  [attr.data-invalid]="invalid() ? '' : null"
+  [style.--tng-slider-value-percent]="valuePercent()"
+>
+  <div class="tng-slider-track" data-slot="slider-track" aria-hidden="true">
+    <div class="tng-slider-fill" data-slot="slider-fill"></div>
+  </div>
   <input
     tngSlider
     class="tng-slider-control"
@@ -7,6 +16,11 @@
     [min]="min() ?? 0"
     [step]="step()"
     [value]="value()"
+    [required]="required()"
+    [attr.aria-invalid]="invalid() ? 'true' : null"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-required]="required() ? 'true' : null"
+    [attr.aria-valuetext]="ariaValueText()"
     (input)="onInput($event)"
   />
 </div>
