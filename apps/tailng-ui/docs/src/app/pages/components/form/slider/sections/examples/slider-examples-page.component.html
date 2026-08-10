@@ -5,32 +5,84 @@
       description="Place the slider inside a standard form and keep the chosen numeric value ready for submission."
       ariaLabel="Slider form usage example"
       tabListAriaLabel="Slider form usage variants"
-      defaultValue="live-demo"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
       <ng-template
         appDocsExampleVariant
-        value="live-demo"
-        label="Live demo"
-        panelTitle="Slider form usage"
+        value="plain-css"
+        label="Plain CSS"
+        panelTitle="Slider form usage (Plain CSS)"
+        [codeTabs]="formPlainCodeTabs"
+        [stackblitzUrl]="stackblitzVanillaUrl"
       >
-        <app-docs-form-demo-shell
-          title="Tune priority"
-          description="Choose the escalation priority as part of a larger notification settings form."
-          submitLabel="Save settings"
-        >
-          <div docsFormDemoField class="docs-component-slider-examples-form-field">
-            <tng-slider
-              [value]="formPriority()"
-              (valueChange)="formPriority.set($event)"
-              [min]="0"
-              [max]="100"
-              [step]="10"
-              aria-label="Escalation priority"
-            />
+        <section class="docs-component-slider-examples-live-shell">
+          <div class="docs-component-slider-examples-live-header">
+            <span class="docs-component-slider-examples-live-kicker">Tune priority</span>
+            <p class="docs-component-slider-examples-live-copy">
+              Choose the escalation priority as part of a larger notification settings form.
+            </p>
           </div>
-          <p docsFormDemoSummary>Priority: {{ formPriority() }}%</p>
-        </app-docs-form-demo-shell>
+
+          <tng-slider
+            class="docs-component-slider-examples-form-control"
+            [value]="formPlainPriority()"
+            (valueChange)="formPlainPriority.set($event)"
+            [min]="0"
+            [max]="100"
+            [step]="10"
+            aria-label="Escalation priority"
+          />
+
+          <div class="docs-component-slider-examples-form-footer">
+            <p>Priority: {{ formPlainPriority() }}%</p>
+            <button type="button">Save settings</button>
+          </div>
+        </section>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Slider form usage (Tailwind CSS)"
+        [codeTabs]="formTailwindCodeTabs"
+        [stackblitzUrl]="stackblitzTailwindUrl"
+      >
+        <section
+          class="mx-auto grid max-w-[36rem] gap-4 rounded-[1.25rem] border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm"
+        >
+          <div class="grid gap-1">
+            <span class="text-xs font-semibold text-[var(--tng-semantic-foreground-muted)]"
+              >Tune priority</span
+            >
+            <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
+              Choose the escalation priority as part of a larger notification settings form.
+            </p>
+          </div>
+
+          <tng-slider
+            class="[--tng-semantic-accent-brand:#0f766e]"
+            [value]="formTailwindPriority()"
+            (valueChange)="formTailwindPriority.set($event)"
+            [min]="0"
+            [max]="100"
+            [step]="10"
+            aria-label="Escalation priority"
+          />
+
+          <div
+            class="flex flex-wrap items-center justify-between gap-3 text-sm text-[var(--tng-semantic-foreground-secondary)]"
+          >
+            <p class="m-0">Priority: {{ formTailwindPriority() }}%</p>
+            <button
+              class="rounded-md border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-elevated)] px-3 py-2 text-sm font-semibold text-[var(--tng-semantic-foreground-primary)] shadow-sm"
+              type="button"
+            >
+              Save settings
+            </button>
+          </div>
+        </section>
       </ng-template>
     </app-docs-example-tabs-section>
   </section>

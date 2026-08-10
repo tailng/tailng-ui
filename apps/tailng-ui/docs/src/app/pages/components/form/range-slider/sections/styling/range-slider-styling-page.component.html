@@ -6,7 +6,15 @@
 
   <section id="host-tokens">
     <h2>Host tokens</h2>
-    <tng-code-block [code]="tokenCode" language="css" title="range-slider.tokens.css" />
+    <tng-code-block
+      [code]="tokenCode"
+      adapter="shiki"
+      language="css"
+      title="range-slider.tokens.css"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
   </section>
 
   <section id="styled-example">
