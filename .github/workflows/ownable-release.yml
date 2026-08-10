@@ -37,7 +37,7 @@ jobs:
       # CHECKOUT (uses built-in GITHUB_TOKEN)
       # ------------------------------------
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: true
@@ -46,10 +46,11 @@ jobs:
       # NODE AND PNPM (mirror prod-build-deploy)
       # ------------------------------------
       - name: Setup Node 20 LTS
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 20.20.0
           registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
 
       # IMPORTANT: upgrade npm for Trusted Publishing + provenance
       - name: Upgrade npm
@@ -69,7 +70,7 @@ jobs:
         run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
 
       - name: Cache pnpm store
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
@@ -154,7 +155,7 @@ jobs:
         run: node tools/release/tag-release.mjs
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ env.ROOT_TAG }}
           name: Release ${{ env.ROOT_TAG }}
