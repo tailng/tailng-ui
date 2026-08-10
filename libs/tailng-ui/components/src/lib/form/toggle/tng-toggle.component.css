@@ -4,27 +4,29 @@
 
 .tng-toggle-control {
   align-items: center;
-  background: var(--tng-semantic-background-surface);
-  border: 1px solid var(--tng-semantic-border-strong);
-  border-radius: 0.75rem;
-  color: var(--tng-semantic-foreground-primary);
+  background: var(--tng-toggle-bg, var(--tng-control-bg, var(--tng-semantic-background-surface)));
+  border: 1px solid
+    var(--tng-toggle-border, var(--tng-control-border, var(--tng-semantic-border-strong)));
+  border-radius: var(--tng-toggle-radius, var(--tng-control-radius, 0.5rem));
+  box-shadow: var(--tng-control-shadow, none);
+  color: var(--tng-toggle-fg, var(--tng-control-fg, var(--tng-semantic-foreground-primary)));
   cursor: pointer;
   display: inline-flex;
-  font-size: 0.875rem;
-  font-weight: 600;
-  height: 2.25rem;
+  font-size: var(--tng-control-font-size, 0.875rem);
+  font-weight: var(--tng-font-weight-semibold, 600);
+  height: var(--tng-control-height-md, 2.5rem);
   justify-content: center;
   transition:
     background-color 150ms ease,
     border-color 150ms ease,
     color 150ms ease;
-  width: 2.25rem;
+  width: var(--tng-control-height-md, 2.5rem);
 }
 
 .tng-toggle-control[data-state='on'] {
-  background: var(--tng-semantic-accent-brand);
-  border-color: var(--tng-semantic-accent-brand);
-  color: var(--tng-color-white);
+  background: var(--tng-control-accent, var(--tng-semantic-accent-brand));
+  border-color: var(--tng-control-accent, var(--tng-semantic-accent-brand));
+  color: var(--tng-semantic-foreground-inverse, var(--tng-color-white));
 }
 
 .tng-toggle-control[data-disabled] {
@@ -33,7 +35,7 @@
 }
 
 .tng-toggle-control:focus-visible {
-  box-shadow: var(--tng-focus-ring, 0 0 0 3px var(--tng-semantic-focus-ring));
+  box-shadow: var(--tng-control-focus-shadow, var(--tng-focus-ring));
   outline: none;
 }
 

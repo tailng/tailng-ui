@@ -9,30 +9,55 @@
 
 .tng-textarea {
   appearance: none;
-  background: var(--tng-semantic-background-surface);
-  border: 1px solid var(--tng-semantic-border-strong);
-  border-radius: 0.75rem;
-  color: var(--tng-semantic-foreground-primary);
+  background: var(--tng-textarea-bg, var(--tng-control-bg, var(--tng-semantic-background-surface)));
+  border: 1px solid
+    var(--tng-textarea-border, var(--tng-control-border, var(--tng-semantic-border-strong)));
+  border-radius: var(--tng-textarea-radius, var(--tng-control-radius, 0.5rem));
+  box-shadow: var(--tng-textarea-shadow, var(--tng-control-shadow, none));
+  color: var(--tng-textarea-fg, var(--tng-control-fg, var(--tng-semantic-foreground-primary)));
   flex: 1 1 auto;
   font: inherit;
-  line-height: 1.35;
+  font-size: var(--tng-textarea-font-size, var(--tng-control-font-size, 0.875rem));
+  font-weight: var(--tng-textarea-font-weight, var(--tng-control-font-weight, 400));
+  line-height: var(--tng-textarea-line-height, var(--tng-control-line-height, 1.35));
   min-height: 0;
-  padding: 0.7rem 0.85rem;
+  padding: var(--tng-textarea-py, var(--tng-control-padding-block, 0.5rem))
+    var(--tng-textarea-px, var(--tng-control-padding-inline, 0.75rem));
   resize: vertical;
   width: 100%;
 }
 
 .tng-textarea::placeholder {
-  color: var(--tng-semantic-foreground-muted);
+  color: var(
+    --tng-textarea-placeholder,
+    var(--tng-control-placeholder, var(--tng-semantic-foreground-muted))
+  );
+}
+
+.tng-textarea:hover:not(:disabled):not([data-disabled]):not(:focus-visible) {
+  border-color: var(
+    --tng-textarea-border-hover,
+    var(--tng-control-border-hover, var(--tng-control-border))
+  );
 }
 
 .tng-textarea:focus-visible {
-  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
+  border-color: var(
+    --tng-textarea-focus-border,
+    var(--tng-control-accent, var(--tng-semantic-accent-brand))
+  );
+  box-shadow: var(
+    --tng-textarea-focus-shadow,
+    var(--tng-control-focus-shadow, var(--tng-focus-ring))
+  );
   outline: none;
 }
 
 .tng-textarea[data-invalid] {
-  border-color: var(--tng-semantic-accent-danger);
+  border-color: var(
+    --tng-textarea-invalid-border,
+    var(--tng-control-border-invalid, var(--tng-semantic-accent-danger))
+  );
 }
 
 .tng-textarea:disabled,

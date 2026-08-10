@@ -56,20 +56,26 @@
 /* Plain-CSS drop zone */
 .drop-zone {
   align-items: center;
-  border: 2px dashed var(--tng-semantic-border-default);
-  border-radius: 0.75rem;
+  background: var(--tng-control-bg, var(--tng-semantic-background-surface));
+  border: 2px dashed var(--tng-control-border, var(--tng-semantic-border-default));
+  border-radius: var(--tng-control-radius, 0.5rem);
+  color: var(--tng-control-fg, var(--tng-semantic-foreground-primary));
   cursor: pointer;
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
   padding: 2rem 1.5rem;
   text-align: center;
-  transition: border-color 0.15s, background 0.15s;
+  transition: var(--tng-transition-colors);
 }
 
 .drop-zone[data-dragging] {
-  background: color-mix(in srgb, var(--tng-semantic-accent-primary) 8%, transparent);
-  border-color: var(--tng-semantic-accent-primary);
+  background: color-mix(
+    in srgb,
+    var(--tng-control-accent, var(--tng-semantic-accent-brand)) 8%,
+    var(--tng-control-bg)
+  );
+  border-color: var(--tng-control-accent, var(--tng-semantic-accent-brand));
 }
 
 .drop-zone-label {

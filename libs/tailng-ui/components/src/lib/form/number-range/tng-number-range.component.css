@@ -26,30 +26,39 @@
   max-width: 100%;
 
   /* ── Defaults (derived from semantic tokens) ─────────────────────────── */
-  --_tng-nr-bg-default:              var(--tng-semantic-background-surface);
-  --_tng-nr-border-default:          var(--tng-semantic-border-strong);
-  --_tng-nr-fg-default:              var(--tng-semantic-foreground-primary);
-  --_tng-nr-placeholder-default:     var(--tng-semantic-foreground-muted);
-  --_tng-nr-radius-default:          0.5rem;
-  --_tng-nr-min-height-default:      2.5rem;
-  --_tng-nr-px-default:              0.75rem;
-  --_tng-nr-gap-default:             0.25rem;
-  --_tng-nr-focus-ring-default:      var(--tng-semantic-focus-ring);
-  --_tng-nr-invalid-border-default:  var(--tng-semantic-accent-danger);
+  --_tng-nr-bg-default: var(--tng-control-bg, var(--tng-semantic-background-surface));
+  --_tng-nr-border-default: var(--tng-control-border, var(--tng-semantic-border-strong));
+  --_tng-nr-fg-default: var(--tng-control-fg, var(--tng-semantic-foreground-primary));
+  --_tng-nr-placeholder-default: var(
+    --tng-control-placeholder,
+    var(--tng-semantic-foreground-muted)
+  );
+  --_tng-nr-radius-default: var(--tng-control-radius, 0.5rem);
+  --_tng-nr-min-height-default: var(--tng-control-height-md, 2.5rem);
+  --_tng-nr-px-default: var(--tng-control-padding-inline, 0.75rem);
+  --_tng-nr-gap-default: 0.25rem;
+  --_tng-nr-focus-ring-default: var(--tng-semantic-focus-ring);
+  --_tng-nr-invalid-border-default: var(--tng-semantic-accent-danger);
   --_tng-nr-separator-color-default: var(--tng-semantic-foreground-secondary);
 
   /* ── Resolved values (public override → default) ─────────────────────── */
-  --_tng-nr-bg:              var(--tng-number-range-bg,              var(--_tng-nr-bg-default));
-  --_tng-nr-border:          var(--tng-number-range-border,          var(--_tng-nr-border-default));
-  --_tng-nr-fg:              var(--tng-number-range-fg,              var(--_tng-nr-fg-default));
-  --_tng-nr-placeholder:     var(--tng-number-range-placeholder,     var(--_tng-nr-placeholder-default));
-  --_tng-nr-radius:          var(--tng-number-range-radius,          var(--_tng-nr-radius-default));
-  --_tng-nr-min-height:      var(--tng-number-range-min-height,      var(--_tng-nr-min-height-default));
-  --_tng-nr-px:              var(--tng-number-range-px,              var(--_tng-nr-px-default));
-  --_tng-nr-gap:             var(--tng-number-range-gap,             var(--_tng-nr-gap-default));
-  --_tng-nr-focus-ring:      var(--tng-number-range-focus-ring,      var(--_tng-nr-focus-ring-default));
-  --_tng-nr-invalid-border:  var(--tng-number-range-invalid-border,  var(--_tng-nr-invalid-border-default));
-  --_tng-nr-separator-color: var(--tng-number-range-separator-color, var(--_tng-nr-separator-color-default));
+  --_tng-nr-bg: var(--tng-number-range-bg, var(--_tng-nr-bg-default));
+  --_tng-nr-border: var(--tng-number-range-border, var(--_tng-nr-border-default));
+  --_tng-nr-fg: var(--tng-number-range-fg, var(--_tng-nr-fg-default));
+  --_tng-nr-placeholder: var(--tng-number-range-placeholder, var(--_tng-nr-placeholder-default));
+  --_tng-nr-radius: var(--tng-number-range-radius, var(--_tng-nr-radius-default));
+  --_tng-nr-min-height: var(--tng-number-range-min-height, var(--_tng-nr-min-height-default));
+  --_tng-nr-px: var(--tng-number-range-px, var(--_tng-nr-px-default));
+  --_tng-nr-gap: var(--tng-number-range-gap, var(--_tng-nr-gap-default));
+  --_tng-nr-focus-ring: var(--tng-number-range-focus-ring, var(--_tng-nr-focus-ring-default));
+  --_tng-nr-invalid-border: var(
+    --tng-number-range-invalid-border,
+    var(--_tng-nr-invalid-border-default)
+  );
+  --_tng-nr-separator-color: var(
+    --tng-number-range-separator-color,
+    var(--_tng-nr-separator-color-default)
+  );
 }
 
 /* ── Host state reflections ──────────────────────────────────────────────── */
@@ -70,20 +79,25 @@
   background: var(--_tng-nr-bg);
   border: 1px solid var(--_tng-nr-border);
   border-radius: var(--_tng-nr-radius);
+  box-shadow: var(--tng-control-shadow, none);
   color: var(--_tng-nr-fg);
   cursor: text;
   display: inline-flex;
   gap: var(--_tng-nr-gap);
   overflow: hidden;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: var(--tng-transition-interactive, border-color 150ms ease, box-shadow 150ms ease);
   width: 100%;
 }
 
 /* ── Group-level focus ring ──────────────────────────────────────────────── */
 
 .tng-number-range:focus-within {
-  box-shadow: 0 0 0 3px var(--_tng-nr-focus-ring);
+  box-shadow: 0 0 0 var(--tng-focus-ring-width, 3px) var(--_tng-nr-focus-ring);
   outline: none;
+}
+
+.tng-number-range:hover:not([data-disabled]):not(:focus-within) {
+  border-color: var(--tng-control-border-hover, var(--_tng-nr-border));
 }
 
 /* ── Native number inputs — flush inside the group ───────────────────────── */
@@ -145,8 +159,7 @@
 }
 
 .tng-number-range[data-invalid]:focus-within {
-  box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--_tng-nr-invalid-border) 25%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--_tng-nr-invalid-border) 25%, transparent);
 }
 
 /* ── State: disabled ─────────────────────────────────────────────────────── */

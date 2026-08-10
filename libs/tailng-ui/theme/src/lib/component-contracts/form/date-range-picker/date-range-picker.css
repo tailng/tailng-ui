@@ -1,24 +1,35 @@
 @layer tng.contracts {
-  :where([data-slot='date-range-picker']),
+  /* Keep defaults on consumer-selectable/headless hosts. The component's inner
+   * layout root must inherit these tokens instead of redeclaring them. */
+  :where(tng-date-range-picker),
+  :where([data-slot='date-range-picker']:not(.tng-date-range-picker-root)),
   :where([data-slot='date-range-picker-overlay']) {
-    display: grid;
-    gap: 0.72rem;
-    min-width: 0;
-
-    --tng-date-range-picker-radius: 1rem;
-    --tng-date-range-picker-field-height: 2.625rem;
+    --tng-date-range-picker-radius: var(--tng-control-radius, 0.5rem);
+    --tng-date-range-picker-field-height: var(--tng-control-height-md, 2.5rem);
     --tng-date-range-picker-overlay-gap: 0.56rem;
     --tng-date-range-picker-day-cell-size: 2.2rem;
     --tng-date-range-picker-picker-cell-size: 2.3rem;
     --tng-date-range-picker-grid-gap: clamp(0.14rem, 1.15%, 0.28rem);
     --tng-date-range-picker-inline-gap: 0.36rem;
-    --tng-date-range-picker-overlay-padding: 0.72rem;
+    --tng-date-range-picker-overlay-padding: var(--tng-group-padding, 0.75rem);
     --tng-date-range-picker-nav-size: 1.95rem;
 
-    --tng-date-range-picker-border: var(--tng-semantic-border-subtle, #d1d9e6);
-    --tng-date-range-picker-border-strong: var(--tng-semantic-border-strong, #bac6d8);
-    --tng-date-range-picker-bg: var(--tng-semantic-background-surface, #ffffff);
-    --tng-date-range-picker-surface: var(--tng-semantic-background-surface, #f5f8fc);
+    --tng-date-range-picker-border: var(
+      --tng-control-border-subtle,
+      var(--tng-semantic-border-subtle, #d1d9e6)
+    );
+    --tng-date-range-picker-border-strong: var(
+      --tng-control-border,
+      var(--tng-semantic-border-strong, #bac6d8)
+    );
+    --tng-date-range-picker-bg: var(
+      --tng-control-bg,
+      var(--tng-semantic-background-surface, #ffffff)
+    );
+    --tng-date-range-picker-surface: var(
+      --tng-overlay-bg,
+      var(--tng-semantic-background-surface, #f5f8fc)
+    );
     --tng-date-range-picker-canvas: var(--tng-semantic-background-canvas, #ffffff);
     --tng-date-range-picker-fg: var(--tng-semantic-foreground-primary, #152036);
     --tng-date-range-picker-muted: var(--tng-semantic-foreground-secondary, #667892);
@@ -29,12 +40,17 @@
       var(--tng-date-range-picker-brand)
     );
 
-    --tng-date-range-picker-shadow:
-      0 22px 40px color-mix(in srgb, var(--tng-date-range-picker-fg) 14%, transparent),
-      0 10px 18px color-mix(in srgb, var(--tng-date-range-picker-fg) 8%, transparent);
-    --tng-date-range-picker-focus-shadow: 0 0 0 3px
-      color-mix(in srgb, var(--tng-date-range-picker-focus) 16%, transparent);
+    --tng-date-range-picker-shadow: var(--tng-overlay-shadow);
+    --tng-date-range-picker-focus-shadow: 0 0 0 var(--tng-focus-ring-width, 3px)
+      var(--tng-date-range-picker-focus);
     --tng-date-range-picker-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  :where([data-slot='date-range-picker']),
+  :where([data-slot='date-range-picker-overlay']) {
+    display: grid;
+    gap: 0.72rem;
+    min-width: 0;
   }
 
   :where([data-slot='date-range-picker-field']) {
@@ -58,7 +74,7 @@
       );
     border-radius: var(--tng-date-range-picker-radius);
     background: var(--tng-date-range-picker-bg);
-    box-shadow: 0 1px 2px color-mix(in srgb, var(--tng-date-range-picker-fg) 4%, transparent);
+    box-shadow: var(--tng-control-shadow, none);
     isolation: isolate;
     transition:
       border-color 150ms var(--tng-date-range-picker-ease),
@@ -73,6 +89,12 @@
       var(--tng-date-range-picker-border) 38%
     );
     box-shadow: var(--tng-date-range-picker-focus-shadow);
+  }
+
+  :where(
+    [data-slot='date-range-picker-input-shell']:hover:not(:focus-within):not([data-open='true'])
+  ) {
+    border-color: var(--tng-control-border-hover, var(--tng-date-range-picker-border-strong));
   }
 
   :where([data-slot='date-range-picker-input-shell'][data-open='true']) {
@@ -101,12 +123,12 @@
     background: transparent;
     color: var(--tng-date-range-picker-fg);
     font: inherit;
-    font-size: 0.98rem;
-    font-weight: 600;
-    line-height: 1.35;
+    font-size: var(--tng-control-font-size, 0.875rem);
+    font-weight: var(--tng-control-font-weight, 400);
+    line-height: var(--tng-control-line-height, 1.35);
     letter-spacing: 0.01em;
-    padding-block: 0.5rem;
-    padding-inline: 1.08rem 0.98rem;
+    padding-block: var(--tng-control-padding-block, 0.5rem);
+    padding-inline: var(--tng-control-padding-inline, 0.75rem);
     outline: none;
     box-shadow: none;
     caret-color: var(--tng-date-range-picker-brand);
@@ -194,7 +216,7 @@
         var(--tng-date-range-picker-border) 86%,
         var(--tng-date-range-picker-canvas) 14%
       );
-    border-radius: calc(var(--tng-date-range-picker-radius) + 0.18rem);
+    border-radius: var(--tng-overlay-radius, 0.75rem);
     background: linear-gradient(
       180deg,
       color-mix(
@@ -236,7 +258,7 @@
         var(--tng-date-range-picker-border) 84%,
         var(--tng-date-range-picker-canvas) 16%
       );
-    border-radius: 0.82rem;
+    border-radius: var(--tng-item-radius, 0.25rem);
     background: color-mix(
       in srgb,
       var(--tng-date-range-picker-canvas) 78%,
@@ -356,7 +378,7 @@
         var(--tng-date-range-picker-border) 84%,
         var(--tng-date-range-picker-canvas) 16%
       );
-    border-radius: 0.82rem;
+    border-radius: var(--tng-item-radius, 0.25rem);
     background: color-mix(
       in srgb,
       var(--tng-date-range-picker-canvas) 78%,

@@ -2,15 +2,18 @@
   --tng-form-field-fg: var(--tng-semantic-foreground-primary);
   --tng-form-field-label-gap: 0.5rem;
   --tng-form-field-inline-gap: 0.5rem;
-  --tng-form-field-frame-bg: var(--tng-semantic-background-surface);
-  --tng-form-field-frame-border: var(--tng-semantic-border-strong);
-  --tng-form-field-frame-focus-border: var(--tng-semantic-accent-brand, var(--tng-semantic-focus-ring));
+  --tng-form-field-frame-bg: var(--tng-control-bg, var(--tng-semantic-background-surface));
+  --tng-form-field-frame-border: var(--tng-control-border, var(--tng-semantic-border-strong));
+  --tng-form-field-frame-focus-border: var(
+    --tng-semantic-accent-brand,
+    var(--tng-semantic-focus-ring)
+  );
   --tng-form-field-frame-focus-ring: var(--tng-semantic-focus-ring);
   --tng-form-field-frame-invalid-border: var(--tng-semantic-accent-danger);
-  --tng-form-field-frame-radius: var(--tng-radius-control, 0.5rem);
+  --tng-form-field-frame-radius: var(--tng-control-radius, var(--tng-radius-control, 0.5rem));
   --tng-form-field-frame-min-height: var(--tng-control-height-md, 2.5rem);
-  --tng-form-field-frame-px: 0.75rem;
-  --tng-form-field-frame-py: 0.0rem;
+  --tng-form-field-frame-px: var(--tng-control-padding-inline, 0.75rem);
+  --tng-form-field-frame-py: 0rem;
   --tng-form-field-label-fg: var(--tng-semantic-foreground-secondary);
   --tng-form-field-adornment-fg: var(--tng-semantic-foreground-secondary);
   --tng-form-field-message-fg: var(--tng-semantic-foreground-muted);
@@ -27,11 +30,11 @@
   --_tng-input-bg-default: var(--tng-semantic-background-surface);
   --_tng-input-border-default: var(--tng-semantic-border-strong);
   --_tng-input-fg-default: var(--tng-semantic-foreground-primary);
-  --_tng-input-radius-default: 0.6rem;
+  --_tng-input-radius-default: var(--tng-control-radius, 0.5rem);
   --_tng-input-min-height-default: 2.5rem;
   --_tng-input-py-default: 0;
-  --_tng-input-px-default: 0.85rem;
-  --_tng-input-gap-default: 0.55rem;
+  --_tng-input-px-default: var(--tng-control-padding-inline, 0.75rem);
+  --_tng-input-gap-default: var(--tng-control-gap, 0.5rem);
   --_tng-input-focus-ring-default: var(--tng-semantic-focus-ring);
   --_tng-input-bg: var(--tng-input-bg, var(--_tng-input-bg-default));
   --_tng-input-border: var(--tng-input-border, var(--_tng-input-border-default));
@@ -53,12 +56,16 @@
   --tng-datepicker-border: transparent;
   --tng-datepicker-focus-shadow: none;
   --tng-datepicker-radius: 0;
-  --tng-datepicker-field-height: calc(var(--tng-form-field-frame-min-height, 2.625rem) - 2 * var(--tng-form-field-frame-py, 0.55rem));
+  --tng-datepicker-field-height: calc(
+    var(--tng-form-field-frame-min-height, 2.625rem) - 2 * var(--tng-form-field-frame-py, 0.55rem)
+  );
   --tng-date-range-picker-bg: transparent;
   --tng-date-range-picker-border: transparent;
   --tng-date-range-picker-focus-shadow: none;
   --tng-date-range-picker-radius: 0;
-  --tng-date-range-picker-field-height: calc(var(--tng-form-field-frame-min-height, 2.625rem) - 2 * var(--tng-form-field-frame-py, 0.55rem));
+  --tng-date-range-picker-field-height: calc(
+    var(--tng-form-field-frame-min-height, 2.625rem) - 2 * var(--tng-form-field-frame-py, 0.55rem)
+  );
 }
 
 :where([data-slot='form-field'][data-appearance='outlined'])
@@ -81,12 +88,13 @@
   background: transparent;
 }
 
-:where([data-slot='form-field'][data-appearance='outlined'])
-  :where([data-slot='input-group']) {
+:where([data-slot='form-field'][data-appearance='outlined']) :where([data-slot='input-group']) {
   border-width: 0;
   box-shadow: none;
   --_tng-input-border: transparent;
-  min-height: calc(var(--tng-form-field-frame-min-height, 2.625rem) - 2 * var(--tng-form-field-frame-py, 0));
+  min-height: calc(
+    var(--tng-form-field-frame-min-height, 2.625rem) - 2 * var(--tng-form-field-frame-py, 0)
+  );
 }
 
 :where([data-slot='form-field'][data-appearance='outlined'])
@@ -214,7 +222,10 @@
   line-height: 1;
 }
 
-:where([data-slot='form-field-hint'][data-align='end'], [data-slot='form-field-error'][data-align='end']) {
+:where(
+  [data-slot='form-field-hint'][data-align='end'],
+  [data-slot='form-field-error'][data-align='end']
+) {
   text-align: end;
 }
 
@@ -223,7 +234,8 @@
     grid-template-columns: 1fr;
   }
 
-  :where([data-slot='form-field'][data-label-position='left']) :is(.tng-form-field__label, .tng-form-field__control-row, .tng-form-field__messages) {
+  :where([data-slot='form-field'][data-label-position='left'])
+    :is(.tng-form-field__label, .tng-form-field__control-row, .tng-form-field__messages) {
     grid-column: 1;
     grid-row: auto;
   }

@@ -1,11 +1,15 @@
 :host {
   align-items: center;
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.85rem;
+  border: 1px solid
+    var(
+      --tng-button-toggle-group-border,
+      var(--tng-group-border, var(--tng-semantic-border-subtle))
+    );
+  border-radius: var(--tng-button-toggle-group-radius, var(--tng-group-radius, 0.75rem));
   display: inline-flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
-  padding: 0.4rem;
+  gap: var(--tng-button-toggle-group-gap, 0.375rem);
+  padding: var(--tng-button-toggle-group-padding, 0.375rem);
 }
 
 :host-context(tng-form-field) {

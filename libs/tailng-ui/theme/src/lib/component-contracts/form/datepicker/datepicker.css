@@ -1,24 +1,32 @@
 @layer tng.contracts {
-  :where([data-slot='datepicker']),
+  /* Keep defaults on consumer-selectable/headless hosts. The component's inner
+   * layout root must inherit these tokens instead of redeclaring them. */
+  :where(tng-datepicker),
+  :where([data-slot='datepicker']:not(.tng-datepicker-root)),
   :where([data-slot='datepicker-overlay']) {
-    display: grid;
-    gap: 0.72rem;
-    min-width: 0;
-
-    --tng-datepicker-radius: 1rem;
-    --tng-datepicker-field-height: 2.625rem;
+    --tng-datepicker-radius: var(--tng-control-radius, 0.5rem);
+    --tng-datepicker-field-height: var(--tng-control-height-md, 2.5rem);
     --tng-datepicker-overlay-gap: 0.56rem;
     --tng-datepicker-day-cell-size: 2.2rem;
     --tng-datepicker-picker-cell-size: 2.3rem;
     --tng-datepicker-grid-gap: clamp(0.14rem, 1.15%, 0.28rem);
     --tng-datepicker-inline-gap: 0.36rem;
-    --tng-datepicker-overlay-padding: 0.72rem;
+    --tng-datepicker-overlay-padding: var(--tng-group-padding, 0.75rem);
     --tng-datepicker-nav-size: 1.95rem;
 
-    --tng-datepicker-border: var(--tng-semantic-border-subtle, #d1d9e6);
-    --tng-datepicker-border-strong: var(--tng-semantic-border-strong, #bac6d8);
-    --tng-datepicker-bg: var(--tng-semantic-background-surface, #ffffff);
-    --tng-datepicker-surface: var(--tng-semantic-background-surface, #f5f8fc);
+    --tng-datepicker-border: var(
+      --tng-control-border-subtle,
+      var(--tng-semantic-border-subtle, #d1d9e6)
+    );
+    --tng-datepicker-border-strong: var(
+      --tng-control-border,
+      var(--tng-semantic-border-strong, #bac6d8)
+    );
+    --tng-datepicker-bg: var(--tng-control-bg, var(--tng-semantic-background-surface, #ffffff));
+    --tng-datepicker-surface: var(
+      --tng-overlay-bg,
+      var(--tng-semantic-background-surface, #f5f8fc)
+    );
     --tng-datepicker-canvas: var(--tng-semantic-background-canvas, #ffffff);
     --tng-datepicker-fg: var(--tng-semantic-foreground-primary, #152036);
     --tng-datepicker-muted: var(--tng-semantic-foreground-secondary, #667892);
@@ -26,12 +34,17 @@
     --tng-datepicker-danger: var(--tng-semantic-accent-danger, #dc2626);
     --tng-datepicker-focus: var(--tng-semantic-focus-ring, var(--tng-datepicker-brand));
 
-    --tng-datepicker-shadow:
-      0 22px 40px color-mix(in srgb, var(--tng-datepicker-fg) 14%, transparent),
-      0 10px 18px color-mix(in srgb, var(--tng-datepicker-fg) 8%, transparent);
-    --tng-datepicker-focus-shadow:
-      0 0 0 3px color-mix(in srgb, var(--tng-datepicker-focus) 16%, transparent);
+    --tng-datepicker-shadow: var(--tng-overlay-shadow);
+    --tng-datepicker-focus-shadow: 0 0 0 var(--tng-focus-ring-width, 3px)
+      var(--tng-datepicker-focus);
     --tng-datepicker-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  :where([data-slot='datepicker']),
+  :where([data-slot='datepicker-overlay']) {
+    display: grid;
+    gap: 0.72rem;
+    min-width: 0;
   }
 
   :where([data-slot='datepicker-field']) {
@@ -47,10 +60,11 @@
     min-height: var(--tng-datepicker-field-height);
     overflow: hidden;
     box-sizing: border-box;
-    border: 1px solid color-mix(in srgb, var(--tng-datepicker-border) 84%, var(--tng-datepicker-canvas) 16%);
+    border: 1px solid
+      color-mix(in srgb, var(--tng-datepicker-border) 84%, var(--tng-datepicker-canvas) 16%);
     border-radius: var(--tng-datepicker-radius);
     background: var(--tng-datepicker-bg);
-    box-shadow: 0 1px 2px color-mix(in srgb, var(--tng-datepicker-fg) 4%, transparent);
+    box-shadow: var(--tng-control-shadow, none);
     isolation: isolate;
     transition:
       border-color 150ms var(--tng-datepicker-ease),
@@ -59,17 +73,33 @@
   }
 
   :where([data-slot='datepicker-input-shell']:focus-within) {
-    border-color: color-mix(in srgb, var(--tng-datepicker-brand) 62%, var(--tng-datepicker-border) 38%);
+    border-color: color-mix(
+      in srgb,
+      var(--tng-datepicker-brand) 62%,
+      var(--tng-datepicker-border) 38%
+    );
     box-shadow: var(--tng-datepicker-focus-shadow);
   }
 
+  :where([data-slot='datepicker-input-shell']:hover:not(:focus-within):not([data-open='true'])) {
+    border-color: var(--tng-control-border-hover, var(--tng-datepicker-border-strong));
+  }
+
   :where([data-slot='datepicker-input-shell'][data-open='true']) {
-    border-color: color-mix(in srgb, var(--tng-datepicker-brand) 72%, var(--tng-datepicker-border) 28%);
+    border-color: color-mix(
+      in srgb,
+      var(--tng-datepicker-brand) 72%,
+      var(--tng-datepicker-border) 28%
+    );
     box-shadow: var(--tng-datepicker-focus-shadow);
   }
 
   :where([data-slot='datepicker-input-shell'][data-invalid='true']) {
-    border-color: color-mix(in srgb, var(--tng-datepicker-danger) 70%, var(--tng-datepicker-border) 30%);
+    border-color: color-mix(
+      in srgb,
+      var(--tng-datepicker-danger) 70%,
+      var(--tng-datepicker-border) 30%
+    );
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-datepicker-danger) 14%, transparent);
   }
 
@@ -81,12 +111,12 @@
     background: transparent;
     color: var(--tng-datepicker-fg);
     font: inherit;
-    font-size: 0.98rem;
-    font-weight: 600;
-    line-height: 1.35;
+    font-size: var(--tng-control-font-size, 0.875rem);
+    font-weight: var(--tng-control-font-weight, 400);
+    line-height: var(--tng-control-line-height, 1.35);
     letter-spacing: 0.01em;
-    padding-block: 0.5rem;
-    padding-inline: 1.08rem 0.98rem;
+    padding-block: var(--tng-control-padding-block, 0.5rem);
+    padding-inline: var(--tng-control-padding-inline, 0.75rem);
     outline: none;
     box-shadow: none;
     caret-color: var(--tng-datepicker-brand);
@@ -112,13 +142,13 @@
     justify-content: center;
     gap: 0.34rem;
     border: 0;
-    border-inline-start: 1px solid color-mix(in srgb, var(--tng-datepicker-border) 72%, var(--tng-datepicker-canvas) 28%);
-    background:
-      linear-gradient(
-        180deg,
-        color-mix(in srgb, var(--tng-datepicker-brand) 3%, var(--tng-datepicker-canvas) 97%),
-        color-mix(in srgb, var(--tng-datepicker-brand) 5%, var(--tng-datepicker-surface) 95%)
-      );
+    border-inline-start: 1px solid
+      color-mix(in srgb, var(--tng-datepicker-border) 72%, var(--tng-datepicker-canvas) 28%);
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--tng-datepicker-brand) 3%, var(--tng-datepicker-canvas) 97%),
+      color-mix(in srgb, var(--tng-datepicker-brand) 5%, var(--tng-datepicker-surface) 95%)
+    );
     color: var(--tng-datepicker-fg);
     cursor: pointer;
     appearance: none;
@@ -148,14 +178,14 @@
     display: grid;
     gap: 0.68rem;
     min-width: min(18rem, calc(100vw - 1.5rem));
-    border: 1px solid color-mix(in srgb, var(--tng-datepicker-border) 86%, var(--tng-datepicker-canvas) 14%);
-    border-radius: calc(var(--tng-datepicker-radius) + 0.18rem);
-    background:
-      linear-gradient(
-        180deg,
-        color-mix(in srgb, var(--tng-datepicker-surface) 95%, var(--tng-datepicker-canvas) 5%),
-        color-mix(in srgb, var(--tng-datepicker-surface) 98%, var(--tng-datepicker-canvas) 2%)
-      );
+    border: 1px solid
+      color-mix(in srgb, var(--tng-datepicker-border) 86%, var(--tng-datepicker-canvas) 14%);
+    border-radius: var(--tng-overlay-radius, 0.75rem);
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--tng-datepicker-surface) 95%, var(--tng-datepicker-canvas) 5%),
+      color-mix(in srgb, var(--tng-datepicker-surface) 98%, var(--tng-datepicker-canvas) 2%)
+    );
     color: var(--tng-datepicker-fg);
     padding: var(--tng-datepicker-overlay-padding);
     box-shadow: var(--tng-datepicker-shadow);
@@ -178,9 +208,14 @@
   :where([data-slot='datepicker-period-button']),
   :where([data-slot='datepicker-view-chip']),
   :where([data-slot='datepicker-action']) {
-    border: 1px solid color-mix(in srgb, var(--tng-datepicker-border) 84%, var(--tng-datepicker-canvas) 16%);
-    border-radius: 0.82rem;
-    background: color-mix(in srgb, var(--tng-datepicker-canvas) 78%, var(--tng-datepicker-surface) 22%);
+    border: 1px solid
+      color-mix(in srgb, var(--tng-datepicker-border) 84%, var(--tng-datepicker-canvas) 16%);
+    border-radius: var(--tng-item-radius, 0.25rem);
+    background: color-mix(
+      in srgb,
+      var(--tng-datepicker-canvas) 78%,
+      var(--tng-datepicker-surface) 22%
+    );
     color: var(--tng-datepicker-fg);
     transition:
       border-color 150ms var(--tng-datepicker-ease),
@@ -224,7 +259,11 @@
   :where([data-slot='datepicker-period-button']:focus-visible) {
     outline: none;
     box-shadow: var(--tng-datepicker-focus-shadow);
-    border-color: color-mix(in srgb, var(--tng-datepicker-brand) 68%, var(--tng-datepicker-border) 32%);
+    border-color: color-mix(
+      in srgb,
+      var(--tng-datepicker-brand) 68%,
+      var(--tng-datepicker-border) 32%
+    );
   }
 
   :where([data-slot='datepicker-view-switcher']) {
@@ -243,13 +282,16 @@
   button[data-slot='datepicker-action'][data-variant='primary'],
   :where([data-slot='datepicker-view-chip'][data-active='true']),
   :where([data-slot='datepicker-action'][data-variant='primary']) {
-    background:
-      linear-gradient(
-        180deg,
-        color-mix(in srgb, var(--tng-datepicker-brand) 76%, white 24%),
-        color-mix(in srgb, var(--tng-datepicker-brand) 88%, black 12%)
-      );
-    border-color: color-mix(in srgb, var(--tng-datepicker-brand) 78%, var(--tng-datepicker-border) 22%);
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--tng-datepicker-brand) 76%, white 24%),
+      color-mix(in srgb, var(--tng-datepicker-brand) 88%, black 12%)
+    );
+    border-color: color-mix(
+      in srgb,
+      var(--tng-datepicker-brand) 78%,
+      var(--tng-datepicker-border) 22%
+    );
     color: white;
   }
 
@@ -274,9 +316,14 @@
     width: 100%;
     aspect-ratio: 1 / 1;
     min-height: var(--tng-datepicker-day-cell-size);
-    border: 1px solid color-mix(in srgb, var(--tng-datepicker-border) 84%, var(--tng-datepicker-canvas) 16%);
-    border-radius: 0.82rem;
-    background: color-mix(in srgb, var(--tng-datepicker-canvas) 78%, var(--tng-datepicker-surface) 22%);
+    border: 1px solid
+      color-mix(in srgb, var(--tng-datepicker-border) 84%, var(--tng-datepicker-canvas) 16%);
+    border-radius: var(--tng-item-radius, 0.25rem);
+    background: color-mix(
+      in srgb,
+      var(--tng-datepicker-canvas) 78%,
+      var(--tng-datepicker-surface) 22%
+    );
     color: var(--tng-datepicker-fg);
     font-size: 0.98rem;
     font-weight: 600;
@@ -315,8 +362,16 @@
 
   button[data-slot='datepicker-cell'][data-in-range]:not([data-selected]),
   :where([data-slot='datepicker-cell'][data-in-range]:not([data-selected])) {
-    background: color-mix(in srgb, var(--tng-datepicker-brand) 10%, var(--tng-datepicker-surface) 90%);
-    border-color: color-mix(in srgb, var(--tng-datepicker-brand) 18%, var(--tng-datepicker-border) 82%);
+    background: color-mix(
+      in srgb,
+      var(--tng-datepicker-brand) 10%,
+      var(--tng-datepicker-surface) 90%
+    );
+    border-color: color-mix(
+      in srgb,
+      var(--tng-datepicker-brand) 18%,
+      var(--tng-datepicker-border) 82%
+    );
   }
 
   button[data-slot='datepicker-cell'][data-selected],
@@ -325,8 +380,16 @@
   :where([data-slot='datepicker-cell'][data-selected]),
   :where([data-slot='datepicker-month'][data-selected]),
   :where([data-slot='datepicker-year'][data-selected]) {
-    background: color-mix(in srgb, var(--tng-datepicker-brand) 18%, var(--tng-datepicker-canvas) 82%);
-    border-color: color-mix(in srgb, var(--tng-datepicker-brand) 44%, var(--tng-datepicker-border) 56%);
+    background: color-mix(
+      in srgb,
+      var(--tng-datepicker-brand) 18%,
+      var(--tng-datepicker-canvas) 82%
+    );
+    border-color: color-mix(
+      in srgb,
+      var(--tng-datepicker-brand) 44%,
+      var(--tng-datepicker-border) 56%
+    );
     color: color-mix(in srgb, var(--tng-datepicker-brand) 78%, var(--tng-datepicker-fg) 22%);
   }
 
@@ -336,8 +399,16 @@
   :where([data-slot='datepicker-cell'][data-active]),
   :where([data-slot='datepicker-month'][data-active]),
   :where([data-slot='datepicker-year'][data-active]) {
-    background: color-mix(in srgb, var(--tng-datepicker-brand) 9%, var(--tng-datepicker-surface) 91%);
-    border-color: color-mix(in srgb, var(--tng-datepicker-brand) 36%, var(--tng-datepicker-border) 64%);
+    background: color-mix(
+      in srgb,
+      var(--tng-datepicker-brand) 9%,
+      var(--tng-datepicker-surface) 91%
+    );
+    border-color: color-mix(
+      in srgb,
+      var(--tng-datepicker-brand) 36%,
+      var(--tng-datepicker-border) 64%
+    );
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--tng-datepicker-brand) 14%, transparent);
     color: color-mix(in srgb, var(--tng-datepicker-brand) 78%, var(--tng-datepicker-fg) 22%);
   }
@@ -348,8 +419,16 @@
   :where([data-slot='datepicker-cell'][data-selected][data-active]),
   :where([data-slot='datepicker-month'][data-selected][data-active]),
   :where([data-slot='datepicker-year'][data-selected][data-active]) {
-    background: color-mix(in srgb, var(--tng-datepicker-brand) 24%, var(--tng-datepicker-canvas) 76%);
-    border-color: color-mix(in srgb, var(--tng-datepicker-brand) 62%, var(--tng-datepicker-border) 38%);
+    background: color-mix(
+      in srgb,
+      var(--tng-datepicker-brand) 24%,
+      var(--tng-datepicker-canvas) 76%
+    );
+    border-color: color-mix(
+      in srgb,
+      var(--tng-datepicker-brand) 62%,
+      var(--tng-datepicker-border) 38%
+    );
     box-shadow:
       inset 0 1px 0 color-mix(in srgb, var(--tng-datepicker-canvas) 80%, transparent),
       0 0 0 1px color-mix(in srgb, var(--tng-datepicker-brand) 18%, transparent);
@@ -361,13 +440,21 @@
   :where([data-slot='datepicker-cell'][data-focus-visible]),
   :where([data-slot='datepicker-month'][data-focus-visible]),
   :where([data-slot='datepicker-year'][data-focus-visible]) {
-    border-color: color-mix(in srgb, var(--tng-datepicker-brand) 72%, var(--tng-datepicker-border) 28%);
+    border-color: color-mix(
+      in srgb,
+      var(--tng-datepicker-brand) 72%,
+      var(--tng-datepicker-border) 28%
+    );
     box-shadow: 0 0 0 2px color-mix(in srgb, var(--tng-datepicker-brand) 16%, transparent);
   }
 
   :where([data-slot='datepicker-cell'][aria-current='date']:not([data-selected])) {
     color: color-mix(in srgb, var(--tng-datepicker-brand) 78%, var(--tng-datepicker-fg) 22%);
-    border-color: color-mix(in srgb, var(--tng-datepicker-brand) 30%, var(--tng-datepicker-border) 70%);
+    border-color: color-mix(
+      in srgb,
+      var(--tng-datepicker-brand) 30%,
+      var(--tng-datepicker-border) 70%
+    );
     box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tng-datepicker-brand) 12%, transparent);
   }
 

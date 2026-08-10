@@ -2,8 +2,24 @@ import { Component, LOCALE_ID, signal, type Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { createOverlayRuntime, type TngOverlayRuntime } from '@tailng-ui/cdk';
 import { defaultDatepickerDateAdapter, type TngDateAdapter } from '@tailng-ui/primitives';
+import { readFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { TngDatepickerComponent } from '../tng-datepicker.component';
+
+const specDirectory = dirname(fileURLToPath(import.meta.url));
+const datepickerComponentCss = readFileSync(
+  resolve(specDirectory, '../tng-datepicker.component.css'),
+  'utf8',
+);
+const datepickerThemeContractCss = readFileSync(
+  resolve(
+    specDirectory,
+    '../../../../../../theme/src/lib/component-contracts/form/datepicker/datepicker.css',
+  ),
+  'utf8',
+);
 
 function keydown(target: EventTarget, key: string): KeyboardEvent {
   const event = new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key });
@@ -321,6 +337,22 @@ class StyledDatepickerHostComponent {}
 
 @Component({
   imports: [TngDatepickerComponent],
+  styles: `
+    .search-form tng-datepicker {
+      --tng-datepicker-border: transparent;
+      --tng-datepicker-radius: 0.25rem;
+    }
+  `,
+  template: `
+    <div class="search-form">
+      <tng-datepicker aria-label="Consumer-themed Datepicker" />
+    </div>
+  `,
+})
+class ConsumerThemedDatepickerHostComponent {}
+
+@Component({
+  imports: [TngDatepickerComponent],
   template: `
     <tng-datepicker aria-label="Runtime Datepicker" [overlayRuntime]="overlayRuntime()" />
   `,
@@ -448,6 +480,27 @@ describe('tng-datepicker component behavior', () => {
     expect(overlay.style.getPropertyValue('--tng-datepicker-z-overlay').trim()).toBe('');
     expect(overlay.style.zIndex).toBe('');
     expect(overlay.style.colorScheme).toBe('');
+  });
+
+  it('keeps contract token defaults off the inner root so consumer host overrides can inherit', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ConsumerThemedDatepickerHostComponent],
+    }).createComponent(ConsumerThemedDatepickerHostComponent);
+
+    await settle(fixture);
+
+    const host = getRequired<HTMLElement>(fixture, 'tng-datepicker');
+    const root = getRequired<HTMLElement>(fixture, '.tng-datepicker-root');
+    const hostStyles = getComputedStyle(host);
+
+    expect(hostStyles.getPropertyValue('--tng-datepicker-border').trim()).toBe('transparent');
+    expect(hostStyles.getPropertyValue('--tng-datepicker-radius').trim()).toBe('0.25rem');
+    expect(datepickerThemeContractCss).toMatch(/:where\(tng-datepicker\)/);
+    expect(datepickerThemeContractCss).toMatch(
+      /\[data-slot='datepicker'\]:not\(\.tng-datepicker-root\)/,
+    );
+    expect(root.matches("[data-slot='datepicker']:not(.tng-datepicker-root)")).toBe(false);
+    expect(datepickerComponentCss).not.toMatch(/--tng-datepicker-[\w-]+\s*:/);
   });
 
   it('registers overlay layers on a provided overlay runtime', async () => {

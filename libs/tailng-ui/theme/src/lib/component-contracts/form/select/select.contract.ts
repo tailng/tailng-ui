@@ -48,6 +48,7 @@ export const tngSelectCssVars = {
   triggerPaddingX: '--tng-select-trigger-px',
   optionPaddingY: '--tng-select-option-py',
   optionPaddingX: '--tng-select-option-px',
+  triggerShadow: '--tng-select-shadow',
   shadow: '--tng-select-overlay-shadow',
   zOverlay: '--tng-select-z-overlay',
   overlayZIndex: '--tng-select-overlay-z-index',

@@ -15,10 +15,10 @@
      * Four semantic levels that map to the primitive radius scale.
      * Components reference these instead of raw rem values.
      */
-    --tng-radius-control: var(--tng-radius-sm, 0.5rem);   /* inputs, selects, buttons, tooltips */
-    --tng-radius-panel:   var(--tng-radius-md, 0.75rem);  /* menus, accordions, tabs, popovers */
-    --tng-radius-surface: var(--tng-radius-lg, 1rem);     /* cards, dialogs, bottom-sheets */
-    --tng-radius-item:    var(--tng-radius-xs, 0.25rem);  /* list rows, option items inside panels */
+    --tng-radius-control: var(--tng-radius-sm, 0.5rem); /* inputs, selects, buttons, tooltips */
+    --tng-radius-panel: var(--tng-radius-md, 0.75rem); /* menus, accordions, tabs, popovers */
+    --tng-radius-surface: var(--tng-radius-lg, 1rem); /* cards, dialogs, bottom-sheets */
+    --tng-radius-item: var(--tng-radius-xs, 0.25rem); /* list rows, option items inside panels */
 
     /* --- Control Heights ---
      * All interactive controls (button, input, select, menu trigger, etc.)
@@ -28,19 +28,66 @@
     --tng-control-height-md: 2.5rem;
     --tng-control-height-lg: 3rem;
 
+    /* --- Control chrome ---
+     * Field-like controls are deliberately flat at rest. Elevation belongs to
+     * portalled panels such as select menus and calendars, not their anchors.
+     */
+    --tng-control-bg: var(--tng-semantic-background-surface);
+    --tng-control-bg-muted: var(--tng-semantic-background-muted);
+    --tng-control-fg: var(--tng-semantic-foreground-primary);
+    --tng-control-fg-secondary: var(--tng-semantic-foreground-secondary);
+    --tng-control-placeholder: var(--tng-semantic-foreground-muted);
+    --tng-control-border: var(--tng-semantic-border-strong);
+    --tng-control-border-subtle: var(--tng-semantic-border-subtle);
+    --tng-control-border-hover: color-mix(
+      in srgb,
+      var(--tng-control-fg) 25%,
+      var(--tng-control-border)
+    );
+    --tng-control-border-invalid: var(--tng-semantic-accent-danger);
+    --tng-control-accent: var(--tng-semantic-accent-brand);
+    --tng-control-radius: var(--tng-radius-control);
+    --tng-control-padding-block: 0.5rem;
+    --tng-control-padding-inline: 0.75rem;
+    --tng-control-gap: 0.5rem;
+    --tng-control-font-size: var(--tng-text-body);
+    --tng-control-font-weight: var(--tng-font-weight-normal);
+    --tng-control-line-height: 1.35;
+    --tng-control-shadow: none;
+
+    /* --- Overlay chrome --- */
+    --tng-overlay-bg: var(--tng-semantic-background-surface);
+    --tng-overlay-border: var(--tng-semantic-border-subtle);
+    --tng-overlay-radius: var(--tng-radius-panel);
+    --tng-overlay-padding: 0.375rem;
+    --tng-overlay-shadow:
+      0 8px 24px -12px color-mix(in srgb, var(--tng-semantic-foreground-primary) 32%, transparent),
+      0 2px 8px -4px color-mix(in srgb, var(--tng-semantic-foreground-primary) 20%, transparent);
+
+    /* --- Items and groups --- */
+    --tng-item-radius: var(--tng-radius-item);
+    --tng-item-min-height: 2.25rem;
+    --tng-item-padding-block: 0.5rem;
+    --tng-item-padding-inline: 0.75rem;
+    --tng-group-bg: var(--tng-control-bg);
+    --tng-group-border: var(--tng-control-border-subtle);
+    --tng-group-radius: var(--tng-radius-panel);
+    --tng-group-gap: 0.5rem;
+    --tng-group-padding: 0.75rem;
+
     /* --- Typography ---
      * Font sizes for UI controls. Maps to the primitive type scale where possible.
      */
-    --tng-text-xs:    0.75rem;    /* tooltip content, menu group labels, tiny annotations */
-    --tng-text-sm:    0.8125rem;  /* hints, captions, toast messages, helper text */
-    --tng-text-body:  0.875rem;   /* standard control text (button, input, label, menu item) */
-    --tng-text-lg:    1rem;       /* section headings, card titles */
-    --tng-text-xl:    1.1rem;     /* dialog titles */
+    --tng-text-xs: 0.75rem; /* tooltip content, menu group labels, tiny annotations */
+    --tng-text-sm: 0.8125rem; /* hints, captions, toast messages, helper text */
+    --tng-text-body: 0.875rem; /* standard control text (button, input, label, menu item) */
+    --tng-text-lg: 1rem; /* section headings, card titles */
+    --tng-text-xl: 1.1rem; /* dialog titles */
 
-    --tng-font-weight-normal:   400;
-    --tng-font-weight-medium:   500;
+    --tng-font-weight-normal: 400;
+    --tng-font-weight-medium: 500;
     --tng-font-weight-semibold: 600;
-    --tng-font-weight-bold:     700;
+    --tng-font-weight-bold: 700;
 
     /* --- Focus Ring ---
      * Single unified approach: box-shadow ring, no outline shift.
@@ -49,6 +96,9 @@
     --tng-focus-ring-width: 3px;
     --tng-focus-ring-color: var(--tng-semantic-focus-ring);
     --tng-focus-ring: 0 0 0 var(--tng-focus-ring-width) var(--tng-focus-ring-color);
+    --tng-control-focus-shadow: var(--tng-focus-ring);
+    --tng-control-invalid-shadow: 0 0 0 var(--tng-focus-ring-width)
+      color-mix(in srgb, var(--tng-control-border-invalid) 18%, transparent);
 
     /* --- States --- */
     --tng-disabled-opacity: 0.55;
@@ -56,18 +106,18 @@
     /* --- Transitions ---
      * Two speeds: fast for color/bg changes, normal for border/shadow changes.
      */
-    --tng-duration-fast:   120ms;
+    --tng-duration-fast: 120ms;
     --tng-duration-normal: 150ms;
-    --tng-easing:          ease;
+    --tng-easing: ease;
 
     --tng-transition-colors:
-      background-color var(--tng-duration-fast)   var(--tng-easing),
-      border-color     var(--tng-duration-fast)   var(--tng-easing),
-      color            var(--tng-duration-fast)   var(--tng-easing),
-      opacity          var(--tng-duration-fast)   var(--tng-easing);
+      background-color var(--tng-duration-fast) var(--tng-easing),
+      border-color var(--tng-duration-fast) var(--tng-easing),
+      color var(--tng-duration-fast) var(--tng-easing),
+      opacity var(--tng-duration-fast) var(--tng-easing);
 
     --tng-transition-interactive:
       border-color var(--tng-duration-normal) var(--tng-easing),
-      box-shadow   var(--tng-duration-normal) var(--tng-easing);
+      box-shadow var(--tng-duration-normal) var(--tng-easing);
   }
 }

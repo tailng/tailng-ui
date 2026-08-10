@@ -1,23 +1,30 @@
 :where([data-slot='input-group']) {
   align-items: center;
   display: inline-flex;
-  gap: var(--_tng-input-gap, 0.55rem);
+  gap: var(--_tng-input-gap, var(--tng-control-gap, 0.5rem));
   width: 100%;
 
-  background: var(--_tng-input-bg, var(--tng-semantic-background-surface));
-  border: 1px solid var(--_tng-input-border, var(--tng-semantic-border-strong));
-  border-radius: var(--_tng-input-radius, 0.6rem);
-  color: var(--_tng-input-fg, var(--tng-semantic-foreground-primary));
-  font-size: var(--_tng-input-font-size, inherit);
-  font-weight: var(--_tng-input-font-weight, inherit);
-  line-height: var(--_tng-input-line-height, inherit);
+  background: var(--_tng-input-bg, var(--tng-control-bg, var(--tng-semantic-background-surface)));
+  border: 1px solid
+    var(--_tng-input-border, var(--tng-control-border, var(--tng-semantic-border-strong)));
+  border-radius: var(--_tng-input-radius, var(--tng-control-radius, 0.5rem));
+  box-shadow: var(--tng-control-shadow, none);
+  color: var(--_tng-input-fg, var(--tng-control-fg, var(--tng-semantic-foreground-primary)));
+  font-size: var(--_tng-input-font-size, var(--tng-control-font-size, 0.875rem));
+  font-weight: var(--_tng-input-font-weight, var(--tng-control-font-weight, 400));
+  line-height: var(--_tng-input-line-height, var(--tng-control-line-height, 1.35));
 
   min-height: var(--_tng-input-min-height, 2.5rem);
-  padding: var(--_tng-input-py, 0) var(--_tng-input-px, 0.85rem);
+  padding: var(--_tng-input-py, 0) var(--_tng-input-px, var(--tng-control-padding-inline, 0.75rem));
 }
 
 :where([data-slot='input-group'][data-focused]) {
-  box-shadow: 0 0 0 3px var(--_tng-input-focus-ring, var(--tng-semantic-focus-ring));
+  box-shadow: 0 0 0 var(--tng-focus-ring-width, 3px)
+    var(--_tng-input-focus-ring, var(--tng-semantic-focus-ring));
+}
+
+:where([data-slot='input-group']:hover:not([data-disabled]):not([data-focused])) {
+  border-color: var(--tng-control-border-hover, var(--_tng-input-border));
 }
 
 :where([data-slot='input-group'][data-invalid]) {

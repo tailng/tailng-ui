@@ -1,18 +1,20 @@
 :host {
   display: grid;
-  gap: 0.75rem;
+  gap: var(--tng-listbox-gap, var(--tng-group-gap, 0.5rem));
   width: min(28rem, 100%);
-  padding: 0.75rem;
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 1rem;
-  background: var(--tng-semantic-background-surface);
-  color: var(--tng-semantic-foreground-primary);
+  padding: var(--tng-listbox-padding, var(--tng-group-padding, 0.75rem));
+  border: 1px solid
+    var(--tng-listbox-border, var(--tng-group-border, var(--tng-semantic-border-subtle)));
+  border-radius: var(--tng-listbox-radius, var(--tng-group-radius, 0.75rem));
+  background: var(--tng-listbox-bg, var(--tng-group-bg, var(--tng-semantic-background-surface)));
+  box-shadow: var(--tng-control-shadow, none);
+  color: var(--tng-listbox-fg, var(--tng-control-fg, var(--tng-semantic-foreground-primary)));
   outline: none;
 }
 
 :host(:focus) {
   border-color: var(--tng-semantic-accent-brand);
-  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
+  box-shadow: var(--tng-control-focus-shadow, var(--tng-focus-ring));
 }
 
 /*
@@ -46,34 +48,48 @@
   display: grid;
   gap: 0.35rem;
   width: 100%;
-  padding: 0.95rem 1rem;
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.875rem;
-  background: var(--tng-semantic-background-base);
+  min-height: var(--tng-item-min-height, 2.25rem);
+  padding: var(--tng-listbox-option-py, var(--tng-item-padding-block, 0.5rem))
+    var(--tng-listbox-option-px, var(--tng-item-padding-inline, 0.75rem));
+  border: 1px solid var(--tng-control-border-subtle, var(--tng-semantic-border-subtle));
+  border-radius: var(--tng-listbox-option-radius, var(--tng-item-radius, 0.25rem));
+  background: var(--tng-control-bg, var(--tng-semantic-background-surface));
   color: inherit;
   cursor: pointer;
   font: inherit;
   line-height: 1.35;
   min-width: 0;
   text-align: left;
-  transition:
-    border-color 140ms ease,
-    background-color 140ms ease,
-    box-shadow 140ms ease,
-    transform 140ms ease;
+  transition: var(--tng-transition-colors);
 }
 
 /* Hover and keyboard active share the same chrome (non-selected options). */
 .tng-listbox-option:hover:not([data-selected]):not([data-disabled]):not(:disabled),
 .tng-listbox-option[data-active]:not([data-selected]):not([data-disabled]):not(:disabled) {
-  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 55%, var(--tng-semantic-border-subtle));
-  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 6%, var(--tng-semantic-background-base));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 14%, transparent);
+  border-color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 55%,
+    var(--tng-semantic-border-subtle)
+  );
+  background: color-mix(
+    in srgb,
+    var(--tng-control-accent, var(--tng-semantic-accent-brand)) 8%,
+    var(--tng-control-bg)
+  );
+  box-shadow: none;
 }
 
 .tng-listbox-option[data-selected] {
-  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 35%, var(--tng-semantic-border-subtle));
-  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 10%, var(--tng-semantic-background-base));
+  border-color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-brand) 35%,
+    var(--tng-semantic-border-subtle)
+  );
+  background: color-mix(
+    in srgb,
+    var(--tng-control-accent, var(--tng-semantic-accent-brand)) 12%,
+    var(--tng-control-bg)
+  );
 }
 
 .tng-listbox-option[data-disabled],
@@ -83,11 +99,11 @@
 }
 
 .tng-listbox-option__label {
-  font-size: 1rem;
+  font-size: var(--tng-control-font-size, 0.875rem);
   font-weight: 600;
 }
 
 .tng-listbox-option__description {
   color: var(--tng-semantic-foreground-secondary);
-  font-size: 0.92rem;
+  font-size: var(--tng-text-sm, 0.8125rem);
 }

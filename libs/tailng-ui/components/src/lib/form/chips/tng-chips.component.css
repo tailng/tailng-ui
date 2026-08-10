@@ -3,11 +3,12 @@
 }
 
 .tng-chips {
-  background: var(--tng-semantic-background-surface);
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.75rem;
-  color: var(--tng-semantic-foreground-primary);
+  background: var(--tng-chips-bg, var(--tng-group-bg, var(--tng-semantic-background-surface)));
+  border: 1px solid
+    var(--tng-chips-border, var(--tng-group-border, var(--tng-semantic-border-subtle)));
+  border-radius: var(--tng-chips-radius, var(--tng-group-radius, 0.75rem));
+  color: var(--tng-control-fg, var(--tng-semantic-foreground-primary));
   display: grid;
-  gap: 0.5rem;
-  padding: 0.9rem 1rem;
+  gap: var(--tng-group-gap, 0.5rem);
+  padding: var(--tng-group-padding, 0.75rem);
 }

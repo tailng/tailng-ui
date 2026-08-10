@@ -3,11 +3,15 @@
 }
 
 .tng-toggle-group {
-  background: var(--tng-semantic-background-surface);
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.75rem;
-  color: var(--tng-semantic-foreground-primary);
+  background: var(
+    --tng-toggle-group-bg,
+    var(--tng-group-bg, var(--tng-semantic-background-surface))
+  );
+  border: 1px solid
+    var(--tng-toggle-group-border, var(--tng-group-border, var(--tng-semantic-border-subtle)));
+  border-radius: var(--tng-toggle-group-radius, var(--tng-group-radius, 0.75rem));
+  color: var(--tng-control-fg, var(--tng-semantic-foreground-primary));
   display: grid;
-  gap: 0.5rem;
-  padding: 0.9rem 1rem;
+  gap: var(--tng-group-gap, 0.5rem);
+  padding: var(--tng-group-padding, 0.75rem);
 }

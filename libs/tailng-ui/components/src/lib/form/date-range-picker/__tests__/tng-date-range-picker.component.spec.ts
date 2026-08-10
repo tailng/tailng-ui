@@ -1,12 +1,28 @@
 import { Component, signal, type Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { createOverlayRuntime, type TngOverlayRuntime } from '@tailng-ui/cdk';
+import { readFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   TngDateRangePickerComponent,
   type TngDateRangePickerSelectionInput,
   type TngDateRangePickerValue,
 } from '../tng-date-range-picker.component';
+
+const specDirectory = dirname(fileURLToPath(import.meta.url));
+const dateRangePickerComponentCss = readFileSync(
+  resolve(specDirectory, '../tng-date-range-picker.component.css'),
+  'utf8',
+);
+const dateRangePickerThemeContractCss = readFileSync(
+  resolve(
+    specDirectory,
+    '../../../../../../theme/src/lib/component-contracts/form/date-range-picker/date-range-picker.css',
+  ),
+  'utf8',
+);
 
 function keydown(target: EventTarget, key: string): KeyboardEvent {
   const event = new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key });
@@ -486,6 +502,22 @@ class StyledDateRangePickerHostComponent {}
 
 @Component({
   imports: [TngDateRangePickerComponent],
+  styles: `
+    .search-form tng-date-range-picker {
+      --tng-date-range-picker-border: transparent;
+      --tng-date-range-picker-radius: 0.25rem;
+    }
+  `,
+  template: `
+    <div class="search-form">
+      <tng-date-range-picker aria-label="Consumer-themed Date Range Picker" />
+    </div>
+  `,
+})
+class ConsumerThemedDateRangePickerHostComponent {}
+
+@Component({
+  imports: [TngDateRangePickerComponent],
   template: `
     <tng-date-range-picker
       aria-label="Runtime Date Range Picker"
@@ -593,6 +625,31 @@ describe('tng-date-range-picker component behavior', () => {
     expect(overlay.style.getPropertyValue('--tng-date-range-picker-z-overlay').trim()).toBe('');
     expect(overlay.style.zIndex).toBe('');
     expect(overlay.style.colorScheme).toBe('');
+  });
+
+  it('keeps contract token defaults off the inner root so consumer host overrides can inherit', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ConsumerThemedDateRangePickerHostComponent],
+    }).createComponent(ConsumerThemedDateRangePickerHostComponent);
+
+    await settle(fixture);
+
+    const host = getRequired<HTMLElement>(fixture, 'tng-date-range-picker');
+    const root = getRequired<HTMLElement>(fixture, '.tng-date-range-picker-root');
+    const hostStyles = getComputedStyle(host);
+
+    expect(hostStyles.getPropertyValue('--tng-date-range-picker-border').trim()).toBe(
+      'transparent',
+    );
+    expect(hostStyles.getPropertyValue('--tng-date-range-picker-radius').trim()).toBe('0.25rem');
+    expect(dateRangePickerThemeContractCss).toMatch(/:where\(tng-date-range-picker\)/);
+    expect(dateRangePickerThemeContractCss).toMatch(
+      /\[data-slot='date-range-picker'\]:not\(\.tng-date-range-picker-root\)/,
+    );
+    expect(root.matches("[data-slot='date-range-picker']:not(.tng-date-range-picker-root)")).toBe(
+      false,
+    );
+    expect(dateRangePickerComponentCss).not.toMatch(/--tng-date-range-picker-[\w-]+\s*:/);
   });
 
   it('registers overlay layers on a provided overlay runtime', async () => {

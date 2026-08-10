@@ -9,10 +9,6 @@
   width: 100%;
 }
 
-.tng-date-range-picker-root {
-  --tng-date-range-picker-radius: 0.85rem;
-}
-
 .tng-date-range-picker-anchor {
   min-width: 0;
   position: relative;
@@ -82,8 +78,8 @@
 }
 
 .tng-date-range-picker-input {
-  padding-block: 0.5rem;
-  padding-inline: 1.25rem 1rem;
+  padding-block: var(--tng-control-padding-block, 0.5rem);
+  padding-inline: var(--tng-control-padding-inline, 0.75rem);
 }
 
 .tng-date-range-picker-input:focus,

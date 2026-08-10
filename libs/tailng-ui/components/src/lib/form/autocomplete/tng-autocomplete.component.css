@@ -12,7 +12,7 @@ tng-autocomplete [data-slot='autocomplete-trigger-container'] {
       var(--tng-autocomplete-canvas, #ffffff) 16%
     );
   border-radius: var(--tng-autocomplete-radius, 0.5rem);
-  box-shadow: 0 1px 2px color-mix(in srgb, var(--tng-autocomplete-fg, #152036) 4%, transparent);
+  box-shadow: var(--tng-autocomplete-shadow, var(--tng-control-shadow, none));
   box-sizing: border-box;
   display: flex;
   gap: var(--tng-autocomplete-trigger-container-gap, 0.5rem);
@@ -37,6 +37,16 @@ tng-autocomplete
   box-shadow: var(
     --tng-autocomplete-shadow-focus,
     0 0 0 3px color-mix(in srgb, var(--tng-autocomplete-focus-ring, #3b82f6) 16%, transparent)
+  );
+}
+
+tng-autocomplete
+  [data-slot='autocomplete-trigger-container']:hover:not(
+    :has([data-slot='autocomplete-trigger']:is(:focus, :focus-visible))
+  ) {
+  border-color: var(
+    --tng-autocomplete-border-hover,
+    var(--tng-control-border-hover, var(--tng-autocomplete-border, #d1d9e6))
   );
 }
 
@@ -69,7 +79,9 @@ tng-autocomplete [data-slot='autocomplete-trigger'] {
   display: block;
   flex: 1 1 auto;
   font: inherit;
-  line-height: 1.35;
+  font-size: var(--tng-autocomplete-font-size, var(--tng-control-font-size, 0.875rem));
+  font-weight: var(--tng-autocomplete-font-weight, var(--tng-control-font-weight, 400));
+  line-height: var(--tng-autocomplete-line-height, var(--tng-control-line-height, 1.35));
   min-height: var(--tng-autocomplete-trigger-min-height);
   min-width: 0;
   outline: none;

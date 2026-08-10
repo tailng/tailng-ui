@@ -16,6 +16,9 @@ tng-multiselect [data-slot='select-trigger'] {
   box-shadow: var(--tng-select-shadow, none);
   color: var(--tng-select-fg, inherit);
   font: inherit;
+  font-size: var(--tng-select-font-size, var(--tng-control-font-size, 0.875rem));
+  font-weight: var(--tng-select-font-weight, var(--tng-control-font-weight, 400));
+  line-height: var(--tng-select-line-height, var(--tng-control-line-height, 1.35));
   cursor: pointer;
   outline: none;
   transition:
@@ -37,7 +40,7 @@ tng-multiselect [data-slot='select-value'] {
   display: block;
   flex: 1 1 auto;
   min-width: 0;
-  line-height: 1.35;
+  line-height: inherit;
   font-size: var(--tng-select-value-font-size, inherit);
   font-weight: var(--tng-select-value-font-weight, inherit);
   color: var(--tng-select-value-color, var(--tng-select-fg, inherit));
@@ -71,7 +74,7 @@ tng-multiselect [data-slot='select-icon'] {
   min-height: var(--tng-select-option-min-height);
   padding: var(--tng-select-option-py, 0.5rem) var(--tng-select-option-px, 0.75rem);
   border: 1px solid transparent;
-  border-radius: var(--tng-select-option-radius, var(--tng-select-radius, 0.375rem));
+  border-radius: var(--tng-select-option-radius, var(--tng-item-radius, 0.25rem));
   background: transparent;
   color: var(--tng-select-fg, inherit);
   font-weight: var(--tng-select-option-font-weight, inherit);
@@ -84,13 +87,22 @@ tng-multiselect [data-slot='select-icon'] {
 }
 
 [data-slot='multi-select-option']:hover:not([data-disabled]) {
-  background: var(--tng-select-option-bg-active, color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 10%, transparent));
+  background: var(
+    --tng-select-option-bg-active,
+    color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 10%, transparent)
+  );
   border-color: var(--tng-select-option-border-active, transparent);
 }
 
 [data-slot='multi-select-option'][data-active] {
-  background: var(--tng-select-option-bg-active, color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 14%, transparent));
-  border-color: var(--tng-select-option-border-active, color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 32%, transparent));
+  background: var(
+    --tng-select-option-bg-active,
+    color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 14%, transparent)
+  );
+  border-color: var(
+    --tng-select-option-border-active,
+    color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 32%, transparent)
+  );
 }
 
 [data-slot='multi-select-option'][data-selected] {
@@ -100,7 +112,11 @@ tng-multiselect [data-slot='select-icon'] {
   );
   border-color: var(
     --tng-select-option-border-selected,
-    color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 38%, var(--tng-select-border, var(--tng-semantic-border-subtle)))
+    color-mix(
+      in srgb,
+      var(--tng-select-brand, var(--tng-semantic-accent-brand)) 38%,
+      var(--tng-select-border, var(--tng-semantic-border-subtle))
+    )
   );
   color: var(--tng-select-option-fg-selected, var(--tng-select-fg, inherit));
 }
@@ -112,11 +128,16 @@ tng-multiselect [data-slot='select-icon'] {
   );
   border-color: var(
     --tng-select-option-border-selected-active,
-    color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 54%, var(--tng-select-border, var(--tng-semantic-border-subtle)))
+    color-mix(
+      in srgb,
+      var(--tng-select-brand, var(--tng-semantic-accent-brand)) 54%,
+      var(--tng-select-border, var(--tng-semantic-border-subtle))
+    )
   );
   box-shadow: var(
     --tng-select-option-shadow-selected-active,
-    0 0 0 1px color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 12%, transparent)
+    0 0 0 1px
+      color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 12%, transparent)
   );
 }
 

@@ -50,10 +50,11 @@
  * Appearance: outlined (default) — paints the standard text-input frame.
  * ------------------------------------------------------------------------- */
 :host([data-appearance='outlined']) .tng-form-field__control-row {
-  min-height: var(--tng-form-field-frame-min-height, 2.625rem);
+  min-height: var(--tng-form-field-frame-min-height, var(--tng-control-height-md, 2.5rem));
   padding: var(--tng-form-field-frame-py, 0.55rem) var(--tng-form-field-frame-px, 0.75rem);
   border: 1px solid var(--tng-form-field-frame-border);
-  border-radius: var(--tng-form-field-frame-radius, 0.65rem);
+  border-radius: var(--tng-form-field-frame-radius, var(--tng-control-radius, 0.5rem));
+  box-shadow: var(--tng-control-shadow, none);
   background: var(--tng-form-field-frame-bg);
 }
 
@@ -64,7 +65,7 @@
 :host([data-label-position='outline'][data-appearance='outlined']) .tng-form-field__frame {
   padding: 0 var(--tng-form-field-frame-px, 0.75rem) var(--tng-form-field-frame-py, 0.55rem);
   border: 1px solid var(--tng-form-field-frame-border);
-  border-radius: var(--tng-form-field-frame-radius, 0.65rem);
+  border-radius: var(--tng-form-field-frame-radius, var(--tng-control-radius, 0.5rem));
   background: var(--tng-form-field-frame-bg);
 }
 
@@ -76,7 +77,10 @@
 }
 
 :host([data-label-position='outline'][data-appearance='outlined']) .tng-form-field__control-row {
-  min-height: calc(var(--tng-form-field-frame-min-height, 2.625rem) - var(--tng-form-field-frame-py));
+  min-height: calc(
+    var(--tng-form-field-frame-min-height, var(--tng-control-height-md, 2.5rem)) -
+      var(--tng-form-field-frame-py)
+  );
   padding: 0;
   border: 0;
   border-radius: 0;
@@ -101,7 +105,7 @@
   display: flex;
   align-self: stretch;
   justify-content: flex-start;
-  min-height: var(--tng-form-field-frame-min-height, 2.625rem);
+  min-height: var(--tng-form-field-frame-min-height, var(--tng-control-height-md, 2.5rem));
   grid-column: 1;
   grid-row: 1;
   overflow-wrap: break-word;
@@ -114,13 +118,15 @@
   grid-column: 2;
 }
 
-:host([data-focused][data-appearance='outlined']:not([data-label-position='outline'])) .tng-form-field__control-row {
+:host([data-focused][data-appearance='outlined']:not([data-label-position='outline']))
+  .tng-form-field__control-row {
   border-color: var(--tng-form-field-frame-focus-border);
-  box-shadow: 0 0 0 3px var(--tng-form-field-frame-focus-ring);
+  box-shadow: 0 0 0 var(--tng-focus-ring-width, 3px) var(--tng-form-field-frame-focus-ring);
 }
 
 /* Outlined fieldset: focus rides on the border (no outer halo); pad in by 1px so 1px→2px border does not shift content. */
-:host([data-focused][data-appearance='outlined'][data-label-position='outline']) .tng-form-field__frame {
+:host([data-focused][data-appearance='outlined'][data-label-position='outline'])
+  .tng-form-field__frame {
   border-width: 2px;
   border-color: var(--tng-form-field-frame-focus-border);
   box-shadow: none;
@@ -128,8 +134,10 @@
   padding-block-end: calc(var(--tng-form-field-frame-py, 0.55rem) - 1px);
 }
 
-:host([data-invalid][data-appearance='outlined']:not([data-label-position='outline'])) .tng-form-field__control-row,
-:host([data-invalid][data-appearance='outlined'][data-label-position='outline']) .tng-form-field__frame {
+:host([data-invalid][data-appearance='outlined']:not([data-label-position='outline']))
+  .tng-form-field__control-row,
+:host([data-invalid][data-appearance='outlined'][data-label-position='outline'])
+  .tng-form-field__frame {
   border-color: var(--tng-form-field-frame-invalid-border);
 }
 
@@ -141,13 +149,9 @@
  * sits inside a *bordered container* rather than on top of a second filled
  * surface. The border / padding / radius are kept; only the fill is removed.
  * ------------------------------------------------------------------------- */
-:host(
-    [data-appearance='outlined'][data-control-kind='inline']:not([data-label-position='outline'])
-  )
+:host([data-appearance='outlined'][data-control-kind='inline']:not([data-label-position='outline']))
   .tng-form-field__control-row,
-:host(
-    [data-appearance='outlined'][data-control-kind='group']:not([data-label-position='outline'])
-  )
+:host([data-appearance='outlined'][data-control-kind='group']:not([data-label-position='outline']))
   .tng-form-field__control-row,
 :host(
     [data-appearance='outlined'][data-control-kind='composite']:not([data-label-position='outline'])
@@ -156,9 +160,12 @@
   background: transparent;
 }
 
-:host([data-appearance='outlined'][data-label-position='outline'][data-control-kind='inline']) .tng-form-field__frame,
-:host([data-appearance='outlined'][data-label-position='outline'][data-control-kind='group']) .tng-form-field__frame,
-:host([data-appearance='outlined'][data-label-position='outline'][data-control-kind='composite']) .tng-form-field__frame {
+:host([data-appearance='outlined'][data-label-position='outline'][data-control-kind='inline'])
+  .tng-form-field__frame,
+:host([data-appearance='outlined'][data-label-position='outline'][data-control-kind='group'])
+  .tng-form-field__frame,
+:host([data-appearance='outlined'][data-label-position='outline'][data-control-kind='composite'])
+  .tng-form-field__frame {
   background: transparent;
 }
 
@@ -197,21 +204,44 @@
 }
 
 /* Multiline controls: same width as other fields, ~2× single-line chrome height. */
-:host([data-appearance='outlined']):is(:has(tng-textarea), :has(textarea[tngTextarea]), :has(textarea[tngInput])) .tng-form-field__control-row {
+:host([data-appearance='outlined']):is(
+    :has(tng-textarea),
+    :has(textarea[tngTextarea]),
+    :has(textarea[tngInput])
+  )
+  .tng-form-field__control-row {
   align-items: stretch;
-  min-height: calc(2 * var(--tng-form-field-frame-min-height, 2.625rem));
+  min-height: calc(
+    2 * var(--tng-form-field-frame-min-height, var(--tng-control-height-md, 2.5rem))
+  );
 }
 
-:host([data-appearance='outlined'][data-label-position='outline']:is(:has(tng-textarea), :has(textarea[tngTextarea]), :has(textarea[tngInput])))
+:host(
+    [data-appearance='outlined'][data-label-position='outline']:is(
+        :has(tng-textarea),
+        :has(textarea[tngTextarea]),
+        :has(textarea[tngInput])
+      )
+  )
   .tng-form-field__control-row {
-  min-height: calc(2 * (var(--tng-form-field-frame-min-height, 2.625rem) - var(--tng-form-field-frame-py, 0.55rem)));
+  min-height: calc(
+    2 *
+      (
+        var(--tng-form-field-frame-min-height, var(--tng-control-height-md, 2.5rem)) -
+          var(--tng-form-field-frame-py, 0.55rem)
+      )
+  );
 }
 
 /* Multiline typing section: give the textarea comfortable, uniform padding on
    all four sides. The default outlined layout carries the frame padding on the
    control-row, so override it here; for the `outline` label position the frame
    owns the inset and the control-row is normally padding-free, so add it back. */
-:host([data-appearance='outlined']:not([data-label-position='outline'])):is(:has(tng-textarea), :has(textarea[tngTextarea]), :has(textarea[tngInput]))
+:host([data-appearance='outlined']:not([data-label-position='outline'])):is(
+    :has(tng-textarea),
+    :has(textarea[tngTextarea]),
+    :has(textarea[tngInput])
+  )
   .tng-form-field__control-row {
   padding: var(--tng-form-field-textarea-padding, 0.75rem);
 }
@@ -220,13 +250,21 @@
    bottom (frame-py), and the top is taken by the floating label. Only top up the
    block padding so the typing text clears the label and the four sides read as
    the same comfortable gap, without doubling the horizontal inset. */
-:host([data-appearance='outlined'][data-label-position='outline']:is(:has(tng-textarea), :has(textarea[tngTextarea]), :has(textarea[tngInput])))
+:host(
+    [data-appearance='outlined'][data-label-position='outline']:is(
+        :has(tng-textarea),
+        :has(textarea[tngTextarea]),
+        :has(textarea[tngInput])
+      )
+  )
   .tng-form-field__control-row {
   padding: var(--tng-form-field-textarea-padding, 0.75rem) 0
-    calc(var(--tng-form-field-textarea-padding, 0.75rem) - var(--tng-form-field-frame-py, 0.55rem)) 0;
+    calc(var(--tng-form-field-textarea-padding, 0.75rem) - var(--tng-form-field-frame-py, 0.55rem))
+    0;
 }
 
-:host(:is(:has(tng-textarea), :has(textarea[tngTextarea]), :has(textarea[tngInput]))) .tng-form-field__control {
+:host(:is(:has(tng-textarea), :has(textarea[tngTextarea]), :has(textarea[tngInput])))
+  .tng-form-field__control {
   display: flex;
   align-items: stretch;
 }

@@ -4,11 +4,11 @@
 
 .tng-label {
   align-items: center;
-  color: var(--tng-semantic-foreground-primary);
+  color: var(--tng-label-fg, var(--tng-control-fg, var(--tng-semantic-foreground-primary)));
   display: inline-flex;
-  font-size: 0.875rem;
-  font-weight: 600;
-  gap: 0.3rem;
+  font-size: var(--tng-label-font-size, var(--tng-control-font-size, 0.875rem));
+  font-weight: var(--tng-label-font-weight, var(--tng-font-weight-semibold, 600));
+  gap: var(--tng-label-gap, 0.25rem);
 }
 
 .tng-label-required {

@@ -9,18 +9,21 @@ tng-select [data-slot='select-trigger'] {
   width: var(--tng-select-trigger-width, 100%);
   padding: var(--tng-select-trigger-py) var(--tng-select-trigger-px);
   align-items: center;
-  gap: var(--tng-select-trigger-gap, 0.5rem);
+  gap: var(--tng-select-trigger-gap, var(--tng-control-gap, 0.5rem));
   border: 1px solid var(--tng-select-border-strong, var(--tng-select-border, transparent));
   border-radius: var(--tng-select-radius, var(--tng-radius-control, 0.5rem));
   background: var(--tng-select-bg, transparent);
   box-shadow: var(--tng-select-shadow, none);
   color: var(--tng-select-fg, inherit);
   font: inherit;
+  font-size: var(--tng-select-font-size, var(--tng-control-font-size, 0.875rem));
+  font-weight: var(--tng-select-font-weight, var(--tng-control-font-weight, 400));
+  line-height: var(--tng-select-line-height, var(--tng-control-line-height, 1.35));
   cursor: pointer;
   outline: none;
   transition:
     border-color var(--tng-duration-fast, 120ms) var(--tng-select-ease, var(--tng-easing, ease)),
-    box-shadow   var(--tng-duration-fast, 120ms) var(--tng-select-ease, var(--tng-easing, ease));
+    box-shadow var(--tng-duration-fast, 120ms) var(--tng-select-ease, var(--tng-easing, ease));
 }
 
 tng-select [data-slot='select-trigger']:hover:not([aria-disabled='true']) {
@@ -37,7 +40,7 @@ tng-select [data-slot='select-value'] {
   display: block;
   flex: 1 1 auto;
   min-width: 0;
-  line-height: 1.35;
+  line-height: inherit;
   font-size: var(--tng-select-value-font-size, inherit);
   font-weight: var(--tng-select-value-font-weight, inherit);
   color: var(--tng-select-value-color, var(--tng-select-fg, inherit));
@@ -60,11 +63,18 @@ tng-select [data-slot='select-icon'] {
   max-width: var(--tng-select-overlay-max-width, none);
   max-height: var(--tng-select-overlay-max-height);
   overflow: auto;
-  border: 1px solid var(--tng-select-overlay-border, var(--tng-select-border, var(--tng-semantic-border-subtle, transparent)));
-  border-radius: var(--tng-select-overlay-radius, var(--tng-select-radius, var(--tng-radius-control, 0.5rem)));
-  background: var(--tng-select-overlay-bg, var(--tng-select-bg, var(--tng-semantic-background-surface)));
+  border: 1px solid
+    var(
+      --tng-select-overlay-border,
+      var(--tng-select-border, var(--tng-semantic-border-subtle, transparent))
+    );
+  border-radius: var(--tng-select-overlay-radius, var(--tng-overlay-radius, 0.75rem));
+  background: var(
+    --tng-select-overlay-bg,
+    var(--tng-overlay-bg, var(--tng-select-bg, var(--tng-semantic-background-surface)))
+  );
   padding: var(--tng-select-overlay-padding, 0.25rem);
-  box-shadow: var(--tng-select-overlay-shadow, 0 4px 12px color-mix(in srgb, var(--tng-semantic-foreground-primary, #000) 8%, transparent));
+  box-shadow: var(--tng-select-overlay-shadow, var(--tng-overlay-shadow));
 }
 
 [data-slot='select-listbox'] {
@@ -82,25 +92,37 @@ tng-select [data-slot='select-icon'] {
   min-height: var(--tng-select-option-min-height);
   padding: var(--tng-select-option-py, 0.5rem) var(--tng-select-option-px, 0.75rem);
   border: 1px solid transparent;
-  border-radius: var(--tng-select-option-radius, var(--tng-radius-item, 0.25rem));
+  border-radius: var(
+    --tng-select-option-radius,
+    var(--tng-item-radius, var(--tng-radius-item, 0.25rem))
+  );
   background: transparent;
   color: var(--tng-select-fg, inherit);
   cursor: pointer;
   transition:
-    border-color     var(--tng-duration-fast, 120ms) var(--tng-select-ease, var(--tng-easing, ease)),
+    border-color var(--tng-duration-fast, 120ms) var(--tng-select-ease, var(--tng-easing, ease)),
     background-color var(--tng-duration-fast, 120ms) var(--tng-select-ease, var(--tng-easing, ease)),
-    box-shadow       var(--tng-duration-fast, 120ms) var(--tng-select-ease, var(--tng-easing, ease)),
-    opacity          var(--tng-duration-fast, 120ms) var(--tng-select-ease, var(--tng-easing, ease));
+    box-shadow var(--tng-duration-fast, 120ms) var(--tng-select-ease, var(--tng-easing, ease)),
+    opacity var(--tng-duration-fast, 120ms) var(--tng-select-ease, var(--tng-easing, ease));
 }
 
 [data-slot='select-option']:hover:not([data-disabled]) {
-  background: var(--tng-select-option-bg-active, color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 10%, transparent));
+  background: var(
+    --tng-select-option-bg-active,
+    color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 10%, transparent)
+  );
   border-color: var(--tng-select-option-border-active, transparent);
 }
 
 [data-slot='select-option'][data-active] {
-  background: var(--tng-select-option-bg-active, color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 14%, transparent));
-  border-color: var(--tng-select-option-border-active, color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 32%, transparent));
+  background: var(
+    --tng-select-option-bg-active,
+    color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 14%, transparent)
+  );
+  border-color: var(
+    --tng-select-option-border-active,
+    color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 32%, transparent)
+  );
 }
 
 [data-slot='select-option'][data-selected] {
@@ -110,7 +132,11 @@ tng-select [data-slot='select-icon'] {
   );
   border-color: var(
     --tng-select-option-border-selected,
-    color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 38%, var(--tng-select-border, var(--tng-semantic-border-subtle)))
+    color-mix(
+      in srgb,
+      var(--tng-select-brand, var(--tng-semantic-accent-brand)) 38%,
+      var(--tng-select-border, var(--tng-semantic-border-subtle))
+    )
   );
   color: var(--tng-select-option-fg-selected, var(--tng-select-fg, inherit));
 }
@@ -122,11 +148,16 @@ tng-select [data-slot='select-icon'] {
   );
   border-color: var(
     --tng-select-option-border-selected-active,
-    color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 54%, var(--tng-select-border, var(--tng-semantic-border-subtle)))
+    color-mix(
+      in srgb,
+      var(--tng-select-brand, var(--tng-semantic-accent-brand)) 54%,
+      var(--tng-select-border, var(--tng-semantic-border-subtle))
+    )
   );
   box-shadow: var(
     --tng-select-option-shadow-selected-active,
-    0 0 0 1px color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 12%, transparent)
+    0 0 0 1px
+      color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 12%, transparent)
   );
 }
 

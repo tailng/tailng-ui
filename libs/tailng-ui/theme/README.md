@@ -86,6 +86,25 @@ Package exports include component contract styles:
 - `@tailng-ui/theme/component-contracts/index.css`
 - `@tailng-ui/theme/component-contracts/*`
 
+### Shared form-control tokens
+
+Form components resolve their defaults through the shared control contract before
+falling back to semantic tokens. Override these variables on `:root`, a theme
+scope, or a component subtree to tune the whole form family together:
+
+- `--tng-control-bg`, `--tng-control-fg`, `--tng-control-placeholder`
+- `--tng-control-border`, `--tng-control-border-hover`, `--tng-control-border-invalid`
+- `--tng-control-radius`, `--tng-control-height-sm|md|lg`
+- `--tng-control-padding-block`, `--tng-control-padding-inline`, `--tng-control-gap`
+- `--tng-control-font-size`, `--tng-control-font-weight`, `--tng-control-line-height`
+- `--tng-control-shadow`, `--tng-control-focus-shadow`
+- `--tng-overlay-bg`, `--tng-overlay-border`, `--tng-overlay-radius`, `--tng-overlay-shadow`
+- `--tng-item-*` and `--tng-group-*` for option rows and grouped controls
+
+Resting controls are flat by default (`--tng-control-shadow: none`). Floating
+panels such as select menus, autocomplete results, and calendars use
+`--tng-overlay-shadow`, keeping field and overlay elevation visually distinct.
+
 ## Build
 
 ```bash

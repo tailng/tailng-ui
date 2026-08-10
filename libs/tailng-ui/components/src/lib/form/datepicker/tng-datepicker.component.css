@@ -9,10 +9,6 @@
   width: 100%;
 }
 
-.tng-datepicker-root {
-  --tng-datepicker-radius: 0.85rem;
-}
-
 .tng-datepicker-anchor {
   min-width: 0;
   position: relative;
@@ -82,8 +78,8 @@
 }
 
 .tng-datepicker-input {
-  padding-block: 0.5rem;
-  padding-inline: 1.25rem 1rem;
+  padding-block: var(--tng-control-padding-block, 0.5rem);
+  padding-inline: var(--tng-control-padding-inline, 0.75rem);
 }
 
 .tng-datepicker-input:focus,

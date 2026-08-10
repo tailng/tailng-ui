@@ -5,7 +5,7 @@
 
 .tng-input-otp-root {
   align-items: center;
-  column-gap: 0.5rem;
+  column-gap: var(--tng-input-otp-gap, var(--tng-control-gap, 0.5rem));
   display: inline-flex;
   inline-size: fit-content;
   position: relative;
@@ -13,15 +13,20 @@
 
 .tng-input-otp-slot {
   appearance: none;
-  background: var(--tng-semantic-background-surface);
-  border: 1px solid var(--tng-semantic-border-default);
-  border-radius: 0.56rem;
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 1rem;
+  background: var(
+    --tng-input-otp-bg,
+    var(--tng-control-bg, var(--tng-semantic-background-surface))
+  );
+  border: 1px solid
+    var(--tng-input-otp-border, var(--tng-control-border, var(--tng-semantic-border-default)));
+  border-radius: var(--tng-input-otp-radius, var(--tng-control-radius, 0.5rem));
+  box-shadow: var(--tng-control-shadow, none);
+  color: var(--tng-input-otp-fg, var(--tng-control-fg, var(--tng-semantic-foreground-primary)));
+  font-size: var(--tng-input-otp-font-size, var(--tng-control-font-size, 0.875rem));
   font-variant-numeric: tabular-nums;
   font-weight: 600;
   inline-size: 2.45rem;
-  block-size: 2.6rem;
+  block-size: var(--tng-input-otp-height, var(--tng-control-height-md, 2.5rem));
   line-height: 1;
   text-align: center;
   transition:
@@ -32,13 +37,13 @@
 }
 
 .tng-input-otp-slot::placeholder {
-  color: var(--tng-semantic-foreground-muted);
+  color: var(--tng-control-placeholder, var(--tng-semantic-foreground-muted));
   font-weight: 500;
 }
 
 .tng-input-otp-slot:focus-visible {
   border-color: var(--tng-semantic-accent-brand);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--tng-semantic-accent-brand) 30%, transparent);
+  box-shadow: var(--tng-control-focus-shadow, var(--tng-focus-ring));
   outline: none;
 }
 
@@ -53,7 +58,11 @@
 }
 
 .tng-input-otp-root[data-invalid] .tng-input-otp-slot {
-  border-color: color-mix(in srgb, var(--tng-semantic-accent-danger) 75%, var(--tng-semantic-border-default));
+  border-color: color-mix(
+    in srgb,
+    var(--tng-semantic-accent-danger) 75%,
+    var(--tng-semantic-border-default)
+  );
 }
 
 .tng-input-otp-root[data-focus-visible] .tng-input-otp-slot[data-tng-otp-slot] {

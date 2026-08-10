@@ -4,10 +4,10 @@
 
 .tng-radio-root {
   align-items: center;
-  color: var(--tng-semantic-foreground-primary);
+  color: var(--tng-control-fg, var(--tng-semantic-foreground-primary));
   cursor: pointer;
   display: inline-flex;
-  gap: 0.55rem;
+  gap: var(--tng-control-gap, 0.5rem);
   user-select: none;
 }
 
@@ -21,7 +21,7 @@
 }
 
 .tng-radio-control {
-  accent-color: var(--tng-semantic-accent-brand);
+  accent-color: var(--tng-control-accent, var(--tng-semantic-accent-brand));
   block-size: 1rem;
   inline-size: 1rem;
   margin: 0;
@@ -33,11 +33,11 @@
 }
 
 .tng-radio-control:focus-visible {
-  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
+  box-shadow: var(--tng-control-focus-shadow, var(--tng-focus-ring));
   outline: none;
 }
 
 .tng-radio-label {
-  font-size: 0.925rem;
+  font-size: var(--tng-radio-font-size, var(--tng-control-font-size, 0.875rem));
   line-height: 1.2;
 }

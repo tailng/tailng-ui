@@ -6,40 +6,47 @@
     - semantic tokens drive light/dark
   */
 
-  :where([data-slot="autocomplete"]) {
+  :where([data-slot='autocomplete']) {
     display: grid;
     gap: 0.45rem;
     min-width: 0;
 
     /* sizing knobs */
-    --tng-autocomplete-radius: 0.72rem;
-    --tng-autocomplete-trigger-container-min-height: 2.625rem;
-    --tng-autocomplete-trigger-container-gap: 0.65rem;
+    --tng-autocomplete-radius: var(--tng-control-radius, 0.5rem);
+    --tng-autocomplete-trigger-container-min-height: var(--tng-control-height-md, 2.5rem);
+    --tng-autocomplete-trigger-container-gap: var(--tng-control-gap, 0.5rem);
     --tng-autocomplete-trigger-container-px: 0;
-    --tng-autocomplete-trigger-py: 0.58rem;
-    --tng-autocomplete-trigger-px: 1rem;
+    --tng-autocomplete-trigger-py: var(--tng-control-padding-block, 0.5rem);
+    --tng-autocomplete-trigger-px: var(--tng-control-padding-inline, 0.75rem);
     --tng-autocomplete-icon-size: 0.8rem;
     --tng-autocomplete-icon-box-size: 0.9rem;
     --tng-autocomplete-icon-opacity: 0.78;
-    --tng-autocomplete-icon-margin-inline-end: 1rem;
-    --tng-autocomplete-overlay-padding: 0.5rem;
-    --tng-autocomplete-overlay-radius: calc(var(--tng-autocomplete-radius) + 0.16rem);
-    --tng-autocomplete-overlay-shadow:
-      0 18px 40px -28px rgba(2, 6, 23, 0.7),
-      0 10px 22px -18px rgba(15, 23, 42, 0.55);
+    --tng-autocomplete-icon-margin-inline-end: var(--tng-control-padding-inline, 0.75rem);
+    --tng-autocomplete-overlay-padding: var(--tng-overlay-padding, 0.375rem);
+    --tng-autocomplete-overlay-radius: var(--tng-overlay-radius, 0.75rem);
+    --tng-autocomplete-overlay-shadow: var(--tng-overlay-shadow);
     --tng-autocomplete-overlay-max-width: min(92vw, 24rem);
     --tng-autocomplete-z-overlay: var(--tng-autocomplete-overlay-z-index, var(--tng-z-overlay, 2));
     --tng-autocomplete-listbox-gap: 0.2rem;
-    --tng-autocomplete-option-min-height: 2.3rem;
-    --tng-autocomplete-option-py: 0.5rem;
-    --tng-autocomplete-option-px: 0.95rem;
-    --tng-autocomplete-option-radius: 0.5rem;
+    --tng-autocomplete-option-min-height: var(--tng-item-min-height, 2.25rem);
+    --tng-autocomplete-option-py: var(--tng-item-padding-block, 0.5rem);
+    --tng-autocomplete-option-px: var(--tng-item-padding-inline, 0.75rem);
+    --tng-autocomplete-option-radius: var(--tng-item-radius, 0.25rem);
 
     /* surface + border */
-    --tng-autocomplete-border: var(--tng-semantic-border-subtle, #d1d9e6);
-    --tng-autocomplete-border-strong: var(--tng-semantic-border-strong, #bac6d8);
-    --tng-autocomplete-bg: var(--tng-semantic-background-surface, #ffffff);
-    --tng-autocomplete-surface: var(--tng-semantic-background-surface, #f8fafc);
+    --tng-autocomplete-border: var(
+      --tng-control-border-subtle,
+      var(--tng-semantic-border-subtle, #d1d9e6)
+    );
+    --tng-autocomplete-border-strong: var(
+      --tng-control-border,
+      var(--tng-semantic-border-strong, #bac6d8)
+    );
+    --tng-autocomplete-bg: var(--tng-control-bg, var(--tng-semantic-background-surface, #ffffff));
+    --tng-autocomplete-surface: var(
+      --tng-overlay-bg,
+      var(--tng-semantic-background-surface, #f8fafc)
+    );
     --tng-autocomplete-canvas: var(--tng-semantic-background-canvas, #ffffff);
     --tng-autocomplete-fg: var(--tng-semantic-foreground-primary, #0f172a);
     --tng-autocomplete-muted: var(--tng-semantic-foreground-muted, #64748b);
@@ -49,12 +56,9 @@
     --tng-autocomplete-danger: var(--tng-semantic-accent-danger, #dc2626);
     --tng-autocomplete-focus-ring: var(--tng-semantic-focus-ring, var(--tng-autocomplete-brand));
 
-    /* elevation */
-    --tng-autocomplete-shadow:
-      0 18px 40px -28px rgba(2, 6, 23, 0.7),
-      0 10px 22px -18px rgba(15, 23, 42, 0.55);
-    --tng-autocomplete-shadow-focus: 0 0 0 3px
-      color-mix(in srgb, var(--tng-autocomplete-focus-ring) 16%, transparent);
+    --tng-autocomplete-shadow: var(--tng-control-shadow, none);
+    --tng-autocomplete-shadow-focus: 0 0 0 var(--tng-focus-ring-width, 3px)
+      var(--tng-autocomplete-focus-ring);
 
     /* motion */
     --tng-autocomplete-ease: cubic-bezier(0.4, 0, 0.2, 1);
@@ -65,13 +69,13 @@
    * Without collapsing gap, the host grid would still apply row-gap between the trigger row and
    * the empty second row, adding visible space under the trigger inside form shells.
    */
-  :where([data-slot="autocomplete"][data-state="open"]) {
+  :where([data-slot='autocomplete'][data-state='open']) {
     gap: 0;
   }
 
   /* ---------------- Trigger container (input + icon) ---------------- */
 
-  :where([data-slot="autocomplete-trigger-container"]) {
+  :where([data-slot='autocomplete-trigger-container']) {
     display: flex;
     align-items: center;
     gap: var(--tng-autocomplete-trigger-container-gap);
@@ -79,14 +83,10 @@
     padding-inline: var(--tng-autocomplete-trigger-container-px);
 
     border: 1px solid
-      color-mix(
-        in srgb,
-        var(--tng-autocomplete-border) 84%,
-        var(--tng-autocomplete-canvas) 16%
-      );
+      color-mix(in srgb, var(--tng-autocomplete-border) 84%, var(--tng-autocomplete-canvas) 16%);
     border-radius: var(--tng-autocomplete-radius);
     background: var(--tng-autocomplete-bg);
-    box-shadow: 0 1px 2px color-mix(in srgb, var(--tng-autocomplete-fg) 4%, transparent);
+    box-shadow: var(--tng-autocomplete-shadow);
     min-height: var(--tng-autocomplete-trigger-container-min-height);
 
     transition:
@@ -95,8 +95,8 @@
       background-color 150ms var(--tng-autocomplete-ease);
   }
 
-  :where([data-slot="autocomplete-trigger-container"]:has(:focus)),
-  :where([data-slot="autocomplete-trigger-container"]:has(:focus-visible)) {
+  :where([data-slot='autocomplete-trigger-container']:has(:focus)),
+  :where([data-slot='autocomplete-trigger-container']:has(:focus-visible)) {
     outline: none;
     border-color: color-mix(
       in srgb,
@@ -106,8 +106,12 @@
     box-shadow: var(--tng-autocomplete-shadow-focus);
   }
 
-  :where([data-slot="autocomplete"][data-state="open"])
-    :where([data-slot="autocomplete-trigger-container"]) {
+  :where([data-slot='autocomplete-trigger-container']:hover:not(:has(:focus))) {
+    border-color: var(--tng-control-border-hover, var(--tng-autocomplete-border-strong));
+  }
+
+  :where([data-slot='autocomplete'][data-state='open'])
+    :where([data-slot='autocomplete-trigger-container']) {
     border-color: color-mix(
       in srgb,
       var(--tng-autocomplete-brand) 72%,
@@ -116,14 +120,15 @@
     box-shadow: var(--tng-autocomplete-shadow-focus);
   }
 
-  :where([data-slot="autocomplete"][data-disabled]) :where([data-slot="autocomplete-trigger-container"]) {
+  :where([data-slot='autocomplete'][data-disabled])
+    :where([data-slot='autocomplete-trigger-container']) {
     opacity: 0.5;
     cursor: not-allowed;
   }
 
   /* ---------------- Trigger (input) ---------------- */
 
-  :where([data-slot="autocomplete-trigger"]) {
+  :where([data-slot='autocomplete-trigger']) {
     all: unset;
     box-sizing: border-box;
     flex: 1;
@@ -140,9 +145,9 @@
     color: var(--tng-autocomplete-fg);
 
     font-family: inherit;
-    font-size: 0.95rem;
-    font-weight: 400;
-    line-height: 1.4;
+    font-size: var(--tng-control-font-size, 0.875rem);
+    font-weight: var(--tng-control-font-weight, 400);
+    line-height: var(--tng-control-line-height, 1.35);
     caret-color: var(--tng-autocomplete-brand);
     cursor: text;
     -webkit-tap-highlight-color: transparent;
@@ -150,19 +155,19 @@
     outline: none;
   }
 
-  :where([data-slot="autocomplete-trigger"]:focus),
-  :where([data-slot="autocomplete-trigger"]:focus-visible),
-  :where([data-slot="autocomplete-trigger"]:-moz-focusring) {
+  :where([data-slot='autocomplete-trigger']:focus),
+  :where([data-slot='autocomplete-trigger']:focus-visible),
+  :where([data-slot='autocomplete-trigger']:-moz-focusring) {
     border: none !important;
     box-shadow: none !important;
     outline: none !important;
   }
 
-  :where([data-slot="autocomplete-trigger"])::placeholder {
+  :where([data-slot='autocomplete-trigger'])::placeholder {
     color: var(--tng-autocomplete-muted);
   }
 
-  :where([data-slot="autocomplete-icon"]) {
+  :where([data-slot='autocomplete-icon']) {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -177,36 +182,35 @@
     transition: transform 150ms var(--tng-autocomplete-ease);
   }
 
-  :where([data-slot="autocomplete"][data-state="open"]) :where([data-slot="autocomplete-icon"]) {
+  :where([data-slot='autocomplete'][data-state='open']) :where([data-slot='autocomplete-icon']) {
     transform: rotate(180deg);
   }
 
   /* ---------------- Content / Overlay ---------------- */
 
-  :where([data-slot="autocomplete-content"][hidden]) {
+  :where([data-slot='autocomplete-content'][hidden]) {
     display: none;
   }
 
-  :where([data-slot="autocomplete-overlay"]) {
-    --tng-autocomplete-radius: 0.5rem;
-    --tng-autocomplete-overlay-padding: 0.5rem;
-    --tng-autocomplete-overlay-radius: calc(var(--tng-autocomplete-radius) + 0.16rem);
-    --tng-autocomplete-overlay-shadow:
-      0 18px 40px -28px rgba(2, 6, 23, 0.7),
-      0 10px 22px -18px rgba(15, 23, 42, 0.55);
+  :where([data-slot='autocomplete-overlay']) {
+    --tng-autocomplete-radius: var(--tng-control-radius, 0.5rem);
+    --tng-autocomplete-overlay-padding: var(--tng-overlay-padding, 0.375rem);
+    --tng-autocomplete-overlay-radius: var(--tng-overlay-radius, 0.75rem);
+    --tng-autocomplete-overlay-shadow: var(--tng-overlay-shadow);
     --tng-autocomplete-overlay-max-width: min(92vw, 24rem);
     --tng-autocomplete-z-overlay: var(--tng-autocomplete-overlay-z-index, var(--tng-z-overlay, 2));
     --tng-autocomplete-listbox-gap: 0.2rem;
-    --tng-autocomplete-option-min-height: 2.3rem;
-    --tng-autocomplete-option-py: 0.5rem;
-    --tng-autocomplete-option-px: 0.95rem;
-    --tng-autocomplete-option-radius: 0.5rem;
+    --tng-autocomplete-option-min-height: var(--tng-item-min-height, 2.25rem);
+    --tng-autocomplete-option-py: var(--tng-item-padding-block, 0.5rem);
+    --tng-autocomplete-option-px: var(--tng-item-padding-inline, 0.75rem);
+    --tng-autocomplete-option-radius: var(--tng-item-radius, 0.25rem);
     --tng-autocomplete-fg: var(--tng-semantic-foreground-primary, #0f172a);
     --tng-autocomplete-brand: var(--tng-semantic-accent-brand, #2563eb);
     --tng-autocomplete-focus-ring: var(--tng-semantic-focus-ring, #2563eb);
     --tng-autocomplete-ease: cubic-bezier(0.4, 0, 0.2, 1);
 
-    border: 1px solid color-mix(in srgb, var(--tng-semantic-border-strong, #d1d5db) 70%, transparent);
+    border: 1px solid
+      color-mix(in srgb, var(--tng-semantic-border-strong, #d1d5db) 70%, transparent);
     border-radius: var(--tng-autocomplete-overlay-radius);
     background: color-mix(
       in srgb,
@@ -225,7 +229,7 @@
 
   /* ---------------- Listbox ---------------- */
 
-  :where([data-slot="autocomplete-listbox"]) {
+  :where([data-slot='autocomplete-listbox']) {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -235,7 +239,7 @@
 
   /* ---------------- Options ---------------- */
 
-  :where([data-slot="autocomplete-option"]) {
+  :where([data-slot='autocomplete-option']) {
     display: flex;
     align-items: center;
     width: 100%;
@@ -250,7 +254,7 @@
     background: transparent;
     color: var(--tng-autocomplete-fg);
 
-    font-size: 0.93rem;
+    font-size: var(--tng-control-font-size, 0.875rem);
     font-weight: 400;
     line-height: 1.4;
     text-align: left;
@@ -266,43 +270,43 @@
       border-color 120ms var(--tng-autocomplete-ease);
   }
 
-  :where([data-slot="autocomplete-option"]:hover):not([data-disabled]) {
+  :where([data-slot='autocomplete-option']:hover):not([data-disabled]) {
     background: color-mix(in srgb, var(--tng-autocomplete-brand) 10%, transparent);
     border-color: transparent;
   }
 
-  :where([data-slot="autocomplete-option"][data-active]):not([data-disabled]) {
+  :where([data-slot='autocomplete-option'][data-active]):not([data-disabled]) {
     background: color-mix(in srgb, var(--tng-autocomplete-brand) 14%, transparent);
     border-color: color-mix(in srgb, var(--tng-autocomplete-brand) 32%, transparent);
   }
 
-  :where([data-slot="autocomplete-option"][data-selected]),
-  :where([data-slot="autocomplete-option"][aria-selected="true"]) {
+  :where([data-slot='autocomplete-option'][data-selected]),
+  :where([data-slot='autocomplete-option'][aria-selected='true']) {
     background: color-mix(in srgb, var(--tng-autocomplete-brand) 18%, transparent);
     color: var(--tng-autocomplete-brand);
     font-weight: 500;
     border-color: color-mix(in srgb, var(--tng-autocomplete-brand) 40%, transparent);
   }
 
-  :where([data-slot="autocomplete-option"][data-selected][data-active]),
-  :where([data-slot="autocomplete-option"][aria-selected="true"][data-active]) {
+  :where([data-slot='autocomplete-option'][data-selected][data-active]),
+  :where([data-slot='autocomplete-option'][aria-selected='true'][data-active]) {
     background: color-mix(in srgb, var(--tng-autocomplete-brand) 24%, transparent);
     border-color: color-mix(in srgb, var(--tng-autocomplete-brand) 55%, transparent);
   }
 
-  :where([data-slot="autocomplete-option"]:focus-visible):not([data-disabled]) {
+  :where([data-slot='autocomplete-option']:focus-visible):not([data-disabled]) {
     outline: none;
     border-color: var(--tng-autocomplete-focus-ring);
     box-shadow: 0 0 0 2px color-mix(in srgb, var(--tng-autocomplete-focus-ring) 30%, transparent);
   }
 
-  :where([data-slot="autocomplete-option"][data-disabled]) {
+  :where([data-slot='autocomplete-option'][data-disabled]) {
     opacity: 0.45;
     cursor: not-allowed;
   }
 
   /* Empty state */
-  :where([data-slot="autocomplete-empty"]) {
+  :where([data-slot='autocomplete-empty']) {
     padding: 0.7rem 0.75rem;
     font-size: 0.86rem;
     color: var(--tng-autocomplete-muted);
@@ -311,7 +315,8 @@
     text-align: center;
   }
 
-  :where([data-slot="autocomplete"][data-invalid]) :where([data-slot="autocomplete-trigger-container"]) {
+  :where([data-slot='autocomplete'][data-invalid])
+    :where([data-slot='autocomplete-trigger-container']) {
     border-color: color-mix(
       in srgb,
       var(--tng-autocomplete-danger) 70%,
@@ -321,8 +326,8 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    :where([data-slot="autocomplete-trigger-container"]),
-    :where([data-slot="autocomplete-option"]) {
+    :where([data-slot='autocomplete-trigger-container']),
+    :where([data-slot='autocomplete-option']) {
       transition: none;
     }
   }

@@ -59,8 +59,7 @@ export class FileUploadOverviewPageComponent implements OnDestroy {
     this.codeBlockTheme,
   );
 
-  protected readonly importCode =
-    "import { TngFileUploadDirective } from '@tailng-ui/primitives';";
+  protected readonly importCode = "import { TngFileUploadDirective } from '@tailng-ui/primitives';";
 
   protected readonly usageCode = [
     '<div',
@@ -130,20 +129,21 @@ export class FileUploadOverviewPageComponent implements OnDestroy {
     [
       '.drop-zone {',
       '  align-items: center;',
-      '  border: 2px dashed var(--tng-semantic-border-default);',
-      '  border-radius: 0.75rem;',
+      '  background: var(--tng-control-bg);',
+      '  border: 2px dashed var(--tng-control-border);',
+      '  border-radius: var(--tng-control-radius);',
       '  cursor: pointer;',
       '  display: flex;',
       '  flex-direction: column;',
       '  gap: 0.35rem;',
       '  padding: 2rem 1.5rem;',
       '  text-align: center;',
-      '  transition: border-color 0.15s, background 0.15s;',
+      '  transition: var(--tng-transition-colors);',
       '}',
       '',
       '.drop-zone[data-dragging] {',
-      '  background: color-mix(in srgb, var(--tng-semantic-accent-primary) 8%, transparent);',
-      '  border-color: var(--tng-semantic-accent-primary);',
+      '  background: color-mix(in srgb, var(--tng-control-accent) 8%, var(--tng-control-bg));',
+      '  border-color: var(--tng-control-accent);',
       '}',
       '',
       '.drop-zone-label { font-weight: 600; }',

@@ -2,19 +2,22 @@
   display: inline-flex;
   max-width: 100%;
 
-  --_tng-input-bg-default: var(--tng-semantic-background-surface);
-  --_tng-input-border-default: var(--tng-semantic-border-strong);
-  --_tng-input-fg-default: var(--tng-semantic-foreground-primary);
-  --_tng-input-radius-default: 0.6rem;
-  --_tng-input-min-height-default: 2.5rem;
+  --_tng-input-bg-default: var(--tng-control-bg, var(--tng-semantic-background-surface));
+  --_tng-input-border-default: var(--tng-control-border, var(--tng-semantic-border-strong));
+  --_tng-input-fg-default: var(--tng-control-fg, var(--tng-semantic-foreground-primary));
+  --_tng-input-radius-default: var(--tng-control-radius, 0.5rem);
+  --_tng-input-min-height-default: var(--tng-control-height-md, 2.5rem);
   --_tng-input-py-default: 0;
-  --_tng-input-px-default: 0.85rem;
-  --_tng-input-gap-default: 0.55rem;
+  --_tng-input-px-default: var(--tng-control-padding-inline, 0.75rem);
+  --_tng-input-gap-default: var(--tng-control-gap, 0.5rem);
   --_tng-input-focus-ring-default: var(--tng-semantic-focus-ring);
-  --_tng-input-font-size-default: inherit;
-  --_tng-input-font-weight-default: inherit;
-  --_tng-input-line-height-default: inherit;
-  --_tng-input-placeholder-default: var(--tng-semantic-foreground-muted);
+  --_tng-input-font-size-default: var(--tng-control-font-size, 0.875rem);
+  --_tng-input-font-weight-default: var(--tng-control-font-weight, 400);
+  --_tng-input-line-height-default: var(--tng-control-line-height, 1.35);
+  --_tng-input-placeholder-default: var(
+    --tng-control-placeholder,
+    var(--tng-semantic-foreground-muted)
+  );
 
   --_tng-input-bg: var(--tng-input-bg, var(--_tng-input-bg-default));
   --_tng-input-border: var(--tng-input-border, var(--_tng-input-border-default));
@@ -44,7 +47,10 @@
 }
 
 :where([data-slot='input-field-wrapper'][data-appearance='solid']) {
-  --_tng-input-bg-default: var(--tng-semantic-background-muted, var(--tng-semantic-background-surface));
+  --_tng-input-bg-default: var(
+    --tng-semantic-background-muted,
+    var(--tng-semantic-background-surface)
+  );
 }
 
 :where([data-slot='input-field-wrapper'][data-appearance='ghost']) {
@@ -54,14 +60,14 @@
 
 :where([data-slot='input-field-wrapper'][data-size='sm']) {
   --_tng-input-gap-default: 0.45rem;
-  --_tng-input-radius-default: 0.5rem;
+  --_tng-input-radius-default: var(--tng-control-radius, 0.5rem);
   --_tng-input-min-height-default: 2.125rem;
   --_tng-input-px-default: 0.65rem;
 }
 
 :where([data-slot='input-field-wrapper'][data-size='lg']) {
   --_tng-input-gap-default: 0.65rem;
-  --_tng-input-radius-default: 0.75rem;
+  --_tng-input-radius-default: var(--tng-radius-panel, 0.75rem);
   --_tng-input-min-height-default: 3rem;
   --_tng-input-px-default: 1rem;
 }
@@ -71,9 +77,15 @@
 }
 
 :where([data-slot='input-field-wrapper'][data-tone='success']) {
-  --_tng-input-focus-ring-default: var(--tng-semantic-accent-success, var(--tng-semantic-focus-ring));
+  --_tng-input-focus-ring-default: var(
+    --tng-semantic-accent-success,
+    var(--tng-semantic-focus-ring)
+  );
 }
 
 :where([data-slot='input-field-wrapper'][data-tone='danger']) {
-  --_tng-input-focus-ring-default: var(--tng-semantic-accent-danger, var(--tng-semantic-focus-ring));
+  --_tng-input-focus-ring-default: var(
+    --tng-semantic-accent-danger,
+    var(--tng-semantic-focus-ring)
+  );
 }
