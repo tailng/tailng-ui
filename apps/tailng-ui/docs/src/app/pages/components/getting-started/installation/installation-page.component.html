@@ -33,18 +33,12 @@
         <tng-tabs
           ariaLabel="Package manager install commands"
           [defaultValue]="'pnpm'"
-          class="grid gap-3"
         >
-          <div
-            tngTabList
-            class="installation-tabs-list flex flex-wrap gap-2"
-            ariaLabel="Package manager"
-          >
+          <div tngTabList ariaLabel="Package manager">
             <button
               type="button"
               tngTab
               value="pnpm"
-              class="installation-tab-trigger"
             >
               pnpm
             </button>
@@ -52,7 +46,6 @@
               type="button"
               tngTab
               value="npm"
-              class="installation-tab-trigger"
             >
               npm
             </button>
@@ -60,12 +53,11 @@
               type="button"
               tngTab
               value="yarn"
-              class="installation-tab-trigger"
             >
               yarn
             </button>
           </div>
-          <div tngTabPanel value="pnpm" class="min-w-0">
+          <div tngTabPanel value="pnpm">
             <tng-code-block
               [code]="installPnpmCode"
               adapter="shiki"
@@ -77,7 +69,7 @@
               [lineNumbers]="false"
             ></tng-code-block>
           </div>
-          <div tngTabPanel value="npm" class="min-w-0">
+          <div tngTabPanel value="npm">
             <tng-code-block
               [code]="installNpmCode"
               adapter="shiki"
@@ -89,7 +81,7 @@
               [lineNumbers]="false"
             ></tng-code-block>
           </div>
-          <div tngTabPanel value="yarn" class="min-w-0">
+          <div tngTabPanel value="yarn">
             <tng-code-block
               [code]="installYarnCode"
               adapter="shiki"
@@ -120,18 +112,13 @@
         <tng-tabs
           ariaLabel="Components and theme only – package manager"
           [defaultValue]="'pnpm'"
-          class="grid gap-3"
         >
-          <div
-            tngTabList
-            class="installation-tabs-list flex flex-wrap gap-2"
-            ariaLabel="Package manager"
-          >
-            <button type="button" tngTab value="pnpm" class="installation-tab-trigger">pnpm</button>
-            <button type="button" tngTab value="npm" class="installation-tab-trigger">npm</button>
-            <button type="button" tngTab value="yarn" class="installation-tab-trigger">yarn</button>
+          <div tngTabList ariaLabel="Package manager">
+            <button type="button" tngTab value="pnpm">pnpm</button>
+            <button type="button" tngTab value="npm">npm</button>
+            <button type="button" tngTab value="yarn">yarn</button>
           </div>
-          <div tngTabPanel value="pnpm" class="min-w-0">
+          <div tngTabPanel value="pnpm">
             <tng-code-block
               [code]="installComponentsOnlyPnpmCode"
               adapter="shiki"
@@ -143,7 +130,7 @@
               [lineNumbers]="false"
             ></tng-code-block>
           </div>
-          <div tngTabPanel value="npm" class="min-w-0">
+          <div tngTabPanel value="npm">
             <tng-code-block
               [code]="installComponentsOnlyNpmCode"
               adapter="shiki"
@@ -155,7 +142,7 @@
               [lineNumbers]="false"
             ></tng-code-block>
           </div>
-          <div tngTabPanel value="yarn" class="min-w-0">
+          <div tngTabPanel value="yarn">
             <tng-code-block
               [code]="installComponentsOnlyYarnCode"
               adapter="shiki"
@@ -182,18 +169,13 @@
         <tng-tabs
           ariaLabel="Full set including icons – package manager"
           [defaultValue]="'pnpm'"
-          class="grid gap-3"
         >
-          <div
-            tngTabList
-            class="installation-tabs-list flex flex-wrap gap-2"
-            ariaLabel="Package manager"
-          >
-            <button type="button" tngTab value="pnpm" class="installation-tab-trigger">pnpm</button>
-            <button type="button" tngTab value="npm" class="installation-tab-trigger">npm</button>
-            <button type="button" tngTab value="yarn" class="installation-tab-trigger">yarn</button>
+          <div tngTabList ariaLabel="Package manager">
+            <button type="button" tngTab value="pnpm">pnpm</button>
+            <button type="button" tngTab value="npm">npm</button>
+            <button type="button" tngTab value="yarn">yarn</button>
           </div>
-          <div tngTabPanel value="pnpm" class="min-w-0">
+          <div tngTabPanel value="pnpm">
             <tng-code-block
               [code]="installWithIconsPnpmCode"
               adapter="shiki"
@@ -205,7 +187,7 @@
               [lineNumbers]="false"
             ></tng-code-block>
           </div>
-          <div tngTabPanel value="npm" class="min-w-0">
+          <div tngTabPanel value="npm">
             <tng-code-block
               [code]="installWithIconsNpmCode"
               adapter="shiki"
@@ -217,7 +199,7 @@
               [lineNumbers]="false"
             ></tng-code-block>
           </div>
-          <div tngTabPanel value="yarn" class="min-w-0">
+          <div tngTabPanel value="yarn">
             <tng-code-block
               [code]="installWithIconsYarnCode"
               adapter="shiki"

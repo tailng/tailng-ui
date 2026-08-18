@@ -4,23 +4,10 @@
     <p>{{ description() }}</p>
   }
 
-  <tng-tabs
-    [ariaLabel]="ariaLabel()"
-    [defaultValue]="resolvedDefaultValue()"
-    class="docs-example-tabs-section-tabs grid gap-3"
-  >
-    <div
-      tngTabList
-      class="docs-example-tabs-section-tab-list flex flex-wrap gap-2"
-      [ariaLabel]="tabListAriaLabel()"
-    >
+  <tng-tabs [ariaLabel]="ariaLabel()" [defaultValue]="resolvedDefaultValue()">
+    <div tngTabList [ariaLabel]="tabListAriaLabel()">
       @for (variant of variants(); track variant.value()) {
-        <button
-          type="button"
-          tngTab
-          [value]="variant.value()"
-          class="docs-example-tabs-section-tab-trigger"
-        >
+        <button type="button" tngTab [value]="variant.value()">
           {{ variant.label() }}
         </button>
       }

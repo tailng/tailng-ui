@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { afterEach, describe, expect, it } from 'vitest';
 
@@ -30,17 +30,15 @@ function getByTestId<TElement extends HTMLElement>(
   fixture: { nativeElement: HTMLElement },
   id: string,
 ): TElement {
-  const element = fixture.nativeElement.querySelector(`[data-testid="${id}"]`) as TElement | null;
+  const element = fixture.nativeElement.querySelector<TElement>(`[data-testid="${id}"]`);
   expect(element).not.toBeNull();
-  return element as TElement;
+  return element!;
 }
 
-function getCopyButtonInstance(fixture: {
-  debugElement: { query: (predicate: unknown) => { componentInstance: TngCopyButtonComponent } | null };
-}): TngCopyButtonComponent {
+function getCopyButtonInstance(fixture: ComponentFixture<unknown>): TngCopyButtonComponent {
   const debugEl = fixture.debugElement.query(By.directive(TngCopyButtonComponent));
   expect(debugEl).not.toBeNull();
-  return debugEl!.componentInstance;
+  return debugEl.componentInstance as TngCopyButtonComponent;
 }
 
 describe('tng-copy-button component', () => {

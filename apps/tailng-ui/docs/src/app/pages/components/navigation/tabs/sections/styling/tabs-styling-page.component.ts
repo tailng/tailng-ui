@@ -1,7 +1,10 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
 import { TngCodeBlockComponent } from '@tailng-ui/components';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
 
 @Component({
   selector: 'app-tabs-styling-page',
@@ -20,23 +23,12 @@ export class TabsStylingPageComponent implements OnDestroy {
   );
 
   protected readonly contractCss = [
-    '.tng-tabs {',
-    '  display: grid;',
-    '  gap: 0.75rem;',
-    '}',
-    '',
-    '[data-slot="tab-list"] {',
-    '  display: flex;',
-    '  gap: 0.5rem;',
-    '}',
-    '',
-    '[data-slot="tab"][data-selected="true"] {',
-    '  background: var(--tng-semantic-background-surface);',
-    '  border-color: var(--tng-semantic-border-subtle);',
-    '}',
-    '',
-    '[data-slot="tab-panel"][hidden] {',
-    '  display: none !important;',
+    '.project-tabs {',
+    '  --tng-tabs-radius: 1.25rem;',
+    '  --tng-tabs-tab-height: 2.75rem;',
+    '  --tng-tabs-tab-px: 1.1rem;',
+    '  --tng-tabs-panel-padding: 1.25rem;',
+    '  --tng-tabs-brand: var(--project-accent);',
     '}',
     '',
   ].join('\n');

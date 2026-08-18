@@ -44,15 +44,14 @@
           <tng-tabs
             ariaLabel="Install headless packages"
             [defaultValue]="'pnpm'"
-            class="grid gap-3"
           >
-            <div tngTabList class="quick-start-tabs-list flex flex-wrap gap-2" ariaLabel="Package manager">
-              <button type="button" tngTab value="pnpm" class="quick-start-tab-trigger">pnpm</button>
-              <button type="button" tngTab value="npm" class="quick-start-tab-trigger">npm</button>
-              <button type="button" tngTab value="yarn" class="quick-start-tab-trigger">yarn</button>
+            <div tngTabList ariaLabel="Package manager">
+              <button type="button" tngTab value="pnpm">pnpm</button>
+              <button type="button" tngTab value="npm">npm</button>
+              <button type="button" tngTab value="yarn">yarn</button>
             </div>
 
-            <div tngTabPanel value="pnpm" class="min-w-0">
+            <div tngTabPanel value="pnpm">
               <tng-code-block
                 [code]="installHeadlessPnpmCode"
                 adapter="shiki"
@@ -64,7 +63,7 @@
                 title="pnpm"
               ></tng-code-block>
             </div>
-            <div tngTabPanel value="npm" class="min-w-0">
+            <div tngTabPanel value="npm">
               <tng-code-block
                 [code]="installHeadlessNpmCode"
                 adapter="shiki"
@@ -76,7 +75,7 @@
                 title="npm"
               ></tng-code-block>
             </div>
-            <div tngTabPanel value="yarn" class="min-w-0">
+            <div tngTabPanel value="yarn">
               <tng-code-block
                 [code]="installHeadlessYarnCode"
                 adapter="shiki"
@@ -99,15 +98,14 @@
           <tng-tabs
             ariaLabel="Install full TailNG set"
             [defaultValue]="'pnpm'"
-            class="grid gap-3"
           >
-            <div tngTabList class="quick-start-tabs-list flex flex-wrap gap-2" ariaLabel="Package manager">
-              <button type="button" tngTab value="pnpm" class="quick-start-tab-trigger">pnpm</button>
-              <button type="button" tngTab value="npm" class="quick-start-tab-trigger">npm</button>
-              <button type="button" tngTab value="yarn" class="quick-start-tab-trigger">yarn</button>
+            <div tngTabList ariaLabel="Package manager">
+              <button type="button" tngTab value="pnpm">pnpm</button>
+              <button type="button" tngTab value="npm">npm</button>
+              <button type="button" tngTab value="yarn">yarn</button>
             </div>
 
-            <div tngTabPanel value="pnpm" class="min-w-0">
+            <div tngTabPanel value="pnpm">
               <tng-code-block
                 [code]="installFullPnpmCode"
                 adapter="shiki"
@@ -119,7 +117,7 @@
                 title="pnpm"
               ></tng-code-block>
             </div>
-            <div tngTabPanel value="npm" class="min-w-0">
+            <div tngTabPanel value="npm">
               <tng-code-block
                 [code]="installFullNpmCode"
                 adapter="shiki"
@@ -131,7 +129,7 @@
                 title="npm"
               ></tng-code-block>
             </div>
-            <div tngTabPanel value="yarn" class="min-w-0">
+            <div tngTabPanel value="yarn">
               <tng-code-block
                 [code]="installFullYarnCode"
                 adapter="shiki"

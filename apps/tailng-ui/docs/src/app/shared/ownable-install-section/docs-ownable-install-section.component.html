@@ -15,12 +15,12 @@
     <section id="install-from-registry" class="docs-section-anchor docs-ownable-install-block">
     <h3>Install from registry</h3>
     <p>Run from your Angular workspace root.</p>
-    <tng-tabs ariaLabel="Ownable install command" [defaultValue]="'pnpm'" class="docs-ownable-tabs">
-      <div tngTabList class="docs-ownable-tab-list" ariaLabel="Package manager">
-        <button type="button" tngTab value="pnpm" class="docs-ownable-tab-trigger">pnpm</button>
-        <button type="button" tngTab value="npx" class="docs-ownable-tab-trigger">npx</button>
+    <tng-tabs ariaLabel="Ownable install command" [defaultValue]="'pnpm'">
+      <div tngTabList ariaLabel="Package manager">
+        <button type="button" tngTab value="pnpm">pnpm</button>
+        <button type="button" tngTab value="npx">npx</button>
       </div>
-      <div tngTabPanel value="pnpm" class="docs-ownable-tab-panel">
+      <div tngTabPanel value="pnpm">
         <tng-code-block
           [code]="installPnpmCode"
           adapter="shiki"
@@ -32,7 +32,7 @@
           [sanitizeHtml]="false"
         ></tng-code-block>
       </div>
-      <div tngTabPanel value="npx" class="docs-ownable-tab-panel">
+      <div tngTabPanel value="npx">
         <tng-code-block
           [code]="installNpxCode"
           adapter="shiki"

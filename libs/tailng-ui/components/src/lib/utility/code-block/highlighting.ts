@@ -45,16 +45,16 @@ export type TngCodeHighlightResult =
 
 export type TngNormalizedCodeHighlightResult =
   | Readonly<{
-      html: string;
-      kind: 'html';
-      language: string | null;
-      trustedHtml: boolean;
-    }>
+    html: string;
+    kind: 'html';
+    language: string | null;
+    trustedHtml: boolean;
+  }>
   | Readonly<{
-      kind: 'tokens';
-      language: string | null;
-      tokens: readonly TngCodeHighlightTokenLine[];
-    }>;
+    kind: 'tokens';
+    language: string | null;
+    tokens: readonly TngCodeHighlightTokenLine[];
+  }>;
 
 export type TngCodeHighlightRequest = Readonly<{
   adapter: string | null | undefined;
@@ -193,29 +193,22 @@ function normalizeHighlightResult(
   result: TngCodeHighlightResult,
   fallbackLanguage: string | null,
 ): TngNormalizedCodeHighlightResult | null {
+  const language = normalizeTngCodeLanguage(result.language) ?? fallbackLanguage;
+
   if ('kind' in result && result.kind === 'tokens') {
     return {
       kind: 'tokens',
-      language: normalizeTngCodeLanguage(result.language) ?? fallbackLanguage,
+      language,
       tokens: result.tokens.map((line) => normalizeTokenLine(line)),
     };
   }
 
-  if ('html' in result) {
-    const trustedHtml =
-      'trustedHtml' in result && (result.trustedHtml === true || result.trustedHtml === false)
-        ? result.trustedHtml
-        : false;
-
-    if ('kind' in result && result.kind !== 'html') {
-      return null;
-    }
-
+  if ('html' in result && !('kind' in result && result.kind !== 'html')) {
     return {
       html: result.html,
       kind: 'html',
-      language: normalizeTngCodeLanguage(result.language) ?? fallbackLanguage,
-      trustedHtml,
+      language,
+      trustedHtml: result.trustedHtml === true,
     };
   }
 
@@ -390,7 +383,7 @@ export function provideTngCodeHighlighting(
 }
 
 export class TngCodeHighlightingResolver {
-  public constructor(private readonly config: TngResolvedCodeHighlightingConfig) {}
+  public constructor(private readonly config: TngResolvedCodeHighlightingConfig) { }
 
   public getAdapterIds(): readonly string[] {
     return Object.keys(this.config.adapters);

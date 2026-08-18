@@ -22,6 +22,7 @@
         "styles": [
           "apps/tailng-ui/playground-tailwind/src/styles.css",
           "libs/tailng-ui/theme/src/lib/component-contracts/form/datepicker/datepicker.css",
+          "libs/tailng-ui/theme/src/lib/component-contracts/navigation/tabs/tabs.css",
           "libs/tailng-ui/flow/styles.css"
         ]
       },

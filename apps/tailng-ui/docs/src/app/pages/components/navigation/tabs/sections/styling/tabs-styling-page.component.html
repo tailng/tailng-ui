@@ -1,8 +1,9 @@
 <article class="docs-copy">
   <h2>Styling contract</h2>
   <p>
-    The wrapper contributes a default <code>.tng-tabs</code> shell, but the stable styling hooks
-    still come from the primitive parts you place inside it.
+    The wrapper ships with a complete semantic-token-driven presentation for its shell, tablist,
+    triggers, panels, orientations, and interaction states. Stable slot attributes and public CSS
+    variables let you tune that presentation without depending on internal DOM structure.
   </p>
 
   <section id="stable-hooks">
@@ -19,7 +20,11 @@
         <tbody>
           <tr>
             <td><code>data-slot</code></td>
-            <td><code>tabs</code>, <code>tab-list</code>, <code>tab</code>, <code>tab-panel</code></td>
+            <td>
+              <code>tabs</code>, <code>tabs-shell</code>, <code>tabs-strip</code>,
+              <code>tab-list</code>, <code>tab</code>, <code>tab-panel</code>, and scroll-button
+              slots
+            </td>
             <td>Root wrapper and primitive parts.</td>
           </tr>
           <tr>
@@ -55,16 +60,75 @@
   <section id="default-shell">
     <h3>Default shell</h3>
     <p>
-      The wrapper root already renders a bordered, padded <code>.tng-tabs</code> shell. You can keep
-      it, extend it, or replace it with your own utility classes around the tab parts.
+      The stock wrapper uses an unframed shell with contiguous tab headers and a bordered active
+      panel. The first tab aligns with the panel edge, while the selected tab uses the panel surface
+      and opens its adjacent border so the two areas read as one continuous region. Responsive
+      vertical layout and integrated scroll controls are included without requiring component CSS.
     </p>
+  </section>
+
+  <section id="component-variables">
+    <h3>Component variables</h3>
+    <p>
+      Override sizing and visual decisions on <code>&lt;tng-tabs&gt;</code>. Common entry points
+      include <code>--tng-tabs-radius</code>, <code>--tng-tabs-tab-height</code>,
+      <code>--tng-tabs-tab-px</code>, <code>--tng-tabs-panel-padding</code>,
+      <code>--tng-tabs-brand</code>, <code>--tng-tabs-tab-selected-bg</code>, and
+      <code>--tng-tabs-focus-shadow</code>.
+    </p>
+    <div class="docs-table-wrap">
+      <table class="docs-table">
+        <thead>
+          <tr>
+            <th scope="col">Group</th>
+            <th scope="col">Public variables</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Layout</td>
+            <td>
+              <code>--tng-tabs-radius</code>, <code>--tng-tabs-shell-padding</code>,
+              <code>--tng-tabs-gap</code>, <code>--tng-tabs-list-gap</code>,
+              <code>--tng-tabs-list-padding</code>, <code>--tng-tabs-list-radius</code>,
+              <code>--tng-tabs-tab-height</code>, <code>--tng-tabs-tab-px</code>,
+              <code>--tng-tabs-tab-radius</code>, <code>--tng-tabs-panel-padding</code>,
+              <code>--tng-tabs-panel-radius</code>, <code>--tng-tabs-vertical-list-width</code>, and
+              <code>--tng-tabs-scroll-button-size</code>
+            </td>
+          </tr>
+          <tr>
+            <td>Semantic colors</td>
+            <td>
+              <code>--tng-tabs-bg</code>, <code>--tng-tabs-surface</code>,
+              <code>--tng-tabs-canvas</code>, <code>--tng-tabs-fg</code>,
+              <code>--tng-tabs-muted</code>, <code>--tng-tabs-border</code>,
+              <code>--tng-tabs-border-strong</code>, <code>--tng-tabs-brand</code>, and
+              <code>--tng-tabs-focus</code>
+            </td>
+          </tr>
+          <tr>
+            <td>States and effects</td>
+            <td>
+              <code>--tng-tabs-tab-hover-bg</code>, <code>--tng-tabs-tab-selected-bg</code>,
+              <code>--tng-tabs-tab-selected-fg</code>, <code>--tng-tabs-tab-selected-border</code>,
+              <code>--tng-tabs-panel-bg</code>, <code>--tng-tabs-shadow</code>,
+              <code>--tng-tabs-selected-shadow</code>, <code>--tng-tabs-focus-shadow</code>,
+              <code>--tng-tabs-disabled-opacity</code>, <code>--tng-tabs-duration</code>, and
+              <code>--tng-tabs-ease</code>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
   <section id="owner-guidance">
     <h3>Owner guidance</h3>
     <p>
-      Keep trigger, list, and panel styles on the primitive hooks rather than assuming more wrapper
-      DOM than <code>.tng-tabs</code>.
+      Prefer host-level variables for theme variants. Use slot selectors only when a variant needs a
+      structural change such as an underline tablist; the low-specificity contract is designed to
+      yield to scoped application selectors.
     </p>
     <tng-code-block
       [code]="contractCss"

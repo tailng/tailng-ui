@@ -101,7 +101,6 @@ tng-tabs.docs-component-tabs .tng-tabs,
   flex-wrap: nowrap;
   gap: 0;
   min-width: 0;
-  /* Scroll container at all widths: primitives use scrollWidth/clientWidth and scrollLeft for scrollButtons. */
   -ms-overflow-style: none;
   overflow-x: auto;
   overflow-y: hidden;

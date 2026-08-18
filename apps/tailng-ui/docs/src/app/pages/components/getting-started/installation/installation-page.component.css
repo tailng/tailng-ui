@@ -1,38 +1,3 @@
 :host {
   display: block;
 }
-
-.installation-tabs-list {
-  border-bottom: 1px solid var(--tng-semantic-border-subtle);
-}
-
-.installation-tab-trigger {
-  appearance: none;
-  background: transparent;
-  border: 0;
-  border-bottom: 2px solid transparent;
-  color: var(--tng-semantic-foreground-secondary);
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.875rem;
-  font-weight: 600;
-  margin-bottom: -1px;
-  min-height: 2.25rem;
-  padding: 0.25rem 0.5rem;
-  transition: border-color 0.15s ease, color 0.15s ease;
-}
-
-.installation-tab-trigger:hover {
-  color: var(--tng-semantic-foreground-primary);
-}
-
-.installation-tab-trigger:focus-visible {
-  outline: none;
-  outline-offset: 2px;
-  outline: 2px solid var(--tng-semantic-focus-ring);
-}
-
-.installation-tab-trigger[data-selected='true'] {
-  border-bottom-color: var(--tng-semantic-accent-brand);
-  color: var(--tng-semantic-accent-brand);
-}

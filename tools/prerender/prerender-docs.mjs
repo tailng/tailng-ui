@@ -15,6 +15,7 @@ const LAUNCH_TIMEOUT_MS = Number(process.env.PUPPETEER_PRERENDER_LAUNCH_TIMEOUT_
 const READY_TIMEOUT_MS = Number(process.env.PUPPETEER_PRERENDER_READY_TIMEOUT_MS ?? 120000);
 const POST_GOTO_WAIT_MS = Number(process.env.PUPPETEER_PRERENDER_POST_GOTO_WAIT_MS ?? 0);
 const PRERENDER_CONCURRENCY = Number(process.env.PUPPETEER_PRERENDER_CONCURRENCY ?? 1);
+const ROUTE_RETRIES = Number(process.env.PUPPETEER_PRERENDER_ROUTE_RETRIES ?? 1);
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const assertNonNegativeNumber = (name, value) => {
@@ -29,6 +30,12 @@ const assertPositiveInteger = (name, value) => {
   }
 };
 
+const assertNonNegativeInteger = (name, value) => {
+  if (!Number.isInteger(value) || value < 0) {
+    throw new Error(`${name} must be a non-negative integer. Received: ${value}`);
+  }
+};
+
 if (!Number.isInteger(REQUESTED_PORT) || REQUESTED_PORT < 0 || REQUESTED_PORT > 65535) {
   throw new Error(
     `PUPPETEER_PRERENDER_PORT must be an integer between 0 and 65535. Received: ${REQUESTED_PORT}`,
@@ -39,6 +46,7 @@ assertPositiveInteger('PUPPETEER_PRERENDER_LAUNCH_TIMEOUT_MS', LAUNCH_TIMEOUT_MS
 assertPositiveInteger('PUPPETEER_PRERENDER_READY_TIMEOUT_MS', READY_TIMEOUT_MS);
 assertNonNegativeNumber('PUPPETEER_PRERENDER_POST_GOTO_WAIT_MS', POST_GOTO_WAIT_MS);
 assertPositiveInteger('PUPPETEER_PRERENDER_CONCURRENCY', PRERENDER_CONCURRENCY);
+assertNonNegativeInteger('PUPPETEER_PRERENDER_ROUTE_RETRIES', ROUTE_RETRIES);
 
 const resolveChromeExecutablePath = () => {
   const explicitPath = process.env.PUPPETEER_EXECUTABLE_PATH;
@@ -151,7 +159,8 @@ const server = http.createServer((req, res) => {
   // Serve built assets from dist
   if (isAssetRequest(url)) {
     res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-    return serveHandler(req, res, { etag: true, public: DIST_DIR });
+    // serve-handler@6.1.6 leaks its pre-opened file stream on ETag-driven 304 responses.
+    return serveHandler(req, res, { etag: false, public: DIST_DIR });
   }
 
   // SPA fallback
@@ -211,6 +220,12 @@ const configurePage = async (page) => {
   await page.evaluateOnNewDocument(() => {
     globalThis.__TAILNG_DOCS_PRERENDER__ = true;
   });
+};
+
+const createPage = async (browser) => {
+  const page = await browser.newPage();
+  await configurePage(page);
+  return page;
 };
 
 const waitForRenderReady = async (page) => {
@@ -282,8 +297,7 @@ try {
   console.log(`prerender: routes = ${routes.length}, workers = ${workerCount}`);
 
   const runWorker = async (workerId) => {
-    const page = await browser.newPage();
-    await configurePage(page);
+    let page = await createPage(browser);
 
     try {
       while (firstFailure === null) {
@@ -295,15 +309,29 @@ try {
 
         const route = routes[routeIndex];
         const startedAt = Date.now();
-        try {
-          await renderRoute(page, route);
-          completedRouteCount += 1;
-          console.log(
-            `[${completedRouteCount}/${routes.length}] prerendered ${route} ` +
-              `(${Date.now() - startedAt}ms, worker ${workerId})`,
-          );
-        } catch (error) {
-          firstFailure ??= { error, route };
+        const maxAttempts = ROUTE_RETRIES + 1;
+        for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+          try {
+            await renderRoute(page, route);
+            completedRouteCount += 1;
+            console.log(
+              `[${completedRouteCount}/${routes.length}] prerendered ${route} ` +
+                `(${Date.now() - startedAt}ms, worker ${workerId})`,
+            );
+            break;
+          } catch (error) {
+            if (attempt === maxAttempts) {
+              firstFailure ??= { error, route };
+              break;
+            }
+
+            console.warn(
+              `prerender: ${route} failed on attempt ${attempt}/${maxAttempts}: ` +
+                `${error?.message ?? String(error)}; retrying with a fresh page`,
+            );
+            await page.close();
+            page = await createPage(browser);
+          }
         }
       }
     } finally {

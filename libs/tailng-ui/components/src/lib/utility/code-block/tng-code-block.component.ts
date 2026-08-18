@@ -39,16 +39,16 @@ export type TngCodeBlockRenderState = 'error' | 'highlighted' | 'highlighting' |
 export type TngCodeBlockSanitizeHtml = boolean | 'auto';
 export type TngCodeBlockVariant = 'compact' | 'default' | 'ghost';
 
-export interface TngCodeBlockCopyContext {
+export type TngCodeBlockCopyContext = {
   code: string;
   language: string | null;
   theme: string | null;
-}
+};
 
-export interface TngCodeBlockRenderStateChange {
+export type TngCodeBlockRenderStateChange = {
   error?: unknown;
   state: TngCodeBlockRenderState;
-}
+};
 
 type TngCodeBlockCopyState = 'copied' | 'error' | 'idle';
 
@@ -114,58 +114,42 @@ function coerceOptionalPositiveNumber(value: number | string | undefined): numbe
 }
 
 function coerceTngCodeBlockCopyMode(
-  value: TngCodeBlockCopyMode | boolean | string | null | undefined,
+  value: string | boolean | null | undefined,
 ): TngCodeBlockCopyMode {
-  if (value === 'auto' || value === undefined || value === null) {
-    return 'auto';
-  }
-
-  if (value === '' || value === true || value === 'true') {
-    return true;
-  }
-
   if (value === false || value === 'false') {
     return false;
+  }
+
+  if (value === true || value === 'true' || value === '') {
+    return true;
   }
 
   return 'auto';
 }
 
 function coerceTngCodeBlockLineNumbersMode(
-  value: TngCodeBlockLineNumbersMode | boolean | string | null | undefined,
+  value: string | boolean | null | undefined,
 ): TngCodeBlockLineNumbersMode {
   if (value === 'auto') {
     return 'auto';
   }
 
-  if (value === undefined || value === null) {
-    return false;
-  }
-
-  if (value === '' || value === true || value === 'true') {
+  if (value === true || value === 'true' || value === '') {
     return true;
-  }
-
-  if (value === false || value === 'false') {
-    return false;
   }
 
   return false;
 }
 
 function coerceTngCodeBlockSanitizeHtml(
-  value: TngCodeBlockSanitizeHtml | string | null | undefined,
+  value: string | boolean | null | undefined,
 ): TngCodeBlockSanitizeHtml {
-  if (value === undefined || value === null || value === 'auto') {
-    return 'auto';
-  }
-
-  if (value === '' || value === true || value === 'true') {
-    return true;
-  }
-
   if (value === false || value === 'false') {
     return false;
+  }
+
+  if (value === true || value === 'true' || value === '') {
+    return true;
   }
 
   return 'auto';
@@ -178,6 +162,23 @@ function normalizeHighlightLineNumber(value: number): number | null {
 
   const normalized = Math.round(value);
   return normalized > 0 ? normalized : null;
+}
+
+function getHighlightRangeSet(
+  start: number,
+  end: number,
+): Set<number> {
+  const set = new Set<number>();
+  const normalizedStart = normalizeHighlightLineNumber(start);
+  const normalizedEnd = normalizeHighlightLineNumber(end);
+  if (normalizedStart !== null && normalizedEnd !== null) {
+    const from = Math.min(normalizedStart, normalizedEnd);
+    const to = Math.max(normalizedStart, normalizedEnd);
+    for (let current = from; current <= to; current += 1) {
+      set.add(current);
+    }
+  }
+  return set;
 }
 
 function toNormalizedHighlightLineSet(
@@ -198,17 +199,9 @@ function toNormalizedHighlightLineSet(
       continue;
     }
 
-    const [start, end] = entry;
-    const normalizedStart = normalizeHighlightLineNumber(start);
-    const normalizedEnd = normalizeHighlightLineNumber(end);
-    if (normalizedStart === null || normalizedEnd === null) {
-      continue;
-    }
-
-    const from = Math.min(normalizedStart, normalizedEnd);
-    const to = Math.max(normalizedStart, normalizedEnd);
-    for (let current = from; current <= to; current += 1) {
-      normalizedValues.add(current);
+    const rangeSet = getHighlightRangeSet(entry[0], entry[1]);
+    for (const num of rangeSet) {
+      normalizedValues.add(num);
     }
   }
 
@@ -344,7 +337,7 @@ export class TngCodeBlockComponent implements OnDestroy {
   public readonly adapter = input<string | null>(null);
   public readonly caption = input<string | null>(null);
   public readonly code = input<string>('');
-  public readonly copyMode = input<TngCodeBlockCopyMode, TngCodeBlockCopyMode | boolean | string | null | undefined>(
+  public readonly copyMode = input<TngCodeBlockCopyMode, string | boolean | null | undefined>(
     'auto',
     {
       alias: 'copy',
@@ -380,7 +373,7 @@ export class TngCodeBlockComponent implements OnDestroy {
   public readonly language = input<string | null>(null);
   public readonly lineNumbersMode = input<
     TngCodeBlockLineNumbersMode,
-    TngCodeBlockLineNumbersMode | boolean | string | null | undefined
+    string | boolean | null | undefined
   >(false, {
     alias: 'lineNumbers',
     transform: coerceTngCodeBlockLineNumbersMode,
@@ -388,7 +381,7 @@ export class TngCodeBlockComponent implements OnDestroy {
   public readonly maxHeight = input<string | number | null>(null);
   public readonly sanitizeHtml = input<
     TngCodeBlockSanitizeHtml,
-    TngCodeBlockSanitizeHtml | string | null | undefined
+    string | boolean | null | undefined
   >('auto', {
     transform: coerceTngCodeBlockSanitizeHtml,
   });
@@ -651,27 +644,22 @@ export class TngCodeBlockComponent implements OnDestroy {
     this.baseLineHtml.set(splitCodeLines(code).map((line) => escapeTngCodeHtml(line)));
   }
 
-  private applyResolvedHighlightResult(
-    result: TngNormalizedCodeHighlightResult,
-    request: TngCodeBlockRenderRequest,
-  ): boolean {
-    this.resolvedLanguage.set(result.language ?? request.language);
-
-    if (result.kind === 'tokens') {
-      if (result.tokens.length === 0) {
-        return false;
-      }
-
-      this.baseLineHtml.set(result.tokens.map((line) => renderTokenLine(line)));
-      return true;
+  private applyTokensHighlightResult(tokens: readonly TngCodeHighlightTokenLine[]): boolean {
+    if (tokens.length === 0) {
+      return false;
     }
 
-    const htmlLines = result.html.split('\n');
+    this.baseLineHtml.set(tokens.map((line) => renderTokenLine(line)));
+    return true;
+  }
+
+  private applyHtmlHighlightResult(html: string, trustedHtml: boolean): boolean {
+    const htmlLines = html.split('\n');
     if (htmlLines.length === 0 || (htmlLines.length === 1 && htmlLines[0].length === 0)) {
       return false;
     }
 
-    const shouldBypassSanitization = this.sanitizeHtml() === false && result.trustedHtml;
+    const shouldBypassSanitization = this.sanitizeHtml() === false && trustedHtml;
     if (shouldBypassSanitization) {
       this.baseLineHtml.set(
         htmlLines.map((line) => this.domSanitizer.bypassSecurityTrustHtml(line)),
@@ -681,6 +669,19 @@ export class TngCodeBlockComponent implements OnDestroy {
 
     this.baseLineHtml.set(htmlLines);
     return true;
+  }
+
+  private applyResolvedHighlightResult(
+    result: TngNormalizedCodeHighlightResult,
+    request: TngCodeBlockRenderRequest,
+  ): boolean {
+    this.resolvedLanguage.set(result.language ?? request.language);
+
+    if (result.kind === 'tokens') {
+      return this.applyTokensHighlightResult(result.tokens);
+    }
+
+    return this.applyHtmlHighlightResult(result.html, result.trustedHtml);
   }
 
   private buildCacheKey(request: TngCodeBlockRenderRequest): string {
@@ -711,7 +712,7 @@ export class TngCodeBlockComponent implements OnDestroy {
     this.highlightDebounceTimer = null;
   }
 
-  private enqueueRenderRequest(input: Readonly<{ request: TngCodeBlockRenderRequest; shouldHighlight: boolean }>): void {
+  private enqueueRenderRequest(input: Readonly<{ request: Readonly<TngCodeBlockRenderRequest>; shouldHighlight: boolean }>): void {
     this.clearHighlightDebounceTimer();
 
     const debounceMs = this.highlightDebounceMs();
@@ -776,7 +777,7 @@ export class TngCodeBlockComponent implements OnDestroy {
     };
   }
 
-  private async renderRequest(input: Readonly<{ request: TngCodeBlockRenderRequest; shouldHighlight: boolean }>): Promise<void> {
+  private async renderRequest(input: Readonly<{ request: Readonly<TngCodeBlockRenderRequest>; shouldHighlight: boolean }>): Promise<void> {
     const requestId = this.highlightRequestId + 1;
     this.highlightRequestId = requestId;
 
