@@ -51,13 +51,12 @@
         <tng-tabs
           ariaLabel="Theme import methods"
           [defaultValue]="'css'"
-          class="grid gap-3"
         >
-          <div tngTabList class="configure-theme-tabs-list flex flex-wrap gap-2" ariaLabel="Method">
-            <button type="button" tngTab value="css" class="configure-theme-tab-trigger">styles.css</button>
-            <button type="button" tngTab value="json" class="configure-theme-tab-trigger">angular.json</button>
+          <div tngTabList ariaLabel="Method">
+            <button type="button" tngTab value="css">styles.css</button>
+            <button type="button" tngTab value="json">angular.json</button>
           </div>
-          <div tngTabPanel value="css" class="min-w-0">
+          <div tngTabPanel value="css">
             <tng-code-block
               [code]="importThemeCssCode"
               adapter="shiki"
@@ -68,7 +67,7 @@
               [lineNumbers]="false"
             ></tng-code-block>
           </div>
-          <div tngTabPanel value="json" class="min-w-0">
+          <div tngTabPanel value="json">
             <tng-code-block
               [code]="angularJsonStylesCode"
               adapter="shiki"
@@ -146,13 +145,12 @@
           <tng-tabs
             ariaLabel="Dark mode class strategy"
             [defaultValue]="'html'"
-            class="grid gap-3"
           >
-            <div tngTabList class="configure-theme-tabs-list flex flex-wrap gap-2" ariaLabel="File">
-              <button type="button" tngTab value="html" class="configure-theme-tab-trigger">index.html</button>
-              <button type="button" tngTab value="ts" class="configure-theme-tab-trigger">Angular toggle</button>
+            <div tngTabList ariaLabel="File">
+              <button type="button" tngTab value="html">index.html</button>
+              <button type="button" tngTab value="ts">Angular toggle</button>
             </div>
-            <div tngTabPanel value="html" class="min-w-0">
+            <div tngTabPanel value="html">
               <tng-code-block
                 [code]="darkModeClassCode"
                 adapter="shiki"
@@ -163,7 +161,7 @@
                 [lineNumbers]="false"
               ></tng-code-block>
             </div>
-            <div tngTabPanel value="ts" class="min-w-0">
+            <div tngTabPanel value="ts">
               <tng-code-block
                 [code]="darkModeAngularCode"
                 adapter="shiki"
@@ -211,13 +209,12 @@
         <tng-tabs
           ariaLabel="Tailwind integration"
           [defaultValue]="'config'"
-          class="grid gap-3"
         >
-          <div tngTabList class="configure-theme-tabs-list flex flex-wrap gap-2" ariaLabel="File">
-            <button type="button" tngTab value="config" class="configure-theme-tab-trigger">tailwind.config.ts</button>
-            <button type="button" tngTab value="usage" class="configure-theme-tab-trigger">Usage</button>
+          <div tngTabList ariaLabel="File">
+            <button type="button" tngTab value="config">tailwind.config.ts</button>
+            <button type="button" tngTab value="usage">Usage</button>
           </div>
-          <div tngTabPanel value="config" class="min-w-0">
+          <div tngTabPanel value="config">
             <tng-code-block
               [code]="tailwindConfigCode"
               adapter="shiki"
@@ -229,7 +226,7 @@
               title="tailwind.config.ts"
             ></tng-code-block>
           </div>
-          <div tngTabPanel value="usage" class="min-w-0">
+          <div tngTabPanel value="usage">
             <tng-code-block
               [code]="tailwindUsageCode"
               adapter="shiki"

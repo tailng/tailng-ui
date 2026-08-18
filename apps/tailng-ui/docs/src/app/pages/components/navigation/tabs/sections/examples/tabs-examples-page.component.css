@@ -40,11 +40,3 @@
   font-size: 0.88rem;
   margin: 0;
 }
-
-.tabs-strip {
-  align-items: center;
-  display: grid;
-  gap: 0.45rem;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  min-width: 0;
-}

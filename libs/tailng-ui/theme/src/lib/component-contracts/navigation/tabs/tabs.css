@@ -7,10 +7,10 @@
    */
   :where(tng-tabs[data-slot='tabs']) {
     --tng-tabs-radius: var(--tng-radius-surface, 1rem);
-    --tng-tabs-shell-padding: 0.5rem;
-    --tng-tabs-gap: 0.55rem;
-    --tng-tabs-list-gap: 0.25rem;
-    --tng-tabs-list-padding: 0.25rem;
+    --tng-tabs-shell-padding: 0;
+    --tng-tabs-gap: 0;
+    --tng-tabs-list-gap: 0;
+    --tng-tabs-list-padding: 0;
     --tng-tabs-list-radius: calc(var(--tng-tabs-radius) - 0.28rem);
     --tng-tabs-tab-height: var(--tng-control-height-md, 2.5rem);
     --tng-tabs-tab-px: 0.9rem;
@@ -35,11 +35,12 @@
       var(--tng-tabs-brand) 7%,
       var(--tng-tabs-canvas) 93%
     );
-    --tng-tabs-tab-selected-bg: linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--tng-tabs-canvas) 96%, var(--tng-tabs-brand) 4%),
-      color-mix(in srgb, var(--tng-tabs-surface) 92%, var(--tng-tabs-brand) 8%)
+    --tng-tabs-panel-bg: color-mix(
+      in srgb,
+      var(--tng-tabs-canvas) 86%,
+      var(--tng-tabs-surface) 14%
     );
+    --tng-tabs-tab-selected-bg: var(--tng-tabs-panel-bg);
     --tng-tabs-tab-selected-fg: color-mix(
       in srgb,
       var(--tng-tabs-brand) 76%,
@@ -47,20 +48,13 @@
     );
     --tng-tabs-tab-selected-border: color-mix(
       in srgb,
-      var(--tng-tabs-brand) 34%,
-      var(--tng-tabs-border) 66%
-    );
-    --tng-tabs-panel-bg: color-mix(
-      in srgb,
-      var(--tng-tabs-canvas) 86%,
-      var(--tng-tabs-surface) 14%
+      var(--tng-tabs-border) 88%,
+      var(--tng-tabs-canvas) 12%
     );
     --tng-tabs-shadow:
       0 16px 34px -28px color-mix(in srgb, var(--tng-tabs-fg) 34%, transparent),
       0 5px 16px -14px color-mix(in srgb, var(--tng-tabs-fg) 22%, transparent);
-    --tng-tabs-selected-shadow:
-      0 1px 2px color-mix(in srgb, var(--tng-tabs-fg) 8%, transparent),
-      0 6px 14px -12px color-mix(in srgb, var(--tng-tabs-fg) 28%, transparent);
+    --tng-tabs-selected-shadow: none;
     --tng-tabs-focus-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-tabs-focus) 20%, transparent);
     --tng-tabs-disabled-opacity: var(--tng-disabled-opacity, 0.55);
     --tng-tabs-duration: var(--tng-duration-normal, 150ms);
@@ -70,9 +64,23 @@
     min-width: 0;
   }
 
+  :where(tng-tabs[data-slot='tabs']) :where([data-slot='tabs-strip']) {
+    align-items: center;
+    background: color-mix(in srgb, var(--tng-tabs-surface) 82%, var(--tng-tabs-canvas) 18%);
+    border-bottom: 1px solid
+      color-mix(in srgb, var(--tng-tabs-border) 84%, var(--tng-tabs-canvas) 16%);
+    box-sizing: border-box;
+    display: grid;
+    gap: var(--tng-tabs-list-gap);
+    grid-column: 1 / -1;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    min-width: 0;
+    padding: 0;
+  }
+
   :where(tng-tabs[data-slot='tabs']) :where([data-slot='tab-list']) {
     align-items: center;
-    align-self: start;
+    align-self: stretch;
     box-sizing: border-box;
     display: flex;
     flex-wrap: nowrap;
@@ -81,15 +89,43 @@
     min-width: 0;
     overflow-x: auto;
     overflow-y: hidden;
-    padding: var(--tng-tabs-list-padding);
+    padding: 0;
 
-    border: 1px solid color-mix(in srgb, var(--tng-tabs-border) 84%, var(--tng-tabs-canvas) 16%);
-    border-radius: var(--tng-tabs-list-radius);
+    border: 0;
+    border-bottom: 1px solid
+      color-mix(in srgb, var(--tng-tabs-border) 84%, var(--tng-tabs-canvas) 16%);
+    border-radius: var(--tng-tabs-list-radius) var(--tng-tabs-list-radius) 0 0;
     background: color-mix(in srgb, var(--tng-tabs-surface) 82%, var(--tng-tabs-canvas) 18%);
-    box-shadow: inset 0 1px 2px color-mix(in srgb, var(--tng-tabs-fg) 4%, transparent);
+    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--tng-tabs-canvas) 22%, transparent);
 
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  :where(tng-tabs[data-slot='tabs'])
+    :where([data-slot='tabs-strip'])
+    :where([data-slot='tab-list']) {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    grid-column: 2;
+    grid-row: 1;
+    padding: 0;
+  }
+
+  :where(tng-tabs[data-slot='tabs'])
+    :where([data-slot='tabs-strip'])
+    > :where([data-slot='tabs-scroll-button-prev']) {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  :where(tng-tabs[data-slot='tabs'])
+    :where([data-slot='tabs-strip'])
+    > :where([data-slot='tabs-scroll-button-next']) {
+    grid-column: 3;
+    grid-row: 1;
   }
 
   :where(tng-tabs[data-slot='tabs']) :where([data-slot='tab-list'])::-webkit-scrollbar {
@@ -101,7 +137,7 @@
     appearance: none;
     background: transparent;
     border: 1px solid transparent;
-    border-radius: var(--tng-tabs-tab-radius);
+    border-radius: 0;
     box-sizing: border-box;
     color: var(--tng-tabs-muted);
     cursor: pointer;
@@ -145,8 +181,12 @@
   :where(tng-tabs[data-slot='tabs']) :where([data-slot='tab'][data-selected='true']) {
     background: var(--tng-tabs-tab-selected-bg);
     border-color: var(--tng-tabs-tab-selected-border);
+    border-bottom-color: var(--tng-tabs-panel-bg);
+    border-radius: var(--tng-tabs-tab-radius) var(--tng-tabs-tab-radius) 0 0;
     box-shadow: var(--tng-tabs-selected-shadow);
     color: var(--tng-tabs-tab-selected-fg);
+    margin-bottom: -1px;
+    z-index: 2;
   }
 
   :where(tng-tabs[data-slot='tabs']) :where([data-slot='tab']:focus-visible),
@@ -155,6 +195,11 @@
     box-shadow: var(--tng-tabs-focus-shadow);
     outline: none;
     z-index: 1;
+  }
+
+  :where(tng-tabs[data-slot='tabs']) :where([data-slot='tab'][data-selected='true']:focus-visible) {
+    border-bottom-color: var(--tng-tabs-panel-bg);
+    z-index: 2;
   }
 
   :where(tng-tabs[data-slot='tabs'][data-disabled='true']) :where([data-slot='tab']),
@@ -166,9 +211,10 @@
 
   :where(tng-tabs[data-slot='tabs']) :where([data-slot='tab-panel']) {
     background: var(--tng-tabs-panel-bg);
-    border: 1px solid color-mix(in srgb, var(--tng-tabs-border) 88%, var(--tng-tabs-canvas) 12%);
-    border-radius: var(--tng-tabs-panel-radius);
-    box-shadow: 0 1px 2px color-mix(in srgb, var(--tng-tabs-fg) 4%, transparent);
+    border: 1px solid var(--tng-tabs-tab-selected-border);
+    border-top: 0;
+    border-radius: 0 0 var(--tng-tabs-panel-radius) var(--tng-tabs-panel-radius);
+    box-shadow: none;
     box-sizing: border-box;
     color: var(--tng-tabs-fg);
     grid-column: 1 / -1;
@@ -245,6 +291,7 @@
     flex-direction: column;
     max-height: none;
     overflow: visible;
+    padding: 0;
     width: 100%;
   }
 
@@ -254,14 +301,41 @@
     width: 100%;
   }
 
+  :where(tng-tabs[data-slot='tabs'][data-orientation='vertical'])
+    :where([data-slot='tab'][data-selected='true']) {
+    border-bottom-color: var(--tng-tabs-tab-selected-border);
+    border-radius: var(--tng-tabs-tab-radius);
+    margin-bottom: 0;
+  }
+
   @media (min-width: 48rem) {
     :where(tng-tabs[data-slot='tabs'][data-orientation='vertical']) :where([data-slot='tab-list']) {
+      border-bottom: 0;
+      border-radius: var(--tng-tabs-list-radius) 0 0 var(--tng-tabs-list-radius);
+      border-right: 1px solid
+        color-mix(in srgb, var(--tng-tabs-border) 84%, var(--tng-tabs-canvas) 16%);
       grid-column: 1;
       grid-row: 1;
+      padding: 0;
+    }
+
+    :where(tng-tabs[data-slot='tabs'][data-orientation='vertical'])
+      :where([data-slot='tab'][data-selected='true']) {
+      border-radius: var(--tng-tabs-tab-radius) 0 0 var(--tng-tabs-tab-radius);
+      border-right-color: var(--tng-tabs-panel-bg);
+      margin-right: -1px;
+    }
+
+    :where(tng-tabs[data-slot='tabs'][data-orientation='vertical'])
+      :where([data-slot='tab'][data-selected='true']:focus-visible) {
+      border-right-color: var(--tng-tabs-panel-bg);
     }
 
     :where(tng-tabs[data-slot='tabs'][data-orientation='vertical'])
       :where([data-slot='tab-panel']) {
+      border: 1px solid var(--tng-tabs-tab-selected-border);
+      border-left: 0;
+      border-radius: 0 var(--tng-tabs-panel-radius) var(--tng-tabs-panel-radius) 0;
       grid-column: 2;
       grid-row: 1;
     }
@@ -269,7 +343,6 @@
 
   @media (max-width: 30rem) {
     :where(tng-tabs[data-slot='tabs']) {
-      --tng-tabs-shell-padding: 0.4rem;
       --tng-tabs-tab-px: 0.75rem;
       --tng-tabs-panel-padding: 0.85rem;
     }

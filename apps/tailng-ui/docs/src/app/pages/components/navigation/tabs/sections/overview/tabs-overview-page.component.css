@@ -46,11 +46,3 @@
   margin: 0;
   padding-inline-start: 1.1rem;
 }
-
-[data-slot='tab-panel'] strong {
-  color: var(--tng-semantic-foreground-primary);
-}
-
-[data-slot='tab-panel'] p {
-  margin: 0;
-}

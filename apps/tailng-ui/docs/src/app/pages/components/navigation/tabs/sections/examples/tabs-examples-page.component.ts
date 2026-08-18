@@ -175,7 +175,6 @@ export class TabsExamplesPageComponent implements OnDestroy {
       '  ariaLabel="Workspace sections"',
       '  [value]="current()"',
       '  (valueChange)="onValueChange($event)"',
-      '  class="[--tng-tabs-radius:1.2rem] [--tng-tabs-tab-height:2.7rem] [--tng-tabs-panel-padding:1.15rem]"',
       '>',
       '  <div tngTabList ariaLabel="Workspace sections">',
       '    <button type="button" tngTab value="overview">Overview</button>',
@@ -189,7 +188,7 @@ export class TabsExamplesPageComponent implements OnDestroy {
       '</tng-tabs>',
       '',
     ].join('\n'),
-    '/* Tailwind arbitrary properties override public component variables on the host. */',
+    '/* No component CSS is required for the stock styled wrapper. */',
   );
 
   protected readonly verticalPlainCodeTabs = createCodeTabs(
@@ -247,7 +246,6 @@ export class TabsExamplesPageComponent implements OnDestroy {
       '  orientation="vertical"',
       '  activation="manual"',
       '  defaultValue="account"',
-      '  class="[--tng-tabs-vertical-list-width:11.5rem] [--tng-tabs-panel-padding:1.15rem]"',
       '>',
       '  <div tngTabList ariaLabel="Settings categories">',
       '    <button type="button" tngTab value="account">Account</button>',
@@ -261,7 +259,7 @@ export class TabsExamplesPageComponent implements OnDestroy {
       '</tng-tabs>',
       '',
     ].join('\n'),
-    '/* Tailwind arbitrary properties override public component variables on the host. */',
+    '/* No component CSS is required for the stock styled wrapper. */',
   );
 
   protected readonly scrollButtonsPlainCodeTabs = createCodeTabs(
@@ -301,7 +299,7 @@ export class TabsExamplesPageComponent implements OnDestroy {
     ].join('\n'),
     [
       '<tng-tabs ariaLabel="Documentation sections" scrollButtons="auto" defaultValue="overview">',
-      '  <div class="tabs-strip">',
+      '  <div data-slot="tabs-strip">',
       '    <button type="button" tngTabsScrollButtonPrev aria-label="Scroll tabs left">',
       '      &#x2039;',
       '    </button>',
@@ -321,16 +319,7 @@ export class TabsExamplesPageComponent implements OnDestroy {
       '</tng-tabs>',
       '',
     ].join('\n'),
-    [
-      '.tabs-strip {',
-      '  align-items: center;',
-      '  display: grid;',
-      '  gap: 0.45rem;',
-      '  grid-template-columns: auto minmax(0, 1fr) auto;',
-      '  min-width: 0;',
-      '}',
-      '',
-    ].join('\n'),
+    '/* The tabs-strip slot provides the integrated overflow header layout. */',
   );
 
   protected readonly scrollButtonsTailwindCodeTabs = createCodeTabs(
@@ -373,25 +362,24 @@ export class TabsExamplesPageComponent implements OnDestroy {
       '  ariaLabel="Documentation sections"',
       '  scrollButtons="on"',
       '  defaultValue="overview"',
-      '  class="min-w-0 [--tng-tabs-scroll-button-size:2.25rem] [--tng-tabs-tab-px:1rem]"',
       '>',
-      '    <div class="grid min-w-0 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2">',
-      '      <button type="button" tngTabsScrollButtonPrev aria-label="Scroll tabs left">&#x2039;</button>',
-      '      <div tngTabList ariaLabel="Documentation sections">',
-      '        @for (item of tabs; track item.value) {',
-      '          <button type="button" tngTab [value]="item.value">{{ item.label }}</button>',
-      '        }',
-      '      </div>',
-      '      <button type="button" tngTabsScrollButtonNext aria-label="Scroll tabs right">&#x203A;</button>',
+      '  <div data-slot="tabs-strip">',
+      '    <button type="button" tngTabsScrollButtonPrev aria-label="Scroll tabs left">&#x2039;</button>',
+      '    <div tngTabList ariaLabel="Documentation sections">',
+      '      @for (item of tabs; track item.value) {',
+      '        <button type="button" tngTab [value]="item.value">{{ item.label }}</button>',
+      '      }',
       '    </div>',
+      '    <button type="button" tngTabsScrollButtonNext aria-label="Scroll tabs right">&#x203A;</button>',
+      '  </div>',
       '',
-      '    @for (item of tabs; track item.value) {',
-      '      <section tngTabPanel [value]="item.value">{{ item.label }} content.</section>',
-      '    }',
-      '  </tng-tabs>',
+      '  @for (item of tabs; track item.value) {',
+      '    <section tngTabPanel [value]="item.value">{{ item.label }} content.</section>',
+      '  }',
+      '</tng-tabs>',
       '',
     ].join('\n'),
-    '/* Tailwind provides the strip layout and host-level component variable overrides. */',
+    '/* Host-level Tailwind arbitrary properties can override the tabs component variables. */',
   );
 
   public ngOnDestroy(): void {

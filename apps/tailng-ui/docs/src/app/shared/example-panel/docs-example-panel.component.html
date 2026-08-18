@@ -46,25 +46,17 @@
   </header>
 
   @if (showCode() && hasCodeTabs()) {
-    <tng-tabs
-      ariaLabel="Example source files"
-      [defaultValue]="defaultCodeTab()"
-      class="docs-example-code-tabs grid gap-2"
-    >
-      <div
-        tngTabList
-        class="docs-example-code-tabs-list flex flex-wrap gap-2"
-        ariaLabel="Example source code tabs"
-      >
+    <tng-tabs ariaLabel="Example source files" [defaultValue]="defaultCodeTab()">
+      <div tngTabList ariaLabel="Example source code tabs">
         @for (tab of codeTabs(); track tab.value) {
-          <button type="button" tngTab [value]="tab.value" class="docs-example-code-tab-trigger">
+          <button type="button" tngTab [value]="tab.value">
             {{ tab.label }}
           </button>
         }
       </div>
 
       @for (tab of codeTabs(); track tab.value) {
-        <section tngTabPanel [value]="tab.value" class="docs-example-code-panel">
+        <section tngTabPanel [value]="tab.value">
           <tng-code-block
             [code]="tab.code"
             adapter="shiki"

@@ -12,6 +12,7 @@
 export const tngTabsSlots = {
   root: 'tabs',
   shell: 'tabs-shell',
+  strip: 'tabs-strip',
   list: 'tab-list',
   tab: 'tab',
   panel: 'tab-panel',

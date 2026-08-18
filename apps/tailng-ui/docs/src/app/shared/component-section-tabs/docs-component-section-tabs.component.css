@@ -2,77 +2,66 @@
    align-items: stretch keeps buttons the full height of the tablist row.
    minmax(0, 1fr) lets the tablist column shrink so overflow-x: auto fires. */
 .docs-component-tab-strip {
+  align-items: stretch;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: stretch;
   min-width: 0;
 }
 
-/* Scroll the tablist horizontally; hide the scrollbar on all browsers */
+/* Scroll the tablist horizontally; hide the scrollbar on all browsers. */
 .docs-component-tab-list {
-  overflow-x: auto;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE / legacy Edge */
+  -ms-overflow-style: none;
   min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
 
 .docs-component-tab-list::-webkit-scrollbar {
-  display: none; /* Chrome / Safari / Opera */
+  display: none;
 }
 
-/* Prevent individual tab links from line-wrapping */
 .docs-component-tab-trigger {
   white-space: nowrap;
 }
 
-/* Scroll button — shared base
-   2.75 rem ≈ 44 px, the minimum recommended touch target (Apple HIG / WCAG 2.5.5).
-   overflow: hidden + width transition creates a smooth collapse
-   when the button reaches the disabled (at-edge) state. */
 .docs-component-tab-scroll-btn {
-  display: flex;
   align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 3.25rem;
-  overflow: hidden;
-  padding: 0;
   color: var(--tng-semantic-foreground-secondary);
   cursor: pointer;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0;
   transition:
     width 0.2s ease,
     opacity 0.2s ease,
     color 0.15s ease;
+  width: 3.25rem;
 }
 
-/* Icon inside the button — 1.625 rem ≈ 26 px, easy to see and tap on mobile */
 .docs-component-tab-scroll-icon {
-  width: 1.625rem;
-  height: 1.625rem;
   flex-shrink: 0;
+  height: 1.625rem;
+  width: 1.625rem;
 }
 
-/* Prev: icon sits just inside the left edge */
 .docs-component-tab-scroll-btn[data-slot='tabs-scroll-button-prev'] {
-  padding-left: 0.5rem;
   justify-content: flex-start;
+  padding-left: 0.5rem;
 }
 
-/* Next: icon sits just inside the right edge */
 .docs-component-tab-scroll-btn[data-slot='tabs-scroll-button-next'] {
-  padding-right: 0.5rem;
   justify-content: flex-end;
+  padding-right: 0.5rem;
 }
 
-/* At the scroll edge: collapse the button width to zero so the tablist
-   gets the full width on that side — no wasted space, no clipping. */
 .docs-component-tab-scroll-btn[data-disabled='true'] {
-  width: 0;
   opacity: 0;
   pointer-events: none;
+  width: 0;
 }
 
-/* Hover: brighten the arrow icon */
 .docs-component-tab-scroll-btn:hover:not([data-disabled='true']) {
   color: var(--tng-semantic-foreground-primary);
 }

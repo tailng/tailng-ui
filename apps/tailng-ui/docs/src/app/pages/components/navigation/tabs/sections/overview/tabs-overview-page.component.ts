@@ -128,11 +128,7 @@ export class TabsOverviewPageComponent implements OnDestroy {
       'export class TabsOverviewTailwindComponent {}',
     ].join('\n'),
     [
-      '<tng-tabs',
-      '  ariaLabel="Workspace sections"',
-      '  defaultValue="overview"',
-      '  class="[--tng-tabs-radius:1.25rem] [--tng-tabs-tab-height:2.75rem] [--tng-tabs-panel-padding:1.25rem]"',
-      '>',
+      '<tng-tabs ariaLabel="Workspace sections" defaultValue="overview">',
       '  <div tngTabList ariaLabel="Workspace sections">',
       '    <button type="button" tngTab value="overview">Overview</button>',
       '    <button type="button" tngTab value="activity">Activity</button>',
@@ -145,7 +141,7 @@ export class TabsOverviewPageComponent implements OnDestroy {
       '</tng-tabs>',
       '',
     ].join('\n'),
-    '/* Tailwind arbitrary properties override public component variables on the host. */',
+    '/* No component CSS is required for the stock styled wrapper. */',
   );
 
   public ngOnDestroy(): void {

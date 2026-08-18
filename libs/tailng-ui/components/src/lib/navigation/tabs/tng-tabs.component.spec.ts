@@ -1,8 +1,15 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { TngTab, TngTabList, TngTabPanel } from '@tailng-ui/primitives';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { TngTabsComponent } from './tng-tabs.component';
+
+const tabsComponentCss = readFileSync(
+  join(process.cwd(), 'libs/tailng-ui/components/src/lib/navigation/tabs/tng-tabs.component.css'),
+  'utf8',
+);
 
 @Component({
   imports: [TngTabsComponent, TngTabList, TngTab, TngTabPanel],
@@ -58,5 +65,12 @@ describe('tng-tabs component', () => {
 
     expect(tabs.style.getPropertyValue('--tng-tabs-tab-height')).toBe('3rem');
     expect(tabs.style.getPropertyValue('--tng-tabs-brand')).toBe('rebeccapurple');
+  });
+
+  it('keeps the wrapper shell unframed so the header and panel own their borders', () => {
+    expect(tabsComponentCss).toContain('background: transparent');
+    expect(tabsComponentCss).toContain('border: 0');
+    expect(tabsComponentCss).toContain('box-shadow: none');
+    expect(tabsComponentCss).toContain('overflow: visible');
   });
 });

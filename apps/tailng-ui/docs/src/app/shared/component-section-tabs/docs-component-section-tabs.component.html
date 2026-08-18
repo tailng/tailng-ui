@@ -6,17 +6,36 @@
   [scrollButtons]="'auto'"
 >
   <div class="docs-component-tab-strip">
-    <button type="button" tngTabsScrollButtonPrev class="docs-component-tab-scroll-btn" aria-label="Scroll tabs left">
+    <button
+      type="button"
+      tngTabsScrollButtonPrev
+      class="docs-component-tab-scroll-btn"
+      aria-label="Scroll tabs left"
+    >
       <tng-icon icon="chevron-left" class="docs-component-tab-scroll-icon" />
     </button>
-    <div tngTabList class="docs-component-tab-list" [ariaLabel]="sectionName() + ' documentation tabs'">
+    <div
+      tngTabList
+      class="docs-component-tab-list"
+      [ariaLabel]="sectionName() + ' documentation tabs'"
+    >
       @for (tab of tabs(); track tab.value) {
-        <a tngTab [value]="tab.value" [routerLink]="tabHrefs()[tab.value]" class="docs-component-tab-trigger">
+        <a
+          tngTab
+          class="docs-component-tab-trigger"
+          [value]="tab.value"
+          [routerLink]="tabHrefs()[tab.value]"
+        >
           {{ tab.label }}
         </a>
       }
     </div>
-    <button type="button" tngTabsScrollButtonNext class="docs-component-tab-scroll-btn" aria-label="Scroll tabs right">
+    <button
+      type="button"
+      tngTabsScrollButtonNext
+      class="docs-component-tab-scroll-btn"
+      aria-label="Scroll tabs right"
+    >
       <tng-icon icon="chevron-right" class="docs-component-tab-scroll-icon" />
     </button>
   </div>

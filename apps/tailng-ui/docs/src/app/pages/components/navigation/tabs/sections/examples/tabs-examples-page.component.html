@@ -53,7 +53,6 @@
           ariaLabel="Workspace sections"
           [value]="currentValue('tailwind')"
           (valueChange)="onValueChange('tailwind', $event)"
-          class="[--tng-tabs-radius:1.2rem] [--tng-tabs-tab-height:2.7rem] [--tng-tabs-panel-padding:1.15rem]"
         >
           <div tngTabList ariaLabel="Workspace sections">
             <button type="button" tngTab value="overview">Overview</button>
@@ -122,7 +121,6 @@
           orientation="vertical"
           activation="manual"
           defaultValue="account"
-          class="[--tng-tabs-vertical-list-width:11.5rem] [--tng-tabs-panel-padding:1.15rem]"
         >
           <div tngTabList ariaLabel="Settings categories">
             <button type="button" tngTab value="account">Account</button>
@@ -157,7 +155,7 @@
     >
       <div class="tabs-demo-stack">
         <tng-tabs ariaLabel="Documentation sections" scrollButtons="auto" defaultValue="overview">
-          <div class="tabs-strip">
+          <div data-slot="tabs-strip">
             <button type="button" tngTabsScrollButtonPrev aria-label="Scroll tabs left">
               &#x2039;
             </button>
@@ -186,13 +184,8 @@
       [codeTabs]="scrollButtonsTailwindCodeTabs"
     >
       <div class="grid gap-3">
-        <tng-tabs
-          ariaLabel="Documentation sections"
-          scrollButtons="on"
-          defaultValue="overview"
-          class="min-w-0 [--tng-tabs-scroll-button-size:2.25rem] [--tng-tabs-tab-px:1rem]"
-        >
-          <div class="grid min-w-0 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2">
+        <tng-tabs ariaLabel="Documentation sections" scrollButtons="on" defaultValue="overview">
+          <div data-slot="tabs-strip">
             <button type="button" tngTabsScrollButtonPrev aria-label="Scroll tabs left">
               &#x2039;
             </button>

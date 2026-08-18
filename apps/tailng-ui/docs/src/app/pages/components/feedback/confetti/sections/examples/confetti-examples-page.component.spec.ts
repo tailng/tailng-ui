@@ -34,10 +34,13 @@ describe('ConfettiExamplesPageComponent', () => {
   it('renders Plain-CSS and Tailwind CSS variants for every example group', () => {
     const root = fixture.nativeElement as HTMLElement;
     const groups = root.querySelectorAll('app-docs-example-tabs-section');
-    const triggers = Array.from(
-      root.querySelectorAll<HTMLElement>('.docs-example-tabs-section-tab-trigger'),
-      (element) => element.textContent.trim(),
-    );
+    const triggers = Array.from(groups).flatMap((group) => {
+      const tabList = group.querySelector<HTMLElement>('[data-slot="tab-list"]');
+      return Array.from(
+        tabList?.querySelectorAll<HTMLElement>(':scope > [data-slot="tab"]') ?? [],
+        (element) => element.textContent.trim(),
+      );
+    });
 
     expect(groups).toHaveLength(3);
     expect(triggers).toEqual([

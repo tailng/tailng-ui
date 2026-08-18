@@ -21,8 +21,9 @@
           <tr>
             <td><code>data-slot</code></td>
             <td>
-              <code>tabs</code>, <code>tabs-shell</code>, <code>tab-list</code>, <code>tab</code>,
-              <code>tab-panel</code>, and scroll-button slots
+              <code>tabs</code>, <code>tabs-shell</code>, <code>tabs-strip</code>,
+              <code>tab-list</code>, <code>tab</code>, <code>tab-panel</code>, and scroll-button
+              slots
             </td>
             <td>Root wrapper and primitive parts.</td>
           </tr>
@@ -59,9 +60,10 @@
   <section id="default-shell">
     <h3>Default shell</h3>
     <p>
-      The stock wrapper renders a contained surface, inset tab track, selected and focused states,
-      responsive vertical layout, themed panels, and scroll-button controls. No component CSS is
-      required for the default appearance.
+      The stock wrapper uses an unframed shell with contiguous tab headers and a bordered active
+      panel. The first tab aligns with the panel edge, while the selected tab uses the panel surface
+      and opens its adjacent border so the two areas read as one continuous region. Responsive
+      vertical layout and integrated scroll controls are included without requiring component CSS.
     </p>
   </section>
 

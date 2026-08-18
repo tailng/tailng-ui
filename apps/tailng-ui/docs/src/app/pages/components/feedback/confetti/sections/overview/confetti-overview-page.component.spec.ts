@@ -23,8 +23,11 @@ describe('ConfettiOverviewPageComponent', () => {
 
   it('renders Plain-CSS and Tailwind CSS overview variants', () => {
     const root = fixture.nativeElement as HTMLElement;
+    const tabList = root.querySelector<HTMLElement>(
+      'app-docs-example-tabs-section [data-slot="tab-list"]',
+    );
     const labels = Array.from(
-      root.querySelectorAll<HTMLElement>('.docs-example-tabs-section-tab-trigger'),
+      tabList?.querySelectorAll<HTMLElement>(':scope > [data-slot="tab"]') ?? [],
       (element) => element.textContent.trim(),
     );
     expect(labels).toEqual(['Plain-CSS', 'Tailwind CSS']);

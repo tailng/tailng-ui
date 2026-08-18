@@ -56,35 +56,3 @@
 .docs-ownable-files-list code {
   color: var(--tng-semantic-foreground-primary);
 }
-
-.docs-ownable-tabs {
-  display: grid;
-  gap: 0.65rem;
-}
-
-.docs-ownable-tab-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-:host ::ng-deep .docs-ownable-tab-list [data-slot='tab'] {
-  background: color-mix(in srgb, var(--tng-semantic-background-surface) 90%, transparent);
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.5rem;
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 0.84rem;
-  font-weight: 600;
-  min-height: 2rem;
-  min-width: 4.5rem;
-  padding: 0.3rem 0.8rem;
-}
-
-:host ::ng-deep .docs-ownable-tab-list [data-slot='tab'][data-selected='true'] {
-  border-color: var(--tng-semantic-accent-brand);
-  color: var(--tng-semantic-accent-brand);
-}
-
-.docs-ownable-tab-panel {
-  min-width: 0;
-}
