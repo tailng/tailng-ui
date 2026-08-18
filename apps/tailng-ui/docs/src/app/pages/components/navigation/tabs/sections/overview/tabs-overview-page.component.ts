@@ -7,7 +7,10 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
 
 function createCodeTabs(
   baseName: string,
@@ -93,35 +96,19 @@ export class TabsOverviewPageComponent implements OnDestroy {
     ].join('\n'),
     [
       '<tng-tabs ariaLabel="Workspace sections" defaultValue="overview">',
-      '  <div tngTabList class="tabs-list" ariaLabel="Workspace sections">',
-      '    <button type="button" tngTab value="overview" class="tabs-trigger">Overview</button>',
-      '    <button type="button" tngTab value="activity" class="tabs-trigger">Activity</button>',
-      '    <button type="button" tngTab value="settings" class="tabs-trigger">Settings</button>',
+      '  <div tngTabList ariaLabel="Workspace sections">',
+      '    <button type="button" tngTab value="overview">Overview</button>',
+      '    <button type="button" tngTab value="activity">Activity</button>',
+      '    <button type="button" tngTab value="settings">Settings</button>',
       '  </div>',
       '',
-      '  <section tngTabPanel value="overview" class="tabs-panel">Overview content</section>',
-      '  <section tngTabPanel value="activity" class="tabs-panel">Activity content</section>',
-      '  <section tngTabPanel value="settings" class="tabs-panel">Settings content</section>',
+      '  <section tngTabPanel value="overview">Overview content</section>',
+      '  <section tngTabPanel value="activity">Activity content</section>',
+      '  <section tngTabPanel value="settings">Settings content</section>',
       '</tng-tabs>',
       '',
     ].join('\n'),
-    [
-      '.tabs-list {',
-      '  display: flex;',
-      '  gap: 0.5rem;',
-      '  padding-bottom: 0.6rem;',
-      '}',
-      '',
-      '.tabs-trigger[data-selected="true"] {',
-      '  background: var(--tng-semantic-background-surface);',
-      '  border-color: var(--tng-semantic-border-subtle);',
-      '}',
-      '',
-      '.tabs-panel[hidden] {',
-      '  display: none !important;',
-      '}',
-      '',
-    ].join('\n'),
+    '/* No component CSS is required for the stock styled wrapper. */',
   );
 
   protected readonly tailwindCodeTabs = createCodeTabs(
@@ -141,22 +128,24 @@ export class TabsOverviewPageComponent implements OnDestroy {
       'export class TabsOverviewTailwindComponent {}',
     ].join('\n'),
     [
-      '<div class="flex flex-col gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4 text-tng-fg-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]">',
-      '  <tng-tabs ariaLabel="Workspace sections" defaultValue="overview" class="grid gap-3">',
-      '    <div tngTabList class="flex flex-wrap gap-2 border-b border-tng-border-subtle pb-3" ariaLabel="Workspace sections">',
-      '      <button type="button" tngTab value="overview" class="rounded-lg border border-transparent px-3 py-2 text-sm font-semibold text-tng-fg-secondary transition data-[selected=true]:border-[var(--tng-semantic-border-default)] data-[selected=true]:bg-tng-bg-base data-[selected=true]:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface">Overview</button>',
-      '      <button type="button" tngTab value="activity" class="rounded-lg border border-transparent px-3 py-2 text-sm font-semibold text-tng-fg-secondary transition data-[selected=true]:border-[var(--tng-semantic-border-default)] data-[selected=true]:bg-tng-bg-base data-[selected=true]:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface">Activity</button>',
-      '      <button type="button" tngTab value="settings" class="rounded-lg border border-transparent px-3 py-2 text-sm font-semibold text-tng-fg-secondary transition data-[selected=true]:border-[var(--tng-semantic-border-default)] data-[selected=true]:bg-tng-bg-base data-[selected=true]:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface">Settings</button>',
-      '    </div>',
+      '<tng-tabs',
+      '  ariaLabel="Workspace sections"',
+      '  defaultValue="overview"',
+      '  class="[--tng-tabs-radius:1.25rem] [--tng-tabs-tab-height:2.75rem] [--tng-tabs-panel-padding:1.25rem]"',
+      '>',
+      '  <div tngTabList ariaLabel="Workspace sections">',
+      '    <button type="button" tngTab value="overview">Overview</button>',
+      '    <button type="button" tngTab value="activity">Activity</button>',
+      '    <button type="button" tngTab value="settings">Settings</button>',
+      '  </div>',
       '',
-      '    <section tngTabPanel value="overview" class="rounded-xl border border-tng-border-subtle bg-tng-bg-base p-4 text-sm text-tng-fg-secondary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_40%,transparent)]">Overview content</section>',
-      '    <section tngTabPanel value="activity" class="rounded-xl border border-tng-border-subtle bg-tng-bg-base p-4 text-sm text-tng-fg-secondary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_40%,transparent)]">Activity content</section>',
-      '    <section tngTabPanel value="settings" class="rounded-xl border border-tng-border-subtle bg-tng-bg-base p-4 text-sm text-tng-fg-secondary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_40%,transparent)]">Settings content</section>',
-      '  </tng-tabs>',
-      '</div>',
+      '  <section tngTabPanel value="overview">Overview content</section>',
+      '  <section tngTabPanel value="activity">Activity content</section>',
+      '  <section tngTabPanel value="settings">Settings content</section>',
+      '</tng-tabs>',
       '',
     ].join('\n'),
-    '/* Tailwind utilities are applied directly in the template. */',
+    '/* Tailwind arbitrary properties override public component variables on the host. */',
   );
 
   public ngOnDestroy(): void {

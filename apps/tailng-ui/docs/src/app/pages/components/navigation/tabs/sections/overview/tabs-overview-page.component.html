@@ -7,7 +7,9 @@
 
   <section id="imports" class="tabs-doc__block">
     <h3>Imports</h3>
-    <p>Import the wrapper root from the components package and the structural parts from primitives.</p>
+    <p>
+      Import the wrapper root from the components package and the structural parts from primitives.
+    </p>
     <tng-code-block
       [code]="componentImportCode"
       adapter="shiki"
@@ -65,28 +67,26 @@
       panelTitle="Tabs shell (Plain CSS)"
       [codeTabs]="plainCssCodeTabs"
     >
-      <div class="tabs-demo-shell">
-        <tng-tabs ariaLabel="Workspace sections" defaultValue="overview">
-          <div tngTabList class="tabs-list" ariaLabel="Workspace sections">
-            <button type="button" tngTab value="overview" class="tabs-trigger">Overview</button>
-            <button type="button" tngTab value="activity" class="tabs-trigger">Activity</button>
-            <button type="button" tngTab value="settings" class="tabs-trigger">Settings</button>
-          </div>
+      <tng-tabs ariaLabel="Workspace sections" defaultValue="overview">
+        <div tngTabList ariaLabel="Workspace sections">
+          <button type="button" tngTab value="overview">Overview</button>
+          <button type="button" tngTab value="activity">Activity</button>
+          <button type="button" tngTab value="settings">Settings</button>
+        </div>
 
-          <section tngTabPanel value="overview" class="tabs-panel">
-            <strong>Overview</strong>
-            <p>Shared wrapper shell plus owner-authored tab and panel markup.</p>
-          </section>
-          <section tngTabPanel value="activity" class="tabs-panel">
-            <strong>Activity</strong>
-            <p>Selection and focus handling still come from the primitive directives.</p>
-          </section>
-          <section tngTabPanel value="settings" class="tabs-panel">
-            <strong>Settings</strong>
-            <p>Panels stay mounted unless you opt into lazy and unmount behavior.</p>
-          </section>
-        </tng-tabs>
-      </div>
+        <section tngTabPanel value="overview">
+          <strong>Overview</strong>
+          <p>The stock wrapper, triggers, and panel are ready without application CSS.</p>
+        </section>
+        <section tngTabPanel value="activity">
+          <strong>Activity</strong>
+          <p>Selection, hover, focus, and disabled states come from the theme contract.</p>
+        </section>
+        <section tngTabPanel value="settings">
+          <strong>Settings</strong>
+          <p>Component variables can tune the visual system from the wrapper host.</p>
+        </section>
+      </tng-tabs>
     </ng-template>
 
     <ng-template
@@ -96,75 +96,44 @@
       panelTitle="Tabs shell (Tailwind CSS)"
       [codeTabs]="tailwindCodeTabs"
     >
-      <div
-        class="flex flex-col gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4 text-tng-fg-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]"
+      <tng-tabs
+        ariaLabel="Workspace sections"
+        defaultValue="overview"
+        class="[--tng-tabs-radius:1.25rem] [--tng-tabs-tab-height:2.75rem] [--tng-tabs-panel-padding:1.25rem]"
       >
-        <tng-tabs ariaLabel="Workspace sections" defaultValue="overview" class="grid gap-3">
-          <div
-            tngTabList
-            class="flex flex-wrap gap-2 border-b border-tng-border-subtle pb-3"
-            ariaLabel="Workspace sections"
-          >
-            <button
-              type="button"
-              tngTab
-              value="overview"
-              class="rounded-lg border border-transparent px-3 py-2 text-sm font-semibold text-tng-fg-secondary transition data-[selected=true]:border-[var(--tng-semantic-border-default)] data-[selected=true]:bg-tng-bg-base data-[selected=true]:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
-            >
-              Overview
-            </button>
-            <button
-              type="button"
-              tngTab
-              value="activity"
-              class="rounded-lg border border-transparent px-3 py-2 text-sm font-semibold text-tng-fg-secondary transition data-[selected=true]:border-[var(--tng-semantic-border-default)] data-[selected=true]:bg-tng-bg-base data-[selected=true]:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
-            >
-              Activity
-            </button>
-            <button
-              type="button"
-              tngTab
-              value="settings"
-              class="rounded-lg border border-transparent px-3 py-2 text-sm font-semibold text-tng-fg-secondary transition data-[selected=true]:border-[var(--tng-semantic-border-default)] data-[selected=true]:bg-tng-bg-base data-[selected=true]:text-tng-fg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tng-semantic-focus-ring)_40%,transparent)] focus-visible:ring-offset-2 focus-visible:ring-offset-tng-bg-surface"
-            >
-              Settings
-            </button>
-          </div>
+        <div tngTabList ariaLabel="Workspace sections">
+          <button type="button" tngTab value="overview">Overview</button>
+          <button type="button" tngTab value="activity">Activity</button>
+          <button type="button" tngTab value="settings">Settings</button>
+        </div>
 
-          <section
-            tngTabPanel
-            value="overview"
-            class="rounded-xl border border-tng-border-subtle bg-tng-bg-base p-4 text-sm text-tng-fg-secondary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_40%,transparent)]"
-          >
-            Overview panel with wrapper defaults and utility-authored trigger styling.
-          </section>
-          <section
-            tngTabPanel
-            value="activity"
-            class="rounded-xl border border-tng-border-subtle bg-tng-bg-base p-4 text-sm text-tng-fg-secondary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_40%,transparent)]"
-          >
-            Activity panel sharing the same tablist and selection model.
-          </section>
-          <section
-            tngTabPanel
-            value="settings"
-            class="rounded-xl border border-tng-border-subtle bg-tng-bg-base p-4 text-sm text-tng-fg-secondary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_40%,transparent)]"
-          >
-            Settings panel rendered through the same explicit panel contract.
-          </section>
-        </tng-tabs>
-      </div>
+        <section tngTabPanel value="overview">
+          Overview content with roomier Tailwind token overrides.
+        </section>
+        <section tngTabPanel value="activity">
+          Activity content sharing the stock state treatment.
+        </section>
+        <section tngTabPanel value="settings">
+          Settings content using the same semantic theme.
+        </section>
+      </tng-tabs>
     </ng-template>
   </app-docs-example-tabs-section>
 
   <section id="behavior-baseline" class="tabs-doc__block">
     <h3>Behavior baseline</h3>
     <ul class="tabs-doc__list">
-      <li>Use matching <code>value</code> strings on each <code>tngTab</code> and <code>tngTabPanel</code>.</li>
-      <li><code>activation="manual"</code> keeps arrow-key focus movement separate from selection.</li>
       <li>
-        The wrapper only styles the root shell. Trigger, list, panel, and vertical layouts are still
-        yours to author.
+        Use matching <code>value</code> strings on each <code>tngTab</code> and
+        <code>tngTabPanel</code>.
+      </li>
+      <li>
+        <code>activation="manual"</code> keeps arrow-key focus movement separate from selection.
+      </li>
+      <li>
+        The wrapper styles the shell, tablist, triggers, panels, orientation, and interactive
+        states. Override component variables when a product surface needs a different visual
+        treatment.
       </li>
     </ul>
   </section>

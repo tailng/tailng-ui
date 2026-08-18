@@ -78,7 +78,7 @@
   row-gap: 0.25rem;
 }
 
-:host ::ng-deep .docs-example-code-tabs .tng-tabs {
+:host ::ng-deep .docs-example-code-tabs > .tng-tabs {
   background: transparent;
   border: 0;
   border-radius: 0;

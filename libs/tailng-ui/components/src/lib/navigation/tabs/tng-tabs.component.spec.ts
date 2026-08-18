@@ -32,13 +32,31 @@ describe('tng-tabs component', () => {
     const panelOverview = fixture.nativeElement.querySelector(
       '[data-testid="panel-overview"]',
     ) as HTMLElement;
-    const panelApi = fixture.nativeElement.querySelector('[data-testid="panel-api"]') as HTMLElement;
+    const panelApi = fixture.nativeElement.querySelector(
+      '[data-testid="panel-api"]',
+    ) as HTMLElement;
 
     expect(tabs).toBeTruthy();
     expect(tabs.getAttribute('data-slot')).toBe('tabs');
     expect(tabs.getAttribute('aria-label')).toBe('Project tabs');
+    expect(tabs.querySelector('.tng-tabs')?.getAttribute('data-slot')).toBe('tabs-shell');
     expect(tabList.getAttribute('role')).toBe('tablist');
     expect(panelOverview.hasAttribute('hidden')).toBe(false);
     expect(panelApi.hasAttribute('hidden')).toBe(true);
+  });
+
+  it('preserves host-scoped component token overrides', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [HostComponent],
+    }).createComponent(HostComponent);
+
+    fixture.detectChanges();
+
+    const tabs = fixture.nativeElement.querySelector('[data-testid="tabs"]') as HTMLElement;
+    tabs.style.setProperty('--tng-tabs-tab-height', '3rem');
+    tabs.style.setProperty('--tng-tabs-brand', 'rebeccapurple');
+
+    expect(tabs.style.getPropertyValue('--tng-tabs-tab-height')).toBe('3rem');
+    expect(tabs.style.getPropertyValue('--tng-tabs-brand')).toBe('rebeccapurple');
   });
 });

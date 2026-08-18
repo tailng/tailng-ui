@@ -16,12 +16,12 @@
 /* Navigation */
 @import "./navigation/menu/menu.css" layer(tng.contracts);
 @import "./navigation/menubar/menubar.css" layer(tng.contracts);
+@import "./navigation/tabs/tabs.css" layer(tng.contracts);
 
 /* Layout */
 @import "./layout/tree/tree.css" layer(tng.contracts);
 @import "./layout/card.css" layer(tng.contracts);
 @import "./layout/accordion.css" layer(tng.contracts);
-@import "./layout/tabs.css" layer(tng.contracts);
 
 /* Overlay */
 @import "./overlay/dialog.css" layer(tng.contracts);

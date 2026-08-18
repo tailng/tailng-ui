@@ -1,15 +1,45 @@
 :host {
   display: block;
+  min-width: 0;
 }
 
 .tng-tabs {
-  background: var(--tng-semantic-background-base);
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: var(--tng-tabs-radius, var(--tng-radius-panel, 0.75rem));
-  color: var(--tng-semantic-foreground-primary);
+  background: linear-gradient(
+    180deg,
+    color-mix(
+      in srgb,
+      var(--tng-tabs-surface, var(--tng-semantic-background-surface, #f5f8fc)) 94%,
+      var(--tng-tabs-canvas, var(--tng-semantic-background-canvas, #ffffff)) 6%
+    ),
+    color-mix(
+      in srgb,
+      var(--tng-tabs-bg, var(--tng-semantic-background-base, #ffffff)) 84%,
+      var(--tng-tabs-surface, var(--tng-semantic-background-surface, #f5f8fc)) 16%
+    )
+  );
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--tng-tabs-border-strong, var(--tng-semantic-border-strong, #bac6d8)) 72%,
+      var(--tng-tabs-canvas, var(--tng-semantic-background-canvas, #ffffff)) 28%
+    );
+  border-radius: var(--tng-tabs-radius, var(--tng-radius-surface, 1rem));
+  box-shadow: var(
+    --tng-tabs-shadow,
+    0 16px 34px -28px
+      color-mix(
+        in srgb,
+        var(--tng-tabs-fg, var(--tng-semantic-foreground-primary, #152036)) 34%,
+        transparent
+      )
+  );
+  box-sizing: border-box;
+  color: var(--tng-tabs-fg, var(--tng-semantic-foreground-primary, #152036));
   display: grid;
-  gap: 0.5rem;
-  padding: 0.9rem 1rem;
+  gap: var(--tng-tabs-gap, 0.55rem);
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+  padding: var(--tng-tabs-shell-padding, 0.5rem);
 }
 
 :host([data-orientation='vertical']) .tng-tabs {
@@ -18,7 +48,8 @@
 
 @media (min-width: 48rem) {
   :host([data-orientation='vertical']) .tng-tabs {
-    gap: 1rem;
-    grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
+    grid-template-columns:
+      minmax(0, var(--tng-tabs-vertical-list-width, 13rem))
+      minmax(0, 1fr);
   }
 }

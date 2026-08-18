@@ -39,8 +39,12 @@
           </article>
         </section>
 
-        <p class="state-line">Last selection: <strong>{{ headlessSelection() }}</strong></p>
-        <p class="state-line">Last focus: <strong>{{ headlessFocus() }}</strong></p>
+        <p class="state-line">
+          Last selection: <strong>{{ headlessSelection() }}</strong>
+        </p>
+        <p class="state-line">
+          Last focus: <strong>{{ headlessFocus() }}</strong>
+        </p>
       </article>
     </section>
 
@@ -104,15 +108,21 @@
           </button>
         </div>
 
-        <p class="state-line">Controlled value: <strong>{{ controlledValue() }}</strong></p>
-        <p class="state-line">Last controlled change: <strong>{{ controlledSelection() }}</strong></p>
+        <p class="state-line">
+          Controlled value: <strong>{{ controlledValue() }}</strong>
+        </p>
+        <p class="state-line">
+          Last controlled change: <strong>{{ controlledSelection() }}</strong>
+        </p>
       </article>
 
       <article class="card">
         <h2>Headless Primitives: Manual + Vertical</h2>
         <p class="demo-note">
-          In <code>activation="manual"</code>, arrows move focus only; press
-          <kbd>Enter</kbd>/<kbd>Space</kbd> to select.
+          In <code>activation="manual"</code>, arrows move focus only; press <kbd>Enter</kbd>/<kbd
+            >Space</kbd
+          >
+          to select.
         </p>
 
         <section
@@ -140,7 +150,9 @@
           </article>
         </section>
 
-        <p class="state-line">Last manual selection: <strong>{{ manualSelection() }}</strong></p>
+        <p class="state-line">
+          Last manual selection: <strong>{{ manualSelection() }}</strong>
+        </p>
       </article>
     </section>
 
@@ -148,9 +160,9 @@
       <article class="card">
         <h2>Headless Primitives: Scrollable Strip + Auto Scroll Buttons</h2>
         <p class="demo-note">
-          Keeps one row, enables horizontal overflow, and shows <code>‹ / ›</code> only when the strip
-          overflows (<code>scrollButtons="auto"</code>). Arrow navigation and click auto-scroll the active tab into
-          view.
+          Keeps one row, enables horizontal overflow, and shows <code>‹ / ›</code> only when the
+          strip overflows (<code>scrollButtons="auto"</code>). Arrow navigation and click
+          auto-scroll the active tab into view.
         </p>
 
         <section
@@ -161,58 +173,72 @@
           (tabChange)="onOverflowTabChange($event)"
         >
           <div class="tabs-strip">
-            <button type="button" tngTabsScrollButtonPrev class="tabs-scroll-control" aria-label="Scroll tabs left">
+            <button
+              type="button"
+              tngTabsScrollButtonPrev
+              class="tabs-scroll-control"
+              aria-label="Scroll tabs left"
+            >
               &#x2039;
             </button>
-            <div tngTabList class="tabs-list tabs-list--overflow" ariaLabel="Scrollable documentation sections">
-              @for (item of overflowTabs; track item.value) {
-                <button type="button" tngTab [value]="item.value" class="tab-trigger">{{ item.label }}</button>
-              }
-            </div>
-            <button type="button" tngTabsScrollButtonNext class="tabs-scroll-control" aria-label="Scroll tabs right">
-              &#x203A;
-            </button>
-          </div>
-
-          @for (item of overflowTabs; track item.value) {
-            <article tngTabPanel [value]="item.value" class="tab-panel">
-              {{ item.label }} panel content. Try mouse wheel / trackpad on the tab strip, then use arrow keys to
-              verify focused tabs auto-scroll into view.
-            </article>
-          }
-        </section>
-
-        <p class="state-line">Last overflow selection: <strong>{{ overflowSelection() }}</strong></p>
-      </article>
-
-      <article class="card">
-        <h2>Component Wrapper: Forced Scroll Buttons</h2>
-        <p class="demo-note">
-          Wrapper demo with <code>scrollButtons="on"</code> to keep navigation buttons visible even before
-          interaction.
-        </p>
-
-        <tng-tabs class="tabs-shell tabs-shell--overflow" ariaLabel="Wrapper overflow tabs" scrollButtons="on">
-          <div class="tabs-strip">
-            <button type="button" tngTabsScrollButtonPrev class="tabs-scroll-control" aria-label="Scroll tabs left">
-              &#x2039;
-            </button>
-            <div tngTabList class="tabs-list tabs-list--overflow" ariaLabel="Wrapper overflow sections">
+            <div
+              tngTabList
+              class="tabs-list tabs-list--overflow"
+              ariaLabel="Scrollable documentation sections"
+            >
               @for (item of overflowTabs; track item.value) {
                 <button type="button" tngTab [value]="item.value" class="tab-trigger">
                   {{ item.label }}
                 </button>
               }
             </div>
-            <button type="button" tngTabsScrollButtonNext class="tabs-scroll-control" aria-label="Scroll tabs right">
+            <button
+              type="button"
+              tngTabsScrollButtonNext
+              class="tabs-scroll-control"
+              aria-label="Scroll tabs right"
+            >
               &#x203A;
             </button>
           </div>
 
           @for (item of overflowTabs; track item.value) {
             <article tngTabPanel [value]="item.value" class="tab-panel">
-              Wrapper panel for {{ item.label }}.
+              {{ item.label }} panel content. Try mouse wheel / trackpad on the tab strip, then use
+              arrow keys to verify focused tabs auto-scroll into view.
             </article>
+          }
+        </section>
+
+        <p class="state-line">
+          Last overflow selection: <strong>{{ overflowSelection() }}</strong>
+        </p>
+      </article>
+
+      <article class="card">
+        <h2>Component Wrapper: Forced Scroll Buttons</h2>
+        <p class="demo-note">
+          Wrapper demo with <code>scrollButtons="on"</code> to keep navigation buttons visible even
+          before interaction.
+        </p>
+
+        <tng-tabs ariaLabel="Wrapper overflow tabs" scrollButtons="on">
+          <div class="tabs-strip">
+            <button type="button" tngTabsScrollButtonPrev aria-label="Scroll tabs left">
+              &#x2039;
+            </button>
+            <div tngTabList ariaLabel="Wrapper overflow sections">
+              @for (item of overflowTabs; track item.value) {
+                <button type="button" tngTab [value]="item.value">{{ item.label }}</button>
+              }
+            </div>
+            <button type="button" tngTabsScrollButtonNext aria-label="Scroll tabs right">
+              &#x203A;
+            </button>
+          </div>
+
+          @for (item of overflowTabs; track item.value) {
+            <article tngTabPanel [value]="item.value">Wrapper panel for {{ item.label }}.</article>
           }
         </tng-tabs>
       </article>
@@ -222,23 +248,24 @@
       <article class="card">
         <h2>Component Wrapper: &lt;tng-tabs&gt; (Secondary Demo)</h2>
         <p class="demo-note">
-          Wrapper for root structure and base styling while child tabs and panels stay headless.
+          The wrapper applies the complete styled contract; customize it through semantic tokens or
+          public tabs variables.
         </p>
 
         <tng-tabs ariaLabel="Wrapper product tabs">
-          <div tngTabList class="tabs-list" ariaLabel="Wrapper product sections">
-            <button type="button" tngTab value="features" class="tab-trigger">Features</button>
-            <button type="button" tngTab value="a11y" class="tab-trigger">Accessibility</button>
-            <button type="button" tngTab value="testing" class="tab-trigger">Testing</button>
+          <div tngTabList ariaLabel="Wrapper product sections">
+            <button type="button" tngTab value="features">Features</button>
+            <button type="button" tngTab value="a11y">Accessibility</button>
+            <button type="button" tngTab value="testing">Testing</button>
           </div>
 
-          <article tngTabPanel value="features" class="tab-panel">
+          <article tngTabPanel value="features">
             Feature overview for activation modes, orientation, and controlled state.
           </article>
-          <article tngTabPanel value="a11y" class="tab-panel">
+          <article tngTabPanel value="a11y">
             A11y details for ARIA roles, ids, and keyboard semantics.
           </article>
-          <article tngTabPanel value="testing" class="tab-panel">
+          <article tngTabPanel value="testing">
             Testing setup with keyboard coverage and dynamic tab lifecycle checks.
           </article>
         </tng-tabs>

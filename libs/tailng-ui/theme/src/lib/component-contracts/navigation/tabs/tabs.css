@@ -1,0 +1,301 @@
+@layer tng.contracts {
+  /**
+   * Styled Tabs contract
+   * --------------------
+   * Visual rules are deliberately scoped to the components wrapper. A raw
+   * [tngTabs] root remains headless and can be composed independently.
+   */
+  :where(tng-tabs[data-slot='tabs']) {
+    --tng-tabs-radius: var(--tng-radius-surface, 1rem);
+    --tng-tabs-shell-padding: 0.5rem;
+    --tng-tabs-gap: 0.55rem;
+    --tng-tabs-list-gap: 0.25rem;
+    --tng-tabs-list-padding: 0.25rem;
+    --tng-tabs-list-radius: calc(var(--tng-tabs-radius) - 0.28rem);
+    --tng-tabs-tab-height: var(--tng-control-height-md, 2.5rem);
+    --tng-tabs-tab-px: 0.9rem;
+    --tng-tabs-tab-radius: calc(var(--tng-tabs-list-radius) - 0.18rem);
+    --tng-tabs-panel-padding: 1rem;
+    --tng-tabs-panel-radius: calc(var(--tng-tabs-radius) - 0.18rem);
+    --tng-tabs-vertical-list-width: 13rem;
+    --tng-tabs-scroll-button-size: 2rem;
+
+    --tng-tabs-bg: var(--tng-semantic-background-base, #ffffff);
+    --tng-tabs-surface: var(--tng-semantic-background-surface, #f5f8fc);
+    --tng-tabs-canvas: var(--tng-semantic-background-canvas, #ffffff);
+    --tng-tabs-fg: var(--tng-semantic-foreground-primary, #152036);
+    --tng-tabs-muted: var(--tng-semantic-foreground-secondary, #667892);
+    --tng-tabs-border: var(--tng-semantic-border-subtle, #d1d9e6);
+    --tng-tabs-border-strong: var(--tng-semantic-border-strong, #bac6d8);
+    --tng-tabs-brand: var(--tng-semantic-accent-brand, #3b82f6);
+    --tng-tabs-focus: var(--tng-semantic-focus-ring, var(--tng-tabs-brand));
+
+    --tng-tabs-tab-hover-bg: color-mix(
+      in srgb,
+      var(--tng-tabs-brand) 7%,
+      var(--tng-tabs-canvas) 93%
+    );
+    --tng-tabs-tab-selected-bg: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--tng-tabs-canvas) 96%, var(--tng-tabs-brand) 4%),
+      color-mix(in srgb, var(--tng-tabs-surface) 92%, var(--tng-tabs-brand) 8%)
+    );
+    --tng-tabs-tab-selected-fg: color-mix(
+      in srgb,
+      var(--tng-tabs-brand) 76%,
+      var(--tng-tabs-fg) 24%
+    );
+    --tng-tabs-tab-selected-border: color-mix(
+      in srgb,
+      var(--tng-tabs-brand) 34%,
+      var(--tng-tabs-border) 66%
+    );
+    --tng-tabs-panel-bg: color-mix(
+      in srgb,
+      var(--tng-tabs-canvas) 86%,
+      var(--tng-tabs-surface) 14%
+    );
+    --tng-tabs-shadow:
+      0 16px 34px -28px color-mix(in srgb, var(--tng-tabs-fg) 34%, transparent),
+      0 5px 16px -14px color-mix(in srgb, var(--tng-tabs-fg) 22%, transparent);
+    --tng-tabs-selected-shadow:
+      0 1px 2px color-mix(in srgb, var(--tng-tabs-fg) 8%, transparent),
+      0 6px 14px -12px color-mix(in srgb, var(--tng-tabs-fg) 28%, transparent);
+    --tng-tabs-focus-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-tabs-focus) 20%, transparent);
+    --tng-tabs-disabled-opacity: var(--tng-disabled-opacity, 0.55);
+    --tng-tabs-duration: var(--tng-duration-normal, 150ms);
+    --tng-tabs-ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+    display: block;
+    min-width: 0;
+  }
+
+  :where(tng-tabs[data-slot='tabs']) :where([data-slot='tab-list']) {
+    align-items: center;
+    align-self: start;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: var(--tng-tabs-list-gap);
+    grid-column: 1 / -1;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: var(--tng-tabs-list-padding);
+
+    border: 1px solid color-mix(in srgb, var(--tng-tabs-border) 84%, var(--tng-tabs-canvas) 16%);
+    border-radius: var(--tng-tabs-list-radius);
+    background: color-mix(in srgb, var(--tng-tabs-surface) 82%, var(--tng-tabs-canvas) 18%);
+    box-shadow: inset 0 1px 2px color-mix(in srgb, var(--tng-tabs-fg) 4%, transparent);
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  :where(tng-tabs[data-slot='tabs']) :where([data-slot='tab-list'])::-webkit-scrollbar {
+    display: none;
+  }
+
+  :where(tng-tabs[data-slot='tabs']) :where([data-slot='tab']) {
+    align-items: center;
+    appearance: none;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--tng-tabs-tab-radius);
+    box-sizing: border-box;
+    color: var(--tng-tabs-muted);
+    cursor: pointer;
+    display: inline-flex;
+    flex: 0 0 auto;
+    font: inherit;
+    font-size: var(--tng-text-body, 0.875rem);
+    font-weight: var(--tng-font-weight-semibold, 600);
+    justify-content: center;
+    line-height: 1.2;
+    min-height: var(--tng-tabs-tab-height);
+    min-width: 0;
+    padding: 0 var(--tng-tabs-tab-px);
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      background-color var(--tng-tabs-duration) var(--tng-tabs-ease),
+      border-color var(--tng-tabs-duration) var(--tng-tabs-ease),
+      box-shadow var(--tng-tabs-duration) var(--tng-tabs-ease),
+      color var(--tng-tabs-duration) var(--tng-tabs-ease);
+  }
+
+  :where(tng-tabs[data-slot='tabs'])
+    :where([data-slot='tab']:hover:not([data-disabled='true']):not(:disabled)) {
+    background: var(--tng-tabs-tab-hover-bg);
+    border-color: color-mix(in srgb, var(--tng-tabs-brand) 14%, var(--tng-tabs-border) 86%);
+    color: var(--tng-tabs-fg);
+  }
+
+  :where(tng-tabs[data-slot='tabs'])
+    :where([data-slot='tab'][data-focused='true']:not([data-selected='true'])) {
+    background: color-mix(in srgb, var(--tng-tabs-brand) 5%, var(--tng-tabs-canvas) 95%);
+    border-color: color-mix(in srgb, var(--tng-tabs-brand) 24%, var(--tng-tabs-border) 76%);
+    color: var(--tng-tabs-fg);
+  }
+
+  :where(tng-tabs[data-slot='tabs']) :where([data-slot='tab'][data-selected='true']) {
+    background: var(--tng-tabs-tab-selected-bg);
+    border-color: var(--tng-tabs-tab-selected-border);
+    box-shadow: var(--tng-tabs-selected-shadow);
+    color: var(--tng-tabs-tab-selected-fg);
+  }
+
+  :where(tng-tabs[data-slot='tabs']) :where([data-slot='tab']:focus-visible),
+  :where(tng-tabs[data-slot='tabs']) :where([data-slot='tab'][data-focused='true']:focus-visible) {
+    border-color: color-mix(in srgb, var(--tng-tabs-focus) 68%, var(--tng-tabs-border) 32%);
+    box-shadow: var(--tng-tabs-focus-shadow);
+    outline: none;
+    z-index: 1;
+  }
+
+  :where(tng-tabs[data-slot='tabs'][data-disabled='true']) :where([data-slot='tab']),
+  :where(tng-tabs[data-slot='tabs']) :where([data-slot='tab'][data-disabled='true']),
+  :where(tng-tabs[data-slot='tabs']) :where([data-slot='tab']:disabled) {
+    cursor: not-allowed;
+    opacity: var(--tng-tabs-disabled-opacity);
+  }
+
+  :where(tng-tabs[data-slot='tabs']) :where([data-slot='tab-panel']) {
+    background: var(--tng-tabs-panel-bg);
+    border: 1px solid color-mix(in srgb, var(--tng-tabs-border) 88%, var(--tng-tabs-canvas) 12%);
+    border-radius: var(--tng-tabs-panel-radius);
+    box-shadow: 0 1px 2px color-mix(in srgb, var(--tng-tabs-fg) 4%, transparent);
+    box-sizing: border-box;
+    color: var(--tng-tabs-fg);
+    grid-column: 1 / -1;
+    min-width: 0;
+    padding: var(--tng-tabs-panel-padding);
+  }
+
+  :where(tng-tabs[data-slot='tabs']) :where([data-slot='tab-panel'][hidden]) {
+    display: none !important;
+  }
+
+  :where(tng-tabs[data-slot='tabs'])
+    :where([data-slot='tabs-scroll-button-prev'], [data-slot='tabs-scroll-button-next']) {
+    align-items: center;
+    align-self: center;
+    appearance: none;
+    background: color-mix(in srgb, var(--tng-tabs-canvas) 90%, var(--tng-tabs-surface) 10%);
+    border: 1px solid var(--tng-tabs-border);
+    border-radius: var(--tng-tabs-tab-radius);
+    box-shadow: 0 1px 2px color-mix(in srgb, var(--tng-tabs-fg) 6%, transparent);
+    color: var(--tng-tabs-fg);
+    cursor: pointer;
+    display: inline-flex;
+    flex: 0 0 var(--tng-tabs-scroll-button-size);
+    font: inherit;
+    font-size: 1.1rem;
+    height: var(--tng-tabs-scroll-button-size);
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+    width: var(--tng-tabs-scroll-button-size);
+
+    transition:
+      background-color var(--tng-tabs-duration) var(--tng-tabs-ease),
+      border-color var(--tng-tabs-duration) var(--tng-tabs-ease),
+      box-shadow var(--tng-tabs-duration) var(--tng-tabs-ease),
+      color var(--tng-tabs-duration) var(--tng-tabs-ease);
+  }
+
+  :where(tng-tabs[data-slot='tabs'])
+    :where([data-slot='tabs-scroll-button-prev'], [data-slot='tabs-scroll-button-next']):hover:not(
+      :disabled
+    ) {
+    background: var(--tng-tabs-tab-hover-bg);
+    border-color: var(--tng-tabs-tab-selected-border);
+    color: var(--tng-tabs-tab-selected-fg);
+  }
+
+  :where(tng-tabs[data-slot='tabs'])
+    :where(
+      [data-slot='tabs-scroll-button-prev'],
+      [data-slot='tabs-scroll-button-next']
+    ):focus-visible {
+    border-color: color-mix(in srgb, var(--tng-tabs-focus) 68%, var(--tng-tabs-border) 32%);
+    box-shadow: var(--tng-tabs-focus-shadow);
+    outline: none;
+  }
+
+  :where(tng-tabs[data-slot='tabs'])
+    :where([data-slot='tabs-scroll-button-prev'], [data-slot='tabs-scroll-button-next']):is(
+      :disabled,
+      [data-disabled='true']
+    ) {
+    cursor: not-allowed;
+    opacity: var(--tng-tabs-disabled-opacity);
+  }
+
+  :where(tng-tabs[data-slot='tabs'])
+    :where([data-slot='tabs-scroll-button-prev'], [data-slot='tabs-scroll-button-next'])[hidden] {
+    display: none !important;
+  }
+
+  :where(tng-tabs[data-slot='tabs'][data-orientation='vertical']) :where([data-slot='tab-list']) {
+    flex-direction: column;
+    max-height: none;
+    overflow: visible;
+    width: 100%;
+  }
+
+  :where(tng-tabs[data-slot='tabs'][data-orientation='vertical']) :where([data-slot='tab']) {
+    justify-content: flex-start;
+    text-align: start;
+    width: 100%;
+  }
+
+  @media (min-width: 48rem) {
+    :where(tng-tabs[data-slot='tabs'][data-orientation='vertical']) :where([data-slot='tab-list']) {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    :where(tng-tabs[data-slot='tabs'][data-orientation='vertical'])
+      :where([data-slot='tab-panel']) {
+      grid-column: 2;
+      grid-row: 1;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    :where(tng-tabs[data-slot='tabs']) {
+      --tng-tabs-shell-padding: 0.4rem;
+      --tng-tabs-tab-px: 0.75rem;
+      --tng-tabs-panel-padding: 0.85rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(tng-tabs[data-slot='tabs'])
+      :where(
+        [data-slot='tab'],
+        [data-slot='tabs-scroll-button-prev'],
+        [data-slot='tabs-scroll-button-next']
+      ) {
+      transition: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    :where(tng-tabs[data-slot='tabs']) :where([data-slot='tab'][data-selected='true']) {
+      border-color: Highlight;
+      color: HighlightText;
+      forced-color-adjust: none;
+    }
+
+    :where(tng-tabs[data-slot='tabs']) :where([data-slot='tab']:focus-visible) {
+      outline: 2px solid Highlight;
+      outline-offset: 2px;
+    }
+  }
+}

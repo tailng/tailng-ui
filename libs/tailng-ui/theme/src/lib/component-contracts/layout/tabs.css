@@ -1,5 +1,2 @@
-@layer tng.contracts {
-  :where(tng-tabs, [tngTabs]) {
-    --tng-tabs-radius: var(--tng-radius-panel);
-  }
-}
+/* Compatibility entry point. Tabs is a navigation contract. */
+@import '../navigation/tabs/tabs.css';

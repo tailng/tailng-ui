@@ -11,7 +11,9 @@
     class="space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 shadow-[inset_0_1px_0_color-mix(in_srgb,var(--tng-semantic-background-canvas)_70%,transparent)]"
   >
     <div class="space-y-1">
-      <h2 class="text-lg font-semibold text-tng-fg-primary">Headless Primitives Only: Base Tabs Demo</h2>
+      <h2 class="text-lg font-semibold text-tng-fg-primary">
+        Headless Primitives Only: Base Tabs Demo
+      </h2>
       <p class="text-sm text-tng-fg-secondary">
         Arrow keys move focus and selection together when <code>activation="auto"</code>.
       </p>
@@ -25,9 +27,30 @@
       (focusChange)="onHeadlessFocusChange($event)"
     >
       <div tngTabList class="flex flex-wrap gap-2" ariaLabel="Project workspace sections">
-        <button type="button" tngTab value="overview" class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50">Overview</button>
-        <button type="button" tngTab value="api" class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50">API</button>
-        <button type="button" tngTab value="examples" class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50">Examples</button>
+        <button
+          type="button"
+          tngTab
+          value="overview"
+          class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
+        >
+          Overview
+        </button>
+        <button
+          type="button"
+          tngTab
+          value="api"
+          class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
+        >
+          API
+        </button>
+        <button
+          type="button"
+          tngTab
+          value="examples"
+          class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
+        >
+          Examples
+        </button>
       </div>
 
       <article
@@ -53,8 +76,12 @@
       </article>
     </section>
 
-    <p class="text-sm text-tng-fg-secondary">Last selection: <strong>{{ headlessSelection() }}</strong></p>
-    <p class="text-sm text-tng-fg-secondary">Last focus: <strong>{{ headlessFocus() }}</strong></p>
+    <p class="text-sm text-tng-fg-secondary">
+      Last selection: <strong>{{ headlessSelection() }}</strong>
+    </p>
+    <p class="text-sm text-tng-fg-secondary">
+      Last focus: <strong>{{ headlessFocus() }}</strong>
+    </p>
   </section>
 
   <div class="grid gap-5 xl:grid-cols-2">
@@ -62,7 +89,9 @@
       class="min-w-0 space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 shadow-[inset_0_1px_0_color-mix(in_srgb,var(--tng-semantic-background-canvas)_70%,transparent)]"
     >
       <div class="space-y-1">
-        <h2 class="text-lg font-semibold text-tng-fg-primary">Headless Primitives: Controlled Value</h2>
+        <h2 class="text-lg font-semibold text-tng-fg-primary">
+          Headless Primitives: Controlled Value
+        </h2>
         <p class="text-sm text-tng-fg-secondary">
           Selection is controlled via <code>[value]</code> and <code>(valueChange)</code>.
         </p>
@@ -77,9 +106,30 @@
         (tabChange)="onControlledTabChange($event)"
       >
         <div tngTabList class="flex flex-wrap gap-2" ariaLabel="Controlled account sections">
-          <button type="button" tngTab value="profile" class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50">Profile</button>
-          <button type="button" tngTab value="security" class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50">Security</button>
-          <button type="button" tngTab value="billing" class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50">Billing</button>
+          <button
+            type="button"
+            tngTab
+            value="profile"
+            class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
+          >
+            Profile
+          </button>
+          <button
+            type="button"
+            tngTab
+            value="security"
+            class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
+          >
+            Security
+          </button>
+          <button
+            type="button"
+            tngTab
+            value="billing"
+            class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
+          >
+            Billing
+          </button>
         </div>
 
         <article
@@ -132,7 +182,9 @@
         </button>
       </div>
 
-      <p class="text-sm text-tng-fg-secondary">Controlled value: <strong>{{ controlledValue() }}</strong></p>
+      <p class="text-sm text-tng-fg-secondary">
+        Controlled value: <strong>{{ controlledValue() }}</strong>
+      </p>
       <p class="text-sm text-tng-fg-secondary">
         Last controlled change: <strong>{{ controlledSelection() }}</strong>
       </p>
@@ -142,14 +194,18 @@
       class="space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 shadow-[inset_0_1px_0_color-mix(in_srgb,var(--tng-semantic-background-canvas)_70%,transparent)]"
     >
       <div class="space-y-1">
-        <h2 class="text-lg font-semibold text-tng-fg-primary">Headless Primitives: Manual + Vertical</h2>
+        <h2 class="text-lg font-semibold text-tng-fg-primary">
+          Headless Primitives: Manual + Vertical
+        </h2>
         <p class="text-sm text-tng-fg-secondary">
           In <code>activation="manual"</code>, arrows move focus only. Use
-          <kbd class="rounded-md border border-tng-border-subtle bg-tng-bg-canvas px-1.5 py-0.5 text-[0.78rem]"
+          <kbd
+            class="rounded-md border border-tng-border-subtle bg-tng-bg-canvas px-1.5 py-0.5 text-[0.78rem]"
             >Enter</kbd
           >
           /
-          <kbd class="rounded-md border border-tng-border-subtle bg-tng-bg-canvas px-1.5 py-0.5 text-[0.78rem]"
+          <kbd
+            class="rounded-md border border-tng-border-subtle bg-tng-bg-canvas px-1.5 py-0.5 text-[0.78rem]"
             >Space</kbd
           >
           to select.
@@ -165,9 +221,30 @@
         (tabChange)="onManualTabChange($event)"
       >
         <div tngTabList class="flex flex-col gap-2" ariaLabel="Documentation sections">
-          <button type="button" tngTab value="install" class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50">Install</button>
-          <button type="button" tngTab value="api-reference" class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50">API</button>
-          <button type="button" tngTab value="recipes" class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50">Recipes</button>
+          <button
+            type="button"
+            tngTab
+            value="install"
+            class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
+          >
+            Install
+          </button>
+          <button
+            type="button"
+            tngTab
+            value="api-reference"
+            class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
+          >
+            API
+          </button>
+          <button
+            type="button"
+            tngTab
+            value="recipes"
+            class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
+          >
+            Recipes
+          </button>
         </div>
 
         <article
@@ -263,7 +340,8 @@
             [value]="item.value"
             class="rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-3 text-sm text-tng-fg-secondary"
           >
-            {{ item.label }} panel content. Try wheel/trackpad scroll on the strip, then arrows to verify auto-scroll.
+            {{ item.label }} panel content. Try wheel/trackpad scroll on the strip, then arrows to
+            verify auto-scroll.
           </article>
         }
       </section>
@@ -277,58 +355,37 @@
       class="min-w-0 space-y-4 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 shadow-[inset_0_1px_0_color-mix(in_srgb,var(--tng-semantic-background-canvas)_70%,transparent)]"
     >
       <div class="space-y-1">
-        <h2 class="text-lg font-semibold text-tng-fg-primary">Component Wrapper: Forced Scroll Buttons</h2>
+        <h2 class="text-lg font-semibold text-tng-fg-primary">
+          Component Wrapper: Forced Scroll Buttons
+        </h2>
         <p class="text-sm text-tng-fg-secondary">
           Wrapper demo with <code>scrollButtons="on"</code> keeps left/right icons always visible.
         </p>
       </div>
 
-      <tng-tabs ariaLabel="Wrapper overflow tabs" scrollButtons="on" class="grid min-w-0 gap-3">
-        <div class="flex min-w-0 items-center gap-2">
-          <button
-            type="button"
-            tngTabsScrollButtonPrev
-            aria-label="Scroll tabs left"
-            class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-tng-border-subtle bg-tng-bg-canvas text-xl leading-none text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] disabled:cursor-not-allowed disabled:opacity-50"
-          >
+      <tng-tabs
+        ariaLabel="Wrapper overflow tabs"
+        scrollButtons="on"
+        class="min-w-0 [--tng-tabs-scroll-button-size:2.5rem] [--tng-tabs-tab-px:1rem]"
+      >
+        <div class="grid min-w-0 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2">
+          <button type="button" tngTabsScrollButtonPrev aria-label="Scroll tabs left">
             &#x2039;
           </button>
 
-          <div
-            tngTabList
-            class="flex min-w-0 flex-1 gap-2 overflow-x-auto whitespace-nowrap rounded-xl border border-tng-border-subtle p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-            ariaLabel="Wrapper overflow sections"
-          >
+          <div tngTabList ariaLabel="Wrapper overflow sections">
             @for (item of overflowTabs; track item.value) {
-              <button
-                type="button"
-                tngTab
-                [value]="item.value"
-                class="inline-flex min-h-9 shrink-0 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
-              >
-                {{ item.label }}
-              </button>
+              <button type="button" tngTab [value]="item.value">{{ item.label }}</button>
             }
           </div>
 
-          <button
-            type="button"
-            tngTabsScrollButtonNext
-            aria-label="Scroll tabs right"
-            class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-tng-border-subtle bg-tng-bg-canvas text-xl leading-none text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] disabled:cursor-not-allowed disabled:opacity-50"
-          >
+          <button type="button" tngTabsScrollButtonNext aria-label="Scroll tabs right">
             &#x203A;
           </button>
         </div>
 
         @for (item of overflowTabs; track item.value) {
-          <article
-            tngTabPanel
-            [value]="item.value"
-            class="rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-3 text-sm text-tng-fg-secondary"
-          >
-            Wrapper panel for {{ item.label }}.
-          </article>
+          <article tngTabPanel [value]="item.value">Wrapper panel for {{ item.label }}.</article>
         }
       </tng-tabs>
     </section>
@@ -342,36 +399,28 @@
         Component Wrapper: &lt;tng-tabs&gt; (Secondary Demo)
       </h2>
       <p class="text-sm text-tng-fg-secondary">
-        Wrapper provides the root shell while child tabs and panels stay headless.
+        The wrapper applies the complete styled contract; Tailwind can override its public CSS
+        variables on the host.
       </p>
     </div>
 
-    <tng-tabs ariaLabel="Wrapper product tabs" class="grid gap-3">
-      <div tngTabList class="flex flex-wrap gap-2" ariaLabel="Wrapper product sections">
-        <button type="button" tngTab value="features" class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50">Features</button>
-        <button type="button" tngTab value="a11y" class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50">Accessibility</button>
-        <button type="button" tngTab value="testing" class="inline-flex min-h-9 items-center rounded-xl border border-tng-border-subtle bg-tng-bg-canvas px-3.5 py-2 text-sm font-semibold leading-tight text-tng-fg-primary transition-colors hover:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,var(--tng-semantic-background-canvas))] focus-visible:outline-none data-[selected=true]:border-tng-accent-brand data-[selected=true]:bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas))] data-[focused=true]:ring-2 data-[focused=true]:ring-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_32%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50">Testing</button>
+    <tng-tabs
+      ariaLabel="Wrapper product tabs"
+      class="[--tng-tabs-radius:1.25rem] [--tng-tabs-tab-height:2.65rem] [--tng-tabs-panel-padding:1.15rem]"
+    >
+      <div tngTabList ariaLabel="Wrapper product sections">
+        <button type="button" tngTab value="features">Features</button>
+        <button type="button" tngTab value="a11y">Accessibility</button>
+        <button type="button" tngTab value="testing">Testing</button>
       </div>
 
-      <article
-        tngTabPanel
-        value="features"
-        class="rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-3 text-sm text-tng-fg-secondary"
-      >
+      <article tngTabPanel value="features">
         Feature overview for activation modes, orientation, and controlled state.
       </article>
-      <article
-        tngTabPanel
-        value="a11y"
-        class="rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-3 text-sm text-tng-fg-secondary"
-      >
+      <article tngTabPanel value="a11y">
         A11y details for ARIA roles, ids, and keyboard semantics.
       </article>
-      <article
-        tngTabPanel
-        value="testing"
-        class="rounded-xl border border-tng-border-subtle bg-tng-bg-canvas p-3 text-sm text-tng-fg-secondary"
-      >
+      <article tngTabPanel value="testing">
         Testing setup with keyboard coverage and dynamic tab lifecycle checks.
       </article>
     </tng-tabs>
