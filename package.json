@@ -43,13 +43,15 @@
     "test:flow-layout-dagre": "vitest run --config libs/tailng-ui/flow-layout-dagre/vitest.config.ts",
     "test:icons": "vitest run libs/tailng-ui/icons",
     "test:packages": "pnpm run test:cdk && pnpm run test:primitives && pnpm run test:components && pnpm run test:theme && pnpm run test:icons && pnpm run test:charts && pnpm run test:flow && pnpm run test:flow-layout-dagre && pnpm run test:registry",
+    "test:prerender": "node --test tools/prerender/*.spec.mjs",
     "test:primitives": "vitest run libs/tailng-ui/primitives",
     "test:registry": "vitest run libs/tailng-ui/registry",
+    "test:split": "vitest run --config libs/tailng-ui/components/vitest.config.ts src/lib/layout/split/tng-split.component.spec.ts",
     "test:theme": "vitest run libs/tailng-ui/theme",
     "typecheck:cli": "tsc -p libs/tailng/cli/tsconfig.lib.json --noEmit",
     "typecheck:docs": "tsc -p apps/tailng-ui/docs/tsconfig.app.json --noEmit",
     "typecheck:registry": "tsc -p libs/tailng-ui/registry/tsconfig.lib.json --noEmit",
-    "verify:ownable-contracts": "pnpm run test:registry && pnpm run test:cli && pnpm run test:docs && pnpm run typecheck:registry && pnpm run typecheck:cli && pnpm run typecheck:docs && pnpm run check:docs-routes"
+    "verify:ownable-contracts": "pnpm run test:registry && pnpm run test:cli && pnpm run test:docs && pnpm run test:prerender && pnpm run test:split && pnpm run typecheck:registry && pnpm run typecheck:cli && pnpm run typecheck:docs && pnpm run check:docs-routes"
   },
   "private": true,
   "devDependencies": {

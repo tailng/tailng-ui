@@ -111,6 +111,7 @@ export class TngSplitGroupComponent
   private readonly collapsedStates = new Map<TngSplitPaneDirective, boolean>();
   private readonly lastExpandedSizes = new Map<TngSplitPaneDirective, number>();
   private resizeObserver: ResizeObserver | null = null;
+  private resizeObserverFrameId: number | null = null;
   private windowResizeCleanup: (() => void) | null = null;
   private activePointerResize: ActivePointerResize | null = null;
   private animationFrameId: number | null = null;
@@ -180,6 +181,7 @@ export class TngSplitGroupComponent
       this.finishPointerResize(this.activePointerResize.handle, true);
     }
     this.cancelScheduledFrame();
+    this.cancelResizeObserverFrame();
     this.resizeObserver?.disconnect();
     this.resizeObserver = null;
     this.windowResizeCleanup?.();
@@ -438,7 +440,9 @@ export class TngSplitGroupComponent
     const ownerWindow = this.hostRef.nativeElement.ownerDocument.defaultView;
     const resizeObserverConstructor = ownerWindow?.ResizeObserver;
     if (resizeObserverConstructor !== undefined) {
-      this.resizeObserver = new resizeObserverConstructor(() => this.scheduleLayout());
+      this.resizeObserver = new resizeObserverConstructor(() =>
+        this.scheduleResizeObserverLayout(),
+      );
       this.resizeObserver.observe(this.hostRef.nativeElement);
       return;
     }
@@ -459,6 +463,17 @@ export class TngSplitGroupComponent
       if (!this.destroyed && this.activePointerResize === null) {
         this.reconcileLayout();
       }
+    });
+  }
+
+  private scheduleResizeObserverLayout(): void {
+    if (this.destroyed || this.resizeObserverFrameId !== null) {
+      return;
+    }
+
+    this.resizeObserverFrameId = this.requestFrame(() => {
+      this.resizeObserverFrameId = null;
+      this.scheduleLayout();
     });
   }
 
@@ -818,6 +833,16 @@ export class TngSplitGroupComponent
     ownerWindow?.cancelAnimationFrame?.(this.animationFrameId);
     ownerWindow?.clearTimeout(this.animationFrameId);
     this.animationFrameId = null;
+  }
+
+  private cancelResizeObserverFrame(): void {
+    if (this.resizeObserverFrameId === null) {
+      return;
+    }
+    const ownerWindow = this.hostRef.nativeElement.ownerDocument.defaultView;
+    ownerWindow?.cancelAnimationFrame?.(this.resizeObserverFrameId);
+    ownerWindow?.clearTimeout(this.resizeObserverFrameId);
+    this.resizeObserverFrameId = null;
   }
 
   private applyDocumentResizeStyles(): void {

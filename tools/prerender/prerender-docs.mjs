@@ -4,6 +4,7 @@ import path from 'node:path';
 import http from 'node:http';
 import serveHandler from 'serve-handler';
 import puppeteer from 'puppeteer';
+import { isKnownNonFatalBrowserError } from './prerender-diagnostics.mjs';
 
 const DIST_DIR = process.env.DOCS_DIST ?? 'dist/apps/tailng-ui/docs/browser';
 const ROUTES_FILE =
@@ -262,14 +263,19 @@ const configurePage = async (page) => {
   await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
   page.on('console', (message) => {
     if (message.type() === 'error') {
-      recordPageDiagnostic(page, 'console.error', message.text(), { fatal: true });
+      const text = message.text();
+      recordPageDiagnostic(page, 'console.error', text, {
+        fatal: !isKnownNonFatalBrowserError(text),
+      });
     }
   });
   page.on('error', (error) => {
     recordPageDiagnostic(page, 'page-crash', error.message, { fatal: true });
   });
   page.on('pageerror', (error) => {
-    recordPageDiagnostic(page, 'pageerror', error.message, { fatal: true });
+    recordPageDiagnostic(page, 'pageerror', error.message, {
+      fatal: !isKnownNonFatalBrowserError(error.message),
+    });
   });
   page.on('requestfailed', (request) => {
     recordPageDiagnostic(
