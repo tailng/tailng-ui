@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const textareaPrimitiveTsTemplate = `import {
   Directive,
@@ -255,9 +255,13 @@ const textareaIndexTsTemplate = `export * from './tng-textarea';
 export * from './tng-textarea-primitive';
 `;
 
-export const textareaRegistryItem: RegistryItemSource = {
+export const textareaRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for textarea primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/textarea',
+    importSymbols: ['TngTextarea', 'TngTextareaPrimitive'],
+  },
   files: [
     {
       content: textareaPrimitiveTsTemplate,
@@ -281,4 +285,4 @@ export const textareaRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'textarea',
-};
+} satisfies RegistryItem;

@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_FORM_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_FORM_GROUP;
@@ -53,7 +54,7 @@ export const COMPONENTS_FORM_INPUT_OTP_ROUTES: Routes = [
           registrySlug: 'input-otp',
         },
         pathMatch: 'full',
-        redirectTo: '/ownable/form/input-otp',
+        redirectTo: requireOwnableDocsHref('input-otp'),
       },
       {
         path: '**',

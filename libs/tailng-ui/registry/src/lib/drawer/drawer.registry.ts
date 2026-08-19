@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const drawerPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,9 +48,13 @@ const drawerIndexTsTemplate = `export * from './tng-drawer';
 export * from './tng-drawer-primitive';
 `;
 
-export const drawerRegistryItem: RegistryItemSource = {
+export const drawerRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for drawer primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/drawer',
+    importSymbols: ['TngDrawer', 'TngDrawerPrimitive'],
+  },
   files: [
     {
       content: drawerPrimitiveTsTemplate,
@@ -74,4 +78,4 @@ export const drawerRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'drawer',
-};
+} satisfies RegistryItem;

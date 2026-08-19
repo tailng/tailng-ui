@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const contextmenuPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,9 +48,13 @@ const contextmenuIndexTsTemplate = `export * from './tng-context-menu';
 export * from './tng-context-menu-primitive';
 `;
 
-export const contextmenuRegistryItem: RegistryItemSource = {
+export const contextmenuRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for context-menu primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/context-menu',
+    importSymbols: ['TngContextMenu', 'TngContextMenuPrimitive'],
+  },
   files: [
     {
       content: contextmenuPrimitiveTsTemplate,
@@ -74,4 +78,4 @@ export const contextmenuRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'context-menu',
-};
+} satisfies RegistryItem;

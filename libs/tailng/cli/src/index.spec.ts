@@ -870,6 +870,26 @@ it('tailng cli integration: list and add support confetti', async (): Promise<vo
   ).toBe(true);
 });
 
+it('tailng cli integration: list and add support range-slider', async (): Promise<void> => {
+  const targetRoot = await createTargetRoot();
+  expect(registryModule.listRegistryItemNames()).toContain('range-slider');
+
+  const exitCode = await runCli(['add', 'range-slider', '--cwd', targetRoot], {
+    registry: registryModule,
+  });
+
+  expect(exitCode).toBe(0);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/range-slider/tng-range-slider.ts')),
+  ).toBe(true);
+  expect(
+    await pathExists(path.join(targetRoot, 'src/app/tailng-ui/range-slider/tng-range-slider.html')),
+  ).toBe(true);
+  expect(await pathExists(path.join(targetRoot, 'src/app/tailng-ui/range-slider/index.ts'))).toBe(
+    true,
+  );
+});
+
 it('tailng cli integration: add writes progress-spinner source files', async (): Promise<void> => {
   const targetRoot = await createTargetRoot();
 

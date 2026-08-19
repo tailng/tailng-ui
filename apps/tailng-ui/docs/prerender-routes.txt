@@ -735,6 +735,11 @@
 /components/form/radio/overview
 /components/form/radio/ownable-install
 /components/form/radio/styling
+/components/form/range-slider
+/components/form/range-slider/api
+/components/form/range-slider/examples
+/components/form/range-slider/overview
+/components/form/range-slider/styling
 /components/form/select
 /components/form/select/api
 /components/form/select/examples
@@ -1173,6 +1178,7 @@
 /icons/overview
 /icons/styling
 /ownable
+/ownable/feedback/confetti
 /ownable/feedback/empty
 /ownable/feedback/progress-bar
 /ownable/feedback/progress-spinner

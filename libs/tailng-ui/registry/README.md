@@ -86,7 +86,7 @@ The current package version exposes registry items for:
 - `collapsible`, `combobox`, `confetti`, `context-menu`, `copy`, `dialog`, `drawer`
 - `dropdown-menu`, `empty`, `grid`, `input`, `input-otp`, `label`
 - `menu`, `menubar`, `multiselect`, `navigation-menu`, `pagination`, `popover`, `progress-bar`
-- `progress-spinner`, `radio`, `select`, `separator`, `skeleton`, `slider`
+- `progress-spinner`, `radio`, `range-slider`, `select`, `separator`, `skeleton`, `slider`
 - `stepper`, `switch`, `table`, `tabs`, `tag`, `textarea`, `toast`
 - `toggle`, `toggle-group`, `toolbar`, `tooltip`, `tree`
 

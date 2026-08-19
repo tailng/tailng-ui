@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_NAVIGATION_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_NAVIGATION_GROUP;
@@ -53,7 +54,7 @@ export const COMPONENTS_NAVIGATION_CONTEXT_MENU_ROUTES: Routes = [
           registrySlug: 'context-menu',
         },
         pathMatch: 'full',
-        redirectTo: '/ownable/navigation/context-menu',
+        redirectTo: requireOwnableDocsHref('context-menu'),
       },
       {
         path: '**',

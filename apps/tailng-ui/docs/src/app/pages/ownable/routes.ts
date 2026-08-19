@@ -48,6 +48,7 @@ const tableItem = requireOwnableItem(OWNABLE_LAYOUT_GROUP, 'table');
 const dialogItem = requireOwnableItem(OWNABLE_OVERLAY_GROUP, 'dialog');
 const popoverItem = requireOwnableItem(OWNABLE_OVERLAY_GROUP, 'popover');
 const tooltipItem = requireOwnableItem(OWNABLE_OVERLAY_GROUP, 'tooltip');
+const confettiItem = requireOwnableItem(OWNABLE_FEEDBACK_GROUP, 'confetti');
 const toastItem = requireOwnableItem(OWNABLE_FEEDBACK_GROUP, 'toast');
 const emptyItem = requireOwnableItem(OWNABLE_FEEDBACK_GROUP, 'empty');
 const progressBarItem = requireOwnableItem(OWNABLE_FEEDBACK_GROUP, 'progress-bar');
@@ -254,6 +255,14 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./overlay/tooltip/ownable-tooltip-page.component').then(
             (m) => m.OwnableTooltipPageComponent,
+          ),
+      },
+      {
+        path: 'feedback/confetti',
+        data: toOwnableDocsRouteData(OWNABLE_FEEDBACK_GROUP, confettiItem),
+        loadComponent: () =>
+          import('./feedback/confetti/ownable-confetti-page.component').then(
+            (m) => m.OwnableConfettiPageComponent,
           ),
       },
       {

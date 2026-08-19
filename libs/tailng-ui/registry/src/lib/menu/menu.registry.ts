@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const menuPrimitiveTsTemplate = `import { Directive, ElementRef, HostBinding, HostListener, inject } from '@angular/core';
 
@@ -434,9 +434,13 @@ export * from './tng-menu-primitive';
 export * from './tng-menu-trigger-for';
 `;
 
-export const menuRegistryItem: RegistryItemSource = {
+export const menuRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for menu primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/menu',
+    importSymbols: ['TngMenu', 'TngMenuTriggerFor', 'TngMenuPrimitive'],
+  },
   files: [
     {
       content: triggerTargetTsTemplate,
@@ -468,4 +472,4 @@ export const menuRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'menu',
-};
+} satisfies RegistryItem;

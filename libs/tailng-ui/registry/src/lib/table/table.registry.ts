@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const tablePrimitiveTsTemplate = `import { Directive, HostBinding, input } from '@angular/core';
 
@@ -90,9 +90,13 @@ const tableIndexTsTemplate = `export * from './tng-table';
 export * from './tng-table-primitive';
 `;
 
-export const tableRegistryItem: RegistryItemSource = {
+export const tableRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for table primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/table',
+    importSymbols: ['TngTable', 'TngTablePrimitive'],
+  },
   files: [
     {
       content: tablePrimitiveTsTemplate,
@@ -116,4 +120,4 @@ export const tableRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'table',
-};
+} satisfies RegistryItem;

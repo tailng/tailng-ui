@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const treePrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,9 +48,13 @@ const treeIndexTsTemplate = `export * from './tng-tree';
 export * from './tng-tree-primitive';
 `;
 
-export const treeRegistryItem: RegistryItemSource = {
+export const treeRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for tree primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/tree',
+    importSymbols: ['TngTree', 'TngTreePrimitive'],
+  },
   files: [
     {
       content: treePrimitiveTsTemplate,
@@ -74,4 +78,4 @@ export const treeRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'tree',
-};
+} satisfies RegistryItem;

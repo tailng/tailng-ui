@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_UTILITY_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_UTILITY_GROUP;
@@ -53,7 +54,7 @@ export const COMPONENTS_UTILITY_COPYBUTTON_ROUTES: Routes = [
           registrySlug: 'copy',
         },
         pathMatch: 'full',
-        redirectTo: '/ownable/utility/copybutton',
+        redirectTo: requireOwnableDocsHref('copy'),
       },
       {
         path: '**',

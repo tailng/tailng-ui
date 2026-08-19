@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const dialogPrimitiveTsTemplate = `export type TngDialogCloseReason =
   | 'backdrop'
@@ -596,9 +596,13 @@ const dialogIndexTsTemplate = `export * from './tng-dialog';
 export * from './tng-dialog-primitive';
 `;
 
-export const dialogRegistryItem: RegistryItemSource = {
+export const dialogRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for dialog wrappers and helpers.',
+  install: {
+    importPath: './tailng-ui/dialog',
+    importSymbols: ['TngDialog'],
+  },
   files: [
     {
       content: dialogPrimitiveTsTemplate,
@@ -622,4 +626,4 @@ export const dialogRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'dialog',
-};
+} satisfies RegistryItem;

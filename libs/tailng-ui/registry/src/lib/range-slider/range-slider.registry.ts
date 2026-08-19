@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const rangeSliderComponentTsTemplate = `import { booleanAttribute, Component, computed, input, output } from '@angular/core';
 
@@ -229,9 +229,13 @@ const rangeSliderTemplateCss = `:host {
 const rangeSliderIndexTsTemplate = `export * from './tng-range-slider';
 `;
 
-export const rangeSliderRegistryItem: RegistryItemSource = {
+export const rangeSliderRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for a dual-thumb range slider component.',
+  install: {
+    importPath: './tailng-ui/range-slider',
+    importSymbols: ['TngRangeSlider'],
+  },
   files: [
     {
       content: rangeSliderComponentTsTemplate,
@@ -251,4 +255,4 @@ export const rangeSliderRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'range-slider',
-};
+} satisfies RegistryItem;

@@ -13,10 +13,51 @@ const HOST = '127.0.0.1';
 const NAVIGATION_TIMEOUT_MS = Number(process.env.PUPPETEER_PRERENDER_NAV_TIMEOUT_MS ?? 120000);
 const LAUNCH_TIMEOUT_MS = Number(process.env.PUPPETEER_PRERENDER_LAUNCH_TIMEOUT_MS ?? 120000);
 const READY_TIMEOUT_MS = Number(process.env.PUPPETEER_PRERENDER_READY_TIMEOUT_MS ?? 120000);
+const READY_POLL_INTERVAL_MS = Number(
+  process.env.PUPPETEER_PRERENDER_READY_POLL_INTERVAL_MS ?? 100,
+);
 const POST_GOTO_WAIT_MS = Number(process.env.PUPPETEER_PRERENDER_POST_GOTO_WAIT_MS ?? 0);
 const PRERENDER_CONCURRENCY = Number(process.env.PUPPETEER_PRERENDER_CONCURRENCY ?? 1);
 const ROUTE_RETRIES = Number(process.env.PUPPETEER_PRERENDER_ROUTE_RETRIES ?? 1);
+const MAX_DIAGNOSTIC_ENTRIES = 20;
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const pageDiagnostics = new WeakMap();
+
+const createPageDiagnostics = () => {
+  let signalFatalError;
+  const fatalErrorSignal = new Promise((resolve) => {
+    signalFatalError = resolve;
+  });
+
+  return {
+    entries: [],
+    fatalError: null,
+    fatalErrorSignal,
+    route: null,
+    signalFatalError,
+  };
+};
+
+const resetPageDiagnostics = (page, route = null) => {
+  const diagnostics = createPageDiagnostics();
+  diagnostics.route = route;
+  pageDiagnostics.set(page, diagnostics);
+  return diagnostics;
+};
+
+const recordPageDiagnostic = (page, type, message, { fatal = false } = {}) => {
+  const diagnostics = pageDiagnostics.get(page) ?? resetPageDiagnostics(page);
+  diagnostics.entries.push({ message, type });
+  if (diagnostics.entries.length > MAX_DIAGNOSTIC_ENTRIES) {
+    diagnostics.entries.shift();
+  }
+
+  if (fatal && diagnostics.fatalError === null) {
+    diagnostics.fatalError = new Error(`${type}: ${message}`);
+    diagnostics.signalFatalError(diagnostics.fatalError);
+  }
+};
 
 const assertNonNegativeNumber = (name, value) => {
   if (!Number.isFinite(value) || value < 0) {
@@ -44,6 +85,7 @@ if (!Number.isInteger(REQUESTED_PORT) || REQUESTED_PORT < 0 || REQUESTED_PORT > 
 assertPositiveInteger('PUPPETEER_PRERENDER_NAV_TIMEOUT_MS', NAVIGATION_TIMEOUT_MS);
 assertPositiveInteger('PUPPETEER_PRERENDER_LAUNCH_TIMEOUT_MS', LAUNCH_TIMEOUT_MS);
 assertPositiveInteger('PUPPETEER_PRERENDER_READY_TIMEOUT_MS', READY_TIMEOUT_MS);
+assertPositiveInteger('PUPPETEER_PRERENDER_READY_POLL_INTERVAL_MS', READY_POLL_INTERVAL_MS);
 assertNonNegativeNumber('PUPPETEER_PRERENDER_POST_GOTO_WAIT_MS', POST_GOTO_WAIT_MS);
 assertPositiveInteger('PUPPETEER_PRERENDER_CONCURRENCY', PRERENDER_CONCURRENCY);
 assertNonNegativeInteger('PUPPETEER_PRERENDER_ROUTE_RETRIES', ROUTE_RETRIES);
@@ -213,10 +255,34 @@ const absolutizeAssets = (html) =>
     );
 
 const configurePage = async (page) => {
+  resetPageDiagnostics(page);
   page.setDefaultNavigationTimeout(NAVIGATION_TIMEOUT_MS);
   page.setDefaultTimeout(READY_TIMEOUT_MS);
   await page.setCacheEnabled(true);
   await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
+  page.on('console', (message) => {
+    if (message.type() === 'error') {
+      recordPageDiagnostic(page, 'console.error', message.text(), { fatal: true });
+    }
+  });
+  page.on('error', (error) => {
+    recordPageDiagnostic(page, 'page-crash', error.message, { fatal: true });
+  });
+  page.on('pageerror', (error) => {
+    recordPageDiagnostic(page, 'pageerror', error.message, { fatal: true });
+  });
+  page.on('requestfailed', (request) => {
+    recordPageDiagnostic(
+      page,
+      'requestfailed',
+      `${request.url()} (${request.failure()?.errorText ?? 'unknown error'})`,
+    );
+  });
+  page.on('response', (response) => {
+    if (response.status() >= 400) {
+      recordPageDiagnostic(page, 'http-error', `${response.status()} ${response.url()}`);
+    }
+  });
   await page.evaluateOnNewDocument(() => {
     globalThis.__TAILNG_DOCS_PRERENDER__ = true;
   });
@@ -229,45 +295,101 @@ const createPage = async (browser) => {
 };
 
 const waitForRenderReady = async (page) => {
-  await page.waitForFunction(
-    () => {
-      const routeReady = document.documentElement.dataset['docsRouteReady'];
-      const appRoot = document.querySelector('app-root[ng-version]');
-      const routeLoading = document.querySelector('[aria-busy="true"]');
-      const codeHighlighting = document.querySelector('[data-highlighting="pending"]');
+  const diagnostics = pageDiagnostics.get(page) ?? resetPageDiagnostics(page);
+  const readiness = page
+    .waitForFunction(
+      () => {
+        const routeReady = document.documentElement.dataset['docsRouteReady'];
+        const appRoot = document.querySelector('app-root[ng-version]');
+        const routeLoading = document.querySelector('[aria-busy="true"]');
+        const codeHighlighting = document.querySelector('[data-highlighting="pending"]');
 
-      return (
-        routeReady === globalThis.location.pathname &&
-        appRoot !== null &&
-        routeLoading === null &&
-        codeHighlighting === null
-      );
-    },
-    { polling: 'raf', timeout: READY_TIMEOUT_MS },
-  );
+        return (
+          routeReady === globalThis.location.pathname &&
+          appRoot !== null &&
+          routeLoading === null &&
+          codeHighlighting === null
+        );
+      },
+      // requestAnimationFrame polling is throttled for background tabs, which makes
+      // concurrent prerender workers wait until timeout after the DOM is already ready.
+      { polling: READY_POLL_INTERVAL_MS, timeout: READY_TIMEOUT_MS },
+    )
+    .then(() => null);
+  const fatalError =
+    diagnostics.fatalError ?? (await Promise.race([readiness, diagnostics.fatalErrorSignal]));
+
+  if (fatalError !== null) {
+    throw fatalError;
+  }
 
   if (POST_GOTO_WAIT_MS > 0) {
     await sleep(POST_GOTO_WAIT_MS);
   }
 };
 
-const renderRoute = async (page, route) => {
-  const url = `http://${HOST}:${serverPort}${route}`;
-  const response = await page.goto(url, {
-    waitUntil: 'domcontentloaded',
-    timeout: NAVIGATION_TIMEOUT_MS,
-  });
+const describeRenderFailure = async (page, route, error) => {
+  const diagnostics = pageDiagnostics.get(page);
+  let snapshot = null;
 
-  if (response === null || !response.ok()) {
-    throw new Error(`Navigation returned ${response?.status() ?? 'no response'} for ${route}.`);
+  try {
+    snapshot = await page.evaluate(() => ({
+      appRootReady: document.querySelector('app-root[ng-version]') !== null,
+      busyElements: Array.from(document.querySelectorAll('[aria-busy="true"]')).map((element) => ({
+        className: element.getAttribute('class'),
+        tagName: element.tagName.toLowerCase(),
+      })),
+      finalPathname: globalThis.location.pathname,
+      highlightingPending: Array.from(
+        document.querySelectorAll('[data-highlighting="pending"]'),
+      ).map((element) => ({
+        state: element.closest('[data-state]')?.getAttribute('data-state') ?? null,
+        title:
+          element
+            .closest('tng-code-block')
+            ?.querySelector('[data-slot="header"]')
+            ?.textContent?.trim() ?? null,
+      })),
+      routeReady: document.documentElement.dataset['docsRouteReady'] ?? null,
+    }));
+  } catch (snapshotError) {
+    snapshot = { snapshotError: snapshotError?.message ?? String(snapshotError) };
   }
 
-  await waitForRenderReady(page);
+  const details = [
+    `requested route: ${route}`,
+    `final URL: ${page.url()}`,
+    `readiness: ${JSON.stringify(snapshot)}`,
+  ];
+  if (diagnostics?.entries.length > 0) {
+    details.push(`browser diagnostics: ${JSON.stringify(diagnostics.entries)}`);
+  }
 
-  const html = absolutizeAssets(await page.content());
-  const dir = path.join(DIST_DIR, route === '/' ? '' : route);
-  fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, 'index.html'), html);
+  return new Error(`${error?.message ?? String(error)}\n${details.join('\n')}`, { cause: error });
+};
+
+const renderRoute = async (page, route) => {
+  resetPageDiagnostics(page, route);
+  const url = `http://${HOST}:${serverPort}${route}`;
+  try {
+    const response = await page.goto(url, {
+      waitUntil: 'domcontentloaded',
+      timeout: NAVIGATION_TIMEOUT_MS,
+    });
+
+    if (response === null || !response.ok()) {
+      throw new Error(`Navigation returned ${response?.status() ?? 'no response'} for ${route}.`);
+    }
+
+    await waitForRenderReady(page);
+
+    const html = absolutizeAssets(await page.content());
+    const dir = path.join(DIST_DIR, route === '/' ? '' : route);
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, 'index.html'), html);
+  } catch (error) {
+    throw await describeRenderFailure(page, route, error);
+  }
 };
 
 const closeServer = async () => {

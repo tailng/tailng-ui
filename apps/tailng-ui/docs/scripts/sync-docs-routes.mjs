@@ -7,18 +7,12 @@ const docsRoot = path.resolve(scriptDir, '..');
 const pagesDir = path.join(docsRoot, 'src/app/pages');
 const prerenderPath = path.join(docsRoot, 'prerender-routes.txt');
 const searchPath = path.join(docsRoot, 'public/search/index.json');
+const checkMode = process.argv.includes('--check');
 
 const DOC_SECTIONS = ['overview', 'api', 'styling', 'examples', 'ownable-install'];
 const CHART_SECTIONS = ['overview', 'api', 'styling', 'examples'];
 const ICON_SECTIONS = ['overview', 'api', 'styling', 'examples'];
-const SECTION_ROOT_ROUTES = [
-  '/components',
-  '/charts',
-  '/headless',
-  '/theme',
-  '/ownable',
-  '/icons',
-];
+const SECTION_ROOT_ROUTES = ['/components', '/charts', '/headless', '/theme', '/ownable', '/icons'];
 const THEME_ROUTES = [
   '/theme/guides/getting-started',
   '/theme/guides/creating-a-new-theme',
@@ -71,7 +65,8 @@ function parseGettingStartedSlugs(dataFilePath, groupExportName) {
 }
 
 function collectLandingOnlyDocsRoutes(section, routes) {
-  const dataFileName = section === 'components' ? 'component-docs.data.ts' : 'headless-docs.data.ts';
+  const dataFileName =
+    section === 'components' ? 'component-docs.data.ts' : 'headless-docs.data.ts';
   const dataFilePath = path.join(pagesDir, section, dataFileName);
 
   for (const group of parseDocsGroupSlugs(dataFilePath)) {
@@ -114,9 +109,7 @@ function readDocSections(routesFile) {
   }
 
   const content = readFile(routesFile);
-  return DOC_SECTIONS.filter((section) =>
-    new RegExp(`path:\\s*['"]${section}['"]`).test(content),
-  );
+  return DOC_SECTIONS.filter((section) => new RegExp(`path:\\s*['"]${section}['"]`).test(content));
 }
 
 function collectNestedDocsRoutes(section, routes) {
@@ -135,9 +128,12 @@ function collectNestedDocsRoutes(section, routes) {
     const categoryDir = path.join(sectionDir, category);
 
     if (category === 'getting-started') {
-      const dataFileName = section === 'components' ? 'component-docs.data.ts' : 'headless-docs.data.ts';
+      const dataFileName =
+        section === 'components' ? 'component-docs.data.ts' : 'headless-docs.data.ts';
       const groupExportName =
-        section === 'components' ? 'COMPONENTS_GETTING_STARTED_GROUP' : 'HEADLESS_GETTING_STARTED_GROUP';
+        section === 'components'
+          ? 'COMPONENTS_GETTING_STARTED_GROUP'
+          : 'HEADLESS_GETTING_STARTED_GROUP';
       const dataFilePath = path.join(pagesDir, section, dataFileName);
 
       for (const slug of parseGettingStartedSlugs(dataFilePath, groupExportName)) {
@@ -292,8 +288,9 @@ function buildFallbackSearchEntry(url) {
   };
 }
 
-function syncSearchIndex(routes) {
-  const existing = JSON.parse(readFile(searchPath));
+function buildSearchIndex(routes) {
+  const existingSource = readFile(searchPath);
+  const existing = JSON.parse(existingSource);
   const byUrl = new Map(existing.map((entry) => [entry.url, entry]));
   const routeSet = new Set(routes);
 
@@ -309,9 +306,11 @@ function syncSearchIndex(routes) {
   }
 
   const merged = [...byUrl.values()].sort((left, right) => left.url.localeCompare(right.url));
-  fs.writeFileSync(searchPath, `${JSON.stringify(merged, null, 2)}\n`, 'utf8');
+  const source = `${JSON.stringify(merged, null, 2)}\n`;
 
   return {
+    changed: source !== existingSource,
+    source,
     total: merged.length,
     added: routes.filter((url) => !existing.some((entry) => entry.url === url)).length,
     removed: staleUrls.length,
@@ -321,9 +320,31 @@ function syncSearchIndex(routes) {
 
 function main() {
   const routes = collectAllRoutes();
-  fs.writeFileSync(prerenderPath, `${routes.join('\n')}\n`, 'utf8');
+  const routesSource = `${routes.join('\n')}\n`;
+  const routesChanged = routesSource !== readFile(prerenderPath);
+  const searchStats = buildSearchIndex(routes);
 
-  const searchStats = syncSearchIndex(routes);
+  if (checkMode) {
+    const staleArtifacts = [
+      ...(routesChanged ? [prerenderPath] : []),
+      ...(searchStats.changed ? [searchPath] : []),
+    ];
+
+    if (staleArtifacts.length > 0) {
+      console.error('Docs route artifacts are stale. Run "pnpm nx run docs:sync-docs-routes".');
+      for (const artifact of staleArtifacts) {
+        console.error(`  ${artifact}`);
+      }
+      process.exitCode = 1;
+      return;
+    }
+
+    console.log(`Docs route artifacts are current (${routes.length} routes).`);
+    return;
+  }
+
+  fs.writeFileSync(prerenderPath, routesSource, 'utf8');
+  fs.writeFileSync(searchPath, searchStats.source, 'utf8');
 
   console.log(`Wrote ${routes.length} routes to ${prerenderPath}`);
   console.log(

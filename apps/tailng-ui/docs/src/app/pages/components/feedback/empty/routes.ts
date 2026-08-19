@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_FEEDBACK_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_FEEDBACK_GROUP;
@@ -53,7 +54,7 @@ export const COMPONENTS_FEEDBACK_EMPTY_ROUTES: Routes = [
           registrySlug: 'empty',
         },
         pathMatch: 'full',
-        redirectTo: '/ownable/feedback/empty',
+        redirectTo: requireOwnableDocsHref('empty'),
       },
       {
         path: '**',

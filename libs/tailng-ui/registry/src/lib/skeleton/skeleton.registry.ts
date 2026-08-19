@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const skeletonPrimitiveTsTemplate = `import { Directive, HostBinding, booleanAttribute, input } from '@angular/core';
 
@@ -291,9 +291,13 @@ const skeletonIndexTsTemplate = `export * from './tng-skeleton';
 export * from './tng-skeleton-primitive';
 `;
 
-export const skeletonRegistryItem: RegistryItemSource = {
+export const skeletonRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for skeleton primitive and wrapper.',
+  install: {
+    importPath: './tailng-ui/skeleton',
+    importSymbols: ['TngSkeleton', 'TngSkeletonPrimitive'],
+  },
   files: [
     {
       content: skeletonPrimitiveTsTemplate,
@@ -317,4 +321,4 @@ export const skeletonRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'skeleton',
-};
+} satisfies RegistryItem;

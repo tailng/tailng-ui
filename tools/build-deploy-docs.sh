@@ -5,6 +5,7 @@ DOCS_DIST="${DOCS_DIST:-dist/apps/tailng-ui/docs/browser}"
 DOCS_ASSETS_DIR="${DOCS_ASSETS_DIR:-${DOCS_DIST}/assets}"
 DOCS_BUILD_SCRIPT="${DOCS_BUILD_SCRIPT:-build:docs}"
 DOCS_PRERENDER_SCRIPT="${DOCS_PRERENDER_SCRIPT:-prerender:docs}"
+DOCS_VERIFY_SCRIPT="${DOCS_VERIFY_SCRIPT:-verify:ownable-contracts}"
 CF_PAGES_PROJECT_NAME="${CF_PAGES_PROJECT_NAME:-${CF_DOCS_PROJECT_NAME:-}}"
 CF_PAGES_BRANCH="${CF_PAGES_BRANCH:-${GITHUB_REF_NAME:-}}"
 REQUIRED_NODE_MAJOR="${REQUIRED_NODE_MAJOR:-22}"
@@ -57,6 +58,7 @@ fi
 
 ensure_node_version
 
+pnpm run "${DOCS_VERIFY_SCRIPT}"
 pnpm exec puppeteer browsers install chrome
 pnpm run "${DOCS_BUILD_SCRIPT}"
 pnpm run "${DOCS_PRERENDER_SCRIPT}"

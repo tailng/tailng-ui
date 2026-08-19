@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_NAVIGATION_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_NAVIGATION_GROUP;
@@ -11,8 +12,7 @@ export const COMPONENTS_NAVIGATION_TREE_ROUTES: Routes = [
   {
     path: '',
     data: toComponentsDocsRouteData(group, treeItem),
-    loadComponent: () =>
-      import('./tree-page.component').then((module) => module.TreePageComponent),
+    loadComponent: () => import('./tree-page.component').then((module) => module.TreePageComponent),
     children: [
       {
         path: '',
@@ -53,7 +53,7 @@ export const COMPONENTS_NAVIGATION_TREE_ROUTES: Routes = [
           registrySlug: 'tree',
         },
         pathMatch: 'full',
-        redirectTo: '/ownable/navigation/tree',
+        redirectTo: requireOwnableDocsHref('tree'),
       },
       {
         path: '**',

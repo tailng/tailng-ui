@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_FORM_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_FORM_GROUP;
@@ -11,7 +12,8 @@ export const COMPONENTS_FORM_CHIPS_ROUTES: Routes = [
   {
     path: '',
     data: toComponentsDocsRouteData(group, item),
-    loadComponent: () => import('./chips-page.component').then((module) => module.ChipsPageComponent),
+    loadComponent: () =>
+      import('./chips-page.component').then((module) => module.ChipsPageComponent),
     children: [
       {
         path: '',
@@ -52,7 +54,7 @@ export const COMPONENTS_FORM_CHIPS_ROUTES: Routes = [
           registrySlug: 'chips',
         },
         pathMatch: 'full',
-        redirectTo: '/ownable/form/chips',
+        redirectTo: requireOwnableDocsHref('chips'),
       },
       {
         path: '**',

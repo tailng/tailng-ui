@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_LAYOUT_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_LAYOUT_GROUP;
@@ -47,7 +48,7 @@ export const COMPONENTS_LAYOUT_TABLE_ROUTES: Routes = [
         path: 'ownable-install',
         data: { registrySlug: 'table' },
         pathMatch: 'full',
-        redirectTo: '/ownable/layout/table',
+        redirectTo: requireOwnableDocsHref('table'),
       },
       { path: '**', redirectTo: 'overview' },
     ],

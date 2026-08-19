@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_LAYOUT_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_LAYOUT_GROUP;
@@ -53,7 +54,7 @@ export const COMPONENTS_LAYOUT_COLLAPSIBLE_ROUTES: Routes = [
           registrySlug: 'collapsible',
         },
         pathMatch: 'full',
-        redirectTo: '/ownable/layout/collapsible',
+        redirectTo: requireOwnableDocsHref('collapsible'),
       },
       {
         path: '**',

@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const tabsPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,9 +48,13 @@ const tabsIndexTsTemplate = `export * from './tng-tabs';
 export * from './tng-tabs-primitive';
 `;
 
-export const tabsRegistryItem: RegistryItemSource = {
+export const tabsRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for tabs primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/tabs',
+    importSymbols: ['TngTabs', 'TngTabsPrimitive'],
+  },
   files: [
     {
       content: tabsPrimitiveTsTemplate,
@@ -74,4 +78,4 @@ export const tabsRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'tabs',
-};
+} satisfies RegistryItem;

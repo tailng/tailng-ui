@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_FORM_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_FORM_GROUP;
@@ -11,7 +12,8 @@ export const COMPONENTS_FORM_RADIO_ROUTES: Routes = [
   {
     path: '',
     data: toComponentsDocsRouteData(group, radioItem),
-    loadComponent: () => import('./radio-page.component').then((module) => module.RadioPageComponent),
+    loadComponent: () =>
+      import('./radio-page.component').then((module) => module.RadioPageComponent),
     children: [
       {
         path: '',
@@ -52,7 +54,7 @@ export const COMPONENTS_FORM_RADIO_ROUTES: Routes = [
           registrySlug: 'radio',
         },
         pathMatch: 'full',
-        redirectTo: '/ownable/form/radio',
+        redirectTo: requireOwnableDocsHref('radio'),
       },
       {
         path: '**',

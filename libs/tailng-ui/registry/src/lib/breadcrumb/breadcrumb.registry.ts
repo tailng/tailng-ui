@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const breadcrumbPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -102,9 +102,20 @@ const breadcrumbIndexTsTemplate = `export * from './tng-breadcrumb';
 export * from './tng-breadcrumb-primitive';
 `;
 
-export const breadcrumbRegistryItem: RegistryItemSource = {
+export const breadcrumbRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for breadcrumb primitives and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/breadcrumb',
+    importSymbols: [
+      'TngBreadcrumb',
+      'TngBreadcrumbPrimitive',
+      'TngBreadcrumbListPrimitive',
+      'TngBreadcrumbItemPrimitive',
+      'TngBreadcrumbLinkPrimitive',
+      'TngBreadcrumbSeparatorPrimitive',
+    ],
+  },
   files: [
     {
       content: breadcrumbPrimitiveTsTemplate,
@@ -128,4 +139,4 @@ export const breadcrumbRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'breadcrumb',
-};
+} satisfies RegistryItem;

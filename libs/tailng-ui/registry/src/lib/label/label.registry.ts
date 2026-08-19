@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const labelPrimitiveTsTemplate = `import { Directive, HostBinding, booleanAttribute, input } from '@angular/core';
 
@@ -83,9 +83,13 @@ const labelIndexTsTemplate = `export * from './tng-label';
 export * from './tng-label-primitive';
 `;
 
-export const labelRegistryItem: RegistryItemSource = {
+export const labelRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for label primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/label',
+    importSymbols: ['TngLabel', 'TngLabelPrimitive'],
+  },
   files: [
     {
       content: labelPrimitiveTsTemplate,
@@ -109,4 +113,4 @@ export const labelRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'label',
-};
+} satisfies RegistryItem;

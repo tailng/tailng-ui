@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const paginationPrimitiveTsTemplate = `import { Directive, HostBinding, input } from '@angular/core';
 
@@ -70,9 +70,13 @@ const paginationIndexTsTemplate = `export * from './tng-paginator';
 export * from './tng-pagination-primitive';
 `;
 
-export const paginationRegistryItem: RegistryItemSource = {
+export const paginationRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for pagination primitive and styled paginator.',
+  install: {
+    importPath: './tailng-ui/pagination',
+    importSymbols: ['TngPaginator', 'TngPaginationPrimitive'],
+  },
   files: [
     {
       content: paginationPrimitiveTsTemplate,
@@ -96,4 +100,4 @@ export const paginationRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'pagination',
-};
+} satisfies RegistryItem;

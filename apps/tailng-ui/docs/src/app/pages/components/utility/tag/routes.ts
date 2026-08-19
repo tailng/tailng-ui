@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_UTILITY_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_UTILITY_GROUP;
@@ -11,8 +12,7 @@ export const COMPONENTS_UTILITY_TAG_ROUTES: Routes = [
   {
     path: '',
     data: toComponentsDocsRouteData(group, tagItem),
-    loadComponent: () =>
-      import('./tag-page.component').then((module) => module.TagPageComponent),
+    loadComponent: () => import('./tag-page.component').then((module) => module.TagPageComponent),
     children: [
       {
         path: '',
@@ -53,7 +53,7 @@ export const COMPONENTS_UTILITY_TAG_ROUTES: Routes = [
           registrySlug: 'tag',
         },
         pathMatch: 'full',
-        redirectTo: '/ownable/utility/tag',
+        redirectTo: requireOwnableDocsHref('tag'),
       },
       {
         path: '**',

@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const buttontogglePrimitiveTsTemplate = `import {
   Directive,
@@ -263,9 +263,18 @@ export * from './tng-button-toggle-group';
 export * from './tng-button-toggle-primitive';
 `;
 
-export const buttontoggleRegistryItem: RegistryItemSource = {
+export const buttontoggleRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for button-toggle primitives and wrappers.',
+  install: {
+    importPath: './tailng-ui/button-toggle',
+    importSymbols: [
+      'TngButtonToggle',
+      'TngButtonToggleGroup',
+      'TngButtonTogglePrimitive',
+      'TngButtonToggleGroupPrimitive',
+    ],
+  },
   files: [
     {
       content: buttontogglePrimitiveTsTemplate,
@@ -301,4 +310,4 @@ export const buttontoggleRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'button-toggle',
-};
+} satisfies RegistryItem;

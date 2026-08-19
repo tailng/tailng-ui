@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const comboboxPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,9 +48,13 @@ const comboboxIndexTsTemplate = `export * from './tng-combobox';
 export * from './tng-combobox-primitive';
 `;
 
-export const comboboxRegistryItem: RegistryItemSource = {
+export const comboboxRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for combobox primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/combobox',
+    importSymbols: ['TngCombobox', 'TngComboboxPrimitive'],
+  },
   files: [
     {
       content: comboboxPrimitiveTsTemplate,
@@ -74,4 +78,4 @@ export const comboboxRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'combobox',
-};
+} satisfies RegistryItem;

@@ -82,6 +82,20 @@ describe('ownable docs helpers', () => {
           `Missing registry item "${registrySlug}" for ${routeFile}`,
         ).toBe(true);
       }
+
+      expect(content, `Hard-coded ownable redirect in ${routeFile}`).not.toMatch(
+        /redirectTo:\s*['"]\/ownable\//,
+      );
+
+      const redirectSlug = content.match(/requireOwnableDocsHref\('([^']+)'\)/)?.[1];
+      const rendersRegistryInstallLocally = content.includes(
+        'DocsOwnableInstallSectionComponent',
+      );
+
+      expect(
+        redirectSlug === registrySlugs[0] || rendersRegistryInstallLocally,
+        `Expected a canonical ownable redirect or local registry renderer for ${routeFile}`,
+      ).toBe(true);
     }
   });
 });

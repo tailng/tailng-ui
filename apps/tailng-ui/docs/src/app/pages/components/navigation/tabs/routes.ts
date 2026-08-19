@@ -1,8 +1,6 @@
 import type { Routes } from '@angular/router';
-import {
-  COMPONENTS_NAVIGATION_GROUP,
-  toComponentsDocsRouteData,
-} from '../../component-docs.data';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
+import { COMPONENTS_NAVIGATION_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_NAVIGATION_GROUP;
 const tabsItem = group.items.find((item) => item.slug === 'tabs');
@@ -14,8 +12,7 @@ export const COMPONENTS_NAVIGATION_TABS_ROUTES: Routes = [
   {
     path: '',
     data: toComponentsDocsRouteData(group, tabsItem),
-    loadComponent: () =>
-      import('./tabs-page.component').then((module) => module.TabsPageComponent),
+    loadComponent: () => import('./tabs-page.component').then((module) => module.TabsPageComponent),
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'overview' },
       {
@@ -52,7 +49,7 @@ export const COMPONENTS_NAVIGATION_TABS_ROUTES: Routes = [
           registrySlug: 'tabs',
         },
         pathMatch: 'full',
-        redirectTo: '/ownable/navigation/tabs',
+        redirectTo: requireOwnableDocsHref('tabs'),
       },
       { path: '**', redirectTo: 'overview' },
     ],

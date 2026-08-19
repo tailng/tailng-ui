@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const tooltipPrimitiveTsTemplate = `import { Directive, HostBinding, booleanAttribute, input } from '@angular/core';
 
@@ -347,9 +347,13 @@ const tooltipIndexTsTemplate = `export * from './tng-tooltip';
 export * from './tng-tooltip-primitive';
 `;
 
-export const tooltipRegistryItem: RegistryItemSource = {
+export const tooltipRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for tooltip primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/tooltip',
+    importSymbols: ['TngTooltip', 'TngTooltipTrigger', 'TngTooltipContent'],
+  },
   files: [
     {
       content: tooltipPrimitiveTsTemplate,
@@ -373,4 +377,4 @@ export const tooltipRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'tooltip',
-};
+} satisfies RegistryItem;

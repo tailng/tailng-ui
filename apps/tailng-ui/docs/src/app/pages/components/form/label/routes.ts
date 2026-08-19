@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_FORM_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_FORM_GROUP;
@@ -11,7 +12,8 @@ export const COMPONENTS_FORM_LABEL_ROUTES: Routes = [
   {
     path: '',
     data: toComponentsDocsRouteData(group, item),
-    loadComponent: () => import('./label-page.component').then((module) => module.LabelPageComponent),
+    loadComponent: () =>
+      import('./label-page.component').then((module) => module.LabelPageComponent),
     children: [
       {
         path: '',
@@ -52,7 +54,7 @@ export const COMPONENTS_FORM_LABEL_ROUTES: Routes = [
           registrySlug: 'label',
         },
         pathMatch: 'full',
-        redirectTo: '/ownable/form/label',
+        redirectTo: requireOwnableDocsHref('label'),
       },
       {
         path: '**',

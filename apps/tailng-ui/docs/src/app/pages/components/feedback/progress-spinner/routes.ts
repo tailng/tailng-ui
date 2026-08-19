@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_FEEDBACK_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_FEEDBACK_GROUP;
@@ -12,7 +13,9 @@ export const COMPONENTS_FEEDBACK_PROGRESS_SPINNER_ROUTES: Routes = [
     path: '',
     data: toComponentsDocsRouteData(group, progressSpinnerItem),
     loadComponent: () =>
-      import('./progress-spinner-page.component').then((module) => module.ProgressSpinnerPageComponent),
+      import('./progress-spinner-page.component').then(
+        (module) => module.ProgressSpinnerPageComponent,
+      ),
     children: [
       {
         path: '',
@@ -53,7 +56,7 @@ export const COMPONENTS_FEEDBACK_PROGRESS_SPINNER_ROUTES: Routes = [
           registrySlug: 'progress-spinner',
         },
         pathMatch: 'full',
-        redirectTo: '/ownable/feedback/progress-spinner',
+        redirectTo: requireOwnableDocsHref('progress-spinner'),
       },
       {
         path: '**',

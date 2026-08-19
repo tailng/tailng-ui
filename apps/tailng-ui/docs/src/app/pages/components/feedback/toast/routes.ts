@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_FEEDBACK_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_FEEDBACK_GROUP;
@@ -11,7 +12,8 @@ export const COMPONENTS_FEEDBACK_TOAST_ROUTES: Routes = [
   {
     path: '',
     data: toComponentsDocsRouteData(group, toastItem),
-    loadComponent: () => import('./toast-page.component').then((module) => module.ToastPageComponent),
+    loadComponent: () =>
+      import('./toast-page.component').then((module) => module.ToastPageComponent),
     children: [
       {
         path: '',
@@ -52,7 +54,7 @@ export const COMPONENTS_FEEDBACK_TOAST_ROUTES: Routes = [
           registrySlug: 'toast',
         },
         pathMatch: 'full',
-        redirectTo: '/ownable/feedback/toast',
+        redirectTo: requireOwnableDocsHref('toast'),
       },
       {
         path: '**',

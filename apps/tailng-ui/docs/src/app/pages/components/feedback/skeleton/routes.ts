@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_FEEDBACK_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_FEEDBACK_GROUP;
@@ -11,7 +12,8 @@ export const COMPONENTS_FEEDBACK_SKELETON_ROUTES: Routes = [
   {
     path: '',
     data: toComponentsDocsRouteData(group, skeletonItem),
-    loadComponent: () => import('./skeleton-page.component').then((module) => module.SkeletonPageComponent),
+    loadComponent: () =>
+      import('./skeleton-page.component').then((module) => module.SkeletonPageComponent),
     children: [
       {
         path: '',
@@ -52,7 +54,7 @@ export const COMPONENTS_FEEDBACK_SKELETON_ROUTES: Routes = [
           registrySlug: 'skeleton',
         },
         pathMatch: 'full',
-        redirectTo: '/ownable/feedback/skeleton',
+        redirectTo: requireOwnableDocsHref('skeleton'),
       },
       {
         path: '**',

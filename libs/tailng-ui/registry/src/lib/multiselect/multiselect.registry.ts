@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const multiselectPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,9 +48,13 @@ const multiselectIndexTsTemplate = `export * from './tng-multiselect';
 export * from './tng-multiselect-primitive';
 `;
 
-export const multiselectRegistryItem: RegistryItemSource = {
+export const multiselectRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for multiselect primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/multiselect',
+    importSymbols: ['TngMultiselect', 'TngMultiselectPrimitive'],
+  },
   files: [
     {
       content: multiselectPrimitiveTsTemplate,
@@ -74,4 +78,4 @@ export const multiselectRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'multiselect',
-};
+} satisfies RegistryItem;

@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const avatarPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -202,9 +202,18 @@ const avatarIndexTsTemplate = `export * from './tng-avatar';
 export * from './tng-avatar-primitive';
 `;
 
-export const avatarRegistryItem: RegistryItemSource = {
+export const avatarRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for avatar primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/avatar',
+    importSymbols: [
+      'TngAvatar',
+      'TngAvatarPrimitive',
+      'TngAvatarImagePrimitive',
+      'TngAvatarFallbackPrimitive',
+    ],
+  },
   files: [
     {
       content: avatarPrimitiveTsTemplate,
@@ -228,4 +237,4 @@ export const avatarRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'avatar',
-};
+} satisfies RegistryItem;

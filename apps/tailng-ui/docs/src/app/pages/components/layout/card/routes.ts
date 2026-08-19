@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_LAYOUT_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_LAYOUT_GROUP;
@@ -11,8 +12,7 @@ export const COMPONENTS_LAYOUT_CARD_ROUTES: Routes = [
   {
     path: '',
     data: toComponentsDocsRouteData(group, cardItem),
-    loadComponent: () =>
-      import('./card-page.component').then((module) => module.CardPageComponent),
+    loadComponent: () => import('./card-page.component').then((module) => module.CardPageComponent),
     children: [
       {
         path: '',
@@ -53,7 +53,7 @@ export const COMPONENTS_LAYOUT_CARD_ROUTES: Routes = [
           registrySlug: 'card',
         },
         pathMatch: 'full',
-        redirectTo: '/ownable/layout/card',
+        redirectTo: requireOwnableDocsHref('card'),
       },
       {
         path: '**',

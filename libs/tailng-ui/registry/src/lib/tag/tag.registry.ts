@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const tagPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -147,9 +147,13 @@ const tagIndexTsTemplate = `export * from './tng-tag';
 export * from './tng-tag-primitive';
 `;
 
-export const tagRegistryItem: RegistryItemSource = {
+export const tagRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for tag primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/tag',
+    importSymbols: ['TngTag', 'TngTagPrimitive'],
+  },
   files: [
     {
       content: tagPrimitiveTsTemplate,
@@ -173,4 +177,4 @@ export const tagRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'tag',
-};
+} satisfies RegistryItem;

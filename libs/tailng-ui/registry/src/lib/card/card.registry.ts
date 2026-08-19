@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const cardPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -203,9 +203,26 @@ const cardIndexTsTemplate = `export * from './tng-card';
 export * from './tng-card-primitive';
 `;
 
-export const cardRegistryItem: RegistryItemSource = {
+export const cardRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for card primitives and styled wrappers.',
+  install: {
+    importPath: './tailng-ui/card',
+    importSymbols: [
+      'TngCard',
+      'TngCardHeader',
+      'TngCardTitle',
+      'TngCardDescription',
+      'TngCardContent',
+      'TngCardFooter',
+      'TngCardPrimitive',
+      'TngCardHeaderPrimitive',
+      'TngCardTitlePrimitive',
+      'TngCardDescriptionPrimitive',
+      'TngCardContentPrimitive',
+      'TngCardFooterPrimitive',
+    ],
+  },
   files: [
     {
       content: cardPrimitiveTsTemplate,
@@ -249,4 +266,4 @@ export const cardRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'card',
-};
+} satisfies RegistryItem;

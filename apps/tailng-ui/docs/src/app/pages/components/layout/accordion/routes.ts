@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_LAYOUT_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_LAYOUT_GROUP;
@@ -53,7 +54,7 @@ export const COMPONENTS_LAYOUT_ACCORDION_ROUTES: Routes = [
           registrySlug: 'accordion',
         },
         pathMatch: 'full',
-        redirectTo: '/ownable/layout/accordion',
+        redirectTo: requireOwnableDocsHref('accordion'),
       },
       {
         path: '**',

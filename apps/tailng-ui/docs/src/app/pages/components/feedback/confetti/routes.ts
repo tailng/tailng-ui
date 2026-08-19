@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_FEEDBACK_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 const item = COMPONENTS_FEEDBACK_GROUP.items.find((candidate) => candidate.slug === 'confetti');
 if (item === undefined) throw new Error('Missing "confetti" in components feedback docs group.');
@@ -41,7 +42,7 @@ export const COMPONENTS_FEEDBACK_CONFETTI_ROUTES: Routes = [
         path: 'ownable-install',
         data: { registrySlug: 'confetti' },
         pathMatch: 'full',
-        redirectTo: '/ownable/feedback/confetti',
+        redirectTo: requireOwnableDocsHref('confetti'),
       },
       { path: '**', redirectTo: 'overview' },
     ],

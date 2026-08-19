@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const codeHighlightingTsTemplate = `import {
   InjectionToken,
@@ -719,10 +719,22 @@ export * from './tng-code-block-primitive';
 export * from './tng-code-highlighting';
 `;
 
-export const codeBlockRegistryItem: RegistryItemSource = {
+export const codeBlockRegistryItem = {
   dependencies: [],
   description:
     'Shadcn-style source files for code block primitives, wrapper, and highlighting adapter strategy.',
+  install: {
+    importPath: './tailng-ui/code-block',
+    importSymbols: [
+      'TngCodeHighlightingResolver',
+      'TngCodeBlock',
+      'TngCodeBlockPrimitive',
+      'TngCodeBlockHeaderPrimitive',
+      'TngCodeBlockBodyPrimitive',
+      'TngCodeBlockGutterPrimitive',
+      'TngCodeBlockCodePrimitive',
+    ],
+  },
   files: [
     {
       content: codeBlockPrimitiveTsTemplate,
@@ -750,4 +762,4 @@ export const codeBlockRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'code-block',
-};
+} satisfies RegistryItem;

@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const progressSpinnerPrimitiveTsTemplate = `import { booleanAttribute, Directive, HostBinding, input } from '@angular/core';
 
@@ -258,9 +258,13 @@ const progressSpinnerIndexTsTemplate = `export * from './tng-progress-spinner';
 export * from './tng-progress-spinner-primitive';
 `;
 
-export const progressSpinnerRegistryItem: RegistryItemSource = {
+export const progressSpinnerRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for progress spinner primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/progress-spinner',
+    importSymbols: ['TngProgressSpinner', 'TngProgressSpinnerPrimitive'],
+  },
   files: [
     {
       content: progressSpinnerPrimitiveTsTemplate,
@@ -284,4 +288,4 @@ export const progressSpinnerRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'progress-spinner',
-};
+} satisfies RegistryItem;

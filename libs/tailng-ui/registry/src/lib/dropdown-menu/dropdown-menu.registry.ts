@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const dropdownMenuPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -138,9 +138,13 @@ const dropdownMenuIndexTsTemplate = `export * from './tng-dropdown-menu';
 export * from './tng-dropdown-menu-primitive';
 `;
 
-export const dropdownMenuRegistryItem: RegistryItemSource = {
+export const dropdownMenuRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for dropdown-menu primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/dropdown-menu',
+    importSymbols: ['TngDropdownMenu', 'TngDropdownMenuPrimitive'],
+  },
   files: [
     {
       content: dropdownMenuPrimitiveTsTemplate,
@@ -164,4 +168,4 @@ export const dropdownMenuRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'dropdown-menu',
-};
+} satisfies RegistryItem;

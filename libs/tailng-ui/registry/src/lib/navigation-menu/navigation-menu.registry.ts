@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const navigationmenuPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,9 +48,13 @@ const navigationmenuIndexTsTemplate = `export * from './tng-navigation-menu';
 export * from './tng-navigation-menu-primitive';
 `;
 
-export const navigationmenuRegistryItem: RegistryItemSource = {
+export const navigationmenuRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for navigation-menu primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/navigation-menu',
+    importSymbols: ['TngNavigationMenu', 'TngNavigationMenuPrimitive'],
+  },
   files: [
     {
       content: navigationmenuPrimitiveTsTemplate,
@@ -74,4 +78,4 @@ export const navigationmenuRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'navigation-menu',
-};
+} satisfies RegistryItem;

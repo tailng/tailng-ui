@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_FORM_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_FORM_GROUP;
@@ -53,7 +54,7 @@ export const COMPONENTS_FORM_TOGGLE_ROUTES: Routes = [
           registrySlug: 'toggle',
         },
         pathMatch: 'full',
-        redirectTo: '/ownable/form/toggle',
+        redirectTo: requireOwnableDocsHref('toggle'),
       },
       {
         path: '**',

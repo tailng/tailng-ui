@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const buttonPrimitiveTsTemplate = `import {
   Directive,
@@ -448,9 +448,13 @@ const buttonIndexTsTemplate = `export * from './tng-button';
 export * from './tng-press-primitive';
 `;
 
-export const buttonRegistryItem: RegistryItemSource = {
+export const buttonRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for button primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/button',
+    importSymbols: ['TngButton', 'TngPressPrimitive'],
+  },
   files: [
     {
       content: triggerTargetTsTemplate,
@@ -478,4 +482,4 @@ export const buttonRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'button',
-};
+} satisfies RegistryItem;

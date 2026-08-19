@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const autocompletePrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,9 +48,13 @@ const autocompleteIndexTsTemplate = `export * from './tng-autocomplete';
 export * from './tng-autocomplete-primitive';
 `;
 
-export const autocompleteRegistryItem: RegistryItemSource = {
+export const autocompleteRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for autocomplete primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/autocomplete',
+    importSymbols: ['TngAutocomplete', 'TngAutocompletePrimitive'],
+  },
   files: [
     {
       content: autocompletePrimitiveTsTemplate,
@@ -74,4 +78,4 @@ export const autocompleteRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'autocomplete',
-};
+} satisfies RegistryItem;

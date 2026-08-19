@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_OVERLAY_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_OVERLAY_GROUP;
@@ -53,7 +54,7 @@ export const COMPONENTS_OVERLAY_POPOVER_ROUTES: Routes = [
           registrySlug: 'popover',
         },
         pathMatch: 'full',
-        redirectTo: '/ownable/overlay/popover',
+        redirectTo: requireOwnableDocsHref('popover'),
       },
       {
         path: '**',

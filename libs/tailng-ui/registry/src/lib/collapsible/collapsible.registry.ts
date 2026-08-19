@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const collapsiblePrimitiveTsTemplate = `import { Directive, HostBinding, booleanAttribute, input } from '@angular/core';
 
@@ -214,9 +214,18 @@ const collapsibleIndexTsTemplate = `export * from './tng-collapsible';
 export * from './tng-collapsible-primitive';
 `;
 
-export const collapsibleRegistryItem: RegistryItemSource = {
+export const collapsibleRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for collapsible primitives and wrapper.',
+  install: {
+    importPath: './tailng-ui/collapsible',
+    importSymbols: [
+      'TngCollapsible',
+      'TngCollapsiblePrimitive',
+      'TngCollapsibleTriggerPrimitive',
+      'TngCollapsibleContentPrimitive',
+    ],
+  },
   files: [
     {
       content: collapsiblePrimitiveTsTemplate,
@@ -240,4 +249,4 @@ export const collapsibleRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'collapsible',
-};
+} satisfies RegistryItem;

@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const toastPrimitiveTsTemplate = `import { Directive, HostBinding, booleanAttribute, input } from '@angular/core';
 
@@ -393,10 +393,14 @@ const toastIndexTsTemplate = `export * from './tng-toast';
 export * from './tng-toast-primitive';
 `;
 
-export const toastRegistryItem: RegistryItemSource = {
+export const toastRegistryItem = {
   dependencies: [],
   description:
     'Shadcn-style source files for toast primitive and styled wrapper (snackbar/sonner compatible).',
+  install: {
+    importPath: './tailng-ui/toast',
+    importSymbols: ['TngToast', 'TngToastViewportPrimitive', 'TngToastItemPrimitive'],
+  },
   files: [
     {
       content: toastPrimitiveTsTemplate,
@@ -420,4 +424,4 @@ export const toastRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'toast',
-};
+} satisfies RegistryItem;

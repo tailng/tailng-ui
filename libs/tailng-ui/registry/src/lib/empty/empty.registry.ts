@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const emptyPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -179,9 +179,24 @@ const emptyIndexTsTemplate = `export * from './tng-empty';
 export * from './tng-empty-primitive';
 `;
 
-export const emptyRegistryItem: RegistryItemSource = {
+export const emptyRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for empty-state primitives and styled wrappers.',
+  install: {
+    importPath: './tailng-ui/empty',
+    importSymbols: [
+      'TngEmpty',
+      'TngEmptyIcon',
+      'TngEmptyTitle',
+      'TngEmptyDescription',
+      'TngEmptyActions',
+      'TngEmptyPrimitive',
+      'TngEmptyIconPrimitive',
+      'TngEmptyTitlePrimitive',
+      'TngEmptyDescriptionPrimitive',
+      'TngEmptyActionsPrimitive',
+    ],
+  },
   files: [
     {
       content: emptyPrimitiveTsTemplate,
@@ -221,4 +236,4 @@ export const emptyRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'empty',
-};
+} satisfies RegistryItem;

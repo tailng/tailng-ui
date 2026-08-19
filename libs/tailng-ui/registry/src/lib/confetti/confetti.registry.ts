@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const types = `export type TngConfettiOrigin = 'bottom' | 'center';
 export type TngConfettiVariant = 'paper';
@@ -44,10 +44,14 @@ const html = `@if (running()) {
 const css = `:host{pointer-events:none}.tng-confetti-overlay{inset:0;overflow:hidden;pointer-events:none;position:fixed;z-index:var(--tng-confetti-z-index,9999);--tng-confetti-origin-x:50%;--tng-confetti-origin-y:100%}.tng-confetti-overlay[data-fullscreen='false']{position:absolute}.tng-confetti-overlay[data-origin='center']{--tng-confetti-origin-y:50%}.tng-confetti-piece{animation:tng-confetti-paper var(--tng-confetti-piece-duration,var(--tng-confetti-duration,3000ms)) cubic-bezier(.16,.7,.3,1) var(--tng-confetti-delay,0ms) both;aspect-ratio:var(--tng-confetti-aspect-ratio,.7);background:var(--tng-confetti-piece-color);height:calc(var(--tng-confetti-piece-size,8px)*var(--tng-confetti-scale,1));left:calc(var(--tng-confetti-origin-x) + var(--tng-confetti-start-x,0%));opacity:0;position:absolute;top:calc(var(--tng-confetti-origin-y) + var(--tng-confetti-start-y,0%));will-change:left,top,opacity,transform}@keyframes tng-confetti-paper{0%{opacity:0;transform:translate(-50%,-50%) rotate(0)}8%{opacity:var(--tng-confetti-opacity,1)}48%{left:var(--tng-confetti-apex-x);top:var(--tng-confetti-apex-y);opacity:var(--tng-confetti-opacity,1);transform:translate(-50%,-50%) rotate(calc(var(--tng-confetti-rotation)*.55))}100%{left:var(--tng-confetti-end-x);top:var(--tng-confetti-end-y);opacity:0;transform:translate(-50%,-50%) rotate(var(--tng-confetti-rotation))}}@media(prefers-reduced-motion:reduce){.tng-confetti-piece{animation:none}}
 `;
 
-export const confettiRegistryItem: RegistryItemSource = {
+export const confettiRegistryItem = {
   name: 'confetti',
   dependencies: [],
   description: 'Ownable DOM and CSS paper-confetti celebration component.',
+  install: {
+    importPath: './tailng-ui/confetti',
+    importSymbols: ['TngConfetti'],
+  },
   files: [
     { path: 'src/app/tailng-ui/confetti/tng-confetti.ts', content: component },
     { path: 'src/app/tailng-ui/confetti/tng-confetti.types.ts', content: types },
@@ -59,4 +63,4 @@ export const confettiRegistryItem: RegistryItemSource = {
       content: `export * from './tng-confetti';\nexport * from './tng-confetti.types';\nexport * from './tng-confetti.utils';\n`,
     },
   ],
-};
+} satisfies RegistryItem;

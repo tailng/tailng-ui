@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_NAVIGATION_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_NAVIGATION_GROUP;
@@ -47,7 +48,7 @@ export const COMPONENTS_NAVIGATION_PAGINATION_ROUTES: Routes = [
         path: 'ownable-install',
         data: { registrySlug: 'pagination' },
         pathMatch: 'full',
-        redirectTo: '/ownable/navigation/pagination',
+        redirectTo: requireOwnableDocsHref('pagination'),
       },
       { path: '**', redirectTo: 'overview' },
     ],

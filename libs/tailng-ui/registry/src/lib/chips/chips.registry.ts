@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const chipsPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,9 +48,13 @@ const chipsIndexTsTemplate = `export * from './tng-chips';
 export * from './tng-chips-primitive';
 `;
 
-export const chipsRegistryItem: RegistryItemSource = {
+export const chipsRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for chips primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/chips',
+    importSymbols: ['TngChips', 'TngChipsPrimitive'],
+  },
   files: [
     {
       content: chipsPrimitiveTsTemplate,
@@ -74,4 +78,4 @@ export const chipsRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'chips',
-};
+} satisfies RegistryItem;

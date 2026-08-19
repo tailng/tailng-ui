@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { requireOwnableDocsHref } from '../../../ownable/ownable-docs.data';
 import { COMPONENTS_LAYOUT_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
 const group = COMPONENTS_LAYOUT_GROUP;
@@ -53,7 +54,7 @@ export const COMPONENTS_LAYOUT_STEPPER_ROUTES: Routes = [
           registrySlug: 'stepper',
         },
         pathMatch: 'full',
-        redirectTo: '/ownable/layout/stepper',
+        redirectTo: requireOwnableDocsHref('stepper'),
       },
       {
         path: '**',

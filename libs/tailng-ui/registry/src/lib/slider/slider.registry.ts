@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const sliderPrimitiveTsTemplate = `import { Directive, HostBinding, booleanAttribute, input } from '@angular/core';
 
@@ -182,9 +182,13 @@ const sliderIndexTsTemplate = `export * from './tng-slider';
 export * from './tng-slider-primitive';
 `;
 
-export const sliderRegistryItem: RegistryItemSource = {
+export const sliderRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for a single-value slider component.',
+  install: {
+    importPath: './tailng-ui/slider',
+    importSymbols: ['TngSlider', 'TngSliderPrimitive'],
+  },
   files: [
     {
       content: sliderPrimitiveTsTemplate,
@@ -208,4 +212,4 @@ export const sliderRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'slider',
-};
+} satisfies RegistryItem;

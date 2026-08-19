@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const popoverPrimitiveTsTemplate = `export type TngPopoverCloseReason =
   | 'escape'
@@ -315,9 +315,13 @@ const popoverIndexTsTemplate = `export * from './tng-popover';
 export * from './tng-popover-primitive';
 `;
 
-export const popoverRegistryItem: RegistryItemSource = {
+export const popoverRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for popover wrappers and helpers.',
+  install: {
+    importPath: './tailng-ui/popover',
+    importSymbols: ['TngPopover'],
+  },
   files: [
     {
       content: popoverPrimitiveTsTemplate,
@@ -341,4 +345,4 @@ export const popoverRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'popover',
-};
+} satisfies RegistryItem;

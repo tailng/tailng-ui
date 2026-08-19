@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const toolbarPrimitiveTsTemplate = `import { Directive, HostBinding } from '@angular/core';
 
@@ -48,9 +48,13 @@ const toolbarIndexTsTemplate = `export * from './tng-toolbar';
 export * from './tng-toolbar-primitive';
 `;
 
-export const toolbarRegistryItem: RegistryItemSource = {
+export const toolbarRegistryItem = {
   dependencies: [],
   description: 'Shadcn-style source files for toolbar primitive and styled wrapper.',
+  install: {
+    importPath: './tailng-ui/toolbar',
+    importSymbols: ['TngToolbar', 'TngToolbarPrimitive'],
+  },
   files: [
     {
       content: toolbarPrimitiveTsTemplate,
@@ -74,4 +78,4 @@ export const toolbarRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'toolbar',
-};
+} satisfies RegistryItem;

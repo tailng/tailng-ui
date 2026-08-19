@@ -1,4 +1,4 @@
-import type { RegistryItemSource } from '../registry.types';
+import type { RegistryItem } from '../registry.types';
 
 const badgePrimitiveTsTemplate = `import {
   booleanAttribute,
@@ -190,9 +190,13 @@ const badgeIndexTsTemplate = `export * from './tng-badge';
 export * from './tng-badge-primitive';
 `;
 
-export const badgeRegistryItem: RegistryItemSource = {
+export const badgeRegistryItem = {
   dependencies: [],
   description: 'Material-style notification badge directive with micro styling hooks.',
+  install: {
+    importPath: './tailng-ui/badge',
+    importSymbols: ['TngBadge', 'TngBadgePrimitive'],
+  },
   files: [
     {
       content: badgePrimitiveTsTemplate,
@@ -208,4 +212,4 @@ export const badgeRegistryItem: RegistryItemSource = {
     },
   ],
   name: 'badge',
-};
+} satisfies RegistryItem;
