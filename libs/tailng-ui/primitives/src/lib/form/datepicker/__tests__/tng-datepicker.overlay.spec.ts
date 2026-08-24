@@ -54,6 +54,8 @@ function getRequired<T extends Element>(root: ParentNode, selector: string): T {
         width: 240px;
         min-height: 52px;
         --tng-datepicker-nav-size: 2.8rem;
+        --tng-datepicker-overlay-min-width: 304px;
+        --tng-datepicker-overlay-max-width: 336px;
         --tng-datepicker-surface: #f8fafc;
         --tng-datepicker-border: #d8e2ef;
         --tng-datepicker-fg: #0f172a;
@@ -81,6 +83,8 @@ function getRequired<T extends Element>(root: ParentNode, selector: string): T {
     <section
       [tngDatepickerOverlay]="controller"
       [tngDatepickerOverlayAnchor]="anchor"
+      [tngDatepickerOverlayMaxSize]="336"
+      [tngDatepickerOverlayMinSize]="304"
       [tngDatepickerOverlayScrollStrategy]="scrollStrategy()"
       data-testid="overlay"
       style="display: block; min-height: 320px;"
@@ -206,6 +210,15 @@ describe('tng-datepicker.overlay', () => {
     expect(mountedOverlay.style.getPropertyValue('--tng-datepicker-nav-size').trim()).toBe(
       '2.8rem',
     );
+    expect(mountedOverlay.style.getPropertyValue('--tng-datepicker-overlay-min-width').trim()).toBe(
+      '304px',
+    );
+    expect(mountedOverlay.style.getPropertyValue('--tng-datepicker-overlay-max-width').trim()).toBe(
+      '336px',
+    );
+    expect(mountedOverlay.style.minWidth).toBe('304px');
+    expect(mountedOverlay.style.maxWidth).toBe('336px');
+    expect(mountedOverlay.style.width).toBe('304px');
     expect(mountedOverlay.style.getPropertyValue('--tng-overlay-enter-duration').trim()).toBe(
       '333ms',
     );
@@ -222,7 +235,12 @@ describe('tng-datepicker.overlay', () => {
     expect(overlay.style.getPropertyValue('--tng-datepicker-surface').trim()).toBe('');
     expect(overlay.style.getPropertyValue('--tng-datepicker-border').trim()).toBe('');
     expect(overlay.style.getPropertyValue('--tng-datepicker-nav-size').trim()).toBe('');
+    expect(overlay.style.getPropertyValue('--tng-datepicker-overlay-min-width').trim()).toBe('');
+    expect(overlay.style.getPropertyValue('--tng-datepicker-overlay-max-width').trim()).toBe('');
     expect(overlay.style.getPropertyValue('--tng-overlay-enter-duration').trim()).toBe('');
+    expect(overlay.style.minWidth).toBe('');
+    expect(overlay.style.maxWidth).toBe('');
+    expect(overlay.style.width).toBe('');
     expect(overlay.style.zIndex).toBe('');
     expect(overlay.style.colorScheme).toBe('');
     expect(document.body.style.overflow).toBe('');

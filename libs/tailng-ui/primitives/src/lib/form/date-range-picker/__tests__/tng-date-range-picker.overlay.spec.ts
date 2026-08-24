@@ -58,6 +58,8 @@ function getRequired<T extends Element>(root: ParentNode, selector: string): T {
         width: 240px;
         min-height: 52px;
         --tng-date-range-picker-nav-size: 2.7rem;
+        --tng-date-range-picker-overlay-min-width: 304px;
+        --tng-date-range-picker-overlay-max-width: 336px;
         --tng-date-range-picker-surface: #111827;
         --tng-date-range-picker-border: #334155;
         --tng-date-range-picker-fg: #f8fafc;
@@ -84,6 +86,8 @@ function getRequired<T extends Element>(root: ParentNode, selector: string): T {
     <section
       [tngDateRangePickerOverlay]="controller"
       [tngDateRangePickerOverlayAnchor]="anchor"
+      [tngDateRangePickerOverlayMaxSize]="336"
+      [tngDateRangePickerOverlayMinSize]="304"
       [tngDateRangePickerOverlayScrollStrategy]="scrollStrategy()"
       data-testid="range-overlay"
       style="display: block; min-height: 320px;"
@@ -273,6 +277,15 @@ describe('tng-date-range-picker overlay behavior', () => {
     expect(mountedOverlay.style.getPropertyValue('--tng-date-range-picker-nav-size').trim()).toBe(
       '2.7rem',
     );
+    expect(
+      mountedOverlay.style.getPropertyValue('--tng-date-range-picker-overlay-min-width').trim(),
+    ).toBe('304px');
+    expect(
+      mountedOverlay.style.getPropertyValue('--tng-date-range-picker-overlay-max-width').trim(),
+    ).toBe('336px');
+    expect(mountedOverlay.style.minWidth).toBe('304px');
+    expect(mountedOverlay.style.maxWidth).toBe('336px');
+    expect(mountedOverlay.style.width).toBe('304px');
     expect(mountedOverlay.style.getPropertyValue('--tng-date-range-picker-z-overlay').trim()).toBe(
       '9',
     );
@@ -285,7 +298,16 @@ describe('tng-date-range-picker overlay behavior', () => {
     expect(overlay.getAttribute('hidden')).toBe('');
     expect(overlay.style.getPropertyValue('--tng-date-range-picker-surface').trim()).toBe('');
     expect(overlay.style.getPropertyValue('--tng-date-range-picker-nav-size').trim()).toBe('');
+    expect(overlay.style.getPropertyValue('--tng-date-range-picker-overlay-min-width').trim()).toBe(
+      '',
+    );
+    expect(overlay.style.getPropertyValue('--tng-date-range-picker-overlay-max-width').trim()).toBe(
+      '',
+    );
     expect(overlay.style.getPropertyValue('--tng-date-range-picker-z-overlay').trim()).toBe('');
+    expect(overlay.style.minWidth).toBe('');
+    expect(overlay.style.maxWidth).toBe('');
+    expect(overlay.style.width).toBe('');
     expect(overlay.style.zIndex).toBe('');
     expect(overlay.style.colorScheme).toBe('');
   });

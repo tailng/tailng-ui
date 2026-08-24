@@ -102,16 +102,16 @@ function getRequiredFromRoot<T extends Element>(root: ParentNode, selector: stri
   return element;
 }
 
-function createRect(top: number, bottom: number): DOMRect {
+function createRect(top: number, bottom: number, width = 320, left = 0): DOMRect {
   return {
-    x: 0,
+    x: left,
     y: top,
-    width: 320,
+    width,
     height: bottom - top,
     top,
-    right: 320,
+    right: left + width,
     bottom,
-    left: 0,
+    left,
     toJSON: () => ({}),
   } as DOMRect;
 }
@@ -597,6 +597,38 @@ describe('tng-date-range-picker component behavior', () => {
     expect((document.activeElement as HTMLElement | null)?.getAttribute('data-slot')).toBe(
       'date-range-picker-cell',
     );
+  });
+
+  it('clamps popup width and aligns its logical end to the input-plus-trigger shell', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDateRangePickerHostComponent],
+    }).createComponent(UncontrolledDateRangePickerHostComponent);
+
+    await settle(fixture);
+
+    const anchor = getRequired<HTMLElement>(fixture, '[data-slot="date-range-picker-input-shell"]');
+    const overlay = getRequired<HTMLElement>(fixture, '[data-slot="date-range-picker-overlay"]');
+    const anchorRect = vi
+      .spyOn(anchor, 'getBoundingClientRect')
+      .mockReturnValue(createRect(100, 140, 240, 400));
+    vi.spyOn(overlay, 'getBoundingClientRect').mockImplementation(() =>
+      createRect(0, 320, Number.parseFloat(overlay.style.width) || 0),
+    );
+
+    await openOverlay(fixture);
+
+    expect(overlay.style.minWidth).toBe('288px');
+    expect(overlay.style.maxWidth).toBe('320px');
+    expect(overlay.style.width).toBe('288px');
+    expect(overlay.style.left).toBe('352px');
+
+    anchorRect.mockReturnValue(createRect(100, 140, 480, 100));
+    window.dispatchEvent(new Event('resize'));
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    expect(overlay.style.width).toBe('320px');
+    expect(overlay.style.left).toBe('260px');
   });
 
   it('keeps host-scoped theme vars on the portalled overlay', async () => {

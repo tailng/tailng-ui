@@ -235,7 +235,8 @@ export class DatepickerApiPageComponent implements OnDestroy {
           name: 'placement',
           type: "'auto' | 'bottom' | 'top'",
           default: "'auto'",
-          details: 'Auto-flips the popup when there is not enough room below the field.',
+          details:
+            'Auto-flips the popup when needed. The popup uses logical end alignment against the complete input and trigger shell.',
         },
         {
           name: 'scrollStrategy',
@@ -251,10 +252,17 @@ export class DatepickerApiPageComponent implements OnDestroy {
           details: 'Lets advanced apps share an overlay layer registry across surfaces.',
         },
         {
+          name: 'overlayMinSize',
+          type: 'number',
+          default: '288',
+          details: 'Sets the minimum popup width before the available viewport width is applied.',
+        },
+        {
           name: 'overlaySize',
           type: 'number',
           default: '320',
-          details: 'Sets the popup width used by the wrapper overlay positioning logic.',
+          details:
+            'Sets the maximum popup width. Between the bounds, the popup follows the input-shell width.',
         },
         {
           name: 'yearPageSize',

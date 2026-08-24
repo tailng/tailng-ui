@@ -185,6 +185,9 @@ export class TngDateRangePickerComponent<TDate = Date>
     transform: normalizeOptionalBooleanInput,
   });
   public readonly overlayRuntime = input<TngOverlayRuntime | null | undefined>(undefined);
+  public readonly overlayMinSize = input<number, number | string>(288, {
+    transform: normalizeNumberInput,
+  });
   public readonly overlaySize = input<number, number | string>(320, {
     transform: normalizeNumberInput,
   });
@@ -686,13 +689,13 @@ export class TngDateRangePickerComponent<TDate = Date>
     return {
       flip: placement === 'auto',
       padding: OVERLAY_VIEWPORT_MARGIN,
-      shift: false,
+      shift: true,
     };
   }
 
   private resolveOverlayPlacement(placement: TngDateRangePickerPlacement): TngOverlayPlacement {
     return {
-      align: 'start',
+      align: 'end',
       side: placement === 'top' ? 'top' : 'bottom',
     };
   }

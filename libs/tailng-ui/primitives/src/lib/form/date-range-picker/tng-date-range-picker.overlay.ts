@@ -58,6 +58,8 @@ const PORTALLED_DATEPICKER_THEME_VARS = [
   '--tng-date-range-picker-radius',
   '--tng-date-range-picker-field-height',
   '--tng-date-range-picker-overlay-gap',
+  '--tng-date-range-picker-overlay-min-width',
+  '--tng-date-range-picker-overlay-max-width',
   '--tng-date-range-picker-day-cell-size',
   '--tng-date-range-picker-picker-cell-size',
   '--tng-date-range-picker-grid-gap',
@@ -93,6 +95,8 @@ const PORTALLED_DATEPICKER_THEME_VARS = [
 
 const OVERLAY_VIEWPORT_MARGIN = 12;
 const OVERLAY_OFFSET = 9;
+const OVERLAY_MIN_SIZE = 288;
+const OVERLAY_MAX_SIZE = 320;
 const OVERLAY_Z_INDEX = 'var(--tng-date-range-picker-z-overlay, var(--tng-z-overlay, 1000))';
 const createDateRangePickerOverlayLockId = createTngIdFactory('tng-date-range-picker-overlay-lock');
 
@@ -106,6 +110,15 @@ function resolveAnchorElement(anchor: OverlayAnchorInput): HTMLElement | null {
 
 function resolveThemeSourceElement(source: OverlayThemeSourceInput): HTMLElement | null {
   return resolveAnchorElement(source);
+}
+
+function normalizeOptionalSizeInput(value: unknown): number | undefined {
+  if (value === null || value === undefined || value === '') {
+    return undefined;
+  }
+
+  const normalized = Number(value);
+  return Number.isFinite(normalized) ? normalized : undefined;
 }
 
 /**
@@ -217,6 +230,14 @@ export class TngDateRangePickerOverlay {
   });
   public readonly placement = input<TngOverlayPlacement | undefined>(undefined, {
     alias: 'tngDateRangePickerOverlayPlacement',
+  });
+  public readonly minSize = input<number | undefined, unknown>(undefined, {
+    alias: 'tngDateRangePickerOverlayMinSize',
+    transform: normalizeOptionalSizeInput,
+  });
+  public readonly maxSize = input<number | undefined, unknown>(undefined, {
+    alias: 'tngDateRangePickerOverlayMaxSize',
+    transform: normalizeOptionalSizeInput,
   });
   public readonly offset = input<TngOverlayOffset | undefined>(undefined, {
     alias: 'tngDateRangePickerOverlayOffset',
@@ -344,6 +365,8 @@ export class TngDateRangePickerOverlay {
       const open = this.controller().getOutputs().open;
       this.renderVersion();
       this.placement();
+      this.minSize();
+      this.maxSize();
       this.offset();
       this.collision();
       this.themeSource();
@@ -442,14 +465,15 @@ export class TngDateRangePickerOverlay {
       scope?.querySelector('[data-slot="date-range-picker-trigger"]')) as HTMLElement | null;
   }
 
-  /**
-   * Anchor for overlay positioning, width, and dismiss boundary. Prefer the
-   * enclosing form-field (so the overlay spans the visible frame) and fall
-   * back to the date-range-picker-owned anchor otherwise.
-   */
+  /** Anchor used for scroll visibility and the wider form-field boundary. */
   private findAnchorEl(): HTMLElement | null {
     const dateRangePickerAnchor = this.findDateRangePickerAnchorEl();
     return findFormFieldAnchor(dateRangePickerAnchor) ?? dateRangePickerAnchor;
+  }
+
+  /** Anchor whose input-plus-trigger edges define popup geometry. */
+  private findPositionAnchorEl(): HTMLElement | null {
+    return this.findDateRangePickerAnchorEl() ?? this.findAnchorEl();
   }
 
   private scheduleReposition(): void {
@@ -469,16 +493,20 @@ export class TngDateRangePickerOverlay {
 
   private positionOverlay(): void {
     const overlay = this.elRef.nativeElement;
-    const anchor = this.findAnchorEl();
+    const anchor = this.findPositionAnchorEl();
     if (anchor === null || this.ownerWindow === null) {
       return;
     }
+
+    const inlineSize = this.resolveInlineSizeConstraints();
 
     const result = positionFixedAnchoredOverlay({
       anchor,
       anchorRect: anchorRectFor(anchor),
       collision: this.resolveCollision(),
       direction: this.resolveDirection(),
+      maxInlineSize: inlineSize.max,
+      minInlineSize: inlineSize.min,
       offset: this.resolveOffset(),
       overlay,
       placement: this.resolvePlacement(),
@@ -538,6 +566,11 @@ export class TngDateRangePickerOverlay {
       const anchor = this.findAnchorEl();
       if (anchor !== null && this.resizeObserver !== null) {
         this.resizeObserver.observe(anchor);
+      }
+
+      const positionAnchor = this.findPositionAnchorEl();
+      if (positionAnchor !== null && positionAnchor !== anchor && this.resizeObserver !== null) {
+        this.resizeObserver.observe(positionAnchor);
       }
 
       this.resizeObserver?.observe(this.elRef.nativeElement);
@@ -645,11 +678,37 @@ export class TngDateRangePickerOverlay {
     clearFixedPortalledOverlayBaseStyles(overlay);
     overlay.style.maxHeight = '';
     overlay.style.maxWidth = '';
+    overlay.style.minWidth = '';
     overlay.style.width = '';
   }
 
   private resolvePlacement(): TngOverlayPlacement {
-    return this.placement() ?? { align: 'start', side: 'bottom' };
+    return this.placement() ?? { align: 'end', side: 'bottom' };
+  }
+
+  private resolveInlineSizeConstraints(): Readonly<{ max: number; min: number }> {
+    const source =
+      resolveThemeSourceElement(this.themeSource()) ?? this.findDateRangePickerAnchorEl();
+    return {
+      max:
+        this.maxSize() ??
+        (source === null
+          ? OVERLAY_MAX_SIZE
+          : resolveCssCustomPropertyPx(
+              source,
+              '--tng-date-range-picker-overlay-max-width',
+              OVERLAY_MAX_SIZE,
+            )),
+      min:
+        this.minSize() ??
+        (source === null
+          ? OVERLAY_MIN_SIZE
+          : resolveCssCustomPropertyPx(
+              source,
+              '--tng-date-range-picker-overlay-min-width',
+              OVERLAY_MIN_SIZE,
+            )),
+    };
   }
 
   private resolveOffset(): TngOverlayOffset {
@@ -676,7 +735,7 @@ export class TngDateRangePickerOverlay {
       this.collision() ?? {
         flip: true,
         padding: OVERLAY_VIEWPORT_MARGIN,
-        shift: false,
+        shift: true,
       }
     );
   }

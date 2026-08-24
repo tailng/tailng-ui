@@ -99,16 +99,16 @@ function getRequiredFromRoot<T extends Element>(root: ParentNode, selector: stri
   return element;
 }
 
-function createRect(top: number, bottom: number): DOMRect {
+function createRect(top: number, bottom: number, width = 240, left = 0): DOMRect {
   return {
-    x: 0,
+    x: left,
     y: top,
-    width: 240,
+    width,
     height: bottom - top,
     top,
-    right: 240,
+    right: left + width,
     bottom,
-    left: 0,
+    left,
     toJSON: () => ({}),
   } as DOMRect;
 }
@@ -441,10 +441,7 @@ describe('tng-datepicker component behavior', () => {
 
     await settle(fixture);
 
-    getRequired<HTMLButtonElement>(fixture, '[data-slot="datepicker-trigger"]').click();
-    await settle(fixture);
-    await waitForAnimationFrame();
-    await settle(fixture);
+    await openOverlay(fixture);
 
     expect(fixture.componentInstance.openChanges).toEqual([true]);
     const overlay = getRequiredFromRoot<HTMLElement>(
@@ -459,6 +456,38 @@ describe('tng-datepicker component behavior', () => {
     expect((document.activeElement as HTMLElement | null)?.getAttribute('data-slot')).toBe(
       'datepicker-cell',
     );
+  });
+
+  it('clamps popup width and aligns its logical end to the input-plus-trigger shell', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDatepickerHostComponent],
+    }).createComponent(UncontrolledDatepickerHostComponent);
+
+    await settle(fixture);
+
+    const anchor = getRequired<HTMLElement>(fixture, '[data-slot="datepicker-input-shell"]');
+    const overlay = getRequired<HTMLElement>(fixture, '[data-slot="datepicker-overlay"]');
+    const anchorRect = vi
+      .spyOn(anchor, 'getBoundingClientRect')
+      .mockReturnValue(createRect(100, 140, 240, 400));
+    vi.spyOn(overlay, 'getBoundingClientRect').mockImplementation(() =>
+      createRect(0, 320, Number.parseFloat(overlay.style.width) || 0),
+    );
+
+    await openOverlay(fixture);
+
+    expect(overlay.style.minWidth).toBe('288px');
+    expect(overlay.style.maxWidth).toBe('320px');
+    expect(overlay.style.width).toBe('288px');
+    expect(overlay.style.left).toBe('352px');
+
+    anchorRect.mockReturnValue(createRect(100, 140, 480, 100));
+    window.dispatchEvent(new Event('resize'));
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    expect(overlay.style.width).toBe('320px');
+    expect(overlay.style.left).toBe('260px');
   });
 
   it('keeps host-scoped theme vars on the portalled overlay', async () => {

@@ -25,6 +25,10 @@ export type TngFixedAnchoredOverlayPositionOptions = Readonly<{
   anchorRect?: TngOverlayRect;
   collision: TngOverlayCollisionOptions;
   direction?: 'ltr' | 'rtl';
+  /** Maximum inline size before the viewport constraint is applied. */
+  maxInlineSize?: number;
+  /** Minimum inline size, capped by the maximum available inline size. */
+  minInlineSize?: number;
   offset: TngOverlayOffset;
   overlay: HTMLElement;
   placement: TngOverlayPlacement;
@@ -36,6 +40,7 @@ export type TngFixedAnchoredOverlayPositionResult = Readonly<{
   availableHeight: number;
   inlineSize: number;
   maxInlineSize: number;
+  minInlineSize: number;
   side: 'bottom' | 'top';
 }>;
 
@@ -70,31 +75,64 @@ function getAvailableHeight(
     : Math.max(0, Math.floor(viewport.height - anchorBottom - options.margin - options.offset));
 }
 
+function normalizeInlineSize(value: number | undefined, fallback: number): number {
+  return value === undefined || !Number.isFinite(value) ? fallback : Math.max(0, value);
+}
+
+function resolveInlineSizeBounds(
+  options: Readonly<{ max?: number; min?: number; viewport: number }>,
+): Readonly<{ max: number; min: number }> {
+  const max = Math.min(normalizeInlineSize(options.max, options.viewport), options.viewport);
+  return {
+    max,
+    min: Math.min(normalizeInlineSize(options.min, 0), max),
+  };
+}
+
+function applyOverlayInlineSize(
+  options: Readonly<{
+    anchor: number;
+    max?: number;
+    min?: number;
+    overlay: HTMLElement;
+    viewport: number;
+  }>,
+): Readonly<{ inlineSize: number; maxInlineSize: number; minInlineSize: number }> {
+  const bounds = resolveInlineSizeBounds(options);
+  const inlineSize = Math.min(bounds.max, Math.max(bounds.min, options.anchor));
+  options.overlay.style.width = `${inlineSize}px`;
+  options.overlay.style.minWidth = `${bounds.min}px`;
+  options.overlay.style.maxWidth = `${bounds.max}px`;
+  options.overlay.style.maxHeight = '';
+  return { inlineSize, maxInlineSize: bounds.max, minInlineSize: bounds.min };
+}
+
 export function positionFixedAnchoredOverlay(
   options: Readonly<TngFixedAnchoredOverlayPositionOptions>,
 ): TngFixedAnchoredOverlayPositionResult {
-  const anchorRect: MaybeRect = options.anchorRect ?? rectFromClientRect(options.anchor.getBoundingClientRect());
+  const anchorRect: MaybeRect =
+    options.anchorRect ?? rectFromClientRect(options.anchor.getBoundingClientRect());
   const viewport = viewportRect(options.windowRef);
-  const maxInlineSize = Math.max(0, viewport.width - options.viewportMargin * 2);
-  const inlineSize = Math.max(0, Math.min(anchorRect.width, maxInlineSize));
-
-  const { overlay } = options;
-  overlay.style.width = `${inlineSize}px`;
-  overlay.style.maxWidth = `${maxInlineSize}px`;
-  overlay.style.maxHeight = '';
+  const { inlineSize, maxInlineSize, minInlineSize } = applyOverlayInlineSize({
+    anchor: anchorRect.width,
+    max: options.maxInlineSize,
+    min: options.minInlineSize,
+    overlay: options.overlay,
+    viewport: Math.max(0, viewport.width - options.viewportMargin * 2),
+  });
 
   const result = computeOverlayPosition({
     anchorRect,
     collision: options.collision,
     direction: options.direction ?? 'ltr',
     offset: options.offset,
-    overlayRect: rectFromClientRect(overlay.getBoundingClientRect()),
+    overlayRect: rectFromClientRect(options.overlay.getBoundingClientRect()),
     placement: options.placement,
     viewportRect: viewport,
   });
 
-  overlay.style.left = `${result.x}px`;
-  overlay.style.top = `${result.y}px`;
+  options.overlay.style.left = `${result.x}px`;
+  options.overlay.style.top = `${result.y}px`;
 
   const availableHeight = getAvailableHeight(
     result.side === 'top' ? 'top' : 'bottom',
@@ -103,13 +141,14 @@ export function positionFixedAnchoredOverlay(
   );
 
   if (availableHeight > 0) {
-    overlay.style.maxHeight = `${availableHeight}px`;
+    options.overlay.style.maxHeight = `${availableHeight}px`;
   }
 
   return {
     availableHeight,
     inlineSize,
     maxInlineSize,
+    minInlineSize,
     side: result.side === 'top' ? 'top' : 'bottom',
   };
 }

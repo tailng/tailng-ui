@@ -7,6 +7,8 @@
     --tng-datepicker-radius: var(--tng-control-radius, 0.5rem);
     --tng-datepicker-field-height: var(--tng-control-height-md, 2.5rem);
     --tng-datepicker-overlay-gap: 0.56rem;
+    --tng-datepicker-overlay-min-width: 18rem;
+    --tng-datepicker-overlay-max-width: 20rem;
     --tng-datepicker-day-cell-size: 2.2rem;
     --tng-datepicker-picker-cell-size: 2.3rem;
     --tng-datepicker-grid-gap: clamp(0.14rem, 1.15%, 0.28rem);
@@ -177,7 +179,8 @@
     box-sizing: border-box;
     display: grid;
     gap: 0.68rem;
-    min-width: min(18rem, calc(100vw - 1.5rem));
+    min-width: min(var(--tng-datepicker-overlay-min-width), calc(100vw - 1.5rem));
+    max-width: min(var(--tng-datepicker-overlay-max-width), calc(100vw - 1.5rem));
     border: 1px solid
       color-mix(in srgb, var(--tng-datepicker-border) 86%, var(--tng-datepicker-canvas) 14%);
     border-radius: var(--tng-overlay-radius, 0.75rem);
