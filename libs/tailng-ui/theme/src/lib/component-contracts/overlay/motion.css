@@ -1,0 +1,91 @@
+@layer tng.contracts {
+  :root,
+  [data-theme] {
+    --tng-overlay-enter-duration: var(--tng-motion-durationNormal, 180ms);
+    --tng-overlay-exit-duration: var(--tng-motion-durationFast, 120ms);
+    --tng-overlay-enter-easing: var(--tng-motion-easingStandard, cubic-bezier(0.2, 0, 0, 1));
+    --tng-overlay-exit-easing: var(--tng-motion-easingExit, cubic-bezier(0.4, 0, 1, 1));
+    --tng-overlay-distance: var(--tng-motion-distanceSmall, 0.25rem);
+    --tng-overlay-scale-from: var(--tng-motion-scaleSubtle, 0.98);
+  }
+
+  :where([data-tng-overlay-motion]) {
+    --tng-overlay-motion-x: 0;
+    --tng-overlay-motion-y: calc(-1 * var(--tng-overlay-distance));
+    transform-origin: top center;
+    will-change: opacity, transform;
+  }
+
+  :where([data-tng-overlay-motion][data-side='top']),
+  :where([data-tng-overlay-motion][data-placement='top']) {
+    --tng-overlay-motion-y: var(--tng-overlay-distance);
+    transform-origin: bottom center;
+  }
+
+  :where([data-tng-overlay-motion][data-side='bottom']),
+  :where([data-tng-overlay-motion][data-placement='bottom']) {
+    --tng-overlay-motion-y: calc(-1 * var(--tng-overlay-distance));
+    transform-origin: top center;
+  }
+
+  :where([data-tng-overlay-motion][data-side='left']) {
+    --tng-overlay-motion-x: var(--tng-overlay-distance);
+    --tng-overlay-motion-y: 0;
+    transform-origin: center right;
+  }
+
+  :where([data-tng-overlay-motion][data-side='right']) {
+    --tng-overlay-motion-x: calc(-1 * var(--tng-overlay-distance));
+    --tng-overlay-motion-y: 0;
+    transform-origin: center left;
+  }
+
+  :where([data-tng-overlay-motion][data-presence='entering']) {
+    animation: tng-overlay-enter var(--tng-overlay-enter-duration) var(--tng-overlay-enter-easing)
+      both;
+  }
+
+  :where([data-tng-overlay-motion][data-presence='exiting']) {
+    animation: tng-overlay-exit var(--tng-overlay-exit-duration) var(--tng-overlay-exit-easing) both;
+    pointer-events: none;
+  }
+
+  :where([data-tng-overlay-motion][data-presence='open']) {
+    opacity: 1;
+    transform: none;
+  }
+
+  @keyframes tng-overlay-enter {
+    from {
+      opacity: 0;
+      transform: translate3d(var(--tng-overlay-motion-x), var(--tng-overlay-motion-y), 0)
+        scale(var(--tng-overlay-scale-from));
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+
+  @keyframes tng-overlay-exit {
+    from {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    to {
+      opacity: 0;
+      transform: translate3d(var(--tng-overlay-motion-x), var(--tng-overlay-motion-y), 0)
+        scale(var(--tng-overlay-scale-from));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where([data-tng-overlay-motion][data-presence]) {
+      animation: none !important;
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

@@ -1,13 +1,23 @@
-@if (open()) {
-  <div class="tng-dialog-backdrop" (pointerdown)="onBackdropPointerDown($event)">
+@if (rendered()) {
+  <div
+    #backdropRef
+    class="tng-dialog-backdrop"
+    [attr.data-presence]="presenceState()"
+    [attr.aria-hidden]="open() ? null : 'true'"
+    [attr.inert]="open() ? null : ''"
+    (pointerdown)="onBackdropPointerDown($event)"
+  >
     <section
       #panelRef
       [id]="panelId"
       role="dialog"
       aria-modal="true"
       class="tng-dialog-panel"
+      [attr.data-presence]="presenceState()"
       [attr.aria-labelledby]="titleId"
       [attr.aria-describedby]="description() ? descriptionId : null"
+      [attr.aria-hidden]="open() ? null : 'true'"
+      [attr.inert]="open() ? null : ''"
       tabindex="-1"
       (keydown)="onPanelKeydown($event)"
     >
@@ -19,7 +29,12 @@
           }
         </div>
 
-        <button type="button" class="tng-dialog-close" aria-label="Close dialog" (click)="onCloseButtonClick()">
+        <button
+          type="button"
+          class="tng-dialog-close"
+          aria-label="Close dialog"
+          (click)="onCloseButtonClick()"
+        >
           ×
         </button>
       </header>

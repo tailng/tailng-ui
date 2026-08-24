@@ -284,6 +284,34 @@ describe('tng-popover primitive behavior', () => {
     expect(panel.getAttribute('hidden')).toBe('');
   });
 
+  it('keeps the panel visible and inert until its exit animation completes', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledPopoverHarnessComponent],
+    }).createComponent(UncontrolledPopoverHarnessComponent);
+    fixture.componentInstance.defaultOpen.set(true);
+    await settle(fixture);
+
+    const trigger = getByTestId<HTMLButtonElement>(fixture, 'trigger');
+    const panel = getByTestId<HTMLElement>(fixture, 'panel');
+    panel.style.animationName = 'test-popover-exit';
+    panel.style.animationDuration = '10s';
+    panel.style.animationDelay = '0s';
+
+    trigger.click();
+    fixture.detectChanges();
+
+    expect(panel.getAttribute('data-presence')).toBe('exiting');
+    expect(panel.getAttribute('aria-hidden')).toBe('true');
+    expect(panel.hasAttribute('inert')).toBe(true);
+    expect(panel.hasAttribute('hidden')).toBe(false);
+
+    panel.dispatchEvent(new Event('animationend', { bubbles: true }));
+    await settle(fixture);
+
+    expect(panel.getAttribute('data-presence')).toBe('closed');
+    expect(panel.getAttribute('hidden')).toBe('');
+  });
+
   it('close directive emits programmatic close reason', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [UncontrolledPopoverHarnessComponent],

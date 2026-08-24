@@ -1,11 +1,17 @@
 @layer tng.contracts {
   :where(tng-dialog, [tngDialog]) {
-    --tng-dialog-radius:            var(--tng-radius-surface);
-    --tng-dialog-width:             34rem;
-    --tng-dialog-height:            auto;
-    --tng-dialog-title-font-size:   var(--tng-text-xl);
+    --tng-dialog-radius: var(--tng-radius-surface);
+    --tng-dialog-width: 34rem;
+    --tng-dialog-height: auto;
+    --tng-dialog-title-font-size: var(--tng-text-xl);
     --tng-dialog-title-font-weight: var(--tng-font-weight-semibold);
-    --tng-dialog-desc-font-size:    var(--tng-text-body);
-    --tng-dialog-focus-ring:        var(--tng-focus-ring);
+    --tng-dialog-desc-font-size: var(--tng-text-body);
+    --tng-dialog-focus-ring: var(--tng-focus-ring);
+    --tng-dialog-enter-duration: var(--tng-overlay-enter-duration);
+    --tng-dialog-exit-duration: var(--tng-overlay-exit-duration);
+    --tng-dialog-enter-easing: var(--tng-overlay-enter-easing);
+    --tng-dialog-exit-easing: var(--tng-overlay-exit-easing);
+    --tng-dialog-motion-distance: calc(var(--tng-overlay-distance) * 2);
+    --tng-dialog-scale-from: 0.97;
   }
 }

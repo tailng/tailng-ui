@@ -290,6 +290,37 @@ describe('tng-date-range-picker overlay behavior', () => {
     expect(overlay.style.colorScheme).toBe('');
   });
 
+  it('keeps an exiting overlay mounted and inert until its animation completes', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DateRangePickerOverlayThemeHostComponent],
+    }).createComponent(DateRangePickerOverlayThemeHostComponent);
+
+    await settle(fixture);
+    getRequired<HTMLButtonElement>(fixture.nativeElement, '[data-testid="range-trigger"]').click();
+    await settle(fixture);
+
+    const overlay = getRequired<HTMLElement>(document.body, '[data-testid="range-overlay"]');
+    overlay.style.animationName = 'test-date-range-picker-exit';
+    overlay.style.animationDuration = '10s';
+    overlay.style.animationDelay = '0s';
+
+    fixture.componentInstance.controller.close();
+    fixture.detectChanges();
+
+    expect(overlay.parentNode).toBe(document.body);
+    expect(overlay.getAttribute('data-presence')).toBe('exiting');
+    expect(overlay.getAttribute('aria-hidden')).toBe('true');
+    expect(overlay.hasAttribute('inert')).toBe(true);
+    expect(overlay.hasAttribute('hidden')).toBe(false);
+
+    overlay.dispatchEvent(new Event('animationend', { bubbles: true }));
+    await settle(fixture);
+
+    expect(overlay.parentNode).toBe(fixture.nativeElement);
+    expect(overlay.getAttribute('data-presence')).toBe('closed');
+    expect(overlay.getAttribute('hidden')).toBe('');
+  });
+
   it('keeps document and nested scrolling enabled by default', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [DateRangePickerOverlayScrollableHostComponent],

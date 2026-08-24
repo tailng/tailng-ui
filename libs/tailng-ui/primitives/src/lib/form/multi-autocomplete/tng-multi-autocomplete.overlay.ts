@@ -6,16 +6,21 @@ import {
   effect,
   inject,
   input,
+  signal,
 } from '@angular/core';
 import {
   computeOverlayPosition,
+  createCssOverlayPresenceDriver,
+  createOverlayPresenceController,
   createTngIdFactory,
   getGlobalElementScrollLockManager,
   getGlobalScrollLockManager,
   isTngAnchorVisibleInScrollAncestors,
+  PORTALLED_OVERLAY_MOTION_VARS,
   resolveAnchoredYWhenOffscreen,
   resolveTngScrollableAncestors,
   type TngOverlayScrollStrategy,
+  type TngOverlayPresenceState,
 } from '@tailng-ui/cdk';
 import {
   clearOverlayOwnerId,
@@ -27,6 +32,7 @@ import type { TngMultiAutocomplete } from './tng-multi-autocomplete';
 type MaybeRect = Readonly<{ left: number; top: number; width: number; height: number }>;
 
 const PORTALLED_MULTI_AUTOCOMPLETE_THEME_VARS = [
+  ...PORTALLED_OVERLAY_MOTION_VARS,
   '--tng-multi-autocomplete-radius',
   '--tng-multi-autocomplete-padding',
   '--tng-multi-autocomplete-trigger-py',
@@ -133,6 +139,23 @@ export class TngMultiAutocompleteOverlay {
   private readonly elementScrollLock = getGlobalElementScrollLockManager({
     documentRef: this.documentRef,
   });
+  private readonly resolvedSide = signal<'bottom' | 'left' | 'right' | 'top'>('bottom');
+  private readonly presenceState = signal<TngOverlayPresenceState>('closed');
+  private readonly presence = createOverlayPresenceController({
+    driver: createCssOverlayPresenceDriver({
+      elements: () => [this.elRef.nativeElement],
+      windowRef: this.documentRef.defaultView,
+    }),
+    onDismiss: () => this.restoreToPlaceholder(),
+    onPresent: () => {
+      this.prepareForPresence();
+      this.mountToBodyAndPosition();
+    },
+    onStateChange: (state) => {
+      this.presenceState.set(state);
+      this.applyPresenceState(state);
+    },
+  });
 
   private removeResizeListener: (() => void) | null = null;
   private removeScrollListener: (() => void) | null = null;
@@ -149,7 +172,30 @@ export class TngMultiAutocompleteOverlay {
 
   @HostBinding('attr.hidden')
   protected get hidden(): '' | null {
-    return this.multi.open() ? null : '';
+    return this.presenceState() === 'closed' ? '' : null;
+  }
+
+  @HostBinding('attr.data-presence')
+  protected get dataPresence(): TngOverlayPresenceState {
+    return this.presenceState();
+  }
+
+  @HostBinding('attr.data-side')
+  protected get dataSide(): 'bottom' | 'left' | 'right' | 'top' {
+    return this.resolvedSide();
+  }
+
+  @HostBinding('attr.data-tng-overlay-motion')
+  protected readonly overlayMotion = '';
+
+  @HostBinding('attr.aria-hidden')
+  protected get ariaHidden(): 'true' | null {
+    return this.presenceState() === 'exiting' ? 'true' : null;
+  }
+
+  @HostBinding('attr.inert')
+  protected get inert(): '' | null {
+    return this.presenceState() === 'exiting' ? '' : null;
   }
 
   constructor() {
@@ -161,15 +207,13 @@ export class TngMultiAutocompleteOverlay {
 
     effect(() => {
       const open = this.multi.open();
-      if (open) {
-        this.mountToBodyAndPosition();
-      } else {
-        this.restoreToPlaceholder();
-      }
+      this.scrollStrategy();
+      this.presence.setOpen(open);
     });
 
     this.destroyRef.onDestroy(() => {
       this.teardownOutsidePointer();
+      this.presence.destroy();
       this.restoreToPlaceholder(true);
       this.multi.setOverlayElement(null);
       this.placeholder = null;
@@ -210,6 +254,7 @@ export class TngMultiAutocompleteOverlay {
       viewportRect: viewport,
     });
 
+    this.setResolvedSide(result.side);
     panel.style.left = `${result.x}px`;
     panel.style.top = `${resolveAnchoredYWhenOffscreen({
       anchorRect: anchor,
@@ -218,6 +263,49 @@ export class TngMultiAutocompleteOverlay {
       viewportRect: viewport,
       y: result.y,
     })}px`;
+  }
+
+  private prepareForPresence(): void {
+    const panel = this.elRef.nativeElement;
+    panel.removeAttribute('hidden');
+    panel.style.removeProperty('display');
+  }
+
+  private applyPresenceState(state: TngOverlayPresenceState): void {
+    const panel = this.elRef.nativeElement;
+    panel.setAttribute('data-presence', state);
+    panel.setAttribute('data-tng-overlay-motion', '');
+
+    if (state === 'closed') {
+      panel.setAttribute('hidden', '');
+    } else {
+      panel.removeAttribute('hidden');
+    }
+
+    if (state === 'exiting') {
+      panel.setAttribute('aria-hidden', 'true');
+      panel.setAttribute('inert', '');
+      this.teardownOutsidePointer();
+      this.teardownScrollStrategy();
+    } else {
+      panel.removeAttribute('aria-hidden');
+      panel.removeAttribute('inert');
+
+      if (
+        state === 'entering' &&
+        panel.parentNode === document.body &&
+        this.removeResizeListener === null
+      ) {
+        this.setupScrollStrategy(this.findAnchorEl());
+        this.reposition(false);
+        this.setupOutsidePointer();
+      }
+    }
+  }
+
+  private setResolvedSide(side: 'bottom' | 'left' | 'right' | 'top'): void {
+    this.resolvedSide.set(side);
+    this.elRef.nativeElement.setAttribute('data-side', side);
   }
 
   private setupScrollStrategy(anchorEl: HTMLElement): void {
@@ -363,19 +451,17 @@ export class TngMultiAutocompleteOverlay {
     panel.style.position = 'fixed';
     panel.style.left = '0px';
     panel.style.top = '0px';
+    panel.style.visibility = 'hidden';
     this.syncPortalledThemeVars();
     this.applyPortalledStacking();
 
-    queueMicrotask(() => {
-      if (!this.multi.open()) return;
-
-      const anchor = anchorRectFor(anchorEl);
-      const viewportWidth = viewportRect().width;
-      const inlineSize = Math.max(0, Math.min(anchor.width, viewportWidth - 16));
-      panel.style.width = `${inlineSize}px`;
-      panel.style.minWidth = `${inlineSize}px`;
-      this.reposition(false);
-    });
+    const anchor = anchorRectFor(anchorEl);
+    const viewportWidth = viewportRect().width;
+    const inlineSize = Math.max(0, Math.min(anchor.width, viewportWidth - 16));
+    panel.style.width = `${inlineSize}px`;
+    panel.style.minWidth = `${inlineSize}px`;
+    this.reposition(false);
+    panel.style.visibility = '';
 
     this.setupOutsidePointer();
   }
@@ -397,6 +483,7 @@ export class TngMultiAutocompleteOverlay {
     panel.style.position = '';
     panel.style.left = '';
     panel.style.top = '';
+    panel.style.visibility = '';
     panel.style.zIndex = '';
     panel.style.width = '';
     panel.style.minWidth = '';

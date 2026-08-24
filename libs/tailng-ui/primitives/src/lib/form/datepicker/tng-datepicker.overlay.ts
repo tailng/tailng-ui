@@ -13,11 +13,14 @@ import {
   applyFixedPortalledOverlayBaseStyles,
   clearFixedPortalledOverlayBaseStyles,
   clearPortalledThemeVars,
+  createCssOverlayPresenceDriver,
+  createOverlayPresenceController,
   createTngIdFactory,
   getGlobalElementScrollLockManager,
   getGlobalScrollLockManager,
   isTngAnchorVisibleInScrollAncestors,
   positionFixedAnchoredOverlay,
+  PORTALLED_OVERLAY_MOTION_VARS,
   resolveCssCustomPropertyPx,
   resolveTngScrollableAncestors,
   syncPortalledThemeVars,
@@ -26,6 +29,7 @@ import {
   type TngOverlayPlacement,
   type TngOverlayRect,
   type TngOverlayScrollStrategy,
+  type TngOverlayPresenceState,
 } from '@tailng-ui/cdk';
 import {
   clearOverlayOwnerId,
@@ -50,6 +54,7 @@ type OverlayAnchorInput = ElementRef<HTMLElement> | HTMLElement | null | undefin
 type OverlayThemeSourceInput = OverlayAnchorInput;
 
 const PORTALLED_DATEPICKER_THEME_VARS = [
+  ...PORTALLED_OVERLAY_MOTION_VARS,
   '--tng-datepicker-radius',
   '--tng-datepicker-field-height',
   '--tng-datepicker-overlay-gap',
@@ -179,6 +184,22 @@ export class TngDatepickerOverlay {
   private readonly elementScrollLock = getGlobalElementScrollLockManager({
     documentRef: this.ownerDocument,
   });
+  private readonly presenceState = signal<TngOverlayPresenceState>('closed');
+  private readonly presence = createOverlayPresenceController({
+    driver: createCssOverlayPresenceDriver({
+      elements: () => [this.elRef.nativeElement],
+      windowRef: this.ownerWindow,
+    }),
+    onDismiss: () => this.restoreToPlaceholder(),
+    onPresent: () => {
+      this.prepareForPresence();
+      this.mountToBodyAndPosition();
+    },
+    onStateChange: (state) => {
+      this.presenceState.set(state);
+      this.applyPresenceState(state);
+    },
+  });
 
   private overlayPlaceholder: Comment | null = null;
   private overlayOriginalParent: Node | null = null;
@@ -212,14 +233,30 @@ export class TngDatepickerOverlay {
 
   @HostBinding('attr.hidden')
   protected get hidden(): '' | null {
-    this.renderVersion();
-    return this.controller().getOutputs().open ? null : '';
+    return this.presenceState() === 'closed' ? '' : null;
   }
 
   @HostBinding('style.display')
   protected get display(): string | null {
-    this.renderVersion();
-    return this.controller().getOutputs().open ? null : 'none';
+    return this.presenceState() === 'closed' ? 'none' : null;
+  }
+
+  @HostBinding('attr.data-presence')
+  protected get dataPresence(): TngOverlayPresenceState {
+    return this.presenceState();
+  }
+
+  @HostBinding('attr.data-tng-overlay-motion')
+  protected readonly overlayMotion = '';
+
+  @HostBinding('attr.aria-hidden')
+  protected get ariaHidden(): 'true' | null {
+    return this.presenceState() === 'exiting' ? 'true' : null;
+  }
+
+  @HostBinding('attr.inert')
+  protected get inert(): '' | null {
+    return this.presenceState() === 'exiting' ? '' : null;
   }
 
   @HostBinding('attr.data-placement')
@@ -313,12 +350,7 @@ export class TngDatepickerOverlay {
       this.anchor();
       this.scrollStrategy();
 
-      if (open) {
-        this.mountToBodyAndPosition();
-        return;
-      }
-
-      this.restoreToPlaceholder();
+      this.presence.setOpen(open);
     });
 
     this.destroyRef.onDestroy(() => {
@@ -327,6 +359,7 @@ export class TngDatepickerOverlay {
         this.overlayLayoutFrame = null;
       }
 
+      this.presence.destroy();
       this.teardownRepositionListeners();
       this.restoreToPlaceholder(true);
     });
@@ -344,6 +377,44 @@ export class TngDatepickerOverlay {
     const placeholder = this.overlayPlaceholder;
     if (this.overlayOriginalParent !== null && placeholder !== null) {
       this.overlayOriginalParent.insertBefore(placeholder, overlay);
+    }
+  }
+
+  private prepareForPresence(): void {
+    const overlay = this.elRef.nativeElement;
+    overlay.removeAttribute('hidden');
+    overlay.style.removeProperty('display');
+  }
+
+  private applyPresenceState(state: TngOverlayPresenceState): void {
+    const overlay = this.elRef.nativeElement;
+    overlay.setAttribute('data-presence', state);
+    overlay.setAttribute('data-tng-overlay-motion', '');
+
+    if (state === 'closed') {
+      overlay.setAttribute('hidden', '');
+      overlay.style.display = 'none';
+    } else {
+      overlay.removeAttribute('hidden');
+      overlay.style.removeProperty('display');
+    }
+
+    if (state === 'exiting') {
+      overlay.setAttribute('aria-hidden', 'true');
+      overlay.setAttribute('inert', '');
+      this.teardownScrollStrategy();
+    } else {
+      overlay.removeAttribute('aria-hidden');
+      overlay.removeAttribute('inert');
+
+      if (
+        state === 'entering' &&
+        overlay.parentNode === this.ownerDocument?.body &&
+        this.removeResizeListener === null
+      ) {
+        this.setupScrollStrategy(this.findAnchorEl());
+        this.positionOverlay();
+      }
     }
   }
 
@@ -549,13 +620,7 @@ export class TngDatepickerOverlay {
     applyFixedPortalledOverlayBaseStyles(overlay, OVERLAY_Z_INDEX);
     this.syncPortalledThemeVars();
 
-    queueMicrotask(() => {
-      if (!this.controller().getOutputs().open) {
-        return;
-      }
-
-      this.positionOverlay();
-    });
+    this.positionOverlay();
   }
 
   private restoreToPlaceholder(force = false): void {

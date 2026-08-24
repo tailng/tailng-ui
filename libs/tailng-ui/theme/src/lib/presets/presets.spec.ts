@@ -17,6 +17,18 @@ import { sterlingDarkThemePreset } from './sterling-dark.preset';
 import { sterlingThemePreset } from './sterling.preset';
 
 describe('theme presets', () => {
+  it('provides the shared overlay motion primitives', () => {
+    expect(defaultThemePreset.tokens.primitives.motion).toMatchObject({
+      durationFast: '120ms',
+      durationNormal: '180ms',
+      durationSlow: '280ms',
+      easingStandard: 'cubic-bezier(0.2, 0, 0, 1)',
+      easingExit: 'cubic-bezier(0.4, 0, 1, 1)',
+      distanceSmall: '0.25rem',
+      scaleSubtle: '0.98',
+    });
+  });
+
   it('keeps light presets in light mode', () => {
     expect(defaultThemePreset.meta.mode).toBe('light');
     expect(minimalThemePreset.meta.mode).toBe('light');

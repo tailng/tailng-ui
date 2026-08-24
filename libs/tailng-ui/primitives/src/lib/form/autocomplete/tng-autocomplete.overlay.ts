@@ -6,32 +6,36 @@ import {
   inject,
   input,
   effect,
+  signal,
 } from '@angular/core';
-import type {
-  TngOverlayCollisionOptions,
-  TngOverlayOffset,
-  TngOverlayPlacement,
-  TngOverlayScrollStrategy,
-} from '@tailng-ui/cdk';
 import {
   computeOverlayPosition,
+  createCssOverlayPresenceDriver,
+  createOverlayPresenceController,
   createTngIdFactory,
   getGlobalElementScrollLockManager,
   getGlobalScrollLockManager,
   isTngAnchorVisibleInScrollAncestors,
+  PORTALLED_OVERLAY_MOTION_VARS,
   resolveAnchoredYWhenOffscreen,
   resolveTngScrollableAncestors,
+  type TngOverlayCollisionOptions,
+  type TngOverlayOffset,
+  type TngOverlayPlacement,
+  type TngOverlayPresenceState,
+  type TngOverlayScrollStrategy,
 } from '@tailng-ui/cdk';
+import type { TngAutocomplete } from './tng-autocomplete';
+import { TNG_AUTOCOMPLETE } from './tng-autocomplete.tokens';
 import {
   clearOverlayOwnerId,
   stampOverlayOwnerId,
 } from '../../overlay/_shared/tng-overlay-ownership';
-import { TNG_AUTOCOMPLETE } from './tng-autocomplete.tokens';
-import type { TngAutocomplete } from './tng-autocomplete';
 
 type MaybeRect = Readonly<{ left: number; top: number; width: number; height: number }>;
 
 const PORTALLED_AUTOCOMPLETE_THEME_VARS = [
+  ...PORTALLED_OVERLAY_MOTION_VARS,
   '--tng-autocomplete-radius',
   '--tng-autocomplete-trigger-width',
   '--tng-autocomplete-trigger-min-height',
@@ -168,6 +172,23 @@ export class TngAutocompleteOverlay {
   private readonly elementScrollLock = getGlobalElementScrollLockManager({
     documentRef: this.documentRef,
   });
+  private readonly resolvedSide = signal<'bottom' | 'left' | 'right' | 'top'>('bottom');
+  private readonly presenceState = signal<TngOverlayPresenceState>('closed');
+  private readonly presence = createOverlayPresenceController({
+    driver: createCssOverlayPresenceDriver({
+      elements: () => [this.elRef.nativeElement],
+      windowRef: this.documentRef.defaultView,
+    }),
+    onDismiss: () => this.restoreToPlaceholder(),
+    onPresent: () => {
+      this.prepareForPresence();
+      this.mountToBodyAndPosition();
+    },
+    onStateChange: (state) => {
+      this.presenceState.set(state);
+      this.applyPresenceState(state);
+    },
+  });
 
   private lastFocusedBeforeOpen: HTMLElement | null = null;
   private removeResizeListener: (() => void) | null = null;
@@ -189,7 +210,30 @@ export class TngAutocompleteOverlay {
 
   @HostBinding('attr.hidden')
   protected get hidden(): '' | null {
-    return this.autocomplete.open() ? null : '';
+    return this.presenceState() === 'closed' ? '' : null;
+  }
+
+  @HostBinding('attr.data-presence')
+  protected get dataPresence(): TngOverlayPresenceState {
+    return this.presenceState();
+  }
+
+  @HostBinding('attr.data-side')
+  protected get dataSide(): 'bottom' | 'left' | 'right' | 'top' {
+    return this.resolvedSide();
+  }
+
+  @HostBinding('attr.data-tng-overlay-motion')
+  protected readonly overlayMotion = '';
+
+  @HostBinding('attr.aria-hidden')
+  protected get ariaHidden(): 'true' | null {
+    return this.presenceState() === 'exiting' ? 'true' : null;
+  }
+
+  @HostBinding('attr.inert')
+  protected get inert(): '' | null {
+    return this.presenceState() === 'exiting' ? '' : null;
   }
 
   constructor() {
@@ -200,12 +244,16 @@ export class TngAutocompleteOverlay {
 
     effect(() => {
       const open = this.autocomplete.open();
-      if (open) this.mountToBodyAndPosition();
-      else this.restoreToPlaceholder();
+      this.placement();
+      this.offset();
+      this.collision();
+      this.scrollStrategy();
+      this.presence.setOpen(open);
     });
 
     this.destroyRef.onDestroy(() => {
       this.teardownOutsidePointer();
+      this.presence.destroy();
       this.restoreToPlaceholder(true);
       this.placeholder = null;
       this.originalParent = null;
@@ -260,6 +308,7 @@ export class TngAutocompleteOverlay {
       offset,
       collision: this.collision(),
     });
+    this.setResolvedSide(result.side);
     panel.style.left = `${result.x}px`;
     panel.style.top = `${resolveAnchoredYWhenOffscreen({
       anchorRect: anchor,
@@ -269,6 +318,50 @@ export class TngAutocompleteOverlay {
       viewportRect: viewport,
       y: result.y,
     })}px`;
+  }
+
+  private prepareForPresence(): void {
+    const panel = this.elRef.nativeElement;
+    panel.removeAttribute('hidden');
+    panel.style.removeProperty('display');
+  }
+
+  private applyPresenceState(state: TngOverlayPresenceState): void {
+    const panel = this.elRef.nativeElement;
+    panel.setAttribute('data-presence', state);
+    panel.setAttribute('data-tng-overlay-motion', '');
+
+    if (state === 'closed') {
+      panel.setAttribute('hidden', '');
+    } else {
+      panel.removeAttribute('hidden');
+    }
+
+    if (state === 'exiting') {
+      panel.setAttribute('aria-hidden', 'true');
+      panel.setAttribute('inert', '');
+      this.teardownOutsidePointer();
+      this.teardownScrollStrategy();
+      this.restoreFocusAfterClose();
+    } else {
+      panel.removeAttribute('aria-hidden');
+      panel.removeAttribute('inert');
+
+      if (
+        state === 'entering' &&
+        panel.parentNode === document.body &&
+        this.removeResizeListener === null
+      ) {
+        this.setupScrollStrategy(this.findAnchorEl());
+        this.reposition();
+        this.setupOutsidePointer();
+      }
+    }
+  }
+
+  private setResolvedSide(side: 'bottom' | 'left' | 'right' | 'top'): void {
+    this.resolvedSide.set(side);
+    this.elRef.nativeElement.setAttribute('data-side', side);
   }
 
   private setupScrollStrategy(anchorEl: HTMLElement | null): void {
@@ -408,13 +501,11 @@ export class TngAutocompleteOverlay {
     panel.style.position = 'fixed';
     panel.style.left = '0px';
     panel.style.top = '0px';
+    panel.style.visibility = 'hidden';
     this.syncPortalledThemeVars();
     this.applyPortalledStacking();
 
-    queueMicrotask(() => {
-      if (!this.autocomplete.open()) return;
-      if (!anchorEl) return;
-
+    if (anchorEl) {
       const anchor = anchorRectFor(anchorEl);
       panel.style.minWidth = `${anchor.width}px`;
       if (findFormFieldAnchor(this.autocomplete.hostElement)) {
@@ -432,6 +523,7 @@ export class TngAutocompleteOverlay {
         offset,
         collision: this.collision(),
       });
+      this.setResolvedSide(result.side);
       panel.style.left = `${result.x}px`;
       panel.style.top = `${resolveAnchoredYWhenOffscreen({
         anchorRect: anchor,
@@ -441,7 +533,8 @@ export class TngAutocompleteOverlay {
         viewportRect: viewport,
         y: result.y,
       })}px`;
-    });
+    }
+    panel.style.visibility = '';
 
     this.setupOutsidePointer();
   }
@@ -459,6 +552,23 @@ export class TngAutocompleteOverlay {
     }
     this.teardownScrollStrategy();
 
+    this.restoreFocusAfterClose();
+
+    panel.style.position = '';
+    panel.style.left = '';
+    panel.style.top = '';
+    panel.style.visibility = '';
+    panel.style.zIndex = '';
+    panel.style.minWidth = '';
+    panel.style.width = '';
+    panel.style.maxWidth = '';
+    clearOverlayOwnerId(panel);
+    this.clearPortalledThemeVars();
+    this.teardownOutsidePointer();
+  }
+
+  private restoreFocusAfterClose(): void {
+    const panel = this.elRef.nativeElement;
     if (this.lastFocusedBeforeOpen && document.contains(this.lastFocusedBeforeOpen)) {
       const active = document.activeElement as HTMLElement | null;
       if (!active || panel.contains(active)) {
@@ -470,17 +580,6 @@ export class TngAutocompleteOverlay {
       }
     }
     this.restoreFocusOnClose();
-
-    panel.style.position = '';
-    panel.style.left = '';
-    panel.style.top = '';
-    panel.style.zIndex = '';
-    panel.style.minWidth = '';
-    panel.style.width = '';
-    panel.style.maxWidth = '';
-    clearOverlayOwnerId(panel);
-    this.clearPortalledThemeVars();
-    this.teardownOutsidePointer();
   }
 
   private restoreFocusOnClose(): void {

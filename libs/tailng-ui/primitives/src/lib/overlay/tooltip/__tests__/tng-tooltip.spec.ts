@@ -14,7 +14,10 @@ import {
   TngTooltipTrigger,
 } from '../tng-tooltip';
 
-function getByTestId<T extends Element>(fixture: { nativeElement: HTMLElement }, testId: string): T {
+function getByTestId<T extends Element>(
+  fixture: { nativeElement: HTMLElement },
+  testId: string,
+): T {
   const element = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`);
   if (element === null) {
     throw new Error(`Expected element [data-testid="${testId}"] to exist.`);
@@ -125,7 +128,14 @@ class TooltipRootAutoIdHarnessComponent {}
 class TooltipTwoRootHarnessComponent {}
 
 @Component({
-  imports: [TngTooltip, TngTooltipTrigger, TngTooltipContent, TngPopover, TngPopoverTrigger, TngPopoverPanel],
+  imports: [
+    TngTooltip,
+    TngTooltipTrigger,
+    TngTooltipContent,
+    TngPopover,
+    TngPopoverTrigger,
+    TngPopoverPanel,
+  ],
   template: `
     <span tngTooltip [openDelay]="0" [closeDelay]="0">
       <button type="button" tngTooltipTrigger data-testid="tooltip-trigger">Tooltip trigger</button>
@@ -139,16 +149,19 @@ class TooltipTwoRootHarnessComponent {}
       [autoFocus]="'none'"
       [restoreFocus]="false"
     >
-      <button type="button" [tngPopoverTrigger]="popover" data-testid="popover-trigger">Popover trigger</button>
-      <section tngPopoverPanel data-testid="popover-panel">
-        Popover panel
-      </section>
+      <button type="button" [tngPopoverTrigger]="popover" data-testid="popover-trigger">
+        Popover trigger
+      </button>
+      <section tngPopoverPanel data-testid="popover-panel">Popover panel</section>
     </section>
   `,
 })
 class TooltipPopoverStackHarnessComponent {}
 
-async function settle(fixture: { detectChanges(): void; whenStable(): Promise<unknown> }): Promise<void> {
+async function settle(fixture: {
+  detectChanges(): void;
+  whenStable(): Promise<unknown>;
+}): Promise<void> {
   fixture.detectChanges();
   await fixture.whenStable();
   fixture.detectChanges();
@@ -225,6 +238,33 @@ describe('tng-tooltip primitive helpers', () => {
     expect(trigger.getAttribute('aria-describedby')).toBe('tooltip-harness');
     expect(content.getAttribute('data-state')).toBe('open');
     expect(content.getAttribute('hidden')).toBeNull();
+  });
+
+  it('keeps content visible and inert until its exit animation completes', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TooltipHarnessComponent],
+    }).createComponent(TooltipHarnessComponent);
+    fixture.componentInstance.open.set(true);
+    await settle(fixture);
+
+    const content = getByTestId<HTMLElement>(fixture, 'content');
+    content.style.animationName = 'test-tooltip-exit';
+    content.style.animationDuration = '10s';
+    content.style.animationDelay = '0s';
+
+    fixture.componentInstance.open.set(false);
+    fixture.detectChanges();
+
+    expect(content.getAttribute('data-presence')).toBe('exiting');
+    expect(content.getAttribute('aria-hidden')).toBe('true');
+    expect(content.hasAttribute('inert')).toBe(true);
+    expect(content.hasAttribute('hidden')).toBe(false);
+
+    content.dispatchEvent(new Event('animationend', { bubbles: true }));
+    await settle(fixture);
+
+    expect(content.getAttribute('data-presence')).toBe('closed');
+    expect(content.getAttribute('hidden')).toBe('');
   });
 
   it('applies disabled and side hooks', async () => {
@@ -324,7 +364,11 @@ describe('tng-tooltip primitive helpers', () => {
     await settle(fixture);
     expect(content.getAttribute('hidden')).toBeNull();
 
-    const escapeEvent = new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key: 'Escape' });
+    const escapeEvent = new KeyboardEvent('keydown', {
+      bubbles: true,
+      cancelable: true,
+      key: 'Escape',
+    });
     document.dispatchEvent(escapeEvent);
     await settle(fixture);
 
@@ -371,7 +415,11 @@ describe('tng-tooltip primitive helpers', () => {
     expect(contentA.getAttribute('hidden')).toBeNull();
     expect(contentB.getAttribute('hidden')).toBeNull();
 
-    const escapeEvent = new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key: 'Escape' });
+    const escapeEvent = new KeyboardEvent('keydown', {
+      bubbles: true,
+      cancelable: true,
+      key: 'Escape',
+    });
     document.dispatchEvent(escapeEvent);
     await settle(fixture);
 
@@ -399,7 +447,11 @@ describe('tng-tooltip primitive helpers', () => {
     expect(tooltipContent.getAttribute('hidden')).toBeNull();
     expect(popoverPanel.getAttribute('data-state')).toBe('open');
 
-    const escapeEvent = new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key: 'Escape' });
+    const escapeEvent = new KeyboardEvent('keydown', {
+      bubbles: true,
+      cancelable: true,
+      key: 'Escape',
+    });
     document.dispatchEvent(escapeEvent);
     await settle(fixture);
 
@@ -432,10 +484,12 @@ describe('tng-tooltip primitive helpers', () => {
   it('applies CDK positioning with side flipping in root-managed mode', async () => {
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: 360 });
     Object.defineProperty(window, 'innerHeight', { configurable: true, value: 220 });
-    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback: FrameRequestCallback): number => {
-      callback(0);
-      return 1;
-    });
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation(
+      (callback: FrameRequestCallback): number => {
+        callback(0);
+        return 1;
+      },
+    );
 
     const fixture = TestBed.configureTestingModule({
       imports: [TooltipRootHarnessComponent],

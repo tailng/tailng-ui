@@ -7,6 +7,10 @@ describe('toCssVars', () => {
     const cssVars = toCssVars(defaultThemePreset);
 
     expect(cssVars['--tng-color-primary500']).toBe('#2563eb');
+    expect(cssVars['--tng-motion-durationFast']).toBe('120ms');
+    expect(cssVars['--tng-motion-easingExit']).toBe('cubic-bezier(0.4, 0, 1, 1)');
+    expect(cssVars['--tng-motion-distanceSmall']).toBe('0.25rem');
+    expect(cssVars['--tng-motion-scaleSubtle']).toBe('0.98');
     expect(cssVars['--tng-semantic-accent-brand']).toBe('#2563eb');
   });
 

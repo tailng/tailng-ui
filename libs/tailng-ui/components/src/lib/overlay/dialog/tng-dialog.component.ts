@@ -8,15 +8,19 @@ import {
   Injector,
   input,
   output,
+  signal,
   viewChild,
 } from '@angular/core';
 import type { OnDestroy } from '@angular/core';
 import {
   createOverlayScrollLockManager,
+  createCssOverlayPresenceDriver,
+  createOverlayPresenceController,
   createTngIdFactory,
   getGlobalModalIsolationManager,
   type TngOverlayDismissReason,
 } from '@tailng-ui/cdk';
+import type { TngOverlayPresenceState } from '@tailng-ui/cdk';
 import type {
   TngModalIsolationDocument,
   TngModalIsolationElement,
@@ -163,6 +167,7 @@ export class TngDialogComponent implements OnDestroy {
   private readonly documentRef = typeof document === 'undefined' ? null : document;
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly injector = inject(Injector);
+  private readonly backdropRef = viewChild<ElementRef<HTMLElement>>('backdropRef');
   private readonly panelRef = viewChild<ElementRef<HTMLElement>>('panelRef');
   private readonly scrollLock = createOverlayScrollLockManager({
     documentRef: toScrollLockDocument(this.documentRef),
@@ -177,14 +182,30 @@ export class TngDialogComponent implements OnDestroy {
   private isActive = false;
   private isLayerRegistered = false;
   private restoreFocusElement: HTMLElement | null = null;
+  protected readonly rendered = signal(false);
+  protected readonly presenceState = signal<TngOverlayPresenceState>('closed');
+  private readonly presence = createOverlayPresenceController({
+    driver: createCssOverlayPresenceDriver({
+      elements: () => {
+        const elements = [this.backdropRef()?.nativeElement, this.panelRef()?.nativeElement];
+        return elements.filter((element): element is HTMLElement => element !== undefined);
+      },
+      windowRef: this.documentRef?.defaultView ?? null,
+    }),
+    onDismiss: () => this.rendered.set(false),
+    onPresent: () => this.rendered.set(true),
+    onStateChange: (state) => this.presenceState.set(state),
+  });
 
   private readonly openStateEffect = effect((): void => {
     if (this.open()) {
+      this.presence.setOpen(true);
       this.activateDialog();
       return;
     }
 
     this.deactivateDialog();
+    this.presence.setOpen(false);
   });
 
   public constructor() {
@@ -200,6 +221,7 @@ export class TngDialogComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.openStateEffect.destroy();
     this.deactivateDialog();
+    this.presence.destroy();
   }
 
   public onCloseButtonClick(): void {

@@ -271,6 +271,45 @@ describe('tng-menu component', () => {
     expect(menu.parentElement).not.toBe(document.body);
   });
 
+  it('keeps an exiting menu portalled and inert until its animation completes', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [PositionedHostComponent],
+    }).createComponent(PositionedHostComponent);
+    fixture.detectChanges();
+
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-testid="trigger"]',
+    ) as HTMLButtonElement;
+    const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
+    mockOverlayRects(trigger, menu);
+
+    trigger.click();
+    fixture.detectChanges();
+    await waitForPositioningFrame();
+    fixture.detectChanges();
+    menu.style.animationName = 'test-menu-exit';
+    menu.style.animationDuration = '10s';
+    menu.style.animationDelay = '0s';
+
+    trigger.click();
+    fixture.detectChanges();
+
+    expect(menu.getAttribute('data-state')).toBe('closed');
+    expect(menu.getAttribute('data-presence')).toBe('exiting');
+    expect(menu.parentElement).toBe(document.body);
+    expect(menu.getAttribute('aria-hidden')).toBe('true');
+    expect(menu.hasAttribute('inert')).toBe(true);
+    expect(menu.hasAttribute('hidden')).toBe(false);
+
+    menu.dispatchEvent(new Event('animationend', { bubbles: true }));
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(menu.getAttribute('data-presence')).toBe('closed');
+    expect(menu.getAttribute('hidden')).toBe('');
+    expect(menu.parentElement).not.toBe(document.body);
+  });
+
   it('keeps the menu open and repositions on window scroll by default', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [PositionedHostComponent],

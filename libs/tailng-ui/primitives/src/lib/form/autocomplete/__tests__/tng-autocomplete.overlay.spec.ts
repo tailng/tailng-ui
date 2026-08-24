@@ -477,6 +477,40 @@ describe('tng-autocomplete.overlay', () => {
       expect(overlay).toBeTruthy();
       expect(overlay?.getAttribute('hidden')).toBe('');
     });
+
+    it('keeps the portalled panel inert until an exit animation completes', async () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [HostComponent],
+      }).createComponent(HostComponent);
+      fixture.detectChanges();
+
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]',
+      ) as HTMLInputElement;
+      await openAutocomplete(fixture, trigger);
+
+      const overlay = findOverlay();
+      expect(overlay).not.toBeNull();
+      overlay!.style.animationName = 'test-autocomplete-exit';
+      overlay!.style.animationDuration = '10s';
+      overlay!.style.animationDelay = '0s';
+
+      fixture.componentInstance.open.set(false);
+      fixture.detectChanges();
+
+      expect(overlay?.parentNode).toBe(document.body);
+      expect(overlay?.getAttribute('data-presence')).toBe('exiting');
+      expect(overlay?.getAttribute('aria-hidden')).toBe('true');
+      expect(overlay?.hasAttribute('inert')).toBe(true);
+
+      overlay?.dispatchEvent(new Event('animationend', { bubbles: true }));
+      await Promise.resolve();
+      fixture.detectChanges();
+
+      expect(overlay?.parentNode).not.toBe(document.body);
+      expect(overlay?.getAttribute('data-presence')).toBe('closed');
+      expect(overlay?.getAttribute('hidden')).toBe('');
+    });
   });
 
   describe('Min-width equals trigger width', () => {

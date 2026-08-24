@@ -204,6 +204,43 @@ describe('tng-dialog component behavior', () => {
     expect(findPanel(fixture)).toBeNull();
   });
 
+  it('keeps the backdrop and panel inert until both exit animations complete', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ManagedDialogHostComponent],
+    }).createComponent(ManagedDialogHostComponent);
+    fixture.componentInstance.open.set(true);
+    await settle(fixture);
+
+    const backdrop = findBackdrop(fixture);
+    const panel = findPanel(fixture);
+    expect(backdrop).not.toBeNull();
+    expect(panel).not.toBeNull();
+    for (const element of [backdrop!, panel!]) {
+      element.style.animationName = 'test-dialog-exit';
+      element.style.animationDuration = '10s';
+      element.style.animationDelay = '0s';
+    }
+
+    fixture.componentInstance.open.set(false);
+    fixture.detectChanges();
+
+    expect(findBackdrop(fixture)).toBe(backdrop);
+    expect(findPanel(fixture)).toBe(panel);
+    expect(backdrop?.getAttribute('data-presence')).toBe('exiting');
+    expect(panel?.getAttribute('data-presence')).toBe('exiting');
+    expect(backdrop?.getAttribute('aria-hidden')).toBe('true');
+    expect(panel?.hasAttribute('inert')).toBe(true);
+
+    backdrop?.dispatchEvent(new Event('animationend', { bubbles: true }));
+    fixture.detectChanges();
+    expect(findPanel(fixture)).toBe(panel);
+
+    panel?.dispatchEvent(new Event('animationend', { bubbles: true }));
+    await settle(fixture);
+    expect(findBackdrop(fixture)).toBeNull();
+    expect(findPanel(fixture)).toBeNull();
+  });
+
   it('Escape closes and restores focus to trigger when enabled', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [ManagedDialogHostComponent],

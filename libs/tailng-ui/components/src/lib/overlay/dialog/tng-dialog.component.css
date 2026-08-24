@@ -13,11 +13,25 @@
   z-index: 70;
 }
 
+.tng-dialog-backdrop[data-presence='entering'] {
+  animation: tng-dialog-backdrop-enter
+    var(--tng-dialog-enter-duration, var(--tng-overlay-enter-duration, 180ms))
+    var(--tng-dialog-enter-easing, var(--tng-overlay-enter-easing, cubic-bezier(0.2, 0, 0, 1))) both;
+}
+
+.tng-dialog-backdrop[data-presence='exiting'] {
+  animation: tng-dialog-backdrop-exit
+    var(--tng-dialog-exit-duration, var(--tng-overlay-exit-duration, 120ms))
+    var(--tng-dialog-exit-easing, var(--tng-overlay-exit-easing, cubic-bezier(0.4, 0, 1, 1))) both;
+  pointer-events: none;
+}
+
 .tng-dialog-panel {
   background: var(--tng-semantic-background-surface);
   border: 1px solid var(--tng-semantic-border-strong);
   border-radius: var(--tng-dialog-radius, var(--tng-radius-surface, 1rem));
-  box-shadow: 0 20px 45px color-mix(in srgb, var(--tng-semantic-foreground-primary) 35%, transparent);
+  box-shadow: 0 20px 45px
+    color-mix(in srgb, var(--tng-semantic-foreground-primary) 35%, transparent);
   color: var(--tng-semantic-foreground-primary);
   display: grid;
   gap: 1rem;
@@ -25,6 +39,19 @@
   max-height: calc(100vh - 2rem);
   overflow: auto;
   width: min(92vw, var(--tng-dialog-width, 34rem));
+}
+
+.tng-dialog-panel[data-presence='entering'] {
+  animation: tng-dialog-panel-enter
+    var(--tng-dialog-enter-duration, var(--tng-overlay-enter-duration, 180ms))
+    var(--tng-dialog-enter-easing, var(--tng-overlay-enter-easing, cubic-bezier(0.2, 0, 0, 1))) both;
+}
+
+.tng-dialog-panel[data-presence='exiting'] {
+  animation: tng-dialog-panel-exit
+    var(--tng-dialog-exit-duration, var(--tng-overlay-exit-duration, 120ms))
+    var(--tng-dialog-exit-easing, var(--tng-overlay-exit-easing, cubic-bezier(0.4, 0, 1, 1))) both;
+  pointer-events: none;
 }
 
 .tng-dialog-header {
@@ -72,7 +99,10 @@
 }
 
 .tng-dialog-close:focus-visible {
-  box-shadow: var(--tng-dialog-focus-ring, var(--tng-focus-ring, 0 0 0 3px var(--tng-semantic-focus-ring)));
+  box-shadow: var(
+    --tng-dialog-focus-ring,
+    var(--tng-focus-ring, 0 0 0 3px var(--tng-semantic-focus-ring))
+  );
   outline: none;
 }
 
@@ -80,4 +110,55 @@
   display: grid;
   gap: 1rem;
   padding: 0 1.2rem 1.2rem;
+}
+
+@keyframes tng-dialog-backdrop-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes tng-dialog-backdrop-exit {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes tng-dialog-panel-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, var(--tng-dialog-motion-distance, 0.5rem), 0)
+      scale(var(--tng-dialog-scale-from, 0.97));
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes tng-dialog-panel-exit {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, var(--tng-dialog-motion-distance, 0.5rem), 0)
+      scale(var(--tng-dialog-scale-from, 0.97));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tng-dialog-backdrop[data-presence],
+  .tng-dialog-panel[data-presence] {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
 }

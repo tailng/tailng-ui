@@ -1,7 +1,4 @@
-import type {
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import type { OnDestroy, OnInit } from '@angular/core';
 import {
   Directive,
   ElementRef,
@@ -16,10 +13,13 @@ import {
 } from '@angular/core';
 import {
   computeOverlayPosition,
+  createCssOverlayPresenceDriver,
   createOverlayOpenCloseDelayController,
+  createOverlayPresenceController,
   createTngIdFactory,
   normalizeOverlayOpenCloseDelay,
   type TngOverlayRect,
+  type TngOverlayPresenceState,
 } from '@tailng-ui/cdk';
 import type { TngOverlayDismissReason } from '@tailng-ui/cdk/overlay';
 import { tngPrimitiveOverlayRuntime } from '../tng-overlay-runtime';
@@ -150,7 +150,6 @@ export class TngTooltip implements OnDestroy, OnInit {
     }
 
     if (!this.isOpen()) {
-      this.resetPosition();
       this.positionedSide.set(this.side());
       this.teardownRepositionListeners();
       return;
@@ -249,6 +248,10 @@ export class TngTooltip implements OnDestroy, OnInit {
     return this.positionY();
   }
 
+  public completeContentExit(): void {
+    this.resetPosition();
+  }
+
   public registerContent(content: HTMLElement, id: string | null): void {
     this.contentElement = content;
     this.contentId = id;
@@ -333,7 +336,12 @@ export class TngTooltip implements OnDestroy, OnInit {
   }
 
   private reposition(): void {
-    if (!this.isOpen() || this.win === null || this.triggerElement === null || this.contentElement === null) {
+    if (
+      !this.isOpen() ||
+      this.win === null ||
+      this.triggerElement === null ||
+      this.contentElement === null
+    ) {
       return;
     }
 
@@ -383,9 +391,6 @@ export class TngTooltip implements OnDestroy, OnInit {
 
     if (!this.isControlled()) {
       this.uncontrolledOpen.set(nextOpen);
-    }
-    if (!nextOpen) {
-      this.resetPosition();
     }
     if (nextOpen) {
       this.scheduleReposition();
@@ -441,7 +446,11 @@ export class TngTooltip implements OnDestroy, OnInit {
   }
 
   private setupRepositionListeners(): void {
-    if (this.win === null || this.removeResizeListener !== null || this.removeScrollListener !== null) {
+    if (
+      this.win === null ||
+      this.removeResizeListener !== null ||
+      this.removeScrollListener !== null
+    ) {
       return;
     }
 
@@ -583,6 +592,23 @@ export class TngTooltipContent implements OnDestroy, OnInit {
   });
   public readonly side = input<TngTooltipSide>('top');
 
+  private readonly presenceState = signal<TngOverlayPresenceState>('closed');
+  private readonly presence = createOverlayPresenceController({
+    driver: createCssOverlayPresenceDriver({
+      elements: () => [this.hostRef.nativeElement],
+      windowRef: this.hostRef.nativeElement.ownerDocument.defaultView,
+    }),
+    onDismiss: () => this.tooltip?.completeContentExit(),
+    onPresent: () => this.prepareForPresence(),
+    onStateChange: (state) => {
+      this.presenceState.set(state);
+      this.applyPresenceState(state);
+    },
+  });
+  private readonly syncPresence = effect(() => {
+    this.presence.setOpen(this.tooltip?.isOpen() ?? this.open());
+  });
+
   @HostBinding('attr.data-side')
   protected get dataSideAttr(): TngTooltipSide {
     if (this.tooltip !== null) {
@@ -606,11 +632,25 @@ export class TngTooltipContent implements OnDestroy, OnInit {
 
   @HostBinding('attr.hidden')
   protected get hiddenAttr(): '' | null {
-    if (this.tooltip !== null) {
-      return resolveTngTooltipHidden(this.tooltip.isOpen());
-    }
+    return this.presenceState() === 'closed' ? '' : null;
+  }
 
-    return resolveTngTooltipHidden(this.open());
+  @HostBinding('attr.data-presence')
+  protected get dataPresenceAttr(): TngOverlayPresenceState {
+    return this.presenceState();
+  }
+
+  @HostBinding('attr.data-tng-overlay-motion')
+  protected readonly overlayMotionAttr = '';
+
+  @HostBinding('attr.aria-hidden')
+  protected get ariaHiddenAttr(): 'true' | null {
+    return this.presenceState() === 'exiting' ? 'true' : null;
+  }
+
+  @HostBinding('attr.inert')
+  protected get inertAttr(): '' | null {
+    return this.presenceState() === 'exiting' ? '' : null;
   }
 
   @HostBinding('attr.id')
@@ -650,7 +690,35 @@ export class TngTooltipContent implements OnDestroy, OnInit {
   }
 
   public ngOnDestroy(): void {
+    this.syncPresence.destroy();
+    this.presence.destroy();
     this.tooltip?.unregisterContent(this.hostRef.nativeElement);
+  }
+
+  private prepareForPresence(): void {
+    const content = this.hostRef.nativeElement;
+    content.removeAttribute('hidden');
+    content.style.removeProperty('display');
+  }
+
+  private applyPresenceState(state: TngOverlayPresenceState): void {
+    const content = this.hostRef.nativeElement;
+    content.setAttribute('data-presence', state);
+    content.setAttribute('data-tng-overlay-motion', '');
+
+    if (state === 'closed') {
+      content.setAttribute('hidden', '');
+    } else {
+      content.removeAttribute('hidden');
+    }
+
+    if (state === 'exiting') {
+      content.setAttribute('aria-hidden', 'true');
+      content.setAttribute('inert', '');
+    } else {
+      content.removeAttribute('aria-hidden');
+      content.removeAttribute('inert');
+    }
   }
 
   private resolveContentId(value: string | null): string {

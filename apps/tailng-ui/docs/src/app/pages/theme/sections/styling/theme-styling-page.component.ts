@@ -35,7 +35,7 @@ const PRIMITIVE_COLLECTIONS: readonly ThemeCollectionCard[] = [
   {
     label: 'motion',
     summary: 'Transition durations and motion utilities shared by wrappers and utilities.',
-    examples: ['durationFast', 'durationBase', 'durationSlow'],
+    examples: ['durationFast', 'durationNormal', 'durationSlow', 'easingExit'],
   },
 ] as const;
 
@@ -67,10 +67,7 @@ const SEMANTIC_COLLECTIONS: readonly ThemeCollectionCard[] = [
   },
 ] as const;
 
-function buildCssVarBlock(
-  vars: Readonly<Record<string, string>>,
-  keys: readonly string[],
-): string {
+function buildCssVarBlock(vars: Readonly<Record<string, string>>, keys: readonly string[]): string {
   return [':root {', ...keys.map((key) => `  ${key}: ${vars[key]};`), '}', ''].join('\n');
 }
 
@@ -86,7 +83,10 @@ export class ThemeStylingPageComponent implements OnDestroy {
   public readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
   );
-  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(this.documentRef, this.codeBlockTheme);
+  private readonly colorSchemeObserver = observeDocsCodeThemeChanges(
+    this.documentRef,
+    this.codeBlockTheme,
+  );
 
   protected readonly primitiveCollections = PRIMITIVE_COLLECTIONS;
   protected readonly semanticCollections = SEMANTIC_COLLECTIONS;
@@ -109,7 +109,7 @@ export class ThemeStylingPageComponent implements OnDestroy {
     '',
   ].join('\n');
 
-  protected readonly semanticVarsOutputCode = (() => {
+  protected readonly semanticVarsOutputCode = ((): string => {
     const theme = getThemeDocsTheme('default', 'dark');
     const vars = toCssVars(theme, { includePrimitives: false });
 
@@ -131,6 +131,42 @@ export class ThemeStylingPageComponent implements OnDestroy {
 
   protected readonly contractSingleImportCode =
     "@import '@tailng-ui/theme/component-contracts/button.css';";
+
+  protected readonly overlayMotionThemeCode = [
+    "import { createTheme, defaultThemePreset } from '@tailng-ui/theme';",
+    '',
+    'export const calmTheme = createTheme(defaultThemePreset, {',
+    '  tokens: {',
+    '    primitives: {',
+    '      motion: {',
+    "        durationFast: '100ms', // overlay exit",
+    "        durationNormal: '160ms', // overlay enter",
+    "        easingExit: 'cubic-bezier(0.4, 0, 1, 1)',",
+    "        distanceSmall: '0.2rem',",
+    "        scaleSubtle: '0.985',",
+    '      },',
+    '    },',
+    '  },',
+    '});',
+    '',
+  ].join('\n');
+
+  protected readonly overlayMotionCssCode = [
+    ':root {',
+    '  /* Shared overlay-only overrides */',
+    '  --tng-overlay-enter-duration: 160ms;',
+    '  --tng-overlay-exit-duration: 100ms;',
+    '  --tng-overlay-distance: 0.2rem;',
+    '  --tng-overlay-scale-from: 0.985;',
+    '}',
+    '',
+    '.quiet-dialog {',
+    '  /* Component-scoped overrides */',
+    '  --tng-dialog-enter-duration: 220ms;',
+    '  --tng-dialog-exit-duration: 140ms;',
+    '}',
+    '',
+  ].join('\n');
 
   protected readonly tailwindPresetCode = [
     "import type { Config } from 'tailwindcss';",

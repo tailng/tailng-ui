@@ -10,8 +10,17 @@
     {{ label() }}
   </button>
 
-  @if (open()) {
-    <ul role="menu" class="tng-dropdown-menu__panel">
+  @if (rendered()) {
+    <ul
+      #panel
+      role="menu"
+      class="tng-dropdown-menu__panel"
+      data-tng-overlay-motion
+      data-side="bottom"
+      [attr.data-presence]="presenceState()"
+      [attr.aria-hidden]="open() ? null : 'true'"
+      [attr.inert]="open() ? null : ''"
+    >
       <ng-content />
     </ul>
   }

@@ -106,9 +106,10 @@
     /* --- Transitions ---
      * Two speeds: fast for color/bg changes, normal for border/shadow changes.
      */
-    --tng-duration-fast: 120ms;
-    --tng-duration-normal: 150ms;
-    --tng-easing: ease;
+    --tng-duration-fast: var(--tng-motion-durationFast, 120ms);
+    --tng-duration-normal: var(--tng-motion-durationNormal, 180ms);
+    --tng-duration-slow: var(--tng-motion-durationSlow, 280ms);
+    --tng-easing: var(--tng-motion-easingStandard, cubic-bezier(0.2, 0, 0, 1));
 
     --tng-transition-colors:
       background-color var(--tng-duration-fast) var(--tng-easing),

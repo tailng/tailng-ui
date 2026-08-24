@@ -58,6 +58,8 @@ function getRequired<T extends Element>(root: ParentNode, selector: string): T {
         --tng-datepicker-border: #d8e2ef;
         --tng-datepicker-fg: #0f172a;
         --tng-datepicker-brand: #2563eb;
+        --tng-overlay-enter-duration: 333ms;
+        --tng-overlay-exit-duration: 222ms;
         --tng-semantic-background-surface: #f8fafc;
         --tng-semantic-border-subtle: #d8e2ef;
         --tng-semantic-foreground-primary: #0f172a;
@@ -204,6 +206,12 @@ describe('tng-datepicker.overlay', () => {
     expect(mountedOverlay.style.getPropertyValue('--tng-datepicker-nav-size').trim()).toBe(
       '2.8rem',
     );
+    expect(mountedOverlay.style.getPropertyValue('--tng-overlay-enter-duration').trim()).toBe(
+      '333ms',
+    );
+    expect(mountedOverlay.style.getPropertyValue('--tng-overlay-exit-duration').trim()).toBe(
+      '222ms',
+    );
     expect(mountedOverlay.style.colorScheme).toBe('light');
 
     fixture.componentInstance.controller.close();
@@ -214,9 +222,41 @@ describe('tng-datepicker.overlay', () => {
     expect(overlay.style.getPropertyValue('--tng-datepicker-surface').trim()).toBe('');
     expect(overlay.style.getPropertyValue('--tng-datepicker-border').trim()).toBe('');
     expect(overlay.style.getPropertyValue('--tng-datepicker-nav-size').trim()).toBe('');
+    expect(overlay.style.getPropertyValue('--tng-overlay-enter-duration').trim()).toBe('');
     expect(overlay.style.zIndex).toBe('');
     expect(overlay.style.colorScheme).toBe('');
     expect(document.body.style.overflow).toBe('');
+  });
+
+  it('keeps an exiting overlay mounted and inert until its animation completes', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DatepickerOverlayHostComponent],
+    }).createComponent(DatepickerOverlayHostComponent);
+
+    await settle(fixture);
+    getRequired<HTMLButtonElement>(fixture.nativeElement, '[data-testid="trigger"]').click();
+    await settle(fixture);
+
+    const overlay = getRequired<HTMLElement>(document.body, '[data-testid="overlay"]');
+    overlay.style.animationName = 'test-datepicker-exit';
+    overlay.style.animationDuration = '10s';
+    overlay.style.animationDelay = '0s';
+
+    fixture.componentInstance.controller.close();
+    fixture.detectChanges();
+
+    expect(overlay.parentNode).toBe(document.body);
+    expect(overlay.getAttribute('data-presence')).toBe('exiting');
+    expect(overlay.getAttribute('aria-hidden')).toBe('true');
+    expect(overlay.hasAttribute('inert')).toBe(true);
+    expect(overlay.hasAttribute('hidden')).toBe(false);
+
+    overlay.dispatchEvent(new Event('animationend', { bubbles: true }));
+    await settle(fixture);
+
+    expect(overlay.parentNode).toBe(fixture.nativeElement);
+    expect(overlay.getAttribute('data-presence')).toBe('closed');
+    expect(overlay.getAttribute('hidden')).toBe('');
   });
 
   it('flips the overlay above the anchor when there is more available space above', async () => {

@@ -14,7 +14,9 @@
           @for (collection of primitiveCollections; track collection.label) {
             <div class="theme-styling-collection-item">
               <div>
-                <p class="theme-styling-collection-label"><code>{{ collection.label }}</code></p>
+                <p class="theme-styling-collection-label">
+                  <code>{{ collection.label }}</code>
+                </p>
                 <p class="theme-styling-collection-summary">{{ collection.summary }}</p>
               </div>
               <p class="theme-styling-collection-examples">
@@ -31,7 +33,9 @@
           @for (collection of semanticCollections; track collection.label) {
             <div class="theme-styling-collection-item">
               <div>
-                <p class="theme-styling-collection-label"><code>{{ collection.label }}</code></p>
+                <p class="theme-styling-collection-label">
+                  <code>{{ collection.label }}</code>
+                </p>
                 <p class="theme-styling-collection-summary">{{ collection.summary }}</p>
               </div>
               <p class="theme-styling-collection-examples">
@@ -112,6 +116,48 @@
         adapter="shiki"
         language="css"
         title="Single contract"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+      ></tng-code-block>
+    </div>
+  </section>
+
+  <section id="overlay-motion" class="docs-overview-block">
+    <h3>Overlay motion</h3>
+    <p>
+      Date pickers, autocomplete panels, selects, menus, popovers, tooltips, dropdown menus, and
+      dialogs share enter and exit timing from the theme motion scale. Portalled panels copy these
+      values from their themed anchor, so a theme applied to a subtree still follows the panel when
+      it moves to <code>document.body</code>.
+    </p>
+    <p>
+      Change primitive motion tokens to tune the whole theme, shared
+      <code>--tng-overlay-*</code> variables for overlays only, or a component variable such as
+      <code>--tng-dialog-enter-duration</code> for a local exception. Exit motion is
+      non-interactive: content receives <code>aria-hidden</code> and <code>inert</code> while it
+      remains mounted. Under <code>prefers-reduced-motion: reduce</code>, transitions finish
+      immediately.
+    </p>
+
+    <div class="theme-styling-code-grid">
+      <tng-code-block
+        [code]="overlayMotionThemeCode"
+        adapter="shiki"
+        language="ts"
+        title="Theme-wide motion"
+        [theme]="codeBlockTheme()"
+        [lineNumbers]="false"
+        [sanitizeHtml]="false"
+        [wrap]="true"
+      ></tng-code-block>
+
+      <tng-code-block
+        [code]="overlayMotionCssCode"
+        adapter="shiki"
+        language="css"
+        title="Overlay and component overrides"
         [theme]="codeBlockTheme()"
         [lineNumbers]="false"
         [sanitizeHtml]="false"

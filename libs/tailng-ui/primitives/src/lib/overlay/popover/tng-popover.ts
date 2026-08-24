@@ -1,7 +1,4 @@
-import type {
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import type { OnDestroy, OnInit } from '@angular/core';
 import {
   Directive,
   ElementRef,
@@ -18,18 +15,18 @@ import {
 } from '@angular/core';
 import {
   createOverlayFocusHandoffController,
+  createCssOverlayPresenceDriver,
+  createOverlayPresenceController,
   getGlobalElementScrollLockManager,
   getGlobalScrollLockManager,
   resolveFocusableElements,
   resolveTngScrollableAncestors,
   createTngIdFactory,
   type TngOverlayScrollStrategy,
+  type TngOverlayPresenceState,
 } from '@tailng-ui/cdk';
 import type { TngOverlayDismissReason } from '@tailng-ui/cdk/overlay';
-import {
-  isOwnedOverlayTarget,
-  TNG_OVERLAY_LAYER_ID_ATTR,
-} from '../_shared/tng-overlay-ownership';
+import { isOwnedOverlayTarget, TNG_OVERLAY_LAYER_ID_ATTR } from '../_shared/tng-overlay-ownership';
 import { tngPrimitiveOverlayRuntime } from '../tng-overlay-runtime';
 
 const createPopoverId = createTngIdFactory('tng-popover');
@@ -43,7 +40,11 @@ export type TngPopoverSide = 'bottom' | 'left' | 'right' | 'top';
 export type TngPopoverAlign = 'center' | 'end' | 'start';
 export type TngPopoverPanelRole = 'dialog' | 'listbox' | 'menu' | 'none' | 'region';
 export type TngPopoverAriaHasPopup = 'dialog' | 'grid' | 'listbox' | 'menu' | 'tree' | 'true';
-export type TngPopoverCloseReason = 'escape' | 'outside-pointer' | 'programmatic' | 'trigger-toggle';
+export type TngPopoverCloseReason =
+  | 'escape'
+  | 'outside-pointer'
+  | 'programmatic'
+  | 'trigger-toggle';
 
 function normalizeOptionalBooleanInput(value: OptionalBooleanInput): boolean | undefined {
   if (value === null || value === undefined) {
@@ -54,7 +55,12 @@ function normalizeOptionalBooleanInput(value: OptionalBooleanInput): boolean | u
 }
 
 function isPopoverCloseReason(value: string): value is TngPopoverCloseReason {
-  return value === 'escape' || value === 'outside-pointer' || value === 'programmatic' || value === 'trigger-toggle';
+  return (
+    value === 'escape' ||
+    value === 'outside-pointer' ||
+    value === 'programmatic' ||
+    value === 'trigger-toggle'
+  );
 }
 
 function mapOverlayDismissReason(reason: TngOverlayDismissReason): TngPopoverCloseReason {
@@ -126,14 +132,21 @@ export class TngPopover implements OnDestroy, OnInit {
   public readonly restoreFocus = input<boolean, OptionalBooleanInput>(true, {
     transform: booleanAttribute,
   });
-  public readonly autoFocus = input<TngPopoverAutoFocus, string | TngPopoverAutoFocus>('first-focusable', {
-    transform: (value: string | TngPopoverAutoFocus): TngPopoverAutoFocus => {
-      return value === 'none' || value === 'panel' || value === 'first-focusable' ? value : 'first-focusable';
+  public readonly autoFocus = input<TngPopoverAutoFocus, string | TngPopoverAutoFocus>(
+    'first-focusable',
+    {
+      transform: (value: string | TngPopoverAutoFocus): TngPopoverAutoFocus => {
+        return value === 'none' || value === 'panel' || value === 'first-focusable'
+          ? value
+          : 'first-focusable';
+      },
     },
-  });
+  );
   public readonly side = input<TngPopoverSide, string | TngPopoverSide>('bottom', {
     transform: (value: string | TngPopoverSide): TngPopoverSide => {
-      return value === 'top' || value === 'right' || value === 'bottom' || value === 'left' ? value : 'bottom';
+      return value === 'top' || value === 'right' || value === 'bottom' || value === 'left'
+        ? value
+        : 'bottom';
     },
   });
   public readonly align = input<TngPopoverAlign, string | TngPopoverAlign>('start', {
@@ -143,23 +156,30 @@ export class TngPopover implements OnDestroy, OnInit {
   });
   public readonly panelRole = input<TngPopoverPanelRole, string | TngPopoverPanelRole>('dialog', {
     transform: (value: string | TngPopoverPanelRole): TngPopoverPanelRole => {
-      return value === 'dialog' || value === 'menu' || value === 'listbox' || value === 'region' || value === 'none'
+      return value === 'dialog' ||
+        value === 'menu' ||
+        value === 'listbox' ||
+        value === 'region' ||
+        value === 'none'
         ? value
         : 'dialog';
     },
   });
-  public readonly ariaHasPopup = input<TngPopoverAriaHasPopup, string | TngPopoverAriaHasPopup>('dialog', {
-    transform: (value: string | TngPopoverAriaHasPopup): TngPopoverAriaHasPopup => {
-      return value === 'dialog'
-        || value === 'menu'
-        || value === 'listbox'
-        || value === 'tree'
-        || value === 'grid'
-        || value === 'true'
-        ? value
-        : 'dialog';
+  public readonly ariaHasPopup = input<TngPopoverAriaHasPopup, string | TngPopoverAriaHasPopup>(
+    'dialog',
+    {
+      transform: (value: string | TngPopoverAriaHasPopup): TngPopoverAriaHasPopup => {
+        return value === 'dialog' ||
+          value === 'menu' ||
+          value === 'listbox' ||
+          value === 'tree' ||
+          value === 'grid' ||
+          value === 'true'
+          ? value
+          : 'dialog';
+      },
     },
-  });
+  );
   public readonly ariaLabel = input<string | null>(null);
   public readonly scrollStrategy = input<TngOverlayScrollStrategy>('close');
 
@@ -378,7 +398,10 @@ export class TngPopover implements OnDestroy, OnInit {
           return;
         }
 
-        const focusTarget = resolvePopoverMarkedInitialElement(panel) ?? resolvePopoverFocusableElements(panel)[0] ?? panel;
+        const focusTarget =
+          resolvePopoverMarkedInitialElement(panel) ??
+          resolvePopoverFocusableElements(panel)[0] ??
+          panel;
         this.focusElement(focusTarget);
       },
       { injector: this.injector },
@@ -425,7 +448,8 @@ export class TngPopover implements OnDestroy, OnInit {
 
   private activateFocusLayer(): void {
     const activeElement = resolvePopoverActiveElement(this.documentRef);
-    const restoreFocusTargetId = activeElement === null ? null : this.ensureElementId(activeElement);
+    const restoreFocusTargetId =
+      activeElement === null ? null : this.ensureElementId(activeElement);
     popoverFocusHandoff.activateLayer(this.instanceId, restoreFocusTargetId);
   }
 
@@ -481,7 +505,11 @@ export class TngPopover implements OnDestroy, OnInit {
           return true;
         }
 
-        return isOwnedOverlayTarget(target instanceof EventTarget ? target : null, this.instanceId, path);
+        return isOwnedOverlayTarget(
+          target instanceof EventTarget ? target : null,
+          this.instanceId,
+          path,
+        );
       },
       dismissOnEscape: this.shouldCloseFromEscape(),
       dismissOnOutsidePointer: this.shouldCloseFromOutsidePointer(),
@@ -533,7 +561,11 @@ export class TngPopover implements OnDestroy, OnInit {
     }
 
     const onScroll = (event: Event): void => {
-      if (this.panelElement !== null && event.target instanceof Node && this.panelElement.contains(event.target)) {
+      if (
+        this.panelElement !== null &&
+        event.target instanceof Node &&
+        this.panelElement.contains(event.target)
+      ) {
         return;
       }
 
@@ -682,6 +714,21 @@ export class TngPopoverPanel implements OnDestroy, OnInit {
   private readonly popover = inject(TngPopover);
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly generatedId = createPopoverPanelId();
+  private readonly presenceState = signal<TngOverlayPresenceState>('closed');
+  private readonly presence = createOverlayPresenceController({
+    driver: createCssOverlayPresenceDriver({
+      elements: () => [this.hostRef.nativeElement],
+      windowRef: this.hostRef.nativeElement.ownerDocument.defaultView,
+    }),
+    onPresent: () => this.prepareForPresence(),
+    onStateChange: (state) => {
+      this.presenceState.set(state);
+      this.applyPresenceState(state);
+    },
+  });
+  private readonly syncPresence = effect(() => {
+    this.presence.setOpen(this.popover.isOpen());
+  });
   private resolvedId = '';
 
   @HostBinding('attr.data-slot')
@@ -709,7 +756,25 @@ export class TngPopoverPanel implements OnDestroy, OnInit {
 
   @HostBinding('attr.hidden')
   protected get hiddenAttr(): '' | null {
-    return this.popover.isOpen() ? null : '';
+    return this.presenceState() === 'closed' ? '' : null;
+  }
+
+  @HostBinding('attr.data-presence')
+  protected get dataPresenceAttr(): TngOverlayPresenceState {
+    return this.presenceState();
+  }
+
+  @HostBinding('attr.data-tng-overlay-motion')
+  protected readonly overlayMotionAttr = '';
+
+  @HostBinding('attr.aria-hidden')
+  protected get ariaHiddenAttr(): 'true' | null {
+    return this.presenceState() === 'exiting' ? 'true' : null;
+  }
+
+  @HostBinding('attr.inert')
+  protected get inertAttr(): '' | null {
+    return this.presenceState() === 'exiting' ? '' : null;
   }
 
   @HostBinding('attr.id')
@@ -737,12 +802,40 @@ export class TngPopoverPanel implements OnDestroy, OnInit {
   }
 
   public ngOnDestroy(): void {
+    this.syncPresence.destroy();
+    this.presence.destroy();
     this.popover.unregisterPanel(this.hostRef.nativeElement);
   }
 
   @HostListener('focusin', ['$event.target'])
   protected onFocusIn(target: EventTarget | null): void {
     this.popover.recordFocusedElement(target);
+  }
+
+  private prepareForPresence(): void {
+    const panel = this.hostRef.nativeElement;
+    panel.removeAttribute('hidden');
+    panel.style.removeProperty('display');
+  }
+
+  private applyPresenceState(state: TngOverlayPresenceState): void {
+    const panel = this.hostRef.nativeElement;
+    panel.setAttribute('data-presence', state);
+    panel.setAttribute('data-tng-overlay-motion', '');
+
+    if (state === 'closed') {
+      panel.setAttribute('hidden', '');
+    } else {
+      panel.removeAttribute('hidden');
+    }
+
+    if (state === 'exiting') {
+      panel.setAttribute('aria-hidden', 'true');
+      panel.setAttribute('inert', '');
+    } else {
+      panel.removeAttribute('aria-hidden');
+      panel.removeAttribute('inert');
+    }
   }
 }
 

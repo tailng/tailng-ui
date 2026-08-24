@@ -307,6 +307,44 @@ describe('tng-multi-autocomplete overlay mounting', () => {
     expect(overlay.style.minWidth).toBe('');
   });
 
+  it('keeps an exiting overlay portalled and inert until its animation completes', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MultiAutocompleteOverlayHostComponent],
+    }).createComponent(MultiAutocompleteOverlayHostComponent);
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-testid="trigger"]',
+    ) as HTMLInputElement;
+    const overlay = fixture.nativeElement.querySelector('[data-testid="overlay"]') as HTMLElement;
+
+    focus(trigger);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+    overlay.style.animationName = 'test-multi-autocomplete-exit';
+    overlay.style.animationDuration = '10s';
+    overlay.style.animationDelay = '0s';
+
+    host.open.set(false);
+    fixture.detectChanges();
+
+    expect(overlay.parentNode).toBe(document.body);
+    expect(overlay.getAttribute('data-presence')).toBe('exiting');
+    expect(overlay.getAttribute('aria-hidden')).toBe('true');
+    expect(overlay.hasAttribute('inert')).toBe(true);
+    expect(overlay.hasAttribute('hidden')).toBe(false);
+
+    overlay.dispatchEvent(new Event('animationend', { bubbles: true }));
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(overlay.parentNode).not.toBe(document.body);
+    expect(overlay.getAttribute('data-presence')).toBe('closed');
+    expect(overlay.getAttribute('hidden')).toBe('');
+  });
+
   it('closes the overlay after scroll moves the trigger fully out of view', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [StickyHeaderScrollHostComponent],

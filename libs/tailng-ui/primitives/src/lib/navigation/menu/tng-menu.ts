@@ -131,6 +131,7 @@ export class TngMenu {
   private parentMenuItem: TngMenuItem | null = null;
   private openSubmenu: TngMenu | null = null;
   private openState = false;
+  private exitPresenceActive = false;
   private typeaheadBuffer = '';
 
   readonly loop = input<boolean>(true);
@@ -163,7 +164,7 @@ export class TngMenu {
 
   @HostBinding('attr.hidden')
   protected get hidden(): '' | null {
-    return this.openState ? null : '';
+    return this.openState || this.exitPresenceActive ? null : '';
   }
 
   @HostBinding('attr.aria-activedescendant')
@@ -191,6 +192,16 @@ export class TngMenu {
 
   setRestoreFocusOnOutsideClick(restoreFocusOnOutsideClick: boolean): void {
     this.restoreFocusOnOutsideClick = restoreFocusOnOutsideClick;
+  }
+
+  /** Keeps a styled menu renderable while its visual exit transition runs. */
+  setExitPresenceActive(active: boolean): void {
+    if (this.exitPresenceActive === active) {
+      return;
+    }
+
+    this.exitPresenceActive = active;
+    this.changeDetectorRef.markForCheck();
   }
 
   setMenubarArrowHandler(menubarArrowHandler: TngMenubarArrowHandler | null): void {
@@ -433,7 +444,9 @@ export class TngMenu {
   }
 
   private getEnabledMenuItems(): readonly ReadonlyMenuItemElement[] {
-    const items = Array.from(this.hostRef.nativeElement.querySelectorAll<MenuItemElement>('[tngMenuItem]'));
+    const items = Array.from(
+      this.hostRef.nativeElement.querySelectorAll<MenuItemElement>('[tngMenuItem]'),
+    );
     const enabledItems: ReadonlyMenuItemElement[] = [];
 
     for (const item of items) {
@@ -446,7 +459,9 @@ export class TngMenu {
   }
 
   private resolveAdjacentEnabledItemId(referenceItemId: string): string | null {
-    const items = Array.from(this.hostRef.nativeElement.querySelectorAll<MenuItemElement>('[tngMenuItem]'));
+    const items = Array.from(
+      this.hostRef.nativeElement.querySelectorAll<MenuItemElement>('[tngMenuItem]'),
+    );
     if (items.length === 0) {
       return null;
     }
@@ -608,7 +623,8 @@ export class TngMenu {
       // no-op safeguard for submenu instances
     }
 
-    const activeItem = this.activeItemId === null ? null : this.itemsById.get(this.activeItemId) ?? null;
+    const activeItem =
+      this.activeItemId === null ? null : (this.itemsById.get(this.activeItemId) ?? null);
     if (this.openSubmenu !== null && activeItem !== this.openSubmenu.parentMenuItem) {
       this.openSubmenu.close(false);
     }
@@ -652,7 +668,8 @@ export class TngMenu {
     cycleFromActiveItem: boolean,
   ): ReadonlyMenuItemElement | null {
     const currentIndex = items.findIndex((item) => item.id === this.activeItemId);
-    const startIndex = cycleFromActiveItem && currentIndex >= 0 ? (currentIndex + 1) % items.length : 0;
+    const startIndex =
+      cycleFromActiveItem && currentIndex >= 0 ? (currentIndex + 1) % items.length : 0;
 
     for (let offset = 0; offset < items.length; offset += 1) {
       const index = (startIndex + offset) % items.length;
@@ -717,7 +734,11 @@ export class TngMenu {
     }
 
     if (event.key === 'Tab') {
-      if (this.parentMenu === null && this.menubarTabHandler !== null && this.menubarTabHandler(event.shiftKey)) {
+      if (
+        this.parentMenu === null &&
+        this.menubarTabHandler !== null &&
+        this.menubarTabHandler(event.shiftKey)
+      ) {
         event.preventDefault();
         return;
       }
@@ -727,7 +748,8 @@ export class TngMenu {
     }
 
     if (event.key === 'ArrowRight') {
-      const activeItem = this.activeItemId === null ? null : this.itemsById.get(this.activeItemId) ?? null;
+      const activeItem =
+        this.activeItemId === null ? null : (this.itemsById.get(this.activeItemId) ?? null);
       if (activeItem !== null && activeItem.getOwnedSubmenu() !== null) {
         event.preventDefault();
         activeItem.openOwnedSubmenu('first');
@@ -751,7 +773,8 @@ export class TngMenu {
     }
 
     if (event.key === 'Enter' || event.key === ' ') {
-      const activeItem = this.activeItemId === null ? null : this.itemsById.get(this.activeItemId) ?? null;
+      const activeItem =
+        this.activeItemId === null ? null : (this.itemsById.get(this.activeItemId) ?? null);
       if (activeItem !== null) {
         event.preventDefault();
         if (activeItem.getOwnedSubmenu() !== null) {
@@ -1019,7 +1042,12 @@ export class TngMenuItem {
       inert?: boolean;
     };
 
-    return element.hidden || Boolean(element.inert) || element.hasAttribute('hidden') || element.hasAttribute('inert');
+    return (
+      element.hidden ||
+      Boolean(element.inert) ||
+      element.hasAttribute('hidden') ||
+      element.hasAttribute('inert')
+    );
   }
 }
 
@@ -1074,7 +1102,8 @@ export class TngMenuBackdrop {
 })
 export class TngMenuTrigger {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly resolvedId = this.hostRef.nativeElement.getAttribute('id') ?? createMenuTriggerId();
+  private readonly resolvedId =
+    this.hostRef.nativeElement.getAttribute('id') ?? createMenuTriggerId();
   private linkedMenu: TngMenu | null = null;
 
   readonly menu = input<TngMenu | null>(null, {
@@ -1215,7 +1244,11 @@ export class TngMenuTrigger {
       disabled?: boolean;
     };
 
-    return element.disabled || element.hasAttribute('disabled') || element.getAttribute('aria-disabled') === 'true';
+    return (
+      element.disabled ||
+      element.hasAttribute('disabled') ||
+      element.getAttribute('aria-disabled') === 'true'
+    );
   }
 
   private syncMenuLink(): TngMenu | null {

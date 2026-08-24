@@ -45,9 +45,7 @@ function pointerdown(el: HTMLElement, init: Partial<PointerEventInit> = {}): voi
 
       <!-- content stays in place, overlay panel portals -->
       <div tngSelectContent data-testid="content">
-        <div tngSelectOverlay data-testid="overlay">
-          Overlay panel
-        </div>
+        <div tngSelectOverlay data-testid="overlay">Overlay panel</div>
       </div>
     </div>
   `,
@@ -61,8 +59,8 @@ class HostComponent {
   imports: [
     TngSelect,
     TngSelectTrigger,
-    TngSelectOverlay,   // your overlay directive
-    TngSelectContent,   // if your overlay lives inside content
+    TngSelectOverlay, // your overlay directive
+    TngSelectContent, // if your overlay lives inside content
     TngSelectListbox,
     TngSelectOption,
   ],
@@ -79,9 +77,7 @@ class HostComponent {
       </div>
 
       <!-- whichever element owns the overlay directive -->
-      <div tngSelectOverlay data-testid="overlay">
-        Overlay
-      </div>
+      <div tngSelectOverlay data-testid="overlay">Overlay</div>
     </div>
   `,
 })
@@ -105,7 +101,9 @@ describe('tng-select overlay primitive', () => {
   });
 
   it('is mounted in DOM but hidden when closed', () => {
-    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(
+      HostComponent,
+    );
     fixture.detectChanges();
 
     const overlay = fixture.nativeElement.querySelector('[data-testid="overlay"]') as HTMLElement;
@@ -114,39 +112,77 @@ describe('tng-select overlay primitive', () => {
   });
 
   it('portals overlay to body when open and restores under host when closed', () => {
-    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(
+      HostComponent,
+    );
     fixture.detectChanges();
-  
+
     const host = fixture.componentInstance;
     const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
-  
+
     // overlay exists in fixture DOM initially
     const overlay = fixture.nativeElement.querySelector('[data-testid="overlay"]') as HTMLElement;
     expect(overlay).toBeTruthy();
     expect(overlay.parentElement).not.toBe(document.body);
     expect(overlay.hasAttribute('hidden')).toBe(true);
-  
+
     // open
     pointerdown(trigger);
     fixture.detectChanges();
     expect(host.api.open()).toBe(true);
-  
+
     // now it must be portaled (direct child of body)
     expect(overlay.parentElement).toBe(document.body);
     expect(overlay.hasAttribute('hidden')).toBe(false);
-  
+
     // close
     host.open.set(false);
     fixture.detectChanges();
     expect(host.api.open()).toBe(false);
-  
+
     // restored back under fixture host (NOT direct child of body)
     expect(overlay.parentElement).not.toBe(document.body);
     expect(overlay.hasAttribute('hidden')).toBe(true);
   });
 
+  it('keeps an exiting overlay portalled and inert until its animation completes', async () => {
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(
+      HostComponent,
+    );
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
+    const overlay = fixture.nativeElement.querySelector('[data-testid="overlay"]') as HTMLElement;
+
+    pointerdown(trigger);
+    fixture.detectChanges();
+    overlay.style.animationName = 'test-select-exit';
+    overlay.style.animationDuration = '10s';
+    overlay.style.animationDelay = '0s';
+
+    host.open.set(false);
+    fixture.detectChanges();
+
+    expect(overlay.parentNode).toBe(document.body);
+    expect(overlay.getAttribute('data-presence')).toBe('exiting');
+    expect(overlay.getAttribute('aria-hidden')).toBe('true');
+    expect(overlay.hasAttribute('inert')).toBe(true);
+    expect(overlay.hasAttribute('hidden')).toBe(false);
+
+    overlay.dispatchEvent(new Event('animationend', { bubbles: true }));
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(overlay.parentNode).not.toBe(document.body);
+    expect(overlay.getAttribute('data-presence')).toBe('closed');
+    expect(overlay.getAttribute('hidden')).toBe('');
+  });
+
   it('copies host theme vars and anchor width onto the portaled overlay', async () => {
-    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(
+      HostComponent,
+    );
     fixture.detectChanges();
 
     const host = fixture.componentInstance;
@@ -192,7 +228,9 @@ describe('tng-select overlay primitive', () => {
     expect(overlay.style.zIndex).toBe(
       'var(--tng-select-z-overlay, var(--tng-select-overlay-z-index, var(--tng-z-overlay, 2)))',
     );
-    expect(overlay.style.getPropertyValue('--tng-semantic-background-surface').trim()).toBe('#f8fafc');
+    expect(overlay.style.getPropertyValue('--tng-semantic-background-surface').trim()).toBe(
+      '#f8fafc',
+    );
     expect(overlay.style.colorScheme).toBe('light');
     expect(overlay.style.width).toBe('320px');
     expect(overlay.style.minWidth).toBe('320px');
@@ -212,13 +250,17 @@ describe('tng-select overlay primitive', () => {
   });
 
   it('positions overlay relative to trigger - sets inline left/top', async () => {
-    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(
+      HostComponent,
+    );
     fixture.detectChanges();
-  
+
     // IMPORTANT: use data-slot, not data-testid
-    const realTrigger = fixture.nativeElement.querySelector('[data-slot="select-trigger"]') as HTMLElement;
+    const realTrigger = fixture.nativeElement.querySelector(
+      '[data-slot="select-trigger"]',
+    ) as HTMLElement;
     const overlay = fixture.nativeElement.querySelector('[data-testid="overlay"]') as HTMLElement;
-  
+
     vi.spyOn(realTrigger, 'getBoundingClientRect').mockReturnValue({
       left: 100,
       top: 100,
@@ -230,7 +272,7 @@ describe('tng-select overlay primitive', () => {
       y: 100,
       toJSON: () => ({}),
     } as any);
-  
+
     vi.spyOn(overlay, 'getBoundingClientRect').mockReturnValue({
       left: 0,
       top: 0,
@@ -242,20 +284,22 @@ describe('tng-select overlay primitive', () => {
       y: 0,
       toJSON: () => ({}),
     } as any);
-  
+
     pointerdown(realTrigger);
     fixture.detectChanges();
-  
+
     expect(overlay.parentElement).toBe(document.body);
-  
+
     await Promise.resolve(); // flush queueMicrotask
-  
+
     expect(overlay.style.left).toBe('80px');
     expect(overlay.style.top).toBe('130px');
   });
 
   it('closes on outside pointerdown (mode-2)', () => {
-    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(
+      HostComponent,
+    );
     fixture.detectChanges();
 
     const host = fixture.componentInstance;
@@ -266,14 +310,18 @@ describe('tng-select overlay primitive', () => {
     expect(host.api.open()).toBe(true);
 
     // outside click
-    document.body.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, button: 0 }));
+    document.body.dispatchEvent(
+      new PointerEvent('pointerdown', { bubbles: true, cancelable: true, button: 0 }),
+    );
     fixture.detectChanges();
 
     expect(host.api.open()).toBe(false);
   });
 
   it('does NOT close when clicking inside overlay or trigger', () => {
-    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(
+      HostComponent,
+    );
     fixture.detectChanges();
 
     const host = fixture.componentInstance;
@@ -299,77 +347,91 @@ describe('tng-select overlay primitive', () => {
   });
 
   it('outside pointerdown closes when open', () => {
-    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(
+      HostComponent,
+    );
     fixture.detectChanges();
-  
+
     const host = fixture.componentInstance;
     const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
-  
+
     // open
     pointerdown(trigger);
     fixture.detectChanges();
     expect(host.api.open()).toBe(true);
-  
+
     // click outside (body)
     document.body.dispatchEvent(
       new PointerEvent('pointerdown', { bubbles: true, cancelable: true, button: 0 }),
     );
     fixture.detectChanges();
-  
+
     expect(host.api.open()).toBe(false);
   });
-  
+
   it('pointerdown on trigger does not close (treated as inside)', () => {
-    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(
+      HostComponent,
+    );
     fixture.detectChanges();
-  
+
     const host = fixture.componentInstance;
     const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
-  
+
     pointerdown(trigger);
     fixture.detectChanges();
     expect(host.api.open()).toBe(true);
-  
+
     // pointerdown on trigger should not close via outside-interaction
     pointerdown(trigger);
     fixture.detectChanges();
-  
+
     // toggle logic lives in trigger; this assertion depends on your desired behavior:
     // If trigger toggles -> it will close. So we assert: it should not be closed *by outside pointer logic*.
     // Easiest: just ensure it didn't throw and open state is boolean.
     expect(typeof host.api.open()).toBe('boolean');
   });
-  
+
   it('pointerdown inside overlay does not close', async () => {
-    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(
+      HostComponent,
+    );
     fixture.detectChanges();
-  
+
     const host = fixture.componentInstance;
     const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
-  
+
     pointerdown(trigger);
     fixture.detectChanges();
     expect(host.api.open()).toBe(true);
-  
+
     const overlayInBody = document.body.querySelector('[data-testid="overlay"]') as HTMLElement;
     expect(overlayInBody).toBeTruthy();
-  
+
     pointerdown(overlayInBody);
     fixture.detectChanges();
-  
+
     expect(host.api.open()).toBe(true);
   });
 
   it('sets overlay min-width to trigger width when open', async () => {
-    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(
+      HostComponent,
+    );
     fixture.detectChanges();
 
     const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
     const overlay = fixture.nativeElement.querySelector('[data-testid="overlay"]') as HTMLElement;
 
     vi.spyOn(trigger, 'getBoundingClientRect').mockReturnValue({
-      left: 100, top: 100, width: 240, height: 30,
-      right: 340, bottom: 130, x: 100, y: 100,
+      left: 100,
+      top: 100,
+      width: 240,
+      height: 30,
+      right: 340,
+      bottom: 130,
+      x: 100,
+      y: 100,
       toJSON: () => ({}),
     } as any);
 

@@ -7,15 +7,20 @@ import {
   ViewEncapsulation,
   inject,
   input,
+  signal,
 } from '@angular/core';
 import {
   computeOverlayPosition,
+  createCssOverlayPresenceDriver,
+  createOverlayPresenceController,
   createPortalManager,
   createTngIdFactory,
   getGlobalElementScrollLockManager,
   getGlobalScrollLockManager,
   isTngAnchorVisibleInScrollAncestors,
+  PORTALLED_OVERLAY_MOTION_VARS,
   resolveTngScrollableAncestors,
+  type TngOverlayPresenceState,
   type TngOverlayScrollStrategy,
   type TngPortalDocument,
 } from '@tailng-ui/cdk';
@@ -28,6 +33,7 @@ const MAX_FOCUS_SYNC_ATTEMPTS = 4;
 const MENU_Z_INDEX =
   'var(--tng-menu-z-overlay, var(--tng-menu-overlay-z-index, var(--tng-z-overlay, 50)))';
 const PORTALLED_MENU_THEME_VARS = [
+  ...PORTALLED_OVERLAY_MOTION_VARS,
   '--tng-menu-radius',
   '--tng-menu-padding',
   '--tng-menu-item-py',
@@ -156,6 +162,20 @@ export class TngMenuComponent {
   private readonly elementScrollLock = getGlobalElementScrollLockManager({
     documentRef: this.ownerDocument,
   });
+  private readonly presenceState = signal<TngOverlayPresenceState>('closed');
+  private readonly resolvedSide = signal<'bottom' | 'left' | 'right' | 'top'>('bottom');
+  private readonly presence = createOverlayPresenceController({
+    driver: createCssOverlayPresenceDriver({
+      elements: () => [this.hostRef.nativeElement],
+      windowRef: this.ownerWindow,
+    }),
+    onDismiss: () => this.finishDismissal(),
+    onPresent: () => this.prepareForPresence(),
+    onStateChange: (state) => {
+      this.presenceState.set(state);
+      this.applyPresenceState(state);
+    },
+  });
   private lastOpenState = false;
   private focusSyncQueued = false;
   private focusSyncAttempts = 0;
@@ -182,13 +202,38 @@ export class TngMenuComponent {
     return this.ariaLabel();
   }
 
+  @HostBinding('attr.data-presence')
+  protected get dataPresence(): TngOverlayPresenceState {
+    return this.presenceState();
+  }
+
+  @HostBinding('attr.data-side')
+  protected get dataSide(): 'bottom' | 'left' | 'right' | 'top' {
+    return this.resolvedSide();
+  }
+
+  @HostBinding('attr.data-tng-overlay-motion')
+  protected readonly overlayMotion = '';
+
+  @HostBinding('attr.aria-hidden')
+  protected get ariaHidden(): 'true' | null {
+    return this.presenceState() === 'exiting' ? 'true' : null;
+  }
+
+  @HostBinding('attr.inert')
+  protected get inert(): '' | null {
+    return this.presenceState() === 'exiting' ? '' : null;
+  }
+
   public constructor() {
     this.placeholder = this.ownerDocument.createComment('tng-menu-anchor');
     this.captureOriginalLocation();
 
     this.destroyRef.onDestroy(() => {
+      this.presence.destroy();
       this.detachPositioningListeners();
       this.restoreToPlaceholder();
+      this.primitive.setExitPresenceActive(false);
       this.placeholder = null;
       this.originalParent = null;
     });
@@ -212,19 +257,19 @@ export class TngMenuComponent {
   }
 
   private handleClosedState(isOpen: boolean): boolean {
-    if (!this.lastOpenState && isOpen) {
+    if (this.presence.isOpenRequested() !== isOpen && isOpen) {
       this.initialPlacementRetryCount = 0;
       this.setPositioningPending(true);
       this.mountToBody();
       this.attachPositioningListeners();
       this.queuePositioning();
-      return false;
+      this.presence.setOpen(true);
     }
 
-    if (this.lastOpenState && !isOpen) {
+    if (this.presence.isOpenRequested() !== isOpen && !isOpen) {
       this.detachPositioningListeners();
-      this.clearPositioningStyles();
-      this.restoreToPlaceholder();
+      this.setPositioningPending(false);
+      this.presence.setOpen(false);
     }
 
     if (!isOpen) {
@@ -261,7 +306,8 @@ export class TngMenuComponent {
 
     const hasFocusInsideHost = activeElement instanceof Node && host.contains(activeElement);
 
-    const shouldSync = deepestOpenSubmenu !== null ? !hasFocusInDeepestSubmenu : !hasFocusInsideHost;
+    const shouldSync =
+      deepestOpenSubmenu !== null ? !hasFocusInDeepestSubmenu : !hasFocusInsideHost;
 
     return shouldSync && this.focusSyncAttempts < MAX_FOCUS_SYNC_ATTEMPTS;
   }
@@ -350,11 +396,15 @@ export class TngMenuComponent {
     });
   }
 
-  private computePosition(anchor: Rect, overlay: Rect, viewport: Rect): { x: number; y: number } {
+  private computePosition(
+    anchor: Rect,
+    overlay: Rect,
+    viewport: Rect,
+  ): { side: 'bottom' | 'left' | 'right' | 'top'; x: number; y: number } {
     const isSubmenu = this.primitive.getParentMenu() !== null;
     const placement = this.getPlacementConfig(isSubmenu);
 
-    return computeOverlayPosition({
+    const result = computeOverlayPosition({
       anchorRect: anchor,
       overlayRect: overlay,
       viewportRect: viewport,
@@ -362,18 +412,27 @@ export class TngMenuComponent {
       offset: { side: placement.offset, align: 0 },
       collision: { padding: 8, flip: true, shift: true },
     });
+
+    return { side: result.side, x: result.x, y: result.y };
   }
 
-  private getPlacementConfig(
-    isSubmenu: boolean,
-  ): { side: 'bottom' | 'right'; align: 'start' | 'center' | 'end'; offset: number } {
+  private getPlacementConfig(isSubmenu: boolean): {
+    side: 'bottom' | 'right';
+    align: 'start' | 'center' | 'end';
+    offset: number;
+  } {
     if (isSubmenu) {
       return { side: 'right', align: 'start', offset: -4 };
     }
     return { side: 'bottom', align: 'start', offset: 4 };
   }
 
-  private applyPositionStyles(host: HTMLElement, result: { x: number; y: number }): void {
+  private applyPositionStyles(
+    host: HTMLElement,
+    result: { side: 'bottom' | 'left' | 'right' | 'top'; x: number; y: number },
+  ): void {
+    this.resolvedSide.set(result.side);
+    host.setAttribute('data-side', result.side);
     host.style.position = 'fixed';
     host.style.zIndex = MENU_Z_INDEX;
     host.style.margin = '0';
@@ -412,6 +471,41 @@ export class TngMenuComponent {
     host.removeAttribute('data-positioning-state');
   }
 
+  private prepareForPresence(): void {
+    const host = this.hostRef.nativeElement;
+    host.removeAttribute('hidden');
+    host.style.removeProperty('display');
+  }
+
+  private applyPresenceState(state: TngOverlayPresenceState): void {
+    const host = this.hostRef.nativeElement;
+    host.setAttribute('data-presence', state);
+    host.setAttribute('data-tng-overlay-motion', '');
+
+    const exiting = state === 'exiting';
+    this.primitive.setExitPresenceActive(exiting);
+
+    if (state === 'closed') {
+      host.setAttribute('hidden', '');
+    } else {
+      host.removeAttribute('hidden');
+    }
+
+    if (exiting) {
+      host.setAttribute('aria-hidden', 'true');
+      host.setAttribute('inert', '');
+    } else {
+      host.removeAttribute('aria-hidden');
+      host.removeAttribute('inert');
+    }
+  }
+
+  private finishDismissal(): void {
+    this.clearPositioningStyles();
+    this.restoreToPlaceholder();
+    this.resolvedSide.set(this.primitive.getParentMenu() === null ? 'bottom' : 'right');
+  }
+
   private mountToBody(): void {
     const host = this.hostRef.nativeElement;
     const body = this.ownerDocument.body;
@@ -430,8 +524,8 @@ export class TngMenuComponent {
   private captureOriginalLocation(): void {
     const host = this.hostRef.nativeElement;
     if (this.placeholder?.parentNode !== null) {
-  return;
-}
+      return;
+    }
 
     const parent = host.parentNode;
     if (parent === null) {
@@ -544,7 +638,8 @@ export class TngMenuComponent {
 
   private setupResizeListener(schedule: () => void): void {
     this.ownerWindow.addEventListener('resize', schedule);
-    this.removeResizeListener = (): void => this.ownerWindow.removeEventListener('resize', schedule);
+    this.removeResizeListener = (): void =>
+      this.ownerWindow.removeEventListener('resize', schedule);
   }
 
   private setupScrollListener(schedule: () => void): void {
@@ -569,7 +664,8 @@ export class TngMenuComponent {
     };
 
     this.ownerWindow.addEventListener('scroll', onScroll, true);
-    this.removeScrollListener = (): void => this.ownerWindow.removeEventListener('scroll', onScroll, true);
+    this.removeScrollListener = (): void =>
+      this.ownerWindow.removeEventListener('scroll', onScroll, true);
   }
 
   private setupResizeObserver(trigger: HTMLElement | null, schedule: () => void): void {
