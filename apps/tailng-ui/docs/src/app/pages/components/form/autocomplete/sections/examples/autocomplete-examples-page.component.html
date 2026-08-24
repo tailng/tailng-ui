@@ -16,18 +16,18 @@
         >
           <div docsFormDemoField class="docs-autocomplete-country-example__control">
             <tng-autocomplete
-              [options]="filteredCountryPlainOptions()"
-              [value]="countryPlainValue()"
-              (valueChange)="onCountryPlainChange($event)"
-              [query]="countryPlainQuery()"
-              (queryChange)="countryPlainQuery.set($event)"
+              [options]="filteredFormCountryOptions()"
+              [value]="formCountryValue()"
+              (valueChange)="onFormCountryChange($event)"
+              [query]="formCountryQuery()"
+              (queryChange)="formCountryQuery.set($event)"
               [getOptionValue]="getCountryValue"
               [getOptionLabel]="getCountryLabel"
-              placeholder="Type Ind to filter"
+              placeholder="Type a country"
               [ariaLabel]="'Country directory'"
             ></tng-autocomplete>
           </div>
-          <p docsFormDemoSummary>Selected: {{ countryPlainSummary() }}</p>
+          <p docsFormDemoSummary>Selected: {{ formCountrySummary() }}</p>
         </app-docs-form-demo-shell>
       </ng-template>
     </app-docs-example-tabs-section>
@@ -164,7 +164,7 @@
               (queryChange)="countryPlainQuery.set($event)"
               [getOptionValue]="getCountryValue"
               [getOptionLabel]="getCountryLabel"
-              placeholder="Type Ind to filter"
+              placeholder="Type a country"
               [ariaLabel]="'Country directory'"
             ></tng-autocomplete>
           </div>
@@ -200,7 +200,7 @@
               (queryChange)="countryTailwindQuery.set($event)"
               [getOptionValue]="getCountryValue"
               [getOptionLabel]="getCountryLabel"
-              placeholder="Type Ind to filter"
+              placeholder="Type a country"
               [ariaLabel]="'Country directory'"
             ></tng-autocomplete>
           </div>

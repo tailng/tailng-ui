@@ -53,12 +53,17 @@ const FLAG_STYLESHEET_HREF = 'assets/styles/flags.css';
 
 const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
   { code: 'ca', label: 'Canada' },
+  { code: 'dk', label: 'Denmark' },
   { code: 'de', label: 'Germany' },
+  { code: 'is', label: 'Iceland' },
   { code: 'id', label: 'Indonesia' },
   { code: 'in', label: 'India' },
   { code: 'jp', label: 'Japan' },
   { code: 'mx', label: 'Mexico' },
+  { code: 'no', label: 'Norway' },
   { code: 'es', label: 'Spain' },
+  { code: 'se', label: 'Sweden' },
+  { code: 'ch', label: 'Switzerland' },
 ]);
 
 const OWNER_OPTIONS: readonly OwnerOption[] = Object.freeze([
@@ -122,12 +127,17 @@ interface CountryOption {
 
 const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
   { code: 'ca', label: 'Canada' },
+  { code: 'dk', label: 'Denmark' },
   { code: 'de', label: 'Germany' },
+  { code: 'is', label: 'Iceland' },
   { code: 'id', label: 'Indonesia' },
   { code: 'in', label: 'India' },
   { code: 'jp', label: 'Japan' },
   { code: 'mx', label: 'Mexico' },
+  { code: 'no', label: 'Norway' },
   { code: 'es', label: 'Spain' },
+  { code: 'se', label: 'Sweden' },
+  { code: 'ch', label: 'Switzerland' },
 ]);
 
 @Component({
@@ -139,7 +149,7 @@ const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
 })
 export class DocsAutocompleteCountryExamplePlainComponent {
   readonly countries = COUNTRY_OPTIONS;
-  readonly selectedCountry = signal<string | null>('in');
+  readonly selectedCountry = signal<string | null>('no');
   readonly countryQuery = signal('');
   readonly filteredCountries = computed(() =>
     this.countries.filter((country) =>
@@ -175,7 +185,7 @@ const COUNTRY_PLAIN_HTML_CODE = String.raw`<section class="docs-autocomplete-cou
       (queryChange)="countryQuery.set($event)"
       [getOptionValue]="getCountryValue"
       [getOptionLabel]="getCountryLabel"
-      placeholder="Type Ind to filter"
+      placeholder="Type a country"
       [ariaLabel]="'Country directory'"
     ></tng-autocomplete>
   </div>
@@ -236,12 +246,17 @@ interface CountryOption {
 
 const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
   { code: 'ca', label: 'Canada' },
+  { code: 'dk', label: 'Denmark' },
   { code: 'de', label: 'Germany' },
+  { code: 'is', label: 'Iceland' },
   { code: 'id', label: 'Indonesia' },
   { code: 'in', label: 'India' },
   { code: 'jp', label: 'Japan' },
   { code: 'mx', label: 'Mexico' },
+  { code: 'no', label: 'Norway' },
   { code: 'es', label: 'Spain' },
+  { code: 'se', label: 'Sweden' },
+  { code: 'ch', label: 'Switzerland' },
 ]);
 
 @Component({
@@ -253,7 +268,7 @@ const COUNTRY_OPTIONS: readonly CountryOption[] = Object.freeze([
 })
 export class DocsAutocompleteCountryExampleTailwindComponent {
   readonly countries = COUNTRY_OPTIONS;
-  readonly selectedCountry = signal<string | null>('jp');
+  readonly selectedCountry = signal<string | null>('ch');
   readonly countryQuery = signal('');
   readonly filteredCountries = computed(() =>
     this.countries.filter((country) =>
@@ -289,7 +304,7 @@ const COUNTRY_TAILWIND_HTML_CODE = String.raw`<section class="mx-auto grid max-w
       (queryChange)="countryQuery.set($event)"
       [getOptionValue]="getCountryValue"
       [getOptionLabel]="getCountryLabel"
-      placeholder="Type Ind to filter"
+      placeholder="Type a country"
       [ariaLabel]="'Country directory'"
     ></tng-autocomplete>
   </div>
@@ -559,23 +574,25 @@ export class AutocompleteExamplesPageComponent implements OnDestroy {
   protected readonly getSignalFormCurrencyValue = (currency: CurrencyOption): string => currency.code;
   protected readonly getSignalFormCurrencyLabel = (currency: CurrencyOption): string => currency.label;
 
-  protected readonly countryPlainValue = signal<string | null>('in');
-  protected readonly countryTailwindValue = signal<string | null>('jp');
+  protected readonly formCountryValue = signal<string | null>('jp');
+  protected readonly countryPlainValue = signal<string | null>('no');
+  protected readonly countryTailwindValue = signal<string | null>('ch');
   protected readonly ownerPlainValue = signal<string | null>('abigail');
   protected readonly ownerTailwindValue = signal<string | null>('mina');
+  protected readonly formCountryQuery = signal('');
   protected readonly countryPlainQuery = signal('');
   protected readonly countryTailwindQuery = signal('');
   protected readonly ownerPlainQuery = signal('');
   protected readonly ownerTailwindQuery = signal('');
   protected readonly programmaticInputQuery = signal('');
   protected readonly programmaticAutocompleteQuery = signal('');
-  protected readonly programmaticCountryValue = signal<string | null>(null);
+  protected readonly programmaticCountryValue = signal<string | null>('dk');
   protected readonly programmaticAutocompleteOpen = signal(false);
   protected readonly signalFormCountryQuery = signal('');
   protected readonly signalFormCurrencyQuery = signal('');
   protected readonly signalFormData = signal<AutocompleteSignalFormData>({
-    country: 'in',
-    currency: 'inr',
+    country: 'is',
+    currency: 'isk',
   });
   protected readonly signalForm = form(this.signalFormData);
   protected readonly signalFormSubmitted = signal(false);
@@ -585,10 +602,16 @@ export class AutocompleteExamplesPageComponent implements OnDestroy {
     ensureFlagStylesheet(this.documentRef);
   }
 
+  protected readonly formCountrySummary = computed(() =>
+    resolveCountryLabel(this.formCountryValue()),
+  );
   protected readonly countryPlainSummary = computed(() => resolveCountryLabel(this.countryPlainValue()));
   protected readonly countryTailwindSummary = computed(() => resolveCountryLabel(this.countryTailwindValue()));
   protected readonly ownerPlainSummary = computed(() => resolveOwnerLabel(this.ownerPlainValue()));
   protected readonly ownerTailwindSummary = computed(() => resolveOwnerLabel(this.ownerTailwindValue()));
+  protected readonly filteredFormCountryOptions = computed(() =>
+    filterOptions(this.countries, this.formCountryQuery(), this.getCountryLabel),
+  );
   protected readonly filteredCountryPlainOptions = computed(() =>
     filterOptions(this.countries, this.countryPlainQuery(), this.getCountryLabel),
   );
@@ -651,6 +674,10 @@ export class AutocompleteExamplesPageComponent implements OnDestroy {
 
   protected onCountryPlainChange(value: unknown): void {
     this.countryPlainValue.set(typeof value === 'string' ? value : null);
+  }
+
+  protected onFormCountryChange(value: unknown): void {
+    this.formCountryValue.set(typeof value === 'string' ? value : null);
   }
 
   protected onCountryTailwindChange(value: unknown): void {
