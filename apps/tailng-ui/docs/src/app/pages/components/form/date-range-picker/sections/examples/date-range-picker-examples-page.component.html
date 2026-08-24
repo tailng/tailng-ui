@@ -104,6 +104,115 @@
 
   <section class="date-range-picker-examples-block">
     <app-docs-example-tabs-section
+      heading="Popup width"
+      description="Set a minimum and maximum popup width while keeping the popup's inline end aligned to the complete input-and-icon shell."
+      ariaLabel="Date Range Picker popup width examples"
+      tabListAriaLabel="Date Range Picker popup width example styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Popup width (Plain-CSS)"
+        [codeTabs]="popupPlainCodeTabs"
+      >
+        <div class="date-range-picker-popup-width-examples">
+          <div class="date-range-picker-example-preview">
+            <h3 class="date-range-picker-popup-width-title">Minimum width</h3>
+            <div
+              class="date-range-picker-popup-width-example date-range-picker-popup-width-example--min"
+            >
+              <tng-date-range-picker
+                [defaultValue]="{ start: '2024-04-22', end: '2024-04-26' }"
+                [fullWidth]="true"
+                [overlayMinSize]="288"
+                [overlaySize]="320"
+                ariaLabel="Minimum-width date range picker"
+              ></tng-date-range-picker>
+            </div>
+            <p class="date-range-picker-example-note">
+              Open the 14rem input. The popup grows to its 18rem minimum and expands toward the
+              inline start, leaving its end edge aligned with the input and icon.
+            </p>
+          </div>
+
+          <div class="date-range-picker-example-preview">
+            <h3 class="date-range-picker-popup-width-title">Maximum width</h3>
+            <div
+              class="date-range-picker-popup-width-example date-range-picker-popup-width-example--max"
+            >
+              <tng-date-range-picker
+                [defaultValue]="{ start: '2024-04-22', end: '2024-04-26' }"
+                [fullWidth]="true"
+                [overlayMinSize]="288"
+                [overlaySize]="320"
+                ariaLabel="Maximum-width date range picker"
+              ></tng-date-range-picker>
+            </div>
+            <p class="date-range-picker-example-note">
+              Open the 28rem input. The popup stops at its 20rem maximum and remains aligned to the
+              input shell's end edge.
+            </p>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Popup width (Tailwind CSS)"
+        [codeTabs]="popupTailwindCodeTabs"
+      >
+        <div class="grid w-full gap-6">
+          <div class="grid justify-items-start gap-3">
+            <h3 class="m-0 text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]">
+              Minimum width
+            </h3>
+            <div class="w-full max-w-[14rem]">
+              <tng-date-range-picker
+                [defaultValue]="{ start: '2024-04-22', end: '2024-04-26' }"
+                [fullWidth]="true"
+                [overlayMinSize]="288"
+                [overlaySize]="320"
+                ariaLabel="Minimum-width date range picker"
+              ></tng-date-range-picker>
+            </div>
+            <p
+              class="m-0 max-w-[34rem] leading-relaxed text-[var(--tng-semantic-foreground-secondary)]"
+            >
+              Open the 14rem input. The popup grows to its 18rem minimum and stays end-aligned.
+            </p>
+          </div>
+
+          <div class="grid justify-items-start gap-3">
+            <h3 class="m-0 text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]">
+              Maximum width
+            </h3>
+            <div class="w-full max-w-[28rem]">
+              <tng-date-range-picker
+                [defaultValue]="{ start: '2024-04-22', end: '2024-04-26' }"
+                [fullWidth]="true"
+                [overlayMinSize]="288"
+                [overlaySize]="320"
+                ariaLabel="Maximum-width date range picker"
+              ></tng-date-range-picker>
+            </div>
+            <p
+              class="m-0 max-w-[34rem] leading-relaxed text-[var(--tng-semantic-foreground-secondary)]"
+            >
+              Open the 28rem input. The popup stops at its 20rem maximum and stays end-aligned.
+            </p>
+          </div>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="date-range-picker-examples-block">
+    <app-docs-example-tabs-section
       heading="Custom format"
       description="Adapter-driven formatting changes the input text and period label without changing the calendar behavior."
       ariaLabel="Custom format date range picker variants"

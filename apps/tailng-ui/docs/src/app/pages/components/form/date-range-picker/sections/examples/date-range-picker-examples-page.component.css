@@ -38,6 +38,31 @@
   max-inline-size: 18.5rem;
 }
 
+.date-range-picker-popup-width-examples {
+  display: grid;
+  gap: 1.5rem;
+  inline-size: 100%;
+}
+
+.date-range-picker-popup-width-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.date-range-picker-popup-width-example {
+  display: block;
+}
+
+.date-range-picker-popup-width-example--min {
+  inline-size: min(100%, 14rem);
+}
+
+.date-range-picker-popup-width-example--max {
+  inline-size: min(100%, 28rem);
+}
+
 .date-range-picker-headless-field {
   display: grid;
   gap: 0.25rem;

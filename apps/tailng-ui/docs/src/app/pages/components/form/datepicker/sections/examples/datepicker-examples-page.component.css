@@ -38,6 +38,31 @@
   max-inline-size: 18.5rem;
 }
 
+.datepicker-popup-width-examples {
+  display: grid;
+  gap: 1.5rem;
+  inline-size: 100%;
+}
+
+.datepicker-popup-width-title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.datepicker-popup-width-example {
+  display: block;
+}
+
+.datepicker-popup-width-example--min {
+  inline-size: min(100%, 14rem);
+}
+
+.datepicker-popup-width-example--max {
+  inline-size: min(100%, 28rem);
+}
+
 .datepicker-headless-field {
   display: grid;
   gap: 0.25rem;
