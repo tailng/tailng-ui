@@ -5,6 +5,7 @@ import {
   type TngScrollLockStyle,
   type TngScrollLockManager,
   type TngScrollLockOptions,
+  type TngScrollPosition,
 } from './scroll-lock.types';
 
 type TngBodySnapshot = Readonly<{
@@ -12,17 +13,41 @@ type TngBodySnapshot = Readonly<{
   paddingRight: string | null;
 }>;
 
+type TngRootSnapshot = Readonly<{
+  bodyScrollBehavior: string | null;
+  left: string | null;
+  overflowY: string | null;
+  position: string | null;
+  rootScrollBehavior: string | null;
+  scrollPosition: TngScrollPosition;
+  top: string | null;
+  width: string | null;
+}>;
+
+type TngDocumentLockSnapshot =
+  | Readonly<{ mode: 'body'; styles: TngBodySnapshot }>
+  | Readonly<{ mode: 'root'; styles: TngRootSnapshot }>;
+
+function readStyleValue(style: TngScrollLockStyle, key: keyof TngScrollLockStyle): string | null {
+  return style[key] ?? null;
+}
+
 class ScrollLockManager implements TngScrollLockManager {
   private readonly documentRef: TngScrollLockDocument | null;
   private readonly getScrollbarWidth: () => number;
+  private readonly getScrollPosition: () => TngScrollPosition;
+  private readonly restoreScrollPosition: (position: TngScrollPosition) => void;
   private readonly lockIds = new Set<string>();
   private readonly enabled: boolean;
-  private initialBodySnapshot: TngBodySnapshot | null = null;
+  private initialSnapshot: TngDocumentLockSnapshot | null = null;
 
   public constructor(options: Readonly<TngScrollLockOptions>) {
     this.documentRef = options.documentRef ?? null;
     this.enabled = this.documentRef !== null;
-    this.getScrollbarWidth = options.getScrollbarWidth ?? (() : number => 0);
+    this.getScrollbarWidth = options.getScrollbarWidth ?? ((): number => 0);
+    this.getScrollPosition = options.getScrollPosition ?? (() => this.readScrollPosition());
+    this.restoreScrollPosition =
+      options.restoreScrollPosition ?? ((position) => this.restoreWindowScrollPosition(position));
   }
 
   public acquire(lockId: string): void {
@@ -65,14 +90,48 @@ class ScrollLockManager implements TngScrollLockManager {
   }
 
   private applyLockStyles(): void {
-    const style = this.getBodyStyle();
-    if (style === null || !this.enabled) {
+    if (!this.enabled) {
       return;
     }
 
-    this.initialBodySnapshot = {
-      overflow: style.overflow ?? null,
-      paddingRight: style.paddingRight ?? null,
+    const rootStyle = this.getRootStyle();
+    if (rootStyle !== null && this.hasScrollableViewport()) {
+      const bodyStyle = this.getBodyStyle();
+      const scrollPosition = this.getScrollPosition();
+      this.initialSnapshot = {
+        mode: 'root',
+        styles: {
+          bodyScrollBehavior:
+            bodyStyle === null ? null : readStyleValue(bodyStyle, 'scrollBehavior'),
+          left: readStyleValue(rootStyle, 'left'),
+          overflowY: readStyleValue(rootStyle, 'overflowY'),
+          position: readStyleValue(rootStyle, 'position'),
+          rootScrollBehavior: readStyleValue(rootStyle, 'scrollBehavior'),
+          scrollPosition,
+          top: readStyleValue(rootStyle, 'top'),
+          width: readStyleValue(rootStyle, 'width'),
+        },
+      };
+
+      rootStyle.left = `${-scrollPosition.left}px`;
+      rootStyle.top = `${-scrollPosition.top}px`;
+      rootStyle.position = 'fixed';
+      rootStyle.width = '100%';
+      rootStyle.overflowY = 'scroll';
+      return;
+    }
+
+    const style = this.getBodyStyle();
+    if (style === null || rootStyle !== null) {
+      return;
+    }
+
+    this.initialSnapshot = {
+      mode: 'body',
+      styles: {
+        overflow: readStyleValue(style, 'overflow'),
+        paddingRight: readStyleValue(style, 'paddingRight'),
+      },
     };
     style.overflow = 'hidden';
     const scrollbarWidth = this.getScrollbarWidth();
@@ -82,13 +141,45 @@ class ScrollLockManager implements TngScrollLockManager {
   }
 
   private restoreLockStyles(): void {
-    if (!this.enabled || this.initialBodySnapshot === null) {
+    const snapshot = this.initialSnapshot;
+    if (!this.enabled || snapshot === null) {
       return;
     }
 
-    this.restoreStyleValue('overflow', this.initialBodySnapshot.overflow);
-    this.restoreStyleValue('paddingRight', this.initialBodySnapshot.paddingRight);
-    this.initialBodySnapshot = null;
+    this.initialSnapshot = null;
+
+    if (snapshot.mode === 'body') {
+      const bodyStyle = this.getBodyStyle();
+      if (bodyStyle === null) {
+        return;
+      }
+
+      this.restoreStyleValue(bodyStyle, 'overflow', snapshot.styles.overflow);
+      this.restoreStyleValue(bodyStyle, 'paddingRight', snapshot.styles.paddingRight);
+      return;
+    }
+
+    const rootStyle = this.getRootStyle();
+    if (rootStyle === null) {
+      return;
+    }
+
+    const bodyStyle = this.getBodyStyle();
+    this.restoreStyleValue(rootStyle, 'left', snapshot.styles.left);
+    this.restoreStyleValue(rootStyle, 'overflowY', snapshot.styles.overflowY);
+    this.restoreStyleValue(rootStyle, 'position', snapshot.styles.position);
+    this.restoreStyleValue(rootStyle, 'top', snapshot.styles.top);
+    this.restoreStyleValue(rootStyle, 'width', snapshot.styles.width);
+
+    rootStyle.scrollBehavior = 'auto';
+    if (bodyStyle !== null) {
+      bodyStyle.scrollBehavior = 'auto';
+    }
+    this.restoreScrollPosition(snapshot.styles.scrollPosition);
+    this.restoreStyleValue(rootStyle, 'scrollBehavior', snapshot.styles.rootScrollBehavior);
+    if (bodyStyle !== null) {
+      this.restoreStyleValue(bodyStyle, 'scrollBehavior', snapshot.styles.bodyScrollBehavior);
+    }
   }
 
   private getBodyStyle(): TngScrollLockStyle | null {
@@ -99,12 +190,60 @@ class ScrollLockManager implements TngScrollLockManager {
     return this.documentRef.body.style as TngScrollLockStyle;
   }
 
-  private restoreStyleValue(key: keyof TngScrollLockStyle, value: string | null): void {
-    const style = this.getBodyStyle();
-    if (style === null) {
+  private getRootStyle(): TngScrollLockStyle | null {
+    const root = this.documentRef?.documentElement;
+    return root?.style == null ? null : (root.style as TngScrollLockStyle);
+  }
+
+  private hasScrollableViewport(): boolean {
+    const root = this.documentRef?.documentElement;
+    if (root == null) {
+      return false;
+    }
+
+    const viewport = this.documentRef?.defaultView;
+    const viewportHeight = root.clientHeight ?? viewport?.innerHeight ?? 0;
+    const viewportWidth = root.clientWidth ?? viewport?.innerWidth ?? 0;
+    const scrollHeight = root.scrollHeight ?? 0;
+    const scrollWidth = root.scrollWidth ?? 0;
+    const hasKnownDimensions = scrollHeight > 0 || scrollWidth > 0;
+
+    if (!hasKnownDimensions) {
+      // DOM shims such as JSDOM do not expose viewport layout dimensions. Keep
+      // the real-browser locking behavior available in those environments.
+      return true;
+    }
+
+    return scrollHeight > viewportHeight || scrollWidth > viewportWidth;
+  }
+
+  private readScrollPosition(): TngScrollPosition {
+    const windowRef = this.documentRef?.defaultView;
+    return {
+      left: windowRef?.scrollX ?? windowRef?.pageXOffset ?? 0,
+      top: windowRef?.scrollY ?? windowRef?.pageYOffset ?? 0,
+    };
+  }
+
+  private restoreWindowScrollPosition(position: TngScrollPosition): void {
+    const windowRef = this.documentRef?.defaultView;
+    if (windowRef?.scrollTo === undefined) {
       return;
     }
 
+    const current = this.readScrollPosition();
+    if (current.left === position.left && current.top === position.top) {
+      return;
+    }
+
+    windowRef.scrollTo(position.left, position.top);
+  }
+
+  private restoreStyleValue(
+    style: TngScrollLockStyle,
+    key: keyof TngScrollLockStyle,
+    value: string | null,
+  ): void {
     if (value === null) {
       delete style[key];
       return;
@@ -200,7 +339,9 @@ function rectsIntersect(
   return a.left < bRight && aRight > b.left && a.top < bBottom && aBottom > b.top;
 }
 
-function viewportRect(win: Window): Readonly<{ height: number; left: number; top: number; width: number }> {
+function viewportRect(
+  win: Window,
+): Readonly<{ height: number; left: number; top: number; width: number }> {
   return {
     height: win.innerHeight || 768,
     left: 0,

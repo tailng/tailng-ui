@@ -82,19 +82,17 @@ export class TngMultiAutocompleteComponent<O = unknown, V = unknown> {
   readonly placeholder = input<string>('Type to search…');
   readonly emptyText = input<string>('No matches');
   readonly ariaLabel = input<string>('Multi autocomplete');
-  readonly scrollStrategy = input<TngOverlayScrollStrategy>('block');
+  readonly scrollStrategy = input<TngOverlayScrollStrategy>('reposition');
 
   readonly getOptionValue = input<TngMultiAutocompleteGetValue<O, V>>(
     ((opt: unknown) => (opt as { value?: V })?.value) as TngMultiAutocompleteGetValue<O, V>,
   );
-  readonly getOptionLabel = input<TngMultiAutocompleteGetLabel<O>>(
-    ((opt: unknown) =>
-      String(
-        (opt as { label?: string; value?: unknown })?.label ??
-          (opt as { value?: unknown })?.value ??
-          opt,
-      )) as TngMultiAutocompleteGetLabel<O>,
-  );
+  readonly getOptionLabel = input<TngMultiAutocompleteGetLabel<O>>(((opt: unknown) =>
+    String(
+      (opt as { label?: string; value?: unknown })?.label ??
+        (opt as { value?: unknown })?.value ??
+        opt,
+    )) as TngMultiAutocompleteGetLabel<O>);
   readonly resolveValueLabel = input<TngMultiAutocompleteResolveLabel<V>>(
     (() => null) as TngMultiAutocompleteResolveLabel<V>,
   );
@@ -186,10 +184,7 @@ export class TngMultiAutocompleteComponent<O = unknown, V = unknown> {
     return null;
   }
 
-  private hasSelectedValue(
-    value: V,
-    selected: readonly V[] = this.primitive.value(),
-  ): boolean {
+  private hasSelectedValue(value: V, selected: readonly V[] = this.primitive.value()): boolean {
     return selected.some((entry) => Object.is(entry, value));
   }
 }

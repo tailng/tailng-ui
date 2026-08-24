@@ -82,7 +82,11 @@ class MultiAutocompleteOverlayHostComponent {
         <input tngMultiAutocompleteTrigger data-testid="trigger" type="text" autocomplete="off" />
 
         <div tngMultiAutocompleteContent>
-          <div tngMultiAutocompleteOverlay data-testid="overlay">
+          <div
+            tngMultiAutocompleteOverlay
+            [scrollStrategy]="scrollStrategy()"
+            data-testid="overlay"
+          >
             <ul tngMultiAutocompleteListbox>
               <li tngMultiAutocompleteOption [tngValue]="'India'">India</li>
               <li tngMultiAutocompleteOption [tngValue]="'Indonesia'">Indonesia</li>
@@ -95,6 +99,7 @@ class MultiAutocompleteOverlayHostComponent {
 })
 class NestedScrollBlockHostComponent {
   readonly open = signal(false);
+  readonly scrollStrategy = signal<TngOverlayScrollStrategy>('reposition');
   readonly value = signal<readonly string[]>([]);
 }
 
@@ -108,10 +113,7 @@ class NestedScrollBlockHostComponent {
     TngMultiAutocompleteOption,
   ],
   template: `
-    <header
-      data-testid="sticky-header"
-      style="position: sticky; top: 0; z-index: 50; height: 64px"
-    >
+    <header data-testid="sticky-header" style="position: sticky; top: 0; z-index: 50; height: 64px">
       Header
     </header>
 
@@ -159,9 +161,14 @@ describe('tng-multi-autocomplete overlay mounting', () => {
     vi.restoreAllMocks();
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
+    document.documentElement.style.left = '';
+    document.documentElement.style.overflowY = '';
+    document.documentElement.style.position = '';
+    document.documentElement.style.top = '';
+    document.documentElement.style.width = '';
   });
 
-  it('blocks document and nested scroll containers by default while open', async () => {
+  it('keeps document and nested scrolling enabled by default while open', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [NestedScrollBlockHostComponent],
     }).createComponent(NestedScrollBlockHostComponent);
@@ -169,8 +176,12 @@ describe('tng-multi-autocomplete overlay mounting', () => {
     fixture.detectChanges();
 
     const host = fixture.componentInstance;
-    const scrollParent = fixture.nativeElement.querySelector('[data-testid="scroll-parent"]') as HTMLElement;
-    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+    const scrollParent = fixture.nativeElement.querySelector(
+      '[data-testid="scroll-parent"]',
+    ) as HTMLElement;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-testid="trigger"]',
+    ) as HTMLInputElement;
 
     focus(trigger);
     fixture.detectChanges();
@@ -178,8 +189,9 @@ describe('tng-multi-autocomplete overlay mounting', () => {
     fixture.detectChanges();
 
     expect(host.open()).toBe(true);
-    expect(document.body.style.overflow).toBe('hidden');
-    expect(scrollParent.style.overflow).toBe('hidden');
+    expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('');
+    expect(scrollParent.style.overflow).toBe('auto');
 
     host.open.set(false);
     fixture.detectChanges();
@@ -187,6 +199,40 @@ describe('tng-multi-autocomplete overlay mounting', () => {
     fixture.detectChanges();
 
     expect(document.body.style.overflow).toBe('');
+    expect(scrollParent.style.overflow).toBe('auto');
+  });
+
+  it('preserves the document scrollbar and locks nested scrolling when block is explicit', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [NestedScrollBlockHostComponent],
+    }).createComponent(NestedScrollBlockHostComponent);
+    fixture.componentInstance.scrollStrategy.set('block');
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const scrollParent = fixture.nativeElement.querySelector(
+      '[data-testid="scroll-parent"]',
+    ) as HTMLElement;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-testid="trigger"]',
+    ) as HTMLInputElement;
+
+    focus(trigger);
+    fixture.detectChanges();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    expect(host.open()).toBe(true);
+    expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('fixed');
+    expect(document.documentElement.style.overflowY).toBe('scroll');
+    expect(scrollParent.style.overflow).toBe('hidden');
+
+    host.open.set(false);
+    fixture.detectChanges();
+
+    expect(document.documentElement.style.position).toBe('');
+    expect(document.documentElement.style.overflowY).toBe('');
     expect(scrollParent.style.overflow).toBe('auto');
   });
 
@@ -198,8 +244,12 @@ describe('tng-multi-autocomplete overlay mounting', () => {
     fixture.detectChanges();
 
     const host = fixture.componentInstance;
-    const multiHost = fixture.nativeElement.querySelector('[data-slot="multi-autocomplete"]') as HTMLElement;
-    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+    const multiHost = fixture.nativeElement.querySelector(
+      '[data-slot="multi-autocomplete"]',
+    ) as HTMLElement;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-testid="trigger"]',
+    ) as HTMLInputElement;
     const overlay = fixture.nativeElement.querySelector('[data-testid="overlay"]') as HTMLElement;
 
     multiHost.getBoundingClientRect = () =>
@@ -226,8 +276,12 @@ describe('tng-multi-autocomplete overlay mounting', () => {
     expect(host.open()).toBe(true);
     expect(overlay.parentNode).toBe(document.body);
     expect(fixture.nativeElement.contains(overlay)).toBe(false);
-    expect(overlay.style.getPropertyValue('--tng-multi-autocomplete-surface').trim()).toBe('#f8fafc');
-    expect(overlay.style.getPropertyValue('--tng-multi-autocomplete-border').trim()).toBe('#d8e2ef');
+    expect(overlay.style.getPropertyValue('--tng-multi-autocomplete-surface').trim()).toBe(
+      '#f8fafc',
+    );
+    expect(overlay.style.getPropertyValue('--tng-multi-autocomplete-border').trim()).toBe(
+      '#d8e2ef',
+    );
     expect(overlay.style.getPropertyValue('--tng-multi-autocomplete-fg').trim()).toBe('#0f172a');
     expect(overlay.style.getPropertyValue('--tng-multi-autocomplete-brand').trim()).toBe('#2563eb');
     expect(overlay.style.getPropertyValue('--tng-multi-autocomplete-z-overlay').trim()).toBe('2');
@@ -260,9 +314,15 @@ describe('tng-multi-autocomplete overlay mounting', () => {
 
     fixture.detectChanges();
 
-    const multiHost = fixture.nativeElement.querySelector('[data-testid="multi-autocomplete"]') as HTMLElement;
-    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
-    const header = fixture.nativeElement.querySelector('[data-testid="sticky-header"]') as HTMLElement;
+    const multiHost = fixture.nativeElement.querySelector(
+      '[data-testid="multi-autocomplete"]',
+    ) as HTMLElement;
+    const trigger = fixture.nativeElement.querySelector(
+      '[data-testid="trigger"]',
+    ) as HTMLInputElement;
+    const header = fixture.nativeElement.querySelector(
+      '[data-testid="sticky-header"]',
+    ) as HTMLElement;
     let hostTop = 120;
     const hostHeight = 48;
 

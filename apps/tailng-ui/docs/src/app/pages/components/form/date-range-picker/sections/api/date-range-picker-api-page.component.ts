@@ -43,7 +43,7 @@ export class DateRangePickerApiPageComponent implements OnDestroy {
 
   protected readonly wrapperAttachCode = [
     '<tng-date-range-picker',
-    '  [defaultValue]="{ start: \'2024-04-22\', end: \'2024-04-26\' }"',
+    "  [defaultValue]=\"{ start: '2024-04-22', end: '2024-04-26' }\"",
     '  [minDate]="\'2024-04-01\'"',
     '  [maxDate]="\'2026-03-31\'"',
     '  ariaLabel="Invoice period"',
@@ -55,7 +55,7 @@ export class DateRangePickerApiPageComponent implements OnDestroy {
     "import { bindTngDateRangePicker, createDateRangePickerController } from '@tailng-ui/primitives';",
     '',
     'readonly controller = createDateRangePickerController<Date>({',
-    "  ownerDocument: document,",
+    '  ownerDocument: document,',
     "  value: { start: '2024-04-22', end: '2024-04-26' },",
     "  today: '2024-04-18',",
     "  minDate: '2024-04-01',",
@@ -74,8 +74,8 @@ export class DateRangePickerApiPageComponent implements OnDestroy {
     '    <div #anchorShell>',
     '      <div',
     '        data-slot="date-range-picker-input-shell"',
-    "        [attr.data-invalid]=\"dateRangePicker.outputs().validationError !== null ? 'true' : null\"",
-    "        [attr.data-open]=\"dateRangePicker.outputs().getTriggerAttributes()['data-open']\"",
+    '        [attr.data-invalid]="dateRangePicker.outputs().validationError !== null ? \'true\' : null"',
+    '        [attr.data-open]="dateRangePicker.outputs().getTriggerAttributes()[\'data-open\']"',
     '      >',
     '        <input [tngDateRangePickerInput]="controller" type="text" placeholder="MM-DD-YYYY - MM-DD-YYYY" />',
     '        <button [tngDateRangePickerTrigger]="controller" type="button">Open</button>',
@@ -120,7 +120,8 @@ export class DateRangePickerApiPageComponent implements OnDestroy {
           name: 'enableRangeSelection',
           type: 'boolean',
           default: 'true',
-          details: 'Keeps the second click as the range end instead of treating each date as a new start.',
+          details:
+            'Keeps the second click as the range end instead of treating each date as a new start.',
         },
         {
           name: 'minDate / maxDate',
@@ -155,7 +156,8 @@ export class DateRangePickerApiPageComponent implements OnDestroy {
           name: 'autoCommitView',
           type: 'boolean',
           default: 'false',
-          details: 'Controls whether the wrapper should auto-commit when drilling between year, month, and day views.',
+          details:
+            'Controls whether the wrapper should auto-commit when drilling between year, month, and day views.',
         },
         {
           name: 'closeOnEscape',
@@ -173,13 +175,15 @@ export class DateRangePickerApiPageComponent implements OnDestroy {
           name: 'fixedWeeks',
           type: 'boolean',
           default: 'true',
-          details: 'Always renders 6 weeks in the day grid to keep the overlay height stable across months.',
+          details:
+            'Always renders 6 weeks in the day grid to keep the overlay height stable across months.',
         },
         {
           name: 'onPartialInputCommit',
           type: 'boolean',
           default: 'false',
-          details: 'Allows partial manual input commits (start date only) before the end date is entered.',
+          details:
+            'Allows partial manual input commits (start date only) before the end date is entered.',
         },
         {
           name: 'skipDisabled',
@@ -251,6 +255,13 @@ export class DateRangePickerApiPageComponent implements OnDestroy {
           type: "'auto' | 'bottom' | 'top'",
           default: "'auto'",
           details: 'Auto-flips the popup when there is not enough room below the field.',
+        },
+        {
+          name: 'scrollStrategy',
+          type: "'block' | 'close' | 'reposition'",
+          default: "'reposition'",
+          details:
+            'Repositions with page scroll and closes if the field leaves view. Use block to lock scrolling while preserving the document scrollbar.',
         },
         {
           name: 'overlayRuntime',
@@ -381,7 +392,8 @@ export class DateRangePickerApiPageComponent implements OnDestroy {
     {
       name: 'previewEndDateChange',
       type: 'TDate',
-      details: 'Emits as the pointer hovers over candidate end dates during an in-progress range selection.',
+      details:
+        'Emits as the pointer hovers over candidate end dates during an in-progress range selection.',
     },
     {
       name: 'viewChange',
@@ -415,7 +427,8 @@ export class DateRangePickerApiPageComponent implements OnDestroy {
     },
     {
       name: 'showDaysPanel() / showMonthsPanel() / showYearsPanel()',
-      details: 'Drives the visible panel explicitly when the default drill-down flow is not enough.',
+      details:
+        'Drives the visible panel explicitly when the default drill-down flow is not enough.',
     },
     {
       name: 'toggleOpen()',
@@ -426,7 +439,8 @@ export class DateRangePickerApiPageComponent implements OnDestroy {
   protected readonly headlessBindingRows: readonly MethodRow[] = Object.freeze([
     {
       name: 'bindTngDateRangePicker(controller)',
-      details: 'Returns signals for outputs() and periodLabel() so Angular templates can stay declarative.',
+      details:
+        'Returns signals for outputs() and periodLabel() so Angular templates can stay declarative.',
     },
     {
       name: '[tngDateRangePickerHost]',
@@ -434,23 +448,28 @@ export class DateRangePickerApiPageComponent implements OnDestroy {
     },
     {
       name: '[tngDateRangePickerInput] / [tngDateRangePickerTrigger]',
-      details: 'Forward manual input editing, trigger registration, and wrapper-grade open and keyboard behavior.',
+      details:
+        'Forward manual input editing, trigger registration, and wrapper-grade open and keyboard behavior.',
     },
     {
       name: '[tngDateRangePickerOverlay]',
-      details: 'Ports the popup to document.body, syncs public overlay attributes, and keeps focus and positioning aligned.',
+      details:
+        'Ports the popup to document.body, syncs public overlay attributes, and keeps focus and positioning aligned.',
     },
     {
       name: '[tngDateRangePickerPrevButton] / [tngDateRangePickerNextButton] / [tngDateRangePickerPeriodButton]',
-      details: 'Own the standard navigation and drill-down flow without per-view branching in your component.',
+      details:
+        'Own the standard navigation and drill-down flow without per-view branching in your component.',
     },
     {
       name: '[tngDateRangePickerDayGrid] / [tngDateRangePickerDayCell]',
-      details: 'Forward day-grid keyboarding, click handling, hover range behavior, and the public day-cell state hooks.',
+      details:
+        'Forward day-grid keyboarding, click handling, hover range behavior, and the public day-cell state hooks.',
     },
     {
       name: '[tngDateRangePickerMonthGrid] / [tngDateRangePickerMonthOption] / [tngDateRangePickerYearGrid] / [tngDateRangePickerYearOption]',
-      details: 'Handle month and year picker keyboarding and selection while preserving the public slot contract.',
+      details:
+        'Handle month and year picker keyboarding and selection while preserving the public slot contract.',
     },
   ]);
 

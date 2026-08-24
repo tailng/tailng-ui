@@ -278,7 +278,11 @@ class UncontrolledDatepickerHostComponent {
   imports: [TngDatepickerComponent],
   template: `
     <div data-testid="scroll-parent" style="overflow: auto; max-height: 120px;">
-      <tng-datepicker [defaultValue]="'2024-04-22'" (openChange)="openChanges.push($event)" />
+      <tng-datepicker
+        [defaultValue]="'2024-04-22'"
+        scrollStrategy="block"
+        (openChange)="openChanges.push($event)"
+      />
     </div>
   `,
 })
@@ -393,6 +397,11 @@ describe('tng-datepicker component behavior', () => {
   afterEach(() => {
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
+    document.documentElement.style.left = '';
+    document.documentElement.style.overflowY = '';
+    document.documentElement.style.position = '';
+    document.documentElement.style.top = '';
+    document.documentElement.style.width = '';
     vi.restoreAllMocks();
     TestBed.resetTestingModule();
   });
@@ -1000,7 +1009,7 @@ describe('tng-datepicker component behavior', () => {
     });
   });
 
-  it('locks page scroll and keeps the overlay stable when scroll events fire', async () => {
+  it('closes the overlay when scrolling moves the anchor outside the viewport by default', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [UncontrolledDatepickerHostComponent],
     }).createComponent(UncontrolledDatepickerHostComponent);
@@ -1016,27 +1025,20 @@ describe('tng-datepicker component behavior', () => {
       '[data-slot="datepicker-overlay"]',
     );
     const originalInnerHeight = window.innerHeight;
-    const originalTop = overlay.style.top;
-
     vi.spyOn(anchor, 'getBoundingClientRect').mockReturnValue(createRect(-80, -20));
     vi.spyOn(overlay, 'getBoundingClientRect').mockReturnValue(createRect(0, 320));
     Object.defineProperty(window, 'innerHeight', { configurable: true, value: 760 });
 
-    expect(document.body.style.overflow).toBe('hidden');
+    expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('');
 
     window.dispatchEvent(new Event('scroll'));
-    await waitForAnimationFrame();
     await settle(fixture);
 
-    expect(fixture.componentInstance.openChanges).toEqual([true]);
-    expect(overlay.parentNode).toBe(document.body);
-    expect(overlay.getAttribute('hidden')).toBeNull();
-    expect(overlay.style.top).toBe(originalTop);
-
-    getRequired<HTMLButtonElement>(fixture, '[data-slot="datepicker-trigger"]').click();
-    await settle(fixture);
-
+    expect(fixture.componentInstance.openChanges).toEqual([true, false]);
+    expect(overlay.getAttribute('hidden')).toBe('');
     expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('');
 
     Object.defineProperty(window, 'innerHeight', {
       configurable: true,
@@ -1044,7 +1046,7 @@ describe('tng-datepicker component behavior', () => {
     });
   });
 
-  it('locks scrollable ancestors while the overlay is open', async () => {
+  it('preserves the document scrollbar and locks scrollable ancestors when block is explicit', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [ScrollableDatepickerHostComponent],
     }).createComponent(ScrollableDatepickerHostComponent);
@@ -1057,13 +1059,17 @@ describe('tng-datepicker component behavior', () => {
     await openOverlay(fixture);
 
     expect(fixture.componentInstance.openChanges).toEqual([true]);
-    expect(document.body.style.overflow).toBe('hidden');
+    expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('fixed');
+    expect(document.documentElement.style.overflowY).toBe('scroll');
     expect(scrollParent.style.overflow).toBe('hidden');
 
     getRequired<HTMLButtonElement>(fixture, '[data-slot="datepicker-trigger"]').click();
     await settle(fixture);
 
     expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('');
+    expect(document.documentElement.style.overflowY).toBe('');
     expect(scrollParent.style.overflow).toBe('auto');
   });
 

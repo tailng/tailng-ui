@@ -11,10 +11,8 @@ import {
   viewChild,
 } from '@angular/core';
 import type { FormValueControl } from '@angular/forms/signals';
-import {
-  defaultDatepickerDateAdapter,
-  type TngDateAdapter,
-} from '@tailng-ui/primitives';
+import type { TngOverlayScrollStrategy } from '@tailng-ui/cdk';
+import { defaultDatepickerDateAdapter, type TngDateAdapter } from '@tailng-ui/primitives';
 import { TngDatepickerComponent } from '../datepicker/tng-datepicker.component';
 
 import {
@@ -81,6 +79,7 @@ function createYearAdapter(month: number, day: number): TngDateAdapter<Date> {
       [placeholder]="placeholder()"
       [readonly]="readonly()"
       [restoreFocus]="restoreFocus()"
+      [scrollStrategy]="scrollStrategy()"
       [value]="selectedDate()"
       [yearPageSize]="yearPageSize()"
       (openChange)="handleOpenChange($event)"
@@ -124,8 +123,10 @@ export class TngYearpickerComponent implements FormValueControl<number | string 
   public readonly placeholder = input<string>('YYYY');
   public readonly readonly = input<boolean>(false);
   public readonly restoreFocus = input<boolean>(true);
+  public readonly scrollStrategy = input<TngOverlayScrollStrategy>('reposition');
   public readonly yearPageSize = input<number, number | string>(24, {
-    transform: (value) => Math.max(4, Math.trunc(typeof value === 'number' ? value : Number(value))),
+    transform: (value) =>
+      Math.max(4, Math.trunc(typeof value === 'number' ? value : Number(value))),
   });
   public readonly invalid = input<boolean, unknown>(false, {
     transform: booleanAttribute,
@@ -160,13 +161,19 @@ export class TngYearpickerComponent implements FormValueControl<number | string 
   );
   protected readonly minDate = computed(() => {
     const year = this.minYear();
-    return year === undefined ? undefined : createFixedYearDate(year, this.fixedMonth(), this.fixedDay());
+    return year === undefined
+      ? undefined
+      : createFixedYearDate(year, this.fixedMonth(), this.fixedDay());
   });
   protected readonly maxDate = computed(() => {
     const year = this.maxYear();
-    return year === undefined ? undefined : createFixedYearDate(year, this.fixedMonth(), this.fixedDay());
+    return year === undefined
+      ? undefined
+      : createFixedYearDate(year, this.fixedMonth(), this.fixedDay());
   });
-  protected readonly adapter = computed(() => createYearAdapter(this.fixedMonth(), this.fixedDay()));
+  protected readonly adapter = computed(() =>
+    createYearAdapter(this.fixedMonth(), this.fixedDay()),
+  );
 
   protected handleOpenChange(open: boolean): void {
     this.openChange.emit(open);
@@ -194,5 +201,4 @@ export class TngYearpickerComponent implements FormValueControl<number | string 
     this.value.set(nextYear);
     this.datepicker()?.close();
   }
-
 }

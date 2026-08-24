@@ -1,9 +1,9 @@
 <article class="headless-date-range-picker-api">
   <h2 class="headless-date-range-picker-api-title">API reference</h2>
   <p class="headless-date-range-picker-api-lead">
-    Headless Date Range Picker is a controller plus a small set of binding directives. You still own the
-    field, trigger, overlay, and calendar layout, while the primitive owns parsing, roving focus,
-    panel transitions, and the public accessibility attributes.
+    Headless Date Range Picker is a controller plus a small set of binding directives. You still own
+    the field, trigger, overlay, and calendar layout, while the primitive owns parsing, roving
+    focus, panel transitions, and the public accessibility attributes.
   </p>
 
   <section id="createdaterangepickercontroller" class="headless-date-range-picker-api-block">
@@ -68,8 +68,8 @@
     <h3>Primitive directives</h3>
     <p>
       These directives are the current headless binding layer. They keep the docs and applications
-      out of the manual key, click, aria, and active-descendant plumbing that the older examples
-      had to repeat.
+      out of the manual key, click, aria, and active-descendant plumbing that the older examples had
+      to repeat.
     </p>
     <tng-code-block
       [code]="directiveAttachCode"
@@ -92,35 +92,68 @@
         <tbody>
           <tr>
             <td><code>[tngDateRangePickerHost]</code></td>
-            <td>Applies the public root attributes like <code>data-open</code>, <code>data-view</code>, and root ARIA labels.</td>
+            <td>
+              Applies the public root attributes like <code>data-open</code>,
+              <code>data-view</code>, and root ARIA labels.
+            </td>
           </tr>
           <tr>
             <td><code>[tngDateRangePickerInput]</code></td>
-            <td>Wires input text, manual commits, open-on-click, and basic keyboard entry into the controller.</td>
+            <td>
+              Wires input text, manual commits, open-on-click, and basic keyboard entry into the
+              controller.
+            </td>
           </tr>
           <tr>
             <td><code>[tngDateRangePickerTrigger]</code></td>
-            <td>Registers the trigger element and forwards the wrapper-grade trigger keyboard behavior.</td>
+            <td>
+              Registers the trigger element and forwards the wrapper-grade trigger keyboard
+              behavior.
+            </td>
           </tr>
           <tr>
             <td><code>[tngDateRangePickerOverlay]</code></td>
-            <td>Ports the popup to <code>document.body</code>, syncs overlay attrs, and keeps positioning/focus semantics aligned.</td>
+            <td>
+              Ports the popup to <code>document.body</code>, syncs overlay attrs, and keeps
+              positioning/focus semantics aligned. Set
+              <code>[tngDateRangePickerOverlayScrollStrategy]</code> to
+              <code>reposition</code> (default), <code>close</code>, or <code>block</code>.
+            </td>
           </tr>
           <tr>
-            <td><code>[tngDateRangePickerPrevButton]</code> / <code>[tngDateRangePickerNextButton]</code></td>
-            <td>Pages the current view without repeating day/month/year branching in your component code.</td>
+            <td>
+              <code>[tngDateRangePickerPrevButton]</code> /
+              <code>[tngDateRangePickerNextButton]</code>
+            </td>
+            <td>
+              Pages the current view without repeating day/month/year branching in your component
+              code.
+            </td>
           </tr>
           <tr>
             <td><code>[tngDateRangePickerPeriodButton]</code></td>
-            <td>Handles the standard period drill-down flow and keeps focus synced after the view changes.</td>
+            <td>
+              Handles the standard period drill-down flow and keeps focus synced after the view
+              changes.
+            </td>
           </tr>
           <tr>
-            <td><code>[tngDateRangePickerDayGrid]</code>, <code>[tngDateRangePickerMonthGrid]</code>, <code>[tngDateRangePickerYearGrid]</code></td>
+            <td>
+              <code>[tngDateRangePickerDayGrid]</code>, <code>[tngDateRangePickerMonthGrid]</code>,
+              <code>[tngDateRangePickerYearGrid]</code>
+            </td>
             <td>Forward the correct keyboard behavior for each panel.</td>
           </tr>
           <tr>
-            <td><code>[tngDateRangePickerDayCell]</code>, <code>[tngDateRangePickerMonthOption]</code>, <code>[tngDateRangePickerYearOption]</code></td>
-            <td>Apply the public cell attrs and click behavior so buttons stay headless but not repetitive.</td>
+            <td>
+              <code>[tngDateRangePickerDayCell]</code>,
+              <code>[tngDateRangePickerMonthOption]</code>,
+              <code>[tngDateRangePickerYearOption]</code>
+            </td>
+            <td>
+              Apply the public cell attrs and click behavior so buttons stay headless but not
+              repetitive.
+            </td>
           </tr>
         </tbody>
       </table>
@@ -131,8 +164,8 @@
     <h3>Grid rendering</h3>
     <p>
       The controller still exposes the view data. The difference is that the cell and grid
-      directives now own the common interactions, so the template only needs to render the panels
-      it wants.
+      directives now own the common interactions, so the template only needs to render the panels it
+      wants.
     </p>
     <p>
       This keeps the layout genuinely headless: you decide which panel to show and how to arrange
@@ -152,7 +185,8 @@
   <section id="slot-outputs" class="headless-date-range-picker-api-block">
     <h3>Controller outputs</h3>
     <p>
-      <code>dateRangePicker.outputs()</code> is the primary read model. The <code>get*Attributes()</code>
+      <code>dateRangePicker.outputs()</code> is the primary read model. The
+      <code>get*Attributes()</code>
       helpers are still available for advanced custom composition, but they are now the lower-level
       escape hatch rather than the default path.
     </p>
@@ -167,7 +201,9 @@
         <tbody>
           <tr>
             <td><code>cells</code></td>
-            <td>Visible day cells with disabled, selected, range, active, today, and in-month state.</td>
+            <td>
+              Visible day cells with disabled, selected, range, active, today, and in-month state.
+            </td>
           </tr>
           <tr>
             <td><code>monthOptions</code> / <code>yearOptions</code></td>
@@ -182,12 +218,24 @@
             <td>Ready-to-render month/year label for the day view header.</td>
           </tr>
           <tr>
-            <td><code>getHostAttributes()</code> / <code>getOverlayAttributes()</code> / <code>getGridAttributes()</code></td>
-            <td>Low-level attribute maps for advanced compositions or environments where you are not using the helper directives.</td>
+            <td>
+              <code>getHostAttributes()</code> / <code>getOverlayAttributes()</code> /
+              <code>getGridAttributes()</code>
+            </td>
+            <td>
+              Low-level attribute maps for advanced compositions or environments where you are not
+              using the helper directives.
+            </td>
           </tr>
           <tr>
-            <td><code>getCellAttributes(...)</code> / <code>getMonthAttributes(...)</code> / <code>getYearAttributes(...)</code></td>
-            <td>Low-level item attrs for fully custom cell markup beyond the provided option directives.</td>
+            <td>
+              <code>getCellAttributes(...)</code> / <code>getMonthAttributes(...)</code> /
+              <code>getYearAttributes(...)</code>
+            </td>
+            <td>
+              Low-level item attrs for fully custom cell markup beyond the provided option
+              directives.
+            </td>
           </tr>
         </tbody>
       </table>
@@ -215,23 +263,46 @@
           </tr>
           <tr>
             <td><code>subscribe(...)</code></td>
-            <td>Low-level subscription hook. Angular apps can usually prefer <code>bindTngDateRangePicker(...)</code> instead.</td>
+            <td>
+              Low-level subscription hook. Angular apps can usually prefer
+              <code>bindTngDateRangePicker(...)</code> instead.
+            </td>
           </tr>
           <tr>
-            <td><code>showYearsPanel()</code> / <code>showMonthsPanel()</code> / <code>showDaysPanel()</code></td>
-            <td>Lets the implementation drive the visible panel explicitly when it wants a custom view flow.</td>
+            <td>
+              <code>showYearsPanel()</code> / <code>showMonthsPanel()</code> /
+              <code>showDaysPanel()</code>
+            </td>
+            <td>
+              Lets the implementation drive the visible panel explicitly when it wants a custom view
+              flow.
+            </td>
           </tr>
           <tr>
-            <td><code>prevMonth()</code> / <code>nextMonth()</code> / <code>prevYear()</code> / <code>nextYear()</code></td>
+            <td>
+              <code>prevMonth()</code> / <code>nextMonth()</code> / <code>prevYear()</code> /
+              <code>nextYear()</code>
+            </td>
             <td>Pages the visible range for the current view.</td>
           </tr>
           <tr>
-            <td><code>selectMonth(...)</code> / <code>selectYear(...)</code> / <code>handleCellClick(...)</code></td>
-            <td>Low-level selection hooks for layouts that want to bypass the stock option directives.</td>
+            <td>
+              <code>selectMonth(...)</code> / <code>selectYear(...)</code> /
+              <code>handleCellClick(...)</code>
+            </td>
+            <td>
+              Low-level selection hooks for layouts that want to bypass the stock option directives.
+            </td>
           </tr>
           <tr>
-            <td><code>handleTriggerKeyDown(...)</code> / <code>handleOverlayKeyDown(...)</code> / <code>handleGridKeyDown(...)</code></td>
-            <td>Still available as the lower-level escape hatch if you are building a custom directive layer of your own.</td>
+            <td>
+              <code>handleTriggerKeyDown(...)</code> / <code>handleOverlayKeyDown(...)</code> /
+              <code>handleGridKeyDown(...)</code>
+            </td>
+            <td>
+              Still available as the lower-level escape hatch if you are building a custom directive
+              layer of your own.
+            </td>
           </tr>
         </tbody>
       </table>

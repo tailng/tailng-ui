@@ -26,7 +26,6 @@ import {
   TngAutocompleteOption,
 } from '@tailng-ui/primitives';
 
-
 export type TngAutocompleteGetValue<O, V> = (opt: O) => V;
 export type TngAutocompleteGetLabel<O> = (opt: O) => string;
 export type TngAutocompleteIsDisabled<O> = (opt: O) => boolean;
@@ -63,15 +62,7 @@ export type TngAutocompleteSelectedContext<O, V> = {
   hostDirectives: [
     {
       directive: TngAutocomplete,
-      inputs: [
-        'open',
-        'disabled',
-        'loading',
-        'invalid',
-        'labelId',
-        'descriptionId',
-        'errorId',
-      ],
+      inputs: ['open', 'disabled', 'loading', 'invalid', 'labelId', 'descriptionId', 'errorId'],
       outputs: ['openChange'],
     },
   ],
@@ -86,11 +77,13 @@ export type TngAutocompleteSelectedContext<O, V> = {
 export class TngAutocompleteComponent<O = unknown, V = unknown> {
   protected readonly primitive = inject<TngAutocomplete<V>>(TngAutocomplete);
 
-  protected readonly optionTemplate =
-    contentChild<TemplateRef<TngAutocompleteOptionContext<O, V>>>('tngAutocompleteOptionTpl');
+  protected readonly optionTemplate = contentChild<TemplateRef<TngAutocompleteOptionContext<O, V>>>(
+    'tngAutocompleteOptionTpl',
+  );
 
-  protected readonly selectedOptionTemplate =
-    contentChild<TemplateRef<TngAutocompleteSelectedContext<O, V>>>('tngAutocompleteSelectedTpl');
+  protected readonly selectedOptionTemplate = contentChild<
+    TemplateRef<TngAutocompleteSelectedContext<O, V>>
+  >('tngAutocompleteSelectedTpl');
 
   protected readonly Object = Object;
 
@@ -106,20 +99,18 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
   public readonly options = input<readonly O[]>([]);
   public readonly placeholder = input<string>('Type to search…');
   public readonly query = model<string>('');
-  public readonly scrollStrategy = input<TngOverlayScrollStrategy>('block');
+  public readonly scrollStrategy = input<TngOverlayScrollStrategy>('reposition');
 
   public readonly getOptionValue = input<TngAutocompleteGetValue<O, V>>(
     ((opt: unknown) => (opt as { value?: V })?.value) as TngAutocompleteGetValue<O, V>,
   );
 
-  public readonly getOptionLabel = input<TngAutocompleteGetLabel<O>>(
-    ((opt: unknown) =>
-      String(
-        (opt as { label?: string; value?: unknown })?.label ??
+  public readonly getOptionLabel = input<TngAutocompleteGetLabel<O>>(((opt: unknown) =>
+    String(
+      (opt as { label?: string; value?: unknown })?.label ??
         (opt as { value?: unknown })?.value ??
         opt,
-      )) as TngAutocompleteGetLabel<O>,
-  );
+    )) as TngAutocompleteGetLabel<O>);
 
   public readonly isOptionDisabled = input<TngAutocompleteIsDisabled<O>>(
     ((opt: unknown) => !!(opt as { disabled?: boolean })?.disabled) as TngAutocompleteIsDisabled<O>,
@@ -219,7 +210,15 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
 
       const valueChangedSinceLastSync = !Object.is(value, lastSyncedValue);
 
-      if (this.shouldUpdateDisplayQuery({ open, userIsTyping, valueChangedSinceLastSync, query: this.query(), label })) {
+      if (
+        this.shouldUpdateDisplayQuery({
+          open,
+          userIsTyping,
+          valueChangedSinceLastSync,
+          query: this.query(),
+          label,
+        })
+      ) {
         this.query.set(label);
         this.lastSyncedValue.set(value);
       }
@@ -345,7 +344,9 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
     for (const option of options) {
       const value = getOptionValue(option);
       const label = getOptionLabel(option);
-      const existing = this.knownOptionLabels.find((entry: Readonly<{ value: V; label: string }>) => Object.is(entry.value, value));
+      const existing = this.knownOptionLabels.find((entry: Readonly<{ value: V; label: string }>) =>
+        Object.is(entry.value, value),
+      );
       if (existing !== undefined) {
         existing.label = label;
       } else {
@@ -359,6 +360,10 @@ export class TngAutocompleteComponent<O = unknown, V = unknown> {
       return null;
     }
 
-    return this.knownOptionLabels.find((entry: Readonly<{ value: V; label: string }>) => Object.is(entry.value, value))?.label ?? null;
+    return (
+      this.knownOptionLabels.find((entry: Readonly<{ value: V; label: string }>) =>
+        Object.is(entry.value, value),
+      )?.label ?? null
+    );
   }
 }

@@ -118,7 +118,8 @@ export class HeadlessSelectboxApiPageComponent {
     {
       name: 'tngSelectTrigger',
       type: 'combobox trigger',
-      details: 'Focus target and keyboard entry point. The trigger toggles the menu and owns aria-expanded + aria-controls.',
+      details:
+        'Focus target and keyboard entry point. The trigger toggles the menu and owns aria-expanded + aria-controls.',
     },
     {
       name: 'tngSelectValue',
@@ -128,17 +129,20 @@ export class HeadlessSelectboxApiPageComponent {
     {
       name: 'tngSelectIcon',
       type: 'display slot',
-      details: 'Optional icon slot. Use it for chevrons or status glyphs without changing trigger semantics.',
+      details:
+        'Optional icon slot. Use it for chevrons or status glyphs without changing trigger semantics.',
     },
     {
       name: 'tngSelectContent + tngSelectOverlay',
       type: 'overlay shell',
-      details: 'The content wrapper tracks hidden state while the overlay carries the portaled menu surface.',
+      details:
+        'The content wrapper tracks hidden state while the overlay carries the portaled menu surface. scrollStrategy defaults to reposition and also accepts close or block.',
     },
     {
       name: 'tngSelectListbox + tngSelectOption',
       type: 'listbox bridge',
-      details: 'Connects the select root to listbox active/selected state and exposes option data attributes for styling.',
+      details:
+        'Connects the select root to listbox active/selected state and exposes option data attributes for styling.',
     },
   ]);
 
@@ -146,17 +150,20 @@ export class HeadlessSelectboxApiPageComponent {
     {
       name: '[value] on tngSelect',
       type: 'committed model',
-      details: 'The root stores the committed single value that should show in the trigger when the overlay closes.',
+      details:
+        'The root stores the committed single value that should show in the trigger when the overlay closes.',
     },
     {
       name: '[value] on tngSelectListbox',
       type: 'selection mirror',
-      details: 'Keeps the active/selected option in sync with the root when the listbox renders or the root changes.',
+      details:
+        'Keeps the active/selected option in sync with the root when the listbox renders or the root changes.',
     },
     {
       name: '(valueChange) on both',
       type: 'safe headless pattern',
-      details: 'Binding both ends keeps pointer, keyboard, and programmatic updates aligned with the committed single value.',
+      details:
+        'Binding both ends keeps pointer, keyboard, and programmatic updates aligned with the committed single value.',
     },
   ]);
 
@@ -164,17 +171,20 @@ export class HeadlessSelectboxApiPageComponent {
     {
       name: 'data-slot',
       type: 'structural marker',
-      details: 'Added to the root, trigger, value, icon, content, listbox, and option parts for styling hooks.',
+      details:
+        'Added to the root, trigger, value, icon, content, listbox, and option parts for styling hooks.',
     },
     {
       name: 'data-state',
       type: 'root state',
-      details: 'The root reflects open or closed state so your shell can respond when the menu is visible.',
+      details:
+        'The root reflects open or closed state so your shell can respond when the menu is visible.',
     },
     {
       name: 'data-active / data-selected / data-disabled',
       type: 'option state',
-      details: 'Applied to option rows for hover-equivalent focus, committed selection, and disabled styling.',
+      details:
+        'Applied to option rows for hover-equivalent focus, committed selection, and disabled styling.',
     },
   ]);
 }

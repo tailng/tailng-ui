@@ -33,7 +33,9 @@
           <tr>
             <td><code>query</code></td>
             <td><code>string</code></td>
-            <td>Trigger text used for filtering. This stays separate from the selected values array.</td>
+            <td>
+              Trigger text used for filtering. This stays separate from the selected values array.
+            </td>
           </tr>
           <tr>
             <td><code>value</code></td>
@@ -52,7 +54,10 @@
           </tr>
           <tr>
             <td>Methods</td>
-            <td><code>add</code>, <code>remove</code>, <code>toggle</code>, <code>removeLast</code>, <code>clear</code></td>
+            <td>
+              <code>add</code>, <code>remove</code>, <code>toggle</code>, <code>removeLast</code>,
+              <code>clear</code>
+            </td>
             <td>Imperative helpers exposed on the primitive export.</td>
           </tr>
         </tbody>
@@ -63,7 +68,8 @@
   <section id="owned-parts" class="multi-autocomplete-api-block">
     <h3>Owned parts</h3>
     <p>
-      MultiAutocomplete stays split into small directives so you can own the shell and the portaled overlay.
+      MultiAutocomplete stays split into small directives so you can own the shell and the portaled
+      overlay.
     </p>
     <tng-code-block
       [code]="partsCode"
@@ -86,18 +92,29 @@
         <tbody>
           <tr>
             <td><code>tngMultiAutocompleteTrigger</code></td>
-            <td>Opens the overlay, keeps the query in sync, and handles chip-removal backspace behavior.</td>
+            <td>
+              Opens the overlay, keeps the query in sync, and handles chip-removal backspace
+              behavior.
+            </td>
           </tr>
           <tr>
             <td><code>tngMultiAutocompleteChip</code></td>
             <td>Represents a selected value and stays keyboard-focusable for removal flows.</td>
           </tr>
           <tr>
-            <td><code>tngMultiAutocompleteContent</code> + <code>tngMultiAutocompleteOverlay</code></td>
-            <td>Own the overlay container and portaled surface.</td>
+            <td>
+              <code>tngMultiAutocompleteContent</code> + <code>tngMultiAutocompleteOverlay</code>
+            </td>
+            <td>
+              Own the overlay container and portaled surface. The overlay's
+              <code>scrollStrategy</code> defaults to <code>reposition</code> and also accepts
+              <code>close</code> or <code>block</code>.
+            </td>
           </tr>
           <tr>
-            <td><code>tngMultiAutocompleteListbox</code> + <code>tngMultiAutocompleteOption</code></td>
+            <td>
+              <code>tngMultiAutocompleteListbox</code> + <code>tngMultiAutocompleteOption</code>
+            </td>
             <td>Own option navigation, active item state, and commit behavior.</td>
           </tr>
         </tbody>
@@ -108,8 +125,8 @@
   <section id="models-and-events" class="multi-autocomplete-api-block">
     <h3>Models and events</h3>
     <p>
-      The headless primitive is the right layer when you need to control the live query directly or coordinate chips,
-      input text, and overlay state with other primitives.
+      The headless primitive is the right layer when you need to control the live query directly or
+      coordinate chips, input text, and overlay state with other primitives.
     </p>
     <ul>
       <li><code>query</code> remains controlled even when the selected values array changes.</li>
@@ -121,7 +138,8 @@
   <section id="reflected-attributes" class="multi-autocomplete-api-block">
     <h3>Reflected attributes</h3>
     <p>
-      The primitive reflects state onto slot-based attributes for styling. Keep the focus ring on the host, not the option rows.
+      The primitive reflects state onto slot-based attributes for styling. Keep the focus ring on
+      the host, not the option rows.
     </p>
     <div class="multi-autocomplete-api-table-wrap">
       <table class="multi-autocomplete-api-table">
@@ -134,7 +152,10 @@
         <tbody>
           <tr>
             <td><code>[tngMultiAutocomplete]</code></td>
-            <td><code>data-slot</code>, <code>data-state</code>, <code>data-disabled</code>, <code>data-loading</code>, <code>data-invalid</code></td>
+            <td>
+              <code>data-slot</code>, <code>data-state</code>, <code>data-disabled</code>,
+              <code>data-loading</code>, <code>data-invalid</code>
+            </td>
           </tr>
           <tr>
             <td><code>[tngMultiAutocompleteChip]</code></td>
@@ -142,7 +163,10 @@
           </tr>
           <tr>
             <td><code>[tngMultiAutocompleteOption]</code></td>
-            <td><code>data-slot="multi-autocomplete-option"</code>, plus active/selected state from the listbox bridge</td>
+            <td>
+              <code>data-slot="multi-autocomplete-option"</code>, plus active/selected state from
+              the listbox bridge
+            </td>
           </tr>
         </tbody>
       </table>

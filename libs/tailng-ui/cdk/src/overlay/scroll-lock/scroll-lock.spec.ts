@@ -20,6 +20,81 @@ afterEach(() => {
   document.body.innerHTML = '';
   document.body.style.overflow = '';
   document.body.style.paddingRight = '';
+  document.body.style.scrollBehavior = '';
+  document.documentElement.style.left = '';
+  document.documentElement.style.overflowY = '';
+  document.documentElement.style.position = '';
+  document.documentElement.style.scrollBehavior = '';
+  document.documentElement.style.top = '';
+  document.documentElement.style.width = '';
+});
+
+it('locks a browser viewport while preserving its visible scrollbar and scroll offset', () => {
+  const documentRef: TngScrollLockDocument = {
+    body: {
+      style: { scrollBehavior: 'smooth' },
+    },
+    documentElement: {
+      clientHeight: 800,
+      clientWidth: 1180,
+      scrollHeight: 1800,
+      scrollWidth: 1180,
+      style: {
+        left: '1px',
+        scrollBehavior: 'smooth',
+        top: '2px',
+      },
+    },
+  };
+  const restoreScrollPosition = vi.fn();
+  const manager = createScrollLockManager({
+    documentRef,
+    getScrollPosition: () => ({ left: 24, top: 160 }),
+    restoreScrollPosition,
+  });
+
+  manager.acquire('dialog');
+
+  expect(documentRef.documentElement?.style.position).toBe('fixed');
+  expect(documentRef.documentElement?.style.width).toBe('100%');
+  expect(documentRef.documentElement?.style.overflowY).toBe('scroll');
+  expect(documentRef.documentElement?.style.left).toBe('-24px');
+  expect(documentRef.documentElement?.style.top).toBe('-160px');
+  expect(documentRef.body.style.overflow).toBeUndefined();
+
+  manager.release('dialog');
+
+  expect(documentRef.documentElement?.style.position).toBeUndefined();
+  expect(documentRef.documentElement?.style.width).toBeUndefined();
+  expect(documentRef.documentElement?.style.overflowY).toBeUndefined();
+  expect(documentRef.documentElement?.style.left).toBe('1px');
+  expect(documentRef.documentElement?.style.top).toBe('2px');
+  expect(documentRef.documentElement?.style.scrollBehavior).toBe('smooth');
+  expect(documentRef.body.style.scrollBehavior).toBe('smooth');
+  expect(restoreScrollPosition).toHaveBeenCalledWith({ left: 24, top: 160 });
+});
+
+it('does not add a scrollbar when an explicit block is acquired on a non-scrollable viewport', () => {
+  const documentRef: TngScrollLockDocument = {
+    body: { style: {} },
+    documentElement: {
+      clientHeight: 800,
+      clientWidth: 1200,
+      scrollHeight: 600,
+      scrollWidth: 1200,
+      style: {},
+    },
+  };
+  const manager = createScrollLockManager({ documentRef });
+
+  manager.acquire('dialog');
+
+  expect(manager.isLocked()).toBe(true);
+  expect(documentRef.documentElement?.style.position).toBeUndefined();
+  expect(documentRef.documentElement?.style.overflowY).toBeUndefined();
+
+  manager.release('dialog');
+  expect(manager.isLocked()).toBe(false);
 });
 
 it('applies lock styles on first acquire and restores on last release', () => {

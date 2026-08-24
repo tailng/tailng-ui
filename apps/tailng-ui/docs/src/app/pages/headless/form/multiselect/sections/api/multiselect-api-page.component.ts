@@ -125,7 +125,8 @@ export class HeadlessMultiselectApiPageComponent {
     {
       name: 'tngSelectContent + tngSelectOverlay',
       type: 'overlay shell',
-      details: 'The content wrapper tracks hidden state while the overlay carries the portaled menu surface.',
+      details:
+        'The content wrapper tracks hidden state while the overlay carries the portaled menu surface. scrollStrategy defaults to reposition and also accepts close or block.',
     },
     {
       name: 'tngMultiSelectListbox + tngMultiSelectOption',

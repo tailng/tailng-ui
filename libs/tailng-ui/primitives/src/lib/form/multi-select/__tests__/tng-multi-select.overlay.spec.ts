@@ -86,7 +86,8 @@ describe('tng-multi-select overlay (shared overlay)', () => {
     pointerdown(trigger);
     fixture.detectChanges();
     expect(host.api.open()).toBe(true);
-    expect(document.body.style.overflow).toBe('hidden');
+    expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('');
 
     expect(overlay.parentElement).toBe(document.body);
     expect(overlay.hasAttribute('hidden')).toBe(false);

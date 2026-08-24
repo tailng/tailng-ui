@@ -19,6 +19,7 @@ import {
   type TngOverlayRuntime,
   type TngOverlayCollisionOptions,
   type TngOverlayPlacement,
+  type TngOverlayScrollStrategy,
 } from '@tailng-ui/cdk';
 import {
   createDateRangePickerController,
@@ -100,7 +101,8 @@ function createDateRangePickerInputId(): string {
   styleUrl: './tng-date-range-picker.component.css',
 })
 export class TngDateRangePickerComponent<TDate = Date>
-  implements FormValueControl<TngDateRangePickerSelectionInput<TDate> | undefined>, OnDestroy {
+  implements FormValueControl<TngDateRangePickerSelectionInput<TDate> | undefined>, OnDestroy
+{
   private readonly hostElement = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly defaultLocale = inject(LOCALE_ID);
   private readonly fallbackInputId = createDateRangePickerInputId();
@@ -197,6 +199,7 @@ export class TngDateRangePickerComponent<TDate = Date>
   public readonly restoreFocus = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
+  public readonly scrollStrategy = input<TngOverlayScrollStrategy>('reposition');
   public readonly showOutsideDays = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });

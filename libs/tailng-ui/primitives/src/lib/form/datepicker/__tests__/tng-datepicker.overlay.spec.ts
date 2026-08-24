@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import type { TngOverlayScrollStrategy } from '@tailng-ui/cdk';
 import { createDatepickerController } from '../tng-datepicker';
 import { TngDatepickerOverlay } from '../tng-datepicker.overlay';
 
@@ -78,6 +79,7 @@ function getRequired<T extends Element>(root: ParentNode, selector: string): T {
     <section
       [tngDatepickerOverlay]="controller"
       [tngDatepickerOverlayAnchor]="anchor"
+      [tngDatepickerOverlayScrollStrategy]="scrollStrategy()"
       data-testid="overlay"
       style="display: block; min-height: 320px;"
     >
@@ -94,6 +96,7 @@ class DatepickerOverlayHostComponent implements AfterViewInit {
     trapFocus: true,
     value: '2024-04-22',
   });
+  public readonly scrollStrategy = signal<TngOverlayScrollStrategy>('reposition');
 
   public ngAfterViewInit(): void {
     this.controller.registerTrigger(this.trigger.nativeElement);
@@ -124,6 +127,7 @@ class DatepickerOverlayHostComponent implements AfterViewInit {
       <section
         [tngDatepickerOverlay]="controller"
         [tngDatepickerOverlayAnchor]="anchor"
+        [tngDatepickerOverlayScrollStrategy]="scrollStrategy()"
         data-testid="scroll-overlay"
         style="display: block; min-height: 320px;"
       >
@@ -141,6 +145,7 @@ class DatepickerOverlayScrollableHostComponent implements AfterViewInit {
     trapFocus: true,
     value: '2024-04-22',
   });
+  public readonly scrollStrategy = signal<TngOverlayScrollStrategy>('reposition');
 
   public ngAfterViewInit(): void {
     this.controller.registerTrigger(this.trigger.nativeElement);
@@ -154,6 +159,11 @@ describe('tng-datepicker.overlay', () => {
       .forEach((element) => element.remove());
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
+    document.documentElement.style.left = '';
+    document.documentElement.style.overflowY = '';
+    document.documentElement.style.position = '';
+    document.documentElement.style.top = '';
+    document.documentElement.style.width = '';
     vi.restoreAllMocks();
     TestBed.resetTestingModule();
   });
@@ -179,7 +189,8 @@ describe('tng-datepicker.overlay', () => {
     const mountedOverlay = getRequired<HTMLElement>(document.body, '[data-testid="overlay"]');
     expect(mountedOverlay.parentNode).toBe(document.body);
     expect(mountedOverlay.style.position).toBe('fixed');
-    expect(document.body.style.overflow).toBe('hidden');
+    expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('');
     expect(mountedOverlay.style.zIndex).toBe(
       'var(--tng-datepicker-z-overlay, var(--tng-z-overlay, 1000))',
     );
@@ -243,7 +254,7 @@ describe('tng-datepicker.overlay', () => {
     });
   });
 
-  it('locks page scroll and does not reposition from scroll events while open', async () => {
+  it('repositions from scroll events by default without locking the page', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [DatepickerOverlayHostComponent],
     }).createComponent(DatepickerOverlayHostComponent);
@@ -258,10 +269,14 @@ describe('tng-datepicker.overlay', () => {
     await settle(fixture);
 
     const overlay = getRequired<HTMLElement>(document.body, '[data-testid="overlay"]');
-    const overlayTop = overlay.style.top;
-    const overlayRectSpy = vi.spyOn(overlay, 'getBoundingClientRect');
+    const anchor = getRequired<HTMLElement>(fixture.nativeElement, '[data-testid="anchor"]');
+    vi.spyOn(anchor, 'getBoundingClientRect').mockReturnValue(createRect(100, 140));
+    const overlayRectSpy = vi
+      .spyOn(overlay, 'getBoundingClientRect')
+      .mockReturnValue(createRect(0, 320));
 
-    expect(document.body.style.overflow).toBe('hidden');
+    expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('');
 
     window.dispatchEvent(new Event('scroll'));
     await waitForAnimationFrame();
@@ -270,14 +285,14 @@ describe('tng-datepicker.overlay', () => {
     expect(fixture.componentInstance.controller.getOutputs().open).toBe(true);
     expect(overlay.parentNode).toBe(document.body);
     expect(overlay.getAttribute('hidden')).toBeNull();
-    expect(overlay.style.top).toBe(overlayTop);
-    expect(overlayRectSpy).not.toHaveBeenCalled();
+    expect(overlayRectSpy).toHaveBeenCalled();
   });
 
-  it('locks scrollable ancestors while open and restores them on close', async () => {
+  it('preserves the document scrollbar and locks ancestors when block is explicit', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [DatepickerOverlayScrollableHostComponent],
     }).createComponent(DatepickerOverlayScrollableHostComponent);
+    fixture.componentInstance.scrollStrategy.set('block');
 
     await settle(fixture);
 
@@ -295,13 +310,67 @@ describe('tng-datepicker.overlay', () => {
     trigger.click();
     await settle(fixture);
 
-    expect(document.body.style.overflow).toBe('hidden');
+    expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('fixed');
+    expect(document.documentElement.style.overflowY).toBe('scroll');
     expect(scrollParent.style.overflow).toBe('hidden');
 
     fixture.componentInstance.controller.close();
     await settle(fixture);
 
     expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('');
+    expect(document.documentElement.style.overflowY).toBe('');
     expect(scrollParent.style.overflow).toBe('auto');
+  });
+
+  it('closes when scrolling clips the anchor out of the viewport', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DatepickerOverlayHostComponent],
+    }).createComponent(DatepickerOverlayHostComponent);
+
+    await settle(fixture);
+    const trigger = getRequired<HTMLButtonElement>(
+      fixture.nativeElement,
+      '[data-testid="trigger"]',
+    );
+    const anchor = getRequired<HTMLElement>(fixture.nativeElement, '[data-testid="anchor"]');
+    trigger.focus();
+    trigger.click();
+    await settle(fixture);
+    const focusSpy = vi.spyOn(trigger, 'focus');
+
+    vi.spyOn(anchor, 'getBoundingClientRect').mockReturnValue(createRect(-80, -40));
+    window.dispatchEvent(new Event('scroll'));
+    await settle(fixture);
+
+    expect(fixture.componentInstance.controller.getOutputs().open).toBe(false);
+    expect(focusSpy).not.toHaveBeenCalled();
+    expect(getRequired<HTMLElement>(fixture.nativeElement, '[data-testid="overlay"]').hidden).toBe(
+      true,
+    );
+  });
+
+  it('closes on the first external scroll when close is explicit', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DatepickerOverlayHostComponent],
+    }).createComponent(DatepickerOverlayHostComponent);
+    fixture.componentInstance.scrollStrategy.set('close');
+
+    await settle(fixture);
+    const trigger = getRequired<HTMLButtonElement>(
+      fixture.nativeElement,
+      '[data-testid="trigger"]',
+    );
+    trigger.focus();
+    trigger.click();
+    await settle(fixture);
+    const focusSpy = vi.spyOn(trigger, 'focus');
+
+    window.dispatchEvent(new Event('scroll'));
+    await settle(fixture);
+
+    expect(fixture.componentInstance.controller.getOutputs().open).toBe(false);
+    expect(focusSpy).not.toHaveBeenCalled();
   });
 });

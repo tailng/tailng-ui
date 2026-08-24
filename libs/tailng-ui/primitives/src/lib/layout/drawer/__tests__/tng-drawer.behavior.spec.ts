@@ -156,7 +156,12 @@ class DrawerHostComponent {
 @Component({
   imports: [TngDrawerContainer, TngDrawer, TngDrawerContent],
   template: `
-    <section tngDrawerContainer [closeOthersOnOpen]="closeOthersOnOpen()" [dir]="dir()" [animate]="false">
+    <section
+      tngDrawerContainer
+      [closeOthersOnOpen]="closeOthersOnOpen()"
+      [dir]="dir()"
+      [animate]="false"
+    >
       <aside
         tngDrawer
         #startDrawer="tngDrawer"
@@ -233,20 +238,30 @@ describe('tng-drawer behavior blocks B-T', () => {
   beforeEach(() => {
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
+    document.documentElement.style.left = '';
+    document.documentElement.style.overflowY = '';
+    document.documentElement.style.position = '';
+    document.documentElement.style.top = '';
+    document.documentElement.style.width = '';
   });
 
   afterEach(() => {
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
+    document.documentElement.style.left = '';
+    document.documentElement.style.overflowY = '';
+    document.documentElement.style.position = '';
+    document.documentElement.style.top = '';
+    document.documentElement.style.width = '';
     TestBed.resetTestingModule();
     vi.useRealTimers();
   });
 
   describe('B) ARIA & accessibility attributes', () => {
     it('applies the configured role on the drawer host', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.role.set('dialog');
 
       fixture.detectChanges();
@@ -255,9 +270,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('preserves consumer-provided aria-label and aria-labelledby on the drawer', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.ariaLabel.set('Main navigation');
       fixture.componentInstance.ariaLabelledby.set('drawer-title');
 
@@ -269,9 +284,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('applies aria-modal=true when role is dialog and overlay mode is open', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.role.set('dialog');
       host.defaultOpened.set(true);
@@ -282,9 +297,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('does not apply aria-modal when role is not dialog or drawer is closed', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.role.set('navigation');
       fixture.componentInstance.defaultOpened.set(true);
 
@@ -299,9 +314,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('exposes state attributes (data-open, data-mode, data-position)', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.defaultOpened.set(true);
       host.mode.set('push');
@@ -321,9 +336,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('backdrop is presentational and non-focusable', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.defaultOpened.set(true);
 
       fixture.detectChanges();
@@ -338,9 +353,9 @@ describe('tng-drawer behavior blocks B-T', () => {
 
   describe('C) controlled vs uncontrolled state', () => {
     it('respects controlled opened=true on initial render', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.opened.set(true);
 
       fixture.detectChanges();
@@ -349,9 +364,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('respects controlled opened=false on initial render', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.opened.set(false);
       fixture.componentInstance.defaultOpened.set(true);
 
@@ -361,9 +376,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('respects defaultOpened only when opened is not provided', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.defaultOpened.set(true);
 
       fixture.detectChanges();
@@ -375,9 +390,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('does not mutate consumer-controlled opened state internally', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.opened.set(false);
 
@@ -391,9 +406,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('does not emit openedChange on initial render', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.defaultOpened.set(true);
 
       fixture.detectChanges();
@@ -404,9 +419,9 @@ describe('tng-drawer behavior blocks B-T', () => {
 
   describe('D) public methods & idempotency', () => {
     it('open, close, and toggle update state deterministically', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       fixture.detectChanges();
 
@@ -428,9 +443,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('toggles hidden attribute alongside open state', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       fixture.detectChanges();
 
@@ -447,9 +462,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('repeated open/close calls are idempotent and do not duplicate lifecycle events', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       fixture.detectChanges();
 
@@ -465,9 +480,9 @@ describe('tng-drawer behavior blocks B-T', () => {
 
   describe('E) mode semantics', () => {
     it('overlay mode does not shift content', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.defaultOpened.set(true);
       host.mode.set('overlay');
@@ -480,9 +495,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('push mode shifts content by drawer width', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.defaultOpened.set(true);
       host.mode.set('push');
@@ -495,9 +510,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('side mode shifts content by drawer width', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.defaultOpened.set(true);
       host.mode.set('side');
@@ -510,9 +525,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('switching mode at runtime recomputes layout', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.defaultOpened.set(true);
       host.mode.set('overlay');
@@ -526,9 +541,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('overlay uses backdrop by default when backdrop auto', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.defaultOpened.set(true);
       fixture.componentInstance.mode.set('overlay');
 
@@ -538,9 +553,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('push and side do not use backdrop by default when backdrop auto', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.defaultOpened.set(true);
       fixture.componentInstance.mode.set('push');
 
@@ -555,9 +570,9 @@ describe('tng-drawer behavior blocks B-T', () => {
 
   describe('F) positioning and RTL', () => {
     it('maps start/end correctly in LTR and RTL', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.defaultOpened.set(true);
 
@@ -581,9 +596,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('recomputes effective side and offsets on runtime direction changes while open', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [MultiDrawerHostComponent] }).createComponent(
-        MultiDrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [MultiDrawerHostComponent],
+      }).createComponent(MultiDrawerHostComponent);
       const host = fixture.componentInstance;
       host.mode.set('push');
       host.startOpened.set(true);
@@ -607,9 +622,9 @@ describe('tng-drawer behavior blocks B-T', () => {
 
   describe('G) backdrop and outside interaction', () => {
     it('creates backdrop only when open and enabled', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.detectChanges();
       expect(findBackdrop(fixture)).toBeNull();
 
@@ -623,9 +638,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('backdrop click emits backdropClick and closes by default', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.defaultOpened.set(true);
 
@@ -642,9 +657,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('backdrop click does not close when closeOnOutsideClick=false but still emits', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.defaultOpened.set(true);
       host.closeOnOutsideClick.set(false);
@@ -660,15 +675,17 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('outside pointerdown closes when enabled and ignores click-only events', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.defaultOpened.set(true);
 
       fixture.detectChanges();
 
-      const outside = fixture.nativeElement.querySelector('[data-testid="outside"]') as HTMLButtonElement;
+      const outside = fixture.nativeElement.querySelector(
+        '[data-testid="outside"]',
+      ) as HTMLButtonElement;
 
       outside.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
       fixture.detectChanges();
@@ -680,15 +697,17 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('outside pointerdown does not close when closeOnOutsideClick=false', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.defaultOpened.set(true);
       fixture.componentInstance.closeOnOutsideClick.set(false);
 
       fixture.detectChanges();
 
-      const outside = fixture.nativeElement.querySelector('[data-testid="outside"]') as HTMLButtonElement;
+      const outside = fixture.nativeElement.querySelector(
+        '[data-testid="outside"]',
+      ) as HTMLButtonElement;
       pointerdown(outside);
       fixture.detectChanges();
 
@@ -696,23 +715,27 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('pointerdown inside drawer and content does not close', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.defaultOpened.set(true);
       fixture.detectChanges();
 
-      pointerdown(fixture.nativeElement.querySelector('[data-testid="inside-a"]') as HTMLButtonElement);
-      pointerdown(fixture.nativeElement.querySelector('[data-testid="content-btn"]') as HTMLButtonElement);
+      pointerdown(
+        fixture.nativeElement.querySelector('[data-testid="inside-a"]') as HTMLButtonElement,
+      );
+      pointerdown(
+        fixture.nativeElement.querySelector('[data-testid="content-btn"]') as HTMLButtonElement,
+      );
       fixture.detectChanges();
 
       expect(findDrawer(fixture).getAttribute('data-state')).toBe('open');
     });
 
     it('exposes data-tng-overlay-layer-id equal to the drawer id', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.detectChanges();
 
       const drawer = findDrawer(fixture);
@@ -721,9 +744,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('pointerdown on a body-portalled overlay owned by the drawer does not close', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.defaultOpened.set(true);
       fixture.detectChanges();
 
@@ -750,9 +773,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('pointerdown on a body-portalled overlay with a different owner id closes the drawer', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.defaultOpened.set(true);
       fixture.detectChanges();
 
@@ -776,9 +799,9 @@ describe('tng-drawer behavior blocks B-T', () => {
 
   describe('H) Escape close behavior', () => {
     it('pressing Escape closes when closeOnEscape=true and drawer is open', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.defaultOpened.set(true);
       fixture.detectChanges();
 
@@ -790,9 +813,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('pressing Escape does not close when closeOnEscape=false', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.defaultOpened.set(true);
       fixture.componentInstance.closeOnEscape.set(false);
       fixture.detectChanges();
@@ -805,9 +828,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('pressing Escape does nothing when drawer is already closed', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.detectChanges();
 
       const event = keydown(document, 'Escape');
@@ -818,9 +841,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('Escape close emits closeStart before closed', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.defaultOpened.set(true);
       fixture.detectChanges();
       fixture.componentInstance.lifecycle.splice(0);
@@ -834,9 +857,9 @@ describe('tng-drawer behavior blocks B-T', () => {
 
   describe('I/J) focus management and Tab policy', () => {
     it('autoFocus supports drawer, first-focusable, and none', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
 
       host.autoFocus.set('drawer');
@@ -855,7 +878,9 @@ describe('tng-drawer behavior blocks B-T', () => {
         fixture.nativeElement.querySelector('[data-testid="inside-a"]') as HTMLElement,
       );
 
-      const before = fixture.nativeElement.querySelector('[data-testid="before"]') as HTMLButtonElement;
+      const before = fixture.nativeElement.querySelector(
+        '[data-testid="before"]',
+      ) as HTMLButtonElement;
       host.restoreFocus.set(false);
       fixture.detectChanges();
       before.focus();
@@ -870,16 +895,20 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('restoreFocus restores to the prior target on Escape and supports fallback when removed', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.defaultOpened.set(false);
       host.restoreFocus.set(true);
       fixture.detectChanges();
 
-      const before = fixture.nativeElement.querySelector('[data-testid="before"]') as HTMLButtonElement;
-      const fallback = fixture.nativeElement.querySelector('[data-testid="fallback"]') as HTMLButtonElement;
+      const before = fixture.nativeElement.querySelector(
+        '[data-testid="before"]',
+      ) as HTMLButtonElement;
+      const fallback = fixture.nativeElement.querySelector(
+        '[data-testid="fallback"]',
+      ) as HTMLButtonElement;
 
       before.focus();
       host.drawer.setRestoreFocusFallback(fallback);
@@ -894,15 +923,17 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('does not restore focus when restoreFocus=false', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.restoreFocus.set(false);
       host.defaultOpened.set(false);
       fixture.detectChanges();
 
-      const before = fixture.nativeElement.querySelector('[data-testid="before"]') as HTMLButtonElement;
+      const before = fixture.nativeElement.querySelector(
+        '[data-testid="before"]',
+      ) as HTMLButtonElement;
       before.focus();
 
       host.drawer.open();
@@ -914,17 +945,21 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('trapFocus auto in overlay traps Tab; trapFocus=false allows native Tab', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.defaultOpened.set(true);
       host.trapFocus.set('auto');
 
       fixture.detectChanges();
 
-      const first = fixture.nativeElement.querySelector('[data-testid="inside-a"]') as HTMLButtonElement;
-      const second = fixture.nativeElement.querySelector('[data-testid="inside-b"]') as HTMLButtonElement;
+      const first = fixture.nativeElement.querySelector(
+        '[data-testid="inside-a"]',
+      ) as HTMLButtonElement;
+      const second = fixture.nativeElement.querySelector(
+        '[data-testid="inside-b"]',
+      ) as HTMLButtonElement;
       first.focus();
 
       const trappedTab = keydown(document, 'Tab');
@@ -944,9 +979,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('closeOnTab closes on Tab/Shift+Tab without preventDefault and does not restore focus', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.defaultOpened.set(true);
       host.closeOnTab.set(true);
@@ -954,7 +989,9 @@ describe('tng-drawer behavior blocks B-T', () => {
       host.restoreFocus.set(true);
       fixture.detectChanges();
 
-      const outside = fixture.nativeElement.querySelector('[data-testid="outside"]') as HTMLButtonElement;
+      const outside = fixture.nativeElement.querySelector(
+        '[data-testid="outside"]',
+      ) as HTMLButtonElement;
       outside.focus();
 
       host.drawer.open();
@@ -977,9 +1014,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('inertContent auto marks content inert in overlay and releases on close', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.defaultOpened.set(true);
       host.inertContent.set('auto');
@@ -1001,9 +1038,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('releases focus trap behavior after close', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.defaultOpened.set(true);
       host.trapFocus.set('auto');
@@ -1024,9 +1061,9 @@ describe('tng-drawer behavior blocks B-T', () => {
 
   describe('K/L) lifecycle ordering and animation completion', () => {
     it('animate=false emits openStart/opened and closeStart/closed in deterministic order', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.animate.set(false);
       fixture.detectChanges();
@@ -1039,9 +1076,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('does not emit opened/closed without matching start events', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.animate.set(true);
       fixture.detectChanges();
@@ -1064,9 +1101,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('animate=true emits opened/closed on host transitionend and ignores nested transitionend', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.animate.set(true);
       fixture.detectChanges();
@@ -1076,7 +1113,9 @@ describe('tng-drawer behavior blocks B-T', () => {
 
       expect(host.lifecycle).toEqual(['openStart']);
 
-      transitionend(fixture.nativeElement.querySelector('[data-testid="nested-transition"]') as HTMLElement);
+      transitionend(
+        fixture.nativeElement.querySelector('[data-testid="nested-transition"]') as HTMLElement,
+      );
       fixture.detectChanges();
       expect(host.lifecycle).toEqual(['openStart']);
 
@@ -1094,9 +1133,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('handles transition completion correctly when width changes during animated open', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.animate.set(true);
       host.drawerWidth.set(180);
@@ -1116,9 +1155,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('rapid open-close preserves final state and consistent ordering', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.animate.set(false);
       fixture.detectChanges();
@@ -1133,26 +1172,30 @@ describe('tng-drawer behavior blocks B-T', () => {
   });
 
   describe('M) scroll and viewport policy', () => {
-    it('locks body scroll in overlay mode when lockScroll=auto and unlocks on close', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+    it('locks viewport scroll without removing the scrollbar and unlocks on close', () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.defaultOpened.set(true);
       fixture.componentInstance.mode.set('overlay');
       fixture.componentInstance.lockScroll.set('auto');
 
       fixture.detectChanges();
-      expect(document.body.style.overflow).toBe('hidden');
+      expect(document.body.style.overflow).toBe('');
+      expect(document.documentElement.style.position).toBe('fixed');
+      expect(document.documentElement.style.overflowY).toBe('scroll');
 
       fixture.componentInstance.drawer.close();
       fixture.detectChanges();
       expect(document.body.style.overflow).toBe('');
+      expect(document.documentElement.style.position).toBe('');
+      expect(document.documentElement.style.overflowY).toBe('');
     });
 
     it('does not lock scroll when lockScroll=false or mode is side/push', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
 
       host.defaultOpened.set(true);
@@ -1172,9 +1215,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('remains open on window resize and scroll when no close-on-viewport policy is configured', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.defaultOpened.set(true);
       fixture.detectChanges();
 
@@ -1188,9 +1231,9 @@ describe('tng-drawer behavior blocks B-T', () => {
 
   describe('N) multiple drawers in one container', () => {
     it('supports one start and one end drawer and closeOthersOnOpen behavior', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [MultiDrawerHostComponent] }).createComponent(
-        MultiDrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [MultiDrawerHostComponent],
+      }).createComponent(MultiDrawerHostComponent);
       const host = fixture.componentInstance;
       host.mode.set('overlay');
       host.closeOthersOnOpen.set(true);
@@ -1198,28 +1241,36 @@ describe('tng-drawer behavior blocks B-T', () => {
 
       fixture.detectChanges();
 
-      expect((fixture.nativeElement.querySelector('[data-testid="start"]') as HTMLElement).getAttribute('data-state')).toBe(
-        'open',
-      );
-      expect((fixture.nativeElement.querySelector('[data-testid="end"]') as HTMLElement).getAttribute('data-state')).toBe(
-        'closed',
-      );
+      expect(
+        (fixture.nativeElement.querySelector('[data-testid="start"]') as HTMLElement).getAttribute(
+          'data-state',
+        ),
+      ).toBe('open');
+      expect(
+        (fixture.nativeElement.querySelector('[data-testid="end"]') as HTMLElement).getAttribute(
+          'data-state',
+        ),
+      ).toBe('closed');
 
       host.startOpened.set(false);
       host.endOpened.set(true);
       fixture.detectChanges();
-      expect((fixture.nativeElement.querySelector('[data-testid="start"]') as HTMLElement).getAttribute('data-state')).toBe(
-        'closed',
-      );
-      expect((fixture.nativeElement.querySelector('[data-testid="end"]') as HTMLElement).getAttribute('data-state')).toBe(
-        'open',
-      );
+      expect(
+        (fixture.nativeElement.querySelector('[data-testid="start"]') as HTMLElement).getAttribute(
+          'data-state',
+        ),
+      ).toBe('closed');
+      expect(
+        (fixture.nativeElement.querySelector('[data-testid="end"]') as HTMLElement).getAttribute(
+          'data-state',
+        ),
+      ).toBe('open');
     });
 
     it('allows both drawers open when closeOthersOnOpen=false and computes deterministic offsets', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [MultiDrawerHostComponent] }).createComponent(
-        MultiDrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [MultiDrawerHostComponent],
+      }).createComponent(MultiDrawerHostComponent);
       const host = fixture.componentInstance;
       host.mode.set('push');
       host.closeOthersOnOpen.set(false);
@@ -1234,9 +1285,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('has deterministic backdrop policy when both overlay drawers are open', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [MultiDrawerHostComponent] }).createComponent(
-        MultiDrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [MultiDrawerHostComponent],
+      }).createComponent(MultiDrawerHostComponent);
       const host = fixture.componentInstance;
       host.mode.set('overlay');
       host.closeOthersOnOpen.set(false);
@@ -1253,9 +1304,9 @@ describe('tng-drawer behavior blocks B-T', () => {
 
   describe('O/P/Q/R/S/T) lifecycle, cleanup, disabled, fixed viewport, resilience, swipe', () => {
     it('removing an open drawer via ngIf closes it and emits deterministic close lifecycle', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DynamicDrawerHostComponent] }).createComponent(
-        DynamicDrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DynamicDrawerHostComponent],
+      }).createComponent(DynamicDrawerHostComponent);
       fixture.detectChanges();
 
       fixture.componentInstance.showDrawer.set(false);
@@ -1265,9 +1316,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('removing content or container while open fails safely and cleans up state', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DynamicDrawerHostComponent] }).createComponent(
-        DynamicDrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DynamicDrawerHostComponent],
+      }).createComponent(DynamicDrawerHostComponent);
       fixture.detectChanges();
 
       fixture.componentInstance.showContent.set(false);
@@ -1281,21 +1332,25 @@ describe('tng-drawer behavior blocks B-T', () => {
     it('re-rendering a drawer element preserves open state and does not leak global listeners', () => {
       const addSpy = vi.spyOn(document, 'addEventListener');
       const removeSpy = vi.spyOn(document, 'removeEventListener');
-      const fixture = TestBed.configureTestingModule({ imports: [DynamicDrawerHostComponent] }).createComponent(
-        DynamicDrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DynamicDrawerHostComponent],
+      }).createComponent(DynamicDrawerHostComponent);
       fixture.detectChanges();
-      expect((fixture.nativeElement.querySelector('[data-testid="drawer"]') as HTMLElement).getAttribute('data-state')).toBe(
-        'open',
-      );
+      expect(
+        (fixture.nativeElement.querySelector('[data-testid="drawer"]') as HTMLElement).getAttribute(
+          'data-state',
+        ),
+      ).toBe('open');
 
       fixture.componentInstance.showDrawer.set(false);
       fixture.detectChanges();
       fixture.componentInstance.showDrawer.set(true);
       fixture.detectChanges();
-      expect((fixture.nativeElement.querySelector('[data-testid="drawer"]') as HTMLElement).getAttribute('data-state')).toBe(
-        'open',
-      );
+      expect(
+        (fixture.nativeElement.querySelector('[data-testid="drawer"]') as HTMLElement).getAttribute(
+          'data-state',
+        ),
+      ).toBe('open');
 
       fixture.componentInstance.showDrawer.set(false);
       fixture.detectChanges();
@@ -1313,9 +1368,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('re-rendering container preserves drawer association and open state', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DynamicDrawerHostComponent] }).createComponent(
-        DynamicDrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DynamicDrawerHostComponent],
+      }).createComponent(DynamicDrawerHostComponent);
       fixture.detectChanges();
 
       fixture.componentInstance.showContainer.set(false);
@@ -1323,7 +1378,9 @@ describe('tng-drawer behavior blocks B-T', () => {
       fixture.componentInstance.showContainer.set(true);
       fixture.detectChanges();
 
-      const container = fixture.nativeElement.querySelector('[data-testid="container"]') as HTMLElement;
+      const container = fixture.nativeElement.querySelector(
+        '[data-testid="container"]',
+      ) as HTMLElement;
       const drawer = fixture.nativeElement.querySelector('[data-testid="drawer"]') as HTMLElement;
       const content = fixture.nativeElement.querySelector('[data-testid="content"]') as HTMLElement;
 
@@ -1333,25 +1390,29 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('replacing the restoreFocus target while open uses the latest target on close', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.defaultOpened.set(false);
       host.restoreFocus.set(true);
       fixture.detectChanges();
 
-      const before = fixture.nativeElement.querySelector('[data-testid="before"]') as HTMLButtonElement;
-      const outside = fixture.nativeElement.querySelector('[data-testid="outside"]') as HTMLButtonElement;
+      const before = fixture.nativeElement.querySelector(
+        '[data-testid="before"]',
+      ) as HTMLButtonElement;
+      const outside = fixture.nativeElement.querySelector(
+        '[data-testid="outside"]',
+      ) as HTMLButtonElement;
 
       before.focus();
       host.drawer.open();
       fixture.detectChanges();
 
       // Set a newer restore target while open; close should restore to this latest target.
-      (host.drawer as unknown as { setRestoreFocusTarget: (target: HTMLElement | null) => void }).setRestoreFocusTarget(
-        outside,
-      );
+      (
+        host.drawer as unknown as { setRestoreFocusTarget: (target: HTMLElement | null) => void }
+      ).setRestoreFocusTarget(outside);
 
       keydown(document, 'Escape');
       fixture.detectChanges();
@@ -1360,9 +1421,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('disabled drawer ignores open but still reflects aria-disabled', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.disabled.set(true);
       fixture.detectChanges();
@@ -1375,9 +1436,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('disabled drawer cannot be opened by pointer interaction', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.disabled.set(true);
       fixture.detectChanges();
 
@@ -1390,9 +1451,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('disabled drawer can still close programmatically when already open', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.defaultOpened.set(true);
       fixture.detectChanges();
@@ -1406,9 +1467,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('fixedInViewport applies fixed positioning and top/bottom gaps', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.fixedInViewport.set(true);
       host.fixedTopGap.set(12);
@@ -1424,9 +1485,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('fixed viewport mode does not break push offset computations', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.mode.set('push');
       host.fixedInViewport.set(true);
@@ -1437,12 +1498,14 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('opening/closing without any trigger does not throw, including hidden containers', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.detectChanges();
 
-      const container = fixture.nativeElement.querySelector('[data-testid="container"]') as HTMLElement;
+      const container = fixture.nativeElement.querySelector(
+        '[data-testid="container"]',
+      ) as HTMLElement;
       container.style.display = 'none';
 
       expect(() => {
@@ -1454,9 +1517,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('width changes while open recompute push offsets on detectChanges', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.mode.set('push');
       host.defaultOpened.set(true);
@@ -1474,9 +1537,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('backdrop remains visible when open even if closeOnOutsideClick is false', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.defaultOpened.set(true);
       fixture.componentInstance.closeOnOutsideClick.set(false);
       fixture.componentInstance.backdrop.set(true);
@@ -1487,9 +1550,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('does not close on pointerdown events that land on viewport scrollbars', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.defaultOpened.set(true);
       fixture.detectChanges();
 
@@ -1503,9 +1566,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('swipe-to-close is disabled by default and enabled only for overlay', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.defaultOpened.set(true);
       fixture.detectChanges();
@@ -1537,9 +1600,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('swipe-to-close respects RTL side mapping and emits close lifecycle in order', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.defaultOpened.set(true);
       host.swipeToClose.set(true);
@@ -1561,9 +1624,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('swipe gesture does not close when movement is primarily vertical', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       const host = fixture.componentInstance;
       host.defaultOpened.set(true);
       host.swipeToClose.set(true);
@@ -1571,8 +1634,12 @@ describe('tng-drawer behavior blocks B-T', () => {
       fixture.detectChanges();
 
       const drawer = findDrawer(fixture);
-      drawer.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, clientX: 120, clientY: 20 }));
-      drawer.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 70, clientY: 210 }));
+      drawer.dispatchEvent(
+        new PointerEvent('pointerdown', { bubbles: true, clientX: 120, clientY: 20 }),
+      );
+      drawer.dispatchEvent(
+        new PointerEvent('pointermove', { bubbles: true, clientX: 70, clientY: 210 }),
+      );
       drawer.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
       fixture.detectChanges();
 
@@ -1583,24 +1650,20 @@ describe('tng-drawer behavior blocks B-T', () => {
       const addSpy = vi.spyOn(document, 'addEventListener');
       const removeSpy = vi.spyOn(document, 'removeEventListener');
 
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.defaultOpened.set(true);
       fixture.detectChanges();
 
-      expect(
-        addSpy.mock.calls.some(
-          ([type]) => type === 'pointerdown' || type === 'keydown',
-        ),
-      ).toBe(true);
+      expect(addSpy.mock.calls.some(([type]) => type === 'pointerdown' || type === 'keydown')).toBe(
+        true,
+      );
 
       fixture.destroy();
 
       expect(
-        removeSpy.mock.calls.some(
-          ([type]) => type === 'pointerdown' || type === 'keydown',
-        ),
+        removeSpy.mock.calls.some(([type]) => type === 'pointerdown' || type === 'keydown'),
       ).toBe(true);
 
       addSpy.mockRestore();
@@ -1608,9 +1671,9 @@ describe('tng-drawer behavior blocks B-T', () => {
     });
 
     it('teardown does not leave stale drawer/backdrop state in the document', () => {
-      const fixture = TestBed.configureTestingModule({ imports: [DrawerHostComponent] }).createComponent(
-        DrawerHostComponent,
-      );
+      const fixture = TestBed.configureTestingModule({
+        imports: [DrawerHostComponent],
+      }).createComponent(DrawerHostComponent);
       fixture.componentInstance.role.set('dialog');
       fixture.componentInstance.defaultOpened.set(true);
       fixture.detectChanges();

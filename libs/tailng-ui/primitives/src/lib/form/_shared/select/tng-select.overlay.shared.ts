@@ -143,7 +143,9 @@ function anchorRectFor(anchorEl: HTMLElement): MaybeRect {
     return rectFromClientRect(widthRect);
   }
   const labelPosition = anchorEl.getAttribute('data-label-position');
-  const fieldset = anchorEl.querySelector('[data-slot="form-field-control-row"]') as HTMLElement | null;
+  const fieldset = anchorEl.querySelector(
+    '[data-slot="form-field-control-row"]',
+  ) as HTMLElement | null;
   const innerRow = anchorEl.querySelector('.tng-form-field__control-row') as HTMLElement | null;
   const positionEl = labelPosition === 'outline' ? (fieldset ?? innerRow) : (innerRow ?? fieldset);
   if (!positionEl) return rectFromClientRect(widthRect);
@@ -181,7 +183,7 @@ export class TngSelectOverlay {
   public readonly placement = input<TngOverlayPlacement | undefined>(undefined);
   public readonly offset = input<TngOverlayOffset | undefined>(undefined);
   public readonly collision = input<TngOverlayCollisionOptions | undefined>(undefined);
-  public readonly scrollStrategy = input<TngOverlayScrollStrategy>('block');
+  public readonly scrollStrategy = input<TngOverlayScrollStrategy>('reposition');
 
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'select-overlay' as const;
@@ -383,14 +385,6 @@ export class TngSelectOverlay {
       if (!this.host.open()) return;
       if (!anchorEl) return;
 
-      if (
-        this.scrollStrategy() === 'reposition' &&
-        !isTngAnchorVisibleInScrollAncestors(anchorEl, this.scrollAncestors)
-      ) {
-        this.host.close();
-        return;
-      }
-
       const anchor = anchorRectFor(anchorEl);
       const viewportWidth = viewportRect().width;
       const inlineSize = Math.max(0, Math.min(anchor.width, viewportWidth - 16));
@@ -433,10 +427,7 @@ export class TngSelectOverlay {
 
     this.teardownScrollStrategy();
 
-    if (
-      this.lastFocusedBeforeOpen &&
-      document.contains(this.lastFocusedBeforeOpen)
-    ) {
+    if (this.lastFocusedBeforeOpen && document.contains(this.lastFocusedBeforeOpen)) {
       const active = document.activeElement as HTMLElement | null;
       const panelEl = this.elRef.nativeElement;
       if (!active || panelEl.contains(active)) {
@@ -470,7 +461,7 @@ export class TngSelectOverlay {
         this.host.multiple() &&
         ev.target &&
         (ev.target as Element).closest?.(
-          '[data-slot="select-option"], [data-slot="multi-select-option"]'
+          '[data-slot="select-option"], [data-slot="multi-select-option"]',
         )
       )
         return;

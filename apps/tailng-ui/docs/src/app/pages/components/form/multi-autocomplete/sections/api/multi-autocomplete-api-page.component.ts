@@ -130,7 +130,8 @@ export class MultiAutocompleteApiPageComponent {
     {
       name: 'options',
       type: 'readonly O[]',
-      details: 'Options rendered by the wrapper. Pass a pre-filtered list for local or server-side search.',
+      details:
+        'Options rendered by the wrapper. Pass a pre-filtered list for local or server-side search.',
     },
     {
       name: 'value / valueChange',
@@ -140,17 +141,26 @@ export class MultiAutocompleteApiPageComponent {
     {
       name: 'open / openChange',
       type: 'boolean / output',
-      details: 'Optional controlled overlay state when the parent needs to observe or drive the menu.',
+      details:
+        'Optional controlled overlay state when the parent needs to observe or drive the menu.',
+    },
+    {
+      name: 'scrollStrategy',
+      type: "'block' | 'close' | 'reposition'",
+      details:
+        'Controls external scrolling. Defaults to reposition; block locks scrolling while preserving the document scrollbar.',
     },
     {
       name: 'query / queryChange',
       type: 'string / output',
-      details: 'Controlled trigger text for local filtering, debounced requests, or server-driven results.',
+      details:
+        'Controlled trigger text for local filtering, debounced requests, or server-driven results.',
     },
     {
       name: 'disabled, loading, invalid',
       type: 'boolean',
-      details: 'Forwarded primitive state inputs reflected onto the wrapper host for visuals and interaction guards.',
+      details:
+        'Forwarded primitive state inputs reflected onto the wrapper host for visuals and interaction guards.',
     },
     {
       name: 'placeholder',
@@ -165,7 +175,8 @@ export class MultiAutocompleteApiPageComponent {
     {
       name: 'ariaLabel',
       type: 'string',
-      details: 'Accessible name applied to the owned trigger input when no external label element is present.',
+      details:
+        'Accessible name applied to the owned trigger input when no external label element is present.',
     },
   ]);
 
@@ -173,12 +184,14 @@ export class MultiAutocompleteApiPageComponent {
     {
       name: 'getOptionValue',
       type: '(option: O) => V',
-      details: 'Maps each option object to the committed selection value stored in the model array.',
+      details:
+        'Maps each option object to the committed selection value stored in the model array.',
     },
     {
       name: 'getOptionLabel',
       type: '(option: O) => string',
-      details: 'Maps each option object to the text used for chips and the default option template.',
+      details:
+        'Maps each option object to the text used for chips and the default option template.',
     },
     {
       name: 'isOptionDisabled',
@@ -188,7 +201,8 @@ export class MultiAutocompleteApiPageComponent {
     {
       name: 'trackBy',
       type: '(index: number, option: O) => unknown',
-      details: 'Custom identity function for stable option rendering when the input list is refreshed.',
+      details:
+        'Custom identity function for stable option rendering when the input list is refreshed.',
     },
   ]);
 
@@ -196,12 +210,14 @@ export class MultiAutocompleteApiPageComponent {
     {
       name: '#tngMultiAutocompleteChipTpl',
       type: 'TemplateRef<{ option, value, label, removeItem }>',
-      details: 'Overrides the chip body while keeping the wrapper-owned chip container and remove semantics.',
+      details:
+        'Overrides the chip body while keeping the wrapper-owned chip container and remove semantics.',
     },
     {
       name: '#tngMultiAutocompleteOptionTpl',
       type: 'TemplateRef<{ option, value, label, disabled, selected, active }>',
-      details: 'Overrides each option row for richer metadata layouts without rebuilding the primitive plumbing.',
+      details:
+        'Overrides each option row for richer metadata layouts without rebuilding the primitive plumbing.',
     },
   ]);
 
@@ -209,17 +225,20 @@ export class MultiAutocompleteApiPageComponent {
     {
       name: 'Query model',
       type: 'Wrapper API',
-      details: 'Bind query/queryChange when a parent component needs local filtering, debounced requests, or server-driven results.',
+      details:
+        'Bind query/queryChange when a parent component needs local filtering, debounced requests, or server-driven results.',
     },
     {
       name: 'Overlay markup',
       type: 'Wrapper-owned',
-      details: 'The wrapper owns the trigger, chip host, overlay container, and listbox wiring for the common multi-tag experience.',
+      details:
+        'The wrapper owns the trigger, chip host, overlay container, and listbox wiring for the common multi-tag experience.',
     },
     {
       name: 'Primitive escape hatch',
       type: 'Available',
-      details: 'Use headless multi autocomplete when you need bespoke trigger markup or custom overlay structure.',
+      details:
+        'Use headless multi autocomplete when you need bespoke trigger markup or custom overlay structure.',
     },
   ]);
 }

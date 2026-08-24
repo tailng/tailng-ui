@@ -56,7 +56,7 @@ export class DatepickerApiPageComponent implements OnDestroy {
     "import { bindTngDatepicker, createDatepickerController } from '@tailng-ui/primitives';",
     '',
     'readonly controller = createDatepickerController<Date>({',
-    "  ownerDocument: document,",
+    '  ownerDocument: document,',
     "  value: '2024-04-22',",
     "  today: '2024-04-18',",
     "  minDate: '2024-04-01',",
@@ -75,8 +75,8 @@ export class DatepickerApiPageComponent implements OnDestroy {
     '    <div #anchorShell>',
     '      <div',
     '        data-slot="datepicker-input-shell"',
-    "        [attr.data-invalid]=\"datepicker.outputs().validationError !== null ? 'true' : null\"",
-    "        [attr.data-open]=\"datepicker.outputs().getTriggerAttributes()['data-open']\"",
+    '        [attr.data-invalid]="datepicker.outputs().validationError !== null ? \'true\' : null"',
+    '        [attr.data-open]="datepicker.outputs().getTriggerAttributes()[\'data-open\']"',
     '      >',
     '        <input [tngDatepickerInput]="controller" type="text" placeholder="MM-DD-YYYY" />',
     '        <button [tngDatepickerTrigger]="controller" type="button">Open</button>',
@@ -121,7 +121,8 @@ export class DatepickerApiPageComponent implements OnDestroy {
           name: 'selectionMode',
           type: "'single' | 'range' | 'multiple'",
           default: "'single'",
-          details: 'Changes the value model and selection behavior without changing the wrapper UI contract.',
+          details:
+            'Changes the value model and selection behavior without changing the wrapper UI contract.',
         },
         {
           name: 'allowDeselect',
@@ -162,7 +163,8 @@ export class DatepickerApiPageComponent implements OnDestroy {
           name: 'autoCommitView',
           type: 'boolean',
           default: 'false',
-          details: 'Controls whether the wrapper should auto-commit when drilling between year, month, and day views.',
+          details:
+            'Controls whether the wrapper should auto-commit when drilling between year, month, and day views.',
         },
         {
           name: 'closeOnEscape',
@@ -234,6 +236,13 @@ export class DatepickerApiPageComponent implements OnDestroy {
           type: "'auto' | 'bottom' | 'top'",
           default: "'auto'",
           details: 'Auto-flips the popup when there is not enough room below the field.',
+        },
+        {
+          name: 'scrollStrategy',
+          type: "'block' | 'close' | 'reposition'",
+          default: "'reposition'",
+          details:
+            'Repositions with page scroll and closes if the field leaves view. Use block to lock scrolling while preserving the document scrollbar.',
         },
         {
           name: 'overlayRuntime',
@@ -381,7 +390,8 @@ export class DatepickerApiPageComponent implements OnDestroy {
   protected readonly wrapperMethodRows: readonly MethodRow[] = Object.freeze([
     {
       name: 'clear()',
-      details: 'Clears the current selection for the active selection mode and returns the wrapper to day view.',
+      details:
+        'Clears the current selection for the active selection mode and returns the wrapper to day view.',
     },
     {
       name: 'close(reason?)',
@@ -393,7 +403,8 @@ export class DatepickerApiPageComponent implements OnDestroy {
     },
     {
       name: 'showDaysPanel() / showMonthsPanel() / showYearsPanel()',
-      details: 'Drives the visible panel explicitly when the default drill-down flow is not enough.',
+      details:
+        'Drives the visible panel explicitly when the default drill-down flow is not enough.',
     },
     {
       name: 'toggleOpen()',
@@ -404,7 +415,8 @@ export class DatepickerApiPageComponent implements OnDestroy {
   protected readonly headlessBindingRows: readonly MethodRow[] = Object.freeze([
     {
       name: 'bindTngDatepicker(controller)',
-      details: 'Returns signals for outputs() and periodLabel() so Angular templates can stay declarative.',
+      details:
+        'Returns signals for outputs() and periodLabel() so Angular templates can stay declarative.',
     },
     {
       name: '[tngDatepickerHost]',
@@ -412,23 +424,28 @@ export class DatepickerApiPageComponent implements OnDestroy {
     },
     {
       name: '[tngDatepickerInput] / [tngDatepickerTrigger]',
-      details: 'Forward manual input editing, trigger registration, and wrapper-grade open and keyboard behavior.',
+      details:
+        'Forward manual input editing, trigger registration, and wrapper-grade open and keyboard behavior.',
     },
     {
       name: '[tngDatepickerOverlay]',
-      details: 'Ports the popup to document.body, syncs public overlay attributes, and keeps focus and positioning aligned.',
+      details:
+        'Ports the popup to document.body, syncs public overlay attributes, and keeps focus and positioning aligned.',
     },
     {
       name: '[tngDatepickerPrevButton] / [tngDatepickerNextButton] / [tngDatepickerPeriodButton]',
-      details: 'Own the standard navigation and drill-down flow without per-view branching in your component.',
+      details:
+        'Own the standard navigation and drill-down flow without per-view branching in your component.',
     },
     {
       name: '[tngDatepickerDayGrid] / [tngDatepickerDayCell]',
-      details: 'Forward day-grid keyboarding, click handling, hover range behavior, and the public day-cell state hooks.',
+      details:
+        'Forward day-grid keyboarding, click handling, hover range behavior, and the public day-cell state hooks.',
     },
     {
       name: '[tngDatepickerMonthGrid] / [tngDatepickerMonthOption] / [tngDatepickerYearGrid] / [tngDatepickerYearOption]',
-      details: 'Handle month and year picker keyboarding and selection while preserving the public slot contract.',
+      details:
+        'Handle month and year picker keyboarding and selection while preserving the public slot contract.',
     },
   ]);
 

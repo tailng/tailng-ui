@@ -174,6 +174,11 @@ describe('tng-menu component', () => {
   afterEach(() => {
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
+    document.documentElement.style.left = '';
+    document.documentElement.style.overflowY = '';
+    document.documentElement.style.position = '';
+    document.documentElement.style.top = '';
+    document.documentElement.style.width = '';
     vi.restoreAllMocks();
   });
 
@@ -319,7 +324,7 @@ describe('tng-menu component', () => {
     expect(menu.getAttribute('data-state')).toBe('closed');
   });
 
-  it('locks body scrolling when scrollStrategy is block', async () => {
+  it('preserves the document scrollbar while blocking scroll', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [BlockScrollHostComponent],
     }).createComponent(BlockScrollHostComponent);
@@ -338,13 +343,17 @@ describe('tng-menu component', () => {
     fixture.detectChanges();
 
     expect(menu.getAttribute('data-state')).toBe('open');
-    expect(document.body.style.overflow).toBe('hidden');
+    expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('fixed');
+    expect(document.documentElement.style.overflowY).toBe('scroll');
 
     trigger.click();
     fixture.detectChanges();
 
     expect(menu.getAttribute('data-state')).toBe('closed');
     expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('');
+    expect(document.documentElement.style.overflowY).toBe('');
   });
 
   it('renders a clicked second-level submenu as a positioned body portal', async () => {

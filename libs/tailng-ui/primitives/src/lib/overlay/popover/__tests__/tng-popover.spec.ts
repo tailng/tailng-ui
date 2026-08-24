@@ -15,7 +15,10 @@ import {
   type TngPopoverSide,
 } from '../tng-popover';
 
-function getByTestId<T extends Element>(fixture: { nativeElement: HTMLElement }, testId: string): T {
+function getByTestId<T extends Element>(
+  fixture: { nativeElement: HTMLElement },
+  testId: string,
+): T {
   const element = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`) as T | null;
   if (element === null) {
     throw new Error(`Expected element [data-testid="${testId}"] to exist.`);
@@ -40,7 +43,10 @@ function pointerdown(target: EventTarget): PointerEvent {
   return event;
 }
 
-async function settle(fixture: { detectChanges(): void; whenStable(): Promise<unknown> }): Promise<void> {
+async function settle(fixture: {
+  detectChanges(): void;
+  whenStable(): Promise<unknown>;
+}): Promise<void> {
   fixture.detectChanges();
   await fixture.whenStable();
   fixture.detectChanges();
@@ -72,9 +78,7 @@ async function settle(fixture: { detectChanges(): void; whenStable(): Promise<un
       <button type="button" [tngPopoverTrigger]="popover" data-testid="trigger">Toggle</button>
 
       <section tngPopoverPanel data-testid="panel">
-        <button type="button" data-testid="first" data-tng-popover-initial-focus>
-          First
-        </button>
+        <button type="button" data-testid="first" data-tng-popover-initial-focus>First</button>
         <button type="button" data-testid="last">Last</button>
         <button type="button" tngPopoverClose data-testid="close">Close</button>
       </section>
@@ -165,7 +169,9 @@ class ScrollStrategyPopoverHarnessComponent {
       [restoreFocus]="false"
       (closed)="firstCloseReasons.push($event)"
     >
-      <button type="button" [tngPopoverTrigger]="firstPopover" data-testid="first-trigger">First</button>
+      <button type="button" [tngPopoverTrigger]="firstPopover" data-testid="first-trigger">
+        First
+      </button>
       <section tngPopoverPanel data-testid="first-panel">
         <button type="button">First panel action</button>
       </section>
@@ -180,7 +186,9 @@ class ScrollStrategyPopoverHarnessComponent {
       [restoreFocus]="false"
       (closed)="secondCloseReasons.push($event)"
     >
-      <button type="button" [tngPopoverTrigger]="secondPopover" data-testid="second-trigger">Second</button>
+      <button type="button" [tngPopoverTrigger]="secondPopover" data-testid="second-trigger">
+        Second
+      </button>
       <section tngPopoverPanel data-testid="second-panel">
         <button type="button">Second panel action</button>
       </section>
@@ -199,6 +207,11 @@ describe('tng-popover primitive behavior', () => {
     TestBed.resetTestingModule();
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
+    document.documentElement.style.left = '';
+    document.documentElement.style.overflowY = '';
+    document.documentElement.style.position = '';
+    document.documentElement.style.top = '';
+    document.documentElement.style.width = '';
   });
 
   it('exports root, trigger, panel, and close directives', () => {
@@ -364,7 +377,7 @@ describe('tng-popover primitive behavior', () => {
     expect(getByTestId<HTMLElement>(fixture, 'panel').getAttribute('hidden')).toBe('');
   });
 
-  it('blocks document and nested scroll containers when scrollStrategy is block', async () => {
+  it('preserves the document scrollbar and blocks nested scrolling when strategy is block', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [ScrollStrategyPopoverHarnessComponent],
     }).createComponent(ScrollStrategyPopoverHarnessComponent);
@@ -375,7 +388,9 @@ describe('tng-popover primitive behavior', () => {
     const panel = getByTestId<HTMLElement>(fixture, 'panel');
 
     expect(panel.getAttribute('hidden')).toBeNull();
-    expect(document.body.style.overflow).toBe('hidden');
+    expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('fixed');
+    expect(document.documentElement.style.overflowY).toBe('scroll');
     expect(scrollParent.style.overflow).toBe('hidden');
 
     window.dispatchEvent(new Event('scroll'));
@@ -388,6 +403,8 @@ describe('tng-popover primitive behavior', () => {
     await settle(fixture);
 
     expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('');
+    expect(document.documentElement.style.overflowY).toBe('');
     expect(scrollParent.style.overflow).toBe('auto');
   });
 

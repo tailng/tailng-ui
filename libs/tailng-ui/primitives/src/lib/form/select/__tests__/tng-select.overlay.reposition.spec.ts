@@ -81,11 +81,7 @@ class HostComponent {
         <span tngSelectTrigger data-testid="trigger">Trigger</span>
 
         <div tngSelectContent data-testid="content">
-          <div
-            tngSelectOverlay
-            [scrollStrategy]="scrollStrategy()"
-            data-testid="overlay"
-          >
+          <div tngSelectOverlay [scrollStrategy]="scrollStrategy()" data-testid="overlay">
             <div tngSelectListbox data-testid="listbox">
               <div tngSelectOption [tngValue]="'a'">A</div>
             </div>
@@ -116,10 +112,17 @@ describe('tng-select overlay primitive (scroll lock + reposition)', () => {
     document.body.innerHTML = '';
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
+    document.documentElement.style.left = '';
+    document.documentElement.style.overflowY = '';
+    document.documentElement.style.position = '';
+    document.documentElement.style.top = '';
+    document.documentElement.style.width = '';
   });
 
   it('does not reposition while closed (no measurements)', () => {
-    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(
+      HostComponent,
+    );
     fixture.detectChanges();
 
     const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
@@ -141,126 +144,111 @@ describe('tng-select overlay primitive (scroll lock + reposition)', () => {
       imports: [HostComponent],
     }).createComponent(HostComponent);
     fixture.detectChanges();
-  
-    const trigger = fixture.nativeElement.querySelector(
-      '[data-testid="trigger"]',
-    ) as HTMLElement;
-    const overlay = fixture.nativeElement.querySelector(
-      '[data-testid="overlay"]',
-    ) as HTMLElement;
-  
+
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
+    const overlay = fixture.nativeElement.querySelector('[data-testid="overlay"]') as HTMLElement;
+
     // IMPORTANT: overlay will be moved to body; spy must be set before open
-    const triggerRectSpy = vi
-      .spyOn(trigger, 'getBoundingClientRect')
-      .mockReturnValue({
-        left: 100,
-        top: 100,
-        width: 80,
-        height: 30,
-        right: 180,
-        bottom: 130,
-        x: 100,
-        y: 100,
-        toJSON: () => ({}),
-      } as any);
-  
-    const overlayRectSpy = vi
-      .spyOn(overlay, 'getBoundingClientRect')
-      .mockReturnValue({
-        left: 0,
-        top: 0,
-        width: 120,
-        height: 60,
-        right: 120,
-        bottom: 60,
-        x: 0,
-        y: 0,
-        toJSON: () => ({}),
-      } as any);
-  
+    const triggerRectSpy = vi.spyOn(trigger, 'getBoundingClientRect').mockReturnValue({
+      left: 100,
+      top: 100,
+      width: 80,
+      height: 30,
+      right: 180,
+      bottom: 130,
+      x: 100,
+      y: 100,
+      toJSON: () => ({}),
+    } as any);
+
+    const overlayRectSpy = vi.spyOn(overlay, 'getBoundingClientRect').mockReturnValue({
+      left: 0,
+      top: 0,
+      width: 120,
+      height: 60,
+      right: 120,
+      bottom: 60,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+    } as any);
+
     // open
     pointerdown(trigger);
     fixture.detectChanges();
-  
+
     // flush initial queueMicrotask positioning
     await Promise.resolve();
-  
+
     // clear initial positioning measurements so we only assert "resize caused it"
     triggerRectSpy.mockClear();
     overlayRectSpy.mockClear();
-  
+
     window.dispatchEvent(new Event('resize'));
-  
+
     // ✅ overlay batches reposition via requestAnimationFrame
     await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-  
+
     expect(triggerRectSpy).toHaveBeenCalled();
     expect(overlayRectSpy).toHaveBeenCalled();
   });
 
-  it('locks page scroll while open and does not reposition on scroll', async () => {
+  it('repositions on scroll by default without locking the page', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [HostComponent],
     }).createComponent(HostComponent);
     fixture.detectChanges();
-  
-    const trigger = fixture.nativeElement.querySelector(
-      '[data-testid="trigger"]',
-    ) as HTMLElement;
-    const overlay = fixture.nativeElement.querySelector(
-      '[data-testid="overlay"]',
-    ) as HTMLElement;
-  
-    const triggerRectSpy = vi
-      .spyOn(trigger, 'getBoundingClientRect')
-      .mockReturnValue({
-        left: 100,
-        top: 100,
-        width: 80,
-        height: 30,
-        right: 180,
-        bottom: 130,
-        x: 100,
-        y: 100,
-        toJSON: () => ({}),
-      } as any);
-  
-    const overlayRectSpy = vi
-      .spyOn(overlay, 'getBoundingClientRect')
-      .mockReturnValue({
-        left: 0,
-        top: 0,
-        width: 120,
-        height: 60,
-        right: 120,
-        bottom: 60,
-        x: 0,
-        y: 0,
-        toJSON: () => ({}),
-      } as any);
-  
+
+    const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
+    const overlay = fixture.nativeElement.querySelector('[data-testid="overlay"]') as HTMLElement;
+
+    const triggerRectSpy = vi.spyOn(trigger, 'getBoundingClientRect').mockReturnValue({
+      left: 100,
+      top: 100,
+      width: 80,
+      height: 30,
+      right: 180,
+      bottom: 130,
+      x: 100,
+      y: 100,
+      toJSON: () => ({}),
+    } as any);
+
+    const overlayRectSpy = vi.spyOn(overlay, 'getBoundingClientRect').mockReturnValue({
+      left: 0,
+      top: 0,
+      width: 120,
+      height: 60,
+      right: 120,
+      bottom: 60,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+    } as any);
+
     // open
     pointerdown(trigger);
     fixture.detectChanges();
-  
+
     // flush initial queueMicrotask positioning
     await Promise.resolve();
 
-    expect(document.body.style.overflow).toBe('hidden');
-  
+    expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('');
+
     // clear initial calls
     triggerRectSpy.mockClear();
     overlayRectSpy.mockClear();
-  
+
     // dispatch scroll on both common targets (impls vary)
     window.dispatchEvent(new Event('scroll'));
     document.dispatchEvent(new Event('scroll'));
-  
+
     // ✅ reposition is typically rAF-batched
     await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-  
-    expect(triggerRectSpy).not.toHaveBeenCalled();
-    expect(overlayRectSpy).not.toHaveBeenCalled();
+
+    expect(triggerRectSpy).toHaveBeenCalled();
+    expect(overlayRectSpy).toHaveBeenCalled();
 
     fixture.componentInstance.open.set(false);
     fixture.detectChanges();
@@ -268,14 +256,16 @@ describe('tng-select overlay primitive (scroll lock + reposition)', () => {
     expect(document.body.style.overflow).toBe('');
   });
 
-  it('blocks nested scroll containers by default while open', async () => {
+  it('preserves the document scrollbar and blocks nested scrolling when block is explicit', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [ScrollStrategyHostComponent],
     }).createComponent(ScrollStrategyHostComponent);
     fixture.detectChanges();
 
     const host = fixture.componentInstance;
-    const scrollParent = fixture.nativeElement.querySelector('[data-testid="scroll-parent"]') as HTMLElement;
+    const scrollParent = fixture.nativeElement.querySelector(
+      '[data-testid="scroll-parent"]',
+    ) as HTMLElement;
     const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLElement;
 
     pointerdown(trigger);
@@ -283,13 +273,17 @@ describe('tng-select overlay primitive (scroll lock + reposition)', () => {
     await Promise.resolve();
 
     expect(host.api.open()).toBe(true);
-    expect(document.body.style.overflow).toBe('hidden');
+    expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('fixed');
+    expect(document.documentElement.style.overflowY).toBe('scroll');
     expect(scrollParent.style.overflow).toBe('hidden');
 
     host.open.set(false);
     fixture.detectChanges();
 
     expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('');
+    expect(document.documentElement.style.overflowY).toBe('');
     expect(scrollParent.style.overflow).toBe('auto');
   });
 
@@ -317,7 +311,9 @@ describe('tng-select overlay primitive (scroll lock + reposition)', () => {
   });
 
   it('stops repositioning after close (no measurements after events)', async () => {
-    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(
+      HostComponent,
+    );
     fixture.detectChanges();
 
     const host = fixture.componentInstance;
@@ -325,11 +321,27 @@ describe('tng-select overlay primitive (scroll lock + reposition)', () => {
     const overlay = fixture.nativeElement.querySelector('[data-testid="overlay"]') as HTMLElement;
 
     const triggerRectSpy = vi.spyOn(trigger, 'getBoundingClientRect').mockReturnValue({
-      left: 100, top: 100, width: 80, height: 30, right: 180, bottom: 130, x: 100, y: 100, toJSON: () => ({}),
+      left: 100,
+      top: 100,
+      width: 80,
+      height: 30,
+      right: 180,
+      bottom: 130,
+      x: 100,
+      y: 100,
+      toJSON: () => ({}),
     } as any);
 
     const overlayRectSpy = vi.spyOn(overlay, 'getBoundingClientRect').mockReturnValue({
-      left: 0, top: 0, width: 120, height: 60, right: 120, bottom: 60, x: 0, y: 0, toJSON: () => ({}),
+      left: 0,
+      top: 0,
+      width: 120,
+      height: 60,
+      right: 120,
+      bottom: 60,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
     } as any);
 
     pointerdown(trigger);
@@ -352,7 +364,9 @@ describe('tng-select overlay primitive (scroll lock + reposition)', () => {
   });
 
   it('adds listeners on open and removes them on close/destroy', async () => {
-    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(HostComponent);
+    const fixture = TestBed.configureTestingModule({ imports: [HostComponent] }).createComponent(
+      HostComponent,
+    );
     fixture.detectChanges();
 
     const host = fixture.componentInstance;
@@ -366,7 +380,7 @@ describe('tng-select overlay primitive (scroll lock + reposition)', () => {
     // We don't pin exact options, just that resize is registered for anchored layout updates.
     const addCalls = addSpy.mock.calls.map(([type]) => type);
     expect(addCalls).toContain('resize');
-    expect(addCalls).not.toContain('scroll');
+    expect(addCalls).toContain('scroll');
 
     // close
     host.open.set(false);
@@ -374,7 +388,7 @@ describe('tng-select overlay primitive (scroll lock + reposition)', () => {
 
     const removeCalls = removeSpy.mock.calls.map(([type]) => type);
     expect(removeCalls).toContain('resize');
-    expect(removeCalls).not.toContain('scroll');
+    expect(removeCalls).toContain('scroll');
 
     // destroy also safe (no throw); if already removed, this just ensures no regressions
     fixture.destroy();

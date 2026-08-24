@@ -11,6 +11,7 @@ import {
   viewChild,
 } from '@angular/core';
 import type { FormValueControl } from '@angular/forms/signals';
+import type { TngOverlayScrollStrategy } from '@tailng-ui/cdk';
 import {
   defaultDatepickerDateAdapter,
   type TngCalendarView,
@@ -103,6 +104,7 @@ function createMonthDayAdapter(year: number): TngDateAdapter<Date> {
       [placeholder]="placeholder()"
       [readonly]="readonly()"
       [restoreFocus]="restoreFocus()"
+      [scrollStrategy]="scrollStrategy()"
       [value]="selectedDate()"
       (openChange)="openChange.emit($event)"
       (valueChange)="handleDateValueChange($event)"
@@ -119,8 +121,8 @@ function createMonthDayAdapter(year: number): TngDateAdapter<Date> {
   ],
 })
 export class TngMonthDaypickerComponent implements FormValueControl<TngMonthDayValue | undefined> {
-  private readonly hostEl: HTMLElement =
-  inject(ElementRef<HTMLElement>).nativeElement as HTMLElement;
+  private readonly hostEl: HTMLElement = inject(ElementRef<HTMLElement>)
+    .nativeElement as HTMLElement;
   private readonly datepicker = viewChild<TngDatepickerComponent<Date>>('datepicker');
   private hasObservedInitialValue = false;
 
@@ -141,6 +143,7 @@ export class TngMonthDaypickerComponent implements FormValueControl<TngMonthDayV
   public readonly placeholder = input<string>('MM-DD');
   public readonly readonly = input<boolean>(false);
   public readonly restoreFocus = input<boolean>(true);
+  public readonly scrollStrategy = input<TngOverlayScrollStrategy>('reposition');
   public readonly invalid = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });

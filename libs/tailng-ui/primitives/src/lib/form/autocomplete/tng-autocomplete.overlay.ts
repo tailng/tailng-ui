@@ -137,7 +137,9 @@ function anchorRectFor(anchorEl: HTMLElement): MaybeRect {
     return rectFromClientRect(widthRect);
   }
   const labelPosition = anchorEl.getAttribute('data-label-position');
-  const fieldset = anchorEl.querySelector('[data-slot="form-field-control-row"]') as HTMLElement | null;
+  const fieldset = anchorEl.querySelector(
+    '[data-slot="form-field-control-row"]',
+  ) as HTMLElement | null;
   const innerRow = anchorEl.querySelector('.tng-form-field__control-row') as HTMLElement | null;
   const positionEl = labelPosition === 'outline' ? (fieldset ?? innerRow) : (innerRow ?? fieldset);
   if (!positionEl) return rectFromClientRect(widthRect);
@@ -177,7 +179,7 @@ export class TngAutocompleteOverlay {
   readonly placement = input<TngOverlayPlacement | undefined>(undefined);
   readonly offset = input<TngOverlayOffset | undefined>(undefined);
   readonly collision = input<TngOverlayCollisionOptions | undefined>(undefined);
-  readonly scrollStrategy = input<TngOverlayScrollStrategy>('block');
+  readonly scrollStrategy = input<TngOverlayScrollStrategy>('reposition');
 
   private placeholder: Comment | null = null;
   private originalParent: Node | null = null;
@@ -220,7 +222,9 @@ export class TngAutocompleteOverlay {
     const root = this.autocomplete.hostElement;
     const formFieldAnchor = findFormFieldAnchor(root);
     if (formFieldAnchor) return formFieldAnchor;
-    const container = root.querySelector('[data-slot="autocomplete-trigger-container"]') as HTMLElement | null;
+    const container = root.querySelector(
+      '[data-slot="autocomplete-trigger-container"]',
+    ) as HTMLElement | null;
     if (container) return container;
     return root.querySelector('[data-slot="autocomplete-trigger"]') as HTMLElement | null;
   }
@@ -340,7 +344,8 @@ export class TngAutocompleteOverlay {
       const anchorEl = this.findAnchorEl();
       if (isInside(ev.target, panel)) return;
       if (anchorEl && isInside(ev.target, anchorEl)) return;
-      if (ev.target && (ev.target as Element).closest?.('[data-slot="autocomplete-option"]')) return;
+      if (ev.target && (ev.target as Element).closest?.('[data-slot="autocomplete-option"]'))
+        return;
       this.autocomplete.close();
     };
     document.addEventListener('pointerdown', onPointerDown, true);
@@ -377,7 +382,8 @@ export class TngAutocompleteOverlay {
   private applyPortalledStacking(): void {
     const panel = this.elRef.nativeElement;
 
-    panel.style.zIndex = 'var(--tng-autocomplete-z-overlay, var(--tng-autocomplete-overlay-z-index, var(--tng-z-overlay, 2)))';
+    panel.style.zIndex =
+      'var(--tng-autocomplete-z-overlay, var(--tng-autocomplete-overlay-z-index, var(--tng-z-overlay, 2)))';
   }
 
   private clearPortalledThemeVars(): void {
@@ -408,14 +414,6 @@ export class TngAutocompleteOverlay {
     queueMicrotask(() => {
       if (!this.autocomplete.open()) return;
       if (!anchorEl) return;
-
-      if (
-        this.scrollStrategy() === 'reposition' &&
-        !isTngAnchorVisibleInScrollAncestors(anchorEl, this.scrollAncestors)
-      ) {
-        this.autocomplete.close();
-        return;
-      }
 
       const anchor = anchorRectFor(anchorEl);
       panel.style.minWidth = `${anchor.width}px`;
@@ -461,15 +459,14 @@ export class TngAutocompleteOverlay {
     }
     this.teardownScrollStrategy();
 
-    if (
-      this.lastFocusedBeforeOpen &&
-      document.contains(this.lastFocusedBeforeOpen)
-    ) {
+    if (this.lastFocusedBeforeOpen && document.contains(this.lastFocusedBeforeOpen)) {
       const active = document.activeElement as HTMLElement | null;
       if (!active || panel.contains(active)) {
         this.autocomplete._restoringFocus = true;
         this.lastFocusedBeforeOpen.focus();
-        queueMicrotask(() => { this.autocomplete._restoringFocus = false; });
+        queueMicrotask(() => {
+          this.autocomplete._restoringFocus = false;
+        });
       }
     }
     this.restoreFocusOnClose();
@@ -495,13 +492,17 @@ export class TngAutocompleteOverlay {
     if (active && panel.contains(active)) {
       this.autocomplete._restoringFocus = true;
       trigger.focus();
-      queueMicrotask(() => { this.autocomplete._restoringFocus = false; });
+      queueMicrotask(() => {
+        this.autocomplete._restoringFocus = false;
+      });
       return;
     }
     if (document.activeElement === document.body) {
       this.autocomplete._restoringFocus = true;
       trigger.focus();
-      queueMicrotask(() => { this.autocomplete._restoringFocus = false; });
+      queueMicrotask(() => {
+        this.autocomplete._restoringFocus = false;
+      });
     }
   }
 }

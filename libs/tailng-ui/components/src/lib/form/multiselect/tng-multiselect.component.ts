@@ -8,6 +8,7 @@ import {
   input,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
+import type { TngOverlayScrollStrategy } from '@tailng-ui/cdk';
 
 import {
   TngMultiSelect,
@@ -74,6 +75,7 @@ export class TngMultiSelectComponent<O = unknown, V = unknown> {
 
   readonly options = input<readonly O[]>([]);
   readonly placeholder = input<string>('Select…');
+  readonly scrollStrategy = input<TngOverlayScrollStrategy>('reposition');
 
   readonly getOptionValue = input<TngMultiSelectGetValue<O, V>>(
     ((opt: unknown) => (opt as { value?: V })?.value) as TngMultiSelectGetValue<O, V>,

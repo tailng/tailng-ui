@@ -52,7 +52,9 @@ const PORTALLED_MULTI_AUTOCOMPLETE_THEME_VARS = [
   '--tng-multi-autocomplete-shadow-focus',
 ] as const;
 
-const createMultiAutocompleteOverlayLockId = createTngIdFactory('tng-multi-autocomplete-overlay-lock');
+const createMultiAutocompleteOverlayLockId = createTngIdFactory(
+  'tng-multi-autocomplete-overlay-lock',
+);
 
 function rectFromClientRect(r: DOMRect | ClientRect): MaybeRect {
   return { left: r.left, top: r.top, width: r.width, height: r.height };
@@ -100,7 +102,9 @@ function anchorRectFor(anchorEl: HTMLElement): MaybeRect {
     return rectFromClientRect(widthRect);
   }
   const labelPosition = anchorEl.getAttribute('data-label-position');
-  const fieldset = anchorEl.querySelector('[data-slot="form-field-control-row"]') as HTMLElement | null;
+  const fieldset = anchorEl.querySelector(
+    '[data-slot="form-field-control-row"]',
+  ) as HTMLElement | null;
   const innerRow = anchorEl.querySelector('.tng-form-field__control-row') as HTMLElement | null;
   const positionEl = labelPosition === 'outline' ? (fieldset ?? innerRow) : (innerRow ?? fieldset);
   if (!positionEl) return rectFromClientRect(widthRect);
@@ -138,7 +142,7 @@ export class TngMultiAutocompleteOverlay {
   private originalParent: Node | null = null;
   private scrollAncestors: readonly HTMLElement[] = [];
 
-  readonly scrollStrategy = input<TngOverlayScrollStrategy>('block');
+  readonly scrollStrategy = input<TngOverlayScrollStrategy>('reposition');
 
   @HostBinding('attr.data-slot')
   protected readonly dataSlot = 'multi-autocomplete-overlay' as const;
@@ -182,13 +186,14 @@ export class TngMultiAutocompleteOverlay {
     return findFormFieldAnchor(this.multi.hostElement) ?? this.multi.hostElement;
   }
 
-  private reposition(): void {
+  private reposition(closeWhenAnchorHidden = true): void {
     if (!this.multi.open()) return;
 
     const panel = this.elRef.nativeElement;
     const anchorEl = this.findAnchorEl();
 
     if (
+      closeWhenAnchorHidden &&
       this.scrollStrategy() === 'reposition' &&
       !isTngAnchorVisibleInScrollAncestors(anchorEl, this.scrollAncestors)
     ) {
@@ -289,7 +294,10 @@ export class TngMultiAutocompleteOverlay {
       const panel = this.elRef.nativeElement;
       if (isInside(event.target, panel)) return;
       if (isInside(event.target, this.findAnchorEl())) return;
-      if (event.target && (event.target as Element).closest?.('[data-slot="multi-autocomplete-option"]')) {
+      if (
+        event.target &&
+        (event.target as Element).closest?.('[data-slot="multi-autocomplete-option"]')
+      ) {
         return;
       }
 
@@ -361,20 +369,12 @@ export class TngMultiAutocompleteOverlay {
     queueMicrotask(() => {
       if (!this.multi.open()) return;
 
-      if (
-        this.scrollStrategy() === 'reposition' &&
-        !isTngAnchorVisibleInScrollAncestors(anchorEl, this.scrollAncestors)
-      ) {
-        this.multi.close();
-        return;
-      }
-
       const anchor = anchorRectFor(anchorEl);
       const viewportWidth = viewportRect().width;
       const inlineSize = Math.max(0, Math.min(anchor.width, viewportWidth - 16));
       panel.style.width = `${inlineSize}px`;
       panel.style.minWidth = `${inlineSize}px`;
-      this.reposition();
+      this.reposition(false);
     });
 
     this.setupOutsidePointer();

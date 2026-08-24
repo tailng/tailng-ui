@@ -87,7 +87,7 @@ export class TngSelectComponent<O = unknown, V = unknown> {
   // ----- data / accessors (recommended API) -----
   readonly options = input<readonly O[]>([]);
   readonly placeholder = input<string>('Select…');
-  readonly scrollStrategy = input<TngOverlayScrollStrategy>('block');
+  readonly scrollStrategy = input<TngOverlayScrollStrategy>('reposition');
 
   readonly getOptionValue = input<TngSelectGetValue<O, V>>(
     defaultGetOptionValue as TngSelectGetValue<O, V>,

@@ -20,6 +20,7 @@ import {
   type TngOverlayRuntime,
   type TngOverlayCollisionOptions,
   type TngOverlayPlacement,
+  type TngOverlayScrollStrategy,
 } from '@tailng-ui/cdk';
 import {
   createDatepickerController,
@@ -90,7 +91,8 @@ function createDatepickerInputId(): string {
   ],
 })
 export class TngDatepickerComponent<TDate = Date>
-  implements FormValueControl<TngDateSelectionInput<TDate> | undefined>, OnDestroy {
+  implements FormValueControl<TngDateSelectionInput<TDate> | undefined>, OnDestroy
+{
   private readonly hostElement = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly defaultLocale = inject(LOCALE_ID);
   private readonly fallbackInputId = createDatepickerInputId();
@@ -209,6 +211,7 @@ export class TngDatepickerComponent<TDate = Date>
   public readonly restoreFocus = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
+  public readonly scrollStrategy = input<TngOverlayScrollStrategy>('reposition');
   public readonly selectionMode = input<TngDatepickerSelectionMode>('single');
   public readonly showOutsideDays = input<boolean, unknown>(true, {
     transform: booleanAttribute,
@@ -240,8 +243,12 @@ export class TngDatepickerComponent<TDate = Date>
   protected readonly invalidState = computed(
     () => this.invalid() || this.outputs().validationError !== null,
   );
-  protected readonly overlayCollision = computed(() => this.resolveOverlayCollision(this.placement()));
-  protected readonly overlayPlacement = computed(() => this.resolveOverlayPlacement(this.placement()));
+  protected readonly overlayCollision = computed(() =>
+    this.resolveOverlayCollision(this.placement()),
+  );
+  protected readonly overlayPlacement = computed(() =>
+    this.resolveOverlayPlacement(this.placement()),
+  );
   protected readonly overlayThemeSource = this.hostElement.nativeElement;
 
   public readonly formFieldControl: TngFormFieldControl = createFormFieldAdapter({
@@ -363,9 +370,9 @@ export class TngDatepickerComponent<TDate = Date>
   }
 
   public focus(): void {
-    this.hostElement.nativeElement.querySelector<HTMLInputElement>(
-      'input[data-slot="datepicker-input"]',
-    )?.focus();
+    this.hostElement.nativeElement
+      .querySelector<HTMLInputElement>('input[data-slot="datepicker-input"]')
+      ?.focus();
   }
 
   public showDaysPanel(): void {
@@ -658,9 +665,7 @@ export class TngDatepickerComponent<TDate = Date>
     return key === 'Enter' || key === ' ';
   }
 
-  private resolveOverlayCollision(
-    placement: TngDatepickerPlacement,
-  ): TngOverlayCollisionOptions {
+  private resolveOverlayCollision(placement: TngDatepickerPlacement): TngOverlayCollisionOptions {
     return {
       flip: placement === 'auto',
       padding: OVERLAY_VIEWPORT_MARGIN,

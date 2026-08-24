@@ -42,7 +42,7 @@ class YearpickerHostComponent {
   imports: [TngYearpickerComponent],
   template: `
     <div data-testid="year-scroll-parent" style="overflow: auto; max-height: 120px;">
-      <tng-yearpicker [defaultValue]="2024" />
+      <tng-yearpicker [defaultValue]="2024" scrollStrategy="block" />
     </div>
   `,
 })
@@ -52,6 +52,11 @@ describe('tng-yearpicker component', () => {
   afterEach(() => {
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
+    document.documentElement.style.left = '';
+    document.documentElement.style.overflowY = '';
+    document.documentElement.style.position = '';
+    document.documentElement.style.top = '';
+    document.documentElement.style.width = '';
     document.body.querySelectorAll('[data-slot="datepicker-overlay"]').forEach((element) => {
       element.remove();
     });
@@ -98,7 +103,7 @@ describe('tng-yearpicker component', () => {
     expect(fixture.componentInstance.valueChanges).toEqual([2026]);
   });
 
-  it('locks scrollable ancestors while the year overlay is open', async () => {
+  it('preserves the document scrollbar and locks ancestors when block is explicit', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [ScrollableYearpickerHostComponent],
     }).createComponent(ScrollableYearpickerHostComponent);
@@ -119,7 +124,9 @@ describe('tng-yearpicker component', () => {
     await waitForAnimationFrame();
     await settle(fixture);
 
-    expect(document.body.style.overflow).toBe('hidden');
+    expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('fixed');
+    expect(document.documentElement.style.overflowY).toBe('scroll');
     expect(scrollParent.style.overflow).toBe('hidden');
 
     getRequired<HTMLButtonElement>(
@@ -129,6 +136,8 @@ describe('tng-yearpicker component', () => {
     await settle(fixture);
 
     expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('');
+    expect(document.documentElement.style.overflowY).toBe('');
     expect(scrollParent.style.overflow).toBe('auto');
   });
 });

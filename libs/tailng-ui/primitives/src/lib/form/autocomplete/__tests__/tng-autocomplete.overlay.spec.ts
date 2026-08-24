@@ -15,9 +15,7 @@ import {
 } from '../index';
 
 function keydown(el: HTMLElement, init: Partial<KeyboardEventInit> & { key: string }): void {
-  el.dispatchEvent(
-    new KeyboardEvent('keydown', { bubbles: true, cancelable: true, ...init })
-  );
+  el.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, cancelable: true, ...init }));
 }
 
 function focus(el: HTMLElement): void {
@@ -31,7 +29,7 @@ function pointerdown(el: HTMLElement, init: Partial<PointerEventInit> = {}): voi
       cancelable: true,
       button: 0,
       ...init,
-    })
+    }),
   );
 }
 
@@ -121,7 +119,7 @@ class HostComponent {
         <input tngAutocompleteTrigger type="text" data-testid="trigger" />
 
         <div tngAutocompleteContent data-testid="content">
-          <div tngAutocompleteOverlay data-testid="overlay">
+          <div tngAutocompleteOverlay [scrollStrategy]="scrollStrategy()" data-testid="overlay">
             <ul
               tngAutocompleteListbox
               [value]="api.value()"
@@ -140,6 +138,7 @@ class HostComponent {
 class NestedScrollBlockHostComponent {
   @ViewChild('api', { static: true }) api!: TngAutocomplete<string>;
   open = signal(false);
+  scrollStrategy = signal<TngOverlayScrollStrategy>('reposition');
   value = signal<string | null>(null);
 }
 
@@ -174,8 +173,12 @@ class NestedScrollBlockHostComponent {
             data-testid="listbox"
             style="min-width: 300px"
           >
-            <li tngAutocompleteOption [tngValue]="'a'" data-testid="opt-a">Option A – very long label</li>
-            <li tngAutocompleteOption [tngValue]="'b'" data-testid="opt-b">Option B – very long label</li>
+            <li tngAutocompleteOption [tngValue]="'a'" data-testid="opt-a">
+              Option A – very long label
+            </li>
+            <li tngAutocompleteOption [tngValue]="'b'" data-testid="opt-b">
+              Option B – very long label
+            </li>
             <li tngAutocompleteOption [tngValue]="'c'" data-testid="opt-c">Option C</li>
           </ul>
         </div>
@@ -211,8 +214,17 @@ class WideContentHostComponent {
       (valueChange)="value.set($event)"
       data-testid="autocomplete"
     >
-      <div tngAutocompleteTriggerContainer data-testid="container" style="display: flex; width: 180px; align-items: center">
-        <input tngAutocompleteTrigger type="text" data-testid="trigger" style="flex: 1; min-width: 0" />
+      <div
+        tngAutocompleteTriggerContainer
+        data-testid="container"
+        style="display: flex; width: 180px; align-items: center"
+      >
+        <input
+          tngAutocompleteTrigger
+          type="text"
+          data-testid="trigger"
+          style="flex: 1; min-width: 0"
+        />
         <span tngAutocompleteIcon data-testid="icon" style="flex-shrink: 0; padding: 4px">▾</span>
       </div>
 
@@ -249,10 +261,7 @@ class TriggerContainerHostComponent {
     TngAutocompleteOption,
   ],
   template: `
-    <header
-      data-testid="sticky-header"
-      style="position: sticky; top: 0; z-index: 50; height: 64px"
-    >
+    <header data-testid="sticky-header" style="position: sticky; top: 0; z-index: 50; height: 64px">
       Header
     </header>
 
@@ -272,11 +281,7 @@ class TriggerContainerHostComponent {
         <input tngAutocompleteTrigger type="text" data-testid="trigger" />
 
         <div tngAutocompleteContent data-testid="content">
-          <div
-            tngAutocompleteOverlay
-            [scrollStrategy]="scrollStrategy()"
-            data-testid="overlay"
-          >
+          <div tngAutocompleteOverlay [scrollStrategy]="scrollStrategy()" data-testid="overlay">
             <ul
               tngAutocompleteListbox
               [value]="api.value()"
@@ -304,7 +309,7 @@ class StickyHeaderScrollHostComponent {
 
 async function openAutocomplete(
   fixture: { detectChanges: () => void },
-  trigger: HTMLElement
+  trigger: HTMLElement,
 ): Promise<void> {
   focus(trigger);
   fixture.detectChanges();
@@ -318,6 +323,11 @@ describe('tng-autocomplete.overlay', () => {
     vi.restoreAllMocks();
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
+    document.documentElement.style.left = '';
+    document.documentElement.style.overflowY = '';
+    document.documentElement.style.position = '';
+    document.documentElement.style.top = '';
+    document.documentElement.style.width = '';
   });
 
   describe('Host layout when overlay is portalled', () => {
@@ -330,8 +340,12 @@ describe('tng-autocomplete.overlay', () => {
 
         fixture.detectChanges();
 
-        const host = fixture.nativeElement.querySelector('[data-testid="autocomplete"]') as HTMLElement;
-        const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+        const host = fixture.nativeElement.querySelector(
+          '[data-testid="autocomplete"]',
+        ) as HTMLElement;
+        const trigger = fixture.nativeElement.querySelector(
+          '[data-testid="trigger"]',
+        ) as HTMLInputElement;
 
         const heightClosed = host.getBoundingClientRect().height;
 
@@ -360,7 +374,9 @@ describe('tng-autocomplete.overlay', () => {
       fixture.detectChanges();
 
       const host = fixture.componentInstance;
-      const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]',
+      ) as HTMLInputElement;
 
       expect(host.open()).toBe(false);
 
@@ -374,7 +390,7 @@ describe('tng-autocomplete.overlay', () => {
   });
 
   describe('Scroll strategy', () => {
-    it('blocks document and nested scroll containers by default while open', async () => {
+    it('keeps document and nested scrolling enabled by default while open', async () => {
       const fixture = TestBed.configureTestingModule({
         imports: [NestedScrollBlockHostComponent],
       }).createComponent(NestedScrollBlockHostComponent);
@@ -382,13 +398,46 @@ describe('tng-autocomplete.overlay', () => {
       fixture.detectChanges();
 
       const host = fixture.componentInstance;
-      const scrollParent = fixture.nativeElement.querySelector('[data-testid="scroll-parent"]') as HTMLElement;
-      const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+      const scrollParent = fixture.nativeElement.querySelector(
+        '[data-testid="scroll-parent"]',
+      ) as HTMLElement;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]',
+      ) as HTMLInputElement;
 
       await openAutocomplete(fixture, trigger);
 
       expect(host.open()).toBe(true);
-      expect(document.body.style.overflow).toBe('hidden');
+      expect(document.body.style.overflow).toBe('');
+      expect(document.documentElement.style.position).toBe('');
+      expect(scrollParent.style.overflow).toBe('auto');
+
+      host.open.set(false);
+      fixture.detectChanges();
+    });
+
+    it('preserves the document scrollbar and locks nested scrolling when block is explicit', async () => {
+      const fixture = TestBed.configureTestingModule({
+        imports: [NestedScrollBlockHostComponent],
+      }).createComponent(NestedScrollBlockHostComponent);
+
+      const host = fixture.componentInstance;
+      host.scrollStrategy.set('block');
+      fixture.detectChanges();
+
+      const scrollParent = fixture.nativeElement.querySelector(
+        '[data-testid="scroll-parent"]',
+      ) as HTMLElement;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]',
+      ) as HTMLInputElement;
+
+      await openAutocomplete(fixture, trigger);
+
+      expect(host.open()).toBe(true);
+      expect(document.body.style.overflow).toBe('');
+      expect(document.documentElement.style.position).toBe('fixed');
+      expect(document.documentElement.style.overflowY).toBe('scroll');
       expect(scrollParent.style.overflow).toBe('hidden');
 
       host.open.set(false);
@@ -397,6 +446,8 @@ describe('tng-autocomplete.overlay', () => {
       fixture.detectChanges();
 
       expect(document.body.style.overflow).toBe('');
+      expect(document.documentElement.style.position).toBe('');
+      expect(document.documentElement.style.overflowY).toBe('');
       expect(scrollParent.style.overflow).toBe('auto');
     });
   });
@@ -410,7 +461,9 @@ describe('tng-autocomplete.overlay', () => {
       fixture.detectChanges();
 
       const host = fixture.componentInstance;
-      const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]',
+      ) as HTMLInputElement;
 
       await openAutocomplete(fixture, trigger);
       expect(findOverlay()?.getAttribute('hidden')).toBeNull();
@@ -434,7 +487,9 @@ describe('tng-autocomplete.overlay', () => {
 
       fixture.detectChanges();
 
-      const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]',
+      ) as HTMLInputElement;
       const triggerRect = trigger.getBoundingClientRect();
 
       await openAutocomplete(fixture, trigger);
@@ -458,8 +513,12 @@ describe('tng-autocomplete.overlay', () => {
 
       fixture.detectChanges();
 
-      const container = fixture.nativeElement.querySelector('[data-testid="container"]') as HTMLElement;
-      const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+      const container = fixture.nativeElement.querySelector(
+        '[data-testid="container"]',
+      ) as HTMLElement;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]',
+      ) as HTMLInputElement;
       const containerRect = container.getBoundingClientRect();
 
       await openAutocomplete(fixture, trigger);
@@ -482,7 +541,9 @@ describe('tng-autocomplete.overlay', () => {
       fixture.detectChanges();
 
       const host = fixture.componentInstance;
-      const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]',
+      ) as HTMLInputElement;
       const icon = fixture.nativeElement.querySelector('[data-testid="icon"]') as HTMLElement;
 
       await openAutocomplete(fixture, trigger);
@@ -527,7 +588,9 @@ describe('tng-autocomplete.overlay', () => {
 
       fixture.detectChanges();
 
-      const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]',
+      ) as HTMLInputElement;
 
       await openAutocomplete(fixture, trigger);
 
@@ -550,7 +613,9 @@ describe('tng-autocomplete.overlay', () => {
       fixture.detectChanges();
 
       const host = fixture.componentInstance;
-      const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]',
+      ) as HTMLInputElement;
 
       await openAutocomplete(fixture, trigger);
       expect(host.open()).toBe(true);
@@ -573,7 +638,9 @@ describe('tng-autocomplete.overlay', () => {
       fixture.detectChanges();
 
       const host = fixture.componentInstance;
-      const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]',
+      ) as HTMLInputElement;
 
       await openAutocomplete(fixture, trigger);
       expect(host.open()).toBe(true);
@@ -594,7 +661,9 @@ describe('tng-autocomplete.overlay', () => {
       fixture.detectChanges();
 
       const host = fixture.componentInstance;
-      const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]',
+      ) as HTMLInputElement;
 
       await openAutocomplete(fixture, trigger);
       expect(host.open()).toBe(true);
@@ -618,8 +687,12 @@ describe('tng-autocomplete.overlay', () => {
 
       fixture.detectChanges();
 
-      const trigger = fixture.nativeElement.querySelector('[data-testid="trigger"]') as HTMLInputElement;
-      const header = fixture.nativeElement.querySelector('[data-testid="sticky-header"]') as HTMLElement;
+      const trigger = fixture.nativeElement.querySelector(
+        '[data-testid="trigger"]',
+      ) as HTMLInputElement;
+      const header = fixture.nativeElement.querySelector(
+        '[data-testid="sticky-header"]',
+      ) as HTMLElement;
       let triggerTop = 120;
       const triggerHeight = 32;
 

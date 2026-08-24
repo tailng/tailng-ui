@@ -16,6 +16,7 @@ import {
   createTngIdFactory,
   getGlobalElementScrollLockManager,
   getGlobalScrollLockManager,
+  isTngAnchorVisibleInScrollAncestors,
   positionFixedAnchoredOverlay,
   resolveCssCustomPropertyPx,
   resolveTngScrollableAncestors,
@@ -24,6 +25,7 @@ import {
   type TngOverlayOffset,
   type TngOverlayPlacement,
   type TngOverlayRect,
+  type TngOverlayScrollStrategy,
 } from '@tailng-ui/cdk';
 import {
   clearOverlayOwnerId,
@@ -32,6 +34,8 @@ import {
 import type { TngDateRangePickerAttributeMap } from './date-range-picker.types';
 
 type TngDateRangePickerOverlayController = Readonly<{
+  close: () => void;
+  suppressFocusRestoreOnClose: () => void;
   handleOverlayKeyDown: (event: KeyboardEvent) => void;
   getOutputs: () => Readonly<{
     getHostAttributes: () => TngDateRangePickerAttributeMap;
@@ -180,6 +184,7 @@ export class TngDateRangePickerOverlay {
   private overlayOriginalParent: Node | null = null;
   private overlayLayoutFrame: number | null = null;
   private removeResizeListener: (() => void) | null = null;
+  private removeScrollListener: (() => void) | null = null;
   private resizeObserver: ResizeObserver | null = null;
   private scrollAncestors: readonly HTMLElement[] = [];
 
@@ -200,6 +205,9 @@ export class TngDateRangePickerOverlay {
   });
   public readonly themeSource = input<OverlayThemeSourceInput>(undefined, {
     alias: 'tngDateRangePickerOverlayThemeSource',
+  });
+  public readonly scrollStrategy = input<TngOverlayScrollStrategy>('reposition', {
+    alias: 'tngDateRangePickerOverlayScrollStrategy',
   });
 
   @HostBinding('attr.hidden')
@@ -303,6 +311,7 @@ export class TngDateRangePickerOverlay {
       this.collision();
       this.themeSource();
       this.anchor();
+      this.scrollStrategy();
 
       if (open) {
         this.mountToBodyAndPosition();
@@ -423,6 +432,32 @@ export class TngDateRangePickerOverlay {
       this.ownerWindow?.removeEventListener('resize', schedule);
     };
 
+    if (this.scrollStrategy() !== 'block') {
+      const onScroll = (event: Event): void => {
+        const target = event.target;
+        if (target instanceof Node && this.elRef.nativeElement.contains(target)) {
+          return;
+        }
+
+        if (this.scrollStrategy() === 'close') {
+          this.closeFromScroll();
+          return;
+        }
+
+        const anchor = this.findAnchorEl();
+        if (anchor === null || !isTngAnchorVisibleInScrollAncestors(anchor, this.scrollAncestors)) {
+          this.closeFromScroll();
+          return;
+        }
+
+        schedule();
+      };
+      this.ownerWindow.addEventListener('scroll', onScroll, true);
+      this.removeScrollListener = (): void => {
+        this.ownerWindow?.removeEventListener('scroll', onScroll, true);
+      };
+    }
+
     if ('ResizeObserver' in this.ownerWindow) {
       const ResizeObserverCtor = this.ownerWindow.ResizeObserver;
       this.resizeObserver = new ResizeObserverCtor(() => {
@@ -440,24 +475,40 @@ export class TngDateRangePickerOverlay {
 
   private teardownRepositionListeners(): void {
     this.removeResizeListener?.();
+    this.removeScrollListener?.();
     this.removeResizeListener = null;
+    this.removeScrollListener = null;
     this.resizeObserver?.disconnect();
     this.resizeObserver = null;
   }
 
-  private setupScrollLock(anchor: HTMLElement | null): void {
-    this.teardownScrollLock();
-    this.scrollLock.acquire(this.instanceId);
-
-    if (anchor === null) {
+  private closeFromScroll(): void {
+    const controller = this.controller();
+    if (!controller.getOutputs().open) {
       return;
     }
 
-    this.scrollAncestors = resolveTngScrollableAncestors(anchor);
-    this.elementScrollLock.acquire(this.instanceId, this.scrollAncestors);
+    controller.suppressFocusRestoreOnClose();
+    controller.close();
   }
 
-  private teardownScrollLock(): void {
+  private setupScrollStrategy(anchor: HTMLElement | null): void {
+    this.teardownScrollStrategy();
+
+    if (anchor !== null) {
+      this.scrollAncestors = resolveTngScrollableAncestors(anchor);
+    }
+
+    if (this.scrollStrategy() === 'block') {
+      this.scrollLock.acquire(this.instanceId);
+      this.elementScrollLock.acquire(this.instanceId, this.scrollAncestors);
+    }
+
+    this.setupRepositionListeners();
+  }
+
+  private teardownScrollStrategy(): void {
+    this.teardownRepositionListeners();
     this.scrollLock.release(this.instanceId);
     this.elementScrollLock.release(this.instanceId);
     this.scrollAncestors = [];
@@ -489,8 +540,7 @@ export class TngDateRangePickerOverlay {
     }
 
     const anchor = this.findAnchorEl();
-    this.setupRepositionListeners();
-    this.setupScrollLock(anchor);
+    this.setupScrollStrategy(anchor);
 
     stampOverlayOwnerId(overlay, this.findDateRangePickerAnchorEl() ?? overlay);
 
@@ -523,8 +573,7 @@ export class TngDateRangePickerOverlay {
       this.overlayOriginalParent.appendChild(overlay);
     }
 
-    this.teardownRepositionListeners();
-    this.teardownScrollLock();
+    this.teardownScrollStrategy();
     this.resolvedPlacement.set(this.resolvePlacement().side === 'top' ? 'top' : 'bottom');
     this.clearPortalledThemeVars();
     clearOverlayOwnerId(overlay);

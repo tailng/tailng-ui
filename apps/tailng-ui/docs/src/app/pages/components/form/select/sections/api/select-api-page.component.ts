@@ -5,7 +5,7 @@ type ApiRow = {
   readonly name: string;
   readonly type: string;
   readonly details: string;
-}
+};
 
 const WRAPPER_ATTACHMENT_CODE = String.raw`<tng-select
   [options]="workflowStages"
@@ -105,7 +105,8 @@ export class SelectApiPageComponent {
     {
       name: 'options',
       type: 'readonly O[]',
-      details: 'Full option collection rendered by the wrapper inside the portaled listbox overlay.',
+      details:
+        'Full option collection rendered by the wrapper inside the portaled listbox overlay.',
     },
     {
       name: 'value / valueChange',
@@ -115,12 +116,20 @@ export class SelectApiPageComponent {
     {
       name: 'open / openChange',
       type: 'boolean / output',
-      details: 'Optional controlled overlay state when a parent needs to observe or drive the menu.',
+      details:
+        'Optional controlled overlay state when a parent needs to observe or drive the menu.',
+    },
+    {
+      name: 'scrollStrategy',
+      type: "'block' | 'close' | 'reposition'",
+      details:
+        'Controls external scrolling. Defaults to reposition; block locks scrolling while preserving the document scrollbar.',
     },
     {
       name: 'disabled, loading, invalid',
       type: 'boolean',
-      details: 'Forwarded primitive state inputs reflected onto the wrapper host for visuals and interaction guards.',
+      details:
+        'Forwarded primitive state inputs reflected onto the wrapper host for visuals and interaction guards.',
     },
     {
       name: 'placeholder',
@@ -130,7 +139,8 @@ export class SelectApiPageComponent {
     {
       name: 'iconText',
       type: 'string',
-      details: 'Overrides the default chevron text in the trigger icon slot when you want a custom glyph.',
+      details:
+        'Overrides the default chevron text in the trigger icon slot when you want a custom glyph.',
     },
     {
       name: 'labelId / descriptionId / errorId',
@@ -148,7 +158,8 @@ export class SelectApiPageComponent {
     {
       name: 'getOptionLabel',
       type: '(option: O) => string',
-      details: 'Maps each option object to the text used in the default trigger value and option rows.',
+      details:
+        'Maps each option object to the text used in the default trigger value and option rows.',
     },
     {
       name: 'isOptionDisabled',
@@ -167,12 +178,14 @@ export class SelectApiPageComponent {
     {
       name: '#tngSelectValueTpl',
       type: 'TemplateRef<{ value, option, label }>',
-      details: 'Replaces the default trigger value markup while the wrapper keeps trigger semantics and selection state.',
+      details:
+        'Replaces the default trigger value markup while the wrapper keeps trigger semantics and selection state.',
     },
     {
       name: '#tngSelectOptionTpl',
       type: 'TemplateRef<{ option, value, label, disabled, selected, active }>',
-      details: 'Replaces each option row for richer metadata layouts without rebuilding the wrapper shell.',
+      details:
+        'Replaces each option row for richer metadata layouts without rebuilding the wrapper shell.',
     },
   ]);
 
@@ -180,17 +193,20 @@ export class SelectApiPageComponent {
     {
       name: 'Trigger + overlay shell',
       type: 'Wrapper-owned',
-      details: 'The wrapper owns the trigger button, icon, portaled overlay, and listbox plumbing for the common select pattern.',
+      details:
+        'The wrapper owns the trigger button, icon, portaled overlay, and listbox plumbing for the common select pattern.',
     },
     {
       name: 'Markup ownership',
       type: 'Template hooks only',
-      details: 'Use templates for richer content, or drop to headless when you need full trigger or overlay DOM ownership.',
+      details:
+        'Use templates for richer content, or drop to headless when you need full trigger or overlay DOM ownership.',
     },
     {
       name: 'Primitive escape hatch',
       type: 'Available',
-      details: 'Use headless select when you need custom trigger composition, overlay structure, or direct primitive coordination.',
+      details:
+        'Use headless select when you need custom trigger composition, overlay structure, or direct primitive coordination.',
     },
   ]);
 }

@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { afterEach, describe, expect, it } from 'vitest';
-import { createOverlayRuntime } from '@tailng-ui/cdk';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { createOverlayRuntime, type TngOverlayScrollStrategy } from '@tailng-ui/cdk';
 import { TngDateRangePickerOverlay } from '../tng-date-range-picker.overlay';
 import {
   appendFocusable,
@@ -18,6 +18,24 @@ async function settle(fixture: {
   fixture.detectChanges();
   await fixture.whenStable();
   fixture.detectChanges();
+}
+
+async function waitForAnimationFrame(): Promise<void> {
+  await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+}
+
+function createRect(top: number, bottom: number, width = 240): DOMRect {
+  return {
+    bottom,
+    height: bottom - top,
+    left: 0,
+    right: width,
+    top,
+    width,
+    x: 0,
+    y: top,
+    toJSON: () => ({}),
+  } as DOMRect;
 }
 
 function getRequired<T extends Element>(root: ParentNode, selector: string): T {
@@ -66,6 +84,7 @@ function getRequired<T extends Element>(root: ParentNode, selector: string): T {
     <section
       [tngDateRangePickerOverlay]="controller"
       [tngDateRangePickerOverlayAnchor]="anchor"
+      [tngDateRangePickerOverlayScrollStrategy]="scrollStrategy()"
       data-testid="range-overlay"
       style="display: block; min-height: 320px;"
     >
@@ -85,6 +104,7 @@ class DateRangePickerOverlayThemeHostComponent implements AfterViewInit {
       start: '2024-04-20',
     },
   });
+  public readonly scrollStrategy = signal<TngOverlayScrollStrategy>('reposition');
 
   public ngAfterViewInit(): void {
     this.controller.registerTrigger(this.trigger.nativeElement);
@@ -115,6 +135,7 @@ class DateRangePickerOverlayThemeHostComponent implements AfterViewInit {
       <section
         [tngDateRangePickerOverlay]="controller"
         [tngDateRangePickerOverlayAnchor]="anchor"
+        [tngDateRangePickerOverlayScrollStrategy]="scrollStrategy()"
         data-testid="range-scroll-overlay"
         style="display: block; min-height: 320px;"
       >
@@ -135,6 +156,7 @@ class DateRangePickerOverlayScrollableHostComponent implements AfterViewInit {
       start: '2024-04-20',
     },
   });
+  public readonly scrollStrategy = signal<TngOverlayScrollStrategy>('reposition');
 
   public ngAfterViewInit(): void {
     this.controller.registerTrigger(this.trigger.nativeElement);
@@ -145,6 +167,12 @@ afterEach(() => {
   cleanupDom();
   document.body.style.overflow = '';
   document.body.style.paddingRight = '';
+  document.documentElement.style.left = '';
+  document.documentElement.style.overflowY = '';
+  document.documentElement.style.position = '';
+  document.documentElement.style.top = '';
+  document.documentElement.style.width = '';
+  vi.restoreAllMocks();
   TestBed.resetTestingModule();
 });
 
@@ -262,7 +290,7 @@ describe('tng-date-range-picker overlay behavior', () => {
     expect(overlay.style.colorScheme).toBe('');
   });
 
-  it('locks scrollable ancestors while open and restores them on close', async () => {
+  it('keeps document and nested scrolling enabled by default', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [DateRangePickerOverlayScrollableHostComponent],
     }).createComponent(DateRangePickerOverlayScrollableHostComponent);
@@ -283,14 +311,121 @@ describe('tng-date-range-picker overlay behavior', () => {
     trigger.click();
     await settle(fixture);
 
-    expect(document.body.style.overflow).toBe('hidden');
-    expect(scrollParent.style.overflow).toBe('hidden');
+    expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('');
+    expect(scrollParent.style.overflow).toBe('auto');
 
     fixture.componentInstance.controller.close();
     await settle(fixture);
 
     expect(document.body.style.overflow).toBe('');
     expect(scrollParent.style.overflow).toBe('auto');
+  });
+
+  it('repositions on external scroll while the anchor remains visible', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DateRangePickerOverlayThemeHostComponent],
+    }).createComponent(DateRangePickerOverlayThemeHostComponent);
+
+    await settle(fixture);
+    const trigger = getRequired<HTMLButtonElement>(
+      fixture.nativeElement,
+      '[data-testid="range-trigger"]',
+    );
+    const anchor = getRequired<HTMLElement>(fixture.nativeElement, '[data-testid="range-anchor"]');
+    trigger.click();
+    await settle(fixture);
+
+    const overlay = getRequired<HTMLElement>(document.body, '[data-testid="range-overlay"]');
+    vi.spyOn(anchor, 'getBoundingClientRect').mockReturnValue(createRect(100, 140));
+    const overlayRectSpy = vi
+      .spyOn(overlay, 'getBoundingClientRect')
+      .mockReturnValue(createRect(0, 320));
+
+    window.dispatchEvent(new Event('scroll'));
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    expect(fixture.componentInstance.controller.getOutputs().open).toBe(true);
+    expect(overlayRectSpy).toHaveBeenCalled();
+  });
+
+  it('preserves the document scrollbar and locks ancestors when block is explicit', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DateRangePickerOverlayScrollableHostComponent],
+    }).createComponent(DateRangePickerOverlayScrollableHostComponent);
+    fixture.componentInstance.scrollStrategy.set('block');
+
+    await settle(fixture);
+    const trigger = getRequired<HTMLButtonElement>(
+      fixture.nativeElement,
+      '[data-testid="range-scroll-trigger"]',
+    );
+    const scrollParent = getRequired<HTMLElement>(
+      fixture.nativeElement,
+      '[data-testid="range-scroll-parent"]',
+    );
+    trigger.click();
+    await settle(fixture);
+
+    expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('fixed');
+    expect(document.documentElement.style.overflowY).toBe('scroll');
+    expect(scrollParent.style.overflow).toBe('hidden');
+
+    fixture.componentInstance.controller.close();
+    await settle(fixture);
+
+    expect(document.documentElement.style.position).toBe('');
+    expect(document.documentElement.style.overflowY).toBe('');
+    expect(scrollParent.style.overflow).toBe('auto');
+  });
+
+  it('closes when scrolling clips the anchor out of the viewport', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DateRangePickerOverlayThemeHostComponent],
+    }).createComponent(DateRangePickerOverlayThemeHostComponent);
+
+    await settle(fixture);
+    const trigger = getRequired<HTMLButtonElement>(
+      fixture.nativeElement,
+      '[data-testid="range-trigger"]',
+    );
+    const anchor = getRequired<HTMLElement>(fixture.nativeElement, '[data-testid="range-anchor"]');
+    trigger.focus();
+    trigger.click();
+    await settle(fixture);
+    const focusSpy = vi.spyOn(trigger, 'focus');
+
+    vi.spyOn(anchor, 'getBoundingClientRect').mockReturnValue(createRect(-80, -40));
+    window.dispatchEvent(new Event('scroll'));
+    await settle(fixture);
+
+    expect(fixture.componentInstance.controller.getOutputs().open).toBe(false);
+    expect(focusSpy).not.toHaveBeenCalled();
+  });
+
+  it('closes on the first external scroll when close is explicit', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DateRangePickerOverlayThemeHostComponent],
+    }).createComponent(DateRangePickerOverlayThemeHostComponent);
+    fixture.componentInstance.scrollStrategy.set('close');
+
+    await settle(fixture);
+    const trigger = getRequired<HTMLButtonElement>(
+      fixture.nativeElement,
+      '[data-testid="range-trigger"]',
+    );
+    trigger.focus();
+    trigger.click();
+    await settle(fixture);
+    const focusSpy = vi.spyOn(trigger, 'focus');
+
+    window.dispatchEvent(new Event('scroll'));
+    await settle(fixture);
+
+    expect(fixture.componentInstance.controller.getOutputs().open).toBe(false);
+    expect(focusSpy).not.toHaveBeenCalled();
   });
 
   it('computes layout values for overlay, push, and side modes', () => {

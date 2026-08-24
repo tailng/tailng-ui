@@ -1,11 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import {
-  TngContextMenuTrigger,
-  TngMenuItem,
-  type TngMenuSelectEvent,
-} from '@tailng-ui/primitives';
+import { TngContextMenuTrigger, TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { TngContextMenuComponent } from '../tng-context-menu.component';
@@ -48,13 +44,7 @@ function pointerdown(el: HTMLElement): PointerEvent {
 @Component({
   imports: [TngContextMenuComponent, TngContextMenuTrigger, TngMenuItem],
   template: `
-    <div
-      tabindex="0"
-      [tngContextMenuTrigger]="menu"
-      data-testid="target"
-    >
-      Row target
-    </div>
+    <div tabindex="0" [tngContextMenuTrigger]="menu" data-testid="target">Row target</div>
 
     <button type="button" data-testid="outside">Outside</button>
 
@@ -66,7 +56,12 @@ function pointerdown(el: HTMLElement): PointerEvent {
       data-testid="menu"
       style="--tng-context-menu-z-overlay: 9"
     >
-      <button type="button" tngMenuItem [tngMenuItemValue]="'Duplicate row'" data-testid="duplicate">
+      <button
+        type="button"
+        tngMenuItem
+        [tngMenuItemValue]="'Duplicate row'"
+        data-testid="duplicate"
+      >
         Duplicate
       </button>
       <button type="button" tngMenuItem [tngMenuItemValue]="'Delete row'" data-testid="delete">
@@ -88,6 +83,11 @@ describe('tng-context-menu component wrapper', () => {
   afterEach(() => {
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
+    document.documentElement.style.left = '';
+    document.documentElement.style.overflowY = '';
+    document.documentElement.style.position = '';
+    document.documentElement.style.top = '';
+    document.documentElement.style.width = '';
   });
 
   it('exports the context-menu component', () => {
@@ -113,7 +113,9 @@ describe('tng-context-menu component wrapper', () => {
     expect(menu.getAttribute('aria-label')).toBe('Row actions');
     expect(menu.getAttribute('data-state')).toBe('open');
     expect(target.getAttribute('aria-expanded')).toBe('true');
-    expect(document.body.style.overflow).toBe('hidden');
+    expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('fixed');
+    expect(document.documentElement.style.overflowY).toBe('scroll');
   });
 
   it('releases scroll lock after close', () => {
@@ -124,16 +126,22 @@ describe('tng-context-menu component wrapper', () => {
     fixture.detectChanges();
 
     const target = fixture.nativeElement.querySelector('[data-testid="target"]') as HTMLDivElement;
-    const outside = fixture.nativeElement.querySelector('[data-testid="outside"]') as HTMLButtonElement;
+    const outside = fixture.nativeElement.querySelector(
+      '[data-testid="outside"]',
+    ) as HTMLButtonElement;
 
     contextmenu(target);
     fixture.detectChanges();
-    expect(document.body.style.overflow).toBe('hidden');
+    expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('fixed');
+    expect(document.documentElement.style.overflowY).toBe('scroll');
 
     pointerdown(outside);
     fixture.detectChanges();
 
     expect(document.body.style.overflow).toBe('');
+    expect(document.documentElement.style.position).toBe('');
+    expect(document.documentElement.style.overflowY).toBe('');
   });
 
   it('bridges context-menu overlay z-index into the shared menu z-index token', () => {
@@ -300,7 +308,9 @@ describe('tng-context-menu component wrapper', () => {
 
     const target = fixture.nativeElement.querySelector('[data-testid="target"]') as HTMLDivElement;
     const menu = fixture.nativeElement.querySelector('[data-testid="menu"]') as HTMLElement;
-    const outside = fixture.nativeElement.querySelector('[data-testid="outside"]') as HTMLButtonElement;
+    const outside = fixture.nativeElement.querySelector(
+      '[data-testid="outside"]',
+    ) as HTMLButtonElement;
 
     contextmenu(target);
     fixture.detectChanges();
