@@ -54,6 +54,8 @@ import type {
   TngDateInputValue,
   TngDateRange,
   TngDateRangeValue,
+  TngDateRangePickerCalendarLayout,
+  TngDateRangePickerCalendarPanel,
   TngDateSelectionInput,
   TngDateValue,
   TngDateRangePickerAttributeMap,
@@ -85,6 +87,7 @@ type TngResolvedConfig<TDate> = Readonly<{
   ariaLabel: string | null;
   ariaLabelledBy: string | null;
   autoCommitView: boolean;
+  calendarLayout: TngDateRangePickerCalendarLayout;
   closeOnEscape: boolean;
   closeOnOutsideClick: boolean;
   closeOnSelect: boolean;
@@ -142,6 +145,9 @@ const dateRangePickerRegistry = new Set<DateRangePickerController<unknown>>();
 const dateRangePickerFocusHandoff = createOverlayFocusHandoffController();
 const emptyWeekdayLabels = Object.freeze([]) as readonly string[];
 const emptyCells = Object.freeze([]) as readonly TngDateCell<unknown>[];
+const emptyCalendarPanels = Object.freeze(
+  [],
+) as readonly TngDateRangePickerCalendarPanel<unknown>[];
 const emptyMonths = Object.freeze([]) as readonly TngMonthOption<unknown>[];
 const emptyYears = Object.freeze([]) as readonly TngYearOption<unknown>[];
 
@@ -178,6 +184,10 @@ function hasDisallowedModifiers(
 
 function normalizeView(value: string | undefined): TngCalendarView {
   return value === 'month' || value === 'year' ? value : 'day';
+}
+
+function normalizeCalendarLayout(value: string | undefined): TngDateRangePickerCalendarLayout {
+  return value === 'dual' ? 'dual' : 'single';
 }
 
 function normalizePosition(value: string | undefined): TngDateRangePickerPosition {
@@ -295,7 +305,8 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
   private cachedOutputsVersion = -1;
   private cachedOutputs: TngDateRangePickerOutputs<TDate> | null = null;
   private cachedWeekdayLabels: readonly string[] = emptyWeekdayLabels;
-  private cachedCells: readonly TngDateCell<TDate>[] = emptyCells as readonly TngDateCell<TDate>[];
+  private cachedCalendars: readonly TngDateRangePickerCalendarPanel<TDate>[] =
+    emptyCalendarPanels as readonly TngDateRangePickerCalendarPanel<TDate>[];
   private cachedMonthOptions: readonly TngMonthOption<TDate>[] =
     emptyMonths as readonly TngMonthOption<TDate>[];
   private cachedYearOptions: readonly TngYearOption<TDate>[] =
@@ -326,7 +337,7 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
     });
     this.config = this.resolveConfig(config, null);
     const initialActiveDate = this.resolveInitialActiveDate(this.config.value, this.config.today);
-    const visibleMonth = this.config.adapter.startOfMonth(initialActiveDate);
+    const visibleMonth = this.resolveVisibleMonthForSelection(this.config.value, initialActiveDate);
     this.state = {
       activeDate: initialActiveDate,
       disabled: this.config.disabled,
@@ -450,25 +461,27 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
       return this.cachedOutputs;
     }
 
+    const calendars = this.getCalendars();
+    const leadingCalendar = calendars[0];
     const outputs: TngDateRangePickerOutputs<TDate> = Object.freeze({
       activeDate: this.state.activeDate,
-      cells: this.getCells(),
+      calendarLayout: this.config.calendarLayout,
+      calendars,
+      cells: leadingCalendar?.cells ?? (emptyCells as readonly TngDateCell<TDate>[]),
       endDate: getRangeEndDate(this.state.value),
       focusedDate: this.focusVisibleDate,
       focusedSection: this.state.focusedSection,
       getCellAttributes: (cellOrDate) => this.resolveCellAttributes(cellOrDate),
-      getGridAttributes: () => this.resolveGridAttributes(),
+      getGridAttributes: (calendarIndex = 0) => this.resolveGridAttributes(calendarIndex),
       getHostAttributes: () => this.resolveHostAttributes(),
       getMonthAttributes: (monthOrOption) => this.resolveMonthAttributes(monthOrOption),
       getOverlayAttributes: () => this.resolveOverlayAttributes(),
       getTriggerAttributes: () => this.resolveTriggerAttributes(),
       getYearAttributes: (yearOrOption) => this.resolveYearAttributes(yearOrOption),
       inputText: this.state.inputText,
-      labelMonthYear: this.config.adapter.format(
-        this.state.visibleMonth,
-        'month-year',
-        this.config.locale,
-      ),
+      labelMonthYear:
+        leadingCalendar?.labelMonthYear ??
+        this.config.adapter.format(this.state.visibleMonth, 'month-year', this.config.locale),
       layout: this.resolveLayout(),
       monthOptions: this.getMonthOptions(),
       open: this.state.open,
@@ -588,7 +601,11 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
     }
 
     if (action.type === 'activate') {
-      this.selectDate(this.state.activeDate, {
+      const activeCalendarIndex =
+        this.getCalendars().find((calendar) =>
+          calendar.cells.some((cell) => cell.active && !cell.hidden),
+        )?.index ?? 0;
+      this.selectCalendarDate(this.state.activeDate, activeCalendarIndex, {
         shiftKey: event.shiftKey === true,
         trigger: 'keyboard',
       });
@@ -808,6 +825,37 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
     }
   }
 
+  public selectCalendarDate(
+    date: TngDateInputValue<TDate>,
+    calendarIndex: number,
+    options: Readonly<{ shiftKey?: boolean; trigger?: TngDateRangePickerTrigger }> = {},
+  ): void {
+    if (this.config.calendarLayout !== 'dual') {
+      this.selectDate(date, options);
+      return;
+    }
+
+    if (this.destroyed || this.state.disabled) {
+      return;
+    }
+
+    const normalized = normalizeDateInput(this.config.adapter, date, this.config.locale);
+    if (normalized === null) {
+      this.setCalendarValidationError('invalid-value');
+      return;
+    }
+
+    if (this.isDateDisabled(normalized)) {
+      return;
+    }
+
+    this.selectDualCalendarBoundary(
+      normalized,
+      calendarIndex === 1 ? 'end' : 'start',
+      options.trigger ?? 'programmatic',
+    );
+  }
+
   public selectMonth(monthIndex: number): void {
     if (this.destroyed) {
       return;
@@ -861,10 +909,7 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
     const previousMonth = this.state.visibleMonth;
     const previousYear = this.config.adapter.getYear(previousMonth);
     const preferredMonth = this.config.adapter.getMonth(previousMonth);
-    const nextMonth = this.resolveNearestEnabledMonthInYear(
-      normalizedYear,
-      preferredMonth,
-    );
+    const nextMonth = this.resolveNearestEnabledMonthInYear(normalizedYear, preferredMonth);
     if (nextMonth === null) {
       return;
     }
@@ -945,6 +990,7 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
     const previousMonth = this.state.visibleMonth;
     const previousYear = this.config.adapter.getYear(previousMonth);
     const previousTrapFocus = this.config.trapFocus;
+    const previousCalendarLayout = this.config.calendarLayout;
     this.config = this.resolveConfig(config, this.config);
     this.state.disabled = this.config.disabled;
     this.state.value = this.coerceSelectionWithinConstraints(this.state.value);
@@ -955,8 +1001,14 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
       this.hoverDate = null;
     }
     this.state.activeDate = this.resolveValidDate(this.state.activeDate, this.state.visibleMonth);
-    if (!isDateValueInMonth(this.config.adapter, this.state.activeDate, this.state.visibleMonth)) {
-      this.state.visibleMonth = this.config.adapter.startOfMonth(this.state.activeDate);
+    if (previousCalendarLayout !== 'dual' && this.config.calendarLayout === 'dual') {
+      this.state.visibleMonth = this.resolveVisibleMonthForSelection(
+        this.state.value,
+        this.state.activeDate,
+      );
+    }
+    if (!this.isDateInVisibleCalendarWindow(this.state.activeDate)) {
+      this.state.visibleMonth = this.resolveLeadingMonthForDate(this.state.activeDate);
     }
     this.yearPageStart = this.resolveCenteredYearPageStart(
       this.config.adapter.getYear(this.state.activeDate),
@@ -1184,6 +1236,7 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
     const anchor = this.extractSelectionAnchor(coerced);
     this.rangeAnchorDate = anchor;
     if (anchor !== null) {
+      this.alignDualCalendarWindowToSelection(coerced);
       this.applyActiveDate(anchor, 'programmatic', true);
     }
     this.bumpVersion();
@@ -1215,11 +1268,8 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
         this.config.adapter.getYear(this.state.activeDate),
       );
     }
-    if (
-      normalizedView === 'day' &&
-      !isDateValueInMonth(this.config.adapter, this.state.activeDate, this.state.visibleMonth)
-    ) {
-      this.state.visibleMonth = this.config.adapter.startOfMonth(this.state.activeDate);
+    if (normalizedView === 'day' && !this.isDateInVisibleCalendarWindow(this.state.activeDate)) {
+      this.state.visibleMonth = this.resolveLeadingMonthForDate(this.state.activeDate);
     }
     this.bumpVersion();
     this.emit({
@@ -1264,9 +1314,7 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
       return;
     }
 
-    if (
-      !hasSelectableDateInMonth(this.config.adapter, nextMonth, (date) => this.isDateDisabled(date))
-    ) {
+    if (!this.hasSelectableDateInCalendarWindow(nextMonth)) {
       return;
     }
 
@@ -1344,10 +1392,13 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
     this.state.activeDate = resolved;
     this.focusVisibleDate = focusVisible ? resolved : null;
     this.syncPreviewDateForFocus(resolved, trigger);
-    if (!isDateValueInMonth(this.config.adapter, resolved, this.state.visibleMonth)) {
+    if (!this.isDateInVisibleCalendarWindow(resolved)) {
       const previousMonth = this.state.visibleMonth;
       const previousYear = this.config.adapter.getYear(previousMonth);
-      this.state.visibleMonth = this.config.adapter.startOfMonth(resolved);
+      this.state.visibleMonth = this.resolveLeadingMonthForDate(
+        resolved,
+        trigger === 'keyboard' || hasCompleteRange(this.state.value),
+      );
       this.emit({
         previousMonth,
         type: 'monthChange',
@@ -1393,6 +1444,37 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
       type: 'activeChange',
     });
     this.bumpVersion();
+  }
+
+  private isDateInVisibleCalendarWindow(date: TDate): boolean {
+    if (isDateValueInMonth(this.config.adapter, date, this.state.visibleMonth)) {
+      return true;
+    }
+
+    return (
+      this.config.calendarLayout === 'dual' &&
+      isDateValueInMonth(
+        this.config.adapter,
+        date,
+        this.config.adapter.addMonths(this.state.visibleMonth, 1),
+      )
+    );
+  }
+
+  private resolveLeadingMonthForDate(
+    date: TDate,
+    preferTrailing = hasCompleteRange(this.state.value),
+  ): TDate {
+    const dateMonth = this.config.adapter.startOfMonth(date);
+    if (
+      this.config.calendarLayout === 'dual' &&
+      preferTrailing &&
+      this.config.adapter.compare(dateMonth, this.state.visibleMonth) > 0
+    ) {
+      return this.config.adapter.startOfMonth(this.config.adapter.addMonths(dateMonth, -1));
+    }
+
+    return dateMonth;
   }
 
   private bumpVersion(): void {
@@ -1483,9 +1565,7 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
   }
 
   private isStrictRangePartCommitValue(partText: string, date: TDate): boolean {
-    const canonicalInputText = this.config.adapter
-      .format(date, 'input', this.config.locale)
-      .trim();
+    const canonicalInputText = this.config.adapter.format(date, 'input', this.config.locale).trim();
     return partText.trim() === canonicalInputText;
   }
 
@@ -1510,9 +1590,7 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
     );
   }
 
-  private commitRangeInputText(
-    parts: Readonly<{ endText: string; startText: string }>,
-  ): boolean {
+  private commitRangeInputText(parts: Readonly<{ endText: string; startText: string }>): boolean {
     const startParsed = this.config.adapter.parse(parts.startText.trim(), this.config.locale);
     const endParsed = this.config.adapter.parse(parts.endText.trim(), this.config.locale);
 
@@ -1532,6 +1610,11 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
   }
 
   private commitFullRangeFromInput(start: TDate, end: TDate): boolean {
+    if (this.config.calendarLayout === 'dual' && this.config.adapter.compare(end, start) < 0) {
+      this.setCalendarValidationError('end-before-start');
+      return false;
+    }
+
     const normalizedRange = normalizeRangeOrder(this.config.adapter, { end, start });
 
     if (
@@ -1552,12 +1635,7 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
 
     const previousValue = this.state.value;
     if (
-      selectionValuesEqual(
-        this.config.adapter,
-        this.config.selectionMode,
-        previousValue,
-        nextValue,
-      )
+      selectionValuesEqual(this.config.adapter, this.config.selectionMode, previousValue, nextValue)
     ) {
       this.state.validationError = null;
       return true;
@@ -1584,59 +1662,105 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
     return true;
   }
 
-  private getCells(): readonly TngDateCell<TDate>[] {
+  private getCalendars(): readonly TngDateRangePickerCalendarPanel<TDate>[] {
     if (this.cachedGridVersion === this.version) {
-      return this.cachedCells;
+      return this.cachedCalendars;
     }
 
-    const cells = buildMonthGrid({
-      activeDate: this.state.activeDate,
-      adapter: this.config.adapter,
-      createCellId: (date) => `${this.instanceId}-cell-${toDateKey(this.config.adapter, date)}`,
-      fixedWeeks: this.config.fixedWeeks,
-      focusStrategy: this.config.focusStrategy,
-      focusedDate: this.focusVisibleDate,
-      inRange: (date) => rangeIncludesDate(this.config.adapter, this.state.value, date),
-      isDisabled: (date) => this.isDateDisabled(date),
-      isPreviewRange: (date) => this.isInPreviewRange(date),
-      isRangeEnd: (date) => {
-        const range = this.state.value;
-        return (
-          isRangeSelectionValue(range) &&
-          range.end !== null &&
-          datesEqual(this.config.adapter, range.end, date)
-        );
-      },
-      isRangeStart: (date) => {
-        const range = this.state.value;
-        return (
-          isRangeSelectionValue(range) &&
-          range.start !== null &&
-          datesEqual(this.config.adapter, range.start, date)
-        );
-      },
-      isSelected: (date) =>
-        valueIncludesDate(this.config.adapter, this.config.selectionMode, this.state.value, date),
-      locale: this.config.locale,
-      showOutsideDays: this.config.showOutsideDays,
-      today: this.config.today,
-      visibleMonth: this.state.visibleMonth,
-      weekStartsOn: this.config.weekStartsOn,
-    });
+    const calendarCount = this.config.calendarLayout === 'dual' ? 2 : 1;
+    const visibleMonths = Array.from({ length: calendarCount }, (_, index) =>
+      this.config.adapter.startOfMonth(
+        this.config.adapter.addMonths(this.state.visibleMonth, index),
+      ),
+    );
+    const calendars = visibleMonths.map((visibleMonth, index) => {
+      const builtCells = buildMonthGrid({
+        activeDate: this.state.activeDate,
+        adapter: this.config.adapter,
+        createCellId: (date) =>
+          `${this.instanceId}-calendar-${index}-cell-${toDateKey(this.config.adapter, date)}`,
+        fixedWeeks: this.config.fixedWeeks,
+        focusStrategy: this.config.focusStrategy,
+        focusedDate: this.focusVisibleDate,
+        inRange: (date) => rangeIncludesDate(this.config.adapter, this.state.value, date),
+        isDisabled: (date) => this.isDateDisabled(date),
+        isPreviewRange: (date) => this.isInPreviewRange(date),
+        isRangeEnd: (date) => {
+          const range = this.state.value;
+          return (
+            isRangeSelectionValue(range) &&
+            range.end !== null &&
+            datesEqual(this.config.adapter, range.end, date)
+          );
+        },
+        isRangeStart: (date) => {
+          const range = this.state.value;
+          return (
+            isRangeSelectionValue(range) &&
+            range.start !== null &&
+            datesEqual(this.config.adapter, range.start, date)
+          );
+        },
+        isSelected: (date) =>
+          valueIncludesDate(this.config.adapter, this.config.selectionMode, this.state.value, date),
+        locale: this.config.locale,
+        showOutsideDays: this.config.showOutsideDays,
+        today: this.config.today,
+        visibleMonth,
+        weekStartsOn: this.config.weekStartsOn,
+      });
+      const cells = builtCells.map((cell) => {
+        const duplicatedByVisibleMonth =
+          !cell.inMonth &&
+          visibleMonths.some(
+            (candidateMonth, candidateIndex) =>
+              candidateIndex !== index &&
+              isDateValueInMonth(this.config.adapter, cell.date, candidateMonth),
+          );
+        if (!duplicatedByVisibleMonth) {
+          return cell;
+        }
 
-    this.syncDayFocusControllers(cells);
+        return Object.freeze({
+          ...cell,
+          active: false,
+          focusVisible: false,
+          hidden: true,
+          tabindex: -1,
+        }) as TngDateCell<TDate>;
+      });
+
+      return Object.freeze({
+        cells: Object.freeze(cells),
+        getGridAttributes: () => this.resolveGridAttributes(index),
+        index,
+        labelMonthYear: this.config.adapter.format(visibleMonth, 'month-year', this.config.locale),
+        rangeBoundary:
+          this.config.calendarLayout === 'dual' ? (index === 0 ? 'start' : 'end') : null,
+        visibleMonth,
+      }) as TngDateRangePickerCalendarPanel<TDate>;
+    });
+    const navigableCells = calendars.flatMap((calendar) =>
+      calendar.cells.filter((cell) => !cell.hidden),
+    );
+
+    this.syncDayFocusControllers(navigableCells);
 
     if (this.config.enableTypeahead) {
       this.typeahead.setItems(
-        cells
+        navigableCells
           .filter((cell) => !cell.disabled && !cell.hidden)
           .map((cell) => ({ disabled: false, id: cell.id, text: cell.label })),
       );
     }
 
-    this.cachedCells = cells;
+    this.cachedCalendars = Object.freeze(calendars);
     this.cachedGridVersion = this.version;
-    return cells;
+    return this.cachedCalendars;
+  }
+
+  private getCells(): readonly TngDateCell<TDate>[] {
+    return this.getCalendars()[0]?.cells ?? (emptyCells as readonly TngDateCell<TDate>[]);
   }
 
   private getMonthOptions(): readonly TngMonthOption<TDate>[] {
@@ -1959,8 +2083,11 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
     actionType: Exclude<TngGridNavigationActionType, 'activate' | 'exit'>,
     shiftKey: boolean,
   ): void {
-    const cells = this.getCells();
-    const activeCell = cells.find((cell) => cell.active) ?? null;
+    const activeCalendar = this.getCalendars().find((calendar) =>
+      calendar.cells.some((cell) => cell.active && !cell.hidden),
+    );
+    const cells = activeCalendar?.cells ?? this.getCells();
+    const activeCell = cells.find((cell) => cell.active && !cell.hidden) ?? null;
     if (activeCell === null) {
       return;
     }
@@ -1981,7 +2108,7 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
               : 7;
       const nextDate = this.resolveDirectionalTarget(activeCell.date, delta);
       this.applyActiveDate(nextDate, 'keyboard', true);
-      if (shiftKey && this.config.enableRangeSelection) {
+      if (shiftKey && this.config.enableRangeSelection && this.config.calendarLayout !== 'dual') {
         this.commitRangeFromAnchor(nextDate);
       }
       return;
@@ -2029,7 +2156,9 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
       return;
     }
 
-    const cell = this.getCells().find((item) => item.id === result.activeId);
+    const cell = this.getCalendars()
+      .flatMap((calendar) => calendar.cells)
+      .find((item) => item.id === result.activeId);
     if (cell === undefined) {
       return;
     }
@@ -2179,9 +2308,13 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
     const cell =
       'id' in (cellOrDate as TngDateCell<TDate>)
         ? (cellOrDate as TngDateCell<TDate>)
-        : this.getCells().find((candidate) =>
-            datesEqual(this.config.adapter, candidate.date, cellOrDate as TDate),
-          );
+        : this.getCalendars()
+            .flatMap((calendar) => calendar.cells)
+            .find(
+              (candidate) =>
+                candidate.inMonth &&
+                datesEqual(this.config.adapter, candidate.date, cellOrDate as TDate),
+            );
     if (cell === undefined) {
       return freezeAttributes({});
     }
@@ -2255,7 +2388,11 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
   private resolveCurrentOverlayTargetId(): string | null {
     if (this.state.view === 'day') {
       if (this.config.focusStrategy === 'active-descendant') {
-        return this.gridId;
+        const activeCalendarIndex =
+          this.getCalendars().find((calendar) =>
+            calendar.cells.some((cell) => cell.active && !cell.hidden),
+          )?.index ?? 0;
+        return this.resolveCalendarGridId(activeCalendarIndex);
       }
 
       return this.dayRovingFocus.getActiveId();
@@ -2272,19 +2409,37 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
     return null;
   }
 
-  private resolveGridAttributes(): TngDateRangePickerAttributeMap {
+  private resolveGridAttributes(calendarIndex = 0): TngDateRangePickerAttributeMap {
+    const normalizedIndex = this.config.calendarLayout === 'dual' && calendarIndex === 1 ? 1 : 0;
+    const calendar = this.getCalendars()[normalizedIndex];
+    const activeCell = calendar?.cells.find((cell) => cell.active && !cell.hidden);
     const activeDescendantAttributes =
-      this.config.focusStrategy === 'active-descendant'
+      this.config.focusStrategy === 'active-descendant' && activeCell !== undefined
         ? this.dayActiveDescendant.getHostAttributes()
         : null;
 
     return freezeAttributes({
       'aria-activedescendant': activeDescendantAttributes?.['aria-activedescendant'] ?? null,
-      'aria-labelledby': this.monthLabelId,
+      'aria-label':
+        this.config.calendarLayout === 'dual' && calendar !== undefined
+          ? `${normalizedIndex === 0 ? 'Start' : 'End'} date, ${calendar.labelMonthYear}`
+          : null,
+      'aria-labelledby': this.resolveCalendarMonthLabelId(normalizedIndex),
+      'data-calendar-index': `${normalizedIndex}`,
+      'data-range-boundary':
+        this.config.calendarLayout === 'dual' ? (normalizedIndex === 0 ? 'start' : 'end') : null,
       'data-slot': 'date-range-picker-grid',
-      id: this.gridId,
+      id: this.resolveCalendarGridId(normalizedIndex),
       role: 'grid',
     });
+  }
+
+  private resolveCalendarGridId(calendarIndex: number): string {
+    return calendarIndex === 0 ? this.gridId : `${this.gridId}-${calendarIndex}`;
+  }
+
+  private resolveCalendarMonthLabelId(calendarIndex: number): string {
+    return calendarIndex === 0 ? this.monthLabelId : `${this.monthLabelId}-${calendarIndex}`;
   }
 
   private resolveHostAttributes(): TngDateRangePickerAttributeMap {
@@ -2292,6 +2447,7 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
       'aria-describedby': this.config.ariaDescribedBy,
       'aria-label': this.config.ariaLabel,
       'aria-labelledby': this.config.ariaLabelledBy,
+      'data-calendar-layout': this.config.calendarLayout,
       'data-disabled': this.state.disabled ? 'true' : null,
       'data-open': this.state.open ? 'true' : 'false',
       'data-slot': 'date-range-picker',
@@ -2347,6 +2503,44 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
     return fallback;
   }
 
+  private resolveVisibleMonthForSelection(value: TngDateValue<TDate>, fallback: TDate): TDate {
+    const endDate = getRangeEndDate(value);
+    if (this.config.calendarLayout === 'dual' && hasCompleteRange(value) && endDate !== null) {
+      return this.config.adapter.startOfMonth(this.config.adapter.addMonths(endDate, -1));
+    }
+
+    return this.config.adapter.startOfMonth(fallback);
+  }
+
+  private alignDualCalendarWindowToSelection(value: TngDateValue<TDate>): void {
+    if (this.config.calendarLayout !== 'dual' || !hasCompleteRange(value)) {
+      return;
+    }
+
+    const previousMonth = this.state.visibleMonth;
+    const previousYear = this.config.adapter.getYear(previousMonth);
+    const nextMonth = this.resolveVisibleMonthForSelection(value, this.state.activeDate);
+    if (compareMonthIdentity(this.config.adapter, previousMonth, nextMonth) === 0) {
+      return;
+    }
+
+    this.state.visibleMonth = nextMonth;
+    this.emit({
+      previousMonth,
+      type: 'monthChange',
+      visibleMonth: nextMonth,
+    });
+
+    const currentYear = this.config.adapter.getYear(nextMonth);
+    if (previousYear !== currentYear) {
+      this.emit({
+        previousYear,
+        type: 'yearChange',
+        year: currentYear,
+      });
+    }
+  }
+
   private resolveLayout(): TngDateRangePickerLayout {
     if (!this.state.open || this.config.overlayMode === 'overlay') {
       return Object.freeze({
@@ -2395,6 +2589,101 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
     });
   }
 
+  private selectDualCalendarBoundary(
+    date: TDate,
+    boundary: 'end' | 'start',
+    trigger: TngDateRangePickerTrigger,
+  ): void {
+    const currentRange = isRangeSelectionValue(this.state.value)
+      ? this.state.value
+      : Object.freeze({ end: null, start: null });
+
+    if (boundary === 'end' && currentRange.start === null) {
+      this.setCalendarValidationError('start-required');
+      return;
+    }
+    if (
+      boundary === 'end' &&
+      currentRange.start !== null &&
+      this.config.adapter.compare(date, currentRange.start) < 0
+    ) {
+      this.setCalendarValidationError('end-before-start');
+      return;
+    }
+
+    const nextValue = Object.freeze({
+      end:
+        boundary === 'end'
+          ? date
+          : currentRange.end !== null && this.config.adapter.compare(currentRange.end, date) >= 0
+            ? currentRange.end
+            : null,
+      start: boundary === 'start' ? date : currentRange.start,
+    }) as TngDateRange<TDate>;
+    const previousValue = this.state.value;
+    const previousValidationError = this.state.validationError;
+    this.state.validationError = null;
+
+    if (
+      selectionValuesEqual(this.config.adapter, this.config.selectionMode, previousValue, nextValue)
+    ) {
+      if (previousValidationError !== null) {
+        this.bumpVersion();
+        this.emit({
+          previousValidationError,
+          type: 'validationChange',
+          validationError: null,
+        });
+      }
+      return;
+    }
+
+    this.state.value = nextValue;
+    this.state.inputText = this.formatValueForInput(nextValue);
+    this.rangeAnchorDate = this.extractSelectionAnchor(nextValue) ?? date;
+    this.applyActiveDate(date, trigger, true);
+    this.hoverDate = null;
+    this.bumpVersion();
+    if (previousValidationError !== null) {
+      this.emit({
+        previousValidationError,
+        type: 'validationChange',
+        validationError: null,
+      });
+    }
+    this.emit({
+      previousValue,
+      trigger,
+      type: 'valueChange',
+      value: nextValue,
+    });
+
+    if (
+      boundary === 'end' &&
+      this.config.closeOnSelect &&
+      this.state.open &&
+      hasCompleteRange(nextValue)
+    ) {
+      this.close('select');
+    }
+  }
+
+  private setCalendarValidationError(validationError: string): void {
+    const previousValidationError = this.state.validationError;
+    this.state.validationError = validationError;
+    this.hoverDate = null;
+    this.bumpVersion();
+    if (previousValidationError === validationError) {
+      return;
+    }
+
+    this.emit({
+      previousValidationError,
+      type: 'validationChange',
+      validationError,
+    });
+  }
+
   private resolveNextSelection(nextDate: TDate, shiftKey: boolean): TngDateValue<TDate> {
     const currentRange = isRangeSelectionValue(this.state.value)
       ? (this.state.value as TngDateRange<TDate>)
@@ -2427,6 +2716,7 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
       'aria-label': this.config.ariaLabel,
       'aria-labelledby': this.config.ariaLabelledBy ?? this.monthLabelId,
       'aria-modal': this.config.trapFocus ? 'true' : null,
+      'data-calendar-layout': this.config.calendarLayout,
       'data-open': this.state.open ? 'true' : 'false',
       'data-position': this.config.position,
       'data-slot': 'date-range-picker-overlay',
@@ -2522,6 +2812,9 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
       ariaLabel: nextConfig.ariaLabel ?? previous?.ariaLabel ?? null,
       ariaLabelledBy: nextConfig.ariaLabelledBy ?? previous?.ariaLabelledBy ?? null,
       autoCommitView: nextConfig.autoCommitView ?? previous?.autoCommitView ?? true,
+      calendarLayout: normalizeCalendarLayout(
+        nextConfig.calendarLayout ?? previous?.calendarLayout,
+      ),
       closeOnEscape: nextConfig.closeOnEscape ?? previous?.closeOnEscape ?? true,
       closeOnOutsideClick: nextConfig.closeOnOutsideClick ?? previous?.closeOnOutsideClick ?? true,
       closeOnSelect: nextConfig.closeOnSelect ?? previous?.closeOnSelect ?? false,
@@ -2825,9 +3118,7 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
 
   private shiftVisibleMonth(direction: 1 | -1): void {
     const nextMonth = this.config.adapter.addMonths(this.state.visibleMonth, direction);
-    if (
-      !hasSelectableDateInMonth(this.config.adapter, nextMonth, (date) => this.isDateDisabled(date))
-    ) {
+    if (!this.hasSelectableDateInCalendarWindow(nextMonth)) {
       return;
     }
 
@@ -2860,6 +3151,25 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
   private shiftVisibleYear(direction: 1 | -1): void {
     const nextYear = this.config.adapter.getYear(this.state.visibleMonth) + direction;
     this.selectYear(nextYear);
+  }
+
+  private hasSelectableDateInCalendarWindow(leadingMonth: TDate): boolean {
+    if (
+      hasSelectableDateInMonth(this.config.adapter, leadingMonth, (date) =>
+        this.isDateDisabled(date),
+      )
+    ) {
+      return true;
+    }
+
+    return (
+      this.config.calendarLayout === 'dual' &&
+      hasSelectableDateInMonth(
+        this.config.adapter,
+        this.config.adapter.addMonths(leadingMonth, 1),
+        (date) => this.isDateDisabled(date),
+      )
+    );
   }
 
   private commitRangeFromAnchor(endDate: TDate): void {
@@ -2905,6 +3215,8 @@ export function createDateRangePickerController<TDate = Date>(
 export type {
   TngDateRangeValue,
   TngDateRangePickerAttributeMap,
+  TngDateRangePickerCalendarLayout,
+  TngDateRangePickerCalendarPanel,
   TngDateRangePickerCloseReason,
   TngDateRangePickerConfig,
   TngDateRangePickerController,

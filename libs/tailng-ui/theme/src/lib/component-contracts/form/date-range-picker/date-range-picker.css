@@ -14,6 +14,7 @@
     --tng-date-range-picker-grid-gap: clamp(0.14rem, 1.15%, 0.28rem);
     --tng-date-range-picker-inline-gap: 0.36rem;
     --tng-date-range-picker-overlay-padding: var(--tng-group-padding, 0.75rem);
+    --tng-date-range-picker-calendar-gap: 1rem;
     --tng-date-range-picker-nav-size: 1.95rem;
 
     --tng-date-range-picker-border: var(
@@ -242,9 +243,22 @@
     display: none !important;
   }
 
-  :where([data-slot='date-range-picker-header']) {
+  :where([data-slot='date-range-picker-header']),
+  :where([data-slot='date-range-picker-calendar-header']) {
     display: grid;
     gap: 0.5rem;
+  }
+
+  :where([data-slot='date-range-picker-calendars']) {
+    display: grid;
+    gap: var(--tng-date-range-picker-calendar-gap);
+    min-width: 0;
+  }
+
+  :where([data-slot='date-range-picker-calendar-panel']) {
+    display: grid;
+    gap: 0.68rem;
+    min-width: 0;
   }
 
   button[data-slot='date-range-picker-nav-button'],

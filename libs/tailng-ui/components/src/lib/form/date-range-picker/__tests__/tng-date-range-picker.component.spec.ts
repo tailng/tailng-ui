@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   TngDateRangePickerComponent,
+  type TngDateRangePickerComponentCalendarLayout,
   type TngDateRangePickerSelectionInput,
   type TngDateRangePickerValue,
 } from '../tng-date-range-picker.component';
@@ -326,6 +327,7 @@ function getDayButton(root: ParentNode, dayLabel: string): HTMLButtonElement {
   const target = Array.from(root.querySelectorAll('[data-slot="date-range-picker-cell"]')).find(
     (element) =>
       (element as HTMLButtonElement).disabled === false &&
+      (element as HTMLElement).getAttribute('data-in-month') === 'true' &&
       (element as HTMLElement).textContent?.trim() === dayLabel,
   ) as HTMLButtonElement | undefined;
 
@@ -433,6 +435,7 @@ class DateRangePickerFormTabOrderHostComponent {
   imports: [TngDateRangePickerComponent],
   template: `
     <tng-date-range-picker
+      [calendarLayout]="calendarLayout()"
       [closeOnSelect]="closeOnSelect()"
       [defaultValue]="defaultValue()"
       [defaultOpen]="defaultOpen()"
@@ -447,6 +450,7 @@ class DateRangePickerFormTabOrderHostComponent {
   `,
 })
 class UncontrolledDateRangePickerHostComponent {
+  public readonly calendarLayout = signal<TngDateRangePickerComponentCalendarLayout>('single');
   public readonly closeOnSelect = signal(true);
   public readonly defaultOpen = signal(false);
   public readonly defaultValue = signal<TngDateRangePickerSelectionInput<Date> | undefined>({
@@ -543,6 +547,7 @@ describe('tng-date-range-picker component behavior', () => {
     document.documentElement.style.position = '';
     document.documentElement.style.top = '';
     document.documentElement.style.width = '';
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1024 });
     document.body.querySelectorAll('[data-slot="date-range-picker-overlay"]').forEach((element) => {
       element.remove();
     });
@@ -556,7 +561,6 @@ describe('tng-date-range-picker component behavior', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [UncontrolledDateRangePickerHostComponent],
     }).createComponent(UncontrolledDateRangePickerHostComponent);
-
     await settle(fixture);
 
     const input = getRequired<HTMLInputElement>(fixture, '[data-slot="date-range-picker-input"]');
@@ -599,10 +603,204 @@ describe('tng-date-range-picker component behavior', () => {
     );
   });
 
+  it('renders one calendar panel by default', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDateRangePickerHostComponent],
+    }).createComponent(UncontrolledDateRangePickerHostComponent);
+    fixture.componentInstance.defaultValue.set(undefined);
+
+    await settle(fixture);
+    await openOverlay(fixture);
+
+    const overlay = getRequiredFromRoot<HTMLElement>(
+      document.body,
+      '[data-slot="date-range-picker-overlay"]',
+    );
+    expect(overlay.getAttribute('data-calendar-layout')).toBe('single');
+    expect(overlay.querySelectorAll('[data-slot="date-range-picker-calendar-panel"]')).toHaveLength(
+      1,
+    );
+    expect(overlay.textContent).toContain('April 2024');
+    expect(overlay.style.minWidth).toBe('288px');
+    expect(overlay.style.maxWidth).toBe('320px');
+  });
+
+  it('renders two consecutive calendar panels when dual layout is requested', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDateRangePickerHostComponent],
+    }).createComponent(UncontrolledDateRangePickerHostComponent);
+    fixture.componentInstance.calendarLayout.set('dual');
+    fixture.componentInstance.defaultValue.set(undefined);
+
+    await settle(fixture);
+    await openOverlay(fixture);
+
+    const overlay = getRequiredFromRoot<HTMLElement>(
+      document.body,
+      '[data-slot="date-range-picker-overlay"]',
+    );
+    const labels = Array.from(
+      overlay.querySelectorAll<HTMLElement>('[data-slot="date-range-picker-period-button"]'),
+    ).map((button) => button.textContent?.trim());
+
+    expect(overlay.getAttribute('data-calendar-layout')).toBe('dual');
+    expect(overlay.querySelectorAll('[data-slot="date-range-picker-calendar-panel"]')).toHaveLength(
+      2,
+    );
+    expect(labels[0]).toContain('Start');
+    expect(labels[0]).toContain('April 2024');
+    expect(labels[1]).toContain('End');
+    expect(labels[1]).toContain('May 2024');
+    expect(overlay.style.minWidth).toBe('592px');
+    expect(overlay.style.maxWidth).toBe('656px');
+    expect(document.body.querySelectorAll('[data-slot="date-range-picker-overlay"]')).toHaveLength(
+      1,
+    );
+  });
+
+  it('selects one range across the leading and trailing calendar panels', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDateRangePickerHostComponent],
+    }).createComponent(UncontrolledDateRangePickerHostComponent);
+    fixture.componentInstance.calendarLayout.set('dual');
+    fixture.componentInstance.closeOnSelect.set(false);
+    fixture.componentInstance.defaultValue.set(undefined);
+
+    await settle(fixture);
+    await openOverlay(fixture);
+
+    const leading = getRequiredFromRoot<HTMLElement>(
+      document.body,
+      '[data-slot="date-range-picker-calendar-panel"][data-calendar-index="0"]',
+    );
+    const trailing = getRequiredFromRoot<HTMLElement>(
+      document.body,
+      '[data-slot="date-range-picker-calendar-panel"][data-calendar-index="1"]',
+    );
+    getDayButton(leading, '28').click();
+    await settle(fixture);
+    getDayButton(trailing, '3').click();
+    await settle(fixture);
+
+    expectRangeValue(fixture.componentInstance.valueChanges.at(-1), '2024-04-28', '2024-05-03');
+    expect(getDayButton(leading, '28').getAttribute('data-range-start')).toBe('true');
+    expect(getDayButton(trailing, '3').getAttribute('data-range-end')).toBe('true');
+  });
+
+  it('changes only the start from the leading calendar and preserves a valid end', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDateRangePickerHostComponent],
+    }).createComponent(UncontrolledDateRangePickerHostComponent);
+    fixture.componentInstance.calendarLayout.set('dual');
+    fixture.componentInstance.closeOnSelect.set(false);
+    fixture.componentInstance.defaultValue.set({ start: '2024-04-22', end: '2024-05-03' });
+
+    await settle(fixture);
+    await openOverlay(fixture);
+
+    const leading = getRequiredFromRoot<HTMLElement>(
+      document.body,
+      '[data-slot="date-range-picker-calendar-panel"][data-range-boundary="start"]',
+    );
+    getDayButton(leading, '25').click();
+    await settle(fixture);
+
+    expectRangeValue(fixture.componentInstance.valueChanges.at(-1), '2024-04-25', '2024-05-03');
+  });
+
+  it('rejects an end before start and accepts the next valid trailing end', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDateRangePickerHostComponent],
+    }).createComponent(UncontrolledDateRangePickerHostComponent);
+    fixture.componentInstance.calendarLayout.set('dual');
+    fixture.componentInstance.closeOnSelect.set(false);
+    fixture.componentInstance.defaultValue.set({ start: '2024-05-20', end: '2024-05-25' });
+
+    await settle(fixture);
+    await openOverlay(fixture);
+
+    const trailing = getRequiredFromRoot<HTMLElement>(
+      document.body,
+      '[data-slot="date-range-picker-calendar-panel"][data-range-boundary="end"]',
+    );
+    const changeCount = fixture.componentInstance.valueChanges.length;
+    getDayButton(trailing, '15').click();
+    await settle(fixture);
+
+    const input = getRequired<HTMLInputElement>(fixture, '[data-slot="date-range-picker-input"]');
+    expect(fixture.componentInstance.valueChanges).toHaveLength(changeCount);
+    expect(input.getAttribute('aria-invalid')).toBe('true');
+    expect(input.value).toBe('05-20-2024 – 05-25-2024');
+
+    getDayButton(trailing, '23').click();
+    await settle(fixture);
+
+    expectRangeValue(fixture.componentInstance.valueChanges.at(-1), '2024-05-20', '2024-05-23');
+    expect(input.getAttribute('aria-invalid')).toBeNull();
+  });
+
+  it('resolves the responsive calendar layout to one panel on a narrow viewport', async () => {
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 500 });
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDateRangePickerHostComponent],
+    }).createComponent(UncontrolledDateRangePickerHostComponent);
+    fixture.componentInstance.calendarLayout.set('responsive');
+
+    await settle(fixture);
+    await openOverlay(fixture);
+
+    const overlay = getRequiredFromRoot<HTMLElement>(
+      document.body,
+      '[data-slot="date-range-picker-overlay"]',
+    );
+    expect(overlay.getAttribute('data-calendar-layout')).toBe('single');
+    expect(overlay.querySelectorAll('[data-slot="date-range-picker-calendar-panel"]')).toHaveLength(
+      1,
+    );
+    expect(overlay.style.minWidth).toBe('288px');
+    expect(overlay.style.maxWidth).toBe('320px');
+  });
+
+  it('updates the open responsive calendar and preserves focus when the viewport changes', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDateRangePickerHostComponent],
+    }).createComponent(UncontrolledDateRangePickerHostComponent);
+    fixture.componentInstance.calendarLayout.set('responsive');
+
+    await settle(fixture);
+    await openOverlay(fixture);
+
+    const overlay = getRequiredFromRoot<HTMLElement>(
+      document.body,
+      '[data-slot="date-range-picker-overlay"]',
+    );
+    expect(overlay.getAttribute('data-calendar-layout')).toBe('dual');
+    expect(overlay.querySelectorAll('[data-slot="date-range-picker-calendar-panel"]')).toHaveLength(
+      2,
+    );
+
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 500 });
+    window.dispatchEvent(new Event('resize'));
+    await waitForAnimationFrame();
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    expect(overlay.getAttribute('data-calendar-layout')).toBe('single');
+    expect(overlay.querySelectorAll('[data-slot="date-range-picker-calendar-panel"]')).toHaveLength(
+      1,
+    );
+    expect((document.activeElement as HTMLElement | null)?.getAttribute('data-active')).toBe(
+      'true',
+    );
+    expect(overlay.contains(document.activeElement)).toBe(true);
+  });
+
   it('clamps popup width and aligns its logical end to the input-plus-trigger shell', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [UncontrolledDateRangePickerHostComponent],
     }).createComponent(UncontrolledDateRangePickerHostComponent);
+    fixture.componentInstance.calendarLayout.set('single');
 
     await settle(fixture);
 
@@ -940,6 +1138,43 @@ describe('tng-date-range-picker component behavior', () => {
     ).toBeGreaterThan(0);
   });
 
+  it('keeps a month chosen from the trailing period button in the trailing panel', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDateRangePickerHostComponent],
+    }).createComponent(UncontrolledDateRangePickerHostComponent);
+    fixture.componentInstance.calendarLayout.set('dual');
+    fixture.componentInstance.defaultValue.set(undefined);
+
+    await settle(fixture);
+    await openOverlay(fixture);
+
+    const trailingPeriodButton = Array.from(
+      document.body.querySelectorAll<HTMLButtonElement>(
+        '[data-slot="date-range-picker-period-button"]',
+      ),
+    )[1];
+    trailingPeriodButton?.click();
+    await settle(fixture);
+
+    const yearButton = Array.from(
+      document.body.querySelectorAll<HTMLButtonElement>('[data-slot="date-range-picker-year"]'),
+    ).find((button) => button.textContent?.trim() === '2024');
+    yearButton?.click();
+    await settle(fixture);
+
+    const juneButton = Array.from(
+      document.body.querySelectorAll<HTMLButtonElement>('[data-slot="date-range-picker-month"]'),
+    ).find((button) => button.textContent?.trim() === 'Jun');
+    juneButton?.click();
+    await settle(fixture);
+
+    const labels = Array.from(
+      document.body.querySelectorAll<HTMLElement>('[data-slot="date-range-picker-period-button"]'),
+    ).map((button) => button.textContent?.trim());
+    expect(labels[0]).toContain('May 2024');
+    expect(labels[1]).toContain('June 2024');
+  });
+
   it('flips the overlay above the trigger when auto placement has more space above', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [UncontrolledDateRangePickerHostComponent],
@@ -1047,7 +1282,12 @@ describe('tng-date-range-picker component behavior', () => {
     await waitForAnimationFrame();
     await settle(fixture);
 
-    expect(periodButton.textContent?.includes('April 2024')).toBe(true);
+    expect(
+      getRequiredFromRoot<HTMLButtonElement>(
+        document.body,
+        '[data-slot="date-range-picker-period-button"]',
+      ).textContent?.includes('April 2024'),
+    ).toBe(true);
 
     const dayGrid = getRequiredFromRoot<HTMLElement>(
       document.body,

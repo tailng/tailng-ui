@@ -1,8 +1,8 @@
 <article class="date-range-picker-overview">
   <h2 class="date-range-picker-overview-title">Date Range Picker overview</h2>
   <p class="date-range-picker-overview-lead">
-    TailNG Date Range Picker ships as a compact wrapper with editable input, keyboard-first calendar
-    navigation, adapter-driven formatting, and bounded month, year, and day selection.
+    TailNG Date Range Picker ships as a compact single-calendar wrapper with optional dual-month
+    start/end editing, adapter-driven formatting, and bounded month, year, and day selection.
   </p>
 
   <app-docs-example-tabs-section
@@ -65,9 +65,9 @@
     <h3>Imports</h3>
     <p>
       Use <code>TngDateRangePickerComponent</code> for the default wrapper. Reach for
-      <code>createDateRangePickerController</code> plus <code>bindTngDateRangePicker</code> when you need
-      custom layout while keeping the same calendar logic, focus behavior, and public slot/state
-      contract.
+      <code>createDateRangePickerController</code> plus <code>bindTngDateRangePicker</code> when you
+      need custom layout while keeping the same calendar logic, focus behavior, and public
+      slot/state contract.
     </p>
 
     <tng-code-block
@@ -130,11 +130,31 @@
   <section class="date-range-picker-overview-block">
     <h3>Behavior baseline</h3>
     <ul class="date-range-picker-overview-list">
-      <li>The wrapper supports uncontrolled and controlled selection through <code>defaultValue</code> and <code>value</code>.</li>
-      <li>Range selection commits a <code>&#123; start, end &#125;</code> value and keeps hover preview state on day cells.</li>
-      <li>The centered month-year button drills from year to month to day while navigation keeps bounds intact.</li>
-      <li><code>minDate</code>, <code>maxDate</code>, and <code>disableDate</code> all feed the same availability model.</li>
-      <li>Theme changes should flow through semantic tokens so the field and the portaled overlay stay visually in sync.</li>
+      <li>
+        The wrapper supports uncontrolled and controlled selection through
+        <code>defaultValue</code> and <code>value</code>.
+      </li>
+      <li>
+        <code>calendarLayout</code> defaults to Material-style <code>single</code> selection. In
+        <code>dual</code>, the left calendar edits start and the right calendar edits end while
+        enforcing <code>end &gt;= start</code>. Responsive mode switches panel count at 40rem.
+      </li>
+      <li>
+        Range selection commits a <code>&#123; start, end &#125;</code> value and keeps hover
+        preview state on day cells.
+      </li>
+      <li>
+        The centered month-year button drills from year to month to day while navigation keeps
+        bounds intact.
+      </li>
+      <li>
+        <code>minDate</code>, <code>maxDate</code>, and <code>disableDate</code> all feed the same
+        availability model.
+      </li>
+      <li>
+        Theme changes should flow through semantic tokens so the field and the portaled overlay stay
+        visually in sync.
+      </li>
     </ul>
   </section>
 </article>

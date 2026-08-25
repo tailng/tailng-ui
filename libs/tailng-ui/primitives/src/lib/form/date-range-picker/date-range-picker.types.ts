@@ -1,6 +1,7 @@
 import type { TngOverlayRuntime } from '@tailng-ui/cdk';
 
 export type TngCalendarView = 'day' | 'month' | 'year';
+export type TngDateRangePickerCalendarLayout = 'dual' | 'single';
 export type TngDateRangePickerSelectionMode = 'range';
 export type TngDateRangePickerDirection = 'ltr' | 'rtl';
 export type TngDateRangePickerFocusStrategy = 'active-descendant' | 'roving';
@@ -117,6 +118,15 @@ export type TngDateRangePickerLayout = Readonly<{
   width: number;
 }>;
 
+export type TngDateRangePickerCalendarPanel<TDate> = Readonly<{
+  cells: readonly TngDateCell<TDate>[];
+  getGridAttributes: () => TngDateRangePickerAttributeMap;
+  index: number;
+  labelMonthYear: string;
+  rangeBoundary: 'end' | 'start' | null;
+  visibleMonth: TDate;
+}>;
+
 export type TngDateRangePickerState<TDate> = Readonly<{
   activeDate: TDate;
   disabled: boolean;
@@ -136,6 +146,8 @@ export type TngDateRangePickerState<TDate> = Readonly<{
 
 export type TngDateRangePickerOutputs<TDate> = Readonly<{
   activeDate: TDate;
+  calendarLayout: TngDateRangePickerCalendarLayout;
+  calendars: readonly TngDateRangePickerCalendarPanel<TDate>[];
   cells: readonly TngDateCell<TDate>[];
   endDate: TDate | null;
   focusedDate: TDate | null;
@@ -143,7 +155,7 @@ export type TngDateRangePickerOutputs<TDate> = Readonly<{
   getCellAttributes: (
     cellOrDate: Readonly<TngDateCell<TDate>> | TDate,
   ) => TngDateRangePickerAttributeMap;
-  getGridAttributes: () => TngDateRangePickerAttributeMap;
+  getGridAttributes: (calendarIndex?: number) => TngDateRangePickerAttributeMap;
   getHostAttributes: () => TngDateRangePickerAttributeMap;
   getMonthAttributes: (
     monthOrOption: number | Readonly<TngMonthOption<TDate>>,
@@ -205,6 +217,11 @@ export type TngDateRangePickerEvent<TDate> =
       previousValue: TngDateValue<TDate>;
     }>
   | Readonly<{
+      previousValidationError: string | null;
+      type: 'validationChange';
+      validationError: string | null;
+    }>
+  | Readonly<{
       previousView: TngCalendarView;
       type: 'viewChange';
       view: TngCalendarView;
@@ -229,6 +246,7 @@ export type TngDateRangePickerConfig<TDate> = Readonly<{
   ariaLabel?: string | null;
   ariaLabelledBy?: string | null;
   autoCommitView?: boolean;
+  calendarLayout?: TngDateRangePickerCalendarLayout;
   closeOnEscape?: boolean;
   closeOnOutsideClick?: boolean;
   closeOnSelect?: boolean;
@@ -322,6 +340,11 @@ export type TngDateRangePickerController<TDate> = Readonly<{
   suppressFocusRestoreOnClose: () => void;
   selectDate: (
     date: TngDateInputValue<TDate>,
+    options?: Readonly<{ shiftKey?: boolean; trigger?: TngDateRangePickerTrigger }>,
+  ) => void;
+  selectCalendarDate: (
+    date: TngDateInputValue<TDate>,
+    calendarIndex: number,
     options?: Readonly<{ shiftKey?: boolean; trigger?: TngDateRangePickerTrigger }>,
   ) => void;
   selectMonth: (monthIndex: number) => void;

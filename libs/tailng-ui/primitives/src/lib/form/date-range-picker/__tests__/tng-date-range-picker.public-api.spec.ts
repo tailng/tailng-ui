@@ -1,14 +1,24 @@
 import { afterEach, describe, expect, expectTypeOf, it } from 'vitest';
-import * as primitivesIndex from '../../../../index';
-import * as rangePickerIndex from '../index';
 import type {
   TngDateRange,
+  TngDateRangePickerConfig,
   TngDateRangePickerOutputs,
   TngDateRangeValue,
   TngDateSelectionInput,
   TngDateValue,
 } from '../date-range-picker.types';
-import { cleanupDom, collectEvents, createController, dateKey } from './tng-date-range-picker.test-helpers';
+import type {
+  TngDateRangePickerCalendarLayout,
+  TngDateRangePickerCalendarPanel,
+} from '../tng-date-range-picker';
+import * as primitivesIndex from '../../../../index';
+import * as rangePickerIndex from '../index';
+import {
+  cleanupDom,
+  collectEvents,
+  createController,
+  dateKey,
+} from './tng-date-range-picker.test-helpers';
 
 function asRange(value: unknown): TngDateRangeValue<Date> {
   return value as TngDateRangeValue<Date>;
@@ -54,10 +64,20 @@ describe('tng-date-range-picker public API', () => {
 
   it('preserves strict TypeScript typing for range selection input and outputs', () => {
     expectTypeOf<TngDateSelectionInput<Date>>().toMatchTypeOf<
-      Date | string | null | undefined | Readonly<{ end: Date | string | null | undefined; start: Date | string | null | undefined }>
+      | Date
+      | string
+      | null
+      | undefined
+      | Readonly<{ end: Date | string | null | undefined; start: Date | string | null | undefined }>
     >();
     expectTypeOf<TngDateValue<Date>>().toEqualTypeOf<TngDateRange<Date> | null>();
     expectTypeOf<TngDateRangePickerOutputs<Date>['value']>().toEqualTypeOf<TngDateValue<Date>>();
+    expectTypeOf<TngDateRangePickerConfig<Date>['calendarLayout']>().toEqualTypeOf<
+      TngDateRangePickerCalendarLayout | undefined
+    >();
+    expectTypeOf<TngDateRangePickerOutputs<Date>['calendars']>().toEqualTypeOf<
+      readonly TngDateRangePickerCalendarPanel<Date>[]
+    >();
   });
 
   it('exports range-picker entry points and parts without datepicker imports', () => {
@@ -78,6 +98,7 @@ describe('tng-date-range-picker public API', () => {
 
   it('emits valid partial and complete range values without duplicate valueChange events', () => {
     const controller = createController();
+    expect(controller.selectCalendarDate).toBeTypeOf('function');
     const events = collectEvents(controller);
 
     controller.selectDate('2024-04-20');

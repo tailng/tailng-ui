@@ -44,7 +44,12 @@ function createCodeTabs(
 
 @Component({
   selector: 'app-date-range-picker-overview-page',
-  imports: [TngCodeBlockComponent, DocsExampleTabsSectionComponent, DocsExampleVariantDirective, TngDateRangePickerComponent],
+  imports: [
+    TngCodeBlockComponent,
+    DocsExampleTabsSectionComponent,
+    DocsExampleVariantDirective,
+    TngDateRangePickerComponent,
+  ],
   templateUrl: './date-range-picker-overview-page.component.html',
   styleUrl: './date-range-picker-overview-page.component.css',
 })
@@ -88,7 +93,8 @@ export class DateRangePickerOverviewPageComponent implements OnDestroy {
 
   protected readonly wrapperUsageCode = [
     '<tng-date-range-picker',
-    '  [defaultValue]="{ start: \'2024-04-22\', end: \'2024-04-26\' }"',
+    '  calendarLayout="dual"',
+    "  [defaultValue]=\"{ start: '2024-04-22', end: '2024-04-26' }\"",
     '  [today]="\'2024-04-18\'"',
     '  [minDate]="\'2024-04-01\'"',
     '  [maxDate]="\'2026-03-31\'"',
@@ -99,7 +105,7 @@ export class DateRangePickerOverviewPageComponent implements OnDestroy {
 
   protected readonly headlessControllerCode = [
     'readonly controller = createDateRangePickerController<Date>({',
-    "  ownerDocument: document,",
+    '  ownerDocument: document,',
     "  value: { start: '2024-04-22', end: '2024-04-26' },",
     "  today: '2024-04-18',",
     "  minDate: '2024-04-01',",
@@ -130,7 +136,7 @@ export class DateRangePickerOverviewPageComponent implements OnDestroy {
     [
       '<tng-date-range-picker',
       '  [defaultOpen]="false"',
-      '  [defaultValue]="{ start: \'2024-04-22\', end: \'2024-04-26\' }"',
+      "  [defaultValue]=\"{ start: '2024-04-22', end: '2024-04-26' }\"",
       '  [today]="\'2024-04-18\'"',
       '  [minDate]="\'2024-04-01\'"',
       '  [maxDate]="\'2026-03-31\'"',
@@ -161,7 +167,7 @@ export class DateRangePickerOverviewPageComponent implements OnDestroy {
       '>',
       '  <tng-date-range-picker',
       '    [defaultOpen]="false"',
-      '    [defaultValue]="{ start: \'2024-04-22\', end: \'2024-04-26\' }"',
+      "    [defaultValue]=\"{ start: '2024-04-22', end: '2024-04-26' }\"",
       '    [today]="\'2024-04-18\'"',
       '    [minDate]="\'2024-04-01\'"',
       '    [maxDate]="\'2026-03-31\'"',

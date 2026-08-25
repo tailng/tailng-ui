@@ -65,6 +65,7 @@ const PORTALLED_DATEPICKER_THEME_VARS = [
   '--tng-date-range-picker-grid-gap',
   '--tng-date-range-picker-inline-gap',
   '--tng-date-range-picker-overlay-padding',
+  '--tng-date-range-picker-calendar-gap',
   '--tng-date-range-picker-nav-size',
   '--tng-date-range-picker-border',
   '--tng-date-range-picker-border-strong',
@@ -314,6 +315,12 @@ export class TngDateRangePickerOverlay {
   protected get dataOpen(): string | null {
     this.renderVersion();
     return this.controller().getOutputs().getOverlayAttributes()['data-open'] ?? null;
+  }
+
+  @HostBinding('attr.data-calendar-layout')
+  protected get dataCalendarLayout(): string | null {
+    this.renderVersion();
+    return this.controller().getOutputs().getOverlayAttributes()['data-calendar-layout'] ?? null;
   }
 
   @HostBinding('attr.data-position')

@@ -19,6 +19,9 @@ export const tngDateRangePickerSlots = {
   trigger: 'date-range-picker-trigger',
   overlay: 'date-range-picker-overlay',
   header: 'date-range-picker-header',
+  calendars: 'date-range-picker-calendars',
+  calendarPanel: 'date-range-picker-calendar-panel',
+  calendarHeader: 'date-range-picker-calendar-header',
   navButton: 'date-range-picker-nav-button',
   periodButton: 'date-range-picker-period-button',
   viewSwitcher: 'date-range-picker-view-switcher',
@@ -72,6 +75,7 @@ export const tngDateRangePickerCssVars = {
   gridGap: '--tng-date-range-picker-grid-gap',
   inlineGap: '--tng-date-range-picker-inline-gap',
   overlayPadding: '--tng-date-range-picker-overlay-padding',
+  calendarGap: '--tng-date-range-picker-calendar-gap',
 
   // Visual aliases
   border: '--tng-date-range-picker-border',

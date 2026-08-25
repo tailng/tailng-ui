@@ -1,9 +1,9 @@
 <article class="date-range-picker-styling">
   <h2 class="date-range-picker-styling-title">Styling contract</h2>
   <p class="date-range-picker-styling-lead">
-    The wrapper, the helper directives, and the portaled overlay all share one public slot and
-    state contract. Style against the exported data attributes and CSS variables instead of DOM
-    structure or fixed light and dark utility classes.
+    The wrapper, the helper directives, and the portaled overlay all share one public slot and state
+    contract. Style against the exported data attributes and CSS variables instead of DOM structure
+    or fixed light and dark utility classes.
   </p>
 
   <section class="date-range-picker-styling-block">
@@ -19,7 +19,10 @@
         <tbody>
           <tr>
             <td><code>[data-slot="date-range-picker"]</code></td>
-            <td>Root contract for field-level layout tokens, host state hooks, and shared semantic colors.</td>
+            <td>
+              Root contract for field-level layout tokens, host state hooks, and shared semantic
+              colors.
+            </td>
           </tr>
           <tr>
             <td><code>[data-slot="date-range-picker-field"]</code></td>
@@ -27,22 +30,49 @@
           </tr>
           <tr>
             <td><code>[data-slot="date-range-picker-input-shell"]</code></td>
-            <td>Combined input and trigger chrome. Use this for border, invalid, open, and focus treatment.</td>
+            <td>
+              Combined input and trigger chrome. Use this for border, invalid, open, and focus
+              treatment.
+            </td>
           </tr>
           <tr>
-            <td><code>[data-slot="date-range-picker-input"]</code> / <code>[data-slot="date-range-picker-trigger"]</code></td>
+            <td>
+              <code>[data-slot="date-range-picker-input"]</code> /
+              <code>[data-slot="date-range-picker-trigger"]</code>
+            </td>
             <td>Editable text field and calendar trigger inside the shared shell.</td>
           </tr>
           <tr>
             <td><code>[data-slot="date-range-picker-overlay"]</code></td>
-            <td>Popup panel. It is portaled to <code>body</code>, so scope theme tokens on an ancestor that can be copied to the overlay.</td>
+            <td>
+              Popup panel. It is portaled to <code>body</code>, so scope theme tokens on an ancestor
+              that can be copied to the overlay.
+            </td>
           </tr>
           <tr>
-            <td><code>[data-slot="date-range-picker-header"]</code> / <code>[data-slot="date-range-picker-nav-button"]</code> / <code>[data-slot="date-range-picker-period-button"]</code></td>
+            <td>
+              <code>[data-slot="date-range-picker-calendars"]</code> /
+              <code>[data-slot="date-range-picker-calendar-panel"]</code>
+            </td>
+            <td>
+              Calendar collection and each visible month panel. Use these slots to customize single-
+              and dual-calendar layouts.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>[data-slot="date-range-picker-header"]</code> /
+              <code>[data-slot="date-range-picker-calendar-header"]</code> /
+              <code>[data-slot="date-range-picker-nav-button"]</code> /
+              <code>[data-slot="date-range-picker-period-button"]</code>
+            </td>
             <td>Header row and drill-down controls.</td>
           </tr>
           <tr>
-            <td><code>[data-slot="date-range-picker-weekdays"]</code> / <code>[data-slot="date-range-picker-weekday"]</code></td>
+            <td>
+              <code>[data-slot="date-range-picker-weekdays"]</code> /
+              <code>[data-slot="date-range-picker-weekday"]</code>
+            </td>
             <td>Weekday label row in day view.</td>
           </tr>
           <tr>
@@ -50,7 +80,11 @@
             <td>Shared grid container for day, month, and year panels.</td>
           </tr>
           <tr>
-            <td><code>[data-slot="date-range-picker-cell"]</code> / <code>[data-slot="date-range-picker-month"]</code> / <code>[data-slot="date-range-picker-year"]</code></td>
+            <td>
+              <code>[data-slot="date-range-picker-cell"]</code> /
+              <code>[data-slot="date-range-picker-month"]</code> /
+              <code>[data-slot="date-range-picker-year"]</code>
+            </td>
             <td>Interactive day, month, and year cells.</td>
           </tr>
         </tbody>
@@ -79,6 +113,19 @@
             <td><code>[data-view]</code></td>
             <td>Host</td>
             <td>View-specific layout or animation changes across day, month, and year panels.</td>
+          </tr>
+          <tr>
+            <td><code>[data-calendar-layout]</code></td>
+            <td>Host, overlay</td>
+            <td>
+              Resolved <code>single</code> or <code>dual</code> layout, including responsive mode
+              after breakpoint evaluation.
+            </td>
+          </tr>
+          <tr>
+            <td><code>[data-range-boundary]</code></td>
+            <td>Dual calendar panels and day grids</td>
+            <td>Identifies the fixed <code>start</code> and <code>end</code> editing surfaces.</td>
           </tr>
           <tr>
             <td><code>[data-invalid]</code></td>
@@ -116,7 +163,10 @@
             <td>Distinguishes outside-month days from the visible month.</td>
           </tr>
           <tr>
-            <td><code>[data-in-range]</code>, <code>[data-range-start]</code>, <code>[data-range-end]</code></td>
+            <td>
+              <code>[data-in-range]</code>, <code>[data-range-start]</code>,
+              <code>[data-range-end]</code>
+            </td>
             <td>Day cells in range mode</td>
             <td>Supports shared background, start cap, and end cap styling for range selection.</td>
           </tr>
@@ -165,19 +215,35 @@
             <td>Spacing between day, month, and year cells.</td>
           </tr>
           <tr>
-            <td><code>--tng-date-range-picker-day-cell-size</code> / <code>--tng-date-range-picker-picker-cell-size</code></td>
+            <td><code>--tng-date-range-picker-calendar-gap</code></td>
+            <td>Spacing between the two visible month panels in dual layout.</td>
+          </tr>
+          <tr>
+            <td>
+              <code>--tng-date-range-picker-day-cell-size</code> /
+              <code>--tng-date-range-picker-picker-cell-size</code>
+            </td>
             <td>Base cell sizing for day and picker panels.</td>
           </tr>
           <tr>
-            <td><code>--tng-date-range-picker-brand</code> / <code>--tng-date-range-picker-focus</code></td>
+            <td>
+              <code>--tng-date-range-picker-brand</code> /
+              <code>--tng-date-range-picker-focus</code>
+            </td>
             <td>Selection, hover, and focus accents.</td>
           </tr>
           <tr>
-            <td><code>--tng-date-range-picker-border</code> / <code>--tng-date-range-picker-surface</code> / <code>--tng-date-range-picker-fg</code></td>
+            <td>
+              <code>--tng-date-range-picker-border</code> /
+              <code>--tng-date-range-picker-surface</code> / <code>--tng-date-range-picker-fg</code>
+            </td>
             <td>Field chrome, popup surface, and foreground styling.</td>
           </tr>
           <tr>
-            <td><code>--tng-date-range-picker-shadow</code> / <code>--tng-date-range-picker-focus-shadow</code></td>
+            <td>
+              <code>--tng-date-range-picker-shadow</code> /
+              <code>--tng-date-range-picker-focus-shadow</code>
+            </td>
             <td>Popup depth and focus ring treatment.</td>
           </tr>
           <tr>

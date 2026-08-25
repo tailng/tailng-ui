@@ -38,6 +38,26 @@
   z-index: 30;
 }
 
+.tng-date-range-picker-calendars {
+  display: grid;
+  gap: var(--tng-date-range-picker-calendar-gap, 1rem);
+  min-width: 0;
+}
+
+.tng-date-range-picker-calendars[data-calendar-layout='dual'] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.tng-date-range-picker-calendars[data-calendar-layout='single'] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.tng-date-range-picker-calendar-panel {
+  display: grid;
+  gap: 0.68rem;
+  min-width: 0;
+}
+
 .tng-date-range-picker-header-row {
   align-items: center;
   display: grid;
@@ -49,6 +69,12 @@
     var(--tng-date-range-picker-nav-size, 2.1rem)
     minmax(0, 1fr)
     var(--tng-date-range-picker-nav-size, 2.1rem);
+}
+
+.tng-date-range-picker-nav-spacer {
+  display: block;
+  height: var(--tng-date-range-picker-nav-size, 2.1rem);
+  width: var(--tng-date-range-picker-nav-size, 2.1rem);
 }
 
 .tng-date-range-picker-period-button {
@@ -64,6 +90,14 @@
   align-items: center;
   display: inline-flex;
   gap: 0.24rem;
+}
+
+.tng-date-range-picker-calendar-boundary-label {
+  color: var(--tng-date-range-picker-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .tng-date-range-picker-period-button-title {

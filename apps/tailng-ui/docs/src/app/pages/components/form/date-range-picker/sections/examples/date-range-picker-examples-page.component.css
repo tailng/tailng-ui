@@ -38,6 +38,64 @@
   max-inline-size: 18.5rem;
 }
 
+.date-range-picker-example-control--dual {
+  inline-size: min(100%, 41rem);
+  max-inline-size: 41rem;
+}
+
+.date-range-picker-form-example {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  color: var(--tng-semantic-foreground-primary);
+  display: grid;
+  gap: 1rem;
+  inline-size: min(100%, 36rem);
+  padding: 1.25rem;
+}
+
+.date-range-picker-form-example--dual {
+  inline-size: min(100%, 50rem);
+}
+
+.date-range-picker-form-example-header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.date-range-picker-form-example-header h3,
+.date-range-picker-form-example-header p {
+  margin: 0;
+}
+
+.date-range-picker-form-example-header p {
+  color: var(--tng-semantic-foreground-secondary);
+}
+
+.date-range-picker-form-example-kicker {
+  color: var(--tng-semantic-foreground-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.date-range-picker-form-example label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.date-range-picker-form-example-submit {
+  background: var(--tng-semantic-accent-brand);
+  border: 0;
+  border-radius: 0.375rem;
+  color: var(--tng-semantic-foreground-on-accent, white);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  justify-self: end;
+  padding: 0.625rem 1rem;
+}
+
 .date-range-picker-popup-width-examples {
   display: grid;
   gap: 1.5rem;
@@ -61,6 +119,14 @@
 
 .date-range-picker-popup-width-example--max {
   inline-size: min(100%, 28rem);
+}
+
+.date-range-picker-popup-width-example--dual-min {
+  inline-size: min(100%, 24rem);
+}
+
+.date-range-picker-popup-width-example--dual-max {
+  inline-size: min(100%, 48rem);
 }
 
 .date-range-picker-headless-field {

@@ -14,7 +14,7 @@ import {
   TngDateRangePickerTrigger,
 } from '../tng-date-range-picker.parts';
 import { TngDateRangePickerOverlay } from '../tng-date-range-picker.overlay';
-import { cleanupDom } from './tng-date-range-picker.test-helpers';
+import { cleanupDom, dateKey } from './tng-date-range-picker.test-helpers';
 
 async function settle(fixture: {
   detectChanges(): void;
@@ -88,6 +88,41 @@ class DateRangePickerPartsHostComponent {
 
 @Component({
   standalone: true,
+  imports: [TngDateRangePickerHost, TngDateRangePickerDayGrid, TngDateRangePickerDayCell],
+  template: `
+    <div data-testid="dual-host" [tngDateRangePickerHost]="controller">
+      @for (calendar of outputs().calendars; track calendar.index) {
+        <div
+          data-testid="dual-grid"
+          [tngDateRangePickerDayGrid]="controller"
+          [tngDateRangePickerCalendarIndex]="calendar.index"
+        >
+          @for (cell of calendar.cells; track cell.id) {
+            <button type="button" [tngDateRangePickerDayCell]="cell">
+              {{ cell.label }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+  `,
+})
+class DualDateRangePickerPartsHostComponent {
+  public readonly controller = createDateRangePickerController<Date>({
+    calendarLayout: 'dual',
+    ownerDocument: document,
+    showOutsideDays: true,
+    today: '2024-04-18',
+    value: null,
+  });
+
+  public outputs(): TngDateRangePickerOutputs<Date> {
+    return this.controller.getOutputs();
+  }
+}
+
+@Component({
+  standalone: true,
   template: `
     <div data-testid="grid">
       @for (cell of bound.outputs().cells; track cell.id) {
@@ -137,24 +172,13 @@ class DateRangePickerBoundOutputsHostComponent {
   template: `
     <div data-testid="host" [tngDateRangePickerHost]="controller">
       <div data-slot="date-range-picker-input-shell">
-        <input
-          data-testid="range-input"
-          type="text"
-          [tngDateRangePickerInput]="controller"
-        />
-        <button
-          type="button"
-          data-testid="trigger"
-          [tngDateRangePickerTrigger]="controller"
-        >
+        <input data-testid="range-input" type="text" [tngDateRangePickerInput]="controller" />
+        <button type="button" data-testid="trigger" [tngDateRangePickerTrigger]="controller">
           Open
         </button>
       </div>
 
-      <section
-        data-testid="overlay"
-        [tngDateRangePickerOverlay]="controller"
-      >
+      <section data-testid="overlay" [tngDateRangePickerOverlay]="controller">
         <div data-testid="grid" [tngDateRangePickerDayGrid]="controller">
           @for (cell of outputs().cells; track cell.id) {
             <button type="button" [tngDateRangePickerDayCell]="cell">
@@ -204,6 +228,60 @@ describe('tng-date-range-picker primitive parts', () => {
     expect(host.getAttribute('data-slot')).toBe('date-range-picker');
     expect(trigger.getAttribute('aria-haspopup')).toBe('dialog');
     expect(grid.getAttribute('role')).toBe('grid');
+  });
+
+  it('binds distinct grid attributes for each calendar in dual layout', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DualDateRangePickerPartsHostComponent],
+    }).createComponent(DualDateRangePickerPartsHostComponent);
+
+    await settle(fixture);
+
+    const root = fixture.nativeElement as HTMLElement;
+    const host = getRequired<HTMLElement>(root, '[data-testid="dual-host"]');
+    const grids = Array.from(root.querySelectorAll<HTMLElement>('[data-testid="dual-grid"]'));
+
+    expect(host.getAttribute('data-calendar-layout')).toBe('dual');
+    expect(grids).toHaveLength(2);
+    expect(new Set(grids.map((grid) => grid.id)).size).toBe(2);
+    expect(grids[1]?.id).toBe(`${grids[0]?.id}-1`);
+    expect(grids.map((grid) => grid.getAttribute('data-calendar-index'))).toEqual(['0', '1']);
+    expect(grids.map((grid) => grid.getAttribute('data-range-boundary'))).toEqual(['start', 'end']);
+    expect(grids.map((grid) => grid.getAttribute('aria-label'))).toEqual([
+      'Start date, April 2024',
+      'End date, May 2024',
+    ]);
+    expect(
+      grids.flatMap((grid) =>
+        Array.from(
+          grid.querySelectorAll(
+            '[data-slot="date-range-picker-cell"][data-active="true"]:not([data-hidden])',
+          ),
+        ),
+      ),
+    ).toHaveLength(1);
+  });
+
+  it('routes leading and trailing day-cell clicks to start and end', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DualDateRangePickerPartsHostComponent],
+    }).createComponent(DualDateRangePickerPartsHostComponent);
+
+    await settle(fixture);
+
+    const grids = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLElement>(
+        '[data-testid="dual-grid"]',
+      ),
+    );
+    getDayButton(grids[0]!, '28').click();
+    await settle(fixture);
+    getDayButton(grids[1]!, '3').click();
+    await settle(fixture);
+
+    const outputs = fixture.componentInstance.controller.getOutputs();
+    expect(dateKey(outputs.startDate!)).toBe('2024-04-28');
+    expect(dateKey(outputs.endDate!)).toBe('2024-05-03');
   });
 
   it('marks range start, middle, and end cells with dedicated data attributes', async () => {
@@ -342,9 +420,15 @@ describe('tng-date-range-picker primitive parts', () => {
     getDayButton(fixture.nativeElement, '14').dispatchEvent(new Event('pointerenter'));
     await settle(fixture);
 
-    expect(getDayButton(fixture.nativeElement, '4').getAttribute('data-preview-range')).toBe('true');
-    expect(getDayButton(fixture.nativeElement, '10').getAttribute('data-preview-range')).toBe('true');
-    expect(getDayButton(fixture.nativeElement, '14').getAttribute('data-preview-range')).toBe('true');
+    expect(getDayButton(fixture.nativeElement, '4').getAttribute('data-preview-range')).toBe(
+      'true',
+    );
+    expect(getDayButton(fixture.nativeElement, '10').getAttribute('data-preview-range')).toBe(
+      'true',
+    );
+    expect(getDayButton(fixture.nativeElement, '14').getAttribute('data-preview-range')).toBe(
+      'true',
+    );
     expect(getDayButton(fixture.nativeElement, '14').getAttribute('data-preview-end')).toBe('true');
   });
 });

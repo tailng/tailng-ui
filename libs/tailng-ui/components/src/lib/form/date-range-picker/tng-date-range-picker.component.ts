@@ -27,6 +27,7 @@ import {
   type TngCalendarView,
   type TngDateCell,
   type TngDateAdapter,
+  type TngDateRangePickerCalendarLayout,
   type TngDateRangePickerConfig,
   type TngDateRangePickerCloseReason,
   type TngDateRangePickerDirection,
@@ -39,6 +40,9 @@ import {
 
 type OptionalBooleanInput = boolean | null | string | undefined;
 type TngDateRangePickerPlacement = 'auto' | 'bottom' | 'top';
+export type TngDateRangePickerComponentCalendarLayout =
+  | TngDateRangePickerCalendarLayout
+  | 'responsive';
 export type TngDateRangePickerDateInputValue<TDate> = Date | TDate | string | null | undefined;
 export type TngDateRangePickerSelectionInput<TDate> =
   | TngDateRangePickerDateInputValue<TDate>
@@ -52,6 +56,11 @@ export type TngDateRangePickerValue<TDate> = Readonly<{
 }> | null;
 
 const OVERLAY_VIEWPORT_MARGIN = 12;
+const RESPONSIVE_CALENDAR_QUERY = '(max-width: 40rem)';
+const SINGLE_OVERLAY_MIN_SIZE = 288;
+const SINGLE_OVERLAY_MAX_SIZE = 320;
+const DUAL_OVERLAY_MIN_SIZE = 592;
+const DUAL_OVERLAY_MAX_SIZE = 656;
 const OVERLAY_FOCUS_SYNC_KEYS: ReadonlySet<string> = new Set([
   'ArrowUp',
   'ArrowDown',
@@ -76,6 +85,17 @@ function normalizeOptionalBooleanInput(value: OptionalBooleanInput): boolean | u
 
 function normalizeNumberInput(value: number | string): number {
   return typeof value === 'number' ? value : Number(value);
+}
+
+function normalizeOptionalNumberInput(
+  value: number | string | null | undefined,
+): number | undefined {
+  if (value === null || value === undefined || value === '') {
+    return undefined;
+  }
+
+  const normalized = typeof value === 'number' ? value : Number(value);
+  return Number.isFinite(normalized) ? normalized : undefined;
 }
 
 function normalizeWeekdayInput(value: number | string): TngWeekdayIndex {
@@ -107,10 +127,26 @@ export class TngDateRangePickerComponent<TDate = Date>
   private readonly defaultLocale = inject(LOCALE_ID);
   private readonly fallbackInputId = createDateRangePickerInputId();
   private readonly ownerDocument = this.hostElement.nativeElement.ownerDocument ?? null;
+  private readonly ownerWindow = this.ownerDocument?.defaultView ?? null;
+  private readonly responsiveCalendarMedia =
+    this.ownerWindow?.matchMedia?.(RESPONSIVE_CALENDAR_QUERY) ?? null;
+  private readonly responsiveCalendarIsSingle = signal(
+    this.responsiveCalendarMedia?.matches ??
+      (this.ownerWindow === null || this.ownerWindow.innerWidth <= 640),
+  );
   private readonly renderVersion = signal(0);
   private readonly anchorRef = viewChild<ElementRef<HTMLElement>>('anchorShell');
   private readonly triggerRef = viewChild<ElementRef<HTMLElement>>('triggerButton');
   private appliedInitialState = false;
+  private readonly pickerCalendarIndex = signal(0);
+  private readonly onResponsiveCalendarChange = (event: MediaQueryListEvent): void => {
+    this.responsiveCalendarIsSingle.set(event.matches);
+  };
+  private readonly onResponsiveWindowResize = (): void => {
+    if (this.responsiveCalendarMedia === null && this.ownerWindow !== null) {
+      this.responsiveCalendarIsSingle.set(this.ownerWindow.innerWidth <= 640);
+    }
+  };
   protected readonly controller = createDateRangePickerController<TDate>({
     allowManualInput: true,
     autoCommitView: false,
@@ -138,6 +174,7 @@ export class TngDateRangePickerComponent<TDate = Date>
   public readonly autoCommitView = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
+  public readonly calendarLayout = input<TngDateRangePickerComponentCalendarLayout>('single');
   public readonly closeOnEscape = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
@@ -185,12 +222,16 @@ export class TngDateRangePickerComponent<TDate = Date>
     transform: normalizeOptionalBooleanInput,
   });
   public readonly overlayRuntime = input<TngOverlayRuntime | null | undefined>(undefined);
-  public readonly overlayMinSize = input<number, number | string>(288, {
-    transform: normalizeNumberInput,
-  });
-  public readonly overlaySize = input<number, number | string>(320, {
-    transform: normalizeNumberInput,
-  });
+  public readonly overlayMinSize = input<number | undefined, number | string | null | undefined>(
+    undefined,
+    {
+      transform: normalizeOptionalNumberInput,
+    },
+  );
+  public readonly overlaySize = input<number | undefined, number | string | null | undefined>(
+    undefined,
+    { transform: normalizeOptionalNumberInput },
+  );
   public readonly onPartialInputCommit = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
@@ -243,6 +284,24 @@ export class TngDateRangePickerComponent<TDate = Date>
   protected readonly overlayPlacement = computed(() =>
     this.resolveOverlayPlacement(this.placement()),
   );
+  protected readonly resolvedCalendarLayout = computed<TngDateRangePickerCalendarLayout>(() => {
+    const layout = this.calendarLayout();
+    if (layout !== 'responsive') {
+      return layout;
+    }
+
+    return this.responsiveCalendarIsSingle() ? 'single' : 'dual';
+  });
+  protected readonly resolvedOverlayMinSize = computed(
+    () =>
+      this.overlayMinSize() ??
+      (this.resolvedCalendarLayout() === 'dual' ? DUAL_OVERLAY_MIN_SIZE : SINGLE_OVERLAY_MIN_SIZE),
+  );
+  protected readonly resolvedOverlaySize = computed(
+    () =>
+      this.overlaySize() ??
+      (this.resolvedCalendarLayout() === 'dual' ? DUAL_OVERLAY_MAX_SIZE : SINGLE_OVERLAY_MAX_SIZE),
+  );
   protected readonly overlayThemeSource = this.hostElement.nativeElement;
 
   protected readonly materialPeriodLabel = computed(() => {
@@ -268,6 +327,11 @@ export class TngDateRangePickerComponent<TDate = Date>
   }
 
   public constructor() {
+    this.responsiveCalendarMedia?.addEventListener('change', this.onResponsiveCalendarChange);
+    if (this.responsiveCalendarMedia === null) {
+      this.ownerWindow?.addEventListener('resize', this.onResponsiveWindowResize);
+    }
+
     effect(() => {
       const anchor = this.anchorRef()?.nativeElement ?? null;
       this.controller.registerAnchor(anchor);
@@ -294,6 +358,7 @@ export class TngDateRangePickerComponent<TDate = Date>
       case 'openStart':
         break;
       case 'closed':
+        this.restorePickerCalendarPosition();
         this.openChange.emit(false);
         this.closed.emit(event.reason);
         break;
@@ -310,7 +375,12 @@ export class TngDateRangePickerComponent<TDate = Date>
       case 'valueChange':
         this.value.set(event.value);
         break;
+      case 'validationChange':
+        break;
       case 'viewChange':
+        if (event.view === 'day') {
+          this.restorePickerCalendarPosition();
+        }
         this.viewChange.emit(event.view);
         break;
       case 'yearChange':
@@ -325,6 +395,7 @@ export class TngDateRangePickerComponent<TDate = Date>
   }
 
   private syncControllerInputs(): void {
+    const previousCalendarLayout = this.controller.getOutputs().calendarLayout;
     this.controller.setConfig(this.getControllerConfig());
 
     const controlledValue = this.value();
@@ -338,6 +409,12 @@ export class TngDateRangePickerComponent<TDate = Date>
     }
 
     this.applyInitialState(controlledValue, controlledOpen);
+    const calendarLayoutChanged =
+      previousCalendarLayout !== this.controller.getOutputs().calendarLayout;
+    this.renderVersion.update((value) => value + 1);
+    if (calendarLayoutChanged) {
+      this.queueOverlayFocusSync();
+    }
   }
 
   private getControllerConfig(): Partial<TngDateRangePickerConfig<TDate>> {
@@ -348,6 +425,7 @@ export class TngDateRangePickerComponent<TDate = Date>
       ariaLabel: this.ariaLabel(),
       ariaLabelledBy: this.ariaLabelledBy(),
       autoCommitView: this.autoCommitView(),
+      calendarLayout: this.resolvedCalendarLayout(),
       closeOnEscape: this.closeOnEscape(),
       closeOnOutsideClick: this.closeOnOutsideClick(),
       closeOnSelect: this.closeOnSelect(),
@@ -363,7 +441,7 @@ export class TngDateRangePickerComponent<TDate = Date>
       maxDate: this.maxDate(),
       minDate: this.minDate(),
       onPartialInputCommit: this.onPartialInputCommit(),
-      overlaySize: this.overlaySize(),
+      overlaySize: this.resolvedOverlaySize(),
       overlayRuntime: this.overlayRuntime(),
       ownerDocument: this.ownerDocument,
       restoreFocus: this.restoreFocus(),
@@ -397,6 +475,8 @@ export class TngDateRangePickerComponent<TDate = Date>
   }
 
   public ngOnDestroy(): void {
+    this.responsiveCalendarMedia?.removeEventListener('change', this.onResponsiveCalendarChange);
+    this.ownerWindow?.removeEventListener('resize', this.onResponsiveWindowResize);
     this.unsubscribe();
     this.controller.destroy();
   }
@@ -455,16 +535,19 @@ export class TngDateRangePickerComponent<TDate = Date>
     return this.outputs().view === 'year';
   }
 
-  protected onDayCellClick(cell: Readonly<TngDateCell<TDate>>): void {
+  protected onDayCellClick(cell: Readonly<TngDateCell<TDate>>, calendarIndex: number): void {
     if (cell.disabled || cell.hidden) {
       return;
     }
 
-    this.controller.handleCellClick(cell.date);
+    this.controller.selectCalendarDate(cell.date, calendarIndex, { trigger: 'pointer' });
   }
 
-  protected onDayCellPointerEnter(cell: Readonly<TngDateCell<TDate>>): void {
+  protected onDayCellPointerEnter(cell: Readonly<TngDateCell<TDate>>, calendarIndex: number): void {
     if (cell.disabled || cell.hidden) {
+      return;
+    }
+    if (this.outputs().calendarLayout === 'dual' && calendarIndex === 0) {
       return;
     }
 
@@ -545,6 +628,7 @@ export class TngDateRangePickerComponent<TDate = Date>
   protected onMonthKeydown(event: KeyboardEvent): void {
     this.controller.handleMonthGridKeyDown(event);
     if (this.isPickerActivationKey(event.key)) {
+      this.restorePickerCalendarPosition();
       this.controller.showDaysPanel();
     }
     if (this.shouldSyncOverlayFocusAfterPickerKey(event.key)) {
@@ -558,6 +642,7 @@ export class TngDateRangePickerComponent<TDate = Date>
     }
 
     this.controller.selectMonth(option.index);
+    this.restorePickerCalendarPosition();
     this.controller.showDaysPanel();
     this.queueOverlayFocusSync();
   }
@@ -583,6 +668,19 @@ export class TngDateRangePickerComponent<TDate = Date>
     this.queueOverlayFocusSync();
   }
 
+  protected onCalendarPeriodButtonClick(calendarIndex: number): void {
+    this.pickerCalendarIndex.set(calendarIndex);
+    if (calendarIndex > 0) {
+      const calendar = this.outputs().calendars[calendarIndex];
+      if (calendar !== undefined) {
+        this.controller.setVisibleMonth(calendar.visibleMonth);
+      }
+    }
+
+    this.controller.showYearsPanel();
+    this.queueOverlayFocusSync();
+  }
+
   protected onYearKeydown(event: KeyboardEvent): void {
     this.controller.handleYearGridKeyDown(event);
     if (this.isPickerActivationKey(event.key)) {
@@ -601,6 +699,18 @@ export class TngDateRangePickerComponent<TDate = Date>
     this.controller.selectYear(option.year);
     this.controller.showMonthsPanel();
     this.queueOverlayFocusSync();
+  }
+
+  private restorePickerCalendarPosition(): void {
+    if (this.resolvedCalendarLayout() !== 'dual' || this.pickerCalendarIndex() !== 1) {
+      this.pickerCalendarIndex.set(0);
+      return;
+    }
+
+    const activeDate = this.outputs().activeDate;
+    this.controller.prevMonth();
+    this.controller.setActiveDate(activeDate);
+    this.pickerCalendarIndex.set(0);
   }
 
   protected pageBackward(): void {
@@ -667,7 +777,9 @@ export class TngDateRangePickerComponent<TDate = Date>
 
   private resolveCurrentFocusTargetId(outputs: TngDateRangePickerOutputs<TDate>): string | null {
     const activeTargetByView = {
-      day: outputs.cells.find((cell) => cell.active),
+      day: outputs.calendars
+        .flatMap((calendar) => calendar.cells)
+        .find((cell) => cell.active && !cell.hidden),
       month: outputs.monthOptions.find((option) => option.active),
       year: outputs.yearOptions.find((option) => option.active),
     };

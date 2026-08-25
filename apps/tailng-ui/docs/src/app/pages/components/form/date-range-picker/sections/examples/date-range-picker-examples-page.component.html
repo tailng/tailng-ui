@@ -2,8 +2,8 @@
   <h2 class="date-range-picker-examples-title">Examples</h2>
   <p class="date-range-picker-examples-lead">
     These examples focus on the styled wrapper in its default plain-CSS presentation and in a
-    theme-aware Tailwind shell. Headless composition lives in the separate headless Date Range Picker
-    section.
+    theme-aware Tailwind shell. Headless composition lives in the separate headless Date Range
+    Picker section.
   </p>
 
   <section class="date-range-picker-examples-block">
@@ -12,17 +12,27 @@
       description="Date Range Picker fits naturally into scheduling and reporting forms where the selected range is one submitted field."
       ariaLabel="Date Range Picker form usage example"
       tabListAriaLabel="Date Range Picker form usage variants"
-      defaultValue="live-demo"
+      defaultValue="plain-css"
       [codeBlockTheme]="codeBlockTheme()"
     >
-      <ng-template appDocsExampleVariant value="live-demo" label="Live demo" panelTitle="Date Range Picker form usage">
-        <app-docs-form-demo-shell
-          title="Choose an invoice period"
-          description="Use the date range picker as one range field inside a larger form without changing its core interaction model."
-          submitLabel="Save range"
-        >
-          <div docsFormDemoField class="date-range-picker-example-control">
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Date Range Picker form usage (Plain-CSS)"
+        [codeTabs]="formPlainCodeTabs"
+      >
+        <form class="date-range-picker-form-example" (submit)="$event.preventDefault()">
+          <header class="date-range-picker-form-example-header">
+            <span class="date-range-picker-form-example-kicker">Invoice settings</span>
+            <h3>Choose an invoice period</h3>
+            <p>The selected range is submitted as one form value.</p>
+          </header>
+
+          <label for="invoice-period-form-plain-input">Invoice period</label>
+          <div class="date-range-picker-example-control">
             <tng-date-range-picker
+              id="invoice-period-form-plain"
               [defaultOpen]="false"
               [defaultValue]="{ start: '2024-04-22', end: '2024-04-26' }"
               [today]="'2024-04-18'"
@@ -32,8 +42,131 @@
               ariaLabel="Invoice period"
             ></tng-date-range-picker>
           </div>
-          <p docsFormDemoSummary>The chosen range stays part of the form until submit or reset.</p>
-        </app-docs-form-demo-shell>
+
+          <button class="date-range-picker-form-example-submit" type="submit">Save range</button>
+        </form>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Date Range Picker form usage (Tailwind CSS)"
+        [codeTabs]="formTailwindCodeTabs"
+      >
+        <form
+          class="grid w-full max-w-[36rem] gap-4 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm"
+          (submit)="$event.preventDefault()"
+        >
+          <header class="grid gap-1">
+            <span class="text-xs font-semibold text-[var(--tng-semantic-foreground-muted)]"
+              >Invoice settings</span
+            >
+            <h3 class="m-0 text-lg font-semibold">Choose an invoice period</h3>
+            <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
+              The selected range is submitted as one form value.
+            </p>
+          </header>
+
+          <label class="text-sm font-semibold" for="invoice-period-form-tailwind-input"
+            >Invoice period</label
+          >
+          <tng-date-range-picker
+            id="invoice-period-form-tailwind"
+            [defaultOpen]="false"
+            [defaultValue]="{ start: '2024-04-22', end: '2024-04-26' }"
+            [today]="'2024-04-18'"
+            [minDate]="'2024-04-01'"
+            [maxDate]="'2026-03-31'"
+            ariaLabel="Invoice period"
+          ></tng-date-range-picker>
+
+          <button
+            class="justify-self-end rounded-md bg-[var(--tng-semantic-accent-brand)] px-4 py-2 text-sm font-semibold text-white"
+            type="submit"
+          >
+            Save range
+          </button>
+        </form>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="dual-plain-css"
+        label="Dual Plain-CSS"
+        panelTitle="Dual Date Range Picker form usage (Plain-CSS)"
+        [codeTabs]="dualFormPlainCodeTabs"
+      >
+        <form
+          class="date-range-picker-form-example date-range-picker-form-example--dual"
+          (submit)="$event.preventDefault()"
+        >
+          <header class="date-range-picker-form-example-header">
+            <span class="date-range-picker-form-example-kicker">Invoice settings</span>
+            <h3>Choose an invoice period</h3>
+            <p>Use the left calendar for start and the right calendar for end.</p>
+          </header>
+
+          <label for="invoice-period-form-dual-plain-input">Invoice period</label>
+          <div class="date-range-picker-example-control date-range-picker-example-control--dual">
+            <tng-date-range-picker
+              id="invoice-period-form-dual-plain"
+              calendarLayout="dual"
+              [defaultOpen]="false"
+              [defaultValue]="{ start: '2024-04-22', end: '2024-05-03' }"
+              [today]="'2024-04-18'"
+              [minDate]="'2024-04-01'"
+              [maxDate]="'2026-03-31'"
+              ariaLabel="Dual invoice period"
+            ></tng-date-range-picker>
+          </div>
+
+          <button class="date-range-picker-form-example-submit" type="submit">Save range</button>
+        </form>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="dual-tailwind-css"
+        label="Dual Tailwind CSS"
+        panelTitle="Dual Date Range Picker form usage (Tailwind CSS)"
+        [codeTabs]="dualFormTailwindCodeTabs"
+      >
+        <form
+          class="grid w-full max-w-[50rem] gap-4 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-5 text-[var(--tng-semantic-foreground-primary)] shadow-sm"
+          (submit)="$event.preventDefault()"
+        >
+          <header class="grid gap-1">
+            <span class="text-xs font-semibold text-[var(--tng-semantic-foreground-muted)]"
+              >Invoice settings</span
+            >
+            <h3 class="m-0 text-lg font-semibold">Choose an invoice period</h3>
+            <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
+              Use the left calendar for start and the right calendar for end.
+            </p>
+          </header>
+
+          <label class="text-sm font-semibold" for="invoice-period-form-dual-tailwind-input"
+            >Invoice period</label
+          >
+          <tng-date-range-picker
+            id="invoice-period-form-dual-tailwind"
+            calendarLayout="dual"
+            [defaultOpen]="false"
+            [defaultValue]="{ start: '2024-04-22', end: '2024-05-03' }"
+            [today]="'2024-04-18'"
+            [minDate]="'2024-04-01'"
+            [maxDate]="'2026-03-31'"
+            ariaLabel="Dual invoice period"
+          ></tng-date-range-picker>
+
+          <button
+            class="justify-self-end rounded-md bg-[var(--tng-semantic-accent-brand)] px-4 py-2 text-sm font-semibold text-white"
+            type="submit"
+          >
+            Save range
+          </button>
+        </form>
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
@@ -99,6 +232,60 @@
           </p>
         </div>
       </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="dual-plain-css"
+        label="Dual Plain-CSS"
+        panelTitle="Dual wrapper (Plain-CSS)"
+        [codeTabs]="dualDefaultPlainCodeTabs"
+      >
+        <div class="date-range-picker-example-preview">
+          <div class="date-range-picker-example-control date-range-picker-example-control--dual">
+            <tng-date-range-picker
+              calendarLayout="dual"
+              [defaultOpen]="false"
+              [defaultValue]="{ start: '2024-04-22', end: '2024-05-03' }"
+              [today]="'2024-04-18'"
+              [minDate]="'2024-04-01'"
+              [maxDate]="'2026-03-31'"
+              [fullWidth]="false"
+              ariaLabel="Dual invoice period"
+            ></tng-date-range-picker>
+          </div>
+          <p class="date-range-picker-example-note">
+            The leading calendar owns start and the trailing calendar owns end.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="dual-tailwind-css"
+        label="Dual Tailwind CSS"
+        panelTitle="Dual wrapper (Tailwind CSS)"
+        [codeTabs]="dualDefaultTailwindCodeTabs"
+      >
+        <div class="date-range-picker-example-preview">
+          <div
+            class="w-full max-w-[41rem] rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-background-base)_92%,var(--tng-semantic-background-surface)_8%),color-mix(in_srgb,var(--tng-semantic-background-base)_76%,var(--tng-semantic-background-surface)_24%))] p-3 text-[var(--tng-semantic-foreground-primary)] shadow-[0_10px_24px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_10%,transparent)]"
+          >
+            <tng-date-range-picker
+              calendarLayout="dual"
+              [defaultOpen]="false"
+              [defaultValue]="{ start: '2024-04-22', end: '2024-05-03' }"
+              [today]="'2024-04-18'"
+              [minDate]="'2024-04-01'"
+              [maxDate]="'2026-03-31'"
+              [fullWidth]="false"
+              ariaLabel="Dual invoice period"
+            ></tng-date-range-picker>
+          </div>
+          <p class="date-range-picker-example-note">
+            Tailwind styles the wider product surface while the picker keeps fixed start/end roles.
+          </p>
+        </div>
+      </ng-template>
     </app-docs-example-tabs-section>
   </section>
 
@@ -127,6 +314,7 @@
               <tng-date-range-picker
                 [defaultValue]="{ start: '2024-04-22', end: '2024-04-26' }"
                 [fullWidth]="true"
+                calendarLayout="single"
                 [overlayMinSize]="288"
                 [overlaySize]="320"
                 ariaLabel="Minimum-width date range picker"
@@ -146,6 +334,7 @@
               <tng-date-range-picker
                 [defaultValue]="{ start: '2024-04-22', end: '2024-04-26' }"
                 [fullWidth]="true"
+                calendarLayout="single"
                 [overlayMinSize]="288"
                 [overlaySize]="320"
                 ariaLabel="Maximum-width date range picker"
@@ -175,6 +364,7 @@
               <tng-date-range-picker
                 [defaultValue]="{ start: '2024-04-22', end: '2024-04-26' }"
                 [fullWidth]="true"
+                calendarLayout="single"
                 [overlayMinSize]="288"
                 [overlaySize]="320"
                 ariaLabel="Minimum-width date range picker"
@@ -195,6 +385,7 @@
               <tng-date-range-picker
                 [defaultValue]="{ start: '2024-04-22', end: '2024-04-26' }"
                 [fullWidth]="true"
+                calendarLayout="single"
                 [overlayMinSize]="288"
                 [overlaySize]="320"
                 ariaLabel="Maximum-width date range picker"
@@ -204,6 +395,106 @@
               class="m-0 max-w-[34rem] leading-relaxed text-[var(--tng-semantic-foreground-secondary)]"
             >
               Open the 28rem input. The popup stops at its 20rem maximum and stays end-aligned.
+            </p>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="dual-plain-css"
+        label="Dual Plain-CSS"
+        panelTitle="Dual popup width (Plain-CSS)"
+        [codeTabs]="dualPopupPlainCodeTabs"
+      >
+        <div class="date-range-picker-popup-width-examples">
+          <div class="date-range-picker-example-preview">
+            <h3 class="date-range-picker-popup-width-title">Dual minimum width</h3>
+            <div
+              class="date-range-picker-popup-width-example date-range-picker-popup-width-example--dual-min"
+            >
+              <tng-date-range-picker
+                calendarLayout="dual"
+                [defaultValue]="{ start: '2024-04-22', end: '2024-05-03' }"
+                [fullWidth]="true"
+                [overlayMinSize]="592"
+                [overlaySize]="656"
+                ariaLabel="Dual minimum-width date range picker"
+              ></tng-date-range-picker>
+            </div>
+            <p class="date-range-picker-example-note">
+              A narrow field can still open the dual overlay at its two-panel minimum.
+            </p>
+          </div>
+
+          <div class="date-range-picker-example-preview">
+            <h3 class="date-range-picker-popup-width-title">Dual maximum width</h3>
+            <div
+              class="date-range-picker-popup-width-example date-range-picker-popup-width-example--dual-max"
+            >
+              <tng-date-range-picker
+                calendarLayout="dual"
+                [defaultValue]="{ start: '2024-04-22', end: '2024-05-03' }"
+                [fullWidth]="true"
+                [overlayMinSize]="592"
+                [overlaySize]="656"
+                ariaLabel="Dual maximum-width date range picker"
+              ></tng-date-range-picker>
+            </div>
+            <p class="date-range-picker-example-note">
+              The overlay stops at its configured maximum and remains end-aligned.
+            </p>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="dual-tailwind-css"
+        label="Dual Tailwind CSS"
+        panelTitle="Dual popup width (Tailwind CSS)"
+        [codeTabs]="dualPopupTailwindCodeTabs"
+      >
+        <div class="grid w-full gap-6">
+          <div class="grid justify-items-start gap-3">
+            <h3 class="m-0 text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]">
+              Dual minimum width
+            </h3>
+            <div class="w-full max-w-[24rem]">
+              <tng-date-range-picker
+                calendarLayout="dual"
+                [defaultValue]="{ start: '2024-04-22', end: '2024-05-03' }"
+                [fullWidth]="true"
+                [overlayMinSize]="592"
+                [overlaySize]="656"
+                ariaLabel="Dual minimum-width date range picker"
+              ></tng-date-range-picker>
+            </div>
+            <p
+              class="m-0 max-w-[34rem] leading-relaxed text-[var(--tng-semantic-foreground-secondary)]"
+            >
+              The dual overlay grows beyond the narrow field and stays end-aligned.
+            </p>
+          </div>
+
+          <div class="grid justify-items-start gap-3">
+            <h3 class="m-0 text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]">
+              Dual maximum width
+            </h3>
+            <div class="w-full max-w-[48rem]">
+              <tng-date-range-picker
+                calendarLayout="dual"
+                [defaultValue]="{ start: '2024-04-22', end: '2024-05-03' }"
+                [fullWidth]="true"
+                [overlayMinSize]="592"
+                [overlaySize]="656"
+                ariaLabel="Dual maximum-width date range picker"
+              ></tng-date-range-picker>
+            </div>
+            <p
+              class="m-0 max-w-[34rem] leading-relaxed text-[var(--tng-semantic-foreground-secondary)]"
+            >
+              The dual overlay caps at its maximum while the field can remain wider.
             </p>
           </div>
         </div>
@@ -271,6 +562,58 @@
           </p>
         </div>
       </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="dual-plain-css"
+        label="Dual Plain-CSS"
+        panelTitle="Dual custom format (Plain-CSS)"
+        [codeTabs]="dualCustomPlainCodeTabs"
+      >
+        <div class="date-range-picker-example-preview">
+          <div class="date-range-picker-example-control date-range-picker-example-control--dual">
+            <tng-date-range-picker
+              calendarLayout="dual"
+              [defaultOpen]="false"
+              [adapter]="customFormatAdapter"
+              [defaultValue]="{ start: '2024-04-22', end: '2024-05-03' }"
+              [today]="'2024-04-18'"
+              [fullWidth]="false"
+              ariaLabel="Dual reporting period"
+            ></tng-date-range-picker>
+          </div>
+          <p class="date-range-picker-example-note">
+            The adapter formats both fixed-role calendars and the shared range input.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="dual-tailwind-css"
+        label="Dual Tailwind CSS"
+        panelTitle="Dual custom format (Tailwind CSS)"
+        [codeTabs]="dualCustomTailwindCodeTabs"
+      >
+        <div class="date-range-picker-example-preview">
+          <div
+            class="w-full max-w-[41rem] rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-background-base)_92%,var(--tng-semantic-background-surface)_8%),color-mix(in_srgb,var(--tng-semantic-background-base)_76%,var(--tng-semantic-background-surface)_24%))] p-3 text-[var(--tng-semantic-foreground-primary)] shadow-[0_10px_24px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_10%,transparent)]"
+          >
+            <tng-date-range-picker
+              calendarLayout="dual"
+              [defaultOpen]="false"
+              [adapter]="customFormatAdapter"
+              [defaultValue]="{ start: '2024-04-22', end: '2024-05-03' }"
+              [today]="'2024-04-18'"
+              [fullWidth]="false"
+              ariaLabel="Dual reporting period"
+            ></tng-date-range-picker>
+          </div>
+          <p class="date-range-picker-example-note">
+            The utility shell scales to the dual overlay without changing adapter behavior.
+          </p>
+        </div>
+      </ng-template>
     </app-docs-example-tabs-section>
   </section>
 
@@ -331,6 +674,58 @@
           <p class="date-range-picker-example-note">
             Use a utility shell when range constraints need to sit inside a larger Tailwind-composed
             surface without breaking theme switching.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="dual-plain-css"
+        label="Dual Plain-CSS"
+        panelTitle="Dual bounded range (Plain-CSS)"
+        [codeTabs]="dualBoundedPlainCodeTabs"
+      >
+        <div class="date-range-picker-example-preview">
+          <div class="date-range-picker-example-control date-range-picker-example-control--dual">
+            <tng-date-range-picker
+              calendarLayout="dual"
+              [defaultOpen]="false"
+              [today]="'2026-06-24'"
+              [minDate]="'2024-04-01'"
+              [maxDate]="'2025-03-31'"
+              [fullWidth]="false"
+              ariaLabel="Dual bounded shipping period"
+            ></tng-date-range-picker>
+          </div>
+          <p class="date-range-picker-example-note">
+            Both panels share the same bounds while retaining their start and end responsibilities.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="dual-tailwind-css"
+        label="Dual Tailwind CSS"
+        panelTitle="Dual bounded range (Tailwind CSS)"
+        [codeTabs]="dualBoundedTailwindCodeTabs"
+      >
+        <div class="date-range-picker-example-preview">
+          <div
+            class="w-full max-w-[41rem] rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-background-base)_92%,var(--tng-semantic-background-surface)_8%),color-mix(in_srgb,var(--tng-semantic-background-base)_76%,var(--tng-semantic-background-surface)_24%))] p-3 text-[var(--tng-semantic-foreground-primary)] shadow-[0_10px_24px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_10%,transparent)]"
+          >
+            <tng-date-range-picker
+              calendarLayout="dual"
+              [defaultOpen]="false"
+              [today]="'2026-06-24'"
+              [minDate]="'2024-04-01'"
+              [maxDate]="'2025-03-31'"
+              [fullWidth]="false"
+              ariaLabel="Dual bounded shipping period"
+            ></tng-date-range-picker>
+          </div>
+          <p class="date-range-picker-example-note">
+            Tailwind supplies the wider shell while both calendars honor the same valid window.
           </p>
         </div>
       </ng-template>

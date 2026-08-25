@@ -70,12 +70,16 @@ export function bindTngDateRangePicker<TDate>(
 
 function resolveCurrentFocusTargetId(outputs: TngDateRangePickerOutputs<unknown>): string | null {
   if (outputs.view === 'day') {
-    const gridAttributes = outputs.getGridAttributes();
+    const activeCalendar =
+      outputs.calendars.find((calendar) =>
+        calendar.cells.some((cell) => cell.active && !cell.hidden),
+      ) ?? outputs.calendars[0];
+    const gridAttributes = activeCalendar?.getGridAttributes() ?? outputs.getGridAttributes();
     if (gridAttributes['aria-activedescendant'] !== undefined) {
       return gridAttributes.id ?? null;
     }
 
-    return outputs.cells.find((cell) => cell.active)?.id ?? null;
+    return activeCalendar?.cells.find((cell) => cell.active && !cell.hidden)?.id ?? null;
   }
 
   if (outputs.view === 'month') {
@@ -208,6 +212,11 @@ export class TngDateRangePickerHost extends TngDateRangePickerControllerPart {
   @HostBinding('attr.data-disabled')
   protected get dataDisabled(): string | null {
     return resolveAttribute(this.attributes(), 'data-disabled');
+  }
+
+  @HostBinding('attr.data-calendar-layout')
+  protected get dataCalendarLayout(): string | null {
+    return resolveAttribute(this.attributes(), 'data-calendar-layout');
   }
 
   @HostBinding('attr.data-open')
@@ -489,36 +498,69 @@ export class TngDateRangePickerDayGrid extends TngDateRangePickerControllerPart 
   public readonly controller = input.required<TngDateRangePickerControllerLike>({
     alias: 'tngDateRangePickerDayGrid',
   });
+  public readonly calendarIndex = input<number>(0, {
+    alias: 'tngDateRangePickerCalendarIndex',
+  });
+  @HostBinding('attr.data-calendar-index')
+  protected get dataCalendarIndex(): string {
+    return `${this.calendarIndex()}`;
+  }
   @HostBinding('attr.data-slot')
   protected get dataSlot(): string | null {
     this.renderVersion();
     return (
-      this.controller().getOutputs().getGridAttributes()['data-slot'] ?? 'date-range-picker-grid'
+      this.controller().getOutputs().getGridAttributes(this.calendarIndex())['data-slot'] ??
+      'date-range-picker-grid'
     );
   }
 
   @HostBinding('attr.id')
   protected get id(): string | null {
     this.renderVersion();
-    return this.controller().getOutputs().getGridAttributes().id ?? null;
+    return this.controller().getOutputs().getGridAttributes(this.calendarIndex()).id ?? null;
   }
 
   @HostBinding('attr.role')
   protected get role(): string | null {
     this.renderVersion();
-    return this.controller().getOutputs().getGridAttributes()['role'] ?? null;
+    return this.controller().getOutputs().getGridAttributes(this.calendarIndex())['role'] ?? null;
   }
 
   @HostBinding('attr.aria-activedescendant')
   protected get ariaActiveDescendant(): string | null {
     this.renderVersion();
-    return this.controller().getOutputs().getGridAttributes()['aria-activedescendant'] ?? null;
+    return (
+      this.controller().getOutputs().getGridAttributes(this.calendarIndex())[
+        'aria-activedescendant'
+      ] ?? null
+    );
+  }
+
+  @HostBinding('attr.aria-label')
+  protected get ariaLabel(): string | null {
+    this.renderVersion();
+    return (
+      this.controller().getOutputs().getGridAttributes(this.calendarIndex())['aria-label'] ?? null
+    );
   }
 
   @HostBinding('attr.aria-labelledby')
   protected get ariaLabelledby(): string | null {
     this.renderVersion();
-    return this.controller().getOutputs().getGridAttributes()['aria-labelledby'] ?? null;
+    return (
+      this.controller().getOutputs().getGridAttributes(this.calendarIndex())['aria-labelledby'] ??
+      null
+    );
+  }
+
+  @HostBinding('attr.data-range-boundary')
+  protected get dataRangeBoundary(): string | null {
+    this.renderVersion();
+    return (
+      this.controller().getOutputs().getGridAttributes(this.calendarIndex())[
+        'data-range-boundary'
+      ] ?? null
+    );
   }
 
   @HostListener('keydown', ['$event'])
@@ -669,7 +711,10 @@ export class TngDateRangePickerDayCell extends TngDateRangePickerControllerPart 
       return;
     }
 
-    this.controller().handleCellClick(cell.date, { shiftKey: event.shiftKey });
+    this.controller().selectCalendarDate(cell.date, this.dayGrid.calendarIndex(), {
+      shiftKey: event.shiftKey,
+      trigger: 'pointer',
+    });
     this.syncOverlayFocus();
   }
 
@@ -677,6 +722,12 @@ export class TngDateRangePickerDayCell extends TngDateRangePickerControllerPart 
   protected onPointerEnter(): void {
     const cell = this.cell();
     if (cell.disabled || cell.hidden) {
+      return;
+    }
+    if (
+      this.controller().getOutputs().calendarLayout === 'dual' &&
+      this.dayGrid.calendarIndex() === 0
+    ) {
       return;
     }
 

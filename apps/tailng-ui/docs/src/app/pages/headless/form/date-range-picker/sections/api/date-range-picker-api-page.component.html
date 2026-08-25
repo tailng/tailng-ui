@@ -56,6 +56,14 @@
             <td>Shows adjacent-month days in the visible month grid.</td>
           </tr>
           <tr>
+            <td><code>calendarLayout</code></td>
+            <td>
+              Uses Material-style sequential selection in <code>single</code>. In <code>dual</code>,
+              calendar index 0 edits start and index 1 edits end, rejecting an end before start.
+              Headless consumers resolve their own responsive breakpoint.
+            </td>
+          </tr>
+          <tr>
             <td><code>overlayMode</code> / <code>position</code></td>
             <td>Controls overlay layout and alignment from the field.</td>
           </tr>
@@ -142,7 +150,10 @@
               <code>[tngDateRangePickerDayGrid]</code>, <code>[tngDateRangePickerMonthGrid]</code>,
               <code>[tngDateRangePickerYearGrid]</code>
             </td>
-            <td>Forward the correct keyboard behavior for each panel.</td>
+            <td>
+              Forward the correct keyboard behavior for each panel. Bind
+              <code>[tngDateRangePickerCalendarIndex]</code> when rendering a dual day grid.
+            </td>
           </tr>
           <tr>
             <td>
@@ -200,10 +211,15 @@
         </thead>
         <tbody>
           <tr>
-            <td><code>cells</code></td>
+            <td><code>calendarLayout</code> / <code>calendars</code></td>
             <td>
-              Visible day cells with disabled, selected, range, active, today, and in-month state.
+              The resolved single or dual layout and its month panel models. Each calendar exposes
+              its month, label, range boundary, cells, and grid attributes.
             </td>
+          </tr>
+          <tr>
+            <td><code>cells</code></td>
+            <td>Backward-compatible alias for the leading calendar's cells.</td>
           </tr>
           <tr>
             <td><code>monthOptions</code> / <code>yearOptions</code></td>

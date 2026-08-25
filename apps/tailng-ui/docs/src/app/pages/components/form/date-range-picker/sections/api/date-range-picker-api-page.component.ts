@@ -43,6 +43,7 @@ export class DateRangePickerApiPageComponent implements OnDestroy {
 
   protected readonly wrapperAttachCode = [
     '<tng-date-range-picker',
+    '  calendarLayout="dual"',
     "  [defaultValue]=\"{ start: '2024-04-22', end: '2024-04-26' }\"",
     '  [minDate]="\'2024-04-01\'"',
     '  [maxDate]="\'2026-03-31\'"',
@@ -61,6 +62,7 @@ export class DateRangePickerApiPageComponent implements OnDestroy {
     "  minDate: '2024-04-01',",
     "  maxDate: '2026-03-31',",
     '  closeOnSelect: true,',
+    "  calendarLayout: 'dual',",
     '  trapFocus: true,',
     '});',
     '',
@@ -88,11 +90,16 @@ export class DateRangePickerApiPageComponent implements OnDestroy {
     '        </button>',
     '        <button [tngDateRangePickerNextButton]="controller" type="button">›</button>',
     '',
-    '        <div [tngDateRangePickerDayGrid]="controller">',
-    '          @for (cell of dateRangePicker.outputs().cells; track cell.id) {',
-    '            <button [tngDateRangePickerDayCell]="cell" type="button">{{ cell.label }}</button>',
-    '          }',
-    '        </div>',
+    '        @for (calendar of dateRangePicker.outputs().calendars; track calendar.index) {',
+    '          <div',
+    '            [tngDateRangePickerDayGrid]="controller"',
+    '            [tngDateRangePickerCalendarIndex]="calendar.index"',
+    '          >',
+    '            @for (cell of calendar.cells; track cell.id) {',
+    '              <button [tngDateRangePickerDayCell]="cell" type="button">{{ cell.label }}</button>',
+    '            }',
+    '          </div>',
+    '        }',
     '      </section>',
     '    </div>',
     '  </div>',
@@ -239,6 +246,13 @@ export class DateRangePickerApiPageComponent implements OnDestroy {
       title: 'Overlay and layout',
       rows: [
         {
+          name: 'calendarLayout',
+          type: "'single' | 'dual' | 'responsive'",
+          default: "'single'",
+          details:
+            'Single keeps Material-style sequential range selection. Dual fixes the leading calendar to start and the trailing calendar to end; responsive only changes the number of visible panels.',
+        },
+        {
           name: 'defaultOpen',
           type: 'boolean',
           default: 'false',
@@ -272,16 +286,17 @@ export class DateRangePickerApiPageComponent implements OnDestroy {
         },
         {
           name: 'overlayMinSize',
-          type: 'number',
-          default: '288',
-          details: 'Sets the minimum popup width before the available viewport width is applied.',
+          type: 'number | undefined',
+          default: 'Layout-aware',
+          details:
+            'Overrides the layout-aware minimum popup width before the available viewport width is applied.',
         },
         {
           name: 'overlaySize',
-          type: 'number',
-          default: '320',
+          type: 'number | undefined',
+          default: 'Layout-aware',
           details:
-            'Sets the maximum popup width. Between the bounds, the popup follows the input-shell width.',
+            'Overrides the layout-aware maximum popup width. Between the bounds, the popup follows the input-shell width.',
         },
         {
           name: 'yearPageSize',
@@ -487,6 +502,13 @@ export class DateRangePickerApiPageComponent implements OnDestroy {
       type: "'day' | 'month' | 'year'",
       default: "'day'",
       details: 'Starts the controller on a different panel than the wrapper exposes by default.',
+    },
+    {
+      name: 'calendarLayout',
+      type: "'single' | 'dual'",
+      default: "'single'",
+      details:
+        'Controls whether outputs.calendars contains one sequential range calendar or a consecutive start/end pair.',
     },
     {
       name: 'overlayMode',

@@ -3,6 +3,7 @@
   [attr.aria-describedby]="outputs().getHostAttributes()['aria-describedby']"
   [attr.aria-label]="outputs().getHostAttributes()['aria-label']"
   [attr.aria-labelledby]="outputs().getHostAttributes()['aria-labelledby']"
+  [attr.data-calendar-layout]="outputs().getHostAttributes()['data-calendar-layout']"
   [attr.data-disabled]="outputs().getHostAttributes()['data-disabled']"
   [attr.data-open]="outputs().getHostAttributes()['data-open']"
   [attr.data-slot]="outputs().getHostAttributes()['data-slot']"
@@ -140,125 +141,231 @@
         [tngDateRangePickerOverlay]="controller"
         [tngDateRangePickerOverlayAnchor]="anchorShell"
         [tngDateRangePickerOverlayCollision]="overlayCollision()"
-        [tngDateRangePickerOverlayMaxSize]="overlaySize()"
-        [tngDateRangePickerOverlayMinSize]="overlayMinSize()"
+        [tngDateRangePickerOverlayMaxSize]="resolvedOverlaySize()"
+        [tngDateRangePickerOverlayMinSize]="resolvedOverlayMinSize()"
         [tngDateRangePickerOverlayPlacement]="overlayPlacement()"
         [tngDateRangePickerOverlayScrollStrategy]="scrollStrategy()"
         [tngDateRangePickerOverlayThemeSource]="overlayThemeSource"
       >
-        <header
-          class="tng-date-range-picker-header tng-date-range-picker-header-material"
-          data-slot="date-range-picker-header"
-        >
-          <div class="tng-date-range-picker-header-row tng-date-range-picker-header-row-material">
-            <button
-              type="button"
-              class="tng-date-range-picker-nav-button"
-              data-slot="date-range-picker-nav-button"
-              (click)="pageBackward()"
-            >
-              <span aria-hidden="true">&lsaquo;</span>
-            </button>
-
-            <button
-              type="button"
-              class="tng-date-range-picker-period-button"
-              [attr.aria-haspopup]="!isYearView() ? 'grid' : null"
-              data-slot="date-range-picker-period-button"
-              [attr.id]="outputs().getGridAttributes()['aria-labelledby']"
-              [attr.data-interactive]="!isYearView() ? 'true' : null"
-              (click)="onPeriodButtonClick()"
-            >
-              <span class="tng-date-range-picker-period-button-title-row">
-                <span class="tng-date-range-picker-period-button-title">{{
-                  materialPeriodLabel()
-                }}</span>
-                @if (!isYearView()) {
-                  <svg
-                    aria-hidden="true"
-                    class="tng-date-range-picker-period-button-chevron"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                  >
-                    <path
-                      d="M4.5 6.25L8 9.75L11.5 6.25"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="1.6"
-                    />
-                  </svg>
-                }
-              </span>
-            </button>
-
-            <button
-              type="button"
-              class="tng-date-range-picker-nav-button"
-              data-slot="date-range-picker-nav-button"
-              (click)="pageForward()"
-            >
-              <span aria-hidden="true">&rsaquo;</span>
-            </button>
-          </div>
-        </header>
-
         @if (isDayView()) {
           <div
-            class="tng-date-range-picker-weekdays"
-            data-slot="date-range-picker-weekdays"
-            aria-hidden="true"
+            class="tng-date-range-picker-calendars"
+            data-slot="date-range-picker-calendars"
+            [attr.data-calendar-layout]="outputs().calendarLayout"
           >
-            @for (label of outputs().weekdayLabels; track label) {
-              <span class="tng-date-range-picker-weekday" data-slot="date-range-picker-weekday">{{
-                label
-              }}</span>
+            @for (calendar of outputs().calendars; track calendar.index) {
+              <section
+                class="tng-date-range-picker-calendar-panel"
+                data-slot="date-range-picker-calendar-panel"
+                [attr.data-calendar-index]="calendar.index"
+                [attr.data-range-boundary]="calendar.rangeBoundary"
+              >
+                <header
+                  class="tng-date-range-picker-header tng-date-range-picker-calendar-header"
+                  data-slot="date-range-picker-calendar-header"
+                >
+                  <div
+                    class="tng-date-range-picker-header-row tng-date-range-picker-header-row-material"
+                  >
+                    @if (calendar.index === 0) {
+                      <button
+                        type="button"
+                        class="tng-date-range-picker-nav-button"
+                        data-slot="date-range-picker-nav-button"
+                        aria-label="Previous month"
+                        (click)="pageBackward()"
+                      >
+                        <span aria-hidden="true">&lsaquo;</span>
+                      </button>
+                    } @else {
+                      <span class="tng-date-range-picker-nav-spacer" aria-hidden="true"></span>
+                    }
+
+                    <button
+                      type="button"
+                      class="tng-date-range-picker-period-button"
+                      aria-haspopup="grid"
+                      data-slot="date-range-picker-period-button"
+                      data-interactive="true"
+                      [attr.id]="calendar.getGridAttributes()['aria-labelledby']"
+                      (click)="onCalendarPeriodButtonClick(calendar.index)"
+                    >
+                      <span class="tng-date-range-picker-period-button-title-row">
+                        @if (calendar.rangeBoundary !== null) {
+                          <span class="tng-date-range-picker-calendar-boundary-label">
+                            {{ calendar.rangeBoundary === 'start' ? 'Start' : 'End' }}
+                          </span>
+                        }
+                        <span class="tng-date-range-picker-period-button-title">{{
+                          calendar.labelMonthYear
+                        }}</span>
+                        <svg
+                          aria-hidden="true"
+                          class="tng-date-range-picker-period-button-chevron"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                        >
+                          <path
+                            d="M4.5 6.25L8 9.75L11.5 6.25"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="1.6"
+                          />
+                        </svg>
+                      </span>
+                    </button>
+
+                    @if (calendar.index === outputs().calendars.length - 1) {
+                      <button
+                        type="button"
+                        class="tng-date-range-picker-nav-button"
+                        data-slot="date-range-picker-nav-button"
+                        aria-label="Next month"
+                        (click)="pageForward()"
+                      >
+                        <span aria-hidden="true">&rsaquo;</span>
+                      </button>
+                    } @else {
+                      <span class="tng-date-range-picker-nav-spacer" aria-hidden="true"></span>
+                    }
+                  </div>
+                </header>
+
+                <div
+                  class="tng-date-range-picker-weekdays"
+                  data-slot="date-range-picker-weekdays"
+                  aria-hidden="true"
+                >
+                  @for (label of outputs().weekdayLabels; track $index) {
+                    <span
+                      class="tng-date-range-picker-weekday"
+                      data-slot="date-range-picker-weekday"
+                      >{{ label }}</span
+                    >
+                  }
+                </div>
+
+                <div
+                  class="tng-date-range-picker-grid tng-date-range-picker-grid-days"
+                  [attr.aria-activedescendant]="
+                    calendar.getGridAttributes()['aria-activedescendant']
+                  "
+                  [attr.aria-label]="calendar.getGridAttributes()['aria-label']"
+                  [attr.aria-labelledby]="calendar.getGridAttributes()['aria-labelledby']"
+                  [attr.data-calendar-index]="calendar.index"
+                  [attr.data-range-boundary]="calendar.getGridAttributes()['data-range-boundary']"
+                  [attr.data-slot]="calendar.getGridAttributes()['data-slot']"
+                  [attr.id]="calendar.getGridAttributes()['id']"
+                  [attr.role]="calendar.getGridAttributes()['role']"
+                  (keydown)="onGridKeydown($event)"
+                >
+                  @for (cell of calendar.cells; track cell.id) {
+                    <button
+                      type="button"
+                      class="tng-date-range-picker-cell"
+                      [disabled]="cell.disabled"
+                      [attr.aria-current]="outputs().getCellAttributes(cell)['aria-current']"
+                      [attr.aria-disabled]="outputs().getCellAttributes(cell)['aria-disabled']"
+                      [attr.aria-label]="outputs().getCellAttributes(cell)['aria-label']"
+                      [attr.aria-selected]="outputs().getCellAttributes(cell)['aria-selected']"
+                      [attr.data-active]="outputs().getCellAttributes(cell)['data-active']"
+                      [attr.data-disabled]="outputs().getCellAttributes(cell)['data-disabled']"
+                      [attr.data-focused]="outputs().getCellAttributes(cell)['data-focused']"
+                      [attr.data-focus-visible]="
+                        outputs().getCellAttributes(cell)['data-focus-visible']
+                      "
+                      [attr.data-hidden]="outputs().getCellAttributes(cell)['data-hidden']"
+                      [attr.data-in-month]="outputs().getCellAttributes(cell)['data-in-month']"
+                      [attr.data-in-range]="outputs().getCellAttributes(cell)['data-in-range']"
+                      [attr.data-outside-month]="
+                        outputs().getCellAttributes(cell)['data-outside-month']
+                      "
+                      [attr.data-preview-end]="
+                        outputs().getCellAttributes(cell)['data-preview-end']
+                      "
+                      [attr.data-preview-range]="
+                        outputs().getCellAttributes(cell)['data-preview-range']
+                      "
+                      [attr.data-range-end]="outputs().getCellAttributes(cell)['data-range-end']"
+                      [attr.data-range-start]="
+                        outputs().getCellAttributes(cell)['data-range-start']
+                      "
+                      [attr.data-selected]="outputs().getCellAttributes(cell)['data-selected']"
+                      [attr.data-slot]="outputs().getCellAttributes(cell)['data-slot']"
+                      [attr.data-today]="outputs().getCellAttributes(cell)['data-today']"
+                      [attr.id]="cell.id"
+                      [attr.role]="outputs().getCellAttributes(cell)['role']"
+                      [attr.tabindex]="outputs().getCellAttributes(cell)['tabindex']"
+                      (click)="onDayCellClick(cell, calendar.index)"
+                      (pointerenter)="onDayCellPointerEnter(cell, calendar.index)"
+                    >
+                      {{ cell.label }}
+                    </button>
+                  }
+                </div>
+              </section>
             }
           </div>
-
-          <div
-            class="tng-date-range-picker-grid tng-date-range-picker-grid-days"
-            [attr.aria-activedescendant]="outputs().getGridAttributes()['aria-activedescendant']"
-            [attr.aria-labelledby]="outputs().getGridAttributes()['aria-labelledby']"
-            [attr.data-slot]="outputs().getGridAttributes()['data-slot']"
-            [attr.id]="outputs().getGridAttributes()['id']"
-            [attr.role]="outputs().getGridAttributes()['role']"
-            (keydown)="onGridKeydown($event)"
+        } @else {
+          <header
+            class="tng-date-range-picker-header tng-date-range-picker-header-material"
+            data-slot="date-range-picker-header"
           >
-            @for (cell of outputs().cells; track cell.id) {
+            <div class="tng-date-range-picker-header-row tng-date-range-picker-header-row-material">
               <button
                 type="button"
-                class="tng-date-range-picker-cell"
-                [disabled]="cell.disabled"
-                [attr.aria-current]="outputs().getCellAttributes(cell)['aria-current']"
-                [attr.aria-disabled]="outputs().getCellAttributes(cell)['aria-disabled']"
-                [attr.aria-label]="outputs().getCellAttributes(cell)['aria-label']"
-                [attr.aria-selected]="outputs().getCellAttributes(cell)['aria-selected']"
-                [attr.data-active]="outputs().getCellAttributes(cell)['data-active']"
-                [attr.data-disabled]="outputs().getCellAttributes(cell)['data-disabled']"
-                [attr.data-focused]="outputs().getCellAttributes(cell)['data-focused']"
-                [attr.data-focus-visible]="outputs().getCellAttributes(cell)['data-focus-visible']"
-                [attr.data-hidden]="outputs().getCellAttributes(cell)['data-hidden']"
-                [attr.data-in-month]="outputs().getCellAttributes(cell)['data-in-month']"
-                [attr.data-in-range]="outputs().getCellAttributes(cell)['data-in-range']"
-                [attr.data-outside-month]="outputs().getCellAttributes(cell)['data-outside-month']"
-                [attr.data-preview-end]="outputs().getCellAttributes(cell)['data-preview-end']"
-                [attr.data-preview-range]="outputs().getCellAttributes(cell)['data-preview-range']"
-                [attr.data-range-end]="outputs().getCellAttributes(cell)['data-range-end']"
-                [attr.data-range-start]="outputs().getCellAttributes(cell)['data-range-start']"
-                [attr.data-selected]="outputs().getCellAttributes(cell)['data-selected']"
-                [attr.data-slot]="outputs().getCellAttributes(cell)['data-slot']"
-                [attr.data-today]="outputs().getCellAttributes(cell)['data-today']"
-                [attr.id]="cell.id"
-                [attr.role]="outputs().getCellAttributes(cell)['role']"
-                [attr.tabindex]="outputs().getCellAttributes(cell)['tabindex']"
-                (click)="onDayCellClick(cell)"
-                (pointerenter)="onDayCellPointerEnter(cell)"
+                class="tng-date-range-picker-nav-button"
+                data-slot="date-range-picker-nav-button"
+                aria-label="Previous period"
+                (click)="pageBackward()"
               >
-                {{ cell.label }}
+                <span aria-hidden="true">&lsaquo;</span>
               </button>
-            }
-          </div>
+
+              <button
+                type="button"
+                class="tng-date-range-picker-period-button"
+                [attr.aria-haspopup]="!isYearView() ? 'grid' : null"
+                data-slot="date-range-picker-period-button"
+                [attr.id]="outputs().getGridAttributes()['aria-labelledby']"
+                [attr.data-interactive]="!isYearView() ? 'true' : null"
+                (click)="onPeriodButtonClick()"
+              >
+                <span class="tng-date-range-picker-period-button-title-row">
+                  <span class="tng-date-range-picker-period-button-title">{{
+                    materialPeriodLabel()
+                  }}</span>
+                  @if (!isYearView()) {
+                    <svg
+                      aria-hidden="true"
+                      class="tng-date-range-picker-period-button-chevron"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                    >
+                      <path
+                        d="M4.5 6.25L8 9.75L11.5 6.25"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.6"
+                      />
+                    </svg>
+                  }
+                </span>
+              </button>
+
+              <button
+                type="button"
+                class="tng-date-range-picker-nav-button"
+                data-slot="date-range-picker-nav-button"
+                aria-label="Next period"
+                (click)="pageForward()"
+              >
+                <span aria-hidden="true">&rsaquo;</span>
+              </button>
+            </div>
+          </header>
         }
 
         @if (isMonthView()) {
