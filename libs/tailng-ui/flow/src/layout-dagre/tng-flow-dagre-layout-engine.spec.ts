@@ -1,3 +1,5 @@
+// ng-packagr requires a secondary entry point to consume the primary entry point by package name.
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import type {
   TngFlowLayoutDirection,
   TngFlowLayoutGraph,
@@ -73,7 +75,7 @@ function expectNoOverlaps(graph: TngFlowLayoutGraph, moves: readonly TngFlowNode
   }
 }
 
-describe('TailNG Dagre layout engine', () => {
+describe('@tailng-ui/flow/layout-dagre', () => {
   it('arranges a linear five-node graph deterministically without overlaps', async () => {
     const graph = createGraph(
       ['a', 'b', 'c', 'd', 'e'].map((id) => ({ id })),

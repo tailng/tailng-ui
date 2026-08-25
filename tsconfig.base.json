@@ -25,7 +25,7 @@
       "@tailng-ui/charts": ["libs/tailng-ui/charts/src/index.ts"],
       "@tailng-ui/components": ["libs/tailng-ui/components/src/index.ts"],
       "@tailng-ui/flow": ["libs/tailng-ui/flow/src/index.ts"],
-      "@tailng-ui/flow-layout-dagre": ["libs/tailng-ui/flow-layout-dagre/src/index.ts"],
+      "@tailng-ui/flow/layout-dagre": ["libs/tailng-ui/flow/src/layout-dagre/index.ts"],
       "@tailng-ui/icons": ["libs/tailng-ui/icons/src/index.ts"],
       "@tailng-ui/icons/core": ["libs/tailng-ui/icons/src/core.ts"],
       "@tailng-ui/primitives": ["libs/tailng-ui/primitives/src/index.ts"],

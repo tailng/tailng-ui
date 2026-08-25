@@ -5,14 +5,16 @@ import {
   type GraphLabel,
   type NodeLabel,
 } from '@dagrejs/dagre';
+// ng-packagr requires a secondary entry point to consume the primary entry point by package name.
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import type {
   TngFlowLayoutConnection,
   TngFlowLayoutEngine,
   TngFlowLayoutGraph,
   TngFlowLayoutNode,
+  TngFlowNodeMove,
   TngResolvedFlowLayoutOptions,
 } from '@tailng-ui/flow';
-import type { TngFlowNodeMove } from '@tailng-ui/flow';
 
 type LayoutComponent<TNodeData, TConnectionData> = Readonly<{
   nodes: readonly TngFlowLayoutNode<TNodeData>[];

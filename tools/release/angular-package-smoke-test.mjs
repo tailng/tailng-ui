@@ -24,6 +24,12 @@ if (missingTargets.length > 0) {
 
 const workspaceRoot = process.cwd();
 const rootPackage = readJson(path.join(workspaceRoot, 'package.json'));
+const sourcePackages = [
+  rootPackage,
+  ...APF_PACKAGES.map((definition) =>
+    readJson(path.join(workspaceRoot, definition.sourcePackageJson)),
+  ),
+];
 const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'tailng-angular-package-smoke-'));
 const stagedRoot = path.join(tempRoot, 'packages');
 const tarballsRoot = path.join(tempRoot, 'tarballs');
@@ -78,9 +84,12 @@ function run(command, args, options = {}) {
 }
 
 function dependencyVersion(name) {
-  const version = rootPackage.dependencies?.[name] ?? rootPackage.devDependencies?.[name];
-  if (typeof version !== 'string') fail(`root package.json does not declare '${name}'`);
-  return version;
+  for (const pkg of sourcePackages) {
+    const version =
+      pkg.dependencies?.[name] ?? pkg.devDependencies?.[name] ?? pkg.peerDependencies?.[name];
+    if (typeof version === 'string' && !version.startsWith('workspace:')) return version;
+  }
+  fail(`workspace package manifests do not declare '${name}'`);
 }
 
 function writeText(relativePath, value) {
@@ -156,6 +165,7 @@ function writeConsumer(tarballs) {
       typecheck: 'tsc -p tsconfig.nodenext.json',
     },
     dependencies: {
+      '@dagrejs/dagre': dependencyVersion('@dagrejs/dagre'),
       '@angular/common': dependencyVersion('@angular/common'),
       '@angular/compiler': dependencyVersion('@angular/compiler'),
       '@angular/core': dependencyVersion('@angular/core'),
@@ -278,7 +288,7 @@ import * as cdkRuntime from '@tailng-ui/cdk/runtime';
 import * as charts from '@tailng-ui/charts';
 import * as components from '@tailng-ui/components';
 import * as flow from '@tailng-ui/flow';
-import * as flowLayoutDagre from '@tailng-ui/flow-layout-dagre';
+import * as flowLayoutDagre from '@tailng-ui/flow/layout-dagre';
 import * as icons from '@tailng-ui/icons';
 import * as iconCore from '@tailng-ui/icons/core';
 import * as primitives from '@tailng-ui/primitives';
@@ -369,7 +379,7 @@ const packageNames = [
   '@tailng-ui/charts',
   '@tailng-ui/components',
   '@tailng-ui/flow',
-  '@tailng-ui/flow-layout-dagre',
+  '@tailng-ui/flow/layout-dagre',
   '@tailng-ui/icons',
   '@tailng-ui/icons/core',
   '@tailng-ui/primitives',

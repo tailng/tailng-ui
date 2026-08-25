@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       targets:
-        description: "Comma list (remove what you don’t want): cdk,primitives,components,theme,icons,charts,flow,flow-layout-dagre"
+        description: "Comma list (remove what you don’t want): cdk,primitives,components,theme,icons,charts,flow"
         required: true
-        default: "cdk,primitives,components,theme,icons,charts,flow,flow-layout-dagre"
+        default: "cdk,primitives,components,theme,icons,charts,flow"
       release_type:
         description: "patch: 2.1.0 -> 2.1.1 | minor: 2.1.0 -> 2.2.0 | major: 2.x -> 3.0.0"
         required: true
@@ -114,9 +114,6 @@ jobs:
 
       - name: Test flow if selected
         run: node tools/release/run-if.mjs "${{ inputs.targets }}" flow "pnpm run test:flow"
-
-      - name: Test Dagre flow layout if selected
-        run: node tools/release/run-if.mjs "${{ inputs.targets }}" flow-layout-dagre "pnpm run test:flow-layout-dagre"
 
       - name: Validate inputs
         run: node tools/release/validate-inputs.mjs "${{ inputs.targets }}" "${{ inputs.release_type }}"

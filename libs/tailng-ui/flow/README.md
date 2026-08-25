@@ -297,16 +297,16 @@ pan, or emit `viewportChange`.
 
 ## Automatic layout
 
-Automatic layout is engine-neutral and opt-in. Install the official Dagre adapter when needed;
-`@tailng-ui/flow` does not depend on it.
+Automatic layout is engine-neutral and opt-in. The official Dagre adapter is exposed through a
+secondary entry point and requires Dagre only when that adapter is used.
 
 ```bash
-pnpm add @tailng-ui/flow-layout-dagre
+pnpm add @tailng-ui/flow @dagrejs/dagre
 ```
 
 ```ts
 import { provideTngFlowLayoutEngine, type TngFlowNodesLayoutRequest } from '@tailng-ui/flow';
-import { TNG_FLOW_DAGRE_LAYOUT_ENGINE } from '@tailng-ui/flow-layout-dagre';
+import { TNG_FLOW_DAGRE_LAYOUT_ENGINE } from '@tailng-ui/flow/layout-dagre';
 
 bootstrapApplication(AppComponent, {
   providers: [provideTngFlowLayoutEngine(TNG_FLOW_DAGRE_LAYOUT_ENGINE)],

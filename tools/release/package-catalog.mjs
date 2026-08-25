@@ -64,14 +64,6 @@ export const PACKAGE_CATALOG = Object.freeze([
     apf: true,
   },
   {
-    target: 'flow-layout-dagre',
-    packageName: '@tailng-ui/flow-layout-dagre',
-    project: 'flow-layout-dagre',
-    sourcePackageJson: 'libs/tailng-ui/flow-layout-dagre/package.json',
-    distDir: 'dist/libs/tailng-ui/flow-layout-dagre',
-    apf: true,
-  },
-  {
     target: 'cli',
     packageName: 'tailng',
     project: 'tailng-cli',

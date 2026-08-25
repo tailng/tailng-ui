@@ -12,11 +12,11 @@ const EXPECTED_SIDE_EFFECTS = new Map([
   ['theme', ['**/*.css']],
   ['charts', false],
   ['flow', ['./styles.css', './styles.scss']],
-  ['flow-layout-dagre', false],
 ]);
 
 const EXPECTED_SECONDARY_ENTRY_POINTS = new Map([
   ['cdk', ['./a11y', './adapters', './collections', './core', './overlay', './runtime']],
+  ['flow', ['./layout-dagre']],
   ['icons', ['./core']],
 ]);
 
@@ -248,6 +248,22 @@ function assertFlowContract() {
   const declaration = fs.readFileSync(path.join(root, 'types/tailng-ui-flow.d.ts'), 'utf8');
   if (declaration.includes('@foblex/')) {
     fail('flow: a Foblex type leaked into the public declaration bundle');
+  }
+
+  const dagreExport = pkg.exports?.['./layout-dagre'];
+  const rootBundle = fs.readFileSync(path.join(root, pkg.exports['.'].default), 'utf8');
+  const dagreBundle = fs.readFileSync(path.join(root, dagreExport.default), 'utf8');
+  const dagreDeclaration = fs.readFileSync(path.join(root, dagreExport.types), 'utf8');
+  if (rootBundle.includes('@dagrejs/dagre')) {
+    fail('flow: the root entry point must not import the optional Dagre engine');
+  }
+  if (!dagreBundle.includes('@dagrejs/dagre')) {
+    fail('flow: the layout-dagre entry point must import the Dagre engine');
+  }
+  for (const symbol of ['createTngFlowDagreLayoutEngine', 'TNG_FLOW_DAGRE_LAYOUT_ENGINE']) {
+    if (!dagreDeclaration.includes(symbol)) {
+      fail(`flow: layout-dagre declaration is missing '${symbol}'`);
+    }
   }
 
   const requiredSymbols = [
