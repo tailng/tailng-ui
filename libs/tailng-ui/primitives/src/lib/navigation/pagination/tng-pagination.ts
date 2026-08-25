@@ -13,11 +13,10 @@ import {
 import {
   createTngPaginationController,
   type TngTablePaginationController,
-  type TngTablePaginationMode,
   type TngTablePaginationState,
 } from '@tailng-ui/cdk';
 
-export type TngPaginationMode = TngTablePaginationMode;
+export type TngPaginationMode = 'client' | 'server';
 export type TngPaginationTrigger =
   | 'first'
   | 'last'

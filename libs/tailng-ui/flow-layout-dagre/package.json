@@ -7,16 +7,9 @@
     "url": "https://github.com/tailng/tailng-ui"
   },
   "type": "module",
-  "main": "./src/index.js",
-  "types": "./src/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./src/index.d.ts",
-      "default": "./src/index.js"
-    }
-  },
   "dependencies": {
-    "@dagrejs/dagre": "^3.0.0"
+    "@dagrejs/dagre": "^3.0.0",
+    "tslib": "^2.3.0"
   },
   "peerDependencies": {
     "@tailng-ui/flow": ">=0.9.0 <1.0.0"

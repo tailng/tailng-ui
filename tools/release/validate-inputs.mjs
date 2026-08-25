@@ -1,36 +1,24 @@
-const targets = (process.argv[2] ?? "").trim();
-const releaseType = (process.argv[3] ?? "").trim();
+import { VALID_RELEASE_TYPES, VALID_TARGETS } from './package-catalog.mjs';
 
-const VALID = new Set([
-  "cdk",
-  "primitives",
-  "components",
-  "registry",
-  "theme",
-  "icons",
-  "charts",
-  "flow",
-  "cli",
-  "docs",
-]);
+const targets = (process.argv[2] ?? '').trim();
+const releaseType = (process.argv[3] ?? '').trim();
+const validTargets = new Set(VALID_TARGETS);
 
 if (!targets) {
-  console.error("ERROR: targets is empty");
+  console.error('ERROR: targets is empty');
   process.exit(1);
 }
 
 // Check for spaces in the targets string (after trimming)
-if (targets.includes(" ")) {
-  console.error(
-    "ERROR: targets must not contain spaces. Example: cdk,primitives,components,theme,icons,charts,flow",
-  );
+if (targets.includes(' ')) {
+  console.error(`ERROR: targets must not contain spaces. Example: ${VALID_TARGETS.join(',')}`);
   console.error(`Received: "${targets}"`);
   process.exit(1);
 }
 
-const list = targets.split(",").filter(Boolean);
+const list = targets.split(',').filter(Boolean);
 if (list.length === 0) {
-  console.error("ERROR: targets is empty after parsing");
+  console.error('ERROR: targets is empty after parsing');
   process.exit(1);
 }
 
@@ -41,14 +29,16 @@ if (dedup.size !== list.length) {
 }
 
 for (const t of list) {
-  if (!VALID.has(t)) {
-    console.error(`ERROR: Invalid target '${t}'. Valid: ${[...VALID].join(", ")}`);
+  if (!validTargets.has(t)) {
+    console.error(`ERROR: Invalid target '${t}'. Valid: ${VALID_TARGETS.join(', ')}`);
     process.exit(1);
   }
 }
 
-if (!["minor", "major"].includes(releaseType)) {
-  console.error(`ERROR: Invalid release_type '${releaseType}'. Use minor|major`);
+if (!VALID_RELEASE_TYPES.includes(releaseType)) {
+  console.error(
+    `ERROR: Invalid release_type '${releaseType}'. Use ${VALID_RELEASE_TYPES.join('|')}`,
+  );
   process.exit(1);
 }
 

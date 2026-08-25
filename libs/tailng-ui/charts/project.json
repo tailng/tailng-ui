@@ -13,13 +13,13 @@
   "tags": ["scope:tailng", "type:charts"],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@nx/angular:package",
+      "cache": true,
+      "dependsOn": ["^build"],
+      "outputs": ["{workspaceRoot}/dist/libs/tailng-ui/charts"],
       "options": {
-        "outputPath": "dist/libs/tailng-ui/charts",
-        "main": "libs/tailng-ui/charts/src/index.ts",
-        "tsConfig": "libs/tailng-ui/charts/tsconfig.lib.json",
-        "assets": ["libs/tailng-ui/charts/*.md"]
+        "project": "libs/tailng-ui/charts/ng-package.json",
+        "tsConfig": "libs/tailng-ui/charts/tsconfig.lib.prod.json"
       }
     },
     "nx-release-publish": {

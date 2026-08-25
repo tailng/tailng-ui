@@ -22,3 +22,9 @@ export type {
   TngProvideIconsOptions,
   TngResolvedIconConfig,
 } from './lib/icons.core';
+
+export {
+  configureTngDefaultIconConfigFactory as ɵconfigureTngDefaultIconConfigFactory,
+  provideResolvedTngIcons as ɵprovideResolvedTngIcons,
+  resolveTngIconConfigFromPacks as ɵresolveTngIconConfigFromPacks,
+} from './lib/icons.core';

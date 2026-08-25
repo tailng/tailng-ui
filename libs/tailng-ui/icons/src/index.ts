@@ -13,7 +13,7 @@ export {
   resolveTngIconConfig,
 } from './lib/icons';
 
-export { TngIcon } from './lib/tng-icon';
+export { TngIcon } from '@tailng-ui/icons/core';
 
 export type {
   TngIconDefinition,

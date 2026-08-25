@@ -79,12 +79,12 @@ const popoverGlobalDocument = typeof document === 'undefined' ? null : document;
 const popoverFocusHandoff = createOverlayFocusHandoffController();
 
 export function resolvePopoverActiveElement(documentRef: unknown): HTMLElement | null {
-  if (!(documentRef instanceof Document)) {
+  if (typeof Document === 'undefined' || !(documentRef instanceof Document)) {
     return null;
   }
 
   const active = documentRef.activeElement;
-  return active instanceof HTMLElement ? active : null;
+  return typeof HTMLElement !== 'undefined' && active instanceof HTMLElement ? active : null;
 }
 
 export function resolvePopoverFocusableElements(container: unknown): readonly HTMLElement[] {
@@ -92,7 +92,7 @@ export function resolvePopoverFocusableElements(container: unknown): readonly HT
 }
 
 export function resolvePopoverMarkedInitialElement(container: unknown): HTMLElement | null {
-  if (!(container instanceof HTMLElement)) {
+  if (typeof HTMLElement === 'undefined' || !(container instanceof HTMLElement)) {
     return null;
   }
 

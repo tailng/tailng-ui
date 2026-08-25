@@ -7,15 +7,10 @@
     "url": "https://github.com/tailng/tailng-ui"
   },
   "type": "module",
-  "main": "./src/index.js",
   "style": "./index.css",
-  "types": "./src/index.d.ts",
   "exports": {
     ".": {
-      "types": "./src/index.d.ts",
-      "style": "./index.css",
-      "import": "./src/index.js",
-      "default": "./src/index.js"
+      "style": "./index.css"
     },
     "./index.css": "./index.css",
     "./component-contracts/index.css": "./component-contracts/index.css",

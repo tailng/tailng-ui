@@ -1,134 +1,59 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { APF_PACKAGES, parseTargets } from './package-catalog.mjs';
 
-const targets = process.argv[2] ?? '';
-const selected = new Set(
-  targets
-    .split(',')
-    .map((s) => s.trim())
-    .filter(Boolean),
-);
-
-const DIST = path.resolve('dist');
-
-// Nx outputs libraries under dist/libs/<scope>/<project>
-// e.g. dist/libs/tailng-ui/cdk, dist/libs/tailng/cli
-const TAILNG_UI_LIBS = new Set([
-  'cdk',
-  'primitives',
-  'components',
-  'theme',
-  'icons',
-  'registry',
-  'charts',
-  'flow',
-]);
-
-const ESM_PACKAGES = new Set(['cdk', 'primitives', 'components', 'icons', 'theme']);
-
-const COMMONJS_MARKERS = [
-  ['require(', /\brequire\s*\(/],
-  ['module.exports', /\bmodule\.exports\b/],
-  ['exports.', /\bexports\./],
-];
+const selected = new Set(parseTargets(process.argv[2] ?? ''));
 
 const EXPECTED_SIDE_EFFECTS = new Map([
   ['cdk', false],
   ['primitives', false],
   ['components', false],
-  ['icons', ['./src/lib/icons.js']],
+  ['icons', ['./fesm2022/tailng-ui-icons.mjs']],
   ['theme', ['**/*.css']],
+  ['charts', false],
+  ['flow', ['./styles.css', './styles.scss']],
+  ['flow-layout-dagre', false],
 ]);
 
-const libDist = (name) => {
-  if (TAILNG_UI_LIBS.has(name)) {
-    return path.join(DIST, 'libs', 'tailng-ui', name);
-  }
+const EXPECTED_SECONDARY_ENTRY_POINTS = new Map([
+  ['cdk', ['./a11y', './adapters', './collections', './core', './overlay', './runtime']],
+  ['icons', ['./core']],
+]);
 
-  // fallback for other scopes (e.g. dist/libs/tailng/cli)
-  return path.join(DIST, 'libs', 'tailng', name);
-};
+const PARTIAL_COMPILED_PACKAGES = new Set(['primitives', 'components', 'icons', 'charts', 'flow']);
 
-const exists = (p) => fs.existsSync(p);
-const stat = (p) => fs.statSync(p);
-
-const fail = (msg) => {
-  console.error(`assert-bundles: ${msg}`);
+function fail(message) {
+  console.error(`assert-bundles: ${message}`);
   process.exit(1);
-};
-
-const warn = (msg) => console.warn(`⚠️  assert-bundles: ${msg}`);
-
-function readFileSafe(file) {
-  return exists(file) ? fs.readFileSync(file, 'utf8') : null;
 }
 
-function listFiles(dir, predicate) {
-  if (!exists(dir)) return [];
-  const out = [];
-  const walk = (d) => {
-    for (const ent of fs.readdirSync(d, { withFileTypes: true })) {
-      const full = path.join(d, ent.name);
-      if (ent.isDirectory()) walk(full);
-      else if (!predicate || predicate(full)) out.push(full);
-    }
-  };
-  walk(dir);
-  return out;
+function exists(file) {
+  return fs.existsSync(file);
 }
 
-function resolveTypesFiles(root) {
-  const candidates = [path.join(root, 'types'), path.join(root, 'src'), root];
-
-  for (const dir of candidates) {
-    if (!exists(dir)) continue;
-
-    const dts = listFiles(dir, (f) => f.endsWith('.d.ts'));
-    if (dts.length > 0) {
-      return { baseDir: dir, files: dts };
-    }
-  }
-
-  return { baseDir: root, files: [] };
-}
-
-function resolveFesmFiles(root) {
-  const candidates = [
-    path.join(root, 'fesm2022'),
-    path.join(root, 'esm2022'),
-    path.join(root, 'fesm2015'),
-    path.join(root, 'esm2015'),
-    path.join(root, 'bundles'),
-    path.join(root, 'src'),
-    root,
-  ];
-
-  for (const dir of candidates) {
-    if (!exists(dir)) continue;
-
-    const mjs = listFiles(dir, (f) => f.endsWith('.mjs') || f.endsWith('.js'));
-    if (mjs.length > 0) {
-      return { baseDir: dir, files: mjs };
-    }
-  }
-
-  return { baseDir: root, files: [] };
-}
-
-function readJsonSafe(file) {
+function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
 }
 
+function listFiles(dir, predicate = () => true) {
+  if (!exists(dir)) return [];
+
+  const files = [];
+  const visit = (current) => {
+    for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
+      const file = path.join(current, entry.name);
+      if (entry.isDirectory()) visit(file);
+      else if (predicate(file)) files.push(file);
+    }
+  };
+  visit(dir);
+  return files;
+}
+
 function collectManifestTargets(value) {
-  if (typeof value === 'string') {
-    return [value];
-  }
-
-  if (!value || typeof value !== 'object') {
-    return [];
-  }
-
-  return Object.values(value).flatMap((entry) => collectManifestTargets(entry));
+  if (typeof value === 'string') return [value];
+  if (!value || typeof value !== 'object') return [];
+  return Object.values(value).flatMap(collectManifestTargets);
 }
 
 function wildcardTargetMatches(root, relativeTarget) {
@@ -137,318 +62,195 @@ function wildcardTargetMatches(root, relativeTarget) {
     .map((part) => part.replace(/[|\\{}()[\]^$+?.]/g, '\\$&'))
     .join('[^/]+');
   const matcher = new RegExp(`^${pattern}$`);
-
   return listFiles(root).some((file) =>
     matcher.test(path.relative(root, file).split(path.sep).join('/')),
   );
 }
 
-function assertManifestTargetExists(root, target, label, packageName = 'theme') {
-  if (typeof target !== 'string' || !target.startsWith('./')) {
-    fail(`${packageName}: ${label} must use a package-relative target, received '${target}'`);
+function assertManifestTargetExists(root, target, label) {
+  if (!target.startsWith('./')) {
+    fail(`${label} must use a package-relative target; received '${target}'`);
   }
 
-  const relativeTarget = target.replace(/^\.\//, '');
-  const wildcardIndex = relativeTarget.indexOf('*');
-
-  if (wildcardIndex === -1) {
-    const candidate = path.join(root, relativeTarget);
-    if (!exists(candidate)) {
-      fail(`${packageName}: ${label} points to missing path '${target}'`);
+  const relativeTarget = target.slice(2);
+  if (relativeTarget.includes('*')) {
+    if (!wildcardTargetMatches(root, relativeTarget)) {
+      fail(`${label} wildcard does not match a published file: '${target}'`);
     }
     return;
   }
 
-  if (!wildcardTargetMatches(root, relativeTarget)) {
-    fail(`${packageName}: ${label} wildcard does not match any published file '${target}'`);
+  if (!exists(path.join(root, relativeTarget))) {
+    fail(`${label} points to a missing published file: '${target}'`);
   }
 }
 
-function assertJavaScriptExport(name, subpath, value) {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return;
+function assertNoCommonJs(name, files, root) {
+  const markers = [
+    ['require(', /\brequire\s*\(/],
+    ['module.exports', /\bmodule\.exports\b/],
+  ];
 
-  const defaultTarget = value.default;
-  const importTarget = value.import;
-  const hasJavaScriptDefault =
-    typeof defaultTarget === 'string' && /\.(?:m?js)$/.test(defaultTarget);
-  const hasJavaScriptImport = typeof importTarget === 'string' && /\.(?:m?js)$/.test(importTarget);
-
-  if (!hasJavaScriptDefault && !hasJavaScriptImport) return;
-
-  if (!hasJavaScriptDefault) {
-    fail(`${name}: package.json#exports['${subpath}'] must retain a JavaScript 'default' target`);
-  }
-
-  if (typeof importTarget !== 'string' || importTarget.length === 0) {
-    fail(`${name}: package.json#exports['${subpath}'] must declare an 'import' target`);
-  }
-
-  if (!hasJavaScriptImport) {
-    fail(
-      `${name}: package.json#exports['${subpath}'].import must point to JavaScript, received '${importTarget}'`,
-    );
+  for (const file of files) {
+    const source = fs.readFileSync(file, 'utf8');
+    for (const [label, matcher] of markers) {
+      if (matcher.test(source)) {
+        fail(`${name}: CommonJS marker '${label}' found in ${path.relative(root, file)}`);
+      }
+    }
   }
 }
 
-function assertNoCommonJsMarkers(name, root) {
-  const javascriptFiles = listFiles(root, (file) => file.endsWith('.js'));
+function assertRelativeEsmSpecifiersHaveExtensions(name, files, root) {
+  const specifierPattern = /(?:\bfrom\s*|\bimport\s*)["'](\.[^"']+)["']/g;
+  const allowedExtension = /\.(?:mjs|js|json|css|scss)$/;
 
-  for (const file of javascriptFiles) {
-    const source = readFileSafe(file) ?? '';
-    for (const [label, marker] of COMMONJS_MARKERS) {
-      const match = marker.exec(source);
-      if (match) {
-        const line = source.slice(0, match.index).split('\n').length;
+  for (const file of files) {
+    const source = fs.readFileSync(file, 'utf8');
+    for (const match of source.matchAll(specifierPattern)) {
+      if (!allowedExtension.test(match[1])) {
         fail(
-          `${name}: emitted JavaScript contains CommonJS marker '${label}' in ${path.relative(root, file)}:${line}`,
+          `${name}: extensionless relative ESM specifier '${match[1]}' in ${path.relative(root, file)}`,
         );
       }
     }
   }
 }
 
-function assertEsmPackage(name) {
-  const root = libDist(name);
-  if (!exists(root)) fail(`Missing dist folder: ${root}`);
+function assertApfPackage(definition) {
+  const { target: name, packageName } = definition;
+  const root = path.resolve(definition.distDir);
+  const packageJsonPath = path.join(root, 'package.json');
 
-  const pkgJson = path.join(root, 'package.json');
-  if (!exists(pkgJson)) fail(`${name}: missing package.json in dist: ${pkgJson}`);
-  const pkg = readJsonSafe(pkgJson);
+  if (!exists(packageJsonPath)) fail(`${name}: missing ${packageJsonPath}`);
+  const pkg = readJson(packageJsonPath);
 
-  if (pkg.type !== 'module') {
-    fail(`${name}: package.json must declare "type": "module"`);
+  if (pkg.name !== packageName) {
+    fail(`${name}: expected package name '${packageName}', received '${pkg.name}'`);
   }
+  if (pkg.type !== 'module') fail(`${name}: package.json must declare "type": "module"`);
 
   const expectedSideEffects = EXPECTED_SIDE_EFFECTS.get(name);
   if (JSON.stringify(pkg.sideEffects) !== JSON.stringify(expectedSideEffects)) {
     fail(
-      `${name}: package.json#sideEffects must be ${JSON.stringify(expectedSideEffects)}, received ${JSON.stringify(pkg.sideEffects)}`,
+      `${name}: sideEffects must be ${JSON.stringify(expectedSideEffects)}, received ${JSON.stringify(pkg.sideEffects)}`,
     );
   }
 
   if (!pkg.exports || typeof pkg.exports !== 'object' || Array.isArray(pkg.exports)) {
-    fail(`${name}: package.json is missing exports`);
+    fail(`${name}: package.json must declare APF exports`);
   }
 
   const rootExport = pkg.exports['.'];
-  if (!rootExport || typeof rootExport !== 'object' || typeof rootExport.import !== 'string') {
-    fail(`${name}: package.json root export must declare an 'import' target`);
-  }
-
-  for (const [subpath, value] of Object.entries(pkg.exports)) {
-    assertJavaScriptExport(name, subpath, value);
-
-    for (const target of collectManifestTargets(value)) {
-      assertManifestTargetExists(root, target, `package.json#exports['${subpath}']`, name);
-    }
-  }
-
-  assertNoCommonJsMarkers(name, root);
-}
-
-/**
- * Per-package sanity thresholds
- * - cdk entrypoints can be tiny but valid (e.g., 1–2 directives/utilities)
- * - components bundles should never be tiny if they contain real implementations
- */
-const THRESHOLDS = {
-  cdk: { minMjs: 700, minDts: 150 },
-  icons: { minMjs: 900, minDts: 150 },
-  primitives: { minMjs: 1200, minDts: 150 },
-  components: { minMjs: 1800, minDts: 200, componentsFormControlsMin: 20_000 },
-  flow: { minMjs: 5000, minDts: 150 },
-  // theme is asset-only checks
-};
-
-function assertAngularPackage(name, opts) {
-  const root = libDist(name);
-  if (!exists(root)) fail(`Missing dist folder: ${root}`);
-
-  const pkgJson = path.join(root, 'package.json');
-  if (!exists(pkgJson)) fail(`Missing ${name} package.json in dist: ${pkgJson}`);
-
-  // Types (ng-packagr may emit `types/`, or put d.ts under `src/`, or at root)
-  const types = resolveTypesFiles(root);
-  if (types.files.length === 0) {
-    fail(`${name}: no .d.ts files found (expected under types/, src/, or package root)`);
-  }
-
-  for (const f of types.files) {
-    const size = stat(f).size;
-    if (size < opts.minDts) {
-      warn(`${name}: small d.ts: ${path.relative(root, f)} (${size} bytes)`);
-    }
-  }
-
-  // JS bundles (ng-packagr usually emits fesm2022/, but some builds may place JS under esm*/bundles/src)
-  const fesm = resolveFesmFiles(root);
-  if (fesm.files.length === 0) {
-    fail(
-      `${name}: no .mjs/.js files found (expected under fesm2022/, esm2022/, bundles/, src/, or package root)`,
-    );
-  }
-
-  const bundleSizes = fesm.files.map((f) => ({ file: f, size: stat(f).size }));
-
-  // Many packages have tiny entrypoints (e.g. src/index.js) that just re-export.
-  // Treat those as warnings, but ensure there is at least one non-trivial JS bundle.
-  const hasRealBundle = bundleSizes.some(({ size }) => size >= opts.minMjs);
-
-  if (!hasRealBundle) {
-    fail(
-      `${name}: all JS bundles are tiny (min ${opts.minMjs} bytes). Sizes: ${bundleSizes
-        .map(({ file, size }) => `${path.relative(root, file)}=${size}`)
-        .join(', ')}`,
-    );
-  }
-
-  for (const { file, size } of bundleSizes) {
-    if (size < opts.minMjs) {
-      warn(`${name}: small bundle entry: ${path.relative(root, file)} (${size} bytes)`);
-    }
-  }
-
-  if (name === 'icons') {
-    const iconEntry = path.join(root, 'src', 'lib', 'tng-icon.js');
-    const iconSource = readFileSafe(iconEntry);
-    if (iconSource === null) {
-      fail(`icons: missing Angular component entry: ${path.relative(root, iconEntry)}`);
-    }
-
-    if (
-      !iconSource.includes('ɵɵngDeclareComponent') ||
-      !iconSource.includes('isStandalone: true')
-    ) {
-      fail(
-        `icons: expected Angular partial-compiled standalone metadata in ${path.relative(root, iconEntry)}`,
-      );
-    }
-  }
-
-  if (name === 'components') {
-    const componentEntries = [
-      path.join(root, 'src', 'lib', 'form', 'input', 'tng-input.component.js'),
-      path.join(root, 'src', 'lib', 'form', 'form-field', 'tng-form-field.component.js'),
-    ];
-
-    for (const componentEntry of componentEntries) {
-      const componentSource = readFileSafe(componentEntry);
-      if (componentSource === null) {
-        fail(`components: missing Angular component entry: ${path.relative(root, componentEntry)}`);
-      }
-
-      if (
-        !componentSource.includes('ɵɵngDeclareComponent') ||
-        !componentSource.includes('isStandalone: true')
-      ) {
-        fail(
-          `components: expected Angular partial-compiled standalone metadata in ${path.relative(root, componentEntry)}`,
-        );
-      }
-    }
-  }
-}
-
-function assertThemePackage() {
-  const root = libDist('theme');
-  if (!exists(root)) fail(`Missing dist folder: ${root}`);
-
-  const pkgJson = path.join(root, 'package.json');
-  if (!exists(pkgJson)) fail(`theme: missing package.json in dist: ${pkgJson}`);
-  const pkg = readJsonSafe(pkgJson);
-
-  const cssRoots = [
-    path.join(root, 'tokens'),
-    path.join(root, 'component-contracts'),
-    path.join(root, 'src', 'lib', 'component-contracts'),
-  ].filter(exists);
-
-  if (cssRoots.length === 0) {
-    fail(
-      `theme: missing css asset roots in dist (expected tokens/, component-contracts/, or src/lib/component-contracts/)`,
-    );
-  }
-
-  const indexCandidates = [
-    path.join(root, 'tokens', 'index.css'),
-    path.join(root, 'component-contracts', 'index.css'),
-    path.join(root, 'src', 'lib', 'component-contracts', 'index.css'),
-  ];
-
-  if (!indexCandidates.some(exists)) {
-    fail(
-      `theme: missing index.css (expected one of: ${indexCandidates
-        .map((candidate) => path.relative(root, candidate))
-        .join(', ')})`,
-    );
-  }
-
-  const cssFiles = cssRoots.flatMap((dir) => listFiles(dir, (f) => f.endsWith('.css')));
-  if (cssFiles.length === 0) fail(`theme: css asset roots contain no css files`);
-
-  if (typeof pkg.style !== 'string' || pkg.style.length === 0) {
-    fail(`theme: package.json is missing a root 'style' entry`);
-  }
-
-  assertManifestTargetExists(root, pkg.style, 'package.json#style');
-
-  if (!pkg.exports || typeof pkg.exports !== 'object') {
-    fail(`theme: package.json is missing exports`);
-  }
-
-  const exportTargets = collectManifestTargets(pkg.exports);
-  if (exportTargets.length === 0) {
-    fail(`theme: package.json exports do not declare any target files`);
-  }
-
-  for (const target of exportTargets) {
-    assertManifestTargetExists(root, target, 'package.json#exports');
-  }
-
-  const tailwindPresetCandidates = [
-    path.join(root, 'tailwind', 'tailng.preset.cjs'),
-    path.join(root, 'src', 'lib', 'adapters', 'tailwind', 'to-tailwind-preset.js'),
-  ];
-  if (!tailwindPresetCandidates.some(exists)) {
-    warn(
-      `theme: no explicit tailwind preset artifact found (checked ${tailwindPresetCandidates
-        .map((candidate) => path.relative(root, candidate))
-        .join(', ')})`,
-    );
-  }
-}
-
-function assertFlowPackage() {
-  assertAngularPackage('flow', THRESHOLDS.flow);
-
-  const root = libDist('flow');
-  const pkg = readJsonSafe(path.join(root, 'package.json'));
-  const editorEntry = path.join(root, 'src', 'lib', 'editor', 'tng-flow-editor.component.js');
-  const editorSource = readFileSafe(editorEntry);
-
-  if (editorSource === null) {
-    fail(`flow: missing Angular component entry: ${path.relative(root, editorEntry)}`);
-  }
-
   if (
-    !editorSource.includes('ɵɵngDeclareComponent') ||
-    !editorSource.includes('isStandalone: true')
+    !rootExport ||
+    typeof rootExport !== 'object' ||
+    typeof rootExport.types !== 'string' ||
+    typeof rootExport.default !== 'string'
   ) {
-    fail(
-      `flow: expected Angular partial-compiled standalone metadata in ${path.relative(root, editorEntry)}`,
-    );
+    fail(`${name}: root export must declare 'types' and 'default' targets`);
+  }
+  if (!rootExport.types.startsWith('./types/') || !rootExport.types.endsWith('.d.ts')) {
+    fail(`${name}: root types must use the APF types directory; received '${rootExport.types}'`);
+  }
+  if (!rootExport.default.startsWith('./fesm2022/') || !rootExport.default.endsWith('.mjs')) {
+    fail(`${name}: root JavaScript must use an FESM2022 .mjs; received '${rootExport.default}'`);
   }
 
-  const publicDeclarations = listFiles(root, (file) => file.endsWith('.d.ts'));
-  for (const declaration of publicDeclarations) {
-    const declarationSource = readFileSafe(declaration);
-    if (declarationSource?.includes('@foblex/')) {
-      fail(`flow: Foblex type leaked into public declaration ${path.relative(root, declaration)}`);
+  const manifestTargets = collectManifestTargets(pkg.exports);
+  for (const target of manifestTargets) {
+    if (target.includes('/src/')) {
+      fail(`${name}: package export exposes the former raw source layout: '${target}'`);
+    }
+    assertManifestTargetExists(root, target, `${name}: package.json#exports`);
+  }
+
+  for (const field of ['module', 'typings']) {
+    if (typeof pkg[field] !== 'string' || !exists(path.join(root, pkg[field]))) {
+      fail(`${name}: package.json#${field} must point to a published APF artifact`);
     }
   }
 
-  const publicTypesEntry = readFileSafe(path.join(root, 'src', 'index.d.ts'));
-  const publicContractSymbols = [
+  for (const subpath of EXPECTED_SECONDARY_ENTRY_POINTS.get(name) ?? []) {
+    const value = pkg.exports[subpath];
+    if (
+      !value ||
+      typeof value.types !== 'string' ||
+      !value.types.startsWith('./types/') ||
+      typeof value.default !== 'string' ||
+      !value.default.startsWith('./fesm2022/')
+    ) {
+      fail(`${name}: secondary entry point '${subpath}' is missing APF types/default exports`);
+    }
+  }
+
+  if (exists(path.join(root, 'src'))) {
+    fail(`${name}: raw src/ output must not be published after the APF migration`);
+  }
+
+  const fesmFiles = listFiles(path.join(root, 'fesm2022'), (file) => file.endsWith('.mjs'));
+  const typeFiles = listFiles(path.join(root, 'types'), (file) => file.endsWith('.d.ts'));
+  if (fesmFiles.length === 0) fail(`${name}: fesm2022 contains no .mjs bundles`);
+  if (typeFiles.length === 0) fail(`${name}: types contains no .d.ts bundles`);
+  if (fesmFiles.every((file) => fs.statSync(file).size < 256)) {
+    fail(`${name}: every FESM2022 bundle is suspiciously small`);
+  }
+
+  assertNoCommonJs(name, fesmFiles, root);
+  assertRelativeEsmSpecifiersHaveExtensions(name, fesmFiles, root);
+
+  for (const file of typeFiles) {
+    const declaration = fs.readFileSync(file, 'utf8');
+    if (/(?:from\s*|import\s*)["'](?:dist\/|\/)/.test(declaration)) {
+      fail(`${name}: declaration bundle contains a private filesystem import`);
+    }
+  }
+
+  if (PARTIAL_COMPILED_PACKAGES.has(name)) {
+    const bundleSource = fesmFiles.map((file) => fs.readFileSync(file, 'utf8')).join('\n');
+    if (!bundleSource.includes('ɵɵngDeclare')) {
+      fail(`${name}: Angular partial-compilation declarations were not found in FESM output`);
+    }
+  }
+}
+
+function assertThemeAssets() {
+  const root = path.resolve('dist/libs/tailng-ui/theme');
+  const pkg = readJson(path.join(root, 'package.json'));
+  const required = ['index.css', 'component-contracts/index.css'];
+
+  for (const relative of required) {
+    const file = path.join(root, relative);
+    if (!exists(file) || fs.statSync(file).size === 0) {
+      fail(`theme: missing or empty published asset '${relative}'`);
+    }
+  }
+
+  if (pkg.style !== './index.css' || pkg.exports?.['./index.css'] !== './index.css') {
+    fail(`theme: root style and './index.css' export must point to './index.css'`);
+  }
+}
+
+function assertFlowContract() {
+  const root = path.resolve('dist/libs/tailng-ui/flow');
+  const pkg = readJson(path.join(root, 'package.json'));
+
+  for (const style of ['./styles.css', './styles.scss']) {
+    const file = path.join(root, style.slice(2));
+    if (!exists(file) || fs.statSync(file).size === 0) {
+      fail(`flow: missing or empty published style '${style}'`);
+    }
+    if (pkg.exports?.[style] !== style || !pkg.sideEffects?.includes(style)) {
+      fail(`flow: '${style}' must remain exported and side-effectful`);
+    }
+  }
+
+  const declaration = fs.readFileSync(path.join(root, 'types/tailng-ui-flow.d.ts'), 'utf8');
+  if (declaration.includes('@foblex/')) {
+    fail('flow: a Foblex type leaked into the public declaration bundle');
+  }
+
+  const requiredSymbols = [
     'TngFlowConnectionCreateRequest',
     'TngFlowConnectionReconnectRequest',
     'TngFlowConnectionValidator',
@@ -461,134 +263,16 @@ function assertFlowPackage() {
     'sanitizeTngFlowSelection',
     'validateTngFlowDefinition',
   ];
-  for (const symbol of publicContractSymbols) {
-    if (!publicTypesEntry?.includes(symbol)) {
-      fail(`flow: public types entry does not export required symbol '${symbol}'`);
-    }
-  }
-
-  const styleExports = ['./styles.css', './styles.scss'];
-  for (const styleExport of styleExports) {
-    const stylePath = path.join(root, styleExport.slice(2));
-    if (!exists(stylePath) || stat(stylePath).size === 0) {
-      fail(`flow: missing or empty published style asset '${styleExport}'`);
-    }
-
-    if (pkg.exports?.[styleExport] !== styleExport) {
-      fail(`flow: package.json must export '${styleExport}'`);
-    }
-
-    if (!Array.isArray(pkg.sideEffects) || !pkg.sideEffects.includes(styleExport)) {
-      fail(`flow: package.json sideEffects must retain '${styleExport}'`);
-    }
+  for (const symbol of requiredSymbols) {
+    if (!declaration.includes(symbol)) fail(`flow: public declaration is missing '${symbol}'`);
   }
 }
 
-function assertComponentsSpecific() {
-  const root = libDist('components');
-
-  // strongest check for the historically problematic bundle
-  const candidates = [path.join(root, 'fesm2022', 'tailng-ui-components-form-controls.mjs')].filter(
-    exists,
-  );
-
-  // If naming differs in future, fall back to pattern search
-  const fallback =
-    candidates.length === 0
-      ? listFiles(path.join(root, 'fesm2022'), (f) => f.endsWith('components-form-controls.mjs'))
-      : [];
-
-  const files = candidates.length ? candidates : fallback;
-
-  const min = THRESHOLDS.components.componentsFormControlsMin;
-  if (files.length > 0) {
-    for (const f of files) {
-      const size = stat(f).size;
-      if (size < min) {
-        fail(
-          `components: form-controls bundle too small (${size} bytes). Likely stub output: ${path.relative(root, f)}`,
-        );
-      }
-    }
-    return;
-  }
-
-  // Newer builds may emit form controls as split source modules under src/lib/form.
-  const modularFormFiles = listFiles(path.join(root, 'src', 'lib', 'form'), (f) => {
-    if (!f.endsWith('.js')) return false;
-    if (f.endsWith('.spec.js')) return false;
-    return true;
-  });
-
-  if (modularFormFiles.length === 0) {
-    warn(
-      `components: could not find form-controls output bundle or modular form files; skipping strict check`,
-    );
-    return;
-  }
-
-  const totalBytes = modularFormFiles.reduce((sum, file) => sum + stat(file).size, 0);
-  if (totalBytes < min) {
-    fail(
-      `components: modular form output too small (${totalBytes} bytes across ${modularFormFiles.length} files). Likely stub output.`,
-    );
-  }
+for (const definition of APF_PACKAGES) {
+  if (selected.has(definition.target)) assertApfPackage(definition);
 }
 
-function assertCdkPackage() {
-  const root = libDist('cdk');
-  if (!exists(root)) fail(`Missing dist folder: ${root}`);
+if (selected.has('theme')) assertThemeAssets();
+if (selected.has('flow')) assertFlowContract();
 
-  const pkgJson = path.join(root, 'package.json');
-  if (!exists(pkgJson)) fail(`cdk: missing package.json in dist`);
-
-  const types = resolveTypesFiles(root);
-  if (types.files.length === 0)
-    fail(`cdk: no .d.ts files found (expected under types/, src/, or package root)`);
-
-  const fesm = resolveFesmFiles(root);
-  if (fesm.files.length === 0)
-    fail(
-      `cdk: no .mjs/.js files found (expected under fesm2022/, esm2022/, bundles/, src/, or package root)`,
-    );
-
-  const bundleSizes = fesm.files.map((f) => ({ file: f, size: stat(f).size }));
-
-  // Require at least one non-trivial bundle (guards against total stub publish)
-  const min = THRESHOLDS.cdk.minMjs;
-  const hasRealBundle = bundleSizes.some(({ size }) => size >= min);
-
-  if (!hasRealBundle) {
-    fail(
-      `cdk: all JS bundles are tiny (min ${min} bytes). Sizes: ${bundleSizes
-        .map(({ file, size }) => `${path.relative(root, file)}=${size}`)
-        .join(', ')}`,
-    );
-  }
-
-  for (const { file, size } of bundleSizes) {
-    if (size < min) {
-      warn(`cdk: small bundle entry: ${path.relative(root, file)} (${size} bytes)`);
-    }
-  }
-}
-
-const wants = (t) => selected.has(t);
-
-for (const name of ESM_PACKAGES) {
-  if (wants(name)) assertEsmPackage(name);
-}
-
-if (wants('cdk')) assertCdkPackage();
-if (wants('icons')) assertAngularPackage('icons', THRESHOLDS.icons);
-if (wants('primitives')) assertAngularPackage('primitives', THRESHOLDS.primitives);
-if (wants('components')) {
-  assertAngularPackage('components', THRESHOLDS.components);
-  assertComponentsSpecific();
-}
-if (wants('theme')) assertThemePackage();
-if (wants('flow')) assertFlowPackage();
-
-// docs is not an npm package check here
-
-console.log('assert-bundles: all selected dist outputs look sane.');
+console.log('assert-bundles: all selected APF outputs look sane.');

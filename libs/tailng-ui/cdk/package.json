@@ -7,41 +7,7 @@
     "url": "https://github.com/tailng/tailng-ui"
   },
   "type": "module",
-  "main": "./src/index.js",
-  "types": "./src/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./src/index.d.ts",
-      "import": "./src/index.js",
-      "default": "./src/index.js"
-    },
-    "./a11y": {
-      "types": "./src/a11y/index.d.ts",
-      "import": "./src/a11y/index.js",
-      "default": "./src/a11y/index.js"
-    },
-    "./collections": {
-      "types": "./src/collections/index.d.ts",
-      "import": "./src/collections/index.js",
-      "default": "./src/collections/index.js"
-    },
-    "./overlay": {
-      "types": "./src/overlay/index.d.ts",
-      "import": "./src/overlay/index.js",
-      "default": "./src/overlay/index.js"
-    },
-    "./core": {
-      "types": "./src/core/index.d.ts",
-      "import": "./src/core/index.js",
-      "default": "./src/core/index.js"
-    },
-    "./runtime": {
-      "types": "./src/overlay/runtime/index.d.ts",
-      "import": "./src/overlay/runtime/index.js",
-      "default": "./src/overlay/runtime/index.js"
-    }
-  },
-  "peerDependencies": {
+  "dependencies": {
     "tslib": "^2.3.0"
   },
   "sideEffects": false

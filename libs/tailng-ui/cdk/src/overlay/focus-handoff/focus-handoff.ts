@@ -1,9 +1,8 @@
+import { createFocusScope, type TngFocusScopeController } from '@tailng-ui/cdk/a11y';
 import {
   type TngOverlayFocusHandoffController,
   type TngOverlayFocusLayerConfig,
 } from './focus-handoff.types';
-import { createFocusScope } from '../../a11y/focus-scope/focus-scope';
-import type { TngFocusScopeController } from '../../a11y/focus-scope/focus-scope.types';
 
 type TngOverlayFocusLayer = Readonly<{
   initialFocusId: string | null;

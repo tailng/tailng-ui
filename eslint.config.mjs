@@ -54,7 +54,9 @@ export default [
     files: ['**/*.ts'],
     languageOptions: {
       parserOptions: {
-        projectService: true,
+        projectService: {
+          allowDefaultProject: ['tools/vite/*.ts'],
+        },
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -152,7 +154,11 @@ export default [
         'error',
         {
           enforceBuildableLibDependency: true,
-          allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$'],
+          allow: [
+            '^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$',
+            '^.*/tools/vite/tailng-ui-source-aliases$',
+            '^@tailng-ui/(?:cdk/(?:adapters|a11y|collections|core|overlay|runtime)|icons/core)$',
+          ],
           depConstraints: [
             {
               sourceTag: 'scope:tailng',

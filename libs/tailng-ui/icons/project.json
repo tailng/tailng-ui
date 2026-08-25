@@ -13,12 +13,13 @@
   "tags": ["scope:tailng", "type:icons"],
   "targets": {
     "build": {
-      "executor": "nx:run-commands",
+      "executor": "@nx/angular:package",
       "cache": true,
-      "dependsOn": ["generate"],
+      "dependsOn": ["generate", "^build"],
       "outputs": ["{workspaceRoot}/dist/libs/tailng-ui/icons"],
       "options": {
-        "command": "node tools/build/build-icons.mjs"
+        "project": "libs/tailng-ui/icons/ng-package.json",
+        "tsConfig": "libs/tailng-ui/icons/tsconfig.lib.prod.json"
       }
     },
     "nx-release-publish": {

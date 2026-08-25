@@ -1,3 +1,4 @@
+import { isBrowser } from '@tailng-ui/cdk/core';
 import {
   type TngPortalContainerElement,
   type TngPortalManager,
@@ -5,7 +6,6 @@ import {
   type TngPortalMountOptions,
   type TngPortalNode,
 } from './portal.types';
-import { isBrowser } from '../../core/platform/is-browser';
 
 type TngMountedPortal = Readonly<{
   container: TngPortalContainerElement;

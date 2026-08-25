@@ -4,7 +4,7 @@ import {
   createSelectionModel,
   type TngSelectionModel,
   type TngSelectionModelOptions,
-} from '../../collections';
+} from '@tailng-ui/cdk/collections';
 
 export type TngAngularCdkSelectionModelDelegates = Readonly<{
   createSelectionModel?: <TValue>(

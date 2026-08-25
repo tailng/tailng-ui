@@ -1,14 +1,13 @@
 import type { TngOverlayRuntime } from './overlay-runtime';
-
-import type { TngOverlayDismissReason } from '../layer-stack/layer-stack.types';
 import type {
   TngOverlayCollisionOptions,
+  TngOverlayDismissReason,
   TngOverlayDirection,
   TngOverlayOffset,
   TngOverlayPlacement,
   TngOverlayPositionResult,
   TngOverlayRect,
-} from '../positioning/positioning.types';
+} from '@tailng-ui/cdk/overlay';
 
 export type TngOverlayAnchor = Readonly<{
   getRect: () => TngOverlayRect;

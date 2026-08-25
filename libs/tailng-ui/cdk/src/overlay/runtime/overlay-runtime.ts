@@ -1,27 +1,23 @@
-import type { TngAngularCdkAdapterConfig } from '../../adapters/angular-cdk/adapter.types';
 import {
   createOverlayInteractionAdapter,
   createOverlayLayerStackAdapter,
   createScrollLockAdapter,
+  type TngAngularCdkAdapterConfig,
   type TngAngularCdkOverlayDelegates,
-} from '../../adapters/angular-cdk/overlay.adapter';
-import type {
-  TngOverlayDismissReason,
-  TngOverlayLayer,
-  TngOverlayLayerStack,
-} from '../layer-stack/layer-stack.types';
-import { createOverlayInteractionDocument } from '../outside-interaction/outside-interaction';
-import type {
-  TngOverlayInteractionController,
-  TngOverlayInteractionDocument,
-  TngOverlayInteractionDomDocument,
-  TngOverlayKeyboardEvent,
-  TngOverlayPointerEvent,
-} from '../outside-interaction/outside-interaction.types';
-import type {
-  TngScrollLockManager,
-  TngScrollLockOptions,
-} from '../scroll-lock/scroll-lock.types';
+} from '@tailng-ui/cdk/adapters';
+import {
+  createOverlayInteractionDocument,
+  type TngOverlayDismissReason,
+  type TngOverlayInteractionController,
+  type TngOverlayInteractionDocument,
+  type TngOverlayInteractionDomDocument,
+  type TngOverlayKeyboardEvent,
+  type TngOverlayLayer,
+  type TngOverlayLayerStack,
+  type TngOverlayPointerEvent,
+  type TngScrollLockManager,
+  type TngScrollLockOptions,
+} from '@tailng-ui/cdk/overlay';
 
 type TngOverlayAdapterRuntimeOptions = Readonly<{
   adapterConfig?: TngAngularCdkAdapterConfig;
@@ -38,16 +34,17 @@ export type TngOverlayRuntimeOptions = Readonly<
   }
 >;
 
-export type TngOverlayRuntime = Readonly<{
-  clearLayers: () => void;
-  dispatchKeydown: (event: Readonly<TngOverlayKeyboardEvent>) => void;
-  dispatchPointerDown: (event: Readonly<TngOverlayPointerEvent>) => void;
-  dismissById: (id: string, reason: TngOverlayDismissReason) => void;
-  getLayerIds: () => readonly string[];
-  isTopLayer: (id: string) => boolean;
-  registerLayer: (layer: TngOverlayLayer) => void;
-  unregisterLayer: (id: string) => void;
-}>;
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions -- A named interface prevents ng-packagr from inlining private secondary-entry-point paths.
+export interface TngOverlayRuntime {
+  readonly clearLayers: () => void;
+  readonly dispatchKeydown: (event: Readonly<TngOverlayKeyboardEvent>) => void;
+  readonly dispatchPointerDown: (event: Readonly<TngOverlayPointerEvent>) => void;
+  readonly dismissById: (id: string, reason: TngOverlayDismissReason) => void;
+  readonly getLayerIds: () => readonly string[];
+  readonly isTopLayer: (id: string) => boolean;
+  readonly registerLayer: (layer: TngOverlayLayer) => void;
+  readonly unregisterLayer: (id: string) => void;
+}
 
 function toInteractionDocument(
   documentRef: TngOverlayInteractionDomDocument | null | undefined,

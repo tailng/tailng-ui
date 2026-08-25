@@ -12,7 +12,7 @@ export default defineConfig({
     angular({
       tsconfig: resolve(projectRoot, '../../../tsconfig.base.json'),
     }),
-    tsconfigPaths(),
+    tsconfigPaths({ root: resolve(projectRoot, '../../..'), projects: ['tsconfig.base.json'] }),
   ],
   root: projectRoot,
   test: {

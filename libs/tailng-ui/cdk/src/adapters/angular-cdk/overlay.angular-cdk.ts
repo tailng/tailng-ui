@@ -15,7 +15,7 @@ import {
   type TngPortalNode,
   type TngScrollLockManager,
   type TngScrollLockOptions,
-} from '../../overlay';
+} from '@tailng-ui/cdk/overlay';
 
 type TngCdkHorizontal = 'center' | 'end' | 'start';
 type TngCdkVertical = 'bottom' | 'center' | 'top';

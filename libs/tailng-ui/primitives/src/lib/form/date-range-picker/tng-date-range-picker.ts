@@ -1,7 +1,6 @@
 import {
   createActiveDescendantController,
   createOverlayFocusHandoffController,
-  createOverlayRuntime,
   createRovingFocusController,
   createTngIdFactory,
   createTypeaheadController,
@@ -12,9 +11,9 @@ import {
   type TngGridNavigationActionType,
   type TngOverlayDismissReason,
   type TngRovingFocusController,
-  type TngOverlayRuntime,
 } from '@tailng-ui/cdk';
 import type { TngOverlayInteractionDomDocument } from '@tailng-ui/cdk/overlay';
+import { createOverlayRuntime, type TngOverlayRuntime } from '@tailng-ui/cdk/runtime';
 import {
   coerceWeekStartsOn,
   defaultDateRangePickerDateAdapter,
@@ -68,6 +67,7 @@ import type {
   TngDateRangePickerFocusStrategy,
   TngDateRangePickerLayout,
   TngDateRangePickerListener,
+  TngDateRangePickerOverlayRuntime,
   TngDateRangePickerOutputs,
   TngDateRangePickerOverlayMode,
   TngDateRangePickerPosition,
@@ -3226,6 +3226,7 @@ export type {
   TngDateRangePickerFocusStrategy,
   TngDateRangePickerLayout,
   TngDateRangePickerListener,
+  TngDateRangePickerOverlayRuntime,
   TngDateRangePickerOutputs,
   TngDateRangePickerPosition,
   TngDateRangePickerState,

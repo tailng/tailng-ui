@@ -7,7 +7,9 @@ import { defineConfig } from 'vitest/config';
 const projectRoot = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  plugins: [tsconfigPaths()],
+  plugins: [
+    tsconfigPaths({ root: resolve(projectRoot, '../../..'), projects: ['tsconfig.base.json'] }),
+  ],
   root: projectRoot,
   test: {
     name: 'flow-layout-dagre',

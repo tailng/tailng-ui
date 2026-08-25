@@ -1,5 +1,3 @@
-import { shouldUseAngularCdkFeature } from './adapter-config';
-import type { TngAngularCdkAdapterConfig } from './adapter.types';
 import {
   createActiveDescendantController,
   createRovingFocusController,
@@ -7,12 +5,14 @@ import {
   type TngActiveDescendantOptions,
   type TngRovingFocusController,
   type TngRovingFocusOptions,
-} from '../../a11y';
+} from '@tailng-ui/cdk/a11y';
 import {
   createTypeaheadController,
   type TngTypeaheadController,
   type TngTypeaheadOptions,
-} from '../../collections';
+} from '@tailng-ui/cdk/collections';
+import { shouldUseAngularCdkFeature } from './adapter-config';
+import type { TngAngularCdkAdapterConfig } from './adapter.types';
 
 type TngKeyManagerAdapterOptions = Readonly<{
   adapterConfig?: TngAngularCdkAdapterConfig;

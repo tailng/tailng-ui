@@ -7,30 +7,15 @@
     "url": "https://github.com/tailng/tailng-ui"
   },
   "type": "module",
-  "main": "./src/index.js",
-  "types": "./src/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./src/index.d.ts",
-      "import": "./src/index.js",
-      "default": "./src/index.js"
-    },
-    "./core": {
-      "types": "./src/core.d.ts",
-      "import": "./src/core.js",
-      "default": "./src/core.js"
-    }
-  },
   "dependencies": {
     "@ng-icons/core": "^32.4.0",
-    "@ng-icons/lucide": "^33.1.0"
-  },
-  "peerDependencies": {
-    "@angular/core": "^21.1.0",
+    "@ng-icons/lucide": "^33.1.0",
     "tslib": "^2.3.0"
   },
+  "peerDependencies": {
+    "@angular/core": "^21.1.0"
+  },
   "sideEffects": [
-    "./src/lib/icons.js",
-    "./src/lib/icons.ts"
+    "./fesm2022/tailng-ui-icons.mjs"
   ]
 }

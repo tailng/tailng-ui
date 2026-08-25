@@ -18,7 +18,7 @@ import {
   type TngPortalManagerOptions,
   type TngScrollLockManager,
   type TngScrollLockOptions,
-} from '../../overlay';
+} from '@tailng-ui/cdk/overlay';
 
 type TngOverlayAdapterOptions = Readonly<{
   adapterConfig?: TngAngularCdkAdapterConfig;

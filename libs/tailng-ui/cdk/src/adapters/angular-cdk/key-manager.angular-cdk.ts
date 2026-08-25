@@ -1,17 +1,17 @@
-import type { TngAngularCdkKeyManagerDelegates } from './key-manager.adapter';
 import type {
   TngActiveDescendantController,
   TngActiveDescendantOptions,
   TngRovingFocusController,
   TngRovingFocusOptions,
-} from '../../a11y';
+} from '@tailng-ui/cdk/a11y';
 import type {
   TngTypeaheadController,
   TngTypeaheadItem,
   TngTypeaheadMatchStrategy,
   TngTypeaheadOptions,
   TngTypeaheadResult,
-} from '../../collections';
+} from '@tailng-ui/cdk/collections';
+import type { TngAngularCdkKeyManagerDelegates } from './key-manager.adapter';
 
 const defaultTypeaheadResetMs = 500;
 
@@ -284,26 +284,26 @@ class AngularCdkActiveDescendantController implements TngActiveDescendantControl
 
   private ensureActiveIdStillValid(): void {
     if (this.activeId === null) return;
-  
+
     if (this.canUseActiveId(this.activeId)) return;
-  
+
     // Try to reconcile like TailNG controller
     const enabledIds = resolveEnabledIds(this.itemIds, this.disabledIds);
-  
+
     if (enabledIds.length === 0) {
       this.activeId = null;
       return;
     }
-  
+
     // If active not found, treat as -1
     const currentIndex = enabledIds.indexOf(this.activeId);
-  
+
     if (currentIndex < 0) {
       // Move to boundary based on loop behavior
       this.activeId = this.loop ? firstId(enabledIds) : firstId(enabledIds);
       return;
     }
-  
+
     // Try next
     const next = resolveMovedId({
       currentIndex,
@@ -312,7 +312,7 @@ class AngularCdkActiveDescendantController implements TngActiveDescendantControl
       fallback: null,
       loop: this.loop,
     });
-  
+
     this.activeId = next;
   }
 

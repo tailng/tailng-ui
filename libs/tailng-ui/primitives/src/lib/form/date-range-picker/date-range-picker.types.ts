@@ -1,4 +1,7 @@
-import type { TngOverlayRuntime } from '@tailng-ui/cdk';
+import type { TngOverlayRuntime } from '@tailng-ui/cdk/runtime';
+
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions, @typescript-eslint/no-empty-object-type -- The named public boundary keeps APF declarations on package imports.
+export interface TngDateRangePickerOverlayRuntime extends TngOverlayRuntime {}
 
 export type TngCalendarView = 'day' | 'month' | 'year';
 export type TngDateRangePickerCalendarLayout = 'dual' | 'single';
@@ -268,7 +271,7 @@ export type TngDateRangePickerConfig<TDate> = Readonly<{
   minDate?: TngDateInputValue<TDate>;
   onPartialInputCommit?: boolean;
   overlayMode?: TngDateRangePickerOverlayMode;
-  overlayRuntime?: TngOverlayRuntime | null;
+  overlayRuntime?: TngDateRangePickerOverlayRuntime | null;
   overlaySize?: number;
   ownerDocument?: Document | null;
   position?: TngDateRangePickerPosition;

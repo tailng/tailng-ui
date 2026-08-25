@@ -1,7 +1,9 @@
+import {
+  computeOverlayPosition,
+  type TngOverlayDismissReason,
+  type TngOverlayLayer,
+} from '@tailng-ui/cdk/overlay';
 import type { TngOverlayInstance, TngOverlayInstanceOptions } from './overlay-instance.types';
-import type { TngOverlayDismissReason, TngOverlayLayer } from '../layer-stack/layer-stack.types';
-
-import { computeOverlayPosition } from '../positioning/positioning';
 
 function createLayer(
   options: TngOverlayInstanceOptions,
@@ -45,7 +47,10 @@ function ensureAlive(state: TngOverlayStateAccess, id: string): void {
   }
 }
 
-function updatePositionIfOpen(state: TngOverlayStateAccess, options: TngOverlayInstanceOptions): void {
+function updatePositionIfOpen(
+  state: TngOverlayStateAccess,
+  options: TngOverlayInstanceOptions,
+): void {
   if (!state.isOpen()) return;
   applyOverlayPosition(options);
 }

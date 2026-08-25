@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../../dist/libs/tailng-ui/theme",
+  "assets": [
+    "README.md",
+    "index.css",
+    {
+      "glob": "**/*.css",
+      "input": "src/lib/component-contracts",
+      "output": "component-contracts"
+    }
+  ],
+  "lib": {
+    "entryFile": "src/index.ts"
+  }
+}

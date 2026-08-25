@@ -50,7 +50,7 @@ function normalizeOptionalBooleanInput(value: OptionalBooleanInput): boolean | u
 }
 
 function toScrollLockDocument(documentRef: unknown): TngScrollLockDocument | null {
-  if (!(documentRef instanceof Document)) {
+  if (typeof Document === 'undefined' || !(documentRef instanceof Document)) {
     return null;
   }
 
@@ -58,7 +58,7 @@ function toScrollLockDocument(documentRef: unknown): TngScrollLockDocument | nul
 }
 
 function toModalIsolationDocument(documentRef: unknown): TngModalIsolationDocument | null {
-  if (!(documentRef instanceof Document)) {
+  if (typeof Document === 'undefined' || !(documentRef instanceof Document)) {
     return null;
   }
 
@@ -66,7 +66,7 @@ function toModalIsolationDocument(documentRef: unknown): TngModalIsolationDocume
 }
 
 function toModalIsolationElement(elementRef: unknown): TngModalIsolationElement | null {
-  if (!(elementRef instanceof HTMLElement)) {
+  if (typeof HTMLElement === 'undefined' || !(elementRef instanceof HTMLElement)) {
     return null;
   }
 
@@ -92,12 +92,14 @@ const dialogModalIsolation = getGlobalModalIsolationManager({
 const dialogFocusHandoff = createOverlayFocusHandoffController();
 
 export function resolveTngDialogActiveElement(documentRef: unknown): HTMLElement | null {
-  if (!(documentRef instanceof Document)) {
+  if (typeof Document === 'undefined' || !(documentRef instanceof Document)) {
     return null;
   }
 
   const activeElement = documentRef.activeElement;
-  return activeElement instanceof HTMLElement ? activeElement : null;
+  return typeof HTMLElement !== 'undefined' && activeElement instanceof HTMLElement
+    ? activeElement
+    : null;
 }
 
 export function resolveTngDialogFocusableElements(container: unknown): readonly HTMLElement[] {
@@ -105,7 +107,7 @@ export function resolveTngDialogFocusableElements(container: unknown): readonly 
 }
 
 export function resolveTngDialogMarkedInitialElement(container: unknown): HTMLElement | null {
-  if (!(container instanceof HTMLElement)) {
+  if (typeof HTMLElement === 'undefined' || !(container instanceof HTMLElement)) {
     return null;
   }
 

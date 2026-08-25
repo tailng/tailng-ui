@@ -13,18 +13,13 @@
   "tags": ["scope:tailng", "type:flow"],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/angular:package",
       "cache": true,
       "dependsOn": ["^build"],
-      "outputs": ["{options.outputPath}"],
+      "outputs": ["{workspaceRoot}/dist/libs/tailng-ui/flow-layout-dagre"],
       "options": {
-        "outputPath": "dist/libs/tailng-ui/flow-layout-dagre",
-        "main": "libs/tailng-ui/flow-layout-dagre/src/index.ts",
-        "tsConfig": "libs/tailng-ui/flow-layout-dagre/tsconfig.lib.json",
-        "assets": [
-          "libs/tailng-ui/flow-layout-dagre/README.md",
-          "libs/tailng-ui/flow-layout-dagre/package.json"
-        ]
+        "project": "libs/tailng-ui/flow-layout-dagre/ng-package.json",
+        "tsConfig": "libs/tailng-ui/flow-layout-dagre/tsconfig.lib.prod.json"
       }
     },
     "nx-release-publish": {

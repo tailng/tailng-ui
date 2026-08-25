@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       release_type:
-        description: "minor: 2.1.0 -> 2.2.0 | major: 2.x -> 3.0.0"
+        description: "patch: 2.1.0 -> 2.1.1 | minor: 2.1.0 -> 2.2.0 | major: 2.x -> 3.0.0"
         required: true
         type: choice
-        options: [minor, major]
+        options: [patch, minor, major]
       npm_tag:
         description: "npm dist-tag"
         required: true

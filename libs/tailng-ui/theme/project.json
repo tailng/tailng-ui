@@ -5,52 +5,26 @@
   "projectType": "library",
   "release": {
     "version": {
-      "manifestRootsToUpdate": [
-        "dist/{projectRoot}"
-      ],
+      "manifestRootsToUpdate": ["dist/{projectRoot}"],
       "currentVersionResolver": "git-tag",
       "fallbackCurrentVersionResolver": "disk"
     }
   },
-  "tags": [
-    "scope:tailng",
-    "type:theme"
-  ],
+  "tags": ["scope:tailng", "type:theme"],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "executor": "@nx/angular:package",
+      "cache": true,
+      "dependsOn": ["^build"],
+      "outputs": ["{workspaceRoot}/dist/libs/tailng-ui/theme"],
       "options": {
-        "outputPath": "dist/libs/tailng-ui/theme",
-        "main": "libs/tailng-ui/theme/src/index.ts",
-        "tsConfig": "libs/tailng-ui/theme/tsconfig.lib.json",
-        "assets": [
-          "libs/tailng-ui/theme/*.md",
-          {
-            "input": "libs/tailng-ui/theme",
-            "glob": "index.css",
-            "output": "."
-          },
-          {
-            "input": "libs/tailng-ui/theme/src/lib/component-contracts",
-            "glob": "**/*.css",
-            "output": "component-contracts"
-          },
-          {
-            "input": "libs/tailng-ui/theme",
-            "glob": "package.json",
-            "output": "."
-          }
-        ]
+        "project": "libs/tailng-ui/theme/ng-package.json",
+        "tsConfig": "libs/tailng-ui/theme/tsconfig.lib.prod.json"
       }
     },
     "vite:test": {
       "executor": "@nx/vitest:test",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "configFile": "libs/tailng-ui/theme/vitest.config.ts",
         "reportsDirectory": "coverage/libs/tailng-ui/theme",

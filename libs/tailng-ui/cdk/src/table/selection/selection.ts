@@ -1,9 +1,9 @@
+import { createSelectionModel } from '@tailng-ui/cdk/collections';
 import type {
   TngTableRowSelectionController,
   TngTableRowSelectionOptions,
   TngTableRowSelectionState,
 } from './selection.types';
-import { createSelectionModel } from '../../collections/selection-model/selection-model';
 
 function filterSelectableIds<TId>(
   ids: readonly TId[],
@@ -23,8 +23,9 @@ class TngTableRowSelectionControllerImpl<TId> implements TngTableRowSelectionCon
 
     const initialSelected = filterSelectableIds(options.initialSelectedIds ?? [], this.disabledIds);
     const initialAnchorId =
-      options.initialAnchorId !== undefined && options.initialAnchorId !== null
-      && !this.disabledIds.has(options.initialAnchorId)
+      options.initialAnchorId !== undefined &&
+      options.initialAnchorId !== null &&
+      !this.disabledIds.has(options.initialAnchorId)
         ? options.initialAnchorId
         : (initialSelected[0] ?? null);
 

@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
+import { createTailngUiCdkSecondaryAliases } from '../../../tools/vite/tailng-ui-source-aliases';
 
 const projectRoot = dirname(fileURLToPath(import.meta.url));
 const chromeExecutable = puppeteer.executablePath();
@@ -18,11 +19,12 @@ export default defineConfig({
     angular({
       tsconfig: resolve(projectRoot, '../../../tsconfig.base.json'),
     }),
-    tsconfigPaths(),
+    tsconfigPaths({ root: resolve(projectRoot, '../../..'), projects: ['tsconfig.base.json'] }),
   ],
   root: projectRoot,
   resolve: {
     alias: [
+      ...createTailngUiCdkSecondaryAliases(resolve(projectRoot, '../../..')),
       {
         find: '@foblex/2d',
         replacement: resolve(projectRoot, '../../../node_modules/@foblex/2d/fesm2015/foblex-2d.js'),

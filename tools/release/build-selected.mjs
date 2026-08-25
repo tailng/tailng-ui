@@ -1,39 +1,45 @@
-import { execSync } from "node:child_process";
+import { spawnSync } from 'node:child_process';
+import { PACKAGE_BY_TARGET, parseTargets } from './package-catalog.mjs';
 
-const targets = (process.argv[2] ?? "").trim();
-const selected = new Set(
-  targets
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean),
-);
+const selected = new Set(parseTargets((process.argv[2] ?? '').trim()));
 // Avoid Node's ESM loading race when Nx scans Vitest configs concurrently.
-const nodeOptions = [process.env.NODE_OPTIONS, "--import=vite-tsconfig-paths"]
+const nodeOptions = [process.env.NODE_OPTIONS, '--import=vite-tsconfig-paths']
   .filter(Boolean)
-  .join(" ");
+  .join(' ');
 
-const run = (cmd) =>
-  execSync(cmd, {
-    stdio: "inherit",
+const run = (command, args) => {
+  const result = spawnSync(command, args, {
+    stdio: 'inherit',
     env: {
       ...process.env,
       NODE_OPTIONS: nodeOptions,
-      NX_DAEMON: "false",
-      NX_ISOLATE_PLUGINS: "false",
+      NX_DAEMON: 'false',
+      NX_ISOLATE_PLUGINS: 'false',
     },
   });
-const wants = (t) => selected.has(t);
 
-run("pnpm nx reset");
+  if (result.error) throw result.error;
+  if (result.status !== 0) process.exit(result.status ?? 1);
+};
 
-if (wants("cdk")) run("pnpm nx build cdk --skip-nx-cache");
-if (wants("primitives")) run("pnpm nx build primitives --skip-nx-cache");
-if (wants("components")) run("pnpm nx build components --skip-nx-cache");
-if (wants("theme")) run("pnpm nx build theme --skip-nx-cache");
-if (wants("icons")) run("pnpm nx build icons --skip-nx-cache");
-if (wants("registry") || wants("cli")) run("pnpm nx build registry --skip-nx-cache");
-if (wants("charts")) run("pnpm nx build charts --skip-nx-cache");
-if (wants("flow")) run("pnpm nx build flow --skip-nx-cache");
+run('pnpm', ['nx', 'reset']);
 
-// CLI (keeps your historical target name)
-if (wants("cli")) run("pnpm nx run tailng-cli:build --skip-nx-cache");
+// The CLI imports the registry directly, so include that build even when only
+// the CLI release target is selected. Nx handles the remaining project graph.
+if (selected.has('cli')) selected.add('registry');
+
+const projects = [...selected]
+  .map((target) => PACKAGE_BY_TARGET.get(target)?.project)
+  .filter(Boolean);
+
+if (projects.length > 0) {
+  run('pnpm', [
+    'nx',
+    'run-many',
+    '-t',
+    'build',
+    '--projects',
+    projects.join(','),
+    '--skip-nx-cache',
+  ]);
+}

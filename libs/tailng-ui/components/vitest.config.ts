@@ -1,9 +1,10 @@
 /// <reference types="vitest" />
+import angular from '@analogjs/vite-plugin-angular';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import angular from '@analogjs/vite-plugin-angular';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
+import { createTailngUiCdkSecondaryAliases } from '../../../tools/vite/tailng-ui-source-aliases';
 
 const projectRoot = dirname(fileURLToPath(import.meta.url));
 
@@ -12,18 +13,25 @@ export default defineConfig({
     angular({
       tsconfig: resolve(projectRoot, '../../../tsconfig.base.json'),
     }),
-    tsconfigPaths(),
+    tsconfigPaths({ root: resolve(projectRoot, '../../..'), projects: ['tsconfig.base.json'] }),
   ],
   root: projectRoot,
   resolve: {
     alias: [
-      { find: '@tailng-ui/cdk/core', replacement: resolve(projectRoot, '../cdk/src/core/index.ts') },
+      ...createTailngUiCdkSecondaryAliases(resolve(projectRoot, '../../..')),
+      {
+        find: '@tailng-ui/cdk/core',
+        replacement: resolve(projectRoot, '../cdk/src/core/index.ts'),
+      },
       {
         find: '@tailng-ui/cdk/overlay',
         replacement: resolve(projectRoot, '../cdk/src/overlay/index.ts'),
       },
       { find: '@tailng-ui/cdk', replacement: resolve(projectRoot, '../cdk/src/index.ts') },
-      { find: '@tailng-ui/primitives', replacement: resolve(projectRoot, '../primitives/src/index.ts') },
+      {
+        find: '@tailng-ui/primitives',
+        replacement: resolve(projectRoot, '../primitives/src/index.ts'),
+      },
     ],
   },
   test: {

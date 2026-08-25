@@ -14,13 +14,13 @@
   "tags": ["scope:tailng", "type:cdk"],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@nx/angular:package",
+      "cache": true,
+      "dependsOn": ["^build"],
+      "outputs": ["{workspaceRoot}/dist/libs/tailng-ui/cdk"],
       "options": {
-        "outputPath": "dist/libs/tailng-ui/cdk",
-        "main": "libs/tailng-ui/cdk/src/index.ts",
-        "tsConfig": "libs/tailng-ui/cdk/tsconfig.lib.json",
-        "assets": ["libs/tailng-ui/cdk/*.md"]
+        "project": "libs/tailng-ui/cdk/ng-package.json",
+        "tsConfig": "libs/tailng-ui/cdk/tsconfig.lib.prod.json"
       }
     },
     "nx-release-publish": {

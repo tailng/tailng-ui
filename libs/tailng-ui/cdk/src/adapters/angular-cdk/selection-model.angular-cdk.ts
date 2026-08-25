@@ -5,7 +5,7 @@ import type {
   TngSelectionModelOptions,
   TngSelectionRangeMode,
   TngSelectionRangeOptions,
-} from '../../collections';
+} from '@tailng-ui/cdk/collections';
 
 function toSelectionMode(mode: TngSelectionMode | undefined): TngSelectionMode {
   return mode ?? 'single';

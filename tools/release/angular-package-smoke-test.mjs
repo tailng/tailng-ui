@@ -2,6 +2,7 @@ import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { APF_PACKAGES, parseTargets } from './package-catalog.mjs';
 import {
   assertNoWorkspaceProtocols,
   collectPackageVersions,
@@ -10,18 +11,13 @@ import {
   writeJson,
 } from './package-manifest-utils.mjs';
 
-const PACKAGE_NAMES = ['cdk', 'primitives', 'components', 'icons', 'theme'];
-const selected = new Set(
-  (process.argv[2] ?? PACKAGE_NAMES.join(','))
-    .split(',')
-    .map((target) => target.trim())
-    .filter(Boolean),
-);
+const PACKAGE_NAMES = APF_PACKAGES.map((definition) => definition.target);
+const selected = new Set(parseTargets(process.argv[2] ?? PACKAGE_NAMES.join(',')));
 const missingTargets = PACKAGE_NAMES.filter((target) => !selected.has(target));
 
 if (missingTargets.length > 0) {
   console.log(
-    `angular-package-smoke-test: skipped because the coordinated package set is not selected (missing: ${missingTargets.join(', ')})`,
+    `angular-package-smoke-test: skipped because the coordinated APF package set is not selected (missing: ${missingTargets.join(', ')})`,
   );
   process.exit(0);
 }
@@ -32,12 +28,17 @@ const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'tailng-angular-package-s
 const stagedRoot = path.join(tempRoot, 'packages');
 const tarballsRoot = path.join(tempRoot, 'tarballs');
 const consumerRoot = path.join(tempRoot, 'consumer');
-const npmCacheRoot = path.join(tempRoot, 'npm-cache');
+const npmCacheRoot =
+  process.env.TAILNG_SMOKE_NPM_CACHE ??
+  path.join(os.tmpdir(), 'tailng-angular-package-smoke-npm-cache');
 const keepTemp = process.env.KEEP_SMOKE_TEMP === '1';
 const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 
 const distDirs = Object.fromEntries(
-  PACKAGE_NAMES.map((name) => [name, path.join(workspaceRoot, 'dist/libs/tailng-ui', name)]),
+  APF_PACKAGES.map((definition) => [
+    definition.target,
+    path.join(workspaceRoot, definition.distDir),
+  ]),
 );
 const stagedDirs = Object.fromEntries(
   PACKAGE_NAMES.map((name) => [name, path.join(stagedRoot, name)]),
@@ -78,10 +79,12 @@ function run(command, args, options = {}) {
 
 function dependencyVersion(name) {
   const version = rootPackage.dependencies?.[name] ?? rootPackage.devDependencies?.[name];
-  if (typeof version !== 'string') {
-    fail(`root package.json does not declare '${name}'`);
-  }
+  if (typeof version !== 'string') fail(`root package.json does not declare '${name}'`);
   return version;
+}
+
+function writeText(relativePath, value) {
+  fs.writeFileSync(path.join(consumerRoot, relativePath), value, 'utf8');
 }
 
 function stagePackages() {
@@ -115,9 +118,7 @@ function packPackages() {
     });
     const jsonStart = output.indexOf('[');
     const jsonEnd = output.lastIndexOf(']');
-    if (jsonStart === -1 || jsonEnd < jsonStart) {
-      fail(`npm pack did not return JSON for ${name}`);
-    }
+    if (jsonStart === -1 || jsonEnd < jsonStart) fail(`npm pack did not return JSON for ${name}`);
 
     let packResult;
     try {
@@ -148,8 +149,11 @@ function writeConsumer(tarballs) {
     name: 'tailng-angular-package-smoke',
     version: '0.0.0',
     private: true,
+    type: 'module',
     scripts: {
       build: 'ng build --configuration production',
+      test: 'vitest run',
+      typecheck: 'tsc -p tsconfig.nodenext.json',
     },
     dependencies: {
       '@angular/common': dependencyVersion('@angular/common'),
@@ -158,6 +162,12 @@ function writeConsumer(tarballs) {
       '@angular/forms': dependencyVersion('@angular/forms'),
       '@angular/platform-browser': dependencyVersion('@angular/platform-browser'),
       '@angular/router': dependencyVersion('@angular/router'),
+      '@foblex/2d': dependencyVersion('@foblex/2d'),
+      '@foblex/flow': dependencyVersion('@foblex/flow'),
+      '@foblex/mediator': dependencyVersion('@foblex/mediator'),
+      '@foblex/platform': dependencyVersion('@foblex/platform'),
+      '@foblex/utils': dependencyVersion('@foblex/utils'),
+      echarts: dependencyVersion('echarts'),
       rxjs: dependencyVersion('rxjs'),
       tslib: dependencyVersion('tslib'),
       'zone.js': dependencyVersion('zone.js'),
@@ -168,6 +178,7 @@ function writeConsumer(tarballs) {
       '@angular/cli': dependencyVersion('@angular/cli'),
       '@angular/compiler-cli': dependencyVersion('@angular/compiler-cli'),
       typescript: dependencyVersion('typescript'),
+      vitest: dependencyVersion('vitest'),
     },
   });
 
@@ -214,7 +225,7 @@ function writeConsumer(tarballs) {
       lib: ['ES2022', 'DOM'],
       module: 'preserve',
       moduleResolution: 'bundler',
-      skipLibCheck: true,
+      skipLibCheck: false,
       strict: true,
       target: 'ES2022',
       useDefineForClassFields: false,
@@ -234,43 +245,69 @@ function writeConsumer(tarballs) {
     files: ['src/main.ts'],
   });
 
-  fs.writeFileSync(
-    path.join(consumerRoot, 'src/index.html'),
+  writeJson(path.join(consumerRoot, 'tsconfig.nodenext.json'), {
+    compilerOptions: {
+      lib: ['ES2022', 'DOM'],
+      module: 'NodeNext',
+      moduleResolution: 'NodeNext',
+      noEmit: true,
+      skipLibCheck: false,
+      strict: true,
+      target: 'ES2022',
+    },
+    files: ['src/package-imports.ts'],
+  });
+
+  writeText(
+    'src/index.html',
     '<!doctype html><html><head><meta charset="utf-8"><title>TailNG smoke test</title><base href="/"></head><body><app-root></app-root></body></html>\n',
   );
-  fs.writeFileSync(
-    path.join(consumerRoot, 'src/styles.css'),
-    "@import '@tailng-ui/theme/index.css';\n@import '@tailng-ui/theme/component-contracts/index.css';\n",
+  writeText(
+    'src/styles.css',
+    "@import '@tailng-ui/theme/index.css';\n@import '@tailng-ui/theme/component-contracts/index.css';\n@import '@tailng-ui/flow/styles.css';\n",
   );
-  fs.writeFileSync(
-    path.join(consumerRoot, 'src/main.ts'),
-    `import { Component } from '@angular/core';
-import { bootstrapApplication } from '@angular/platform-browser';
-import * as cdk from '@tailng-ui/cdk';
+  writeText(
+    'src/package-imports.ts',
+    `import * as cdk from '@tailng-ui/cdk';
 import * as cdkA11y from '@tailng-ui/cdk/a11y';
+import * as cdkAdapters from '@tailng-ui/cdk/adapters';
 import * as cdkCollections from '@tailng-ui/cdk/collections';
 import * as cdkCore from '@tailng-ui/cdk/core';
 import * as cdkOverlay from '@tailng-ui/cdk/overlay';
 import * as cdkRuntime from '@tailng-ui/cdk/runtime';
+import * as charts from '@tailng-ui/charts';
 import * as components from '@tailng-ui/components';
+import * as flow from '@tailng-ui/flow';
+import * as flowLayoutDagre from '@tailng-ui/flow-layout-dagre';
 import * as icons from '@tailng-ui/icons';
 import * as iconCore from '@tailng-ui/icons/core';
 import * as primitives from '@tailng-ui/primitives';
 import * as theme from '@tailng-ui/theme';
 
-const publicApis = {
+export const publicApis = {
   cdk,
   cdkA11y,
+  cdkAdapters,
   cdkCollections,
   cdkCore,
   cdkOverlay,
   cdkRuntime,
+  charts,
   components,
+  flow,
+  flowLayoutDagre,
   icons,
   iconCore,
   primitives,
   theme,
 };
+`,
+  );
+  writeText(
+    'src/main.ts',
+    `import { Component } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { publicApis } from './package-imports';
 
 @Component({
   selector: 'app-root',
@@ -287,6 +324,71 @@ class AppComponent {
 bootstrapApplication(AppComponent).catch((error: unknown) => console.error(error));
 `,
   );
+  writeText('src/setup.ts', "import '@angular/compiler';\n");
+  writeText(
+    'src/packages.spec.ts',
+    `import { expect, test } from 'vitest';
+import * as cdk from '@tailng-ui/cdk';
+import * as cdkCollections from '@tailng-ui/cdk/collections';
+import { TngIcon as RootTngIcon } from '@tailng-ui/icons';
+import { TngIcon as CoreTngIcon } from '@tailng-ui/icons/core';
+import { publicApis } from './package-imports';
+
+test('externalized APF packages load through their public exports', () => {
+  expect(Object.values(publicApis).every((api) => Object.keys(api).length > 0)).toBe(true);
+  expect(cdk.createSelectionModel).toBe(cdkCollections.createSelectionModel);
+  expect(RootTngIcon).toBe(CoreTngIcon);
+});
+`,
+  );
+  writeText(
+    'vitest.config.mjs',
+    `import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+  test: {
+    environment: 'node',
+    include: ['src/**/*.spec.ts'],
+    setupFiles: ['./src/setup.ts'],
+  },
+});
+`,
+  );
+  writeText(
+    'src/node-import.mjs',
+    `await import('@angular/compiler');
+
+const packageNames = [
+  '@tailng-ui/cdk',
+  '@tailng-ui/cdk/a11y',
+  '@tailng-ui/cdk/adapters',
+  '@tailng-ui/cdk/collections',
+  '@tailng-ui/cdk/core',
+  '@tailng-ui/cdk/overlay',
+  '@tailng-ui/cdk/runtime',
+  '@tailng-ui/charts',
+  '@tailng-ui/components',
+  '@tailng-ui/flow',
+  '@tailng-ui/flow-layout-dagre',
+  '@tailng-ui/icons',
+  '@tailng-ui/icons/core',
+  '@tailng-ui/primitives',
+  '@tailng-ui/theme',
+];
+const modules = await Promise.all(packageNames.map((name) => import(name)));
+if (modules.some((api) => Object.keys(api).length === 0)) {
+  throw new Error('A public TailNG entry point loaded with no exports');
+}
+
+const [cdk, , , collections, , , , , , , , icons, iconCore] = modules;
+if (cdk.createSelectionModel !== collections.createSelectionModel) {
+  throw new Error('CDK root and secondary entry points have different symbol identities');
+}
+if (icons.TngIcon !== iconCore.TngIcon) {
+  throw new Error('Icon root and core entry points have different TngIcon identities');
+}
+`,
+  );
 }
 
 try {
@@ -299,6 +401,16 @@ try {
     inherit: true,
   });
 
+  run(process.execPath, ['src/node-import.mjs'], { cwd: consumerRoot });
+
+  const typeScriptPath = path.join(consumerRoot, 'node_modules/typescript/bin/tsc');
+  run(process.execPath, [typeScriptPath, '-p', 'tsconfig.nodenext.json'], {
+    cwd: consumerRoot,
+  });
+
+  const vitestPath = path.join(consumerRoot, 'node_modules/vitest/vitest.mjs');
+  run(process.execPath, [vitestPath, 'run'], { cwd: consumerRoot });
+
   const cliPath = path.join(consumerRoot, 'node_modules/@angular/cli/bin/ng.js');
   const buildOutput = run(
     process.execPath,
@@ -310,7 +422,9 @@ try {
     fail('production Angular build reported a CommonJS optimization bailout');
   }
 
-  console.log('angular-package-smoke-test: packed package production build passed');
+  console.log(
+    'angular-package-smoke-test: Node ESM, NodeNext, Vitest, and Angular production consumers passed',
+  );
 } finally {
   if (keepTemp) {
     console.log(`angular-package-smoke-test: retained temporary workspace at ${tempRoot}`);

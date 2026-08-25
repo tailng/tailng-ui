@@ -1,6 +1,5 @@
 
-import { createSelectionModel } from '../../collections/selection-model/selection-model';
-import type { TngSelectionMode } from '../../collections/selection-model/selection-model.types';
+import { createSelectionModel, type TngSelectionMode } from '@tailng-ui/cdk/collections';
 import { createActiveDescendantController } from '../active-descendant/active-descendant';
 import type { TngActiveDescendantController } from '../active-descendant/active-descendant.types';
 

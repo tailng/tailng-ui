@@ -1,13 +1,13 @@
 import type { EnvironmentProviders } from '@angular/core';
-import { lucidePackLoaders } from './icon-loaders.generated';
 import {
-  configureTngDefaultIconConfigFactory,
-  provideResolvedTngIcons,
-  resolveTngIconConfigFromPacks,
   type TngIconPack,
   type TngIconPackLoaders,
   type TngResolvedIconConfig,
-} from './icons.core';
+  ɵconfigureTngDefaultIconConfigFactory,
+  ɵprovideResolvedTngIcons,
+  ɵresolveTngIconConfigFromPacks,
+} from '@tailng-ui/icons/core';
+import { lucidePackLoaders } from './icon-loaders.generated';
 
 export {
   TNG_DEFAULT_ICON_PACK,
@@ -16,7 +16,7 @@ export {
   TngIconResolver,
   createTngIconPack,
   parseTngIconRef,
-} from './icons.core';
+} from '@tailng-ui/icons/core';
 
 export type {
   TngIconDefinition,
@@ -27,7 +27,7 @@ export type {
   TngIconSvg,
   TngParsedIconRef,
   TngResolvedIconConfig,
-} from './icons.core';
+} from '@tailng-ui/icons/core';
 
 export type TngProvideIconsOptions = Readonly<{
   allowBuiltinOverride?: boolean;
@@ -44,7 +44,7 @@ export const TNG_BUILTIN_ICON_PACK_NAMES: readonly string[] = Object.freeze(
 );
 
 export function resolveTngIconConfig(options: TngProvideIconsOptions = {}): TngResolvedIconConfig {
-  return resolveTngIconConfigFromPacks({
+  return ɵresolveTngIconConfigFromPacks({
     allowReservedPackOverride: options.allowBuiltinOverride === true,
     basePacks: TNG_BUILTIN_ICON_PACKS,
     defaultPack: options.defaultPack,
@@ -54,7 +54,7 @@ export function resolveTngIconConfig(options: TngProvideIconsOptions = {}): TngR
 }
 
 export function provideTngIcons(options?: TngProvideIconsOptions): EnvironmentProviders {
-  return provideResolvedTngIcons(resolveTngIconConfig(options));
+  return ɵprovideResolvedTngIcons(resolveTngIconConfig(options));
 }
 
-configureTngDefaultIconConfigFactory(() => resolveTngIconConfig());
+ɵconfigureTngDefaultIconConfigFactory(() => resolveTngIconConfig());

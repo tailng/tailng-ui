@@ -16,10 +16,12 @@
     "baseUrl": ".",
     "paths": {
       "@tailng-ui/cdk": ["libs/tailng-ui/cdk/src/index.ts"],
+      "@tailng-ui/cdk/adapters": ["libs/tailng-ui/cdk/src/adapters/index.ts"],
       "@tailng-ui/cdk/a11y": ["libs/tailng-ui/cdk/src/a11y/index.ts"],
       "@tailng-ui/cdk/collections": ["libs/tailng-ui/cdk/src/collections/index.ts"],
       "@tailng-ui/cdk/core": ["libs/tailng-ui/cdk/src/core/index.ts"],
       "@tailng-ui/cdk/overlay": ["libs/tailng-ui/cdk/src/overlay/index.ts"],
+      "@tailng-ui/cdk/runtime": ["libs/tailng-ui/cdk/src/overlay/runtime/index.ts"],
       "@tailng-ui/charts": ["libs/tailng-ui/charts/src/index.ts"],
       "@tailng-ui/components": ["libs/tailng-ui/components/src/index.ts"],
       "@tailng-ui/flow": ["libs/tailng-ui/flow/src/index.ts"],

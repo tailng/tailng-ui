@@ -14,12 +14,13 @@
   "tags": ["scope:tailng", "type:flow"],
   "targets": {
     "build": {
-      "executor": "nx:run-commands",
+      "executor": "@nx/angular:package",
       "cache": true,
       "dependsOn": ["^build"],
       "outputs": ["{workspaceRoot}/dist/libs/tailng-ui/flow"],
       "options": {
-        "command": "node tools/build/build-flow.mjs"
+        "project": "libs/tailng-ui/flow/ng-package.json",
+        "tsConfig": "libs/tailng-ui/flow/tsconfig.lib.prod.json"
       }
     },
     "nx-release-publish": {
