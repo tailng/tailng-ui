@@ -22,8 +22,22 @@ export const COMPONENTS_ROUTES: Routes = [
         loadChildren: () => import('./form/routes').then((m) => m.COMPONENTS_FORM_ROUTES),
       },
       {
+        path: 'layout/flow-editor',
+        pathMatch: 'full',
+        redirectTo: 'flow-editor/overview',
+      },
+      {
+        path: 'layout/flow-editor/:section',
+        redirectTo: 'flow-editor/:section',
+      },
+      {
         path: 'layout',
         loadChildren: () => import('./layout/routes').then((m) => m.COMPONENTS_LAYOUT_ROUTES),
+      },
+      {
+        path: 'flow-editor',
+        loadChildren: () =>
+          import('./flow-editor/routes').then((m) => m.COMPONENTS_FLOW_EDITOR_ROUTES),
       },
       {
         path: 'overlay',

@@ -1,7 +1,11 @@
 <link rel="stylesheet" href="/flow-editor/styles.css" />
 
 <section class="docs-component-page">
-  <app-docs-component-section-tabs sectionName="Flow Editor" [value]="activeSection()" />
+  <app-docs-component-section-tabs
+    sectionName="Flow Editor"
+    [tabs]="tabs"
+    [value]="activeSection()"
+  />
 
   <section class="docs-component-content">
     <div class="docs-component-content-main" #docsContentRoot>

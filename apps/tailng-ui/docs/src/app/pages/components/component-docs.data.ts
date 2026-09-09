@@ -1,6 +1,7 @@
 export type ComponentsDocsCategoryId =
   | 'getting-started'
   | 'layout'
+  | 'flow-editor'
   | 'overlay'
   | 'feedback'
   | 'form'
@@ -247,7 +248,7 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
 export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
   id: 'layout',
   title: 'Layout',
-  subtitle: 'Workflow and structural layout components',
+  subtitle: 'Structural layout components',
   items: [
     {
       id: 'card',
@@ -287,13 +288,6 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
         'Resizable horizontal and vertical panes with controlled sizes, collapse states, and accessible handles.',
     },
     {
-      id: 'flow-editor',
-      slug: 'flow-editor',
-      title: 'Flow Editor',
-      description:
-        'Embeddable, controlled node editor for AI agents, automations, and executable workflows.',
-    },
-    {
       id: 'drawer',
       slug: 'drawer',
       title: 'Drawer',
@@ -311,6 +305,44 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
       title: 'Tree Table',
       description:
         'Hierarchical treegrid table with expand/collapse rows, selection, keyboard navigation, and accessible aria attributes.',
+    },
+  ],
+};
+
+export const COMPONENTS_FLOW_EDITOR_GROUP: ComponentsDocsGroup = {
+  id: 'flow-editor',
+  title: 'Flow Editor',
+  subtitle: 'Node editing and workflow authoring',
+  items: [
+    {
+      id: 'overview',
+      slug: 'overview',
+      title: 'Overview',
+      description: 'Install Flow Editor and build a controlled workflow canvas.',
+    },
+    {
+      id: 'api',
+      slug: 'api',
+      title: 'API',
+      description: 'Inputs, outputs, graph models, templates, commands, and validation contracts.',
+    },
+    {
+      id: 'layout-dagre',
+      slug: 'layout-dagre',
+      title: 'Dagre Layout',
+      description: 'Add optional automatic graph layout through the official Dagre adapter.',
+    },
+    {
+      id: 'styling',
+      slug: 'styling',
+      title: 'Styling',
+      description: 'Required styles, host sizing, CSS variables, and custom node content.',
+    },
+    {
+      id: 'examples',
+      slug: 'examples',
+      title: 'Examples',
+      description: 'Production-oriented workflow, routing, selection, and execution examples.',
     },
   ],
 };
@@ -503,6 +535,7 @@ export const COMPONENTS_DOCS_GROUPS: readonly ComponentsDocsGroup[] = Object.fre
   COMPONENTS_GETTING_STARTED_GROUP,
   withAlphabetizedItems(COMPONENTS_FORM_GROUP),
   withAlphabetizedItems(COMPONENTS_LAYOUT_GROUP),
+  COMPONENTS_FLOW_EDITOR_GROUP,
   withAlphabetizedItems(COMPONENTS_NAVIGATION_GROUP),
   withAlphabetizedItems(COMPONENTS_OVERLAY_GROUP),
   withAlphabetizedItems(COMPONENTS_FEEDBACK_GROUP),

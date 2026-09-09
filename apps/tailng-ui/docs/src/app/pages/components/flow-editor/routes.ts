@@ -1,16 +1,24 @@
 import type { Routes } from '@angular/router';
-import { COMPONENTS_LAYOUT_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
+import {
+  COMPONENTS_FLOW_EDITOR_GROUP,
+  toComponentsDocsRouteData,
+  type ComponentsDocsItem,
+} from '../component-docs.data';
 
-const group = COMPONENTS_LAYOUT_GROUP;
-const flowEditorItem = group.items.find((item) => item.slug === 'flow-editor');
-if (flowEditorItem === undefined) {
-  throw new Error('Missing "flow-editor" in components layout docs group.');
+const group = COMPONENTS_FLOW_EDITOR_GROUP;
+const items = Object.fromEntries(group.items.map((item) => [item.slug, item]));
+
+function item(slug: string): ComponentsDocsItem {
+  const docsItem = items[slug];
+  if (docsItem === undefined) {
+    throw new Error(`Missing "${slug}" in Flow Editor docs group.`);
+  }
+  return docsItem;
 }
 
-export const COMPONENTS_LAYOUT_FLOW_EDITOR_ROUTES: Routes = [
+export const COMPONENTS_FLOW_EDITOR_ROUTES: Routes = [
   {
     path: '',
-    data: toComponentsDocsRouteData(group, flowEditorItem),
     loadComponent: () =>
       import('./flow-editor-page.component').then((module) => module.FlowEditorPageComponent),
     children: [
@@ -21,6 +29,7 @@ export const COMPONENTS_LAYOUT_FLOW_EDITOR_ROUTES: Routes = [
       },
       {
         path: 'overview',
+        data: toComponentsDocsRouteData(group, item('overview')),
         loadComponent: () =>
           import('./sections/overview/flow-editor-overview-page.component').then(
             (module) => module.FlowEditorOverviewPageComponent,
@@ -28,13 +37,23 @@ export const COMPONENTS_LAYOUT_FLOW_EDITOR_ROUTES: Routes = [
       },
       {
         path: 'api',
+        data: toComponentsDocsRouteData(group, item('api')),
         loadComponent: () =>
           import('./sections/api/flow-editor-api-page.component').then(
             (module) => module.FlowEditorApiPageComponent,
           ),
       },
       {
+        path: 'layout-dagre',
+        data: toComponentsDocsRouteData(group, item('layout-dagre')),
+        loadComponent: () =>
+          import('./sections/layout-dagre/flow-editor-layout-dagre-page.component').then(
+            (module) => module.FlowEditorLayoutDagrePageComponent,
+          ),
+      },
+      {
         path: 'styling',
+        data: toComponentsDocsRouteData(group, item('styling')),
         loadComponent: () =>
           import('./sections/styling/flow-editor-styling-page.component').then(
             (module) => module.FlowEditorStylingPageComponent,
@@ -42,6 +61,7 @@ export const COMPONENTS_LAYOUT_FLOW_EDITOR_ROUTES: Routes = [
       },
       {
         path: 'examples',
+        data: toComponentsDocsRouteData(group, item('examples')),
         loadComponent: () =>
           import(
             './sections/examples/flow-editor-examples-page/flow-editor-examples-page.component'

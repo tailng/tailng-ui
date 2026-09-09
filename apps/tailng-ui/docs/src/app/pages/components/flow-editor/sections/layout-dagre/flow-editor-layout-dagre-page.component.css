@@ -1,0 +1,83 @@
+.flow-editor-layout-dagre__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.75rem;
+  margin-block: 1rem;
+}
+
+.flow-editor-layout-dagre__toolbar label {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 11rem;
+  color: var(--tng-fg-secondary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.flow-editor-layout-dagre__toolbar select {
+  min-height: 2.25rem;
+  border: 1px solid var(--tng-border-subtle);
+  border-radius: 0.5rem;
+  background: var(--tng-bg-surface);
+  color: var(--tng-fg-primary);
+  padding-inline: 0.65rem;
+}
+
+.flow-editor-layout-dagre__status {
+  align-self: center;
+  color: var(--tng-fg-secondary);
+  font-size: 0.875rem;
+}
+
+.flow-editor-layout-dagre__canvas {
+  display: block;
+  height: 32rem;
+  min-height: 26rem;
+  overflow: hidden;
+  border: 1px solid var(--tng-border-subtle);
+  border-radius: 0.75rem;
+}
+
+.flow-editor-layout-dagre__code-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.flow-editor-layout-dagre__table-wrap {
+  overflow-x: auto;
+}
+
+.flow-editor-layout-dagre table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.flow-editor-layout-dagre th,
+.flow-editor-layout-dagre td {
+  border-bottom: 1px solid var(--tng-border-subtle);
+  padding: 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.flow-editor-layout-dagre th {
+  color: var(--tng-fg-primary);
+  font-size: 0.8125rem;
+}
+
+.flow-editor-layout-dagre td {
+  color: var(--tng-fg-secondary);
+}
+
+@media (max-width: 860px) {
+  .flow-editor-layout-dagre__code-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-editor-layout-dagre__canvas {
+    height: 28rem;
+  }
+}

@@ -637,6 +637,11 @@
 /components/feedback/toast/overview
 /components/feedback/toast/ownable-install
 /components/feedback/toast/styling
+/components/flow-editor/api
+/components/flow-editor/examples
+/components/flow-editor/layout-dagre
+/components/flow-editor/overview
+/components/flow-editor/styling
 /components/form/autocomplete
 /components/form/autocomplete/api
 /components/form/autocomplete/examples
@@ -804,11 +809,6 @@
 /components/layout/drawer/overview
 /components/layout/drawer/ownable-install
 /components/layout/drawer/styling
-/components/layout/flow-editor
-/components/layout/flow-editor/api
-/components/layout/flow-editor/examples
-/components/layout/flow-editor/overview
-/components/layout/flow-editor/styling
 /components/layout/separator
 /components/layout/separator/api
 /components/layout/separator/examples

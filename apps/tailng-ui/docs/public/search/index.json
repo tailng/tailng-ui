@@ -8385,6 +8385,72 @@
     ]
   },
   {
+    "title": "Flow Editor API",
+    "description": "Inputs, outputs, graph models, template context, methods, and validation for Flow Editor.",
+    "section": "Components / Flow Editor",
+    "url": "/components/flow-editor/api",
+    "tags": [
+      "components",
+      "flow-editor",
+      "api",
+      "workflow",
+      "agent"
+    ]
+  },
+  {
+    "title": "Flow Editor Examples",
+    "description": "Production-oriented workflow, routing, selection, and execution examples for Flow Editor.",
+    "section": "Components / Flow Editor",
+    "url": "/components/flow-editor/examples",
+    "tags": [
+      "components",
+      "flow-editor",
+      "examples",
+      "workflow",
+      "agent"
+    ]
+  },
+  {
+    "title": "Dagre Layout for Flow Editor",
+    "description": "Install and use the optional Dagre adapter for controlled automatic workflow layout.",
+    "section": "Components / Flow Editor",
+    "url": "/components/flow-editor/layout-dagre",
+    "tags": [
+      "components",
+      "flow-editor",
+      "layout-dagre",
+      "dagre",
+      "automatic-layout",
+      "workflow"
+    ]
+  },
+  {
+    "title": "Flow Editor Overview",
+    "description": "Install Flow Editor and build a controlled node canvas for agents, automations, and workflows.",
+    "section": "Components / Flow Editor",
+    "url": "/components/flow-editor/overview",
+    "tags": [
+      "components",
+      "flow-editor",
+      "overview",
+      "workflow",
+      "agent",
+      "automation"
+    ]
+  },
+  {
+    "title": "Flow Editor Styling",
+    "description": "Required styles, sizing, CSS custom properties, and custom node content for Flow Editor.",
+    "section": "Components / Flow Editor",
+    "url": "/components/flow-editor/styling",
+    "tags": [
+      "components",
+      "flow-editor",
+      "styling",
+      "workflow"
+    ]
+  },
+  {
     "title": "AutoComplete",
     "description": "Single-value autocomplete patterns and filtering behavior.",
     "section": "Components / Form",
@@ -10432,77 +10498,6 @@
       "components",
       "layout",
       "drawer",
-      "styling"
-    ]
-  },
-  {
-    "title": "Flow Editor",
-    "description": "Embeddable, controlled node editor for AI agents, automations, and executable workflows.",
-    "section": "Components / Layout",
-    "url": "/components/layout/flow-editor",
-    "tags": [
-      "components",
-      "layout",
-      "flow-editor",
-      "ai",
-      "agent",
-      "workflow"
-    ]
-  },
-  {
-    "title": "Flow Editor API",
-    "description": "Inputs, outputs, graph models, template context, methods, and validation for the Flow Editor.",
-    "section": "Components / Layout",
-    "url": "/components/layout/flow-editor/api",
-    "tags": [
-      "components",
-      "layout",
-      "flow-editor",
-      "ai",
-      "agent",
-      "workflow",
-      "api"
-    ]
-  },
-  {
-    "title": "Flow Editor Examples",
-    "description": "Custom node templates and read-only execution monitoring with the Flow Editor.",
-    "section": "Components / Layout",
-    "url": "/components/layout/flow-editor/examples",
-    "tags": [
-      "components",
-      "layout",
-      "flow-editor",
-      "ai",
-      "agent",
-      "workflow",
-      "examples"
-    ]
-  },
-  {
-    "title": "Flow Editor Overview",
-    "description": "Flow Editor Overview documentation.",
-    "section": "Components / Layout / Flow Editor",
-    "url": "/components/layout/flow-editor/overview",
-    "tags": [
-      "components",
-      "layout",
-      "flow-editor",
-      "overview"
-    ]
-  },
-  {
-    "title": "Flow Editor Styling",
-    "description": "Required styles, sizing, CSS custom properties, and custom node content for the Flow Editor.",
-    "section": "Components / Layout",
-    "url": "/components/layout/flow-editor/styling",
-    "tags": [
-      "components",
-      "layout",
-      "flow-editor",
-      "ai",
-      "agent",
-      "workflow",
       "styling"
     ]
   },

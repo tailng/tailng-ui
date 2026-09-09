@@ -3,6 +3,7 @@ import type { DocsSectionRailItem } from '../section-rail/docs-section-rail.comp
 export type DocsComponentTopLevelSectionId =
   | 'overview'
   | 'api'
+  | 'layout-dagre'
   | 'styling'
   | 'examples'
   | 'ownable-install';
@@ -208,6 +209,13 @@ export const docsComponentOutlineItemsBySlug: Readonly<
       { id: 'template-context', label: 'Node template context' },
       { id: 'imperative-methods', label: 'Imperative methods' },
       { id: 'validation', label: 'Validation' },
+    ],
+    'layout-dagre': [
+      { id: 'install-and-import', label: 'Install and import' },
+      { id: 'configure-engine', label: 'Configure the engine' },
+      { id: 'controlled-layout', label: 'Controlled layout demo' },
+      { id: 'layout-options', label: 'Layout options' },
+      { id: 'adapter-api', label: 'Adapter API' },
     ],
     styling: [
       { id: 'required-styles', label: 'Required styles' },
@@ -1311,6 +1319,8 @@ export function getDocsComponentSectionOutlineTitle(
   switch (section) {
     case 'api':
       return 'API content';
+    case 'layout-dagre':
+      return 'Dagre layout content';
     case 'styling':
       return 'Styling content';
     case 'examples':

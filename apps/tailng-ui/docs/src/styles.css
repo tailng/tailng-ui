@@ -2,7 +2,7 @@
 @layer tw.preflight, components, tng.tokens, tng.contracts, tng.app, utilities;
 
 @import "./tailwind-preflight.layer.css";
-@import "./app/pages/components/layout/flow-editor/sections/examples/professional-flow-builder-demo/professional-flow-builder-demo.global.css";
+@import "./app/pages/components/flow-editor/sections/examples/professional-flow-builder-demo/professional-flow-builder-demo.global.css";
 @tailwind components;
 @tailwind utilities;
 

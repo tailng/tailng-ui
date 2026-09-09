@@ -1,20 +1,24 @@
-import { computed, Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, map, startWith } from 'rxjs/operators';
-import { DocsComponentSectionTabsComponent } from '../../../../shared/component-section-tabs/docs-component-section-tabs.component';
+import {
+  DocsComponentSectionTabsComponent,
+  type DocsComponentSectionTab,
+} from '../../../shared/component-section-tabs/docs-component-section-tabs.component';
 import {
   getDocsComponentSectionOutlineAriaLabel,
   getDocsComponentSectionOutlineItems,
   getDocsComponentSectionOutlineTitle,
-} from '../../../../shared/section-outline/component-section-outline.data';
-import { DocsComponentSectionOutlineComponent } from '../../../../shared/section-outline/docs-component-section-outline.component';
+} from '../../../shared/section-outline/component-section-outline.data';
+import { DocsComponentSectionOutlineComponent } from '../../../shared/section-outline/docs-component-section-outline.component';
 
-type FlowEditorDocSectionId = 'api' | 'examples' | 'overview' | 'styling';
+type FlowEditorDocSectionId = 'api' | 'examples' | 'layout-dagre' | 'overview' | 'styling';
 
 const flowEditorDocSectionIds: readonly FlowEditorDocSectionId[] = [
   'overview',
   'api',
+  'layout-dagre',
   'styling',
   'examples',
 ];
@@ -29,7 +33,6 @@ function isFlowEditorDocSectionId(value: string): value is FlowEditorDocSectionI
   templateUrl: './flow-editor-page.component.html',
 })
 export class FlowEditorPageComponent {
-  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly currentUrl = toSignal(
     this.router.events.pipe(
@@ -39,28 +42,29 @@ export class FlowEditorPageComponent {
     ),
     { initialValue: this.router.url },
   );
-  private readonly docsItem = this.route.snapshot.data['item'] as
-    | { slug?: string; title?: string }
-    | undefined;
+  public readonly tabs: readonly DocsComponentSectionTab[] = [
+    { value: 'overview', label: 'Overview' },
+    { value: 'api', label: 'API' },
+    { value: 'layout-dagre', label: 'Dagre Layout' },
+    { value: 'styling', label: 'Styling' },
+    { value: 'examples', label: 'Examples' },
+  ];
 
   public readonly activeSection = computed<FlowEditorDocSectionId>(() => {
     const segments = this.normalizeUrl(this.currentUrl())
       .split('/')
       .filter((segment) => segment.length > 0);
-    const section = segments[3];
+    const section = segments[segments.length - 1];
     return section !== undefined && isFlowEditorDocSectionId(section) ? section : 'overview';
   });
   public readonly outlineItems = computed(() =>
-    getDocsComponentSectionOutlineItems(this.docsItem?.slug ?? '', this.activeSection()),
+    getDocsComponentSectionOutlineItems('flow-editor', this.activeSection()),
   );
   public readonly outlineTitle = computed(() =>
     getDocsComponentSectionOutlineTitle(this.activeSection()),
   );
   public readonly outlineAriaLabel = computed(() =>
-    getDocsComponentSectionOutlineAriaLabel(
-      this.docsItem?.title ?? 'Flow Editor',
-      this.activeSection(),
-    ),
+    getDocsComponentSectionOutlineAriaLabel('Flow Editor', this.activeSection()),
   );
 
   private normalizeUrl(rawUrl: string): string {
