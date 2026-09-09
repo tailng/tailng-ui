@@ -466,6 +466,7 @@ export class HeadlessAutocompleteStylingPageComponent implements OnDestroy {
     { selector: '[data-slot="autocomplete-trigger"]', details: 'Native input. Keep it visually quiet so the shell owns the focus treatment.' },
     { selector: '[data-slot="autocomplete-icon"]', details: 'Optional icon or affordance slot beside the trigger.' },
     { selector: '[data-slot="autocomplete-overlay"]', details: 'Portaled overlay surface. Style it directly because it moves to document.body.' },
+    { selector: '--tng-autocomplete-z-overlay', details: 'Controls the portaled overlay stacking level; falls back to --tng-z-overlay.' },
     { selector: '[data-slot="autocomplete-listbox"]', details: 'Listbox stack inside the overlay.' },
     { selector: '[data-slot="autocomplete-option"]', details: 'Interactive option rows. Read active/selected/disabled state attributes here.' },
     { selector: '[data-slot="autocomplete-empty"]', details: 'Reserved empty-state slot for no results.' },

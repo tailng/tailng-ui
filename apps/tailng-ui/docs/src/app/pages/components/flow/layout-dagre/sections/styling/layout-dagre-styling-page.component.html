@@ -1,0 +1,69 @@
+<article class="docs-section-page">
+  <section class="docs-overview-block">
+    <h2 class="docs-overview-title">Dagre Layout styling</h2>
+    <p class="docs-overview-lead">
+      Dagre calculates geometry and renders no UI. Style and size the Flow Editor canvas and node
+      templates that supply the measured layout bounds.
+    </p>
+  </section>
+
+  <section id="required-styles" class="docs-overview-block">
+    <h3>Required styles</h3>
+    <p>
+      The adapter has no CSS entry point. Import the Flow Editor stylesheet once in the application
+      global stylesheet.
+    </p>
+    <tng-code-block
+      [code]="requiredStylesCode"
+      adapter="shiki"
+      language="css"
+      title="styles.css"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
+  </section>
+
+  <section id="host-sizing" class="docs-overview-block">
+    <h3>Host sizing</h3>
+    <p>
+      Give the editor a stable nonzero height. Dagre uses the bounds measured from the rendered
+      canvas, so a collapsed host cannot produce a useful layout.
+    </p>
+    <tng-code-block
+      [code]="sizingCode"
+      adapter="shiki"
+      language="css"
+      title="workflow-editor.component.css"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
+  </section>
+
+  <section id="measured-nodes" class="docs-overview-block">
+    <h3>Measured custom nodes</h3>
+    <p>
+      Dagre receives the actual rendered width and height of every node. Keep custom node dimensions
+      deterministic and let long content wrap so repeated layout requests remain visually stable.
+    </p>
+    <tng-code-block
+      [code]="nodeSizingCode"
+      adapter="shiki"
+      language="css"
+      title="Stable custom-node bounds"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
+  </section>
+
+  <section id="viewport-effects" class="docs-overview-block">
+    <h3>Viewport effects</h3>
+    <p>
+      Layout spacing values use canvas coordinates. The optional viewport fit changes only the
+      camera after your application renders the requested positions; it does not change the Dagre
+      geometry or node styles.
+    </p>
+  </section>
+</article>

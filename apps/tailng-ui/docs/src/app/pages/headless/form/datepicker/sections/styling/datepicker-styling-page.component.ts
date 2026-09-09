@@ -20,6 +20,7 @@ export class HeadlessDatepickerStylingPageComponent {
     '  --tng-datepicker-day-cell-size: 2.2rem;',
     '  --tng-datepicker-picker-cell-size: 2.3rem;',
     '  --tng-datepicker-nav-size: 1.95rem;',
+    '  --tng-datepicker-z-overlay: 80;',
     '  --tng-datepicker-bg: #ffffff;',
     '  --tng-datepicker-surface: #f8fafc;',
     '  --tng-datepicker-canvas: #ffffff;',

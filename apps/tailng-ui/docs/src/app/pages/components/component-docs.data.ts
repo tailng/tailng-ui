@@ -1,7 +1,7 @@
 export type ComponentsDocsCategoryId =
   | 'getting-started'
   | 'layout'
-  | 'flow-editor'
+  | 'flow'
   | 'overlay'
   | 'feedback'
   | 'form'
@@ -309,40 +309,22 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
   ],
 };
 
-export const COMPONENTS_FLOW_EDITOR_GROUP: ComponentsDocsGroup = {
-  id: 'flow-editor',
-  title: 'Flow Editor',
-  subtitle: 'Node editing and workflow authoring',
+export const COMPONENTS_FLOW_GROUP: ComponentsDocsGroup = {
+  id: 'flow',
+  title: 'Flow',
+  subtitle: 'Node editing and automatic workflow layout',
   items: [
     {
-      id: 'overview',
-      slug: 'overview',
-      title: 'Overview',
-      description: 'Install Flow Editor and build a controlled workflow canvas.',
-    },
-    {
-      id: 'api',
-      slug: 'api',
-      title: 'API',
-      description: 'Inputs, outputs, graph models, templates, commands, and validation contracts.',
+      id: 'flow-editor',
+      slug: 'flow-editor',
+      title: 'Flow Editor',
+      description: 'Build controlled, interactive workflow canvases with custom nodes and edges.',
     },
     {
       id: 'layout-dagre',
       slug: 'layout-dagre',
       title: 'Dagre Layout',
       description: 'Add optional automatic graph layout through the official Dagre adapter.',
-    },
-    {
-      id: 'styling',
-      slug: 'styling',
-      title: 'Styling',
-      description: 'Required styles, host sizing, CSS variables, and custom node content.',
-    },
-    {
-      id: 'examples',
-      slug: 'examples',
-      title: 'Examples',
-      description: 'Production-oriented workflow, routing, selection, and execution examples.',
     },
   ],
 };
@@ -535,7 +517,7 @@ export const COMPONENTS_DOCS_GROUPS: readonly ComponentsDocsGroup[] = Object.fre
   COMPONENTS_GETTING_STARTED_GROUP,
   withAlphabetizedItems(COMPONENTS_FORM_GROUP),
   withAlphabetizedItems(COMPONENTS_LAYOUT_GROUP),
-  COMPONENTS_FLOW_EDITOR_GROUP,
+  COMPONENTS_FLOW_GROUP,
   withAlphabetizedItems(COMPONENTS_NAVIGATION_GROUP),
   withAlphabetizedItems(COMPONENTS_OVERLAY_GROUP),
   withAlphabetizedItems(COMPONENTS_FEEDBACK_GROUP),

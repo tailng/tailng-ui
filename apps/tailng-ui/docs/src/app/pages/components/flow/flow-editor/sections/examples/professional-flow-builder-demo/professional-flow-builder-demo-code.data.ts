@@ -1,4 +1,4 @@
-import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+import type { DocsExampleCodeTab } from '../../../../../../../shared/example-panel/docs-example-panel.component';
 
 const componentCode = `import { Component, signal } from '@angular/core';
 import {

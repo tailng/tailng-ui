@@ -226,7 +226,7 @@ describe('tng-select overlay primitive', () => {
     expect(overlay.style.getPropertyValue('--tng-select-brand').trim()).toBe('#2563eb');
     expect(overlay.style.getPropertyValue('--tng-select-z-overlay').trim()).toBe('2');
     expect(overlay.style.zIndex).toBe(
-      'var(--tng-select-z-overlay, var(--tng-select-overlay-z-index, var(--tng-z-overlay, 2)))',
+      'var(--tng-select-z-overlay, var(--tng-z-overlay, 2))',
     );
     expect(overlay.style.getPropertyValue('--tng-semantic-background-surface').trim()).toBe(
       '#f8fafc',

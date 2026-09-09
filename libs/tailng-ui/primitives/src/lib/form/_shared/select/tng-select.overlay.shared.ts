@@ -55,7 +55,6 @@ const PORTALLED_SELECT_THEME_VARS = [
   '--tng-select-overlay-shadow',
   '--tng-select-overlay-max-width',
   '--tng-select-z-overlay',
-  '--tng-select-overlay-z-index',
   '--tng-z-overlay',
   '--tng-select-overlay-border',
   '--tng-select-overlay-bg',
@@ -444,7 +443,7 @@ export class TngSelectOverlay {
 
   private applyPortalledStacking(): void {
     this.elRef.nativeElement.style.zIndex =
-      'var(--tng-select-z-overlay, var(--tng-select-overlay-z-index, var(--tng-z-overlay, 2)))';
+      'var(--tng-select-z-overlay, var(--tng-z-overlay, 2))';
   }
 
   private clearPortalledThemeVars(): void {

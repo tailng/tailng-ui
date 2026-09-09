@@ -193,6 +193,7 @@ const PLAIN_CSS_CODE = String.raw`.docs-component-select-styling-plain-shell {
   --tng-select-overlay-max-width: min(92vw, 36rem);
   --tng-select-overlay-radius: 1rem;
   --tng-select-overlay-padding: 0.4rem;
+  --tng-select-z-overlay: 80;
   --tng-select-overlay-shadow: 0 18px 38px rgba(15, 23, 42, 0.14);
 }`;
 
@@ -317,6 +318,11 @@ export class SelectStylingPageComponent implements OnDestroy {
       selector: '<tng-select> + --tng-select-*',
       appliedOn: 'Wrapper host',
       purpose: 'Stable surface for trigger, option, and overlay theming through copied host tokens.',
+    },
+    {
+      selector: '--tng-select-z-overlay',
+      appliedOn: 'Wrapper host',
+      purpose: 'Controls the portaled overlay stacking level; falls back to --tng-z-overlay.',
     },
     {
       selector: '--tng-semantic-*',

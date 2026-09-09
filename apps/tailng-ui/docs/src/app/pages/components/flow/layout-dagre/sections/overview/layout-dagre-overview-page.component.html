@@ -1,0 +1,75 @@
+<article class="docs-section-page">
+  <section id="install" class="docs-overview-block">
+    <h2 class="docs-overview-title">Dagre automatic layout</h2>
+    <p class="docs-overview-lead">
+      Add layered graph arrangement to Flow Editor without coupling the core editor to a particular
+      layout algorithm.
+    </p>
+    <h3>Install</h3>
+    <p>
+      Install Dagre alongside <code>&#64;tailng-ui/flow</code>. Dagre is an optional peer
+      dependency, so applications that do not use this adapter do not need it.
+    </p>
+    <tng-code-block
+      [code]="installCode"
+      adapter="shiki"
+      language="bash"
+      title="Install the optional adapter"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
+  </section>
+
+  <section id="secondary-entry" class="docs-overview-block">
+    <h3>Optional secondary entry point</h3>
+    <p>
+      Import the adapter from <code>&#64;tailng-ui/flow/layout-dagre</code>. The primary
+      <code>&#64;tailng-ui/flow</code> entry point remains the stable home for Flow Editor and its
+      engine-neutral layout contracts.
+    </p>
+  </section>
+
+  <section id="configure-engine" class="docs-overview-block">
+    <h3>Configure an engine</h3>
+    <p>
+      Register the immutable shared engine at application bootstrap when every editor should use
+      Dagre.
+    </p>
+    <tng-code-block
+      [code]="providerCode"
+      adapter="shiki"
+      language="typescript"
+      title="app.config.ts"
+      [lineNumbers]="true"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
+    <p>
+      For per-editor generics or different engine choices, create an instance and pass it through
+      the editor's <code>layoutEngine</code> input.
+    </p>
+    <tng-code-block
+      [code]="editorCode"
+      adapter="shiki"
+      language="typescript"
+      title="Per-editor engine"
+      [lineNumbers]="true"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
+  </section>
+
+  <section id="controlled-contract" class="docs-overview-block">
+    <h3>Controlled layout contract</h3>
+    <p>
+      Calling <code>requestAutoLayout()</code> measures the rendered graph and asks Dagre for new
+      coordinates. Flow Editor then emits <code>nodesLayoutRequested</code>; your application owns
+      the immutable update that writes those positions back to the workflow.
+    </p>
+    <p>
+      This keeps automatic layout undoable, persistable, and compatible with external state stores.
+      A requested viewport fit runs only after the controlled positions have rendered.
+    </p>
+  </section>
+</article>

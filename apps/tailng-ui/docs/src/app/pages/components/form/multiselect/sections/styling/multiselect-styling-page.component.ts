@@ -41,6 +41,7 @@ const HOST_TOKEN_GUIDANCE_CODE = String.raw`.docs-component-multiselect-styling-
   --tng-select-trigger-px: 0.875rem;
   --tng-select-option-py: 0.625rem;
   --tng-select-option-px: 0.875rem;
+  --tng-select-z-overlay: 80;
   --tng-select-brand: #0f766e;
   --tng-select-focus-ring: #0f766e;
 }
@@ -298,6 +299,11 @@ export class MultiselectStylingPageComponent implements OnDestroy {
       selector: '.docs-component-multiselect-styling-shell + --tng-select-*',
       appliedOn: 'Wrapper host',
       purpose: 'Stable surface for trigger, option, and overlay theming through copied host tokens.',
+    },
+    {
+      selector: '--tng-select-z-overlay',
+      appliedOn: 'Wrapper host',
+      purpose: 'Controls the shared select overlay stacking level; falls back to --tng-z-overlay.',
     },
     {
       selector: '--tng-semantic-*',

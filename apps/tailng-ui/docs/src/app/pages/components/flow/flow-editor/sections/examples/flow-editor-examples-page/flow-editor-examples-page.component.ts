@@ -44,11 +44,11 @@ import {
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
-} from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+} from '../../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
 import {
   observeDocsCodeThemeChanges,
   resolveDocsCodeBlockTheme,
-} from '../../../../../../shared/util';
+} from '../../../../../../../shared/util';
 import {
   applyFlowNodeMoves,
   flowEditorDemoConnections,

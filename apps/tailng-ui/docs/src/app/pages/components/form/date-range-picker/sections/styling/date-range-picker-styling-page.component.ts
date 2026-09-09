@@ -44,6 +44,7 @@ export class DateRangePickerStylingPageComponent implements OnDestroy {
     '  --tng-date-range-picker-grid-gap: clamp(0.12rem, 1.15%, 0.28rem);',
     '  --tng-date-range-picker-day-cell-size: 2.15rem;',
     '  --tng-date-range-picker-picker-cell-size: 2.25rem;',
+    '  --tng-date-range-picker-z-overlay: 80;',
     '  --tng-date-range-picker-brand: var(--tng-semantic-accent-brand);',
     '  --tng-date-range-picker-focus: var(--tng-semantic-focus-ring);',
     '}',

@@ -93,7 +93,7 @@ describe('tng-multi-select overlay (shared overlay)', () => {
     expect(overlay.hasAttribute('hidden')).toBe(false);
     expect(overlay.style.getPropertyValue('--tng-select-z-overlay').trim()).toBe('2');
     expect(overlay.style.zIndex).toBe(
-      'var(--tng-select-z-overlay, var(--tng-select-overlay-z-index, var(--tng-z-overlay, 2)))',
+      'var(--tng-select-z-overlay, var(--tng-z-overlay, 2))',
     );
 
     host.open.set(false);

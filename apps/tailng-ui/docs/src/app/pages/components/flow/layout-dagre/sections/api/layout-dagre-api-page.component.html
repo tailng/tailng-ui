@@ -1,0 +1,156 @@
+<article class="docs-section-page">
+  <section class="docs-overview-block">
+    <h2 class="docs-overview-title">Dagre Layout API</h2>
+    <p class="docs-overview-lead">
+      The secondary entry point supplies the Dagre engine. Engine-neutral types, configuration, and
+      editor integration remain part of <code>&#64;tailng-ui/flow</code>.
+    </p>
+  </section>
+
+  <section id="adapter-exports" class="docs-overview-block">
+    <h3>Adapter exports</h3>
+    <div class="docs-api-table-wrap">
+      <table class="docs-api-table">
+        <thead>
+          <tr>
+            <th>Export</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>TNG_FLOW_DAGRE_LAYOUT_ENGINE</code></td>
+            <td>Shared immutable Dagre engine for provider or input configuration.</td>
+          </tr>
+          <tr>
+            <td>
+              <code>createTngFlowDagreLayoutEngine&lt;TNodeData, TConnectionData&gt;()</code>
+            </td>
+            <td>Creates a typed engine instance without exposing Dagre-specific graph types.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="engine-contract" class="docs-overview-block">
+    <h3>Engine contract</h3>
+    <div class="docs-api-table-wrap">
+      <table class="docs-api-table">
+        <thead>
+          <tr>
+            <th>Primary entry-point API</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>TngFlowLayoutEngine</code></td>
+            <td>
+              Defines <code>calculate(graph, options)</code>, which asynchronously returns node
+              moves.
+            </td>
+          </tr>
+          <tr>
+            <td><code>TngFlowLayoutGraph</code></td>
+            <td>Measured node bounds plus graph connections supplied to the engine.</td>
+          </tr>
+          <tr>
+            <td><code>provideTngFlowLayoutEngine(engine)</code></td>
+            <td>Registers the default engine for descendant Flow Editor instances.</td>
+          </tr>
+          <tr>
+            <td><code>TNG_FLOW_LAYOUT_ENGINE</code></td>
+            <td>Injection token used by the provider and the editor.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="layout-options" class="docs-overview-block">
+    <h3>Layout options</h3>
+    <div class="docs-api-table-wrap">
+      <table class="docs-api-table">
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Default</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>direction</code></td>
+            <td><code>'left-to-right'</code></td>
+            <td>Uses left-to-right, right-to-left, top-to-bottom, or bottom-to-top flow.</td>
+          </tr>
+          <tr>
+            <td><code>nodeSpacing</code></td>
+            <td><code>48</code></td>
+            <td>Separates nodes on the same rank.</td>
+          </tr>
+          <tr>
+            <td><code>levelSpacing</code></td>
+            <td><code>120</code></td>
+            <td>Separates graph ranks.</td>
+          </tr>
+          <tr>
+            <td><code>componentSpacing</code></td>
+            <td><code>64</code></td>
+            <td>Separates disconnected graph components.</td>
+          </tr>
+          <tr>
+            <td><code>preserveLockedNodes</code></td>
+            <td><code>true</code></td>
+            <td>Preserves locked coordinates and uses locked nodes as layout anchors.</td>
+          </tr>
+          <tr>
+            <td><code>includeDisconnectedNodes</code></td>
+            <td><code>true</code></td>
+            <td>Includes isolated nodes in the calculated result.</td>
+          </tr>
+          <tr>
+            <td><code>viewport.fit / animated / padding</code></td>
+            <td><code>false / false / 48</code></td>
+            <td>Optionally fits the canvas after controlled positions are applied.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="editor-integration" class="docs-overview-block">
+    <h3>Flow Editor integration</h3>
+    <div class="docs-api-table-wrap">
+      <table class="docs-api-table">
+        <thead>
+          <tr>
+            <th>Member</th>
+            <th>Contract</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>layoutEngine</code></td>
+            <td>Per-editor engine input that overrides the injected default.</td>
+          </tr>
+          <tr>
+            <td><code>requestAutoLayout(options?, source?)</code></td>
+            <td>
+              Returns <code>Promise&lt;boolean&gt;</code>; false means the editor could not start or
+              safely apply the calculation.
+            </td>
+          </tr>
+          <tr>
+            <td><code>nodesLayoutRequested</code></td>
+            <td>
+              Emits <code>TngFlowNodesLayoutRequest</code> with node moves, resolved options,
+              viewport behavior, and request source.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

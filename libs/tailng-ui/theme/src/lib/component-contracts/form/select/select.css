@@ -25,7 +25,7 @@
     --tng-select-overlay-radius: var(--tng-overlay-radius, 0.75rem);
     --tng-select-overlay-shadow: var(--tng-overlay-shadow);
     --tng-select-overlay-max-width: min(92vw, 20rem);
-    --tng-select-z-overlay: var(--tng-select-overlay-z-index, var(--tng-z-overlay, 2));
+    --tng-select-z-overlay: var(--tng-z-overlay, 2);
     --tng-select-listbox-gap: 0.25rem;
     --tng-select-option-min-height: var(--tng-item-min-height, 2.25rem);
     --tng-select-option-py: var(--tng-item-padding-block, 0.5rem);
@@ -158,7 +158,7 @@
     --tng-select-overlay-radius: var(--tng-overlay-radius, 0.75rem);
     --tng-select-overlay-shadow: var(--tng-overlay-shadow);
     --tng-select-overlay-max-width: min(92vw, 20rem);
-    --tng-select-z-overlay: var(--tng-select-overlay-z-index, var(--tng-z-overlay, 2));
+    --tng-select-z-overlay: var(--tng-z-overlay, 2);
     --tng-select-listbox-gap: 0.25rem;
     --tng-select-option-min-height: var(--tng-item-min-height, 2.25rem);
     --tng-select-option-py: var(--tng-item-padding-block, 0.5rem);

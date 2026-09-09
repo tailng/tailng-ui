@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { TngButtonComponent, TngCodeBlockComponent } from '@tailng-ui/components';
+import { TngButtonComponent } from '@tailng-ui/components';
 import {
   TngFlowEditorComponent,
   type TngFlowDefinition,
@@ -8,7 +8,18 @@ import {
   type TngFlowNodesLayoutRequest,
 } from '@tailng-ui/flow';
 import { createTngFlowDagreLayoutEngine } from '@tailng-ui/flow/layout-dagre';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../shared/util';
+import {
+  layoutDagrePlainCssCodeTabs,
+  layoutDagreTailwindCodeTabs,
+} from './layout-dagre-examples-code.data';
+import {
+  DocsExampleTabsSectionComponent,
+  DocsExampleVariantDirective,
+} from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
 
 type LayoutDemoData = Readonly<{
   stage: string;
@@ -107,13 +118,24 @@ const layoutDemoDefinition: TngFlowDefinition<LayoutDemoData> = {
   ],
 };
 
+class LayoutDagreExampleState {
+  public readonly direction = signal<TngFlowLayoutDirection>('left-to-right');
+  public readonly definition = signal(layoutDemoDefinition);
+  public readonly status = signal('Choose a direction, then arrange the workflow.');
+}
+
 @Component({
-  selector: 'app-flow-editor-layout-dagre-page',
-  imports: [TngButtonComponent, TngCodeBlockComponent, TngFlowEditorComponent],
-  templateUrl: './flow-editor-layout-dagre-page.component.html',
-  styleUrl: './flow-editor-layout-dagre-page.component.css',
+  selector: 'app-layout-dagre-examples-page',
+  imports: [
+    DocsExampleTabsSectionComponent,
+    DocsExampleVariantDirective,
+    TngButtonComponent,
+    TngFlowEditorComponent,
+  ],
+  templateUrl: './layout-dagre-examples-page.component.html',
+  styleUrl: './layout-dagre-examples-page.component.css',
 })
-export class FlowEditorLayoutDagrePageComponent implements OnDestroy {
+export class LayoutDagreExamplesPageComponent implements OnDestroy {
   private readonly documentRef = inject(DOCUMENT);
   protected readonly codeBlockTheme = signal<'github-dark' | 'github-light'>(
     resolveDocsCodeBlockTheme(this.documentRef),
@@ -122,62 +144,26 @@ export class FlowEditorLayoutDagrePageComponent implements OnDestroy {
     this.documentRef,
     this.codeBlockTheme,
   );
+
   protected readonly directions = layoutDirections;
-  protected readonly direction = signal<TngFlowLayoutDirection>('left-to-right');
-  protected readonly definition = signal(layoutDemoDefinition);
+  protected readonly plainCssExample = new LayoutDagreExampleState();
+  protected readonly tailwindExample = new LayoutDagreExampleState();
   protected readonly layoutEngine = createTngFlowDagreLayoutEngine<LayoutDemoData>();
-  protected readonly layoutStatus = signal('Choose a direction, then arrange the workflow.');
+  protected readonly plainCssCodeTabs = layoutDagrePlainCssCodeTabs;
+  protected readonly tailwindCodeTabs = layoutDagreTailwindCodeTabs;
 
-  protected readonly installCode = 'pnpm add @tailng-ui/flow @dagrejs/dagre';
-  protected readonly providerCode = [
-    "import { provideTngFlowLayoutEngine } from '@tailng-ui/flow';",
-    "import { TNG_FLOW_DAGRE_LAYOUT_ENGINE } from '@tailng-ui/flow/layout-dagre';",
-    '',
-    'bootstrapApplication(AppComponent, {',
-    '  providers: [provideTngFlowLayoutEngine(TNG_FLOW_DAGRE_LAYOUT_ENGINE)],',
-    '});',
-  ].join('\n');
-  protected readonly controlledCode = [
-    "import { type TngFlowNodesLayoutRequest } from '@tailng-ui/flow';",
-    "import { createTngFlowDagreLayoutEngine } from '@tailng-ui/flow/layout-dagre';",
-    '',
-    'readonly layoutEngine = createTngFlowDagreLayoutEngine<NodeData>();',
-    '',
-    'applyLayout(request: TngFlowNodesLayoutRequest): void {',
-    '  const positions = new Map(request.nodes.map((move) => [move.id, move.position]));',
-    '  this.workflow.update((workflow) => ({',
-    '    ...workflow,',
-    '    nodes: workflow.nodes.map((node) => ({',
-    '      ...node,',
-    '      position: positions.get(node.id) ?? node.position,',
-    '    })),',
-    '  }));',
-    '}',
-  ].join('\n');
-  protected readonly templateCode = [
-    '<button',
-    '  (click)="editor.requestAutoLayout({ direction: \'left-to-right\', viewport: { fit: true } })"',
-    '>',
-    '  Arrange workflow',
-    '</button>',
-    '',
-    '<tng-flow-editor',
-    '  #editor="tngFlowEditor"',
-    '  [definition]="workflow()"',
-    '  [layoutEngine]="layoutEngine"',
-    '  (nodesLayoutRequested)="applyLayout($event)"',
-    '/>',
-  ].join('\n');
-
-  protected setDirection(value: TngFlowLayoutDirection): void {
-    this.direction.set(value);
+  protected setDirection(state: LayoutDagreExampleState, value: TngFlowLayoutDirection): void {
+    state.direction.set(value);
   }
 
-  protected requestLayout(editor: TngFlowEditorComponent<LayoutDemoData>): void {
-    this.layoutStatus.set('Calculating layout…');
+  protected requestLayout(
+    editor: TngFlowEditorComponent<LayoutDemoData>,
+    state: LayoutDagreExampleState,
+  ): void {
+    state.status.set('Calculating layout…');
     void editor
       .requestAutoLayout({
-        direction: this.direction(),
+        direction: state.direction(),
         nodeSpacing: 48,
         levelSpacing: 120,
         componentSpacing: 72,
@@ -185,31 +171,31 @@ export class FlowEditorLayoutDagrePageComponent implements OnDestroy {
       })
       .then((requested) => {
         if (!requested) {
-          this.layoutStatus.set('The editor was not ready to calculate a layout.');
+          state.status.set('The editor was not ready to calculate a layout.');
         }
       })
       .catch(() => {
-        this.layoutStatus.set('The layout engine could not arrange this workflow.');
+        state.status.set('The layout engine could not arrange this workflow.');
       });
   }
 
-  protected applyLayout(request: TngFlowNodesLayoutRequest): void {
+  protected applyLayout(request: TngFlowNodesLayoutRequest, state: LayoutDagreExampleState): void {
     const positions = new Map(request.nodes.map((move) => [move.id, move.position]));
-    this.definition.update((definition) => ({
+    state.definition.update((definition) => ({
       ...definition,
       nodes: definition.nodes.map((node) => ({
         ...node,
         position: positions.get(node.id) ?? node.position,
       })),
     }));
-    this.layoutStatus.set(
+    state.status.set(
       `Arranged ${request.nodes.length} nodes ${this.directionLabel(request.options.direction).toLowerCase()}.`,
     );
   }
 
-  protected resetDemo(): void {
-    this.definition.set(layoutDemoDefinition);
-    this.layoutStatus.set('Workflow positions reset.');
+  protected resetDemo(state: LayoutDagreExampleState): void {
+    state.definition.set(layoutDemoDefinition);
+    state.status.set('Workflow positions reset.');
   }
 
   private directionLabel(direction: TngFlowLayoutDirection): string {

@@ -1,5 +1,5 @@
 import { timedExecutionDefinition } from './timed-execution-workflow.data';
-import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+import type { DocsExampleCodeTab } from '../../../../../../../shared/example-panel/docs-example-panel.component';
 
 const componentCode = `import { Component, computed, signal, type OnDestroy } from '@angular/core';
 import { TngFlowEditorComponent, type TngFlowPresentation } from '@tailng-ui/flow';

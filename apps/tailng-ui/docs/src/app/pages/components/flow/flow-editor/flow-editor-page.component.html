@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="/flow-editor/styles.css" />
+
+<section class="docs-component-page">
+  <app-docs-component-section-tabs sectionName="Flow Editor" [value]="activeSection()" />
+
+  <section class="docs-component-content">
+    <div class="docs-component-content-main" #docsContentRoot>
+      <router-outlet />
+    </div>
+    <app-docs-component-section-outline
+      [ariaLabel]="outlineAriaLabel()"
+      [contentRoot]="docsContentRoot"
+      [items]="outlineItems()"
+      [title]="outlineTitle()"
+    />
+  </section>
+</section>

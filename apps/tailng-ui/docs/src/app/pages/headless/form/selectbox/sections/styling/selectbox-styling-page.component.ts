@@ -509,6 +509,11 @@ export class HeadlessSelectboxStylingPageComponent implements OnDestroy {
       purpose: 'Define overlay padding, option spacing, and owned scrolling behavior.',
     },
     {
+      selector: '--tng-select-z-overlay',
+      appliedOn: 'root host or overlay theme source',
+      purpose: 'Controls the portaled overlay stacking level; falls back to --tng-z-overlay.',
+    },
+    {
       selector: "[data-slot='select-option']",
       appliedOn: 'option row',
       purpose: 'Style idle option rows before layering active, selected, and disabled states on top.',

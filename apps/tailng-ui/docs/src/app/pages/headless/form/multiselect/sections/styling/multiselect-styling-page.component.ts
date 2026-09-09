@@ -345,6 +345,7 @@ export class HeadlessMultiselectStylingPageComponent implements OnDestroy {
     { selector: '[data-slot="multi-select"]', appliedOn: 'Root host', purpose: 'State container and token surface for the multiselect root.' },
     { selector: '[data-slot="select-trigger"]', appliedOn: 'Trigger control', purpose: 'Trigger surface, focus ring, and open/closed state feedback.' },
     { selector: '[data-slot="select-overlay"]', appliedOn: 'Portaled overlay', purpose: 'Panel border, radius, elevation, and max-height constraints.' },
+    { selector: '--tng-select-z-overlay', appliedOn: 'Root host or overlay theme source', purpose: 'Controls the shared select overlay stacking level; falls back to --tng-z-overlay.' },
     { selector: '[data-slot="multi-select-listbox"]', appliedOn: 'Listbox host', purpose: 'Option stack spacing and scrolling behavior.' },
     { selector: '[data-slot="multi-select-option"]', appliedOn: 'Option host', purpose: 'Keyboard active highlight, committed selection, and disabled styling.' },
   ]);

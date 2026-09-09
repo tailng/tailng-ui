@@ -59,6 +59,7 @@ const HOST_TOKEN_GUIDANCE_CODE = String.raw`tng-multi-autocomplete.docs-componen
   --tng-multi-autocomplete-muted: #64748b;
   --tng-multi-autocomplete-brand: #2563eb;
   --tng-multi-autocomplete-focus-ring: #2563eb;
+  --tng-multi-autocomplete-z-overlay: 80;
 }
 
 /* Structural slot selectors remain private to the wrapper. */
@@ -317,6 +318,11 @@ export class MultiAutocompleteStylingPageComponent implements OnDestroy {
       selector: 'tng-multi-autocomplete',
       appliedOn: 'Wrapper host',
       purpose: 'Width, margins, host-level semantic tokens, and surrounding shell ownership.',
+    },
+    {
+      selector: '--tng-multi-autocomplete-z-overlay',
+      appliedOn: 'Wrapper host',
+      purpose: 'Controls the portaled overlay stacking level; falls back to --tng-z-overlay.',
     },
     {
       selector: '--tng-semantic-background-canvas',

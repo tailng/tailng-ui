@@ -44,7 +44,10 @@ const CSS_CONTRACT_CODE = String.raw`[data-slot='multi-autocomplete']
 [data-slot='multi-autocomplete-overlay']
 [data-slot='multi-autocomplete-listbox']
 [data-slot='multi-autocomplete-option']
-[data-slot='multi-autocomplete-empty']`;
+[data-slot='multi-autocomplete-empty']
+
+/* Portaled overlay stacking level; falls back to --tng-z-overlay. */
+--tng-multi-autocomplete-z-overlay: 80;`;
 
 const STATE_SELECTOR_CODE = String.raw`[data-slot='multi-autocomplete'][data-state='open']
 [data-slot='multi-autocomplete'][data-disabled]

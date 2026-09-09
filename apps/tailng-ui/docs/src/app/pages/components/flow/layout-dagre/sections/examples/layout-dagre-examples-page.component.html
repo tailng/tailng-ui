@@ -1,0 +1,158 @@
+<article class="docs-section-page layout-dagre-examples">
+  <section class="docs-overview-block">
+    <h2 class="docs-overview-title">Dagre Layout examples</h2>
+    <p class="docs-overview-lead">
+      Arrange the same controlled workflow in every supported graph direction, with complete Plain
+      CSS and Tailwind CSS implementations.
+    </p>
+  </section>
+
+  <section id="direction-lab" class="docs-overview-block">
+    <app-docs-example-tabs-section
+      heading="Direction lab"
+      description="Choose a direction in the tools bar, ask Dagre to calculate the layout, and write the emitted positions back to the controlled Flow Editor definition."
+      ariaLabel="Dagre direction lab styling variants"
+      tabListAriaLabel="Dagre direction lab styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain CSS"
+        panelTitle="Dagre direction lab with Plain CSS"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <div class="layout-dagre-example">
+          <header class="layout-dagre-example__toolbar" aria-label="Dagre layout tools">
+            <label class="layout-dagre-example__direction" for="dagre-direction-plain-css">
+              <span>Direction</span>
+              <select
+                id="dagre-direction-plain-css"
+                [value]="plainCssExample.direction()"
+                (change)="setDirection(plainCssExample, $any($event.target).value)"
+              >
+                @for (entry of directions; track entry.value) {
+                  <option [value]="entry.value">{{ entry.label }}</option>
+                }
+              </select>
+            </label>
+
+            <div class="layout-dagre-example__actions">
+              <tng-button
+                type="button"
+                appearance="solid"
+                size="sm"
+                (click)="requestLayout(plainCssEditor, plainCssExample)"
+              >
+                Arrange workflow
+              </tng-button>
+              <tng-button
+                type="button"
+                appearance="outline"
+                size="sm"
+                (click)="resetDemo(plainCssExample)"
+              >
+                Reset
+              </tng-button>
+            </div>
+
+            <p class="layout-dagre-example__status" role="status" aria-live="polite">
+              {{ plainCssExample.status() }}
+            </p>
+          </header>
+
+          <tng-flow-editor
+            #plainCssEditor="tngFlowEditor"
+            flowId="docs-dagre-layout-plain-css"
+            class="layout-dagre-example__canvas"
+            ariaLabel="Dagre automatic layout workflow styled with Plain CSS"
+            [definition]="plainCssExample.definition()"
+            [layoutEngine]="layoutEngine"
+            [showMinimap]="true"
+            (nodesLayoutRequested)="applyLayout($event, plainCssExample)"
+          />
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Dagre direction lab with Tailwind CSS"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div class="grid gap-3">
+          <header
+            class="flex flex-wrap items-end gap-3 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-muted)] p-4"
+            aria-label="Dagre layout tools"
+          >
+            <label
+              class="grid min-w-44 gap-1.5 text-xs font-semibold text-[var(--tng-semantic-foreground-secondary)]"
+              for="dagre-direction-tailwind-css"
+            >
+              <span>Direction</span>
+              <select
+                id="dagre-direction-tailwind-css"
+                class="min-h-9 rounded-lg border border-[var(--tng-semantic-border-strong)] bg-[var(--tng-semantic-background-surface)] px-2.5 text-sm text-[var(--tng-semantic-foreground-primary)]"
+                [value]="tailwindExample.direction()"
+                (change)="setDirection(tailwindExample, $any($event.target).value)"
+              >
+                @for (entry of directions; track entry.value) {
+                  <option [value]="entry.value">{{ entry.label }}</option>
+                }
+              </select>
+            </label>
+
+            <div class="flex flex-wrap gap-2">
+              <tng-button
+                type="button"
+                appearance="solid"
+                size="sm"
+                (click)="requestLayout(tailwindEditor, tailwindExample)"
+              >
+                Arrange workflow
+              </tng-button>
+              <tng-button
+                type="button"
+                appearance="outline"
+                size="sm"
+                (click)="resetDemo(tailwindExample)"
+              >
+                Reset
+              </tng-button>
+            </div>
+
+            <p
+              class="m-0 min-w-64 flex-1 self-center text-sm text-[var(--tng-semantic-foreground-secondary)]"
+              role="status"
+              aria-live="polite"
+            >
+              {{ tailwindExample.status() }}
+            </p>
+          </header>
+
+          <tng-flow-editor
+            #tailwindEditor="tngFlowEditor"
+            flowId="docs-dagre-layout-tailwind-css"
+            class="block h-[32rem] min-h-[26rem] overflow-hidden rounded-xl border border-[var(--tng-semantic-border-subtle)] max-[720px]:h-[28rem]"
+            ariaLabel="Dagre automatic layout workflow styled with Tailwind CSS"
+            [definition]="tailwindExample.definition()"
+            [layoutEngine]="layoutEngine"
+            [showMinimap]="true"
+            (nodesLayoutRequested)="applyLayout($event, tailwindExample)"
+          />
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="controlled-update" class="docs-overview-block">
+    <h3>Controlled position update</h3>
+    <p>
+      Dagre calculates positions but does not mutate application state. Each example handles
+      <code>nodesLayoutRequested</code> as one immutable update; the requested viewport fit runs
+      after those positions render.
+    </p>
+  </section>
+</article>

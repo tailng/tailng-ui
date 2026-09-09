@@ -51,7 +51,6 @@ export const tngSelectCssVars = {
   triggerShadow: '--tng-select-shadow',
   shadow: '--tng-select-overlay-shadow',
   zOverlay: '--tng-select-z-overlay',
-  overlayZIndex: '--tng-select-overlay-z-index',
 
   /**
    * Overlay min-width strategy:

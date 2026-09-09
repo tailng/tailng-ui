@@ -44,6 +44,7 @@ export class DatepickerStylingPageComponent implements OnDestroy {
     '  --tng-datepicker-grid-gap: clamp(0.12rem, 1.15%, 0.28rem);',
     '  --tng-datepicker-day-cell-size: 2.15rem;',
     '  --tng-datepicker-picker-cell-size: 2.25rem;',
+    '  --tng-datepicker-z-overlay: 80;',
     '  --tng-datepicker-brand: var(--tng-semantic-accent-brand);',
     '  --tng-datepicker-focus: var(--tng-semantic-focus-ring);',
     '}',

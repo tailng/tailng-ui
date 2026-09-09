@@ -3,7 +3,6 @@ import type { DocsSectionRailItem } from '../section-rail/docs-section-rail.comp
 export type DocsComponentTopLevelSectionId =
   | 'overview'
   | 'api'
-  | 'layout-dagre'
   | 'styling'
   | 'examples'
   | 'ownable-install';
@@ -210,13 +209,6 @@ export const docsComponentOutlineItemsBySlug: Readonly<
       { id: 'imperative-methods', label: 'Imperative methods' },
       { id: 'validation', label: 'Validation' },
     ],
-    'layout-dagre': [
-      { id: 'install-and-import', label: 'Install and import' },
-      { id: 'configure-engine', label: 'Configure the engine' },
-      { id: 'controlled-layout', label: 'Controlled layout demo' },
-      { id: 'layout-options', label: 'Layout options' },
-      { id: 'adapter-api', label: 'Adapter API' },
-    ],
     styling: [
       { id: 'required-styles', label: 'Required styles' },
       { id: 'host-sizing', label: 'Host sizing' },
@@ -233,6 +225,30 @@ export const docsComponentOutlineItemsBySlug: Readonly<
       { id: 'controlled-node-positions', label: 'Controlled node positions' },
       { id: 'custom-model-node', label: 'Custom model node' },
       { id: 'execution-monitor', label: 'Execution monitor' },
+    ],
+  },
+  'layout-dagre': {
+    overview: [
+      { id: 'install', label: 'Install' },
+      { id: 'secondary-entry', label: 'Optional secondary entry point' },
+      { id: 'configure-engine', label: 'Configure an engine' },
+      { id: 'controlled-contract', label: 'Controlled layout contract' },
+    ],
+    api: [
+      { id: 'adapter-exports', label: 'Adapter exports' },
+      { id: 'engine-contract', label: 'Engine contract' },
+      { id: 'layout-options', label: 'Layout options' },
+      { id: 'editor-integration', label: 'Flow Editor integration' },
+    ],
+    styling: [
+      { id: 'required-styles', label: 'Required styles' },
+      { id: 'host-sizing', label: 'Host sizing' },
+      { id: 'measured-nodes', label: 'Measured custom nodes' },
+      { id: 'viewport-effects', label: 'Viewport effects' },
+    ],
+    examples: [
+      { id: 'direction-lab', label: 'Direction lab' },
+      { id: 'controlled-update', label: 'Controlled position update' },
     ],
   },
   table: {
@@ -1319,8 +1335,6 @@ export function getDocsComponentSectionOutlineTitle(
   switch (section) {
     case 'api':
       return 'API content';
-    case 'layout-dagre':
-      return 'Dagre layout content';
     case 'styling':
       return 'Styling content';
     case 'examples':

@@ -8385,69 +8385,121 @@
     ]
   },
   {
-    "title": "Flow Editor API",
-    "description": "Inputs, outputs, graph models, template context, methods, and validation for Flow Editor.",
-    "section": "Components / Flow Editor",
-    "url": "/components/flow-editor/api",
+    "title": "Flow Editor",
+    "description": "Build controlled, interactive workflow canvases with custom nodes and edges.",
+    "section": "Components / Flow",
+    "url": "/components/flow/flow-editor",
     "tags": [
       "components",
+      "flow",
+      "flow-editor"
+    ]
+  },
+  {
+    "title": "Flow Editor API",
+    "description": "Flow Editor inputs, outputs, graph models, templates, commands, and validation contracts.",
+    "section": "Components / Flow / Flow Editor",
+    "url": "/components/flow/flow-editor/api",
+    "tags": [
+      "components",
+      "flow",
       "flow-editor",
-      "api",
-      "workflow",
-      "agent"
+      "api"
     ]
   },
   {
     "title": "Flow Editor Examples",
-    "description": "Production-oriented workflow, routing, selection, and execution examples for Flow Editor.",
-    "section": "Components / Flow Editor",
-    "url": "/components/flow-editor/examples",
+    "description": "Production-oriented workflow, routing, selection, and execution examples.",
+    "section": "Components / Flow / Flow Editor",
+    "url": "/components/flow/flow-editor/examples",
     "tags": [
       "components",
+      "flow",
       "flow-editor",
-      "examples",
-      "workflow",
-      "agent"
-    ]
-  },
-  {
-    "title": "Dagre Layout for Flow Editor",
-    "description": "Install and use the optional Dagre adapter for controlled automatic workflow layout.",
-    "section": "Components / Flow Editor",
-    "url": "/components/flow-editor/layout-dagre",
-    "tags": [
-      "components",
-      "flow-editor",
-      "layout-dagre",
-      "dagre",
-      "automatic-layout",
-      "workflow"
+      "examples"
     ]
   },
   {
     "title": "Flow Editor Overview",
-    "description": "Install Flow Editor and build a controlled node canvas for agents, automations, and workflows.",
-    "section": "Components / Flow Editor",
-    "url": "/components/flow-editor/overview",
+    "description": "Install Flow Editor and build a controlled workflow canvas.",
+    "section": "Components / Flow / Flow Editor",
+    "url": "/components/flow/flow-editor/overview",
     "tags": [
       "components",
+      "flow",
       "flow-editor",
-      "overview",
-      "workflow",
-      "agent",
-      "automation"
+      "overview"
     ]
   },
   {
     "title": "Flow Editor Styling",
-    "description": "Required styles, sizing, CSS custom properties, and custom node content for Flow Editor.",
-    "section": "Components / Flow Editor",
-    "url": "/components/flow-editor/styling",
+    "description": "Required styles, host sizing, CSS variables, and custom node content.",
+    "section": "Components / Flow / Flow Editor",
+    "url": "/components/flow/flow-editor/styling",
     "tags": [
       "components",
+      "flow",
       "flow-editor",
-      "styling",
-      "workflow"
+      "styling"
+    ]
+  },
+  {
+    "title": "Dagre Layout",
+    "description": "Add optional automatic graph layout through the official Dagre adapter.",
+    "section": "Components / Flow",
+    "url": "/components/flow/layout-dagre",
+    "tags": [
+      "components",
+      "flow",
+      "layout-dagre"
+    ]
+  },
+  {
+    "title": "Dagre Layout API",
+    "description": "Dagre adapter exports, engine contracts, layout options, and Flow Editor integration.",
+    "section": "Components / Flow / Dagre Layout",
+    "url": "/components/flow/layout-dagre/api",
+    "tags": [
+      "components",
+      "flow",
+      "layout-dagre",
+      "api"
+    ]
+  },
+  {
+    "title": "Dagre Layout Examples",
+    "description": "Arrange a controlled workflow in every supported Dagre graph direction.",
+    "section": "Components / Flow / Dagre Layout",
+    "url": "/components/flow/layout-dagre/examples",
+    "tags": [
+      "components",
+      "flow",
+      "layout-dagre",
+      "examples"
+    ]
+  },
+  {
+    "title": "Dagre Layout Overview",
+    "description": "Install and configure the optional Dagre secondary entry point for Flow Editor.",
+    "section": "Components / Flow / Dagre Layout",
+    "url": "/components/flow/layout-dagre/overview",
+    "tags": [
+      "components",
+      "flow",
+      "layout-dagre",
+      "overview"
+    ]
+  },
+  {
+    "title": "Dagre Layout Styling",
+    "description": "Size the Flow Editor host and custom nodes for stable measured Dagre geometry.",
+    "section": "Components / Flow / Dagre Layout",
+    "url": "/components/flow/layout-dagre/styling",
+    "tags": [
+      "components",
+      "flow",
+      "layout-dagre",
+      "styling"
     ]
   },
   {

@@ -24,20 +24,33 @@ export const COMPONENTS_ROUTES: Routes = [
       {
         path: 'layout/flow-editor',
         pathMatch: 'full',
-        redirectTo: 'flow-editor/overview',
+        redirectTo: 'flow/flow-editor/overview',
       },
       {
         path: 'layout/flow-editor/:section',
-        redirectTo: 'flow-editor/:section',
+        redirectTo: 'flow/flow-editor/:section',
+      },
+      {
+        path: 'flow-editor/layout-dagre',
+        pathMatch: 'full',
+        redirectTo: 'flow/layout-dagre/overview',
+      },
+      {
+        path: 'flow-editor',
+        pathMatch: 'full',
+        redirectTo: 'flow/flow-editor/overview',
+      },
+      {
+        path: 'flow-editor/:section',
+        redirectTo: 'flow/flow-editor/:section',
       },
       {
         path: 'layout',
         loadChildren: () => import('./layout/routes').then((m) => m.COMPONENTS_LAYOUT_ROUTES),
       },
       {
-        path: 'flow-editor',
-        loadChildren: () =>
-          import('./flow-editor/routes').then((m) => m.COMPONENTS_FLOW_EDITOR_ROUTES),
+        path: 'flow',
+        loadChildren: () => import('./flow/routes').then((m) => m.COMPONENTS_FLOW_ROUTES),
       },
       {
         path: 'overlay',

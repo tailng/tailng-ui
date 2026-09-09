@@ -41,6 +41,7 @@ tng-autocomplete.release-owner-shell {
   --tng-semantic-foreground-secondary: #475569;
   --tng-semantic-accent-brand: #2563eb;
   --tng-semantic-focus-ring: #2563eb;
+  --tng-autocomplete-z-overlay: 80;
 }
 
 /* Overlay rows are portaled. Put overlay-specific selectors in a global stylesheet. */
@@ -273,6 +274,11 @@ export class AutocompleteStylingPageComponent implements OnDestroy {
       selector: 'tng-autocomplete[data-disabled]',
       appliedOn: 'Wrapper host',
       purpose: 'Optional wrapper-level disabled presentation for surrounding shells.',
+    },
+    {
+      selector: '--tng-autocomplete-z-overlay',
+      appliedOn: 'Wrapper host',
+      purpose: 'Controls the portaled overlay stacking level; falls back to --tng-z-overlay.',
     },
     {
       selector: '--tng-semantic-background-canvas',

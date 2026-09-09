@@ -20,6 +20,7 @@ export class HeadlessDateRangePickerStylingPageComponent {
     '  --tng-date-range-picker-day-cell-size: 2.2rem;',
     '  --tng-date-range-picker-picker-cell-size: 2.3rem;',
     '  --tng-date-range-picker-nav-size: 1.95rem;',
+    '  --tng-date-range-picker-z-overlay: 80;',
     '  --tng-date-range-picker-bg: #ffffff;',
     '  --tng-date-range-picker-surface: #f8fafc;',
     '  --tng-date-range-picker-canvas: #ffffff;',
