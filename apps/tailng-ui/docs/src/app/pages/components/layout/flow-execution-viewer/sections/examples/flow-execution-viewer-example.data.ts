@@ -2,7 +2,6 @@
 import type { TngFlowDefinition, TngFlowSelection, TngFlowViewport } from '@tailng-ui/flow';
 import type {
   TngFlowConnectionExecution,
-  TngFlowExecutionInspectorPosition,
   TngFlowExecutionPayload,
   TngFlowExecutionPhase,
   TngFlowNodeExecution,
@@ -21,7 +20,6 @@ export type FlowExecutionViewerScenarioId =
   | 'loop-activations'
   | 'redacted-payloads'
   | 'large-json-payload'
-  | 'dark-mode'
   | 'narrow-surface';
 
 export type FlowExecutionViewerScenario = Readonly<{
@@ -33,9 +31,7 @@ export type FlowExecutionViewerScenario = Readonly<{
   inspectedNodeId: string | null;
   selectedExecutionId: string | null;
   viewport: TngFlowViewport;
-  dark?: boolean;
   narrow?: boolean;
-  inspectorPosition?: TngFlowExecutionInspectorPosition;
 }>;
 
 type NodeSeed = Readonly<{
@@ -514,27 +510,13 @@ export const FLOW_EXECUTION_VIEWER_SCENARIOS: readonly FlowExecutionViewerScenar
         [doneConnection('intake-normalize'), doneConnection('normalize-profile')],
       ),
     }),
-    scenario('dark-mode', {
-      title: 'Dark mode',
-      story:
-        'The same successful run is rendered in a dark token scope to verify contrast and semantic color mapping.',
-      inspectedNodeId: 'archive',
-      selectedExecutionId: 'dark-mode-archive',
-      dark: true,
-      snapshot: successfulSnapshot(
-        'dark-mode',
-        'succeeded',
-        'Workflow finished in dark-mode preview.',
-      ),
-    }),
     scenario('narrow-surface', {
-      title: 'Narrow embedding surface',
+      title: 'Constrained embedding surface',
       story:
-        'The viewer is constrained to a narrow card. Auto inspector positioning moves details below the graph.',
+        'The viewer is constrained to an embedded surface while keeping node details in the right-side panel.',
       inspectedNodeId: 'human-review',
       selectedExecutionId: 'narrow-surface-human-review',
       narrow: true,
-      inspectorPosition: 'auto',
       snapshot: snapshot(
         'narrow-surface',
         'waiting',

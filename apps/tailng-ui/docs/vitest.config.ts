@@ -35,13 +35,38 @@ export default defineConfig({
           '../../../node_modules/@foblex/utils/fesm2015/foblex-utils.js',
         ),
       },
-      { find: '@tailng-ui/cdk/core', replacement: resolve(projectRoot, '../../../libs/tailng-ui/cdk/src/core/index.ts') },
-      { find: '@tailng-ui/cdk/overlay', replacement: resolve(projectRoot, '../../../libs/tailng-ui/cdk/src/overlay/index.ts') },
-      { find: '@tailng-ui/cdk', replacement: resolve(projectRoot, '../../../libs/tailng-ui/cdk/src/index.ts') },
-      { find: '@tailng-ui/components', replacement: resolve(projectRoot, '../../../libs/tailng-ui/components/src/index.ts') },
-      { find: '@tailng-ui/flow', replacement: resolve(projectRoot, '../../../libs/tailng-ui/flow/src/index.ts') },
-      { find: '@tailng-ui/primitives', replacement: resolve(projectRoot, '../../../libs/tailng-ui/primitives/src/index.ts') },
-      { find: '@tailng-ui/registry', replacement: resolve(projectRoot, '../../../libs/tailng-ui/registry/src/index.ts') },
+      {
+        find: '@tailng-ui/cdk/core',
+        replacement: resolve(projectRoot, '../../../libs/tailng-ui/cdk/src/core/index.ts'),
+      },
+      {
+        find: '@tailng-ui/cdk/overlay',
+        replacement: resolve(projectRoot, '../../../libs/tailng-ui/cdk/src/overlay/index.ts'),
+      },
+      {
+        find: '@tailng-ui/cdk',
+        replacement: resolve(projectRoot, '../../../libs/tailng-ui/cdk/src/index.ts'),
+      },
+      {
+        find: '@tailng-ui/components',
+        replacement: resolve(projectRoot, '../../../libs/tailng-ui/components/src/index.ts'),
+      },
+      {
+        find: '@tailng-ui/flow/execution',
+        replacement: resolve(projectRoot, '../../../libs/tailng-ui/flow/src/execution/index.ts'),
+      },
+      {
+        find: '@tailng-ui/flow',
+        replacement: resolve(projectRoot, '../../../libs/tailng-ui/flow/src/index.ts'),
+      },
+      {
+        find: '@tailng-ui/primitives',
+        replacement: resolve(projectRoot, '../../../libs/tailng-ui/primitives/src/index.ts'),
+      },
+      {
+        find: '@tailng-ui/registry',
+        replacement: resolve(projectRoot, '../../../libs/tailng-ui/registry/src/index.ts'),
+      },
     ],
   },
   test: {
