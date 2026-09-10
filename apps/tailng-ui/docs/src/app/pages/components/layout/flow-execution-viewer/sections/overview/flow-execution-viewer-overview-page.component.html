@@ -1,0 +1,40 @@
+<article class="docs-overview">
+  <section id="imports" class="docs-overview-block">
+    <h2 class="docs-overview-title">Flow Execution Viewer</h2>
+    <p class="docs-overview-lead">
+      Flow Execution Viewer is a controlled read-only surface for rendering workflow run snapshots
+      against a Flow Editor definition. It combines the graph, phase/progress presentation,
+      execution history, payload rendering, and a responsive inspector.
+    </p>
+
+    <h3>Import</h3>
+    <pre><code>import &#123; TngFlowExecutionViewerComponent &#125; from '&#64;tailng-ui/flow/execution';</code></pre>
+  </section>
+
+  <section id="state-ownership" class="docs-overview-block">
+    <h3>State ownership</h3>
+    <p>
+      Your application owns the workflow definition, execution snapshot, selected graph items,
+      inspected node, selected execution, and viewport. The viewer renders that state and emits
+      typed updates when users inspect the graph or execution history.
+    </p>
+  </section>
+
+  <section id="snapshot-contract" class="docs-overview-block">
+    <h3>Snapshot contract</h3>
+    <p>
+      Snapshots are append-friendly records keyed by node, connection, activation, and attempt.
+      Pending, active, waiting, succeeded, failed, skipped, cancelled, and idle phases map to graph
+      presentation without consumers hand-authoring node view state.
+    </p>
+  </section>
+
+  <section id="accessibility-baseline" class="docs-overview-block">
+    <h3>Accessibility baseline</h3>
+    <p>
+      Provide a specific <code>ariaLabel</code>, keep the viewer controlled, and expose meaningful
+      status messages for live execution states. The details pane is keyboard reachable and can be
+      hidden when the embedding surface is too small.
+    </p>
+  </section>
+</article>

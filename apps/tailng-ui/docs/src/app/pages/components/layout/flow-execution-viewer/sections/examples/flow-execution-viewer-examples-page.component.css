@@ -1,0 +1,103 @@
+.flow-execution-examples__scenario-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+}
+
+.flow-execution-examples__scenario-card {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-default);
+  border-radius: 1rem;
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: grid;
+  gap: 0.35rem;
+  min-height: 7rem;
+  padding: 1rem;
+  text-align: left;
+}
+
+.flow-execution-examples__scenario-card[data-active] {
+  border-color: var(--tng-semantic-accent-brand);
+  box-shadow: 0 0 0 1px var(--tng-semantic-accent-brand);
+}
+
+.flow-execution-examples__scenario-card span {
+  font-weight: 800;
+}
+
+.flow-execution-examples__scenario-card small {
+  color: var(--tng-semantic-foreground-muted);
+  line-height: 1.45;
+}
+
+.flow-execution-examples__toolbar {
+  align-items: start;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.flow-execution-examples__toolbar h3 {
+  margin: 0;
+}
+
+.flow-execution-examples__toolbar p {
+  color: var(--tng-semantic-foreground-muted);
+  margin: 0.35rem 0 0;
+}
+
+.flow-execution-examples__preview {
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-default);
+  border-radius: 1rem;
+  overflow: hidden;
+  padding: 0.75rem;
+}
+
+.flow-execution-examples__preview[data-dark] {
+  --tng-semantic-background-base: #08111f;
+  --tng-semantic-background-canvas: #0f172a;
+  --tng-semantic-background-muted: #111827;
+  --tng-semantic-background-surface: #172033;
+  --tng-semantic-border-default: #334155;
+  --tng-semantic-border-subtle: #1e293b;
+  --tng-semantic-foreground-muted: #94a3b8;
+  --tng-semantic-foreground-primary: #f8fafc;
+  --tng-semantic-foreground-secondary: #cbd5e1;
+}
+
+.flow-execution-examples__preview[data-narrow] {
+  max-width: 26rem;
+}
+
+.flow-execution-examples__viewer {
+  display: block;
+  height: 38rem;
+  min-height: 31rem;
+}
+
+.flow-execution-examples__preview[data-narrow] .flow-execution-examples__viewer {
+  height: 42rem;
+}
+
+.flow-execution-examples__feedback {
+  background: var(--tng-semantic-background-muted);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.85rem;
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.85rem;
+  margin: 0.75rem 0 0;
+  padding: 0.75rem 1rem;
+}
+
+@media (max-width: 720px) {
+  .flow-execution-examples__toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .flow-execution-examples__viewer {
+    height: 34rem;
+  }
+}

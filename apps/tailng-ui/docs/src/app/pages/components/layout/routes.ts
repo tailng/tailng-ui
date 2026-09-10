@@ -32,6 +32,11 @@ if (flowEditorItem === undefined) {
   throw new Error('Missing "flow-editor" in components layout docs group.');
 }
 
+const flowExecutionViewerItem = group.items.find((item) => item.slug === 'flow-execution-viewer');
+if (flowExecutionViewerItem === undefined) {
+  throw new Error('Missing "flow-execution-viewer" in components layout docs group.');
+}
+
 const cardItem = group.items.find((item) => item.slug === 'card');
 if (cardItem === undefined) {
   throw new Error('Missing "card" in components layout docs group.');
@@ -92,6 +97,14 @@ export const COMPONENTS_LAYOUT_ROUTES: Routes = [
     data: toComponentsDocsRouteData(group, flowEditorItem),
     loadChildren: () =>
       import('./flow-editor/routes').then((module) => module.COMPONENTS_LAYOUT_FLOW_EDITOR_ROUTES),
+  },
+  {
+    path: flowExecutionViewerItem.slug,
+    data: toComponentsDocsRouteData(group, flowExecutionViewerItem),
+    loadChildren: () =>
+      import('./flow-execution-viewer/routes').then(
+        (module) => module.COMPONENTS_LAYOUT_FLOW_EXECUTION_VIEWER_ROUTES,
+      ),
   },
   {
     path: cardItem.slug,

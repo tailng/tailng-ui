@@ -227,6 +227,32 @@ export const docsComponentOutlineItemsBySlug: Readonly<
       { id: 'execution-monitor', label: 'Execution monitor' },
     ],
   },
+  'flow-execution-viewer': {
+    overview: [
+      { id: 'imports', label: 'Install and import' },
+      { id: 'state-ownership', label: 'State ownership' },
+      { id: 'snapshot-contract', label: 'Snapshot contract' },
+      { id: 'accessibility-baseline', label: 'Accessibility baseline' },
+    ],
+    api: [
+      { id: 'viewer-inputs', label: 'Viewer inputs' },
+      { id: 'viewer-outputs', label: 'Viewer outputs' },
+      { id: 'execution-models', label: 'Execution models' },
+      { id: 'template-hooks', label: 'Template hooks' },
+    ],
+    styling: [
+      { id: 'required-styles', label: 'Required styles' },
+      { id: 'responsive-inspector', label: 'Responsive inspector' },
+      { id: 'dark-mode', label: 'Dark mode' },
+      { id: 'payload-density', label: 'Payload density' },
+    ],
+    examples: [
+      { id: 'scenario-gallery', label: 'Scenario gallery' },
+      { id: 'controlled-viewer', label: 'Controlled viewer' },
+      { id: 'payload-stress-cases', label: 'Payload stress cases' },
+      { id: 'responsive-cases', label: 'Responsive cases' },
+    ],
+  },
   table: {
     overview: [
       { id: 'imports', label: 'Imports' },

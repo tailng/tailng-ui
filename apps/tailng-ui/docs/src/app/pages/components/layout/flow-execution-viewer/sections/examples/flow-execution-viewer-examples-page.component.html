@@ -1,0 +1,89 @@
+<article class="docs-section-page flow-execution-examples">
+  <section id="scenario-gallery" class="docs-overview-block">
+    <h2 class="docs-overview-title">Execution scenario gallery</h2>
+    <p class="docs-overview-lead">
+      These examples render the same workflow definition with different run snapshots. Use them as
+      visual regression seeds and implementation references for production execution monitoring.
+    </p>
+
+    <div class="flow-execution-examples__scenario-grid" aria-label="Execution viewer scenarios">
+      @for (scenario of scenarios; track scenario.id) {
+        <button
+          type="button"
+          class="flow-execution-examples__scenario-card"
+          [attr.data-active]="scenario.id === selectedScenarioId() ? '' : null"
+          (click)="selectScenario(scenario.id)"
+        >
+          <span>{{ scenario.title }}</span>
+          <small>{{ scenario.story }}</small>
+        </button>
+      }
+    </div>
+  </section>
+
+  <section id="controlled-viewer" class="docs-overview-block">
+    <div class="flow-execution-examples__toolbar">
+      <div>
+        <h3>{{ selectedScenario().title }}</h3>
+        <p>{{ selectedScenario().story }}</p>
+      </div>
+      <tng-button appearance="outline" size="sm" (click)="selectScenario(selectedScenarioId())">
+        Reset scenario
+      </tng-button>
+    </div>
+
+    <div
+      class="flow-execution-examples__preview"
+      [attr.data-dark]="selectedScenario().dark ? '' : null"
+      [attr.data-narrow]="selectedScenario().narrow ? '' : null"
+    >
+      <tng-flow-execution-viewer
+        class="flow-execution-examples__viewer"
+        flowId="docs-flow-execution-viewer"
+        ariaLabel="Support escalation workflow execution viewer"
+        [definition]="definition"
+        [snapshot]="selectedScenario().snapshot"
+        [selection]="selection()"
+        [inspectedNodeId]="inspectedNodeId()"
+        [selectedExecutionId]="selectedExecutionId()"
+        [viewport]="viewport()"
+        [mode]="'inspect'"
+        [readonly]="true"
+        [showMinimap]="!selectedScenario().narrow"
+        [showControls]="!selectedScenario().narrow"
+        [showSelectionArea]="false"
+        [fitOnInit]="false"
+        [inspectorPosition]="selectedScenario().inspectorPosition ?? 'auto'"
+        [inspectorBreakpoint]="680"
+        [rightInspectorSize]="380"
+        [bottomInspectorSize]="300"
+        [graphMinSize]="260"
+        [inspectorMinSize]="220"
+        (selectionChange)="onSelectionChange($event)"
+        (inspectedNodeIdChange)="inspectedNodeId.set($event)"
+        (selectedExecutionIdChange)="selectedExecutionId.set($event)"
+        (viewportChange)="viewport.set($event)"
+        (executionActivated)="onExecutionActivated($event)"
+      />
+    </div>
+
+    <p class="flow-execution-examples__feedback" aria-live="polite">{{ lastActivation() }}</p>
+  </section>
+
+  <section id="payload-stress-cases" class="docs-overview-block">
+    <h3>Payload stress cases</h3>
+    <p>
+      Redacted and large JSON scenarios are included intentionally. They verify that the default
+      inspector is safe for sensitive records and remains usable when execution payloads are too
+      large for a compact side panel.
+    </p>
+  </section>
+
+  <section id="responsive-cases" class="docs-overview-block">
+    <h3>Responsive cases</h3>
+    <p>
+      Dark mode and narrow embedding scenarios exercise token inheritance, graph minimum size,
+      inspector breakpoint behavior, and bottom-pane details layout.
+    </p>
+  </section>
+</article>

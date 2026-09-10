@@ -294,6 +294,13 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
         'Embeddable, controlled node editor for AI agents, automations, and executable workflows.',
     },
     {
+      id: 'flow-execution-viewer',
+      slug: 'flow-execution-viewer',
+      title: 'Flow Execution Viewer',
+      description:
+        'Read-only workflow run viewer with graph status, execution history, payloads, and responsive details.',
+    },
+    {
       id: 'drawer',
       slug: 'drawer',
       title: 'Drawer',

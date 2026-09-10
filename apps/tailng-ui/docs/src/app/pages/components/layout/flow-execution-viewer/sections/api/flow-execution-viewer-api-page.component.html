@@ -1,0 +1,51 @@
+<article class="docs-section-page">
+  <section id="viewer-inputs" class="docs-overview-block">
+    <h2 class="docs-overview-title">Viewer inputs</h2>
+    <p>
+      The required pair is <code>definition</code> plus <code>snapshot</code>. Control selection,
+      inspection, viewport, mode, inspector position, minimap, and payload formatting through the
+      remaining inputs.
+    </p>
+    <ul>
+      <li><code>definition</code>: workflow graph definition.</li>
+      <li><code>snapshot</code>: run, node, and connection execution state.</li>
+      <li>
+        <code>selection</code>, <code>inspectedNodeId</code>, <code>selectedExecutionId</code>.
+      </li>
+      <li>
+        <code>inspectorPosition</code>: <code>auto</code>, <code>right</code>, or
+        <code>bottom</code>.
+      </li>
+      <li>
+        <code>state</code>: <code>ready</code>, <code>loading</code>, <code>empty</code>, or
+        <code>error</code>.
+      </li>
+    </ul>
+  </section>
+
+  <section id="viewer-outputs" class="docs-overview-block">
+    <h3>Viewer outputs</h3>
+    <p>
+      The viewer emits controlled-state updates for selection, inspected node, selected execution,
+      viewport, inspector visibility, and execution activation.
+    </p>
+  </section>
+
+  <section id="execution-models" class="docs-overview-block">
+    <h3>Execution models</h3>
+    <p>
+      Use <code>TngFlowRunExecutionSnapshot</code>, <code>TngFlowNodeExecution</code>,
+      <code>TngFlowConnectionExecution</code>, and <code>TngFlowExecutionPayload</code> from the
+      execution entry point.
+    </p>
+  </section>
+
+  <section id="template-hooks" class="docs-overview-block">
+    <h3>Template hooks</h3>
+    <p>
+      Override inspector content with <code>ng-template[tngFlowExecutionInspector]</code> or payload
+      rendering with <code>ng-template[tngFlowExecutionPayload]</code> when product-specific
+      summaries, redaction copy, or JSON viewers are required.
+    </p>
+  </section>
+</article>
