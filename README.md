@@ -222,8 +222,8 @@ Build and publish docs locally (Cloudflare Pages):
 
 ```bash
 CF_DOCS_PROJECT_NAME=taling-dev \
-CLOUDFLARE_API_TOKEN=90Oh4-tjMr9Fxj8naoK_8odkfw8QdbHpS-CVNTf- \
-CLOUDFLARE_ACCOUNT_ID=218f66f3a999f3f020117242ec252f18 \
+CLOUDFLARE_API_TOKEN=xxxxxx \
+CLOUDFLARE_ACCOUNT_ID=xxxxxxx \
 ./tools/build-deploy-docs.sh
 ```
 
