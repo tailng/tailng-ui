@@ -23,12 +23,17 @@ export function resolveTngFlowNodeView<TNodeData, TStatus extends string = TngFl
 ): TngFlowResolvedNodeView<TStatus> {
   const issueSeverity = resolveTngFlowValidationSeverity(issues);
   const validationSeverity = issueSeverity ?? (legacyView?.invalid === true ? 'error' : null);
+  const presentationProgressSpecified =
+    presentation !== undefined && Object.prototype.hasOwnProperty.call(presentation, 'progress');
+  const legacyProgressSpecified =
+    legacyView !== undefined && Object.prototype.hasOwnProperty.call(legacyView, 'progress');
   return {
     selected,
     disabled: node.disabled === true,
     locked: node.locked === true,
     status: (presentation?.status ?? legacyView?.status ?? 'idle') as TStatus,
     progress: presentation?.progress ?? legacyView?.progress ?? null,
+    progressSpecified: presentationProgressSpecified || legacyProgressSpecified,
     statusMessage: presentation?.statusMessage ?? legacyView?.message ?? null,
     validationSeverity,
     invalid: validationSeverity === 'error',

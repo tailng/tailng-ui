@@ -235,6 +235,8 @@
                 [icon]="node.icon ?? null"
                 [status]="viewFor(node.id).status"
                 [progress]="viewFor(node.id).progress ?? null"
+                [progressSpecified]="viewFor(node.id).progressSpecified"
+                [progressDisplayMode]="progressDisplayMode()"
                 [selected]="isNodeSelected(node.id)"
                 [disabled]="node.disabled === true"
                 [locked]="node.locked === true"

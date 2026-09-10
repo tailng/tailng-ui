@@ -153,6 +153,7 @@ import type { TngFlowRevealOptions } from '../types/tng-flow-navigation.types';
 import {
   EMPTY_TNG_FLOW_PRESENTATION,
   type TngFlowPresentation,
+  type TngFlowProgressDisplayMode,
   type TngFlowResolvedConnectionView,
   type TngFlowResolvedNodeView,
 } from '../types/tng-flow-presentation.types';
@@ -212,6 +213,7 @@ const emptyResolvedNodeView = Object.freeze({
   locked: false,
   status: 'idle',
   progress: null,
+  progressSpecified: false,
   statusMessage: null,
   validationSeverity: null,
   invalid: false,
@@ -494,6 +496,7 @@ export class TngFlowEditorComponent<
   public readonly presentation = input<TngFlowPresentation<TStatus>>(
     EMPTY_TNG_FLOW_PRESENTATION as TngFlowPresentation<TStatus>,
   );
+  public readonly progressDisplayMode = input<TngFlowProgressDisplayMode>('status-driven');
   /** @deprecated Use `presentation.nodes`. */
   public readonly nodeViews = input<TngFlowNodeViews<TStatus>>({});
   public readonly mode = input<TngFlowEditorMode>('edit');

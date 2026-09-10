@@ -18,6 +18,8 @@ export type TngFlowConnectionMotionSpeed = 'slow' | 'normal' | 'fast';
 
 export type TngFlowConnectionMotionDirection = 'forward' | 'reverse';
 
+export type TngFlowProgressDisplayMode = 'explicit' | 'status-driven';
+
 export type TngFlowNodePresentation<TStatus extends string = TngFlowNodeStatus> = Readonly<{
   status?: TStatus;
   progress?: number | null;
@@ -51,6 +53,7 @@ export type TngFlowResolvedNodeView<TStatus extends string = TngFlowNodeStatus> 
   locked: boolean;
   status: TStatus;
   progress: number | null;
+  progressSpecified: boolean;
   statusMessage: string | null;
   validationSeverity: TngFlowValidationSeverity | null;
   invalid: boolean;

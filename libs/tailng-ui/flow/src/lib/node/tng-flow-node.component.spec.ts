@@ -45,6 +45,33 @@ describe('TngFlowNodeComponent', () => {
     expect(host.textContent).toContain('Missing credentials');
   });
 
+  it('uses explicit progress mode without status-driven indeterminate progress', () => {
+    const fixture = TestBed.createComponent(TngFlowNodeComponent);
+    fixture.componentRef.setInput('name', 'Research agent');
+    fixture.componentRef.setInput('status', 'running');
+    fixture.componentRef.setInput('progressDisplayMode', 'explicit');
+    fixture.detectChanges();
+
+    const host = fixture.nativeElement as HTMLElement;
+    expect(host.querySelector('tng-progress-bar')).toBeNull();
+
+    fixture.componentRef.setInput('progressSpecified', true);
+    fixture.componentRef.setInput('progress', null);
+    fixture.detectChanges();
+
+    expect(host.querySelector('tng-progress-bar')).not.toBeNull();
+  });
+
+  it('keeps status-driven progress as the default', () => {
+    const fixture = TestBed.createComponent(TngFlowNodeComponent);
+    fixture.componentRef.setInput('name', 'Research agent');
+    fixture.componentRef.setInput('status', 'running');
+    fixture.detectChanges();
+
+    const host = fixture.nativeElement as HTMLElement;
+    expect(host.querySelector('tng-progress-bar')).not.toBeNull();
+  });
+
   it('propagates a consumer minimum height to the card host', () => {
     const fixture = TestBed.createComponent(TngFlowNodeComponent);
     fixture.nativeElement.style.minHeight = '116px';

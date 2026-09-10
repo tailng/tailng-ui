@@ -190,6 +190,7 @@ export type {
   TngFlowConnectionStatus,
   TngFlowNodePresentation,
   TngFlowPresentation,
+  TngFlowProgressDisplayMode,
   TngFlowResolvedConnectionView,
   TngFlowResolvedNodeView,
 } from './lib/types/tng-flow-presentation.types';

@@ -1,0 +1,160 @@
+@let snapshotValue = snapshot();
+@let node = inspectedNode();
+@let execution = selectedExecution();
+
+<section class="tng-flow-execution-inspector__panel">
+  @if (resolvedScope() === 'run') {
+    <header class="tng-flow-execution-inspector__header">
+      <span class="tng-flow-execution-inspector__eyebrow">Run</span>
+      <h3 class="tng-flow-execution-inspector__title">
+        {{ snapshotValue?.id ?? 'No execution selected' }}
+      </h3>
+      <span class="tng-flow-execution-inspector__phase">{{ runPhaseLabel() }}</span>
+    </header>
+
+    @if (snapshotValue?.statusMessage) {
+      <p class="tng-flow-execution-inspector__message">{{ snapshotValue?.statusMessage }}</p>
+    }
+
+    @if (snapshotValue !== null) {
+      <dl class="tng-flow-execution-inspector__meta">
+        @if (dateTime(snapshotValue.startedAt, 'startedAt'); as startedAt) {
+          <div>
+            <dt>Started</dt>
+            <dd>{{ startedAt }}</dd>
+          </div>
+        }
+        @if (dateTime(snapshotValue.finishedAt, 'finishedAt'); as finishedAt) {
+          <div>
+            <dt>Finished</dt>
+            <dd>{{ finishedAt }}</dd>
+          </div>
+        }
+        @if (duration(snapshotValue); as runDuration) {
+          <div>
+            <dt>Duration</dt>
+            <dd>{{ runDuration }}</dd>
+          </div>
+        }
+      </dl>
+
+      <div class="tng-flow-execution-inspector__payloads">
+        @if (payloadTemplate(); as template) {
+          <ng-container
+            [ngTemplateOutlet]="template.templateRef"
+            [ngTemplateOutletContext]="payloadContext(snapshotValue.input, 'Run input')"
+          />
+          <ng-container
+            [ngTemplateOutlet]="template.templateRef"
+            [ngTemplateOutletContext]="payloadContext(snapshotValue.output, 'Run output')"
+          />
+          <ng-container
+            [ngTemplateOutlet]="template.templateRef"
+            [ngTemplateOutletContext]="payloadContext(snapshotValue.error, 'Run error')"
+          />
+        } @else {
+          <tng-flow-execution-payload [payload]="snapshotValue.input" title="Run input" />
+          <tng-flow-execution-payload [payload]="snapshotValue.output" title="Run output" />
+          <tng-flow-execution-payload [payload]="snapshotValue.error" title="Run error" />
+        }
+      </div>
+    }
+  } @else if (node !== null) {
+    <header class="tng-flow-execution-inspector__header">
+      <span class="tng-flow-execution-inspector__eyebrow">Node</span>
+      <h3 class="tng-flow-execution-inspector__title">{{ node.name }}</h3>
+      <span class="tng-flow-execution-inspector__phase">{{ nodePhaseLabel() }}</span>
+    </header>
+
+    @if (node.description) {
+      <p class="tng-flow-execution-inspector__description">{{ node.description }}</p>
+    }
+
+    @if (execution !== null) {
+      @if (execution.statusMessage) {
+        <p class="tng-flow-execution-inspector__message">{{ execution.statusMessage }}</p>
+      }
+
+      <dl class="tng-flow-execution-inspector__meta">
+        <div>
+          <dt>Activation</dt>
+          <dd>{{ execution.activationId }}</dd>
+        </div>
+        <div>
+          <dt>Attempt</dt>
+          <dd>{{ attemptLabel(execution) }}</dd>
+        </div>
+        @if (dateTime(execution.startedAt, 'startedAt'); as startedAt) {
+          <div>
+            <dt>Started</dt>
+            <dd>{{ startedAt }}</dd>
+          </div>
+        }
+        @if (dateTime(execution.finishedAt, 'finishedAt'); as finishedAt) {
+          <div>
+            <dt>Finished</dt>
+            <dd>{{ finishedAt }}</dd>
+          </div>
+        }
+        @if (duration(execution); as nodeDuration) {
+          <div>
+            <dt>Duration</dt>
+            <dd>{{ nodeDuration }}</dd>
+          </div>
+        }
+      </dl>
+    }
+
+    @if (activations().length > 0) {
+      <section class="tng-flow-execution-inspector__history" aria-label="Node execution history">
+        @for (activation of activations(); track activation.activationId) {
+          <div class="tng-flow-execution-inspector__activation">
+            <h4 class="tng-flow-execution-inspector__activation-title">
+              Activation {{ activation.activationId }}
+            </h4>
+            <div class="tng-flow-execution-inspector__attempts">
+              @for (item of activation.executions; track item.id) {
+                <button
+                  type="button"
+                  class="tng-flow-execution-inspector__attempt"
+                  [attr.data-selected]="isSelectedExecution(item) ? '' : null"
+                  (click)="selectExecution(item)"
+                >
+                  <span>{{ attemptLabel(item) }}</span>
+                  <span>{{ phaseLabel(item.phase) }}</span>
+                </button>
+              }
+            </div>
+          </div>
+        }
+      </section>
+    }
+
+    @if (execution !== null) {
+      <div class="tng-flow-execution-inspector__payloads">
+        @if (payloadTemplate(); as template) {
+          <ng-container
+            [ngTemplateOutlet]="template.templateRef"
+            [ngTemplateOutletContext]="payloadContext(execution.input, 'Node input')"
+          />
+          <ng-container
+            [ngTemplateOutlet]="template.templateRef"
+            [ngTemplateOutletContext]="payloadContext(execution.output, 'Node output')"
+          />
+          <ng-container
+            [ngTemplateOutlet]="template.templateRef"
+            [ngTemplateOutletContext]="payloadContext(execution.error, 'Node error')"
+          />
+        } @else {
+          <tng-flow-execution-payload [payload]="execution.input" title="Node input" />
+          <tng-flow-execution-payload [payload]="execution.output" title="Node output" />
+          <tng-flow-execution-payload [payload]="execution.error" title="Node error" />
+        }
+      </div>
+    } @else {
+      <p class="tng-flow-execution-inspector__empty">No executions are available for this node.</p>
+    }
+  } @else {
+    <p class="tng-flow-execution-inspector__empty">Select a node to inspect execution details.</p>
+  }
+</section>

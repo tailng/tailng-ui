@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 import { TngProgressBarComponent, TngCardComponent } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons/core';
 import { resolveTngFlowValidationSeverity } from '../model/tng-flow-issue-index';
+import type { TngFlowProgressDisplayMode } from '../types/tng-flow-presentation.types';
 import type {
   TngFlowValidationIssue,
   TngFlowValidationSeverity,
@@ -27,12 +28,7 @@ export function resolveTngFlowStatusTone(status: string): TngFlowStatusTone {
 
 @Component({
   selector: 'tng-flow-node',
-  imports: [
-    TngCardComponent,
-    TngFlowValidationBadgeComponent,
-    TngIcon,
-    TngProgressBarComponent,
-  ],
+  imports: [TngCardComponent, TngFlowValidationBadgeComponent, TngIcon, TngProgressBarComponent],
   templateUrl: './tng-flow-node.component.html',
   styleUrl: './tng-flow-node.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -52,6 +48,8 @@ export class TngFlowNodeComponent {
   public readonly icon = input<string | null>(null);
   public readonly status = input<string>('idle');
   public readonly progress = input<number | null>(null);
+  public readonly progressSpecified = input(false);
+  public readonly progressDisplayMode = input<TngFlowProgressDisplayMode>('status-driven');
   public readonly selected = input(false);
   public readonly disabled = input(false);
   public readonly locked = input(false);
@@ -67,14 +65,19 @@ export class TngFlowNodeComponent {
   protected readonly statusTone = computed<TngFlowStatusTone>(() =>
     resolveTngFlowStatusTone(this.status()),
   );
-  protected readonly resolvedValidationSeverity = computed(() =>
-    resolveTngFlowValidationSeverity(this.validationIssues()) ??
-    this.validationSeverity() ??
-    (this.invalid() ? 'error' : null),
+  protected readonly resolvedValidationSeverity = computed(
+    () =>
+      resolveTngFlowValidationSeverity(this.validationIssues()) ??
+      this.validationSeverity() ??
+      (this.invalid() ? 'error' : null),
   );
   protected readonly resolvedStatusMessage = computed(() => this.statusMessage() ?? this.message());
   protected readonly showProgress = computed<boolean>(
-    () => this.progress() !== null || this.status() === 'running' || this.status() === 'retrying',
+    () =>
+      this.progressSpecified() ||
+      this.progress() !== null ||
+      (this.progressDisplayMode() === 'status-driven' &&
+        (this.status() === 'running' || this.status() === 'retrying')),
   );
   protected readonly normalizedProgress = computed<number>(() => {
     const value = this.progress();

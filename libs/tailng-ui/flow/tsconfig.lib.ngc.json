@@ -5,11 +5,13 @@
     "outDir": "../../../dist/libs/tailng-ui/flow/src",
     "paths": {
       "@tailng-ui/flow": ["libs/tailng-ui/flow/src/index.ts"],
+      "@tailng-ui/flow/execution": ["libs/tailng-ui/flow/src/execution/index.ts"],
       "@tailng-ui/flow/*": ["libs/tailng-ui/flow/src/*"],
-      "@tailng-ui/components": ["dist/libs/tailng-ui/components/src/index.d.ts"],
-      "@tailng-ui/components/*": ["dist/libs/tailng-ui/components/src/*"],
-      "@tailng-ui/icons": ["dist/libs/tailng-ui/icons/src/index.d.ts"],
-      "@tailng-ui/icons/*": ["dist/libs/tailng-ui/icons/src/*"]
+      "@tailng-ui/components": ["dist/libs/tailng-ui/components/types/tailng-ui-components.d.ts"],
+      "@tailng-ui/components/*": ["dist/libs/tailng-ui/components/types/*"],
+      "@tailng-ui/icons": ["dist/libs/tailng-ui/icons/types/tailng-ui-icons.d.ts"],
+      "@tailng-ui/icons/core": ["dist/libs/tailng-ui/icons/types/tailng-ui-icons-core.d.ts"],
+      "@tailng-ui/icons/*": ["dist/libs/tailng-ui/icons/types/*"]
     }
   },
   "angularCompilerOptions": {

@@ -1,0 +1,109 @@
+<section class="tng-flow-execution-viewer__shell">
+  @if (state() === 'loading' || state() === 'empty' || state() === 'error') {
+    <div class="tng-flow-execution-viewer__state" role="status">
+      {{ stateMessage() ?? state() }}
+    </div>
+  } @else {
+    @if (showResolvedInspector()) {
+      <tng-split-group
+        class="tng-flow-execution-viewer__split"
+        [orientation]="splitOrientation()"
+        (resize)="onSplitResize($event)"
+      >
+        <div
+          tngSplitPane
+          paneId="graph"
+          [grow]="1"
+          [minSize]="normalizedGraphMinSize()"
+          class="tng-flow-execution-viewer__graph-pane"
+        >
+          <ng-container [ngTemplateOutlet]="graphTemplate" />
+        </div>
+
+        <tng-split-handle ariaLabel="Resize execution inspector" primaryPane="next" />
+
+        <aside
+          tngSplitPane
+          paneId="inspector"
+          [size]="inspectorSize()"
+          [defaultSize]="inspectorSize()"
+          [minSize]="normalizedInspectorMinSize()"
+          [collapsible]="true"
+          class="tng-flow-execution-viewer__inspector-pane"
+        >
+          <ng-container [ngTemplateOutlet]="inspectorTemplateBlock" />
+        </aside>
+      </tng-split-group>
+    } @else {
+      <ng-container [ngTemplateOutlet]="graphTemplate" />
+    }
+  }
+
+  @if (showInspector()) {
+    <tng-button
+      type="button"
+      appearance="ghost"
+      size="sm"
+      class="tng-flow-execution-viewer__inspector-toggle"
+      [attr.aria-expanded]="showResolvedInspector() ? 'true' : 'false'"
+      (click)="toggleInspector()"
+    >
+      {{ showResolvedInspector() ? 'Hide details' : 'Show details' }}
+    </tng-button>
+  }
+
+  <span class="tng-flow-execution-viewer__live" aria-live="polite">{{ liveRegionMessage() }}</span>
+</section>
+
+<ng-template #graphTemplate>
+  <div class="tng-flow-execution-viewer__graph">
+    <tng-flow-editor
+      [definition]="definition()"
+      [selection]="selection()"
+      [presentation]="presentation()"
+      [progressDisplayMode]="'explicit'"
+      [mode]="readonly() ? 'readonly' : mode()"
+      [viewport]="viewport()"
+      [options]="options()"
+      [connectionOptions]="connectionOptions()"
+      [connectionAriaLabel]="connectionAriaLabel()"
+      [keyboardOptions]="keyboardOptions()"
+      [smartGuides]="smartGuides()"
+      [showBackground]="showBackground()"
+      [showControls]="showControls()"
+      [showMinimap]="showMinimap()"
+      [showSelectionArea]="showSelectionArea()"
+      [fitOnInit]="fitOnInit()"
+      [flowId]="flowId()"
+      [ariaLabel]="ariaLabel()"
+      (selectionChange)="onEditorSelectionChange($event)"
+      (viewportChange)="onViewportChange($event)"
+      (nodeActivated)="onGraphNodeActivated($event)"
+    >
+      <ng-content select="ng-template[tngFlowNode]" />
+      <ng-content select="ng-template[tngFlowConnection], ng-template[tngFlowConnectionLabel]" />
+    </tng-flow-editor>
+  </div>
+</ng-template>
+
+<ng-template #inspectorTemplateBlock>
+  @if (inspectorTemplate(); as template) {
+    <ng-container
+      [ngTemplateOutlet]="template.templateRef"
+      [ngTemplateOutletContext]="inspectorTemplateContext()"
+    />
+  } @else {
+    <tng-flow-execution-inspector
+      [definition]="definition()"
+      [snapshot]="index().snapshot"
+      [inspectedNodeId]="effectiveInspectedNodeId()"
+      [selectedExecutionId]="effectiveSelectedExecutionId()"
+      [scope]="inspectorScope()"
+      [dateTimeFormatter]="dateTimeFormatter()"
+      (selectedExecutionIdChange)="onInspectorExecutionSelected($event)"
+      (executionActivated)="onInspectorExecutionActivated($event)"
+    >
+      <ng-content select="ng-template[tngFlowExecutionPayload]" />
+    </tng-flow-execution-inspector>
+  }
+</ng-template>

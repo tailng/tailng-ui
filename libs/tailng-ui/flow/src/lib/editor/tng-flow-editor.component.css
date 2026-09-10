@@ -1,7 +1,7 @@
 :host {
   display: block;
-  min-height: 24rem;
-  height: 36rem;
+  min-height: var(--tng-flow-editor-min-height, 24rem);
+  height: var(--tng-flow-editor-height, 36rem);
 }
 
 .tng-flow-editor {

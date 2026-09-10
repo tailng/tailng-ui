@@ -1076,6 +1076,7 @@ describe('TngFlowEditorComponent browser contracts', () => {
 
     minimapShell.dispatchEvent(new PointerEvent('pointerleave', { pointerType: 'mouse' }));
     await fixture.whenStable();
+    await nextPaint();
 
     expect(fixture.componentInstance.viewport().position).toEqual({ x: 0, y: 0 });
     expect(fixture.componentInstance.viewportChangeCount()).toBe(3);

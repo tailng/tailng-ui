@@ -6,9 +6,12 @@ const workspaceRoot = process.cwd();
 const distRoot = resolve(workspaceRoot, 'dist/libs/tailng-ui/flow');
 const componentsTypesEntry = resolve(
   workspaceRoot,
-  'dist/libs/tailng-ui/components/src/index.d.ts',
+  'dist/libs/tailng-ui/components/types/tailng-ui-components.d.ts',
 );
-const iconsTypesEntry = resolve(workspaceRoot, 'dist/libs/tailng-ui/icons/src/index.d.ts');
+const iconsTypesEntry = resolve(
+  workspaceRoot,
+  'dist/libs/tailng-ui/icons/types/tailng-ui-icons.d.ts',
+);
 const sassPath = resolve(workspaceRoot, 'node_modules/.bin/sass');
 
 const ngcCandidates = [
@@ -24,13 +27,15 @@ if (!ngcPath) {
 
 if (!existsSync(componentsTypesEntry)) {
   console.error(
-    'build-flow: missing dist/libs/tailng-ui/components/src/index.d.ts. Build components first.',
+    'build-flow: missing dist/libs/tailng-ui/components/types/tailng-ui-components.d.ts. Build components first.',
   );
   process.exit(1);
 }
 
 if (!existsSync(iconsTypesEntry)) {
-  console.error('build-flow: missing dist/libs/tailng-ui/icons/src/index.d.ts. Build icons first.');
+  console.error(
+    'build-flow: missing dist/libs/tailng-ui/icons/types/tailng-ui-icons.d.ts. Build icons first.',
+  );
   process.exit(1);
 }
 
@@ -55,7 +60,6 @@ if (ngcResult.status !== 0) {
 for (const asset of ['package.json', 'README.md', 'styles.scss']) {
   cpSync(resolve(workspaceRoot, 'libs/tailng-ui/flow', asset), resolve(distRoot, asset));
 }
-
 
 const sassResult = spawnSync(
   sassPath,
