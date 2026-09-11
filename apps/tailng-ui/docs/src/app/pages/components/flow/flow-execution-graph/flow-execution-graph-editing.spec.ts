@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   applyFlowExecutionGraphConnectionCreate,
   applyFlowExecutionGraphConnectionReconnect,
+  applyFlowExecutionGraphConnectionRoutingChange,
   applyFlowExecutionGraphConnectionsDelete,
   applyFlowExecutionGraphNodeMoves,
 } from './flow-execution-graph-editing';
@@ -84,5 +85,36 @@ describe('flow execution graph controlled editing', () => {
     expect(deleted.definition.nodes.flatMap((node) => node.ports ?? [])).toEqual([]);
     expect(deleted.selection).toEqual(emptySelection);
     expect(definition.connections).toEqual([]);
+  });
+
+  it('changes selected connection routing without dropping other connection options', () => {
+    const created = applyFlowExecutionGraphConnectionCreate(definition, {
+      source: { nodeId: 'source', portId: 'custom-point-out-right-1' },
+      target: { nodeId: 'target', portId: 'custom-point-in-left-1' },
+    });
+    const withOptions: TngFlowDefinition<unknown> = {
+      ...created.definition,
+      connections: created.definition.connections.map((connection) => ({
+        ...connection,
+        routing: { ...connection.routing, offset: 24, waypoints: [{ x: 150, y: 20 }] },
+        targetMarker: 'arrow',
+      })),
+    };
+
+    const changed = applyFlowExecutionGraphConnectionRoutingChange(withOptions, {
+      connectionIds: ['docs-connection-1'],
+      type: 'orthogonal-rounded',
+      source: 'controls',
+    });
+
+    expect(changed.connections[0]).toMatchObject({
+      routing: {
+        type: 'orthogonal-rounded',
+        offset: 24,
+        waypoints: [{ x: 150, y: 20 }],
+      },
+      targetMarker: 'arrow',
+    });
+    expect(withOptions.connections[0]?.routing?.type).toBe('bezier');
   });
 });

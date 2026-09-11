@@ -23,8 +23,9 @@
         only ports declared by the workflow definition.
       </li>
       <li>
-        <code>showControls</code>, <code>showBackground</code>, <code>showMinimap</code>,
-        <code>showSelectionArea</code>, and <code>fitOnInit</code>: surface feature toggles.
+        <code>showControls</code>, <code>showConnectionTools</code>, <code>showBackground</code>,
+        <code>showMinimap</code>, <code>showSelectionArea</code>, and <code>fitOnInit</code>:
+        surface feature toggles. Connection tools render only in edit mode.
       </li>
     </ul>
   </section>
@@ -36,8 +37,8 @@
       <code>selectedExecutionIdChange</code>, <code>viewportChange</code>, and
       <code>executionActivated</code> to keep inspection state synchronized. In edit mode, apply
       <code>nodesMoved</code>, <code>nodeCreateRequested</code>, connection
-      create/reconnect/waypoint requests, and node/connection delete requests to a new controlled
-      definition snapshot. These outputs are proposals: the graph never mutates
+      create/reconnect/routing/waypoint requests, and node/connection delete requests to a new
+      controlled definition snapshot. These outputs are proposals: the graph never mutates
       <code>definition</code> internally.
     </p>
   </section>
@@ -51,13 +52,22 @@
       filtering those IDs from the definition, clearing stale selection, and calling
       <code>pruneUnusedTngFlowCustomPointPorts()</code>.
     </p>
+    <p>
+      The canvas connection-style toolbar emits <code>connectionRoutingChangeRequested</code> for
+      all editable selected connections. Its three icon controls expose straight, Bézier, and
+      rounded orthogonal paths. Apply the requested <code>type</code> by spreading the existing
+      <code>routing</code> record so offsets, radii, and waypoints are preserved. The public model
+      additionally supports sharp orthogonal and adaptive paths. Mixed multi-selection leaves all
+      three toolbar controls unpressed until the user chooses a common style.
+    </p>
   </section>
 
   <section id="graph-methods" class="docs-overview-block">
     <h3>Imperative helpers</h3>
     <p>
       The graph forwards layout and viewport helpers such as <code>refreshLayout()</code>,
-      <code>fitToScreen()</code>, <code>resetViewport()</code>, and <code>centerNode()</code>.
+      <code>fitToScreen()</code>, <code>resetViewport()</code>, <code>centerNode()</code>, and
+      <code>requestConnectionRoutingChange()</code>.
     </p>
   </section>
 </article>

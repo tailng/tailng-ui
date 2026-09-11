@@ -403,6 +403,50 @@
     </aside>
   }
 
+  @if (canEdit() && showConnectionTools()) {
+    <div
+      class="tng-flow-editor__authoring-tools"
+      role="toolbar"
+      aria-label="Connection style"
+      aria-orientation="horizontal"
+      [attr.data-mixed]="selectedConnectionPathType() === 'mixed' ? '' : null"
+      [style.top.px]="connectionToolsTop()"
+    >
+      @for (option of connectionPathOptions; track option.type) {
+        <tng-button
+          class="tng-flow-editor__path-control"
+          [attr.data-connection-path-control]="option.type"
+          [appearance]="isSelectedConnectionPathType(option.type) ? 'solid' : 'ghost'"
+          size="sm"
+          [title]="option.label"
+          [disabled]="editableSelectedConnectionIds().length === 0"
+          [ariaPressed]="isSelectedConnectionPathType(option.type)"
+          (click)="requestConnectionRoutingChange(option.type, 'controls')"
+        >
+          <svg
+            class="tng-flow-editor__path-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            @switch (option.type) {
+              @case ('straight') {
+                <path d="M3 17 21 7" />
+              }
+              @case ('bezier') {
+                <path d="M3 17C7 5 17 5 21 17" />
+              }
+              @case ('orthogonal-rounded') {
+                <path d="M3 6h7a4 4 0 0 1 4 4v4a4 4 0 0 0 4 4h3" />
+              }
+            }
+          </svg>
+          <span class="tng-flow-editor__visually-hidden">{{ option.ariaLabel }}</span>
+        </tng-button>
+      }
+    </div>
+  }
+
   @if (showControls()) {
     <nav class="tng-flow-editor__controls" aria-label="Flow viewport controls">
       <tng-button appearance="outline" size="sm" title="Zoom out" (click)="zoomOut()">

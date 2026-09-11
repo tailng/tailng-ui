@@ -4,6 +4,7 @@ import { TngButtonComponent } from '@tailng-ui/components';
 import type {
   TngFlowConnectionCreateRequest,
   TngFlowConnectionReconnectRequest,
+  TngFlowConnectionRoutingChangeRequest,
   TngFlowConnectionsDeleteRequest,
   TngFlowDefinition,
   TngFlowEditorMode,
@@ -31,6 +32,7 @@ import {
 import {
   applyFlowExecutionGraphConnectionCreate,
   applyFlowExecutionGraphConnectionReconnect,
+  applyFlowExecutionGraphConnectionRoutingChange,
   applyFlowExecutionGraphConnectionsDelete,
   applyFlowExecutionGraphNodeMoves,
   type FlowExecutionGraphControlledUpdate,
@@ -156,6 +158,15 @@ export class FlowExecutionGraphOverviewPageComponent implements OnDestroy {
       definition,
       selection,
       applyFlowExecutionGraphConnectionsDelete(definition(), selection(), request),
+    );
+  }
+
+  protected onConnectionRoutingChangeRequested(
+    definition: WritableSignal<TngFlowDefinition<unknown>>,
+    request: TngFlowConnectionRoutingChangeRequest,
+  ): void {
+    definition.update((current) =>
+      applyFlowExecutionGraphConnectionRoutingChange(current, request),
     );
   }
 

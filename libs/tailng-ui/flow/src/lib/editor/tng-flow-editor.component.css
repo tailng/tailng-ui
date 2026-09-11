@@ -196,6 +196,42 @@
   backdrop-filter: blur(8px);
 }
 
+.tng-flow-editor__authoring-tools {
+  position: absolute;
+  z-index: 10;
+  left: 0.75rem;
+  display: inline-flex;
+  gap: 0.15rem;
+  padding: 0.25rem;
+  border: 1px solid var(--tng-flow-controls-border, var(--tng-semantic-border-default, #e2e8f0));
+  border-radius: 0.65rem;
+  background: color-mix(
+    in srgb,
+    var(--tng-flow-controls-background, var(--tng-semantic-background-surface, #fff)) 92%,
+    transparent
+  );
+  box-shadow: 0 6px 20px rgb(15 23 42 / 10%);
+  backdrop-filter: blur(8px);
+  transition: top 150ms ease;
+}
+
+.tng-flow-editor__path-control {
+  --tng-button-min-width: 2rem;
+  --tng-button-padding-inline-sm: 0.4rem;
+  --tng-button-radius: 0.4rem;
+}
+
+.tng-flow-editor__path-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  flex: 0 0 auto;
+  overflow: visible;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.75;
+}
+
 .tng-flow-editor__validation-summary {
   position: absolute;
   z-index: 11;

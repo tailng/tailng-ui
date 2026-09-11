@@ -1097,6 +1097,103 @@ describe('TngFlowEditorComponent', () => {
     ).toBe('4px -2px');
   });
 
+  it('renders three icon controls and requests controlled selected-connection routing changes', () => {
+    const fixture = TestBed.createComponent(TngFlowEditorComponent);
+    fixture.componentRef.setInput('nodes', nodes);
+    fixture.componentRef.setInput('connections', labelledConnections);
+    fixture.componentRef.setInput('selection', {
+      nodeIds: new Set(),
+      connectionIds: new Set(['custom-to-default']),
+    });
+    const requests: unknown[] = [];
+    fixture.componentInstance.connectionRoutingChangeRequested.subscribe((request) =>
+      requests.push(request),
+    );
+    fixture.detectChanges();
+
+    const host = fixture.nativeElement as HTMLElement;
+    const toolbar = host.querySelector('.tng-flow-editor__authoring-tools');
+    const controls = host.querySelectorAll('[data-connection-path-control]');
+    const curvedButton = host.querySelector<HTMLButtonElement>(
+      '[data-connection-path-control="bezier"] button',
+    );
+    const straightButton = host.querySelector<HTMLButtonElement>(
+      '[data-connection-path-control="straight"] button',
+    );
+
+    expect(toolbar?.getAttribute('role')).toBe('toolbar');
+    expect(toolbar?.getAttribute('aria-label')).toBe('Connection style');
+    expect(controls).toHaveLength(3);
+    expect(curvedButton?.getAttribute('aria-pressed')).toBe('true');
+    expect(straightButton?.getAttribute('aria-pressed')).toBe('false');
+
+    straightButton?.click();
+    expect(fixture.componentInstance.requestConnectionRoutingChange('straight')).toBe(true);
+    expect(requests).toEqual([
+      {
+        connectionIds: ['custom-to-default'],
+        type: 'straight',
+        source: 'controls',
+      },
+      {
+        connectionIds: ['custom-to-default'],
+        type: 'straight',
+        source: 'api',
+      },
+    ]);
+
+    fixture.componentRef.setInput('selection', {
+      nodeIds: new Set(),
+      connectionIds: new Set(),
+    });
+    fixture.detectChanges();
+
+    expect(
+      [...host.querySelectorAll<HTMLButtonElement>('[data-connection-path-control] button')].every(
+        (button) => button.disabled,
+      ),
+    ).toBe(true);
+
+    fixture.componentRef.setInput('showConnectionTools', false);
+    fixture.detectChanges();
+
+    expect(host.querySelector('.tng-flow-editor__authoring-tools')).toBeNull();
+
+    fixture.componentRef.setInput('showConnectionTools', true);
+    fixture.componentRef.setInput('mode', 'inspect');
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.requestConnectionRoutingChange('bezier')).toBe(false);
+    expect(
+      (fixture.nativeElement as HTMLElement).querySelector('.tng-flow-editor__authoring-tools'),
+    ).toBeNull();
+  });
+
+  it('shows no pressed path control for a mixed selected-connection style', () => {
+    const fixture = TestBed.createComponent(TngFlowEditorComponent);
+    fixture.componentRef.setInput('nodes', nodes);
+    fixture.componentRef.setInput('connections', [
+      { ...labelledConnections[0], id: 'curved', routing: { type: 'bezier' } },
+      { ...labelledConnections[0], id: 'straight', routing: { type: 'straight' } },
+    ]);
+    fixture.componentRef.setInput('selection', {
+      nodeIds: new Set(),
+      connectionIds: new Set(['curved', 'straight']),
+    });
+    fixture.detectChanges();
+
+    const host = fixture.nativeElement as HTMLElement;
+    const toolbar = host.querySelector('.tng-flow-editor__authoring-tools');
+    const buttons = host.querySelectorAll<HTMLButtonElement>(
+      '[data-connection-path-control] button',
+    );
+
+    expect(toolbar?.hasAttribute('data-mixed')).toBe(true);
+    expect([...buttons].every((button) => button.getAttribute('aria-pressed') === 'false')).toBe(
+      true,
+    );
+  });
+
   it('supports pulse presentation, motion preference, runtime descriptions, and aria factories', () => {
     const fixture = TestBed.createComponent(TngFlowEditorComponent);
     fixture.componentRef.setInput('nodes', nodes);

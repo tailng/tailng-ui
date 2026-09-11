@@ -3,6 +3,7 @@ import {
   pruneUnusedTngFlowCustomPointPorts,
   type TngFlowConnectionCreateRequest,
   type TngFlowConnectionReconnectRequest,
+  type TngFlowConnectionRoutingChangeRequest,
   type TngFlowConnectionsDeleteRequest,
   type TngFlowDefinition,
   type TngFlowNodesMovedEvent,
@@ -72,6 +73,27 @@ export function applyFlowExecutionGraphConnectionReconnect(
   return {
     definition: pruneUnusedTngFlowCustomPointPorts({ ...definition, nodes, connections }),
     selection,
+  };
+}
+
+export function applyFlowExecutionGraphConnectionRoutingChange(
+  definition: TngFlowDefinition<unknown>,
+  request: TngFlowConnectionRoutingChangeRequest,
+): TngFlowDefinition<unknown> {
+  const connectionIds = new Set(request.connectionIds);
+  if (connectionIds.size === 0) {
+    return definition;
+  }
+  return {
+    ...definition,
+    connections: definition.connections.map((connection) =>
+      connectionIds.has(connection.id)
+        ? {
+            ...connection,
+            routing: { ...connection.routing, type: request.type },
+          }
+        : connection,
+    ),
   };
 }
 

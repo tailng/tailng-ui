@@ -74,6 +74,9 @@
         (connectionReconnectRequested)="
           onConnectionReconnectRequested(plainDefinition, plainSelection, $event)
         "
+        (connectionRoutingChangeRequested)="
+          onConnectionRoutingChangeRequested(plainDefinition, $event)
+        "
         (connectionsDeleteRequested)="
           onConnectionsDeleteRequested(plainDefinition, plainSelection, $event)
         "
@@ -140,6 +143,9 @@
         "
         (connectionReconnectRequested)="
           onConnectionReconnectRequested(tailwindDefinition, tailwindSelection, $event)
+        "
+        (connectionRoutingChangeRequested)="
+          onConnectionRoutingChangeRequested(tailwindDefinition, $event)
         "
         (connectionsDeleteRequested)="
           onConnectionsDeleteRequested(tailwindDefinition, tailwindSelection, $event)

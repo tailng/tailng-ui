@@ -116,6 +116,9 @@ import type { TngFlowConnectionTemplateContext } from '../types/tng-flow-connect
 import {
   DEFAULT_TNG_FLOW_CONNECTION_OPTIONS,
   type TngFlowConnectionAriaLabelFactory,
+  type TngFlowConnectionPathType,
+  type TngFlowConnectionRoutingChangeRequest,
+  type TngFlowConnectionRoutingChangeSource,
   type TngFlowConnectionWaypointsChange,
   type TngFlowDefaultConnectionOptions,
   type TngFlowEditorConnectionOptions,
@@ -405,6 +408,29 @@ type MinimapHoverNavigationSnapshot = Readonly<{
 }>;
 
 const TNG_FLOW_LAYOUT_REFRESH_DEBOUNCE_MS = 64;
+const TNG_FLOW_CONNECTION_PATH_TYPES = new Set<TngFlowConnectionPathType>([
+  'bezier',
+  'straight',
+  'orthogonal',
+  'orthogonal-rounded',
+  'adaptive',
+]);
+
+type TngFlowConnectionPathOption = Readonly<{
+  ariaLabel: string;
+  label: string;
+  type: 'bezier' | 'orthogonal-rounded' | 'straight';
+}>;
+
+const TNG_FLOW_CONNECTION_PATH_OPTIONS: readonly TngFlowConnectionPathOption[] = Object.freeze([
+  Object.freeze({ ariaLabel: 'Use straight connections', label: 'Straight', type: 'straight' }),
+  Object.freeze({ ariaLabel: 'Use curved connections', label: 'Curved', type: 'bezier' }),
+  Object.freeze({
+    ariaLabel: 'Use rounded elbow connections',
+    label: 'Rounded elbow',
+    type: 'orthogonal-rounded',
+  }),
+]);
 
 @Component({
   selector: 'tng-flow-editor',
@@ -535,6 +561,9 @@ export class TngFlowEditorComponent<
   public readonly showControls = input<boolean, boolean | string>(true, {
     transform: booleanAttribute,
   });
+  public readonly showConnectionTools = input<boolean, boolean | string>(true, {
+    transform: booleanAttribute,
+  });
   public readonly showMinimap = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
@@ -556,6 +585,8 @@ export class TngFlowEditorComponent<
   public readonly nodeCreateRequested = output<TngFlowNodeCreateRequest<TData>>();
   public readonly connectionCreateRequested = output<TngFlowConnectionCreateRequest>();
   public readonly connectionReconnectRequested = output<TngFlowConnectionReconnectRequest>();
+  public readonly connectionRoutingChangeRequested =
+    output<TngFlowConnectionRoutingChangeRequest>();
   public readonly connectionWaypointsChange = output<TngFlowConnectionWaypointsChange>();
   public readonly connectionsDeleteRequested = output<TngFlowConnectionsDeleteRequest>();
   public readonly nodesDeleteRequested = output<TngFlowNodesDeleteRequest>();
@@ -825,6 +856,29 @@ export class TngFlowEditorComponent<
         resolveTngFlowConnectionOptions(connection, editorOptions, compatibilityDefaults),
       ]),
     );
+  });
+  protected readonly connectionPathOptions = TNG_FLOW_CONNECTION_PATH_OPTIONS;
+  protected readonly editableSelectedConnectionIds = computed(() => {
+    const selectedIds = this.sanitizedSelection().connectionIds;
+    return this.graphConnections()
+      .filter((connection) => selectedIds.has(connection.id) && connection.disabled !== true)
+      .map((connection) => connection.id);
+  });
+  protected readonly selectedConnectionPathType = computed<
+    TngFlowConnectionPathType | 'mixed' | null
+  >(() => {
+    const selectedIds = this.editableSelectedConnectionIds();
+    if (selectedIds.length === 0) {
+      return null;
+    }
+    const types = new Set(
+      selectedIds.map((id) => this.resolvedConnectionOptions().get(id)?.routing.type),
+    );
+    return types.size === 1 ? ([...types][0] ?? null) : 'mixed';
+  });
+  protected readonly connectionToolsTop = computed(() => {
+    const minimap = this.resolvedMinimapOptions();
+    return this.showMinimap() && minimap.position === 'top-left' ? minimap.height + 24 : 12;
   });
   private readonly rendererConnectionWaypoints = computed(
     () =>
@@ -1711,6 +1765,34 @@ export class TngFlowEditorComponent<
     if (!this.isInteractiveActivationTarget(event.target)) {
       this.emitConnectionActivated(connectionId, 'pointer');
     }
+  }
+
+  public requestConnectionRoutingChange(
+    type: TngFlowConnectionPathType,
+    source: TngFlowConnectionRoutingChangeSource = 'api',
+  ): boolean {
+    if (!this.canEdit() || !this.isConnectionPathType(type)) {
+      return false;
+    }
+    const connectionIds = this.editableSelectedConnectionIds();
+    if (connectionIds.length === 0) {
+      return false;
+    }
+    this.runInAngular(() =>
+      this.connectionRoutingChangeRequested.emit({ connectionIds, type, source }),
+    );
+    return true;
+  }
+
+  protected isSelectedConnectionPathType(type: TngFlowConnectionPathType): boolean {
+    return this.selectedConnectionPathType() === type;
+  }
+
+  private isConnectionPathType(value: unknown): value is TngFlowConnectionPathType {
+    return (
+      typeof value === 'string' &&
+      TNG_FLOW_CONNECTION_PATH_TYPES.has(value as TngFlowConnectionPathType)
+    );
   }
 
   protected onConnectionWaypointsChanged(event: RendererConnectionWaypointsChangedLike): void {

@@ -203,6 +203,13 @@ Definitions without routing remain Bézier for compatibility. Waypoint changes a
 events: create a new definition snapshot with the returned points rather than mutating the supplied
 connection.
 
+In edit mode, the canvas connection-style toolbar applies to the editable selected connections and
+emits `connectionRoutingChangeRequested`. Its three icon controls expose straight, Bézier, and
+rounded orthogonal paths; sharp orthogonal and adaptive routing remain available through the public
+model and imperative API. Preserve the rest of each connection's routing options when applying its
+requested path type. Set `showConnectionTools="false"` to hide this authoring control; it is never
+rendered in inspect or readonly mode.
+
 ## Palette and node creation
 
 Use the headless `TngFlowPaletteItemDirective` on native buttons. A drag emits a controlled

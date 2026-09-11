@@ -33,6 +33,9 @@ import type {
 } from '../../../lib/types/tng-flow-command.types';
 import type {
   TngFlowConnectionAriaLabelFactory,
+  TngFlowConnectionPathType,
+  TngFlowConnectionRoutingChangeRequest,
+  TngFlowConnectionRoutingChangeSource,
   TngFlowConnectionWaypointsChange,
   TngFlowEditorConnectionOptions,
   TngFlowEditorOptions,
@@ -140,6 +143,9 @@ export class TngFlowExecutionViewerComponent<
   public readonly showControls = input<boolean, boolean | string>(true, {
     transform: booleanAttribute,
   });
+  public readonly showConnectionTools = input<boolean, boolean | string>(true, {
+    transform: booleanAttribute,
+  });
   public readonly showBackground = input<boolean, boolean | string>(true, {
     transform: booleanAttribute,
   });
@@ -183,6 +189,8 @@ export class TngFlowExecutionViewerComponent<
   public readonly nodeCreateRequested = output<TngFlowNodeCreateRequest<TNodeData>>();
   public readonly connectionCreateRequested = output<TngFlowConnectionCreateRequest>();
   public readonly connectionReconnectRequested = output<TngFlowConnectionReconnectRequest>();
+  public readonly connectionRoutingChangeRequested =
+    output<TngFlowConnectionRoutingChangeRequest>();
   public readonly connectionWaypointsChange = output<TngFlowConnectionWaypointsChange>();
   public readonly connectionsDeleteRequested = output<TngFlowConnectionsDeleteRequest>();
   public readonly nodesDeleteRequested = output<TngFlowNodesDeleteRequest>();
@@ -285,6 +293,13 @@ export class TngFlowExecutionViewerComponent<
 
   public fitToScreen(animated = true, padding = 48): void {
     this.graph()?.fitToScreen(animated, padding);
+  }
+
+  public requestConnectionRoutingChange(
+    type: TngFlowConnectionPathType,
+    source: TngFlowConnectionRoutingChangeSource = 'api',
+  ): boolean {
+    return this.graph()?.requestConnectionRoutingChange(type, source) ?? false;
   }
 
   public resetViewport(animated = true): void {

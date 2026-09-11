@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { describe, expect, it } from 'vitest';
 import { TngFlowExecutionGraphComponent } from './tng-flow-execution-graph.component';
 import { TngFlowEditorComponent } from '../../../lib/editor/tng-flow-editor.component';
+import type { TngFlowConnectionRoutingChangeRequest } from '../../../lib/types/tng-flow-connection.types';
 import type { TngFlowDefinition, TngFlowSelection } from '../../../lib/types/tng-flow.types';
 import type { TngFlowEditorMode, TngFlowNodesMovedEvent } from '../../../lib/types/tng-flow.types';
 import type { TngFlowRunExecutionSnapshot } from '../../model/tng-flow-execution.types';
@@ -34,6 +35,7 @@ const snapshot: TngFlowRunExecutionSnapshot = {
       [snapshot]="snapshot"
       [mode]="mode()"
       (nodesMoved)="moved = $event"
+      (connectionRoutingChangeRequested)="routingChange = $event"
       (selectionChange)="events.push('selection')"
       (inspectedNodeIdChange)="events.push('inspected:' + $event)"
       (selectedExecutionIdChange)="events.push('execution:' + $event)"
@@ -44,6 +46,7 @@ class GraphHost {
   public readonly graph = viewChild.required(TngFlowExecutionGraphComponent);
   public readonly mode = signal<TngFlowEditorMode>('inspect');
   public moved: TngFlowNodesMovedEvent | null = null;
+  public routingChange: TngFlowConnectionRoutingChangeRequest | null = null;
   protected readonly definition = definition;
   protected readonly snapshot = snapshot;
   public readonly events: string[] = [];
@@ -78,6 +81,12 @@ describe('TngFlowExecutionGraphComponent', () => {
       nodes: [{ id: 'task', position: { x: 300, y: 120 } }],
     };
     editor.nodesMoved.emit(movement);
+    const routingChange: TngFlowConnectionRoutingChangeRequest = {
+      connectionIds: ['connection'],
+      type: 'straight',
+      source: 'controls',
+    };
+    editor.connectionRoutingChangeRequested.emit(routingChange);
 
     expect(
       (fixture.nativeElement as HTMLElement)
@@ -85,6 +94,7 @@ describe('TngFlowExecutionGraphComponent', () => {
         ?.getAttribute('data-mode'),
     ).toBe('edit');
     expect(fixture.componentInstance.moved).toEqual(movement);
+    expect(fixture.componentInstance.routingChange).toEqual(routingChange);
     expect('readonly' in fixture.componentInstance.graph()).toBe(false);
   });
 });

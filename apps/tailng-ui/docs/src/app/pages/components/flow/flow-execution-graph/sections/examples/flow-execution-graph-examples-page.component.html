@@ -81,6 +81,9 @@
               (nodesMoved)="onNodesMoved(example.plain, $event)"
               (connectionCreateRequested)="onConnectionCreateRequested(example.plain, $event)"
               (connectionReconnectRequested)="onConnectionReconnectRequested(example.plain, $event)"
+              (connectionRoutingChangeRequested)="
+                onConnectionRoutingChangeRequested(example.plain, $event)
+              "
               (connectionsDeleteRequested)="onConnectionsDeleteRequested(example.plain, $event)"
               (selectionChange)="example.plain.selection.set($event)"
               (inspectedNodeIdChange)="example.plain.inspectedNodeId.set($event)"
@@ -186,6 +189,9 @@
               (connectionCreateRequested)="onConnectionCreateRequested(example.tailwind, $event)"
               (connectionReconnectRequested)="
                 onConnectionReconnectRequested(example.tailwind, $event)
+              "
+              (connectionRoutingChangeRequested)="
+                onConnectionRoutingChangeRequested(example.tailwind, $event)
               "
               (connectionsDeleteRequested)="onConnectionsDeleteRequested(example.tailwind, $event)"
               (selectionChange)="example.tailwind.selection.set($event)"

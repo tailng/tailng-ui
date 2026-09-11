@@ -23,6 +23,8 @@ export type {
   TngFlowConnectionMarker,
   TngFlowConnectionPathType,
   TngFlowConnectionRouting,
+  TngFlowConnectionRoutingChangeRequest,
+  TngFlowConnectionRoutingChangeSource,
   TngFlowConnectionWaypointsChange,
   TngFlowDefaultConnectionOptions,
   TngFlowDefaultConnectionRouting,
