@@ -1,13 +1,13 @@
 import type { Routes } from '@angular/router';
-import { COMPONENTS_LAYOUT_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
+import { COMPONENTS_FLOW_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
-const group = COMPONENTS_LAYOUT_GROUP;
+const group = COMPONENTS_FLOW_GROUP;
 const flowExecutionViewerItem = group.items.find((item) => item.slug === 'flow-execution-viewer');
 if (flowExecutionViewerItem === undefined) {
-  throw new Error('Missing "flow-execution-viewer" in components layout docs group.');
+  throw new Error('Missing "flow-execution-viewer" in components flow docs group.');
 }
 
-export const COMPONENTS_LAYOUT_FLOW_EXECUTION_VIEWER_ROUTES: Routes = [
+export const COMPONENTS_FLOW_EXECUTION_VIEWER_ROUTES: Routes = [
   {
     path: '',
     data: toComponentsDocsRouteData(group, flowExecutionViewerItem),

@@ -143,3 +143,16 @@ export type TngFlowExecutionViewerChange<TPayload = unknown> = Readonly<{
   viewport: TngFlowViewport | null;
   snapshot: TngFlowRunExecutionSnapshot<TPayload> | null;
 }>;
+
+export type TngFlowNodePropertyChangeSource = 'data-template' | 'field';
+
+export type TngFlowNodePropertyChanges<TData = unknown> = Partial<
+  Pick<TngFlowNode<TData>, 'data' | 'description' | 'disabled' | 'locked' | 'name'>
+>;
+
+export type TngFlowNodePropertyChangeRequest<TData = unknown> = Readonly<{
+  node: TngFlowNode<TData>;
+  nodeId: string;
+  changes: TngFlowNodePropertyChanges<TData>;
+  source: TngFlowNodePropertyChangeSource;
+}>;

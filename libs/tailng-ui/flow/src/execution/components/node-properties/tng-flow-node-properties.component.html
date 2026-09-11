@@ -1,0 +1,96 @@
+@let nodeValue = resolvedNode();
+
+<section class="tng-flow-node-properties__panel">
+  @if (nodeValue !== null) {
+    <header class="tng-flow-node-properties__header">
+      <span class="tng-flow-node-properties__eyebrow">Properties</span>
+      <h3 class="tng-flow-node-properties__title">{{ nodeValue.name }}</h3>
+      <span class="tng-flow-node-properties__type">{{ nodeValue.type }}</span>
+    </header>
+
+    <div class="tng-flow-node-properties__fields">
+      <label class="tng-flow-node-properties__field">
+        <span>Name</span>
+        <input
+          type="text"
+          [value]="nodeValue.name"
+          [readOnly]="readonly()"
+          (input)="onNameInput($event)"
+        />
+      </label>
+
+      <label class="tng-flow-node-properties__field">
+        <span>Description</span>
+        <textarea
+          rows="3"
+          [value]="nodeValue.description ?? ''"
+          [readOnly]="readonly()"
+          (input)="onDescriptionInput($event)"
+        ></textarea>
+      </label>
+
+      <div class="tng-flow-node-properties__toggles">
+        <label>
+          <input
+            type="checkbox"
+            [checked]="nodeValue.disabled === true"
+            [disabled]="readonly()"
+            (change)="onDisabledChange($event)"
+          />
+          <span>Disabled</span>
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            [checked]="nodeValue.locked === true"
+            [disabled]="readonly()"
+            (change)="onLockedChange($event)"
+          />
+          <span>Locked</span>
+        </label>
+      </div>
+    </div>
+
+    @if (showData()) {
+      <section class="tng-flow-node-properties__section" aria-label="Node data">
+        <h4>Data</h4>
+        @if (dataTemplate(); as template) {
+          @if (dataTemplateContext(); as context) {
+            <ng-container
+              [ngTemplateOutlet]="template.templateRef"
+              [ngTemplateOutletContext]="context"
+            />
+          }
+        } @else {
+          <pre class="tng-flow-node-properties__data">{{ dataPreview(nodeValue.data) }}</pre>
+        }
+      </section>
+    }
+
+    @if (showPorts()) {
+      <section class="tng-flow-node-properties__section" aria-label="Node ports">
+        <h4>Ports</h4>
+        @if (ports().length > 0) {
+          <div class="tng-flow-node-properties__ports">
+            @for (port of inputPorts(); track port.id) {
+              <div class="tng-flow-node-properties__port">
+                <span>{{ portLabel(port) }}</span>
+                <small>Input{{ portMeta(port) ? ' / ' + portMeta(port) : '' }}</small>
+              </div>
+            }
+            @for (port of outputPorts(); track port.id) {
+              <div class="tng-flow-node-properties__port">
+                <span>{{ portLabel(port) }}</span>
+                <small>Output{{ portMeta(port) ? ' / ' + portMeta(port) : '' }}</small>
+              </div>
+            }
+          </div>
+        } @else {
+          <p class="tng-flow-node-properties__empty">No ports configured.</p>
+        }
+      </section>
+    }
+  } @else {
+    <p class="tng-flow-node-properties__empty">Select a node to view properties.</p>
+  }
+</section>

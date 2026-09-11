@@ -26,6 +26,10 @@ export const COMPONENTS_ROUTES: Routes = [
         loadChildren: () => import('./layout/routes').then((m) => m.COMPONENTS_LAYOUT_ROUTES),
       },
       {
+        path: 'flow',
+        loadChildren: () => import('./flow/routes').then((m) => m.COMPONENTS_FLOW_ROUTES),
+      },
+      {
         path: 'overlay',
         loadChildren: () => import('./overlay/routes').then((m) => m.COMPONENTS_OVERLAY_ROUTES),
       },

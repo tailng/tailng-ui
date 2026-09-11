@@ -1,0 +1,199 @@
+<article class="docs-section-page flow-execution-graph-examples">
+  <h2 class="flow-execution-graph-examples__title">Examples</h2>
+  <p class="flow-execution-graph-examples__lead">
+    Standalone execution graphs for every planned run state, with copy-ready Plain CSS and Tailwind
+    CSS variants.
+  </p>
+
+  @for (example of examples; track example.id) {
+    <app-docs-example-tabs-section
+      [id]="example.id"
+      class="flow-execution-graph-examples__block"
+      [heading]="example.title"
+      [description]="example.story"
+      [ariaLabel]="example.title + ' graph style variants'"
+      [tabListAriaLabel]="example.title + ' graph style tabs'"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain CSS"
+        [panelTitle]="example.title + ' (Plain CSS)'"
+        [codeTabs]="example.plainCodeTabs"
+      >
+        <div
+          class="flow-execution-graph-examples__preview"
+          [class.dark]="example.forcedTheme === 'dark'"
+          [attr.data-theme]="example.forcedTheme"
+          [attr.data-phase]="example.scenario.snapshot.phase"
+          [attr.data-narrow]="example.narrow ? '' : null"
+        >
+          <header class="flow-execution-graph-examples__summary">
+            <div class="flow-execution-graph-examples__status">
+              <span>{{ example.scenario.snapshot.phase }}</span>
+              <strong>{{ selectedNodeName(example.plain) }}</strong>
+              <small>{{ progressLabel(example.scenario) }}</small>
+            </div>
+
+            <div class="flow-execution-graph-examples__actions">
+              <tng-button
+                appearance="outline"
+                size="sm"
+                (click)="resetExample(example.plain, example.scenario)"
+              >
+                Reset
+              </tng-button>
+            </div>
+          </header>
+
+          <div class="flow-execution-graph-examples__surface">
+            <tng-flow-execution-graph
+              class="flow-execution-graph-examples__graph"
+              [flowId]="example.plainFlowId"
+              [ariaLabel]="example.ariaLabel"
+              [definition]="example.plain.definition()"
+              [snapshot]="example.scenario.snapshot"
+              [selection]="example.plain.selection()"
+              [inspectedNodeId]="example.plain.inspectedNodeId()"
+              [selectedExecutionId]="example.plain.selectedExecutionId()"
+              [viewport]="example.plain.viewport()"
+              [mode]="'inspect'"
+              [readonly]="true"
+              [showMinimap]="!example.narrow"
+              [showControls]="!example.narrow"
+              [showSelectionArea]="false"
+              [fitOnInit]="false"
+              (selectionChange)="example.plain.selection.set($event)"
+              (inspectedNodeIdChange)="example.plain.inspectedNodeId.set($event)"
+              (selectedExecutionIdChange)="example.plain.selectedExecutionId.set($event)"
+              (viewportChange)="example.plain.viewport.set($event)"
+              (executionActivated)="onExecutionActivated(example.plain, $event)"
+            />
+
+            <aside class="flow-execution-graph-examples__details" aria-label="Selected execution">
+              <span>Selected execution</span>
+              <strong>{{ attemptLabel(example.plain, example.scenario) }}</strong>
+              <p>{{ selectedExecutionMessage(example.plain, example.scenario) }}</p>
+              <dl>
+                <div>
+                  <dt>Node history</dt>
+                  <dd>{{ executionCountLabel(example.plain, example.scenario) }}</dd>
+                </div>
+                <div>
+                  <dt>Payload</dt>
+                  <dd>{{ payloadStateLabel(example.plain, example.scenario) }}</dd>
+                </div>
+                <div>
+                  <dt>Last graph event</dt>
+                  <dd>{{ example.plain.lastActivation() }}</dd>
+                </div>
+              </dl>
+            </aside>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        [panelTitle]="example.title + ' (Tailwind CSS)'"
+        [codeTabs]="example.tailwindCodeTabs"
+      >
+        <div
+          class="flow-execution-graph-examples__tailwind-preview overflow-hidden rounded-lg border border-tng-border-subtle bg-tng-bg-base p-3"
+          [class.dark]="example.forcedTheme === 'dark'"
+          [attr.data-theme]="example.forcedTheme"
+          [attr.data-phase]="example.scenario.snapshot.phase"
+          [attr.data-narrow]="example.narrow ? '' : null"
+        >
+          <header class="mb-3 flex flex-wrap items-start justify-between gap-3">
+            <div class="grid gap-1">
+              <span class="text-xs font-semibold uppercase text-tng-fg-muted">
+                {{ example.scenario.snapshot.phase }}
+              </span>
+              <strong class="text-sm text-tng-fg-primary">{{
+                selectedNodeName(example.tailwind)
+              }}</strong>
+              <small class="text-xs text-tng-fg-secondary">
+                {{ progressLabel(example.scenario) }}
+              </small>
+            </div>
+
+            <tng-button
+              appearance="outline"
+              size="sm"
+              (click)="resetExample(example.tailwind, example.scenario)"
+            >
+              Reset
+            </tng-button>
+          </header>
+
+          <div class="flow-execution-graph-examples__tailwind-surface grid min-h-[28rem] grid-cols-[minmax(0,1fr)_minmax(16rem,20rem)] overflow-hidden rounded-lg border border-tng-border-subtle max-lg:grid-cols-1">
+            <tng-flow-execution-graph
+              class="block min-h-[28rem]"
+              [flowId]="example.tailwindFlowId"
+              [ariaLabel]="example.ariaLabel"
+              [definition]="example.tailwind.definition()"
+              [snapshot]="example.scenario.snapshot"
+              [selection]="example.tailwind.selection()"
+              [inspectedNodeId]="example.tailwind.inspectedNodeId()"
+              [selectedExecutionId]="example.tailwind.selectedExecutionId()"
+              [viewport]="example.tailwind.viewport()"
+              [mode]="'inspect'"
+              [readonly]="true"
+              [showMinimap]="!example.narrow"
+              [showControls]="!example.narrow"
+              [showSelectionArea]="false"
+              [fitOnInit]="false"
+              (selectionChange)="example.tailwind.selection.set($event)"
+              (inspectedNodeIdChange)="example.tailwind.inspectedNodeId.set($event)"
+              (selectedExecutionIdChange)="example.tailwind.selectedExecutionId.set($event)"
+              (viewportChange)="example.tailwind.viewport.set($event)"
+              (executionActivated)="onExecutionActivated(example.tailwind, $event)"
+            />
+
+            <aside
+              class="grid content-start gap-3 border-l border-tng-border-subtle bg-tng-bg-muted p-4 text-sm max-lg:border-l-0 max-lg:border-t"
+              aria-label="Selected execution"
+            >
+              <span class="text-xs font-semibold uppercase text-tng-fg-muted">
+                Selected execution
+              </span>
+              <strong class="text-sm text-tng-fg-primary">
+                {{ attemptLabel(example.tailwind, example.scenario) }}
+              </strong>
+              <p class="m-0 text-tng-fg-secondary">
+                {{ selectedExecutionMessage(example.tailwind, example.scenario) }}
+              </p>
+              <dl class="m-0 grid gap-3">
+                <div class="grid gap-1">
+                  <dt class="text-xs font-semibold uppercase text-tng-fg-muted">Node history</dt>
+                  <dd class="m-0 text-tng-fg-primary">
+                    {{ executionCountLabel(example.tailwind, example.scenario) }}
+                  </dd>
+                </div>
+                <div class="grid gap-1">
+                  <dt class="text-xs font-semibold uppercase text-tng-fg-muted">Payload</dt>
+                  <dd class="m-0 text-tng-fg-primary">
+                    {{ payloadStateLabel(example.tailwind, example.scenario) }}
+                  </dd>
+                </div>
+                <div class="grid gap-1">
+                  <dt class="text-xs font-semibold uppercase text-tng-fg-muted">
+                    Last graph event
+                  </dt>
+                  <dd class="m-0 text-tng-fg-primary">
+                    {{ example.tailwind.lastActivation() }}
+                  </dd>
+                </div>
+              </dl>
+            </aside>
+          </div>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  }
+</article>

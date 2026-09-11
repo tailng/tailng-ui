@@ -1,5 +1,6 @@
 export type ComponentsDocsCategoryId =
   | 'getting-started'
+  | 'flow'
   | 'layout'
   | 'overlay'
   | 'feedback'
@@ -247,7 +248,7 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
 export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
   id: 'layout',
   title: 'Layout',
-  subtitle: 'Workflow and structural layout components',
+  subtitle: 'Structural layout components',
   items: [
     {
       id: 'card',
@@ -287,20 +288,6 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
         'Resizable horizontal and vertical panes with controlled sizes, collapse states, and accessible handles.',
     },
     {
-      id: 'flow-editor',
-      slug: 'flow-editor',
-      title: 'Flow Editor',
-      description:
-        'Embeddable, controlled node editor for AI agents, automations, and executable workflows.',
-    },
-    {
-      id: 'flow-execution-viewer',
-      slug: 'flow-execution-viewer',
-      title: 'Flow Execution Viewer',
-      description:
-        'Read-only workflow run viewer with graph status, execution history, payloads, and responsive details.',
-    },
-    {
       id: 'drawer',
       slug: 'drawer',
       title: 'Drawer',
@@ -318,6 +305,42 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
       title: 'Tree Table',
       description:
         'Hierarchical treegrid table with expand/collapse rows, selection, keyboard navigation, and accessible aria attributes.',
+    },
+  ],
+};
+
+export const COMPONENTS_FLOW_GROUP: ComponentsDocsGroup = {
+  id: 'flow',
+  title: 'Flow',
+  subtitle: 'Workflow graph and execution surfaces',
+  items: [
+    {
+      id: 'flow-editor',
+      slug: 'flow-editor',
+      title: 'Flow Editor',
+      description:
+        'Embeddable, controlled node editor for AI agents, automations, and executable workflows.',
+    },
+    {
+      id: 'flow-execution-viewer',
+      slug: 'flow-execution-viewer',
+      title: 'Flow Execution Viewer',
+      description:
+        'Workflow run viewer components with graph status, node properties, execution history, and payloads.',
+    },
+    {
+      id: 'flow-execution-graph',
+      slug: 'flow-execution-graph',
+      title: 'Flow Execution Graph',
+      description:
+        'Standalone workflow graph diagram for execution snapshots, node status, selection, and viewport control.',
+    },
+    {
+      id: 'flow-node-properties',
+      slug: 'flow-node-properties',
+      title: 'Flow Node Properties',
+      description:
+        'Selected-node details and edit panel for metadata, ports, data templates, and immutable change requests.',
     },
   ],
 };
@@ -509,6 +532,7 @@ function withAlphabetizedItems(group: ComponentsDocsGroup): ComponentsDocsGroup 
 export const COMPONENTS_DOCS_GROUPS: readonly ComponentsDocsGroup[] = Object.freeze([
   COMPONENTS_GETTING_STARTED_GROUP,
   withAlphabetizedItems(COMPONENTS_FORM_GROUP),
+  withAlphabetizedItems(COMPONENTS_FLOW_GROUP),
   withAlphabetizedItems(COMPONENTS_LAYOUT_GROUP),
   withAlphabetizedItems(COMPONENTS_NAVIGATION_GROUP),
   withAlphabetizedItems(COMPONENTS_OVERLAY_GROUP),

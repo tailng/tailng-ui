@@ -1,0 +1,18 @@
+:host {
+  display: block;
+}
+
+.flow-execution-graph-overview {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.flow-execution-graph-overview__graph {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.5rem;
+  display: block;
+  height: 28rem;
+  min-height: 24rem;
+  overflow: hidden;
+}

@@ -27,16 +27,6 @@ if (splitItem === undefined) {
   throw new Error('Missing "split" in components layout docs group.');
 }
 
-const flowEditorItem = group.items.find((item) => item.slug === 'flow-editor');
-if (flowEditorItem === undefined) {
-  throw new Error('Missing "flow-editor" in components layout docs group.');
-}
-
-const flowExecutionViewerItem = group.items.find((item) => item.slug === 'flow-execution-viewer');
-if (flowExecutionViewerItem === undefined) {
-  throw new Error('Missing "flow-execution-viewer" in components layout docs group.');
-}
-
 const cardItem = group.items.find((item) => item.slug === 'card');
 if (cardItem === undefined) {
   throw new Error('Missing "card" in components layout docs group.');
@@ -93,18 +83,22 @@ export const COMPONENTS_LAYOUT_ROUTES: Routes = [
       import('./split/routes').then((module) => module.COMPONENTS_LAYOUT_SPLIT_ROUTES),
   },
   {
-    path: flowEditorItem.slug,
-    data: toComponentsDocsRouteData(group, flowEditorItem),
-    loadChildren: () =>
-      import('./flow-editor/routes').then((module) => module.COMPONENTS_LAYOUT_FLOW_EDITOR_ROUTES),
+    path: 'flow-editor',
+    pathMatch: 'full',
+    redirectTo: '/components/flow/flow-editor',
   },
   {
-    path: flowExecutionViewerItem.slug,
-    data: toComponentsDocsRouteData(group, flowExecutionViewerItem),
-    loadChildren: () =>
-      import('./flow-execution-viewer/routes').then(
-        (module) => module.COMPONENTS_LAYOUT_FLOW_EXECUTION_VIEWER_ROUTES,
-      ),
+    path: 'flow-editor/:section',
+    redirectTo: '/components/flow/flow-editor/:section',
+  },
+  {
+    path: 'flow-execution-viewer',
+    pathMatch: 'full',
+    redirectTo: '/components/flow/flow-execution-viewer',
+  },
+  {
+    path: 'flow-execution-viewer/:section',
+    redirectTo: '/components/flow/flow-execution-viewer/:section',
   },
   {
     path: cardItem.slug,

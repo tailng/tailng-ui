@@ -1,0 +1,98 @@
+<article class="docs-section-page flow-execution-graph-overview">
+  <section id="graph-purpose" class="docs-overview-block">
+    <h2 class="docs-overview-title">Flow Execution Graph</h2>
+    <p>
+      Flow Execution Graph is the standalone workflow diagram used by the execution viewer. Use it
+      when a product already owns the surrounding inspector, properties panel, routing, or layout
+      but still needs the same execution-aware graph surface.
+    </p>
+  </section>
+
+  <app-docs-example-tabs-section
+    id="running-workflow"
+    heading="Running workflow"
+    description="Inspect a live execution snapshot while your application owns selection, inspection, and viewport state."
+    ariaLabel="Running workflow graph styling variants"
+    tabListAriaLabel="Running workflow graph styles"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain CSS"
+      panelTitle="Running workflow graph with Plain CSS"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <tng-flow-execution-graph
+        class="flow-execution-graph-overview__graph"
+        flowId="overview-running-workflow-plain-css"
+        ariaLabel="Running support workflow execution graph styled with Plain CSS"
+        [definition]="definition"
+        [snapshot]="snapshot"
+        [selection]="plainSelection()"
+        [inspectedNodeId]="plainInspectedNodeId()"
+        [selectedExecutionId]="plainSelectedExecutionId()"
+        [viewport]="plainViewport()"
+        mode="inspect"
+        [readonly]="true"
+        [showMinimap]="true"
+        [showControls]="true"
+        [showSelectionArea]="false"
+        [fitOnInit]="false"
+        (selectionChange)="plainSelection.set($event)"
+        (inspectedNodeIdChange)="plainInspectedNodeId.set($event)"
+        (selectedExecutionIdChange)="plainSelectedExecutionId.set($event)"
+        (viewportChange)="plainViewport.set($event)"
+      />
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Running workflow graph with Tailwind CSS"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <tng-flow-execution-graph
+        class="block h-[28rem] min-h-[24rem] overflow-hidden rounded-lg border border-tng-border-subtle bg-tng-bg-base"
+        flowId="overview-running-workflow-tailwind-css"
+        ariaLabel="Running support workflow execution graph styled with Tailwind CSS"
+        [definition]="definition"
+        [snapshot]="snapshot"
+        [selection]="tailwindSelection()"
+        [inspectedNodeId]="tailwindInspectedNodeId()"
+        [selectedExecutionId]="tailwindSelectedExecutionId()"
+        [viewport]="tailwindViewport()"
+        mode="inspect"
+        [readonly]="true"
+        [showMinimap]="true"
+        [showControls]="true"
+        [showSelectionArea]="false"
+        [fitOnInit]="false"
+        (selectionChange)="tailwindSelection.set($event)"
+        (inspectedNodeIdChange)="tailwindInspectedNodeId.set($event)"
+        (selectedExecutionIdChange)="tailwindSelectedExecutionId.set($event)"
+        (viewportChange)="tailwindViewport.set($event)"
+      />
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section id="graph-responsibilities" class="docs-overview-block">
+    <h3>Responsibilities</h3>
+    <p>
+      The graph maps a workflow definition and run snapshot into node and connection presentation
+      state. It controls selection, inspected node, selected execution, viewport forwarding, and
+      execution activation events.
+    </p>
+  </section>
+
+  <section id="graph-boundary" class="docs-overview-block">
+    <h3>Boundary</h3>
+    <p>
+      The component does not render a property panel, execution history, payload viewer, or split
+      layout. Pair it with Flow Node Properties or a product-owned inspector when users need details
+      beside the diagram.
+    </p>
+  </section>
+</article>

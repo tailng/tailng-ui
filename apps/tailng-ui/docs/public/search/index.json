@@ -8385,6 +8385,242 @@
     ]
   },
   {
+    "title": "Flow Editor",
+    "description": "Flow Editor documentation.",
+    "section": "Components / Flow",
+    "url": "/components/flow/flow-editor",
+    "tags": [
+      "components",
+      "flow",
+      "flow-editor"
+    ]
+  },
+  {
+    "title": "Flow Editor Api",
+    "description": "Flow Editor Api documentation.",
+    "section": "Components / Flow / Flow Editor",
+    "url": "/components/flow/flow-editor/api",
+    "tags": [
+      "components",
+      "flow",
+      "flow-editor",
+      "api"
+    ]
+  },
+  {
+    "title": "Flow Editor Examples",
+    "description": "Flow Editor Examples documentation.",
+    "section": "Components / Flow / Flow Editor",
+    "url": "/components/flow/flow-editor/examples",
+    "tags": [
+      "components",
+      "flow",
+      "flow-editor",
+      "examples"
+    ]
+  },
+  {
+    "title": "Flow Editor Overview",
+    "description": "Flow Editor Overview documentation.",
+    "section": "Components / Flow / Flow Editor",
+    "url": "/components/flow/flow-editor/overview",
+    "tags": [
+      "components",
+      "flow",
+      "flow-editor",
+      "overview"
+    ]
+  },
+  {
+    "title": "Flow Editor Styling",
+    "description": "Flow Editor Styling documentation.",
+    "section": "Components / Flow / Flow Editor",
+    "url": "/components/flow/flow-editor/styling",
+    "tags": [
+      "components",
+      "flow",
+      "flow-editor",
+      "styling"
+    ]
+  },
+  {
+    "title": "Flow Execution Graph",
+    "description": "Flow Execution Graph documentation.",
+    "section": "Components / Flow",
+    "url": "/components/flow/flow-execution-graph",
+    "tags": [
+      "components",
+      "flow",
+      "flow-execution-graph"
+    ]
+  },
+  {
+    "title": "Flow Execution Graph Api",
+    "description": "Flow Execution Graph Api documentation.",
+    "section": "Components / Flow / Flow Execution Graph",
+    "url": "/components/flow/flow-execution-graph/api",
+    "tags": [
+      "components",
+      "flow",
+      "flow-execution-graph",
+      "api"
+    ]
+  },
+  {
+    "title": "Flow Execution Graph Examples",
+    "description": "Flow Execution Graph Examples documentation.",
+    "section": "Components / Flow / Flow Execution Graph",
+    "url": "/components/flow/flow-execution-graph/examples",
+    "tags": [
+      "components",
+      "flow",
+      "flow-execution-graph",
+      "examples"
+    ]
+  },
+  {
+    "title": "Flow Execution Graph Overview",
+    "description": "Flow Execution Graph Overview documentation.",
+    "section": "Components / Flow / Flow Execution Graph",
+    "url": "/components/flow/flow-execution-graph/overview",
+    "tags": [
+      "components",
+      "flow",
+      "flow-execution-graph",
+      "overview"
+    ]
+  },
+  {
+    "title": "Flow Execution Graph Styling",
+    "description": "Flow Execution Graph Styling documentation.",
+    "section": "Components / Flow / Flow Execution Graph",
+    "url": "/components/flow/flow-execution-graph/styling",
+    "tags": [
+      "components",
+      "flow",
+      "flow-execution-graph",
+      "styling"
+    ]
+  },
+  {
+    "title": "Flow Execution Viewer",
+    "description": "Flow Execution Viewer documentation.",
+    "section": "Components / Flow",
+    "url": "/components/flow/flow-execution-viewer",
+    "tags": [
+      "components",
+      "flow",
+      "flow-execution-viewer"
+    ]
+  },
+  {
+    "title": "Flow Execution Viewer Api",
+    "description": "Flow Execution Viewer Api documentation.",
+    "section": "Components / Flow / Flow Execution Viewer",
+    "url": "/components/flow/flow-execution-viewer/api",
+    "tags": [
+      "components",
+      "flow",
+      "flow-execution-viewer",
+      "api"
+    ]
+  },
+  {
+    "title": "Flow Execution Viewer Examples",
+    "description": "Flow Execution Viewer Examples documentation.",
+    "section": "Components / Flow / Flow Execution Viewer",
+    "url": "/components/flow/flow-execution-viewer/examples",
+    "tags": [
+      "components",
+      "flow",
+      "flow-execution-viewer",
+      "examples"
+    ]
+  },
+  {
+    "title": "Flow Execution Viewer Overview",
+    "description": "Flow Execution Viewer Overview documentation.",
+    "section": "Components / Flow / Flow Execution Viewer",
+    "url": "/components/flow/flow-execution-viewer/overview",
+    "tags": [
+      "components",
+      "flow",
+      "flow-execution-viewer",
+      "overview"
+    ]
+  },
+  {
+    "title": "Flow Execution Viewer Styling",
+    "description": "Flow Execution Viewer Styling documentation.",
+    "section": "Components / Flow / Flow Execution Viewer",
+    "url": "/components/flow/flow-execution-viewer/styling",
+    "tags": [
+      "components",
+      "flow",
+      "flow-execution-viewer",
+      "styling"
+    ]
+  },
+  {
+    "title": "Flow Node Properties",
+    "description": "Flow Node Properties documentation.",
+    "section": "Components / Flow",
+    "url": "/components/flow/flow-node-properties",
+    "tags": [
+      "components",
+      "flow",
+      "flow-node-properties"
+    ]
+  },
+  {
+    "title": "Flow Node Properties Api",
+    "description": "Flow Node Properties Api documentation.",
+    "section": "Components / Flow / Flow Node Properties",
+    "url": "/components/flow/flow-node-properties/api",
+    "tags": [
+      "components",
+      "flow",
+      "flow-node-properties",
+      "api"
+    ]
+  },
+  {
+    "title": "Flow Node Properties Examples",
+    "description": "Flow Node Properties Examples documentation.",
+    "section": "Components / Flow / Flow Node Properties",
+    "url": "/components/flow/flow-node-properties/examples",
+    "tags": [
+      "components",
+      "flow",
+      "flow-node-properties",
+      "examples"
+    ]
+  },
+  {
+    "title": "Flow Node Properties Overview",
+    "description": "Flow Node Properties Overview documentation.",
+    "section": "Components / Flow / Flow Node Properties",
+    "url": "/components/flow/flow-node-properties/overview",
+    "tags": [
+      "components",
+      "flow",
+      "flow-node-properties",
+      "overview"
+    ]
+  },
+  {
+    "title": "Flow Node Properties Styling",
+    "description": "Flow Node Properties Styling documentation.",
+    "section": "Components / Flow / Flow Node Properties",
+    "url": "/components/flow/flow-node-properties/styling",
+    "tags": [
+      "components",
+      "flow",
+      "flow-node-properties",
+      "styling"
+    ]
+  },
+  {
     "title": "AutoComplete",
     "description": "Single-value autocomplete patterns and filtering behavior.",
     "section": "Components / Form",
@@ -10432,136 +10668,6 @@
       "components",
       "layout",
       "drawer",
-      "styling"
-    ]
-  },
-  {
-    "title": "Flow Editor",
-    "description": "Embeddable, controlled node editor for AI agents, automations, and executable workflows.",
-    "section": "Components / Layout",
-    "url": "/components/layout/flow-editor",
-    "tags": [
-      "components",
-      "layout",
-      "flow-editor",
-      "ai",
-      "agent",
-      "workflow"
-    ]
-  },
-  {
-    "title": "Flow Editor API",
-    "description": "Inputs, outputs, graph models, template context, methods, and validation for the Flow Editor.",
-    "section": "Components / Layout",
-    "url": "/components/layout/flow-editor/api",
-    "tags": [
-      "components",
-      "layout",
-      "flow-editor",
-      "ai",
-      "agent",
-      "workflow",
-      "api"
-    ]
-  },
-  {
-    "title": "Flow Editor Examples",
-    "description": "Custom node templates and read-only execution monitoring with the Flow Editor.",
-    "section": "Components / Layout",
-    "url": "/components/layout/flow-editor/examples",
-    "tags": [
-      "components",
-      "layout",
-      "flow-editor",
-      "ai",
-      "agent",
-      "workflow",
-      "examples"
-    ]
-  },
-  {
-    "title": "Flow Editor Overview",
-    "description": "Flow Editor Overview documentation.",
-    "section": "Components / Layout / Flow Editor",
-    "url": "/components/layout/flow-editor/overview",
-    "tags": [
-      "components",
-      "layout",
-      "flow-editor",
-      "overview"
-    ]
-  },
-  {
-    "title": "Flow Editor Styling",
-    "description": "Required styles, sizing, CSS custom properties, and custom node content for the Flow Editor.",
-    "section": "Components / Layout",
-    "url": "/components/layout/flow-editor/styling",
-    "tags": [
-      "components",
-      "layout",
-      "flow-editor",
-      "ai",
-      "agent",
-      "workflow",
-      "styling"
-    ]
-  },
-  {
-    "title": "Flow Execution Viewer",
-    "description": "Flow Execution Viewer documentation.",
-    "section": "Components / Layout",
-    "url": "/components/layout/flow-execution-viewer",
-    "tags": [
-      "components",
-      "layout",
-      "flow-execution-viewer"
-    ]
-  },
-  {
-    "title": "Flow Execution Viewer Api",
-    "description": "Flow Execution Viewer Api documentation.",
-    "section": "Components / Layout / Flow Execution Viewer",
-    "url": "/components/layout/flow-execution-viewer/api",
-    "tags": [
-      "components",
-      "layout",
-      "flow-execution-viewer",
-      "api"
-    ]
-  },
-  {
-    "title": "Flow Execution Viewer Examples",
-    "description": "Flow Execution Viewer Examples documentation.",
-    "section": "Components / Layout / Flow Execution Viewer",
-    "url": "/components/layout/flow-execution-viewer/examples",
-    "tags": [
-      "components",
-      "layout",
-      "flow-execution-viewer",
-      "examples"
-    ]
-  },
-  {
-    "title": "Flow Execution Viewer Overview",
-    "description": "Flow Execution Viewer Overview documentation.",
-    "section": "Components / Layout / Flow Execution Viewer",
-    "url": "/components/layout/flow-execution-viewer/overview",
-    "tags": [
-      "components",
-      "layout",
-      "flow-execution-viewer",
-      "overview"
-    ]
-  },
-  {
-    "title": "Flow Execution Viewer Styling",
-    "description": "Flow Execution Viewer Styling documentation.",
-    "section": "Components / Layout / Flow Execution Viewer",
-    "url": "/components/layout/flow-execution-viewer/styling",
-    "tags": [
-      "components",
-      "layout",
-      "flow-execution-viewer",
       "styling"
     ]
   },

@@ -1,7 +1,9 @@
 import { Directive, TemplateRef, inject } from '@angular/core';
+import type { TngFlowNode } from '../../lib/types/tng-flow.types';
 import type {
   TngFlowExecutionPayload,
   TngFlowExecutionPayloadView,
+  TngFlowNodePropertyChanges,
   TngFlowNodeExecution,
   TngFlowRunExecutionSnapshot,
 } from '../model/tng-flow-execution.types';
@@ -20,6 +22,15 @@ export type TngFlowExecutionInspectorTemplateContext<TPayload = unknown> = Reado
   selectedExecution: TngFlowNodeExecution<TPayload> | null;
 }>;
 
+export type TngFlowNodePropertiesDataTemplateContext<TData = unknown> = Readonly<{
+  $implicit: TData | undefined;
+  data: TData | undefined;
+  node: TngFlowNode<TData>;
+  readonly: boolean;
+  requestDataChange: (data: TData | undefined) => void;
+  requestNodeChange: (changes: TngFlowNodePropertyChanges<TData>) => void;
+}>;
+
 @Directive({
   selector: 'ng-template[tngFlowExecutionPayload]',
 })
@@ -34,4 +45,12 @@ export class TngFlowExecutionPayloadTemplateDirective<TPayload = unknown> {
 export class TngFlowExecutionInspectorTemplateDirective<TPayload = unknown> {
   public readonly templateRef =
     inject<TemplateRef<TngFlowExecutionInspectorTemplateContext<TPayload>>>(TemplateRef);
+}
+
+@Directive({
+  selector: 'ng-template[tngFlowNodePropertiesData]',
+})
+export class TngFlowNodePropertiesDataTemplateDirective<TData = unknown> {
+  public readonly templateRef =
+    inject<TemplateRef<TngFlowNodePropertiesDataTemplateContext<TData>>>(TemplateRef);
 }

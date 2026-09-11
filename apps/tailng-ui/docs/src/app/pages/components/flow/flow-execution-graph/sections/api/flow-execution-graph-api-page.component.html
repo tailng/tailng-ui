@@ -1,0 +1,40 @@
+<article class="docs-section-page">
+  <section id="graph-inputs" class="docs-overview-block">
+    <h2 class="docs-overview-title">Graph inputs</h2>
+    <p>
+      The required model inputs are <code>definition</code> and <code>snapshot</code>. The graph is
+      otherwise controlled through the same state channels as the editor surface.
+    </p>
+    <ul>
+      <li><code>definition</code>: workflow graph definition.</li>
+      <li><code>snapshot</code>: run, node, and connection execution state.</li>
+      <li>
+        <code>selection</code>, <code>inspectedNodeId</code>, and
+        <code>selectedExecutionId</code>: controlled interaction state.
+      </li>
+      <li><code>viewport</code>: controlled pan and zoom state.</li>
+      <li><code>mode</code>: <code>inspect</code> or <code>readonly</code>.</li>
+      <li>
+        <code>showControls</code>, <code>showBackground</code>, <code>showMinimap</code>,
+        <code>showSelectionArea</code>, and <code>fitOnInit</code>: surface feature toggles.
+      </li>
+    </ul>
+  </section>
+
+  <section id="graph-outputs" class="docs-overview-block">
+    <h3>Graph outputs</h3>
+    <p>
+      Listen for <code>selectionChange</code>, <code>inspectedNodeIdChange</code>,
+      <code>selectedExecutionIdChange</code>, <code>viewportChange</code>, and
+      <code>executionActivated</code> to keep the product state synchronized.
+    </p>
+  </section>
+
+  <section id="graph-methods" class="docs-overview-block">
+    <h3>Imperative helpers</h3>
+    <p>
+      The graph forwards layout and viewport helpers such as <code>refreshLayout()</code>,
+      <code>fitToScreen()</code>, <code>resetViewport()</code>, and <code>centerNode()</code>.
+    </p>
+  </section>
+</article>

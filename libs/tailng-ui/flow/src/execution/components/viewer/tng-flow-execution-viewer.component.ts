@@ -11,7 +11,6 @@ import {
   booleanAttribute,
   computed,
   contentChild,
-  effect,
   inject,
   input,
   isDevMode,
@@ -26,7 +25,6 @@ import {
   TngSplitPaneDirective,
   type TngSplitResizeEvent,
 } from '@tailng-ui/components';
-import { TngFlowEditorComponent } from '../../../lib/editor/tng-flow-editor.component';
 import { areTngFlowSelectionsEqual } from '../../../lib/model/tng-flow-selection';
 import type { TngFlowSmartGuidesOptions } from '../../../lib/types/tng-flow-arrangement.types';
 import type {
@@ -34,7 +32,6 @@ import type {
   TngFlowEditorConnectionOptions,
   TngFlowEditorOptions,
 } from '../../../lib/types/tng-flow-connection.types';
-import type { TngFlowNodeActivatedEvent } from '../../../lib/types/tng-flow-events.types';
 import type { TngFlowKeyboardOptions } from '../../../lib/types/tng-flow-keyboard.types';
 import type { TngFlowMinimapOptions } from '../../../lib/types/tng-flow-minimap.types';
 import type {
@@ -46,7 +43,6 @@ import type {
 import { EMPTY_TNG_FLOW_SELECTION } from '../../../lib/types/tng-flow.types';
 import {
   createTngFlowExecutionIndex,
-  createTngFlowExecutionPresentation,
   resolveTngFlowExecutionInspectedNodeId,
   resolveTngFlowSelectedExecution,
 } from '../../model/tng-flow-execution.model';
@@ -62,6 +58,7 @@ import {
   TngFlowExecutionInspectorTemplateDirective,
   type TngFlowExecutionInspectorTemplateContext,
 } from '../../templates/tng-flow-execution-templates';
+import { TngFlowExecutionGraphComponent } from '../graph/tng-flow-execution-graph.component';
 import { TngFlowExecutionInspectorComponent } from '../inspector/tng-flow-execution-inspector.component';
 
 const DEFAULT_INSPECTOR_BREAKPOINT = 720;
@@ -75,7 +72,7 @@ const DEFAULT_INSPECTOR_MIN_SIZE = 240;
   imports: [
     NgTemplateOutlet,
     TngButtonComponent,
-    TngFlowEditorComponent,
+    TngFlowExecutionGraphComponent,
     TngFlowExecutionInspectorComponent,
     TngSplitGroupComponent,
     TngSplitHandleComponent,
@@ -97,12 +94,10 @@ export class TngFlowExecutionViewerComponent<TPayload = unknown> implements OnDe
   private readonly documentRef = inject(DOCUMENT);
   private readonly zone = inject(NgZone);
   private readonly changeDetector = inject(ChangeDetectorRef);
-  private readonly editor = viewChild(TngFlowEditorComponent);
+  private readonly graph = viewChild(TngFlowExecutionGraphComponent);
   private readonly warningSignatures = new Set<string>();
   private resizeObserver: ResizeObserver | null = null;
   private resizeCleanup: (() => void) | null = null;
-  private liveRegionPrimed = false;
-  private lastLiveSignature = '';
 
   public readonly definition = input<TngFlowDefinition | null>(null);
   public readonly snapshot = input<TngFlowRunExecutionSnapshot<TPayload> | null>(null);
@@ -166,14 +161,9 @@ export class TngFlowExecutionViewerComponent<TPayload = unknown> implements OnDe
   );
 
   private readonly containerWidth = signal(DEFAULT_INSPECTOR_BREAKPOINT + 1);
-  protected readonly liveRegionMessage = signal('');
 
   protected readonly index = computed(() =>
     createTngFlowExecutionIndex(this.definition(), this.snapshot()),
-  );
-
-  protected readonly presentation = computed(() =>
-    createTngFlowExecutionPresentation(this.definition(), this.index(), 'explicit'),
   );
 
   protected readonly effectiveInspectedNodeId = computed(() =>
@@ -240,35 +230,6 @@ export class TngFlowExecutionViewerComponent<TPayload = unknown> implements OnDe
     selectedExecution: this.effectiveSelectedExecution(),
   }));
 
-  private readonly warningEffect = effect(() => {
-    for (const warning of this.index().warnings) {
-      this.warnOnce(warning.code, warning.id ?? '', warning.message);
-    }
-  });
-
-  private readonly liveRegionEffect = effect(() => {
-    const execution = this.effectiveSelectedExecution();
-    const nodeId = this.effectiveInspectedNodeId();
-    const signature =
-      execution === null
-        ? `${nodeId ?? ''}|none`
-        : `${nodeId ?? ''}|${execution.id}|${execution.phase}|${execution.statusMessage ?? ''}`;
-    if (!this.liveRegionPrimed) {
-      this.liveRegionPrimed = true;
-      this.lastLiveSignature = signature;
-      return;
-    }
-    if (signature === this.lastLiveSignature) {
-      return;
-    }
-    this.lastLiveSignature = signature;
-    this.liveRegionMessage.set(
-      execution === null
-        ? 'No execution is selected.'
-        : `${execution.phase}${execution.statusMessage ? `: ${execution.statusMessage}` : ''}`,
-    );
-  });
-
   private readonly resizeEffect = afterRenderEffect((onCleanup) => {
     this.observeContainer();
     onCleanup(() => this.disconnectResizeObserver());
@@ -279,22 +240,27 @@ export class TngFlowExecutionViewerComponent<TPayload = unknown> implements OnDe
   }
 
   public refreshLayout(): void {
-    this.editor()?.refreshLayout();
+    this.graph()?.refreshLayout();
   }
 
   public fitToScreen(animated = true, padding = 48): void {
-    this.editor()?.fitToScreen(animated, padding);
+    this.graph()?.fitToScreen(animated, padding);
   }
 
   public resetViewport(animated = true): void {
-    this.editor()?.resetViewport(animated);
+    this.graph()?.resetViewport(animated);
   }
 
   public centerNode(nodeId: string, animated = true): boolean {
-    return this.editor()?.centerNode(nodeId, animated) ?? false;
+    return this.graph()?.centerNode(nodeId, animated) ?? false;
   }
 
-  protected onEditorSelectionChange(selection: TngFlowSelection): void {
+  public onEditorSelectionChange(selection: TngFlowSelection): void {
+    const graph = this.graph();
+    if (graph !== undefined) {
+      graph.onEditorSelectionChange(selection);
+      return;
+    }
     if (areTngFlowSelectionsEqual(selection, this.selection())) {
       return;
     }
@@ -321,20 +287,6 @@ export class TngFlowExecutionViewerComponent<TPayload = unknown> implements OnDe
     if (executionId !== this.effectiveSelectedExecutionId()) {
       this.selectedExecutionIdChange.emit(executionId);
     }
-  }
-
-  protected onGraphNodeActivated(event: TngFlowNodeActivatedEvent): void {
-    const node =
-      this.definition()?.nodes.find((candidate) => candidate.id === event.nodeId) ?? null;
-    const execution = resolveTngFlowSelectedExecution(
-      this.index().nodeExecutionsByNodeId.get(event.nodeId) ?? [],
-      this.selectedExecutionId(),
-    );
-    this.executionActivated.emit({
-      node,
-      execution,
-      source: 'graph',
-    });
   }
 
   protected onInspectorExecutionActivated(event: TngFlowExecutionActivatedEvent<TPayload>): void {

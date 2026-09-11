@@ -1,13 +1,13 @@
 import type { Routes } from '@angular/router';
-import { COMPONENTS_LAYOUT_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
+import { COMPONENTS_FLOW_GROUP, toComponentsDocsRouteData } from '../../component-docs.data';
 
-const group = COMPONENTS_LAYOUT_GROUP;
+const group = COMPONENTS_FLOW_GROUP;
 const flowEditorItem = group.items.find((item) => item.slug === 'flow-editor');
 if (flowEditorItem === undefined) {
-  throw new Error('Missing "flow-editor" in components layout docs group.');
+  throw new Error('Missing "flow-editor" in components flow docs group.');
 }
 
-export const COMPONENTS_LAYOUT_FLOW_EDITOR_ROUTES: Routes = [
+export const COMPONENTS_FLOW_EDITOR_ROUTES: Routes = [
   {
     path: '',
     data: toComponentsDocsRouteData(group, flowEditorItem),

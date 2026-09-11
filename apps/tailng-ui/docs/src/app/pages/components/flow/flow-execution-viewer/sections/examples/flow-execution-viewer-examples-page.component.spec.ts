@@ -64,6 +64,12 @@ describe(FlowExecutionViewerExamplesPageComponent.name, () => {
     expect(nativeElement.querySelectorAll('tng-flow-execution-viewer').length).toBe(
       FLOW_EXECUTION_VIEWER_SCENARIOS.length * 2,
     );
+    expect(nativeElement.querySelectorAll('tng-flow-execution-graph').length).toBe(
+      FLOW_EXECUTION_VIEWER_SCENARIOS.length * 4,
+    );
+    expect(nativeElement.querySelectorAll('tng-flow-node-properties').length).toBe(
+      FLOW_EXECUTION_VIEWER_SCENARIOS.length * 2,
+    );
   });
 
   it('renders Plain CSS and Tailwind CSS variants for every example section', async () => {
@@ -166,9 +172,18 @@ describe(FlowExecutionViewerExamplesPageComponent.name, () => {
     state.inspectorOpen.set(false);
     state.showInspector.set(false);
     state.lastActivation.set('Archive audit: succeeded via graph');
+    state.definition.update((definition) => ({
+      ...definition,
+      nodes: definition.nodes.map((node) =>
+        node.id === 'archive' ? { ...node, name: 'Changed archive name' } : node,
+      ),
+    }));
 
     component.resetExample(state, targetScenario);
 
+    expect(state.definition().nodes.find((node) => node.id === 'archive')?.name).toBe(
+      'Archive audit',
+    );
     expect(state.selection()).toEqual(targetScenario.selection);
     expect(state.selection()).not.toBe(targetScenario.selection);
     expect(state.inspectedNodeId()).toBe(targetScenario.inspectedNodeId);

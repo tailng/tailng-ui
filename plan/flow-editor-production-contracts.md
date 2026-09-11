@@ -2,7 +2,7 @@
 
 Status: Accepted for Phase 0
 
-Baseline: `@tailng-ui/flow` 0.9.0
+Compatibility floor: `@tailng-ui/flow` 0.9.0
 Scope: Contracts only; feature behavior lands in later phases.
 
 ## Purpose
@@ -15,7 +15,8 @@ implementation.
 
 The published 0.9.0 package declarations were compared with the current development source. The
 public editor inputs, outputs, methods, models, validation helpers, and exports match. All contracts
-introduced by this phase are additive to that baseline.
+introduced by this phase are additive to that compatibility floor. The package version may advance
+without changing this compatibility promise.
 
 The package continues to expose TailNG types only. Foblex remains an implementation dependency and
 must not appear in a new public signature.
@@ -177,7 +178,8 @@ state directly.
 - New public records are readonly and use TailNG model types exclusively.
 - Reduced-motion preferences override requested animation.
 - Every new input, output, request, result, template context, and provider contract is exported from
-  `@tailng-ui/flow`.
+  its owning public entry point. Core editor contracts belong to `@tailng-ui/flow`; isolated
+  execution-viewer contracts may belong to `@tailng-ui/flow/execution`.
 
 ## Verification gates
 

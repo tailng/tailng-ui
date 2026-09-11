@@ -1,0 +1,31 @@
+<div class="tng-flow-execution-graph__canvas">
+  <tng-flow-editor
+    [definition]="definition()"
+    [selection]="selection()"
+    [presentation]="presentation()"
+    [progressDisplayMode]="'explicit'"
+    [mode]="readonly() ? 'readonly' : mode()"
+    [viewport]="viewport()"
+    [options]="options()"
+    [connectionOptions]="connectionOptions()"
+    [connectionAriaLabel]="connectionAriaLabel()"
+    [keyboardOptions]="keyboardOptions()"
+    [smartGuides]="smartGuides()"
+    [showBackground]="showBackground()"
+    [showControls]="showControls()"
+    [showMinimap]="showMinimap()"
+    [minimapOptions]="minimapOptions()"
+    [showSelectionArea]="showSelectionArea()"
+    [fitOnInit]="fitOnInit()"
+    [flowId]="flowId()"
+    [ariaLabel]="ariaLabel()"
+    (selectionChange)="onEditorSelectionChange($event)"
+    (viewportChange)="onViewportChange($event)"
+    (nodeActivated)="onGraphNodeActivated($event)"
+  >
+    <ng-content select="ng-template[tngFlowNode]" />
+    <ng-content select="ng-template[tngFlowConnection], ng-template[tngFlowConnectionLabel]" />
+  </tng-flow-editor>
+</div>
+
+<span class="tng-flow-execution-graph__live" aria-live="polite">{{ liveRegionMessage() }}</span>

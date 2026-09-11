@@ -1,0 +1,289 @@
+<article class="docs-section-page flow-execution-examples">
+  <h2 class="flow-execution-examples__title">Examples</h2>
+  <p class="flow-execution-examples__lead">
+    Production execution-monitoring snapshots with copy-ready Plain CSS and Tailwind CSS variants.
+  </p>
+
+  @for (example of examples; track example.scenario.id) {
+    <app-docs-example-tabs-section
+      [id]="example.scenario.id"
+      class="flow-execution-examples__block"
+      [heading]="example.scenario.title"
+      [description]="example.scenario.story"
+      [ariaLabel]="example.scenario.title + ' style variants'"
+      [tabListAriaLabel]="example.scenario.title + ' style tabs'"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain CSS"
+        [panelTitle]="example.scenario.title + ' (Plain CSS)'"
+        [codeTabs]="example.plainCodeTabs"
+      >
+        <div
+          class="flow-execution-examples__preview"
+          [attr.data-phase]="example.scenario.snapshot.phase"
+          [attr.data-narrow]="example.scenario.narrow ? '' : null"
+        >
+          <div class="flow-execution-examples__summary">
+            <div class="flow-execution-examples__status">
+              <span>{{ example.scenario.snapshot.phase }}</span>
+              <strong>{{ selectedNodeName(example.plain) }}</strong>
+              <small>{{ progressLabel(example.scenario) }}</small>
+            </div>
+
+            <div class="flow-execution-examples__actions">
+              <tng-button
+                appearance="outline"
+                size="sm"
+                (click)="resetExample(example.plain, example.scenario)"
+              >
+                Reset
+              </tng-button>
+              <tng-button
+                appearance="outline"
+                size="sm"
+                [disabled]="!example.plain.showInspector()"
+                (click)="toggleInspector(example.plain)"
+              >
+                {{ example.plain.inspectorOpen() ? 'Collapse panel' : 'Expand panel' }}
+              </tng-button>
+              <tng-button
+                appearance="outline"
+                size="sm"
+                (click)="setInspectorVisible(example.plain, !example.plain.showInspector())"
+              >
+                {{ example.plain.showInspector() ? 'Hide panel' : 'Show panel' }}
+              </tng-button>
+            </div>
+          </div>
+
+          <section class="flow-execution-examples__example-block" aria-label="Composite viewer">
+            <h3>Composite viewer</h3>
+            <tng-flow-execution-viewer
+              class="flow-execution-examples__viewer"
+              [flowId]="example.plainFlowId"
+              [ariaLabel]="example.ariaLabel"
+              [definition]="example.plain.definition()"
+              [snapshot]="example.scenario.snapshot"
+              [selection]="example.plain.selection()"
+              [inspectedNodeId]="example.plain.inspectedNodeId()"
+              [selectedExecutionId]="example.plain.selectedExecutionId()"
+              [viewport]="example.plain.viewport()"
+              [mode]="'inspect'"
+              [readonly]="true"
+              [inspectorOpen]="example.plain.inspectorOpen()"
+              [showInspector]="example.plain.showInspector()"
+              [showMinimap]="!example.scenario.narrow"
+              [showControls]="!example.scenario.narrow"
+              [showSelectionArea]="false"
+              [fitOnInit]="false"
+              inspectorPosition="right"
+              [inspectorBreakpoint]="680"
+              [rightInspectorSize]="380"
+              [bottomInspectorSize]="300"
+              [graphMinSize]="260"
+              [inspectorMinSize]="220"
+              (selectionChange)="example.plain.selection.set($event)"
+              (inspectedNodeIdChange)="example.plain.inspectedNodeId.set($event)"
+              (selectedExecutionIdChange)="example.plain.selectedExecutionId.set($event)"
+              (viewportChange)="example.plain.viewport.set($event)"
+              (executionActivated)="onExecutionActivated(example.plain, $event)"
+              (inspectorOpenChange)="example.plain.inspectorOpen.set($event)"
+            />
+          </section>
+
+          <section class="flow-execution-examples__example-block" aria-label="Split components">
+            <h3>Split graph and node properties</h3>
+            <div class="flow-execution-examples__split">
+              <tng-flow-execution-graph
+                class="flow-execution-examples__graph"
+                [flowId]="example.plainFlowId + '-graph'"
+                [ariaLabel]="example.ariaLabel + ' graph'"
+                [definition]="example.plain.definition()"
+                [snapshot]="example.scenario.snapshot"
+                [selection]="example.plain.selection()"
+                [inspectedNodeId]="example.plain.inspectedNodeId()"
+                [selectedExecutionId]="example.plain.selectedExecutionId()"
+                [viewport]="example.plain.viewport()"
+                [mode]="'inspect'"
+                [readonly]="true"
+                [showMinimap]="!example.scenario.narrow"
+                [showControls]="!example.scenario.narrow"
+                [showSelectionArea]="false"
+                [fitOnInit]="false"
+                (selectionChange)="example.plain.selection.set($event)"
+                (inspectedNodeIdChange)="example.plain.inspectedNodeId.set($event)"
+                (selectedExecutionIdChange)="example.plain.selectedExecutionId.set($event)"
+                (viewportChange)="example.plain.viewport.set($event)"
+                (executionActivated)="onExecutionActivated(example.plain, $event)"
+              />
+
+              <tng-flow-node-properties
+                class="flow-execution-examples__properties"
+                [definition]="example.plain.definition()"
+                [inspectedNodeId]="example.plain.inspectedNodeId()"
+                (nodeChangeRequested)="applyNodeChanges(example.plain, $event)"
+              />
+            </div>
+          </section>
+
+          <p class="flow-execution-examples__feedback" aria-live="polite">
+            {{ example.plain.lastActivation() }}
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        [panelTitle]="example.scenario.title + ' (Tailwind CSS)'"
+        [codeTabs]="example.tailwindCodeTabs"
+      >
+        <div
+          class="flow-execution-examples__tailwind-preview overflow-hidden rounded-lg border border-tng-border-subtle bg-tng-bg-base p-3"
+          [attr.data-phase]="example.scenario.snapshot.phase"
+          [attr.data-narrow]="example.scenario.narrow ? '' : null"
+        >
+          <div class="mb-3 flex flex-wrap items-start justify-between gap-3">
+            <div class="grid gap-1">
+              <span class="text-xs font-semibold uppercase text-tng-fg-muted">
+                {{ example.scenario.snapshot.phase }}
+              </span>
+              <strong class="text-sm text-tng-fg-primary">{{
+                selectedNodeName(example.tailwind)
+              }}</strong>
+              <small class="text-xs text-tng-fg-secondary">
+                {{ progressLabel(example.scenario) }}
+              </small>
+            </div>
+
+            <div class="flex flex-wrap justify-end gap-2">
+              <tng-button
+                appearance="outline"
+                size="sm"
+                (click)="resetExample(example.tailwind, example.scenario)"
+              >
+                Reset
+              </tng-button>
+              <tng-button
+                appearance="outline"
+                size="sm"
+                [disabled]="!example.tailwind.showInspector()"
+                (click)="toggleInspector(example.tailwind)"
+              >
+                {{ example.tailwind.inspectorOpen() ? 'Collapse panel' : 'Expand panel' }}
+              </tng-button>
+              <tng-button
+                appearance="outline"
+                size="sm"
+                (click)="setInspectorVisible(example.tailwind, !example.tailwind.showInspector())"
+              >
+                {{ example.tailwind.showInspector() ? 'Hide panel' : 'Show panel' }}
+              </tng-button>
+            </div>
+          </div>
+
+          <section aria-label="Composite viewer" class="grid gap-2">
+            <h3 class="m-0 text-sm font-semibold text-tng-fg-primary">Composite viewer</h3>
+            <tng-flow-execution-viewer
+              class="flow-execution-examples__tailwind-viewer block h-[38rem] min-h-[31rem]"
+              [flowId]="example.tailwindFlowId"
+              [ariaLabel]="example.ariaLabel"
+              [definition]="example.tailwind.definition()"
+              [snapshot]="example.scenario.snapshot"
+              [selection]="example.tailwind.selection()"
+              [inspectedNodeId]="example.tailwind.inspectedNodeId()"
+              [selectedExecutionId]="example.tailwind.selectedExecutionId()"
+              [viewport]="example.tailwind.viewport()"
+              [mode]="'inspect'"
+              [readonly]="true"
+              [inspectorOpen]="example.tailwind.inspectorOpen()"
+              [showInspector]="example.tailwind.showInspector()"
+              [showMinimap]="!example.scenario.narrow"
+              [showControls]="!example.scenario.narrow"
+              [showSelectionArea]="false"
+              [fitOnInit]="false"
+              inspectorPosition="right"
+              [inspectorBreakpoint]="680"
+              [rightInspectorSize]="380"
+              [bottomInspectorSize]="300"
+              [graphMinSize]="260"
+              [inspectorMinSize]="220"
+              (selectionChange)="example.tailwind.selection.set($event)"
+              (inspectedNodeIdChange)="example.tailwind.inspectedNodeId.set($event)"
+              (selectedExecutionIdChange)="example.tailwind.selectedExecutionId.set($event)"
+              (viewportChange)="example.tailwind.viewport.set($event)"
+              (executionActivated)="onExecutionActivated(example.tailwind, $event)"
+              (inspectorOpenChange)="example.tailwind.inspectorOpen.set($event)"
+            />
+          </section>
+
+          <section aria-label="Split components" class="mt-4 grid gap-2">
+            <h3 class="m-0 text-sm font-semibold text-tng-fg-primary">
+              Split graph and node properties
+            </h3>
+            <div class="grid min-h-[24rem] grid-cols-[minmax(0,1fr)_minmax(16rem,22rem)] overflow-hidden rounded-lg border border-tng-border-subtle max-lg:grid-cols-1">
+              <tng-flow-execution-graph
+                class="block min-h-[24rem]"
+                [flowId]="example.tailwindFlowId + '-graph'"
+                [ariaLabel]="example.ariaLabel + ' graph'"
+                [definition]="example.tailwind.definition()"
+                [snapshot]="example.scenario.snapshot"
+                [selection]="example.tailwind.selection()"
+                [inspectedNodeId]="example.tailwind.inspectedNodeId()"
+                [selectedExecutionId]="example.tailwind.selectedExecutionId()"
+                [viewport]="example.tailwind.viewport()"
+                [mode]="'inspect'"
+                [readonly]="true"
+                [showMinimap]="!example.scenario.narrow"
+                [showControls]="!example.scenario.narrow"
+                [showSelectionArea]="false"
+                [fitOnInit]="false"
+                (selectionChange)="example.tailwind.selection.set($event)"
+                (inspectedNodeIdChange)="example.tailwind.inspectedNodeId.set($event)"
+                (selectedExecutionIdChange)="example.tailwind.selectedExecutionId.set($event)"
+                (viewportChange)="example.tailwind.viewport.set($event)"
+                (executionActivated)="onExecutionActivated(example.tailwind, $event)"
+              />
+
+              <tng-flow-node-properties
+                class="block min-h-[24rem] border-l border-tng-border-subtle max-lg:border-l-0 max-lg:border-t"
+                [definition]="example.tailwind.definition()"
+                [inspectedNodeId]="example.tailwind.inspectedNodeId()"
+                (nodeChangeRequested)="applyNodeChanges(example.tailwind, $event)"
+              />
+            </div>
+          </section>
+
+          <p
+            class="mt-3 rounded-lg border border-tng-border-subtle bg-tng-bg-muted px-4 py-3 text-sm text-tng-fg-secondary"
+            aria-live="polite"
+          >
+            {{ example.tailwind.lastActivation() }}
+          </p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  }
+
+  <section id="payload-stress-cases" class="docs-overview-block">
+    <h3>Payload stress cases</h3>
+    <p>
+      Redacted and large JSON scenarios are included intentionally. They verify that the default
+      inspector is safe for sensitive records and remains usable when execution payloads are too
+      large for a compact side panel.
+    </p>
+  </section>
+
+  <section id="responsive-cases" class="docs-overview-block">
+    <h3>Responsive cases</h3>
+    <p>
+      Narrow embedding scenarios exercise graph minimum size, explicit right-side details layout,
+      and the panel visibility controls.
+    </p>
+  </section>
+</article>

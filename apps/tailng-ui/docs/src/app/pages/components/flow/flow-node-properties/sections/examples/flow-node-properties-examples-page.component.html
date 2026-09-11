@@ -1,0 +1,30 @@
+<article class="docs-section-page">
+  <section id="properties-basic-example" class="docs-overview-block">
+    <h2 class="docs-overview-title">Selected node panel</h2>
+    <p>
+      Bind the same inspected node id used by the graph, then apply emitted changes to the
+      definition in the parent component.
+    </p>
+    <pre><code>&lt;tng-flow-node-properties
+  [definition]="definition()"
+  [inspectedNodeId]="inspectedNodeId()"
+  [readonly]="saving()"
+  [showPorts]="true"
+  [showData]="true"
+  (nodeChangeRequested)="applyNodeChanges($event)"
+/&gt;</code></pre>
+  </section>
+
+  <section id="properties-template-example" class="docs-overview-block">
+    <h3>Custom data rendering</h3>
+    <p>
+      Use the data template when node payloads need a domain form, redacted fields, or a custom
+      summary instead of the default JSON/text preview.
+    </p>
+    <pre><code>&lt;tng-flow-node-properties [node]="selectedNode()"&gt;
+  &lt;ng-template tngFlowNodePropertiesData let-node&gt;
+    &lt;app-agent-node-settings [node]="node" /&gt;
+  &lt;/ng-template&gt;
+&lt;/tng-flow-node-properties&gt;</code></pre>
+  </section>
+</article>
