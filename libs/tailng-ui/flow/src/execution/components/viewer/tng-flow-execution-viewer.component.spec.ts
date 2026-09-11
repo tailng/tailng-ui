@@ -1,9 +1,15 @@
 import { Component, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { describe, expect, it } from 'vitest';
 import { TngFlowExecutionViewerComponent } from './tng-flow-execution-viewer.component';
-import type { TngFlowDefinition, TngFlowSelection } from '../../../lib/types/tng-flow.types';
+import type {
+  TngFlowDefinition,
+  TngFlowNodesMovedEvent,
+  TngFlowSelection,
+} from '../../../lib/types/tng-flow.types';
 import type { TngFlowRunExecutionSnapshot } from '../../model/tng-flow-execution.types';
+import { TngFlowExecutionGraphComponent } from '../graph/tng-flow-execution-graph.component';
 
 const definition: TngFlowDefinition = {
   id: 'workflow',
@@ -29,7 +35,9 @@ const snapshot: TngFlowRunExecutionSnapshot = {
     <tng-flow-execution-viewer
       [definition]="definition"
       [snapshot]="snapshot"
-      [state]="'loading'"
+      [state]="'ready'"
+      mode="edit"
+      (nodesMoved)="moved = $event"
       (selectionChange)="events.push('selection')"
       (inspectedNodeIdChange)="events.push('inspected:' + $event)"
       (selectedExecutionIdChange)="events.push('execution:' + $event)"
@@ -38,6 +46,7 @@ const snapshot: TngFlowRunExecutionSnapshot = {
 })
 class ViewerHost {
   public readonly viewer = viewChild.required(TngFlowExecutionViewerComponent);
+  public moved: TngFlowNodesMovedEvent | null = null;
   protected readonly definition = definition;
   protected readonly snapshot = snapshot;
   public readonly events: string[] = [];
@@ -59,5 +68,20 @@ describe('TngFlowExecutionViewerComponent', () => {
       'inspected:task',
       'execution:exec-task',
     ]);
+  });
+
+  it('forwards edit movement without a separate readonly input', () => {
+    const fixture = TestBed.createComponent(ViewerHost);
+    fixture.detectChanges();
+
+    const graph = fixture.debugElement.query(By.directive(TngFlowExecutionGraphComponent))
+      .componentInstance as TngFlowExecutionGraphComponent;
+    const movement: TngFlowNodesMovedEvent = {
+      nodes: [{ id: 'task', position: { x: 280, y: 80 } }],
+    };
+    graph.nodesMoved.emit(movement);
+
+    expect(fixture.componentInstance.moved).toEqual(movement);
+    expect('readonly' in fixture.componentInstance.viewer()).toBe(false);
   });
 });

@@ -1,6 +1,13 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import type { TngFlowSelection, TngFlowViewport } from '@tailng-ui/flow';
+import { Component, inject, signal, type OnDestroy, type WritableSignal } from '@angular/core';
+import { TngButtonComponent } from '@tailng-ui/components';
+import type {
+  TngFlowDefinition,
+  TngFlowEditorMode,
+  TngFlowNodesMovedEvent,
+  TngFlowSelection,
+  TngFlowViewport,
+} from '@tailng-ui/flow';
 import { TngFlowExecutionGraphComponent } from '@tailng-ui/flow/execution';
 import {
   flowExecutionGraphOverviewPlainCssCodeTabs,
@@ -35,11 +42,27 @@ function cloneViewport(): TngFlowViewport {
   };
 }
 
+function cloneDefinition(): TngFlowDefinition<unknown> {
+  return {
+    ...FLOW_EXECUTION_VIEWER_DEFINITION,
+    nodes: FLOW_EXECUTION_VIEWER_DEFINITION.nodes.map((node) => ({
+      ...node,
+      position: { ...node.position },
+    })),
+    connections: FLOW_EXECUTION_VIEWER_DEFINITION.connections.map((connection) => ({
+      ...connection,
+      source: { ...connection.source },
+      target: { ...connection.target },
+    })),
+  };
+}
+
 @Component({
   selector: 'app-flow-execution-graph-overview-page',
   imports: [
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
+    TngButtonComponent,
     TngFlowExecutionGraphComponent,
   ],
   templateUrl: './flow-execution-graph-overview-page.component.html',
@@ -56,7 +79,9 @@ export class FlowExecutionGraphOverviewPageComponent implements OnDestroy {
     this.codeBlockTheme,
   );
 
-  protected readonly definition = FLOW_EXECUTION_VIEWER_DEFINITION;
+  protected readonly modes: readonly TngFlowEditorMode[] = ['edit', 'inspect', 'readonly'];
+  protected readonly plainDefinition = signal<TngFlowDefinition<unknown>>(cloneDefinition());
+  protected readonly plainMode = signal<TngFlowEditorMode>('edit');
   protected readonly snapshot = overviewScenario.snapshot;
   protected readonly plainSelection = signal<TngFlowSelection>(cloneSelection());
   protected readonly plainInspectedNodeId = signal<string | null>(overviewScenario.inspectedNodeId);
@@ -64,6 +89,8 @@ export class FlowExecutionGraphOverviewPageComponent implements OnDestroy {
     overviewScenario.selectedExecutionId,
   );
   protected readonly plainViewport = signal<TngFlowViewport>(cloneViewport());
+  protected readonly tailwindDefinition = signal<TngFlowDefinition<unknown>>(cloneDefinition());
+  protected readonly tailwindMode = signal<TngFlowEditorMode>('edit');
   protected readonly tailwindSelection = signal<TngFlowSelection>(cloneSelection());
   protected readonly tailwindInspectedNodeId = signal<string | null>(
     overviewScenario.inspectedNodeId,
@@ -77,5 +104,19 @@ export class FlowExecutionGraphOverviewPageComponent implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
+  }
+
+  protected onNodesMoved(
+    definition: WritableSignal<TngFlowDefinition<unknown>>,
+    event: TngFlowNodesMovedEvent,
+  ): void {
+    const positions = new Map(event.nodes.map((move) => [move.id, move.position]));
+    definition.update((current) => ({
+      ...current,
+      nodes: current.nodes.map((node) => {
+        const position = positions.get(node.id);
+        return position === undefined ? node : { ...node, position };
+      }),
+    }));
   }
 }

@@ -16,3 +16,10 @@
   min-height: 24rem;
   overflow: hidden;
 }
+
+.flow-execution-graph-overview__modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}

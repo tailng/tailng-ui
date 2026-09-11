@@ -20,6 +20,10 @@
         <code>state</code>: <code>ready</code>, <code>loading</code>, <code>empty</code>, or
         <code>error</code>.
       </li>
+      <li>
+        <code>mode</code>: <code>edit</code>, <code>inspect</code>, or <code>readonly</code>. No
+        separate readonly boolean is used.
+      </li>
     </ul>
   </section>
 
@@ -27,7 +31,8 @@
     <h3>Viewer outputs</h3>
     <p>
       The viewer emits controlled-state updates for selection, inspected node, selected execution,
-      viewport, inspector visibility, and execution activation.
+      viewport, inspector visibility, and execution activation. In edit mode it also forwards node
+      movement/creation/deletion and connection creation/reconnection/waypoint/deletion requests.
     </p>
   </section>
 

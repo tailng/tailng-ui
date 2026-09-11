@@ -58,15 +58,27 @@ describe('FlowExecutionGraphOverviewPageComponent', () => {
     expect(component.tailwindCodeTabs.map((tab) => tab.value)).toEqual(['ts', 'html', 'css']);
   });
 
-  it('keeps both examples in inspect mode so selection and activation remain available', () => {
+  it('switches both examples through edit, inspect, and readonly modes', () => {
     const editors = (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLElement>(
       '.tng-flow-editor',
     );
+    const component = fixture.componentInstance as unknown as {
+      plainMode: { set(value: 'edit' | 'inspect' | 'readonly'): void };
+      tailwindMode: { set(value: 'edit' | 'inspect' | 'readonly'): void };
+    };
 
     expect(editors).toHaveLength(2);
     for (const editor of editors) {
-      expect(editor.dataset.mode).toBe('inspect');
+      expect(editor.dataset.mode).toBe('edit');
       expect(editor.hasAttribute('data-readonly')).toBe(false);
     }
+
+    component.plainMode.set('inspect');
+    component.tailwindMode.set('readonly');
+    fixture.detectChanges();
+
+    expect(editors[0]?.dataset.mode).toBe('inspect');
+    expect(editors[1]?.dataset.mode).toBe('readonly');
+    expect(editors[1]?.hasAttribute('data-readonly')).toBe(true);
   });
 });

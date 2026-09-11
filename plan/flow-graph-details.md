@@ -1,4 +1,4 @@
-# Implementation plan:  
+# Implementation plan:
 
 Status: Implemented as an experimental package entry point; stable-release documentation and
 measurement gates remain
@@ -43,7 +43,7 @@ floor. The current package version may advance without changing that compatibili
 
 Add a reusable workflow execution viewer to TailNG that displays:
 
-- A workflow/node graph in inspect or readonly mode.
+- A workflow/node graph in edit, inspect, or readonly mode.
 - Live node and connection execution states.
 - Controlled node selection.
 - Selected-node execution details.
@@ -146,7 +146,7 @@ page shell or inspector layout.
 
 It contains:
 
-- `TngFlowEditorComponent` in inspect or readonly mode.
+- `TngFlowEditorComponent` in edit, inspect, or readonly mode.
 - Execution snapshot to graph presentation mapping.
 - Controlled selection, inspected-node reconciliation and viewport forwarding.
 - Node activation events with the latest execution record for the activated node.
@@ -488,7 +488,7 @@ selection: TngFlowSelection;
 inspectedNodeId: string | null;
 selectedExecutionId: string | null;
 viewport: TngFlowViewport | null;
-mode: Extract<TngFlowEditorMode, 'inspect' | 'readonly'>;
+mode: TngFlowEditorMode;
 
 validation?: TngFlowValidation;
 dateTimeFormatter?: TngFlowExecutionDateTimeFormatter;
@@ -527,10 +527,10 @@ Resolved defaults:
 | `showNodePayloads`  | `true`    |
 
 The layout API follows existing TailNG split-pane conventions. The composite viewer must also
-forward the non-editing graph customizations needed by existing consumers: node templates,
-connection templates, attachment layout, minimap options, connection presentation options and zoom
-limits. It must expose facade methods for `refreshLayout`, `fitToScreen`, `resetViewport` and
-`centerNode` without exposing Foblex types.
+forward the graph customizations needed by existing consumers: node templates, connection
+templates, attachment layout, minimap options, connection presentation options and edit-mode
+authoring options. It must expose facade methods for `refreshLayout`, `fitToScreen`,
+`resetViewport` and `centerNode` without exposing Foblex types.
 
 `state` is presentation-only and does not imply that TailNG owns data loading. In `ready` state a
 definition may be shown without a snapshot to represent a run that has not started. The other states
@@ -557,6 +557,13 @@ selectionChange: TngFlowSelection;
 inspectedNodeIdChange: string | null;
 selectedExecutionIdChange: string | null;
 viewportChange: TngFlowViewport;
+nodesMoved: TngFlowNodesMovedEvent;
+nodeCreateRequested: TngFlowNodeCreateRequest;
+connectionCreateRequested: TngFlowConnectionCreateRequest;
+connectionReconnectRequested: TngFlowConnectionReconnectRequest;
+connectionWaypointsChange: TngFlowConnectionWaypointsChange;
+nodesDeleteRequested: TngFlowNodesDeleteRequest;
+connectionsDeleteRequested: TngFlowConnectionsDeleteRequest;
 nodeActivated: TngFlowNodeActivatedEvent;
 connectionActivated: TngFlowConnectionActivatedEvent;
 
@@ -1122,8 +1129,8 @@ The feature is complete when:
 7. [x] Custom statuses work through normalized phases and progress preserves omitted versus
        indeterminate state.
 8. [x] The consumer can replace individual payload rendering or the complete inspector.
-9. [x] Graph-only, readonly and graph-with-inspector configurations are supported with documented
-       mode behavior in this plan and public inputs.
+9. [x] Graph-only and graph-with-inspector configurations support edit, inspect, and readonly mode
+       through one documented public input.
 10. [x] The viewer is responsive down to a 320px-wide embedding surface based on container size.
 11. [x] Status, selection, payload state and progress are accessible without relying on color.
 12. [x] Reduced-motion and forced-color environments are supported by inherited core behavior and

@@ -11,7 +11,7 @@
   <app-docs-example-tabs-section
     id="running-workflow"
     heading="Running workflow"
-    description="Inspect a live execution snapshot while your application owns selection, inspection, and viewport state."
+    description="Switch one controlled graph between editable, inspect-only, and readonly interaction modes."
     ariaLabel="Running workflow graph styling variants"
     tabListAriaLabel="Running workflow graph styles"
     defaultValue="plain-css"
@@ -24,21 +24,34 @@
       panelTitle="Running workflow graph with Plain CSS"
       [codeTabs]="plainCssCodeTabs"
     >
+      <div class="flow-execution-graph-overview__modes" aria-label="Plain CSS graph mode">
+        @for (graphMode of modes; track graphMode) {
+          <tng-button
+            size="sm"
+            [appearance]="plainMode() === graphMode ? 'solid' : 'outline'"
+            [ariaPressed]="plainMode() === graphMode"
+            (click)="plainMode.set(graphMode)"
+          >
+            {{ graphMode }}
+          </tng-button>
+        }
+      </div>
       <tng-flow-execution-graph
         class="flow-execution-graph-overview__graph"
         flowId="overview-running-workflow-plain-css"
         ariaLabel="Running support workflow execution graph styled with Plain CSS"
-        [definition]="definition"
+        [definition]="plainDefinition()"
         [snapshot]="snapshot"
         [selection]="plainSelection()"
         [inspectedNodeId]="plainInspectedNodeId()"
         [selectedExecutionId]="plainSelectedExecutionId()"
         [viewport]="plainViewport()"
-        mode="inspect"
+        [mode]="plainMode()"
         [showMinimap]="true"
         [showControls]="true"
         [showSelectionArea]="false"
         [fitOnInit]="false"
+        (nodesMoved)="onNodesMoved(plainDefinition, $event)"
         (selectionChange)="plainSelection.set($event)"
         (inspectedNodeIdChange)="plainInspectedNodeId.set($event)"
         (selectedExecutionIdChange)="plainSelectedExecutionId.set($event)"
@@ -53,21 +66,34 @@
       panelTitle="Running workflow graph with Tailwind CSS"
       [codeTabs]="tailwindCodeTabs"
     >
+      <div class="mb-3 flex flex-wrap gap-2" aria-label="Tailwind CSS graph mode">
+        @for (graphMode of modes; track graphMode) {
+          <tng-button
+            size="sm"
+            [appearance]="tailwindMode() === graphMode ? 'solid' : 'outline'"
+            [ariaPressed]="tailwindMode() === graphMode"
+            (click)="tailwindMode.set(graphMode)"
+          >
+            {{ graphMode }}
+          </tng-button>
+        }
+      </div>
       <tng-flow-execution-graph
         class="block h-[28rem] min-h-[24rem] overflow-hidden rounded-lg border border-tng-border-subtle bg-tng-bg-base"
         flowId="overview-running-workflow-tailwind-css"
         ariaLabel="Running support workflow execution graph styled with Tailwind CSS"
-        [definition]="definition"
+        [definition]="tailwindDefinition()"
         [snapshot]="snapshot"
         [selection]="tailwindSelection()"
         [inspectedNodeId]="tailwindInspectedNodeId()"
         [selectedExecutionId]="tailwindSelectedExecutionId()"
         [viewport]="tailwindViewport()"
-        mode="inspect"
+        [mode]="tailwindMode()"
         [showMinimap]="true"
         [showControls]="true"
         [showSelectionArea]="false"
         [fitOnInit]="false"
+        (nodesMoved)="onNodesMoved(tailwindDefinition, $event)"
         (selectionChange)="tailwindSelection.set($event)"
         (inspectedNodeIdChange)="tailwindInspectedNodeId.set($event)"
         (selectedExecutionIdChange)="tailwindSelectedExecutionId.set($event)"
@@ -90,8 +116,9 @@
     <p>
       The component does not render a property panel, execution history, payload viewer, or split
       layout. Pair it with Flow Node Properties or a product-owned inspector when users need details
-      beside the diagram. Use Flow Editor when users need to move nodes, create or delete
-      connections, or change connection routing.
+      beside the diagram. Use <code>mode="edit"</code> when users need to move nodes or author
+      connections, <code>mode="inspect"</code> for selection without mutations, and
+      <code>mode="readonly"</code> for viewport-only interaction.
     </p>
   </section>
 </article>

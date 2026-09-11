@@ -1,9 +1,12 @@
-import { Component, viewChild } from '@angular/core';
+import { Component, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { describe, expect, it } from 'vitest';
-import type { TngFlowDefinition, TngFlowSelection } from '../../../lib/types/tng-flow.types';
-import type { TngFlowRunExecutionSnapshot } from '../../model/tng-flow-execution.types';
 import { TngFlowExecutionGraphComponent } from './tng-flow-execution-graph.component';
+import { TngFlowEditorComponent } from '../../../lib/editor/tng-flow-editor.component';
+import type { TngFlowDefinition, TngFlowSelection } from '../../../lib/types/tng-flow.types';
+import type { TngFlowEditorMode, TngFlowNodesMovedEvent } from '../../../lib/types/tng-flow.types';
+import type { TngFlowRunExecutionSnapshot } from '../../model/tng-flow-execution.types';
 
 const definition: TngFlowDefinition = {
   id: 'workflow',
@@ -29,6 +32,8 @@ const snapshot: TngFlowRunExecutionSnapshot = {
     <tng-flow-execution-graph
       [definition]="definition"
       [snapshot]="snapshot"
+      [mode]="mode()"
+      (nodesMoved)="moved = $event"
       (selectionChange)="events.push('selection')"
       (inspectedNodeIdChange)="events.push('inspected:' + $event)"
       (selectedExecutionIdChange)="events.push('execution:' + $event)"
@@ -37,6 +42,8 @@ const snapshot: TngFlowRunExecutionSnapshot = {
 })
 class GraphHost {
   public readonly graph = viewChild.required(TngFlowExecutionGraphComponent);
+  public readonly mode = signal<TngFlowEditorMode>('inspect');
+  public moved: TngFlowNodesMovedEvent | null = null;
   protected readonly definition = definition;
   protected readonly snapshot = snapshot;
   public readonly events: string[] = [];
@@ -58,5 +65,26 @@ describe('TngFlowExecutionGraphComponent', () => {
       'inspected:task',
       'execution:exec-task',
     ]);
+  });
+
+  it('uses mode as the only interaction control and forwards edit movement', () => {
+    const fixture = TestBed.createComponent(GraphHost);
+    fixture.componentInstance.mode.set('edit');
+    fixture.detectChanges();
+
+    const editor = fixture.debugElement.query(By.directive(TngFlowEditorComponent))
+      .componentInstance as TngFlowEditorComponent;
+    const movement: TngFlowNodesMovedEvent = {
+      nodes: [{ id: 'task', position: { x: 300, y: 120 } }],
+    };
+    editor.nodesMoved.emit(movement);
+
+    expect(
+      (fixture.nativeElement as HTMLElement)
+        .querySelector('.tng-flow-editor')
+        ?.getAttribute('data-mode'),
+    ).toBe('edit');
+    expect(fixture.componentInstance.moved).toEqual(movement);
+    expect('readonly' in fixture.componentInstance.graph()).toBe(false);
   });
 });

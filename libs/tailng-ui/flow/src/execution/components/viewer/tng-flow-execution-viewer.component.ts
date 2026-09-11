@@ -28,15 +28,31 @@ import {
 import { areTngFlowSelectionsEqual } from '../../../lib/model/tng-flow-selection';
 import type { TngFlowSmartGuidesOptions } from '../../../lib/types/tng-flow-arrangement.types';
 import type {
+  TngFlowEditorCommandRequest,
+  TngFlowEditorCommandShortcuts,
+} from '../../../lib/types/tng-flow-command.types';
+import type {
   TngFlowConnectionAriaLabelFactory,
+  TngFlowConnectionWaypointsChange,
   TngFlowEditorConnectionOptions,
   TngFlowEditorOptions,
 } from '../../../lib/types/tng-flow-connection.types';
+import type { TngFlowContextMenuRequest } from '../../../lib/types/tng-flow-context-menu.types';
 import type { TngFlowKeyboardOptions } from '../../../lib/types/tng-flow-keyboard.types';
 import type { TngFlowMinimapOptions } from '../../../lib/types/tng-flow-minimap.types';
 import type {
+  TngFlowAttachmentLayout,
+  TngFlowConnectionCreateRequest,
+  TngFlowConnectionReconnectRequest,
+  TngFlowConnectionRejectedEvent,
+  TngFlowConnectionsDeleteRequest,
+  TngFlowConnectionValidator,
   TngFlowDefinition,
   TngFlowEditorMode,
+  TngFlowNodeCreateRequest,
+  TngFlowNodePositionChange,
+  TngFlowNodesDeleteRequest,
+  TngFlowNodesMovedEvent,
   TngFlowSelection,
   TngFlowViewport,
 } from '../../../lib/types/tng-flow.types';
@@ -89,7 +105,12 @@ const DEFAULT_INSPECTOR_MIN_SIZE = 240;
     '[attr.data-inspector-position]': 'resolvedInspectorPosition()',
   },
 })
-export class TngFlowExecutionViewerComponent<TPayload = unknown> implements OnDestroy {
+export class TngFlowExecutionViewerComponent<
+  TPayload = unknown,
+  TNodeData = unknown,
+  TConnectionData = unknown,
+> implements OnDestroy
+{
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly documentRef = inject(DOCUMENT);
   private readonly zone = inject(NgZone);
@@ -99,13 +120,13 @@ export class TngFlowExecutionViewerComponent<TPayload = unknown> implements OnDe
   private resizeObserver: ResizeObserver | null = null;
   private resizeCleanup: (() => void) | null = null;
 
-  public readonly definition = input<TngFlowDefinition | null>(null);
+  public readonly definition = input<TngFlowDefinition<TNodeData, TConnectionData> | null>(null);
   public readonly snapshot = input<TngFlowRunExecutionSnapshot<TPayload> | null>(null);
   public readonly selection = input<TngFlowSelection>(EMPTY_TNG_FLOW_SELECTION);
   public readonly inspectedNodeId = input<string | null>(null);
   public readonly selectedExecutionId = input<string | null>(null);
   public readonly viewport = input<TngFlowViewport | null>(null);
-  public readonly mode = input<Extract<TngFlowEditorMode, 'inspect' | 'readonly'>>('inspect');
+  public readonly mode = input<TngFlowEditorMode>('inspect');
   public readonly state = input<TngFlowExecutionViewerState>('ready');
   public readonly stateMessage = input<string | null>(null);
   public readonly inspectorScope = input<TngFlowExecutionInspectorScope>('auto');
@@ -131,9 +152,6 @@ export class TngFlowExecutionViewerComponent<TPayload = unknown> implements OnDe
   public readonly fitOnInit = input<boolean, boolean | string>(true, {
     transform: booleanAttribute,
   });
-  public readonly readonly = input<boolean, boolean | string>(false, {
-    transform: booleanAttribute,
-  });
   public readonly flowId = input<string>('tng-flow-execution-viewer');
   public readonly ariaLabel = input<string>('Workflow execution viewer');
   public readonly inspectorBreakpoint = input<number>(DEFAULT_INSPECTOR_BREAKPOINT);
@@ -141,14 +159,36 @@ export class TngFlowExecutionViewerComponent<TPayload = unknown> implements OnDe
   public readonly bottomInspectorSize = input<number>(DEFAULT_BOTTOM_INSPECTOR_SIZE);
   public readonly graphMinSize = input<number>(DEFAULT_GRAPH_MIN_SIZE);
   public readonly inspectorMinSize = input<number>(DEFAULT_INSPECTOR_MIN_SIZE);
+  public readonly attachmentLayout = input<TngFlowAttachmentLayout>('static-ports');
+  public readonly connectionValidator = input<TngFlowConnectionValidator<TNodeData> | null>(null);
   public readonly options = input<TngFlowEditorOptions | null>(null);
   public readonly connectionOptions = input<TngFlowEditorConnectionOptions | null>(null);
-  public readonly connectionAriaLabel = input<TngFlowConnectionAriaLabelFactory | null>(null);
+  public readonly connectionAriaLabel =
+    input<TngFlowConnectionAriaLabelFactory<TConnectionData> | null>(null);
   public readonly keyboardOptions = input<TngFlowKeyboardOptions | null>(null);
   public readonly smartGuides = input<TngFlowSmartGuidesOptions | null>(null);
   public readonly minimapOptions = input<TngFlowMinimapOptions | null>(null);
+  public readonly commandShortcuts = input<TngFlowEditorCommandShortcuts>(false);
+  public readonly contextMenuEnabled = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
+  public readonly snapToGrid = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
+  public readonly gridSize = input<number>(16);
   public readonly dateTimeFormatter = input<TngFlowExecutionDateTimeFormatter | null>(null);
 
+  public readonly nodesMoved = output<TngFlowNodesMovedEvent>();
+  public readonly nodePositionChange = output<TngFlowNodePositionChange>();
+  public readonly nodeCreateRequested = output<TngFlowNodeCreateRequest<TNodeData>>();
+  public readonly connectionCreateRequested = output<TngFlowConnectionCreateRequest>();
+  public readonly connectionReconnectRequested = output<TngFlowConnectionReconnectRequest>();
+  public readonly connectionWaypointsChange = output<TngFlowConnectionWaypointsChange>();
+  public readonly connectionsDeleteRequested = output<TngFlowConnectionsDeleteRequest>();
+  public readonly nodesDeleteRequested = output<TngFlowNodesDeleteRequest>();
+  public readonly connectionRejected = output<TngFlowConnectionRejectedEvent>();
+  public readonly commandRequested = output<TngFlowEditorCommandRequest>();
+  public readonly contextMenuRequested = output<TngFlowContextMenuRequest>();
   public readonly selectionChange = output<TngFlowSelection>();
   public readonly inspectedNodeIdChange = output<string | null>();
   public readonly selectedExecutionIdChange = output<string | null>();

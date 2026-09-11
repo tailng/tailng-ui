@@ -685,8 +685,11 @@ anchor to the active graph element, or the viewport centre when no graph element
 
 ## Compatibility
 
-The `inputs`/`outputs`, `nodeViews`, `readonly`, connection-presentation `animated`,
+The `inputs`/`outputs`, `nodeViews`, connection-presentation `animated`,
 `connectionCreated`, `connectionReassigned`, `selectionChanged`, and combined `deleteRequested`
 APIs remain available as deprecated aliases for one compatibility cycle. New code should use
 `ports`, `presentation` with `motion`, `mode`, controlled `selection`, and the request outputs
 documented above.
+
+Graph interaction is controlled exclusively by `mode`. The former boolean `readonly` input has
+been removed from the editor, execution graph, and execution viewer.

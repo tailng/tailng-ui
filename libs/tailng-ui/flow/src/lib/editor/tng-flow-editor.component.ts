@@ -524,10 +524,6 @@ export class TngFlowEditorComponent<
   public readonly contextMenuEnabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
-  /** @deprecated Use `mode="readonly"`. When true, this input takes precedence over `mode`. */
-  public readonly readonly = input<boolean, boolean | string>(false, {
-    transform: booleanAttribute,
-  });
   public readonly ariaLabel = input<string>('Workflow editor');
   public readonly flowId = input<string>('tng-flow-editor');
   public readonly fitOnInit = input<boolean, boolean | string>(true, {
@@ -594,12 +590,7 @@ export class TngFlowEditorComponent<
   });
   protected readonly graphNodes = computed(() => this.analysis().nodes);
   protected readonly graphConnections = computed(() => this.analysis().connections);
-  protected readonly effectiveMode = computed<TngFlowEditorMode>(() =>
-    this.readonly() ? 'readonly' : this.mode(),
-  );
-  protected readonly capabilities = computed(() =>
-    resolveTngFlowCapabilities(this.effectiveMode()),
-  );
+  protected readonly capabilities = computed(() => resolveTngFlowCapabilities(this.mode()));
   protected readonly canEdit = computed(() => this.capabilities().move);
   protected readonly canSelect = computed(() => this.capabilities().select);
   private readonly effectiveCanvasScale = computed(() => {
@@ -1000,7 +991,7 @@ export class TngFlowEditorComponent<
   private readonly keyboardFocusRecoveryEffect = afterRenderEffect(() => {
     this.graphNodes();
     this.graphConnections();
-    this.effectiveMode();
+    this.mode();
     this.syncKeyboardFocusAfterRender();
   });
   private readonly pointerConnectionSyncEffect = afterRenderEffect((onCleanup) => {
@@ -1328,7 +1319,7 @@ export class TngFlowEditorComponent<
       node,
       view: this.viewFor(node.id),
       issues,
-      mode: this.effectiveMode(),
+      mode: this.mode(),
       readonly: !this.canEdit(),
       selected: this.isNodeSelected(node.id),
     };
@@ -1343,7 +1334,7 @@ export class TngFlowEditorComponent<
       connection,
       view,
       issues: this.connectionIssues(connection.id),
-      mode: this.effectiveMode(),
+      mode: this.mode(),
       selected: view.selected,
     };
   }

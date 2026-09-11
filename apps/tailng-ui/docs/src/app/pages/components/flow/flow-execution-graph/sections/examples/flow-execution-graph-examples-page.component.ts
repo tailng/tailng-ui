@@ -1,12 +1,21 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy, type WritableSignal } from '@angular/core';
 import { TngButtonComponent } from '@tailng-ui/components';
-import type { TngFlowDefinition, TngFlowSelection, TngFlowViewport } from '@tailng-ui/flow';
+import type {
+  TngFlowDefinition,
+  TngFlowNodesMovedEvent,
+  TngFlowSelection,
+  TngFlowViewport,
+} from '@tailng-ui/flow';
 import {
   TngFlowExecutionGraphComponent,
   type TngFlowExecutionActivatedEvent,
   type TngFlowNodeExecution,
 } from '@tailng-ui/flow/execution';
+import {
+  plainFlowExecutionGraphCodeTabs,
+  tailwindFlowExecutionGraphCodeTabs,
+} from './flow-execution-graph-example-code.data';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
@@ -22,10 +31,6 @@ import {
   type FlowExecutionViewerScenario,
   type FlowExecutionViewerScenarioId,
 } from '../../../flow-execution-viewer/sections/examples/flow-execution-viewer-example.data';
-import {
-  plainFlowExecutionGraphCodeTabs,
-  tailwindFlowExecutionGraphCodeTabs,
-} from './flow-execution-graph-example-code.data';
 
 export type FlowExecutionGraphExampleId = FlowExecutionViewerScenarioId | 'dark-mode';
 
@@ -70,9 +75,7 @@ const FLOW_EXECUTION_GRAPH_EXAMPLE_ORDER: readonly FlowExecutionGraphExampleId[]
   'narrow-surface',
 ];
 
-function createExampleState(
-  scenario: FlowExecutionViewerScenario,
-): FlowExecutionGraphExampleState {
+function createExampleState(scenario: FlowExecutionViewerScenario): FlowExecutionGraphExampleState {
   return Object.freeze({
     definition: signal(cloneDefinition(FLOW_EXECUTION_VIEWER_DEFINITION)),
     inspectedNodeId: signal(scenario.inspectedNodeId),
@@ -258,6 +261,17 @@ export class FlowExecutionGraphExamplesPageComponent implements OnDestroy {
     const nodeName = event.node?.name ?? 'Run';
     const phase = event.execution?.phase ?? 'none';
     state.lastActivation.set(`${nodeName}: ${phase} via ${event.source}`);
+  }
+
+  public onNodesMoved(state: FlowExecutionGraphExampleState, event: TngFlowNodesMovedEvent): void {
+    const positions = new Map(event.nodes.map((move) => [move.id, move.position]));
+    state.definition.update((definition) => ({
+      ...definition,
+      nodes: definition.nodes.map((node) => {
+        const position = positions.get(node.id);
+        return position === undefined ? node : { ...node, position };
+      }),
+    }));
   }
 
   private selectedExecution(

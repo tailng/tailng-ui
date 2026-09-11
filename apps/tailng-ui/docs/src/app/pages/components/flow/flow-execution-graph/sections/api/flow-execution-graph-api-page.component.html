@@ -9,11 +9,14 @@
       <li><code>definition</code>: workflow graph definition.</li>
       <li><code>snapshot</code>: run, node, and connection execution state.</li>
       <li>
-        <code>selection</code>, <code>inspectedNodeId</code>, and
-        <code>selectedExecutionId</code>: controlled interaction state.
+        <code>selection</code>, <code>inspectedNodeId</code>, and <code>selectedExecutionId</code>:
+        controlled interaction state.
       </li>
       <li><code>viewport</code>: controlled pan and zoom state.</li>
-      <li><code>mode</code>: <code>inspect</code> or <code>readonly</code>.</li>
+      <li>
+        <code>mode</code>: <code>edit</code>, <code>inspect</code>, or <code>readonly</code>. This
+        is the only graph interaction-mode input.
+      </li>
       <li>
         <code>showControls</code>, <code>showBackground</code>, <code>showMinimap</code>,
         <code>showSelectionArea</code>, and <code>fitOnInit</code>: surface feature toggles.
@@ -26,7 +29,10 @@
     <p>
       Listen for <code>selectionChange</code>, <code>inspectedNodeIdChange</code>,
       <code>selectedExecutionIdChange</code>, <code>viewportChange</code>, and
-      <code>executionActivated</code> to keep the product state synchronized.
+      <code>executionActivated</code> to keep inspection state synchronized. In edit mode, apply
+      <code>nodesMoved</code>, <code>nodeCreateRequested</code>, connection
+      create/reconnect/waypoint requests, and node/connection delete requests to a new controlled
+      definition snapshot.
     </p>
   </section>
 

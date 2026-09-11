@@ -428,6 +428,7 @@ describe('TngFlowEditorComponent', () => {
 
   it('emits application-owned command requests and enforces the mode matrix', () => {
     const fixture = TestBed.createComponent(TngFlowEditorComponent);
+    expect('readonly' in fixture.componentInstance).toBe(false);
     fixture.componentRef.setInput('definition', definition);
     fixture.componentRef.setInput('selection', {
       nodeIds: new Set(['custom']),
@@ -1385,7 +1386,7 @@ describe('TngFlowEditorComponent', () => {
   it('blocks graph mutation events in read-only mode', () => {
     const fixture = TestBed.createComponent(TngFlowEditorComponent);
     fixture.componentRef.setInput('nodes', nodes);
-    fixture.componentRef.setInput('readonly', true);
+    fixture.componentRef.setInput('mode', 'readonly');
     fixture.componentRef.setInput('fitOnInit', false);
     fixture.detectChanges();
 
@@ -2159,7 +2160,7 @@ describe('TngFlowEditorComponent', () => {
     const fixture = TestBed.createComponent(TngFlowEditorComponent);
     fixture.componentRef.setInput('nodes', nodes);
     fixture.componentRef.setInput('showMinimap', true);
-    fixture.componentRef.setInput('readonly', true);
+    fixture.componentRef.setInput('mode', 'readonly');
     fixture.componentRef.setInput('fitOnInit', false);
     fixture.detectChanges();
 

@@ -154,7 +154,7 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
     expect(completedProgress?.getAttribute('aria-valuenow')).toBe('100');
   });
 
-  it('uses inspect mode without forcing the graphs into readonly mode', async () => {
+  it('uses edit mode so nodes can be repositioned', async () => {
     await TestBed.configureTestingModule({
       imports: [FlowExecutionGraphExamplesPageComponent],
     }).compileComponents();
@@ -167,9 +167,29 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
     );
     expect(editors).toHaveLength(26);
     for (const editor of editors) {
-      expect(editor.dataset.mode).toBe('inspect');
+      expect(editor.dataset.mode).toBe('edit');
       expect(editor.hasAttribute('data-readonly')).toBe(false);
     }
+  });
+
+  it('persists controlled node movement in the example definition', () => {
+    const component = TestBed.createComponent(
+      FlowExecutionGraphExamplesPageComponent,
+    ).componentInstance;
+    const state = component.examples[0]?.plain;
+    const node = state?.definition().nodes[0];
+    if (state === undefined || node === undefined) {
+      throw new Error('Expected a graph example node.');
+    }
+
+    component.onNodesMoved(state, {
+      nodes: [{ id: node.id, position: { x: 321, y: 123 } }],
+    });
+
+    expect(
+      state.definition().nodes.find((candidate) => candidate.id === node.id)?.position,
+    ).toEqual({ x: 321, y: 123 });
+    expect(node.position).not.toEqual({ x: 321, y: 123 });
   });
 
   it('marks dark mode and narrow embedding as concrete rendered examples', async () => {

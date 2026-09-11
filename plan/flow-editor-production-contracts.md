@@ -172,7 +172,9 @@ state directly.
 
 ## Compatibility rules
 
-- Existing 0.9 inputs, outputs, methods, selectors, and deprecated aliases remain available.
+- Existing 0.9 inputs, outputs, methods, selectors, and deprecated aliases remain available except
+  for the former graph-level `readonly` boolean, which is intentionally removed in favor of the
+  single `mode: 'edit' | 'inspect' | 'readonly'` contract.
 - New shortcut and context-menu interception is disabled by default.
 - New heavy integrations are optional packages, not core runtime dependencies.
 - New public records are readonly and use TailNG model types exclusively.
