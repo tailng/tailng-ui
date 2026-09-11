@@ -1,6 +1,6 @@
 {
   "name": "@org/source",
-  "version": "0.154.2",
+  "version": "0.154.3",
   "license": "MIT",
   "engines": {
     "node": ">=20.20.0",
