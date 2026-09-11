@@ -29,6 +29,7 @@
 @import './overlay/popover.css' layer(tng.contracts);
 
 /* Feedback */
+@import './feedback/progress-bar.css' layer(tng.contracts);
 @import './feedback/toast.css' layer(tng.contracts);
 
 /* Utility */

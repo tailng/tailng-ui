@@ -1,7 +1,14 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it } from 'vitest';
 import { TngBadgeComponent } from '../tng-badge.component';
+
+const badgePrimitiveSource = readFileSync(
+  join(process.cwd(), 'libs/tailng-ui/primitives/src/lib/utility/badge/tng-badge.ts'),
+  'utf8',
+);
 
 function getByTestId<T extends Element>(
   fixture: { nativeElement: HTMLElement },
@@ -73,6 +80,13 @@ describe('tng-badge component wrapper', () => {
 
   it('exports the public TngBadgeComponent symbol', () => {
     expect(typeof TngBadgeComponent).toBe('function');
+  });
+
+  it('uses the shared control radius as the default badge radius fallback', () => {
+    expect(badgePrimitiveSource).toContain(
+      "['border-radius', 'var(--tng-badge-radius, var(--tng-radius-control, 0.5rem))']",
+    );
+    expect(badgePrimitiveSource).not.toContain('var(--tng-badge-radius, 9999px)');
   });
 
   it('forwards primitive badge behavior on [tngBadge] hosts', () => {
