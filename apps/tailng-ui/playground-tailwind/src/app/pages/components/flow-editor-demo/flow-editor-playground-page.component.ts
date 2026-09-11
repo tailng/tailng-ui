@@ -1,10 +1,15 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { TngBadgeComponent } from '@tailng-ui/components';
 import {
   TngFlowEditorComponent,
   TngFlowNodeComponent,
   TngFlowNodeTemplateDirective,
   TngFlowPaletteItemDirective,
+  createTngFlowHistory,
+  redoTngFlowHistory,
+  tngFlowHistoryStatus,
+  undoTngFlowHistory,
+  updateTngFlowHistory,
   type TngFlowConnectionCandidate,
   type TngFlowConnectionCreateRequest,
   type TngFlowConnectionReconnectRequest,
@@ -12,11 +17,13 @@ import {
   type TngFlowConnectionsDeleteRequest,
   type TngFlowConnectionValidation,
   type TngFlowDefinition,
+  type TngFlowEditorCommandRequest,
   type TngFlowEditorMode,
+  type TngFlowHistoryState,
   type TngFlowNodesDeleteRequest,
   type TngFlowNodeCreateRequest,
-  type TngFlowNodePositionChange,
   type TngFlowNodeActivatedEvent,
+  type TngFlowNodesMovedEvent,
   type TngFlowPaletteItem,
   type TngFlowPresentation,
   type TngFlowPort,
@@ -241,7 +248,9 @@ function palettePorts(type: string): readonly TngFlowPort[] {
 })
 export class FlowEditorPlaygroundPageComponent {
   protected readonly editorModes: readonly TngFlowEditorMode[] = ['edit', 'inspect', 'readonly'];
-  protected readonly workflow = signal(initialWorkflow);
+  protected readonly history = signal(createTngFlowHistory(initialWorkflow));
+  protected readonly workflow = computed(() => this.history().present.definition);
+  protected readonly historyStatus = computed(() => tngFlowHistoryStatus(this.history()));
   protected readonly paletteItems = paletteItems;
   protected readonly mode = signal<TngFlowEditorMode>('edit');
   protected readonly selection = signal<TngFlowSelection>(emptySelection());
@@ -311,20 +320,22 @@ export class FlowEditorPlaygroundPageComponent {
     return { valid: true };
   };
 
-  protected updateNodePosition(event: TngFlowNodePositionChange): void {
-    this.workflow.update((workflow) => ({
+  protected moveNodes(event: TngFlowNodesMovedEvent): void {
+    const positionsByNodeId = new Map(event.nodes.map((node) => [node.id, node.position]));
+    this.commitWorkflow('Move nodes', (workflow) => ({
       ...workflow,
-      nodes: workflow.nodes.map((node) =>
-        node.id === event.nodeId ? { ...node, position: event.position } : node,
-      ),
+      nodes: workflow.nodes.map((node) => {
+        const position = positionsByNodeId.get(node.id);
+        return position === undefined ? node : { ...node, position };
+      }),
     }));
-    this.recordEvent(`Moved ${event.nodeId}.`);
+    this.recordEvent(`Moved ${event.nodes.length} node(s).`);
   }
 
   protected createConnection(request: TngFlowConnectionCreateRequest): void {
     const id = `playground-connection-${this.connectionSequence}`;
     this.connectionSequence += 1;
-    this.workflow.update((workflow) => ({
+    this.commitWorkflow('Create connection', (workflow) => ({
       ...workflow,
       connections: [...workflow.connections, { id, ...request, type: 'bezier' }],
     }));
@@ -334,28 +345,33 @@ export class FlowEditorPlaygroundPageComponent {
   protected createNode(request: TngFlowNodeCreateRequest<PlaygroundNodeData>): void {
     const id = `${request.item.type}-${this.nodeSequence}`;
     this.nodeSequence += 1;
-    this.workflow.update((workflow) => ({
-      ...workflow,
-      nodes: [
-        ...workflow.nodes,
-        {
-          id,
-          type: request.item.type,
-          name: request.item.name,
-          description: request.item.description,
-          icon: request.item.icon,
-          data: request.item.data,
-          position: request.position,
-          ports: palettePorts(request.item.type),
-        },
-      ],
-    }));
-    this.selection.set({ nodeIds: new Set([id]), connectionIds: new Set() });
+    const nextSelection = { nodeIds: new Set([id]), connectionIds: new Set<string>() };
+    this.commitWorkflow(
+      'Create node',
+      (workflow) => ({
+        ...workflow,
+        nodes: [
+          ...workflow.nodes,
+          {
+            id,
+            type: request.item.type,
+            name: request.item.name,
+            description: request.item.description,
+            icon: request.item.icon,
+            data: request.item.data,
+            position: request.position,
+            ports: palettePorts(request.item.type),
+          },
+        ],
+      }),
+      nextSelection,
+    );
+    this.selection.set(nextSelection);
     this.recordEvent(`Created ${id} from ${request.source} palette placement.`);
   }
 
   protected reconnectConnection(request: TngFlowConnectionReconnectRequest): void {
-    this.workflow.update((workflow) => ({
+    this.commitWorkflow('Reconnect connection', (workflow) => ({
       ...workflow,
       connections: workflow.connections.map((connection) =>
         connection.id === request.connectionId
@@ -368,11 +384,16 @@ export class FlowEditorPlaygroundPageComponent {
 
   protected deleteConnections(request: TngFlowConnectionsDeleteRequest): void {
     const deletedIds = new Set(request.connectionIds);
-    this.workflow.update((workflow) => ({
-      ...workflow,
-      connections: workflow.connections.filter((connection) => !deletedIds.has(connection.id)),
-    }));
-    this.pruneSelection(new Set(), deletedIds);
+    const nextSelection = this.selectionWithout(new Set(), deletedIds);
+    this.commitWorkflow(
+      'Delete connections',
+      (workflow) => ({
+        ...workflow,
+        connections: workflow.connections.filter((connection) => !deletedIds.has(connection.id)),
+      }),
+      nextSelection,
+    );
+    this.selection.set(nextSelection);
     this.recordEvent(`Deleted ${request.connectionIds.length} connection(s).`);
   }
 
@@ -387,15 +408,30 @@ export class FlowEditorPlaygroundPageComponent {
         )
         .map((connection) => connection.id),
     );
-    this.workflow.update((workflow) => ({
-      ...workflow,
-      nodes: workflow.nodes.filter((node) => !deletedNodeIds.has(node.id)),
-      connections: workflow.connections.filter(
-        (connection) => !deletedConnectionIds.has(connection.id),
-      ),
-    }));
-    this.pruneSelection(deletedNodeIds, deletedConnectionIds);
+    const nextSelection = this.selectionWithout(deletedNodeIds, deletedConnectionIds);
+    this.commitWorkflow(
+      'Delete nodes',
+      (workflow) => ({
+        ...workflow,
+        nodes: workflow.nodes.filter((node) => !deletedNodeIds.has(node.id)),
+        connections: workflow.connections.filter(
+          (connection) => !deletedConnectionIds.has(connection.id),
+        ),
+      }),
+      nextSelection,
+    );
+    this.selection.set(nextSelection);
     this.recordEvent(`Deleted ${request.nodeIds.length} node(s).`);
+  }
+
+  protected handleCommand(request: TngFlowEditorCommandRequest): void {
+    if (request.command === 'undo') {
+      this.restoreHistory(undoTngFlowHistory(this.history()), 'Undid the last graph edit.');
+      return;
+    }
+    if (request.command === 'redo') {
+      this.restoreHistory(redoTngFlowHistory(this.history()), 'Redid the next graph edit.');
+    }
   }
 
   protected showConnectionError(event: TngFlowConnectionRejectedEvent): void {
@@ -433,7 +469,7 @@ export class FlowEditorPlaygroundPageComponent {
   }
 
   protected resetWorkflow(): void {
-    this.workflow.set(initialWorkflow);
+    this.history.set(createTngFlowHistory(initialWorkflow));
     this.selection.set(emptySelection());
     this.mode.set('edit');
     this.rejection.set(null);
@@ -442,16 +478,41 @@ export class FlowEditorPlaygroundPageComponent {
     this.lastEvent.set('Workflow reset.');
   }
 
-  private pruneSelection(
+  private commitWorkflow(
+    label: string,
+    update: (
+      workflow: TngFlowDefinition<PlaygroundNodeData>,
+    ) => TngFlowDefinition<PlaygroundNodeData>,
+    selection = this.selection(),
+  ): void {
+    this.history.update((history) =>
+      updateTngFlowHistory(history, update, {
+        label,
+        selection,
+      }),
+    );
+  }
+
+  private restoreHistory(history: TngFlowHistoryState<PlaygroundNodeData>, message: string): void {
+    if (history === this.history()) {
+      return;
+    }
+    this.history.set(history);
+    this.selection.set(history.present.selection ?? emptySelection());
+    this.recordEvent(message);
+  }
+
+  private selectionWithout(
     deletedNodeIds: ReadonlySet<string>,
     deletedConnectionIds: ReadonlySet<string>,
-  ): void {
-    this.selection.update((selection) => ({
+  ): TngFlowSelection {
+    const selection = this.selection();
+    return {
       nodeIds: new Set([...selection.nodeIds].filter((id) => !deletedNodeIds.has(id))),
       connectionIds: new Set(
         [...selection.connectionIds].filter((id) => !deletedConnectionIds.has(id)),
       ),
-    }));
+    };
   }
 
   private recordEvent(message: string): void {

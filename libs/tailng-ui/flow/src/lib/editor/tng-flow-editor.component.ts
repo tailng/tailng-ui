@@ -593,6 +593,12 @@ export class TngFlowEditorComponent<
   public readonly showSelectionArea = input<boolean, boolean | string>(true, {
     transform: booleanAttribute,
   });
+  public readonly canUndo = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
+  public readonly canRedo = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
   public readonly snapToGrid = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });

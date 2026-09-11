@@ -29,7 +29,7 @@ surface at `@tailng-ui/flow/execution`.
 | `@tailng-ui/primitives` | `0.85.x` |
 | `@tailng-ui/cdk` | `0.58.x` |
 | `@tailng-ui/theme` | `0.75.x` |
-| Angular | `^21.1.0 || ^22.0.0` |
+| Angular | `^21.1.0` &#124;&#124; `^22.0.0` |
 
 `@tailng-ui/flow` directly peers `@tailng-ui/components` and `@tailng-ui/icons`; components then
 bring the matching primitives/CDK peer expectations. Add `@tailng-ui/theme` when the application
@@ -226,8 +226,8 @@ connection.
 In edit mode, the canvas toolbar exposes all five path types for the next connection: straight,
 Bézier, orthogonal, rounded orthogonal, and adaptive. The active
 `connectionCreationPathType` also drives the live drag preview and is included as resolved
-`routing` in `connectionCreateRequested`; persist that routing when accepting the request. The
-disabled Undo and Redo icons reserve the history controls but do not perform an action yet. Existing
+`routing` in `connectionCreateRequested`; persist that routing when accepting the request. The Undo
+and Redo controls emit command requests and are enabled by `canUndo` and `canRedo`. Existing
 connections are not restyled when the creation style changes; use
 `requestConnectionRoutingChange()` and apply `connectionRoutingChangeRequested` for that controlled
 operation. Set `showConnectionTools="false"` to hide the toolbar; it is never rendered in inspect or
@@ -329,11 +329,7 @@ Set `fitOnDefinitionChange` for runtime viewers that should reframe when the con
 changes after the first render:
 
 ```html
-<tng-flow-editor
-  [definition]="workflow()"
-  [fitOnInit]="false"
-  [fitOnDefinitionChange]="true"
-/>
+<tng-flow-editor [definition]="workflow()" [fitOnInit]="false" [fitOnDefinitionChange]="true" />
 ```
 
 `fitOnDefinitionChange` updates the viewport only after node or connection identity, endpoint, or
@@ -719,7 +715,9 @@ validation, ids, menu content, and every graph mutation.
   #editor="tngFlowEditor"
   [definition]="workflow()"
   [selection]="selection()"
-  [commandShortcuts]="['copy', 'paste', 'duplicate']"
+  [commandShortcuts]="['undo', 'redo', 'copy', 'paste', 'duplicate']"
+  [canUndo]="historyStatus().canUndo"
+  [canRedo]="historyStatus().canRedo"
   [contextMenuEnabled]="true"
   (selectionChange)="selection.set($event)"
   (commandRequested)="handleCommand($event)"
@@ -728,9 +726,27 @@ validation, ids, menu content, and every graph mutation.
 ```
 
 ```ts
+readonly history = signal(createTngFlowHistory(initialWorkflow));
+readonly workflow = computed(() => this.history().present.definition);
+readonly historyStatus = computed(() => tngFlowHistoryStatus(this.history()));
+
+commitGraphEdit(label: string, update: TngFlowHistoryUpdate): void {
+  this.history.update((history) =>
+    updateTngFlowHistory(history, update, {
+      label,
+      selection: this.selection(),
+    }),
+  );
+}
+
 handleCommand(request: TngFlowEditorCommandRequest): void {
-  // Read or update application-owned history and clipboard state, then
-  // produce a new controlled workflow snapshot when the command mutates data.
+  if (request.command === 'undo') {
+    this.history.update(undoTngFlowHistory);
+    return;
+  }
+  if (request.command === 'redo') {
+    this.history.update(redoTngFlowHistory);
+  }
 }
 
 openContextMenu(request: TngFlowContextMenuRequest): void {

@@ -34,6 +34,17 @@ const run = (cmd, cwd) =>
     env: { ...process.env },
   });
 
+const runNpm = (args, cwd) => {
+  const result = spawnSync('npm', args, {
+    cwd,
+    stdio: 'inherit',
+    env: { ...process.env },
+  });
+
+  if (result.error) throw result.error;
+  if (result.status !== 0) process.exit(result.status ?? 1);
+};
+
 function resolvePackageVersions() {
   return collectPackageVersionsFromFiles(
     Object.fromEntries(
@@ -50,6 +61,67 @@ function isAlreadyPublished(name, version) {
     timeout: 30_000,
   });
   return result.status === 0 && result.stdout.trim() === version;
+}
+
+function readDistTags(name) {
+  const result = spawnSync('npm', ['view', name, 'dist-tags', '--json'], {
+    stdio: 'pipe',
+    encoding: 'utf8',
+    timeout: 30_000,
+  });
+
+  if (result.status !== 0) {
+    fail(`Unable to read npm dist-tags for ${name}`);
+  }
+
+  try {
+    return JSON.parse(result.stdout || '{}');
+  } catch {
+    fail(`Unable to parse npm dist-tags for ${name}: ${result.stdout}`);
+  }
+}
+
+function compareSemver(a, b) {
+  const left = String(a)
+    .split('.')
+    .map((part) => Number.parseInt(part, 10));
+  const right = String(b)
+    .split('.')
+    .map((part) => Number.parseInt(part, 10));
+
+  for (let index = 0; index < Math.max(left.length, right.length); index += 1) {
+    const leftValue = Number.isNaN(left[index]) ? 0 : (left[index] ?? 0);
+    const rightValue = Number.isNaN(right[index]) ? 0 : (right[index] ?? 0);
+    if (leftValue !== rightValue) return leftValue > rightValue ? 1 : -1;
+  }
+
+  return 0;
+}
+
+function ensureDistTag(name, version) {
+  const tags = readDistTags(name);
+  const currentVersion = tags[npmTag];
+
+  if (currentVersion === version) {
+    console.log(`OK: ${name}@${version} already has dist-tag ${npmTag}`);
+    return;
+  }
+
+  if (npmTag === 'latest' && currentVersion && compareSemver(currentVersion, version) > 0) {
+    fail(
+      `${name}: refusing to move latest from ${currentVersion} back to ${version}. ` +
+        'Publish a newer version instead.',
+    );
+  }
+
+  const command = `npm dist-tag add ${name}@${version} ${npmTag}`;
+  if (process.env.DRY_RUN === 'true') {
+    console.log(`DRY_RUN=true, skipping: ${command}`);
+    return;
+  }
+
+  console.log(`Adding dist-tag ${npmTag} to ${name}@${version}`);
+  runNpm(['dist-tag', 'add', `${name}@${version}`, npmTag]);
 }
 
 const publish = (dir) => {
@@ -71,7 +143,8 @@ const publish = (dir) => {
   assertNoWorkspaceProtocols(publishPkg, dir);
 
   if (isAlreadyPublished(name, version)) {
-    console.log(`⏭  ${name}@${version} already published — skipping`);
+    console.log(`${name}@${version} already published; ensuring dist-tag ${npmTag}`);
+    ensureDistTag(name, version);
     return;
   }
 

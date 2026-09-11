@@ -26,6 +26,7 @@
       "@tailng-ui/components": ["libs/tailng-ui/components/src/index.ts"],
       "@tailng-ui/flow": ["libs/tailng-ui/flow/src/index.ts"],
       "@tailng-ui/flow/execution": ["libs/tailng-ui/flow/src/execution/index.ts"],
+      "@tailng-ui/flow/layout-dagre": ["libs/tailng-ui/flow/src/layout-dagre/index.ts"],
       "@tailng-ui/flow-layout-dagre": ["libs/tailng-ui/flow-layout-dagre/src/index.ts"],
       "@tailng-ui/icons": ["libs/tailng-ui/icons/src/index.ts"],
       "@tailng-ui/icons/core": ["libs/tailng-ui/icons/src/core.ts"],

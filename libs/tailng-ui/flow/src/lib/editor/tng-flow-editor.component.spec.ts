@@ -1157,7 +1157,7 @@ describe('TngFlowEditorComponent', () => {
     ).toBe('4px -2px');
   });
 
-  it('renders history placeholders and five always-available connection creation styles', () => {
+  it('renders command history controls and five always-available connection creation styles', () => {
     const fixture = TestBed.createComponent(TngFlowEditorComponent);
     fixture.componentRef.setInput('nodes', nodes);
     fixture.componentRef.setInput('connections', labelledConnections);
@@ -1172,16 +1172,16 @@ describe('TngFlowEditorComponent', () => {
     const straightButton = host.querySelector<HTMLButtonElement>(
       '[data-connection-path-control="straight"] button',
     );
+    const undoButton = host.querySelector<HTMLButtonElement>('[data-editor-command="undo"] button');
+    const redoButton = host.querySelector<HTMLButtonElement>('[data-editor-command="redo"] button');
+    const requested = vi.fn<(request: TngFlowEditorCommandRequest) => void>();
+    fixture.componentInstance.commandRequested.subscribe(requested);
 
     expect(toolbar?.getAttribute('role')).toBe('toolbar');
     expect(toolbar?.getAttribute('aria-label')).toBe('Flow editing tools');
     expect(controls).toHaveLength(5);
-    expect(
-      host.querySelector<HTMLButtonElement>('[data-editor-command="undo"] button')?.disabled,
-    ).toBe(true);
-    expect(
-      host.querySelector<HTMLButtonElement>('[data-editor-command="redo"] button')?.disabled,
-    ).toBe(true);
+    expect(undoButton?.disabled).toBe(true);
+    expect(redoButton?.disabled).toBe(true);
     expect(bezierButton?.getAttribute('aria-pressed')).toBe('true');
     expect(straightButton?.getAttribute('aria-pressed')).toBe('false');
     expect(
@@ -1196,6 +1196,15 @@ describe('TngFlowEditorComponent', () => {
     expect(fixture.componentInstance.connectionCreationPathType()).toBe('straight');
     expect(straightButton?.getAttribute('aria-pressed')).toBe('true');
     expect(bezierButton?.getAttribute('aria-pressed')).toBe('false');
+
+    fixture.componentRef.setInput('canUndo', true);
+    fixture.componentRef.setInput('canRedo', true);
+    fixture.detectChanges();
+    undoButton?.click();
+    redoButton?.click();
+
+    expect(requested).toHaveBeenCalledWith(expect.objectContaining({ command: 'undo' }));
+    expect(requested).toHaveBeenCalledWith(expect.objectContaining({ command: 'redo' }));
 
     fixture.componentRef.setInput('showConnectionTools', false);
     fixture.detectChanges();

@@ -212,6 +212,12 @@ export class TngFlowWorkbenchComponent<
   public readonly smartGuides = input<TngFlowSmartGuidesOptions | null>(null);
   public readonly minimapOptions = input<TngFlowMinimapOptions | null>(null);
   public readonly commandShortcuts = input<TngFlowEditorCommandShortcuts>(false);
+  public readonly canUndo = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
+  public readonly canRedo = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
   public readonly contextMenuEnabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });

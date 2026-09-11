@@ -52,6 +52,24 @@ export {
 } from './lib/model/tng-flow-issue-index';
 export type { TngFlowIssueIndex } from './lib/model/tng-flow-issue-index';
 export {
+  TNG_FLOW_HISTORY_DEFAULT_LIMIT,
+  commitTngFlowHistory,
+  createTngFlowHistory,
+  redoTngFlowHistory,
+  resetTngFlowHistory,
+  tngFlowHistoryStatus,
+  undoTngFlowHistory,
+  updateTngFlowHistory,
+} from './lib/model/tng-flow-history';
+export type {
+  TngFlowHistoryCommitOptions,
+  TngFlowHistoryCreateOptions,
+  TngFlowHistorySnapshot,
+  TngFlowHistoryState,
+  TngFlowHistoryStatus,
+  TngFlowHistoryUpdate,
+} from './lib/model/tng-flow-history';
+export {
   areTngFlowSelectionsEqual,
   sanitizeTngFlowSelection,
 } from './lib/model/tng-flow-selection';
