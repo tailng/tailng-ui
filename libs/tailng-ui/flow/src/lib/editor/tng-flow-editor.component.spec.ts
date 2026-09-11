@@ -803,7 +803,7 @@ describe('TngFlowEditorComponent', () => {
     expect(host.querySelector('[data-node-id="custom"]')).not.toBeNull();
   });
 
-  it('uses the editor selection ring without duplicating the default-node outline', () => {
+  it('uses the editor selection ring as a custom-node fallback', () => {
     const fixture = TestBed.createComponent(FlowEditorHost);
     fixture.componentInstance.selection.set({
       nodeIds: new Set(['custom', 'default']),
@@ -812,17 +812,22 @@ describe('TngFlowEditorComponent', () => {
     fixture.detectChanges();
 
     const host = fixture.nativeElement as HTMLElement;
+    const customNode = host.querySelector<HTMLElement>('[data-testid="custom-node"]');
+    const customContent = customNode?.closest<HTMLElement>('.tng-flow-editor__node-content');
     const defaultNode = host.querySelector<HTMLElement>('[data-node-id="default"] tng-flow-node');
-    expect(host.querySelector('[data-testid="custom-node"]')?.textContent).toContain('selected');
+    const defaultContent = defaultNode?.closest<HTMLElement>('.tng-flow-editor__node-content');
+    expect(customNode?.textContent).toContain('selected');
+    expect(customContent?.hasAttribute('data-custom-node')).toBe(true);
+    expect(defaultContent?.hasAttribute('data-custom-node')).toBe(false);
     expect(editorStyles).toMatch(
-      /\.tng-flow-editor__node--selected \.tng-flow-editor__node-content\s*\{/,
+      /\.tng-flow-editor__node--selected \.tng-flow-editor__node-content\[data-custom-node\]\s*\{/,
     );
     expect(editorStyles).toMatch(/--_node-selection-ring-width:\s*calc\(2 \* var\(--_ring\)\);/);
     expect(editorStyles).toMatch(
       /box-shadow:\s*0 0 0 var\(--_node-validation-ring-width\) var\(--_node-validation-ring-color\),\s*0 0 0 calc\(var\(--_node-validation-ring-width\) \+ var\(--_node-selection-ring-width\)\)\s*var\(--_node-selection-ring-color\);/s,
     );
     expect(editorStyles).toMatch(
-      /\.tng-flow-editor__node-content > tng-flow-node\s*\{[^}]*--tng-flow-node-selection-outline:\s*none;/s,
+      /\.tng-flow-editor__node-content > tng-flow-node\s*\{[^}]*--tng-flow-node-selection-shadow:\s*0 0 0 calc\(2 \* var\(--_ring\)\) var\(--_select\);/s,
     );
     expect(defaultNode?.hasAttribute('data-selected')).toBe(true);
   });

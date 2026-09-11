@@ -2273,12 +2273,12 @@ describe('TngFlowEditorComponent browser contracts', () => {
       }
       flow.focus();
       dispatchKey(flow, 'Home');
-      const nodeContent = host.querySelector<HTMLElement>(
-        '[data-node-id="start"] .tng-flow-editor__node-content',
+      const nodeSurface = host.querySelector<HTMLElement>(
+        '[data-node-id="start"] tng-flow-node .tng-flow-node',
       );
-      expect(nodeContent).not.toBeNull();
+      expect(nodeSurface).not.toBeNull();
       expect(
-        maxBoxShadowSpread(getComputedStyle(nodeContent!).boxShadow) * scale,
+        maxBoxShadowSpread(getComputedStyle(nodeSurface!).boxShadow) * scale,
       ).toBeGreaterThanOrEqual(1.95);
 
       dispatchKey(flow, 'c');

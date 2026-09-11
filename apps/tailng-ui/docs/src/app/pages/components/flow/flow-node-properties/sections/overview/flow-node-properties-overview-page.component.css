@@ -1,0 +1,128 @@
+.flow-node-properties-overview__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.flow-node-properties-overview__preview {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.flow-node-properties-overview__shell {
+  display: grid;
+  grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr);
+  min-height: 34rem;
+  overflow: hidden;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.5rem;
+  background: var(--tng-semantic-background-base);
+}
+
+.flow-node-properties-overview__nodes {
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 0.75rem;
+  border-right: 1px solid var(--tng-semantic-border-subtle);
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 55%, transparent);
+}
+
+.flow-node-properties-overview__node-button {
+  display: grid;
+  gap: 0.2rem;
+  width: 100%;
+  min-width: 0;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.5rem;
+  color: var(--tng-semantic-foreground-primary);
+  background: var(--tng-semantic-background-surface);
+  text-align: left;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+
+.flow-node-properties-overview__node-button:hover {
+  background: var(--tng-semantic-background-muted);
+}
+
+.flow-node-properties-overview__node-button.is-selected {
+  border-color: var(--tng-semantic-accent-primary);
+}
+
+.flow-node-properties-overview__node-button span,
+.flow-node-properties-overview__node-button small {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.flow-node-properties-overview__node-button span {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.flow-node-properties-overview__node-button small {
+  color: var(--tng-semantic-foreground-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.flow-node-properties-overview__panel {
+  min-height: 34rem;
+}
+
+.flow-node-properties-overview__data-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.flow-node-properties-overview__data-grid label {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+  color: var(--tng-semantic-foreground-muted);
+  font-size: 0.8rem;
+}
+
+.flow-node-properties-overview__data-grid input,
+.flow-node-properties-overview__data-grid select {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--tng-semantic-border-default);
+  border-radius: 0.5rem;
+  color: var(--tng-semantic-foreground-primary);
+  background: var(--tng-semantic-background-surface);
+  font: inherit;
+  font-size: 0.85rem;
+}
+
+.flow-node-properties-overview__data-grid input:focus,
+.flow-node-properties-overview__data-grid select:focus {
+  outline: 2px solid var(--tng-semantic-focus-ring);
+  outline-offset: 2px;
+}
+
+.flow-node-properties-overview__feedback {
+  margin: 0;
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 720px) {
+  .flow-node-properties-overview__shell {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-node-properties-overview__nodes {
+    border-right: 0;
+    border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  }
+}

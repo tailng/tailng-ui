@@ -56,8 +56,8 @@
   box-shadow: none;
 }
 
-.tng-flow-editor__node.f-selected .tng-flow-editor__node-content,
-.tng-flow-editor__node--selected .tng-flow-editor__node-content {
+.tng-flow-editor__node.f-selected .tng-flow-editor__node-content[data-custom-node],
+.tng-flow-editor__node--selected .tng-flow-editor__node-content[data-custom-node] {
   --_node-selection-ring-color: var(--_select);
   --_node-selection-ring-width: calc(2 * var(--_ring));
 }
@@ -106,7 +106,7 @@
 }
 
 .tng-flow-editor__node-content > tng-flow-node {
-  --tng-flow-node-selection-outline: none;
+  --tng-flow-node-selection-shadow: 0 0 0 calc(2 * var(--_ring)) var(--_select);
 }
 
 .tng-flow-editor__drag-handle {

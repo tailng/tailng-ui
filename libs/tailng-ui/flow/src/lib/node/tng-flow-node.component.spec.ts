@@ -67,6 +67,14 @@ describe('TngFlowNodeComponent', () => {
     expect(host.textContent).toContain('Missing credentials');
   });
 
+  it('renders the selected state as a tight card shadow', () => {
+    expect(nodeStyles).toMatch(/:host\(\[data-selected\]\) \.tng-flow-node\s*\{/);
+    expect(nodeStyles).toMatch(/outline:\s*var\(--tng-flow-node-selection-outline,\s*none\);/);
+    expect(nodeStyles).toMatch(
+      /box-shadow:\s*var\(\s*--tng-flow-node-selection-shadow,\s*0 0 0 2px var\(--tng-flow-selection-color/s,
+    );
+  });
+
   it('uses explicit progress mode without status-driven indeterminate progress', () => {
     const fixture = TestBed.createComponent(TngFlowNodeComponent);
     fixture.componentRef.setInput('name', 'Research agent');
