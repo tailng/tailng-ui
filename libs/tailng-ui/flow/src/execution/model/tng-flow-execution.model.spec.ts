@@ -190,6 +190,28 @@ describe('flow execution model', () => {
     expect(Object.prototype.hasOwnProperty.call(presentation.nodes?.task, 'progress')).toBe(false);
   });
 
+  it('treats an undefined progress field as unspecified in explicit mode', () => {
+    const index = createTngFlowExecutionIndex(definition, {
+      id: 'run',
+      definitionId: 'workflow',
+      phase: 'succeeded',
+      nodeExecutions: [
+        {
+          id: 'exec-1',
+          nodeId: 'task',
+          activationId: 'a1',
+          attempt: 1,
+          phase: 'succeeded',
+          progress: undefined,
+        },
+      ],
+    });
+
+    const presentation = createTngFlowExecutionPresentation(definition, index, 'explicit');
+
+    expect(Object.prototype.hasOwnProperty.call(presentation.nodes?.task, 'progress')).toBe(false);
+  });
+
   it('resolves inspected nodes and selected executions independently', () => {
     expect(resolveTngFlowExecutionInspectedNodeId(definition, selection(['task']), null)).toBe(
       'task',

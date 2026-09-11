@@ -42,7 +42,6 @@ function graphMarkup(className: string): string {
     '  [selectedExecutionId]="selectedExecutionId()"',
     '  [viewport]="viewport()"',
     '  mode="inspect"',
-    '  [readonly]="true"',
     '  [showMinimap]="true"',
     '  [showControls]="true"',
     '  [showSelectionArea]="false"',

@@ -3,7 +3,11 @@ import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { TngFlowNodeComponent, resolveTngFlowStatusTone } from './tng-flow-node.component';
+import {
+  TngFlowNodeComponent,
+  resolveTngFlowNodeProgressState,
+  resolveTngFlowStatusTone,
+} from './tng-flow-node.component';
 
 const specDirectory = dirname(fileURLToPath(import.meta.url));
 const nodeStyles = readFileSync(resolve(specDirectory, 'tng-flow-node.component.css'), 'utf8');
@@ -15,6 +19,24 @@ describe('TngFlowNodeComponent', () => {
     expect(resolveTngFlowStatusTone('running')).toBe('info');
     expect(resolveTngFlowStatusTone('awaiting-input')).toBe('warning');
     expect(resolveTngFlowStatusTone('custom')).toBe('neutral');
+  });
+
+  it('maps status-driven progress to completed, running, and fallback states', () => {
+    expect(resolveTngFlowNodeProgressState('completed', null, false, 'status-driven')).toEqual({
+      indeterminate: false,
+      value: 100,
+      visible: true,
+    });
+    expect(resolveTngFlowNodeProgressState('running', 58, true, 'status-driven')).toEqual({
+      indeterminate: true,
+      value: 0,
+      visible: true,
+    });
+    expect(resolveTngFlowNodeProgressState('queued', 58, true, 'status-driven')).toEqual({
+      indeterminate: false,
+      value: 0,
+      visible: true,
+    });
   });
 
   it('renders status, progress, and validation presentation', () => {
@@ -62,14 +84,47 @@ describe('TngFlowNodeComponent', () => {
     expect(host.querySelector('tng-progress-bar')).not.toBeNull();
   });
 
-  it('keeps status-driven progress as the default', () => {
+  it('renders completed status text inside a successful 100% progress bar', () => {
     const fixture = TestBed.createComponent(TngFlowNodeComponent);
     fixture.componentRef.setInput('name', 'Research agent');
-    fixture.componentRef.setInput('status', 'running');
+    fixture.componentRef.setInput('status', 'completed');
+    fixture.componentRef.setInput('statusMessage', 'Completed successfully');
     fixture.detectChanges();
 
     const host = fixture.nativeElement as HTMLElement;
-    expect(host.querySelector('tng-progress-bar')).not.toBeNull();
+    const progressRoot = host.querySelector<HTMLElement>('[data-slot="progress-bar"]');
+    const progressLabel = host.querySelector<HTMLElement>('.tng-flow-node__progress-label');
+
+    expect(host.querySelector('.tng-flow-node__message')).toBeNull();
+    expect(progressRoot?.getAttribute('data-state')).toBe('determinate');
+    expect(progressRoot?.getAttribute('aria-valuenow')).toBe('100');
+    expect(progressRoot?.getAttribute('aria-valuetext')).toBe('Completed successfully, 100%');
+    expect(progressLabel?.textContent).toContain('Completed successfully');
+    expect(progressLabel?.textContent).toContain('100%');
+    expect(nodeStyles).toMatch(
+      /\[data-status='completed'\][^{]*\{[^}]*--tng-progress-bar-indicator:\s*var\(--tng-semantic-accent-success/s,
+    );
+  });
+
+  it('renders running progress as indeterminate and every other status at 0%', () => {
+    const fixture = TestBed.createComponent(TngFlowNodeComponent);
+    fixture.componentRef.setInput('name', 'Research agent');
+    fixture.componentRef.setInput('status', 'running');
+    fixture.componentRef.setInput('progress', 72);
+    fixture.detectChanges();
+
+    const host = fixture.nativeElement as HTMLElement;
+    let progressRoot = host.querySelector<HTMLElement>('[data-slot="progress-bar"]');
+    expect(progressRoot?.getAttribute('data-state')).toBe('indeterminate');
+    expect(progressRoot?.getAttribute('aria-valuenow')).toBeNull();
+
+    fixture.componentRef.setInput('status', 'queued');
+    fixture.detectChanges();
+
+    progressRoot = host.querySelector<HTMLElement>('[data-slot="progress-bar"]');
+    expect(progressRoot?.getAttribute('data-state')).toBe('determinate');
+    expect(progressRoot?.getAttribute('aria-valuenow')).toBe('0');
+    expect(host.querySelector('.tng-flow-node__progress-value')?.textContent?.trim()).toBe('0%');
   });
 
   it('propagates a consumer minimum height to the card host', () => {

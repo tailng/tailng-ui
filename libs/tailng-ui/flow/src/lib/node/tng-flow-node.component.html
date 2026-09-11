@@ -1,8 +1,4 @@
-<tng-card
-  class="tng-flow-node"
-  tone="neutral"
-  variant="solid"
->
+<tng-card class="tng-flow-node" tone="neutral" variant="solid">
   <header class="tng-flow-node__header" [attr.data-has-icon]="icon() ? '' : null">
     @if (icon(); as iconName) {
       <span class="tng-flow-node__icon" aria-hidden="true">
@@ -34,17 +30,28 @@
     <ng-content />
   </section>
 
-  @if (resolvedStatusMessage(); as messageText) {
-    <p class="tng-flow-node__message">{{ messageText }}</p>
+  @if (showStandaloneStatusMessage()) {
+    <p class="tng-flow-node__message">{{ resolvedStatusMessage() }}</p>
   }
 
-  @if (showProgress()) {
-    <footer class="tng-flow-node__footer">
-      <tng-progress-bar
-        [ariaLabel]="name() + ' progress'"
-        [indeterminate]="progress() === null"
-        [value]="normalizedProgress()"
-      />
+  @if (progressState().visible) {
+    <footer class="tng-flow-node__footer" [attr.data-status]="status()">
+      <div class="tng-flow-node__progress">
+        <tng-progress-bar
+          [ariaLabel]="name() + ' progress'"
+          [ariaValueText]="progressAriaValueText()"
+          [indeterminate]="progressState().indeterminate"
+          [value]="progressState().value"
+        />
+        @if (!progressState().indeterminate) {
+          <span class="tng-flow-node__progress-label" aria-hidden="true">
+            @if (completedProgressMessage(); as completedMessage) {
+              <span class="tng-flow-node__progress-message">{{ completedMessage }}</span>
+            }
+            <span class="tng-flow-node__progress-value">{{ progressState().value }}%</span>
+          </span>
+        }
+      </div>
     </footer>
   }
 </tng-card>

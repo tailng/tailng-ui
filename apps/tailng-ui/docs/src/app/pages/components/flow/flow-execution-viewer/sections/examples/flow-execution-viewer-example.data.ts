@@ -650,7 +650,7 @@ function nodeFromSeed(
     maxAttempts: seed.maxAttempts,
     phase: seed.phase,
     statusMessage: seed.message,
-    progress: seed.progress,
+    ...(seed.progress === undefined ? {} : { progress: seed.progress }),
     input: seed.input ?? available({ from: 'previous-step', nodeId: seed.nodeId }),
     output: seed.output ?? defaultOutput(seed),
     error: seed.error,

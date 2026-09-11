@@ -11,6 +11,12 @@ import { TngFlowValidationBadgeComponent } from '../validation-badge/tng-flow-va
 
 export type TngFlowStatusTone = 'danger' | 'info' | 'neutral' | 'success' | 'warning';
 
+export type TngFlowNodeProgressState = Readonly<{
+  indeterminate: boolean;
+  value: number;
+  visible: boolean;
+}>;
+
 const statusTones: Readonly<Record<string, TngFlowStatusTone>> = {
   'awaiting-input': 'warning',
   cancelled: 'danger',
@@ -24,6 +30,38 @@ const statusTones: Readonly<Record<string, TngFlowStatusTone>> = {
 
 export function resolveTngFlowStatusTone(status: string): TngFlowStatusTone {
   return statusTones[status] ?? 'neutral';
+}
+
+export function resolveTngFlowNodeProgressState(
+  status: string,
+  progress: number | null,
+  progressSpecified: boolean,
+  displayMode: TngFlowProgressDisplayMode,
+): TngFlowNodeProgressState {
+  if (displayMode === 'status-driven') {
+    if (status === 'completed') {
+      return { indeterminate: false, value: 100, visible: true };
+    }
+    if (status === 'running') {
+      return { indeterminate: true, value: 0, visible: true };
+    }
+
+    return { indeterminate: false, value: 0, visible: true };
+  }
+
+  return {
+    indeterminate: progress === null,
+    value: normalizeProgress(progress),
+    visible: progressSpecified || progress !== null,
+  };
+}
+
+function normalizeProgress(progress: number | null): number {
+  if (progress === null || !Number.isFinite(progress)) {
+    return 0;
+  }
+
+  return Math.min(100, Math.max(0, progress));
 }
 
 @Component({
@@ -72,20 +110,25 @@ export class TngFlowNodeComponent {
       (this.invalid() ? 'error' : null),
   );
   protected readonly resolvedStatusMessage = computed(() => this.statusMessage() ?? this.message());
-  protected readonly showProgress = computed<boolean>(
-    () =>
-      this.progressSpecified() ||
-      this.progress() !== null ||
-      (this.progressDisplayMode() === 'status-driven' &&
-        (this.status() === 'running' || this.status() === 'retrying')),
+  protected readonly progressState = computed<TngFlowNodeProgressState>(() =>
+    resolveTngFlowNodeProgressState(
+      this.status(),
+      this.progress(),
+      this.progressSpecified(),
+      this.progressDisplayMode(),
+    ),
   );
-  protected readonly normalizedProgress = computed<number>(() => {
-    const value = this.progress();
-    if (value === null || !Number.isFinite(value)) {
-      return 0;
-    }
-
-    return Math.min(100, Math.max(0, value));
+  protected readonly completedProgressMessage = computed<string | null>(() =>
+    this.status() === 'completed'
+      ? (this.resolvedStatusMessage() ?? 'Completed successfully')
+      : null,
+  );
+  protected readonly showStandaloneStatusMessage = computed(
+    () => this.resolvedStatusMessage() !== null && this.completedProgressMessage() === null,
+  );
+  protected readonly progressAriaValueText = computed<string | null>(() => {
+    const message = this.completedProgressMessage();
+    return message === null ? null : `${message.replace(/[.!?]+$/, '')}, 100%`;
   });
 
   protected activateIssue(issue: TngFlowValidationIssue): void {

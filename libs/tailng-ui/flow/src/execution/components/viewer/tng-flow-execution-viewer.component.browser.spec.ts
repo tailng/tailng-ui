@@ -51,7 +51,7 @@ class ExecutionViewerBrowserHost {
 }
 
 describe('TngFlowExecutionViewerComponent browser contracts', () => {
-  it('renders the graph and inspector with explicit progress semantics', async () => {
+  it('renders dynamic progress from execution status', async () => {
     const fixture = TestBed.createComponent(ExecutionViewerBrowserHost);
     fixture.detectChanges();
     await nextFrame();
@@ -59,7 +59,9 @@ describe('TngFlowExecutionViewerComponent browser contracts', () => {
     const host = fixture.nativeElement as HTMLElement;
     expect(host.querySelector('tng-flow-editor')).not.toBeNull();
     expect(host.querySelector('tng-flow-execution-inspector')).not.toBeNull();
-    expect(host.querySelector('tng-progress-bar')).toBeNull();
+    let progressRoot = host.querySelector<HTMLElement>('[data-slot="progress-bar"]');
+    expect(progressRoot?.getAttribute('data-state')).toBe('indeterminate');
+    expect(progressRoot?.getAttribute('aria-valuenow')).toBeNull();
 
     fixture.componentInstance.snapshot.update((snapshot) => ({
       ...snapshot,
@@ -69,15 +71,20 @@ describe('TngFlowExecutionViewerComponent browser contracts', () => {
           nodeId: 'task',
           activationId: 'activation',
           attempt: 1,
-          phase: 'active',
-          progress: null,
+          phase: 'succeeded',
+          statusMessage: 'Completed successfully',
         },
       ],
     }));
     fixture.detectChanges();
     await nextFrame();
 
-    expect(host.querySelector('tng-progress-bar')).not.toBeNull();
+    progressRoot = host.querySelector<HTMLElement>('[data-slot="progress-bar"]');
+    expect(progressRoot?.getAttribute('data-state')).toBe('determinate');
+    expect(progressRoot?.getAttribute('aria-valuenow')).toBe('100');
+    expect(host.querySelector('.tng-flow-node__progress-label')?.textContent).toContain(
+      'Completed successfully',
+    );
   });
 });
 

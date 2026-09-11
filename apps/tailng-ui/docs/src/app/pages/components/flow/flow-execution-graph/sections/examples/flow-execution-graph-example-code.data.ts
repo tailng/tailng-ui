@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function -- Code-tab builders keep complete copy-ready examples together. */
 import type { TngFlowViewport } from '@tailng-ui/flow';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 
@@ -114,9 +115,7 @@ function componentTs(
 
 function plainCssMarkup(scenario: FlowExecutionGraphCodeScenario): string {
   const className =
-    scenario.forcedTheme === 'dark'
-      ? 'execution-graph-example dark'
-      : 'execution-graph-example';
+    scenario.forcedTheme === 'dark' ? 'execution-graph-example dark' : 'execution-graph-example';
   return [
     '<section',
     `  class="${className}"`,
@@ -144,7 +143,6 @@ function plainCssMarkup(scenario: FlowExecutionGraphCodeScenario): string {
     '      [selectedExecutionId]="selectedExecutionId()"',
     '      [viewport]="viewport()"',
     '      mode="inspect"',
-    '      [readonly]="true"',
     `      [showMinimap]="${scenario.narrow ? 'false' : 'true'}"`,
     `      [showControls]="${scenario.narrow ? 'false' : 'true'}"`,
     '      [showSelectionArea]="false"',
@@ -198,7 +196,6 @@ function tailwindMarkup(scenario: FlowExecutionGraphCodeScenario): string {
     '      [selectedExecutionId]="selectedExecutionId()"',
     '      [viewport]="viewport()"',
     '      mode="inspect"',
-    '      [readonly]="true"',
     `      [showMinimap]="${scenario.narrow ? 'false' : 'true'}"`,
     `      [showControls]="${scenario.narrow ? 'false' : 'true'}"`,
     '      [showSelectionArea]="false"',

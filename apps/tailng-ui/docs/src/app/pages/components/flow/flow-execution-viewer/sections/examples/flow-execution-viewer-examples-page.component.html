@@ -73,7 +73,6 @@
               [selectedExecutionId]="example.plain.selectedExecutionId()"
               [viewport]="example.plain.viewport()"
               [mode]="'inspect'"
-              [readonly]="true"
               [inspectorOpen]="example.plain.inspectorOpen()"
               [showInspector]="example.plain.showInspector()"
               [showMinimap]="!example.scenario.narrow"
@@ -109,7 +108,6 @@
                 [selectedExecutionId]="example.plain.selectedExecutionId()"
                 [viewport]="example.plain.viewport()"
                 [mode]="'inspect'"
-                [readonly]="true"
                 [showMinimap]="!example.scenario.narrow"
                 [showControls]="!example.scenario.narrow"
                 [showSelectionArea]="false"
@@ -200,7 +198,6 @@
               [selectedExecutionId]="example.tailwind.selectedExecutionId()"
               [viewport]="example.tailwind.viewport()"
               [mode]="'inspect'"
-              [readonly]="true"
               [inspectorOpen]="example.tailwind.inspectorOpen()"
               [showInspector]="example.tailwind.showInspector()"
               [showMinimap]="!example.scenario.narrow"
@@ -226,7 +223,9 @@
             <h3 class="m-0 text-sm font-semibold text-tng-fg-primary">
               Split graph and node properties
             </h3>
-            <div class="grid min-h-[24rem] grid-cols-[minmax(0,1fr)_minmax(16rem,22rem)] overflow-hidden rounded-lg border border-tng-border-subtle max-lg:grid-cols-1">
+            <div
+              class="grid min-h-[24rem] grid-cols-[minmax(0,1fr)_minmax(16rem,22rem)] overflow-hidden rounded-lg border border-tng-border-subtle max-lg:grid-cols-1"
+            >
               <tng-flow-execution-graph
                 class="block min-h-[24rem]"
                 [flowId]="example.tailwindFlowId + '-graph'"
@@ -238,7 +237,6 @@
                 [selectedExecutionId]="example.tailwind.selectedExecutionId()"
                 [viewport]="example.tailwind.viewport()"
                 [mode]="'inspect'"
-                [readonly]="true"
                 [showMinimap]="!example.scenario.narrow"
                 [showControls]="!example.scenario.narrow"
                 [showSelectionArea]="false"

@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
-import { findFlowExecutionViewerScenario } from '../../../flow-execution-viewer/sections/examples/flow-execution-viewer-example.data';
 import {
   FlowExecutionGraphExamplesPageComponent,
   type FlowExecutionGraphExampleId,
 } from './flow-execution-graph-examples-page.component';
+import { findFlowExecutionViewerScenario } from '../../../flow-execution-viewer/sections/examples/flow-execution-viewer-example.data';
 
 class FlowExecutionGraphTestResizeObserver implements ResizeObserver {
   public constructor(private readonly callback: ResizeObserverCallback) {}
@@ -49,8 +49,9 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
       'narrow-surface',
     ];
 
-    const component = TestBed.createComponent(FlowExecutionGraphExamplesPageComponent)
-      .componentInstance;
+    const component = TestBed.createComponent(
+      FlowExecutionGraphExamplesPageComponent,
+    ).componentInstance;
 
     expect(component.examples.map((example) => example.id)).toEqual(expectedIds);
   });
@@ -79,10 +80,17 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
     fixture.detectChanges();
 
     const nativeElement = fixture.nativeElement as HTMLElement;
-    for (const section of nativeElement.querySelectorAll('app-docs-example-tabs-section')) {
-      const labels = Array.from(
-        section.querySelectorAll<HTMLElement>('[data-slot="tab-list"] > [data-slot="tab"]'),
-      ).map((tab) => tab.textContent?.trim());
+    for (const section of nativeElement.querySelectorAll<HTMLElement>(
+      'app-docs-example-tabs-section',
+    )) {
+      const labels: string[] = [];
+      const buttons = section.getElementsByTagName('button') as HTMLCollectionOf<HTMLButtonElement>;
+      for (const button of buttons) {
+        if (button.dataset.slot === 'tab') {
+          const textContent: unknown = button.textContent;
+          labels.push(typeof textContent === 'string' ? textContent.trim() : '');
+        }
+      }
 
       expect(labels).toEqual(['Plain CSS', 'Tailwind CSS']);
     }
@@ -99,6 +107,68 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
     for (const example of component.examples) {
       expect(example.plainCodeTabs.map((tab) => tab.label)).toEqual(['HTML', 'TS', 'CSS']);
       expect(example.tailwindCodeTabs.map((tab) => tab.label)).toEqual(['HTML', 'TS', 'CSS']);
+    }
+  });
+
+  it('omits progress for queued and completed node fixtures', () => {
+    const queuedExecutions =
+      findFlowExecutionViewerScenario('queued-workflow').snapshot.nodeExecutions ?? [];
+    const completedExecutions =
+      findFlowExecutionViewerScenario('successful-workflow').snapshot.nodeExecutions ?? [];
+
+    expect(queuedExecutions).not.toHaveLength(0);
+    expect(completedExecutions).not.toHaveLength(0);
+    for (const execution of [...queuedExecutions, ...completedExecutions]) {
+      expect(Object.prototype.hasOwnProperty.call(execution, 'progress')).toBe(false);
+    }
+  });
+
+  it('renders queued nodes at 0% and completed nodes at 100%', async () => {
+    await TestBed.configureTestingModule({
+      imports: [FlowExecutionGraphExamplesPageComponent],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(FlowExecutionGraphExamplesPageComponent);
+    fixture.detectChanges();
+
+    const nativeElement = fixture.nativeElement as HTMLElement;
+    const queuedPreview = nativeElement.querySelector<HTMLElement>(
+      '.flow-execution-graph-examples__preview[data-phase="pending"]',
+    );
+    const completedPreview = nativeElement.querySelector<HTMLElement>(
+      '.flow-execution-graph-examples__preview[data-phase="succeeded"]',
+    );
+
+    expect(queuedPreview).not.toBeNull();
+    expect(completedPreview).not.toBeNull();
+    const queuedProgress = queuedPreview?.querySelector<HTMLElement>(
+      'tng-flow-node[data-status="queued"] [data-slot="progress-bar"]',
+    );
+    const completedProgress = completedPreview?.querySelector<HTMLElement>(
+      'tng-flow-node[data-status="completed"] [data-slot="progress-bar"]',
+    );
+
+    expect(queuedProgress?.getAttribute('data-state')).toBe('determinate');
+    expect(queuedProgress?.getAttribute('aria-valuenow')).toBe('0');
+    expect(completedProgress?.getAttribute('data-state')).toBe('determinate');
+    expect(completedProgress?.getAttribute('aria-valuenow')).toBe('100');
+  });
+
+  it('uses inspect mode without forcing the graphs into readonly mode', async () => {
+    await TestBed.configureTestingModule({
+      imports: [FlowExecutionGraphExamplesPageComponent],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(FlowExecutionGraphExamplesPageComponent);
+    fixture.detectChanges();
+
+    const editors = (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLElement>(
+      '.tng-flow-editor',
+    );
+    expect(editors).toHaveLength(26);
+    for (const editor of editors) {
+      expect(editor.dataset.mode).toBe('inspect');
+      expect(editor.hasAttribute('data-readonly')).toBe(false);
     }
   });
 

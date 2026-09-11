@@ -104,7 +104,7 @@ export class TngFlowExecutionGraphComponent<TPayload = unknown> {
   );
 
   protected readonly presentation = computed(() =>
-    createTngFlowExecutionPresentation(this.definition(), this.index(), 'explicit'),
+    createTngFlowExecutionPresentation(this.definition(), this.index(), 'status-driven'),
   );
 
   protected readonly effectiveInspectedNodeId = computed(() =>

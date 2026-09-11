@@ -1,5 +1,6 @@
-import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
+/* eslint-disable max-lines-per-function -- Code-tab builders keep complete copy-ready examples together. */
 import type { FlowExecutionViewerScenario } from './flow-execution-viewer-example.data';
+import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 
 type FlowExecutionViewerCodeVariant = 'plain-css' | 'tailwind-css';
 
@@ -163,7 +164,6 @@ function plainCssMarkup(scenario: FlowExecutionViewerScenario): string {
     '      [selectedExecutionId]="selectedExecutionId()"',
     '      [viewport]="viewport()"',
     '      mode="inspect"',
-    '      [readonly]="true"',
     '      [inspectorOpen]="inspectorOpen()"',
     '      [showInspector]="showInspector()"',
     '      inspectorPosition="right"',
@@ -193,7 +193,6 @@ function plainCssMarkup(scenario: FlowExecutionViewerScenario): string {
     '        [selectedExecutionId]="selectedExecutionId()"',
     '        [viewport]="viewport()"',
     '        mode="inspect"',
-    '        [readonly]="true"',
     '        [showMinimap]="true"',
     '        [showSelectionArea]="false"',
     '        [fitOnInit]="false"',
@@ -267,7 +266,6 @@ function tailwindMarkup(scenario: FlowExecutionViewerScenario): string {
     '      [selectedExecutionId]="selectedExecutionId()"',
     '      [viewport]="viewport()"',
     '      mode="inspect"',
-    '      [readonly]="true"',
     '      [inspectorOpen]="inspectorOpen()"',
     '      [showInspector]="showInspector()"',
     '      inspectorPosition="right"',
@@ -299,7 +297,6 @@ function tailwindMarkup(scenario: FlowExecutionViewerScenario): string {
     '        [selectedExecutionId]="selectedExecutionId()"',
     '        [viewport]="viewport()"',
     '        mode="inspect"',
-    '        [readonly]="true"',
     '        [showMinimap]="true"',
     '        [showSelectionArea]="false"',
     '        [fitOnInit]="false"',

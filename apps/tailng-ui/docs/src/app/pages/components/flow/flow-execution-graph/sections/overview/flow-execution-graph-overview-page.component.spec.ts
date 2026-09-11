@@ -57,4 +57,16 @@ describe('FlowExecutionGraphOverviewPageComponent', () => {
     expect(component.plainCssCodeTabs.map((tab) => tab.value)).toEqual(['ts', 'html', 'css']);
     expect(component.tailwindCodeTabs.map((tab) => tab.value)).toEqual(['ts', 'html', 'css']);
   });
+
+  it('keeps both examples in inspect mode so selection and activation remain available', () => {
+    const editors = (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLElement>(
+      '.tng-flow-editor',
+    );
+
+    expect(editors).toHaveLength(2);
+    for (const editor of editors) {
+      expect(editor.dataset.mode).toBe('inspect');
+      expect(editor.hasAttribute('data-readonly')).toBe(false);
+    }
+  });
 });

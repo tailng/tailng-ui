@@ -35,7 +35,6 @@
         [selectedExecutionId]="plainSelectedExecutionId()"
         [viewport]="plainViewport()"
         mode="inspect"
-        [readonly]="true"
         [showMinimap]="true"
         [showControls]="true"
         [showSelectionArea]="false"
@@ -65,7 +64,6 @@
         [selectedExecutionId]="tailwindSelectedExecutionId()"
         [viewport]="tailwindViewport()"
         mode="inspect"
-        [readonly]="true"
         [showMinimap]="true"
         [showControls]="true"
         [showSelectionArea]="false"
@@ -92,7 +90,8 @@
     <p>
       The component does not render a property panel, execution history, payload viewer, or split
       layout. Pair it with Flow Node Properties or a product-owned inspector when users need details
-      beside the diagram.
+      beside the diagram. Use Flow Editor when users need to move nodes, create or delete
+      connections, or change connection routing.
     </p>
   </section>
 </article>

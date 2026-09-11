@@ -221,10 +221,7 @@ export function createTngFlowExecutionPresentation<TPayload>(
       highlighted: latest.phase === 'active' || latest.phase === 'waiting',
       dimmed: latest.phase === 'skipped',
     };
-    if (
-      progressMode === 'status-driven' ||
-      Object.prototype.hasOwnProperty.call(latest, 'progress')
-    ) {
+    if (progressMode === 'status-driven' || latest.progress !== undefined) {
       nodes[node.id] = {
         ...nodePresentation,
         progress: latest.progress ?? null,
