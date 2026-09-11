@@ -14,6 +14,7 @@ import {
   inject,
   input,
   isDevMode,
+  model,
   output,
   signal,
   viewChild,
@@ -169,6 +170,7 @@ export class TngFlowExecutionViewerComponent<
   public readonly connectionValidator = input<TngFlowConnectionValidator<TNodeData> | null>(null);
   public readonly options = input<TngFlowEditorOptions | null>(null);
   public readonly connectionOptions = input<TngFlowEditorConnectionOptions | null>(null);
+  public readonly connectionCreationPathType = model<TngFlowConnectionPathType | null>(null);
   public readonly connectionAriaLabel =
     input<TngFlowConnectionAriaLabelFactory<TConnectionData> | null>(null);
   public readonly keyboardOptions = input<TngFlowKeyboardOptions | null>(null);

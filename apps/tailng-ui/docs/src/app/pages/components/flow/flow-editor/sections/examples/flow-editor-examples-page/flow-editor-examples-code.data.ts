@@ -605,7 +605,7 @@ const connectionEditingComponentCode = [
   '      ...definition,',
   '      connections: [',
   '        ...definition.connections,',
-  "        { id: `connection-${this.nextConnectionId++}`, ...request, type: 'bezier' },",
+  '        { id: `connection-${this.nextConnectionId++}`, ...request },',
   '      ],',
   '    }));',
   '    this.rejection.set(null);',

@@ -36,6 +36,7 @@ describe('flow execution graph controlled editing', () => {
     const created = applyFlowExecutionGraphConnectionCreate(definition, {
       source: { nodeId: 'source', portId: 'custom-point-out-right-1' },
       target: { nodeId: 'target', portId: 'custom-point-in-left-1' },
+      routing: { type: 'orthogonal-rounded', offset: 18, radius: 6 },
     });
 
     expect(created.definition.connections).toEqual([
@@ -43,7 +44,7 @@ describe('flow execution graph controlled editing', () => {
         id: 'docs-connection-1',
         source: { nodeId: 'source', portId: 'custom-point-out-right-1' },
         target: { nodeId: 'target', portId: 'custom-point-in-left-1' },
-        routing: { type: 'bezier' },
+        routing: { type: 'orthogonal-rounded', offset: 18, radius: 6 },
       },
     ]);
     expect(created.definition.nodes[0]?.ports?.map((port) => port.id)).toContain(

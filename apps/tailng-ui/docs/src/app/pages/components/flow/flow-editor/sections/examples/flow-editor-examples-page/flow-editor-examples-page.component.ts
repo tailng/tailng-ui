@@ -485,7 +485,7 @@ export class FlowEditorExamplesPageComponent implements OnDestroy {
     state.nextConnectionId += 1;
     state.definition.update((definition) => ({
       ...definition,
-      connections: [...definition.connections, { id: connectionId, ...request, type: 'bezier' }],
+      connections: [...definition.connections, { id: connectionId, ...request }],
     }));
     state.rejection.set(null);
     state.message.set(`Created ${connectionId}; the consumer added it to the definition.`);

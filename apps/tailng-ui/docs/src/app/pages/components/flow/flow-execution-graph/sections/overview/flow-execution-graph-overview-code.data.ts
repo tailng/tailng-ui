@@ -66,7 +66,7 @@ const componentCode = [
   '      nodes,',
   '      connections: [',
   '        ...definition.connections,',
-  "        { id, source: request.source, target: request.target, routing: { type: 'bezier' } },",
+  "        { id, source: request.source, target: request.target, routing: request.routing ?? { type: 'bezier' } },",
   '      ],',
   '    });',
   '    this.selection.set({ nodeIds: new Set(), connectionIds: new Set([id]) });',

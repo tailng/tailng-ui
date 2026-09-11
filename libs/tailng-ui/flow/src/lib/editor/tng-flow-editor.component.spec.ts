@@ -1097,24 +1097,16 @@ describe('TngFlowEditorComponent', () => {
     ).toBe('4px -2px');
   });
 
-  it('renders three icon controls and requests controlled selected-connection routing changes', () => {
+  it('renders history placeholders and five always-available connection creation styles', () => {
     const fixture = TestBed.createComponent(TngFlowEditorComponent);
     fixture.componentRef.setInput('nodes', nodes);
     fixture.componentRef.setInput('connections', labelledConnections);
-    fixture.componentRef.setInput('selection', {
-      nodeIds: new Set(),
-      connectionIds: new Set(['custom-to-default']),
-    });
-    const requests: unknown[] = [];
-    fixture.componentInstance.connectionRoutingChangeRequested.subscribe((request) =>
-      requests.push(request),
-    );
     fixture.detectChanges();
 
     const host = fixture.nativeElement as HTMLElement;
     const toolbar = host.querySelector('.tng-flow-editor__authoring-tools');
     const controls = host.querySelectorAll('[data-connection-path-control]');
-    const curvedButton = host.querySelector<HTMLButtonElement>(
+    const bezierButton = host.querySelector<HTMLButtonElement>(
       '[data-connection-path-control="bezier"] button',
     );
     const straightButton = host.querySelector<HTMLButtonElement>(
@@ -1122,37 +1114,28 @@ describe('TngFlowEditorComponent', () => {
     );
 
     expect(toolbar?.getAttribute('role')).toBe('toolbar');
-    expect(toolbar?.getAttribute('aria-label')).toBe('Connection style');
-    expect(controls).toHaveLength(3);
-    expect(curvedButton?.getAttribute('aria-pressed')).toBe('true');
+    expect(toolbar?.getAttribute('aria-label')).toBe('Flow editing tools');
+    expect(controls).toHaveLength(5);
+    expect(
+      host.querySelector<HTMLButtonElement>('[data-editor-command="undo"] button')?.disabled,
+    ).toBe(true);
+    expect(
+      host.querySelector<HTMLButtonElement>('[data-editor-command="redo"] button')?.disabled,
+    ).toBe(true);
+    expect(bezierButton?.getAttribute('aria-pressed')).toBe('true');
     expect(straightButton?.getAttribute('aria-pressed')).toBe('false');
-
-    straightButton?.click();
-    expect(fixture.componentInstance.requestConnectionRoutingChange('straight')).toBe(true);
-    expect(requests).toEqual([
-      {
-        connectionIds: ['custom-to-default'],
-        type: 'straight',
-        source: 'controls',
-      },
-      {
-        connectionIds: ['custom-to-default'],
-        type: 'straight',
-        source: 'api',
-      },
-    ]);
-
-    fixture.componentRef.setInput('selection', {
-      nodeIds: new Set(),
-      connectionIds: new Set(),
-    });
-    fixture.detectChanges();
-
     expect(
       [...host.querySelectorAll<HTMLButtonElement>('[data-connection-path-control] button')].every(
-        (button) => button.disabled,
+        (button) => !button.disabled,
       ),
     ).toBe(true);
+
+    straightButton?.click();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.connectionCreationPathType()).toBe('straight');
+    expect(straightButton?.getAttribute('aria-pressed')).toBe('true');
+    expect(bezierButton?.getAttribute('aria-pressed')).toBe('false');
 
     fixture.componentRef.setInput('showConnectionTools', false);
     fixture.detectChanges();
@@ -1163,35 +1146,30 @@ describe('TngFlowEditorComponent', () => {
     fixture.componentRef.setInput('mode', 'inspect');
     fixture.detectChanges();
 
-    expect(fixture.componentInstance.requestConnectionRoutingChange('bezier')).toBe(false);
+    expect(fixture.componentInstance.selectConnectionCreationPathType('bezier')).toBe(false);
     expect(
       (fixture.nativeElement as HTMLElement).querySelector('.tng-flow-editor__authoring-tools'),
     ).toBeNull();
   });
 
-  it('shows no pressed path control for a mixed selected-connection style', () => {
+  it('derives the initial creation style from the configured connection default', () => {
     const fixture = TestBed.createComponent(TngFlowEditorComponent);
     fixture.componentRef.setInput('nodes', nodes);
-    fixture.componentRef.setInput('connections', [
-      { ...labelledConnections[0], id: 'curved', routing: { type: 'bezier' } },
-      { ...labelledConnections[0], id: 'straight', routing: { type: 'straight' } },
-    ]);
-    fixture.componentRef.setInput('selection', {
-      nodeIds: new Set(),
-      connectionIds: new Set(['curved', 'straight']),
+    fixture.componentRef.setInput('connections', labelledConnections);
+    fixture.componentRef.setInput('connectionOptions', {
+      defaultConnection: { routing: { type: 'orthogonal', offset: 20 } },
     });
     fixture.detectChanges();
 
     const host = fixture.nativeElement as HTMLElement;
-    const toolbar = host.querySelector('.tng-flow-editor__authoring-tools');
-    const buttons = host.querySelectorAll<HTMLButtonElement>(
-      '[data-connection-path-control] button',
+    const orthogonalButton = host.querySelector<HTMLButtonElement>(
+      '[data-connection-path-control="orthogonal"] button',
     );
+    const createConnection = fixture.debugElement.query(By.css('f-connection-for-create'))
+      .componentInstance as { fOffset: number; fRadius: number; fType: string };
 
-    expect(toolbar?.hasAttribute('data-mixed')).toBe(true);
-    expect([...buttons].every((button) => button.getAttribute('aria-pressed') === 'false')).toBe(
-      true,
-    );
+    expect(orthogonalButton?.getAttribute('aria-pressed')).toBe('true');
+    expect(createConnection).toMatchObject({ fOffset: 20, fRadius: 0, fType: 'segment' });
   });
 
   it('supports pulse presentation, motion preference, runtime descriptions, and aria factories', () => {
@@ -1572,6 +1550,7 @@ describe('TngFlowEditorComponent', () => {
   it('emits canonical create requests and rejects invalid directions', () => {
     const fixture = TestBed.createComponent(TngFlowEditorComponent);
     fixture.componentRef.setInput('nodes', nodes);
+    fixture.componentRef.setInput('connectionCreationPathType', 'adaptive');
     fixture.componentRef.setInput('fitOnInit', false);
     fixture.detectChanges();
 
@@ -1595,6 +1574,7 @@ describe('TngFlowEditorComponent', () => {
     expect(created).toHaveBeenCalledWith({
       source: { nodeId: 'custom', portId: 'custom-output' },
       target: { nodeId: 'default', portId: 'default-input' },
+      routing: { type: 'adaptive', offset: 12, radius: 8 },
     });
     expect(rejected.mock.calls[0]?.[0].reason).toContain('output');
     expect(rejected.mock.calls[0]?.[0]).toMatchObject({
@@ -2723,6 +2703,7 @@ describe('TngFlowEditorComponent', () => {
       {
         source: { nodeId: 'source', portId: 'custom-point-out-right-1' },
         target: { nodeId: 'target', portId: 'custom-point-in-left-1' },
+        routing: { type: 'bezier', offset: 12, radius: 8 },
       },
     ]);
   });

@@ -201,7 +201,10 @@
   z-index: 10;
   left: 0.75rem;
   display: inline-flex;
+  max-width: calc(100% - 1.5rem);
+  align-items: center;
   gap: 0.15rem;
+  overflow-x: auto;
   padding: 0.25rem;
   border: 1px solid var(--tng-flow-controls-border, var(--tng-semantic-border-default, #e2e8f0));
   border-radius: 0.65rem;
@@ -215,13 +218,22 @@
   transition: top 150ms ease;
 }
 
+.tng-flow-editor__history-control,
 .tng-flow-editor__path-control {
   --tng-button-min-width: 2rem;
   --tng-button-padding-inline-sm: 0.4rem;
   --tng-button-radius: 0.4rem;
 }
 
-.tng-flow-editor__path-icon {
+.tng-flow-editor__tools-separator {
+  width: 1px;
+  height: 1.5rem;
+  margin-inline: 0.25rem;
+  flex: 0 0 auto;
+  background: var(--tng-flow-controls-border, var(--tng-semantic-border-default, #e2e8f0));
+}
+
+.tng-flow-editor__tool-icon {
   width: 1.2rem;
   height: 1.2rem;
   flex: 0 0 auto;

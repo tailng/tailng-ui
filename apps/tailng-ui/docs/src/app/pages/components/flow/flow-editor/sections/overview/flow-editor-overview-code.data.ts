@@ -72,7 +72,7 @@ const controlledComponentCode = [
   '        id: crypto.randomUUID(),',
   '        source: event.source,',
   '        target: event.target,',
-  "        type: 'bezier',",
+  '        routing: event.routing,',
   '      },',
   '    ]);',
   '  }',

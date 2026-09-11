@@ -14,6 +14,11 @@
       </li>
       <li><code>viewport</code>: controlled pan and zoom state.</li>
       <li>
+        <code>connectionCreationPathType</code>: two-way model for the path shape used by the live
+        connection preview and future connection requests. A null value resolves from connection
+        defaults, then falls back to Bézier.
+      </li>
+      <li>
         <code>mode</code>: <code>edit</code>, <code>inspect</code>, or <code>readonly</code>. This
         is the only graph interaction-mode input.
       </li>
@@ -47,18 +52,19 @@
     <h3>Controlled connection authoring</h3>
     <p>
       When accepting <code>connectionCreateRequested</code>, assign an application-owned ID, append
-      the new connection, and persist custom-point endpoint ports with
-      <code>ensureTngFlowCustomPointPorts()</code>. Apply <code>connectionsDeleteRequested</code> by
-      filtering those IDs from the definition, clearing stale selection, and calling
-      <code>pruneUnusedTngFlowCustomPointPorts()</code>.
+      the new connection with the request's resolved <code>routing</code>, and persist custom-point
+      endpoint ports with <code>ensureTngFlowCustomPointPorts()</code>. Apply
+      <code>connectionsDeleteRequested</code> by filtering those IDs from the definition, clearing
+      stale selection, and calling <code>pruneUnusedTngFlowCustomPointPorts()</code>.
     </p>
     <p>
-      The canvas connection-style toolbar emits <code>connectionRoutingChangeRequested</code> for
-      all editable selected connections. Its three icon controls expose straight, Bézier, and
-      rounded orthogonal paths. Apply the requested <code>type</code> by spreading the existing
-      <code>routing</code> record so offsets, radii, and waypoints are preserved. The public model
-      additionally supports sharp orthogonal and adaptive paths. Mixed multi-selection leaves all
-      three toolbar controls unpressed until the user chooses a common style.
+      The edit-mode canvas toolbar exposes straight, Bézier, orthogonal, rounded orthogonal, and
+      adaptive styles at all times. Choosing one updates <code>connectionCreationPathType</code> and
+      affects the live preview plus connections drawn afterward; it does not alter existing
+      connections. Undo and Redo are visible disabled placeholders until history behavior is added.
+      To restyle selected existing connections, call
+      <code>requestConnectionRoutingChange()</code> and apply the resulting controlled
+      <code>connectionRoutingChangeRequested</code> event.
     </p>
   </section>
 

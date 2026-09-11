@@ -45,7 +45,7 @@ export function applyFlowExecutionGraphConnectionCreate(
           id,
           source: request.source,
           target: request.target,
-          routing: { type: 'bezier' },
+          routing: { ...(request.routing ?? { type: 'bezier' }) },
         },
       ],
     },

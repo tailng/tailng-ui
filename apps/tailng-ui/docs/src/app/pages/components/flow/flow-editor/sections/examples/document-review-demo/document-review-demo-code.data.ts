@@ -57,7 +57,7 @@ export class DocumentReviewComponent {
       ...flow,
       connections: [
         ...flow.connections,
-        { id: crypto.randomUUID(), ...request, type: 'bezier' },
+        { id: crypto.randomUUID(), ...request },
       ],
     }));
   }

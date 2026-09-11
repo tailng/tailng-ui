@@ -59,7 +59,11 @@
       (fCanvasChange)="onViewportChange($event)"
     >
       @if (canEdit()) {
-        <f-connection-for-create>
+        <f-connection-for-create
+          [fType]="connectionCreationRendererType()"
+          [fOffset]="connectionCreationRouting().offset"
+          [fRadius]="connectionCreationRouting().radius"
+        >
           @if (createSourceMarker() === 'arrow') {
             <f-connection-marker-arrow type="f-connection-marker-start-all-states" />
           } @else if (createSourceMarker() === 'circle') {
@@ -407,24 +411,57 @@
     <div
       class="tng-flow-editor__authoring-tools"
       role="toolbar"
-      aria-label="Connection style"
+      aria-label="Flow editing tools"
       aria-orientation="horizontal"
-      [attr.data-mixed]="selectedConnectionPathType() === 'mixed' ? '' : null"
       [style.top.px]="connectionToolsTop()"
     >
+      <tng-button
+        class="tng-flow-editor__history-control"
+        data-editor-command="undo"
+        appearance="ghost"
+        size="sm"
+        title="Undo — coming soon"
+        [disabled]="true"
+      >
+        <svg class="tng-flow-editor__tool-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="m9 7-5 5 5 5" />
+          <path d="M5 12h8a6 6 0 0 1 6 6" />
+        </svg>
+        <span class="tng-flow-editor__visually-hidden">Undo — coming soon</span>
+      </tng-button>
+      <tng-button
+        class="tng-flow-editor__history-control"
+        data-editor-command="redo"
+        appearance="ghost"
+        size="sm"
+        title="Redo — coming soon"
+        [disabled]="true"
+      >
+        <svg class="tng-flow-editor__tool-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="m15 7 5 5-5 5" />
+          <path d="M19 12h-8a6 6 0 0 0-6 6" />
+        </svg>
+        <span class="tng-flow-editor__visually-hidden">Redo — coming soon</span>
+      </tng-button>
+
+      <span
+        class="tng-flow-editor__tools-separator"
+        role="separator"
+        aria-orientation="vertical"
+      ></span>
+
       @for (option of connectionPathOptions; track option.type) {
         <tng-button
           class="tng-flow-editor__path-control"
           [attr.data-connection-path-control]="option.type"
-          [appearance]="isSelectedConnectionPathType(option.type) ? 'solid' : 'ghost'"
+          [appearance]="isActiveConnectionPathType(option.type) ? 'solid' : 'ghost'"
           size="sm"
           [title]="option.label"
-          [disabled]="editableSelectedConnectionIds().length === 0"
-          [ariaPressed]="isSelectedConnectionPathType(option.type)"
-          (click)="requestConnectionRoutingChange(option.type, 'controls')"
+          [ariaPressed]="isActiveConnectionPathType(option.type)"
+          (click)="selectConnectionCreationPathType(option.type)"
         >
           <svg
-            class="tng-flow-editor__path-icon"
+            class="tng-flow-editor__tool-icon"
             viewBox="0 0 24 24"
             fill="none"
             aria-hidden="true"
@@ -436,8 +473,14 @@
               @case ('bezier') {
                 <path d="M3 17C7 5 17 5 21 17" />
               }
+              @case ('orthogonal') {
+                <path d="M3 6h11v12h7" />
+              }
               @case ('orthogonal-rounded') {
                 <path d="M3 6h7a4 4 0 0 1 4 4v4a4 4 0 0 0 4 4h3" />
+              }
+              @case ('adaptive') {
+                <path d="M3 17C7 5 12 5 14 12s4 7 7-5" />
               }
             }
           </svg>
