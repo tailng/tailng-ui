@@ -17,9 +17,15 @@ export type TngFlowExecutionPhase =
 
 export type TngFlowExecutionViewerState = 'empty' | 'error' | 'loading' | 'ready';
 
+export type TngFlowWorkbenchState = TngFlowExecutionViewerState;
+
 export type TngFlowExecutionInspectorScope = 'auto' | 'node' | 'run';
 
 export type TngFlowExecutionInspectorPosition = 'auto' | 'bottom' | 'right';
+
+export type TngFlowWorkbenchMode = 'create' | 'edit' | 'inspect' | 'live' | 'view';
+
+export type TngFlowWorkbenchDetailsKind = 'auto' | 'execution' | 'node-properties' | 'none';
 
 export type TngFlowExecutionDateTimeFormatter = (
   value: string,

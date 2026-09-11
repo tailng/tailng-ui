@@ -1,0 +1,121 @@
+:host {
+  display: block;
+  min-height: var(--tng-flow-workbench-min-height, 24rem);
+  height: var(--tng-flow-workbench-height, 36rem);
+  outline: none;
+}
+
+.tng-flow-workbench__shell {
+  position: relative;
+  display: grid;
+  grid-template-columns:
+    minmax(
+      var(--tng-flow-workbench-palette-min-width, 13.75rem),
+      var(--tng-flow-workbench-palette-width, 17.5rem)
+    )
+    minmax(0, 1fr);
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: inherit;
+  overflow: hidden;
+  border: 1px solid
+    var(--tng-flow-workbench-border-color, var(--tng-semantic-border-default, #e5e7eb));
+  border-radius: var(--tng-flow-workbench-border-radius, 0.75rem);
+  background: var(--tng-flow-workbench-background, var(--tng-semantic-background-canvas, #f8fafc));
+}
+
+:host(:not([data-palette-open])) .tng-flow-workbench__shell {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.tng-flow-workbench__palette-pane {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-right: 1px solid
+    var(--tng-flow-workbench-border-color, var(--tng-semantic-border-default, #e5e7eb));
+  background: var(
+    --tng-flow-workbench-panel-background,
+    var(--tng-semantic-background-surface, #fff)
+  );
+}
+
+.tng-flow-workbench__main {
+  min-width: 0;
+  min-height: 0;
+}
+
+.tng-flow-workbench__split {
+  width: 100%;
+  height: 100%;
+}
+
+.tng-flow-workbench__graph-pane,
+.tng-flow-workbench__details-pane {
+  min-width: 0;
+  min-height: 0;
+}
+
+tng-flow-execution-graph {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.tng-flow-workbench__details-pane {
+  border-left: 1px solid
+    var(--tng-flow-workbench-border-color, var(--tng-semantic-border-default, #e5e7eb));
+  background: var(
+    --tng-flow-workbench-panel-background,
+    var(--tng-semantic-background-surface, #fff)
+  );
+}
+
+:host([data-details-position='bottom']) .tng-flow-workbench__details-pane {
+  border-top: 1px solid
+    var(--tng-flow-workbench-border-color, var(--tng-semantic-border-default, #e5e7eb));
+  border-left: 0;
+}
+
+.tng-flow-workbench__state {
+  display: grid;
+  grid-column: 1 / -1;
+  place-items: center;
+  height: 100%;
+  padding: 1rem;
+  color: var(--tng-flow-workbench-muted-color, var(--tng-semantic-foreground-muted, #6b7280));
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.tng-flow-workbench__actions {
+  position: absolute;
+  z-index: 20;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  max-width: min(28rem, calc(100% - 1.5rem));
+}
+
+@media (max-width: 42rem) {
+  .tng-flow-workbench__shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .tng-flow-workbench__palette-pane {
+    display: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .tng-flow-workbench__shell,
+  .tng-flow-workbench__palette-pane,
+  .tng-flow-workbench__details-pane {
+    border-color: CanvasText;
+  }
+}

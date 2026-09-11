@@ -1,0 +1,36 @@
+<article class="docs-section-page">
+  <section id="basic-workbench" class="docs-overview-block">
+    <h2 class="docs-overview-title">Editable workbench</h2>
+    <pre><code>&lt;tng-flow-workbench
+  mode="edit"
+  [definition]="definition()"
+  [selection]="selection()"
+  [paletteItems]="nodeTypes()"
+  (nodeCreateRequested)="createNode($event)"
+  (selectionChange)="selection.set($event)"
+/&gt;</code></pre>
+  </section>
+
+  <section id="custom-panels" class="docs-overview-block">
+    <h3>Custom panels</h3>
+    <pre><code>&lt;tng-flow-workbench mode="edit" [definition]="definition()"&gt;
+  &lt;ng-template tngFlowWorkbenchPalette&gt;
+    &lt;tng-flow-node-palette [items]="nodeTypes()" /&gt;
+  &lt;/ng-template&gt;
+
+  &lt;ng-template tngFlowWorkbenchDetails let-node="inspectedNode"&gt;
+    &lt;app-node-inspector [node]="node" /&gt;
+  &lt;/ng-template&gt;
+&lt;/tng-flow-workbench&gt;</code></pre>
+  </section>
+
+  <section id="live-workbench" class="docs-overview-block">
+    <h3>Live execution</h3>
+    <pre><code>&lt;tng-flow-workbench
+  mode="live"
+  [definition]="definition()"
+  [snapshot]="executionSnapshot()"
+  detailsKind="execution"
+/&gt;</code></pre>
+  </section>
+</article>

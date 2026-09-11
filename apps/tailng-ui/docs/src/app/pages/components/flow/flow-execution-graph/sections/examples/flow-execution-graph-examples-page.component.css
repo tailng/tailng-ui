@@ -77,9 +77,7 @@
 }
 
 .flow-execution-graph-examples__surface {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(16rem, 20rem);
-  min-height: 28rem;
+  height: 28rem;
   overflow: hidden;
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.5rem;
@@ -87,52 +85,7 @@
 
 .flow-execution-graph-examples__graph {
   display: block;
-  min-height: 28rem;
-}
-
-.flow-execution-graph-examples__details {
-  background: var(--tng-semantic-background-muted);
-  border-left: 1px solid var(--tng-semantic-border-subtle);
-  color: var(--tng-semantic-foreground-secondary);
-  display: grid;
-  gap: 0.75rem;
-  padding: 1rem;
-}
-
-.flow-execution-graph-examples__details span {
-  color: var(--tng-semantic-foreground-muted);
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.flow-execution-graph-examples__details strong {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 0.95rem;
-}
-
-.flow-execution-graph-examples__details p {
-  font-size: 0.875rem;
-  margin: 0;
-}
-
-.flow-execution-graph-examples__details dl {
-  display: grid;
-  gap: 0.75rem;
-  margin: 0;
-}
-
-.flow-execution-graph-examples__details dt {
-  color: var(--tng-semantic-foreground-muted);
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.flow-execution-graph-examples__details dd {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 0.875rem;
-  margin: 0.15rem 0 0;
+  height: 100%;
 }
 
 .flow-execution-graph-examples__preview[data-narrow],
@@ -143,33 +96,17 @@
 .flow-execution-graph-examples__preview[data-narrow] .flow-execution-graph-examples__surface,
 .flow-execution-graph-examples__tailwind-preview[data-narrow]
   .flow-execution-graph-examples__tailwind-surface {
-  grid-template-columns: 1fr;
-  min-height: 0;
+  height: 22rem;
 }
 
 .flow-execution-graph-examples__preview[data-narrow] .flow-execution-graph-examples__graph,
 .flow-execution-graph-examples__tailwind-preview[data-narrow] tng-flow-execution-graph {
-  min-height: 22rem;
-}
-
-.flow-execution-graph-examples__preview[data-narrow] .flow-execution-graph-examples__details,
-.flow-execution-graph-examples__tailwind-preview[data-narrow] aside {
-  border-left: 0;
-  border-top: 1px solid var(--tng-semantic-border-subtle);
+  height: 100%;
 }
 
 @media (max-width: 720px) {
   .flow-execution-graph-examples__summary,
   .flow-execution-graph-examples__actions {
     justify-content: stretch;
-  }
-
-  .flow-execution-graph-examples__surface {
-    grid-template-columns: 1fr;
-  }
-
-  .flow-execution-graph-examples__details {
-    border-left: 0;
-    border-top: 1px solid var(--tng-semantic-border-subtle);
   }
 }

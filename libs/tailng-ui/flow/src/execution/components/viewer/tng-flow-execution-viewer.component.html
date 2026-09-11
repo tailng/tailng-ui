@@ -1,130 +1,69 @@
-<section class="tng-flow-execution-viewer__shell">
-  @if (state() === 'loading' || state() === 'empty' || state() === 'error') {
-    <div class="tng-flow-execution-viewer__state" role="status">
-      {{ stateMessage() ?? state() }}
-    </div>
-  } @else {
-    @if (showResolvedInspector()) {
-      <tng-split-group
-        class="tng-flow-execution-viewer__split"
-        [orientation]="splitOrientation()"
-        (resize)="onSplitResize($event)"
-      >
-        <div
-          tngSplitPane
-          paneId="graph"
-          [grow]="1"
-          [minSize]="normalizedGraphMinSize()"
-          class="tng-flow-execution-viewer__graph-pane"
-        >
-          <ng-container [ngTemplateOutlet]="graphTemplate" />
-        </div>
-
-        <tng-split-handle ariaLabel="Resize execution inspector" primaryPane="next" />
-
-        <aside
-          tngSplitPane
-          paneId="inspector"
-          [size]="inspectorSize()"
-          [defaultSize]="inspectorSize()"
-          [minSize]="normalizedInspectorMinSize()"
-          [collapsible]="true"
-          class="tng-flow-execution-viewer__inspector-pane"
-        >
-          <ng-container [ngTemplateOutlet]="inspectorTemplateBlock" />
-        </aside>
-      </tng-split-group>
-    } @else {
-      <ng-container [ngTemplateOutlet]="graphTemplate" />
-    }
-  }
-
-  @if (showInspector()) {
-    <tng-button
-      type="button"
-      appearance="ghost"
-      size="sm"
-      class="tng-flow-execution-viewer__inspector-toggle"
-      [attr.aria-expanded]="showResolvedInspector() ? 'true' : 'false'"
-      (click)="toggleInspector()"
-    >
-      {{ showResolvedInspector() ? 'Hide details' : 'Show details' }}
-    </tng-button>
-  }
-</section>
-
-<ng-template #graphTemplate>
-  <tng-flow-execution-graph
-    [definition]="definition()"
-    [snapshot]="snapshot()"
-    [selection]="selection()"
-    [inspectedNodeId]="inspectedNodeId()"
-    [selectedExecutionId]="selectedExecutionId()"
-    [viewport]="viewport()"
-    [mode]="mode()"
-    [attachmentLayout]="attachmentLayout()"
-    [connectionValidator]="connectionValidator()"
-    [options]="options()"
-    [connectionOptions]="connectionOptions()"
-    [connectionCreationPathType]="connectionCreationPathType()"
-    [connectionAriaLabel]="connectionAriaLabel()"
-    [keyboardOptions]="keyboardOptions()"
-    [smartGuides]="smartGuides()"
-    [commandShortcuts]="commandShortcuts()"
-    [contextMenuEnabled]="contextMenuEnabled()"
-    [snapToGrid]="snapToGrid()"
-    [gridSize]="gridSize()"
-    [showBackground]="showBackground()"
-    [showControls]="showControls()"
-    [showConnectionTools]="showConnectionTools()"
-    [showMinimap]="showMinimap()"
-    [minimapOptions]="minimapOptions()"
-    [showSelectionArea]="showSelectionArea()"
-    [fitOnInit]="fitOnInit()"
-    [flowId]="flowId()"
-    [ariaLabel]="ariaLabel()"
-    (nodesMoved)="nodesMoved.emit($event)"
-    (nodePositionChange)="nodePositionChange.emit($event)"
-    (nodeCreateRequested)="nodeCreateRequested.emit($event)"
-    (connectionCreateRequested)="connectionCreateRequested.emit($event)"
-    (connectionCreationPathTypeChange)="connectionCreationPathType.set($event)"
-    (connectionReconnectRequested)="connectionReconnectRequested.emit($event)"
-    (connectionRoutingChangeRequested)="connectionRoutingChangeRequested.emit($event)"
-    (connectionWaypointsChange)="connectionWaypointsChange.emit($event)"
-    (connectionsDeleteRequested)="connectionsDeleteRequested.emit($event)"
-    (nodesDeleteRequested)="nodesDeleteRequested.emit($event)"
-    (connectionRejected)="connectionRejected.emit($event)"
-    (commandRequested)="commandRequested.emit($event)"
-    (contextMenuRequested)="contextMenuRequested.emit($event)"
-    (selectionChange)="selectionChange.emit($event)"
-    (inspectedNodeIdChange)="inspectedNodeIdChange.emit($event)"
-    (selectedExecutionIdChange)="selectedExecutionIdChange.emit($event)"
-    (viewportChange)="onViewportChange($event)"
-    (executionActivated)="executionActivated.emit($event)"
-  >
-    <ng-content select="ng-template[tngFlowNode]" />
-    <ng-content select="ng-template[tngFlowConnection], ng-template[tngFlowConnectionLabel]" />
-  </tng-flow-execution-graph>
-</ng-template>
-
-<ng-template #inspectorTemplateBlock>
-  @if (inspectorTemplate(); as template) {
-    <ng-container
-      [ngTemplateOutlet]="template.templateRef"
-      [ngTemplateOutletContext]="inspectorTemplateContext()"
-    />
-  } @else {
-    <tng-flow-execution-inspector
-      [definition]="definition()"
-      [snapshot]="index().snapshot"
-      [inspectedNodeId]="effectiveInspectedNodeId()"
-      [selectedExecutionId]="effectiveSelectedExecutionId()"
-      [scope]="inspectorScope()"
-      [dateTimeFormatter]="dateTimeFormatter()"
-      (selectedExecutionIdChange)="onInspectorExecutionSelected($event)"
-      (executionActivated)="onInspectorExecutionActivated($event)"
-    >
-      <ng-content select="ng-template[tngFlowExecutionPayload]" />
-    </tng-flow-execution-inspector>
-  }
-</ng-template>
+<tng-flow-workbench
+  mode="live"
+  detailsKind="execution"
+  [canvasMode]="mode()"
+  [definition]="definition()"
+  [snapshot]="snapshot()"
+  [selection]="selection()"
+  [inspectedNodeId]="inspectedNodeId()"
+  [selectedExecutionId]="selectedExecutionId()"
+  [viewport]="viewport()"
+  [state]="state()"
+  [stateMessage]="stateMessage()"
+  [detailsScope]="inspectorScope()"
+  [detailsPosition]="inspectorPosition()"
+  [showDetails]="showInspector()"
+  [detailsOpen]="inspectorOpen()"
+  [showPalette]="false"
+  [showControls]="showControls()"
+  [showConnectionTools]="showConnectionTools()"
+  [showBackground]="showBackground()"
+  [showMinimap]="showMinimap()"
+  [showSelectionArea]="showSelectionArea()"
+  [fitOnInit]="fitOnInit()"
+  [flowId]="flowId()"
+  [ariaLabel]="ariaLabel()"
+  [detailsBreakpoint]="inspectorBreakpoint()"
+  [rightDetailsSize]="rightInspectorSize()"
+  [bottomDetailsSize]="bottomInspectorSize()"
+  [graphMinSize]="graphMinSize()"
+  [detailsMinSize]="inspectorMinSize()"
+  [attachmentLayout]="attachmentLayout()"
+  [connectionValidator]="connectionValidator()"
+  [options]="options()"
+  [connectionOptions]="connectionOptions()"
+  [connectionCreationPathType]="connectionCreationPathType()"
+  [connectionAriaLabel]="connectionAriaLabel()"
+  [keyboardOptions]="keyboardOptions()"
+  [smartGuides]="smartGuides()"
+  [minimapOptions]="minimapOptions()"
+  [commandShortcuts]="commandShortcuts()"
+  [contextMenuEnabled]="contextMenuEnabled()"
+  [snapToGrid]="snapToGrid()"
+  [gridSize]="gridSize()"
+  [dateTimeFormatter]="dateTimeFormatter()"
+  (nodesMoved)="nodesMoved.emit($event)"
+  (nodePositionChange)="nodePositionChange.emit($event)"
+  (nodeCreateRequested)="nodeCreateRequested.emit($event)"
+  (connectionCreateRequested)="connectionCreateRequested.emit($event)"
+  (connectionCreationPathTypeChange)="connectionCreationPathType.set($event)"
+  (connectionReconnectRequested)="connectionReconnectRequested.emit($event)"
+  (connectionRoutingChangeRequested)="connectionRoutingChangeRequested.emit($event)"
+  (connectionWaypointsChange)="connectionWaypointsChange.emit($event)"
+  (connectionsDeleteRequested)="connectionsDeleteRequested.emit($event)"
+  (nodesDeleteRequested)="nodesDeleteRequested.emit($event)"
+  (connectionRejected)="connectionRejected.emit($event)"
+  (commandRequested)="commandRequested.emit($event)"
+  (contextMenuRequested)="contextMenuRequested.emit($event)"
+  (selectionChange)="selectionChange.emit($event)"
+  (inspectedNodeIdChange)="inspectedNodeIdChange.emit($event)"
+  (selectedExecutionIdChange)="selectedExecutionIdChange.emit($event)"
+  (viewportChange)="viewportChange.emit($event)"
+  (detailsOpenChange)="inspectorOpenChange.emit($event)"
+  (executionActivated)="executionActivated.emit($event)"
+>
+  <ng-content select="ng-template[tngFlowNode]" />
+  <ng-content select="ng-template[tngFlowConnection], ng-template[tngFlowConnectionLabel]" />
+  <ng-content select="ng-template[tngFlowExecutionInspector]" />
+  <ng-content select="ng-template[tngFlowExecutionPayload]" />
+</tng-flow-workbench>

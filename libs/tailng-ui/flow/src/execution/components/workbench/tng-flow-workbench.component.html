@@ -1,0 +1,181 @@
+<section
+  class="tng-flow-workbench__shell"
+  [style.--tng-flow-workbench-palette-width]="normalizedPaletteSize() + 'px'"
+  [style.--tng-flow-workbench-palette-min-width]="normalizedPaletteMinSize() + 'px'"
+>
+  @if (state() === 'loading' || state() === 'empty' || state() === 'error') {
+    <div class="tng-flow-workbench__state" role="status">
+      {{ stateMessage() ?? state() }}
+    </div>
+  } @else {
+    @if (showResolvedPalette()) {
+      <aside class="tng-flow-workbench__palette-pane">
+        @if (paletteTemplate(); as template) {
+          <ng-container
+            [ngTemplateOutlet]="template.templateRef"
+            [ngTemplateOutletContext]="paletteTemplateContext()"
+          />
+        } @else {
+          <tng-flow-node-palette
+            [items]="paletteItems()"
+            [ariaLabel]="paletteAriaLabel()"
+            [disabled]="editorMode() !== 'edit'"
+            (itemActivated)="onPaletteItemActivated($event)"
+          />
+        }
+      </aside>
+    }
+
+    <div class="tng-flow-workbench__main">
+      @if (showResolvedDetails()) {
+        <tng-split-group
+          class="tng-flow-workbench__split"
+          [orientation]="splitOrientation()"
+          (resize)="onSplitResize($event)"
+        >
+          <div
+            tngSplitPane
+            paneId="graph"
+            [grow]="1"
+            [minSize]="normalizedGraphMinSize()"
+            class="tng-flow-workbench__graph-pane"
+          >
+            <ng-container [ngTemplateOutlet]="graphTemplate" />
+          </div>
+
+          <tng-split-handle ariaLabel="Resize flow details" primaryPane="next" />
+
+          <aside
+            tngSplitPane
+            paneId="details"
+            [size]="detailsSize()"
+            [defaultSize]="detailsSize()"
+            [minSize]="normalizedDetailsMinSize()"
+            [collapsible]="true"
+            class="tng-flow-workbench__details-pane"
+          >
+            <ng-container [ngTemplateOutlet]="detailsTemplateBlock" />
+          </aside>
+        </tng-split-group>
+      } @else {
+        <ng-container [ngTemplateOutlet]="graphTemplate" />
+      }
+    </div>
+  }
+
+  <div class="tng-flow-workbench__actions">
+    @if (showPalette() && hasPaletteContent() && (mode() === 'create' || mode() === 'edit')) {
+      <tng-button
+        type="button"
+        appearance="ghost"
+        size="sm"
+        [attr.aria-expanded]="showResolvedPalette() ? 'true' : 'false'"
+        (click)="togglePalette()"
+      >
+        {{ showResolvedPalette() ? 'Hide palette' : 'Show palette' }}
+      </tng-button>
+    }
+    @if (showDetails() && hasDetailsContent()) {
+      <tng-button
+        type="button"
+        appearance="ghost"
+        size="sm"
+        [attr.aria-expanded]="showResolvedDetails() ? 'true' : 'false'"
+        (click)="toggleDetails()"
+      >
+        {{ showResolvedDetails() ? 'Hide details' : 'Show details' }}
+      </tng-button>
+    }
+  </div>
+</section>
+
+<ng-template #graphTemplate>
+  <tng-flow-execution-graph
+    [definition]="definition()"
+    [snapshot]="snapshot()"
+    [selection]="selection()"
+    [inspectedNodeId]="inspectedNodeId()"
+    [selectedExecutionId]="selectedExecutionId()"
+    [viewport]="viewport()"
+    [mode]="editorMode()"
+    [attachmentLayout]="attachmentLayout()"
+    [connectionValidator]="connectionValidator()"
+    [options]="options()"
+    [connectionOptions]="connectionOptions()"
+    [connectionCreationPathType]="connectionCreationPathType()"
+    [connectionAriaLabel]="connectionAriaLabel()"
+    [keyboardOptions]="keyboardOptions()"
+    [smartGuides]="smartGuides()"
+    [commandShortcuts]="commandShortcuts()"
+    [contextMenuEnabled]="contextMenuEnabled()"
+    [snapToGrid]="snapToGrid()"
+    [gridSize]="gridSize()"
+    [showBackground]="showBackground()"
+    [showControls]="showControls()"
+    [showConnectionTools]="showConnectionTools()"
+    [showMinimap]="showMinimap()"
+    [minimapOptions]="minimapOptions()"
+    [showSelectionArea]="showSelectionArea()"
+    [fitOnInit]="fitOnInit()"
+    [flowId]="flowId()"
+    [ariaLabel]="ariaLabel()"
+    (nodesMoved)="nodesMoved.emit($event)"
+    (nodePositionChange)="nodePositionChange.emit($event)"
+    (nodeCreateRequested)="nodeCreateRequested.emit($event)"
+    (connectionCreateRequested)="connectionCreateRequested.emit($event)"
+    (connectionCreationPathTypeChange)="connectionCreationPathType.set($event)"
+    (connectionReconnectRequested)="connectionReconnectRequested.emit($event)"
+    (connectionRoutingChangeRequested)="connectionRoutingChangeRequested.emit($event)"
+    (connectionWaypointsChange)="connectionWaypointsChange.emit($event)"
+    (connectionsDeleteRequested)="connectionsDeleteRequested.emit($event)"
+    (nodesDeleteRequested)="nodesDeleteRequested.emit($event)"
+    (connectionRejected)="connectionRejected.emit($event)"
+    (commandRequested)="commandRequested.emit($event)"
+    (contextMenuRequested)="contextMenuRequested.emit($event)"
+    (selectionChange)="selectionChange.emit($event)"
+    (inspectedNodeIdChange)="inspectedNodeIdChange.emit($event)"
+    (selectedExecutionIdChange)="selectedExecutionIdChange.emit($event)"
+    (viewportChange)="onViewportChange($event)"
+    (executionActivated)="executionActivated.emit($event)"
+  >
+    <ng-content select="ng-template[tngFlowNode]" />
+    <ng-content select="ng-template[tngFlowConnection], ng-template[tngFlowConnectionLabel]" />
+  </tng-flow-execution-graph>
+</ng-template>
+
+<ng-template #detailsTemplateBlock>
+  @if (detailsTemplate(); as template) {
+    <ng-container
+      [ngTemplateOutlet]="template.templateRef"
+      [ngTemplateOutletContext]="detailsTemplateContext()"
+    />
+  } @else if (resolvedDetailsKind() === 'execution') {
+    @if (inspectorTemplate(); as template) {
+      <ng-container
+        [ngTemplateOutlet]="template.templateRef"
+        [ngTemplateOutletContext]="inspectorTemplateContext()"
+      />
+    } @else {
+      <tng-flow-execution-inspector
+        [definition]="definition()"
+        [snapshot]="index().snapshot"
+        [inspectedNodeId]="effectiveInspectedNodeId()"
+        [selectedExecutionId]="effectiveSelectedExecutionId()"
+        [scope]="detailsScope()"
+        [dateTimeFormatter]="dateTimeFormatter()"
+        (selectedExecutionIdChange)="onDetailsExecutionSelected($event)"
+        (executionActivated)="onDetailsExecutionActivated($event)"
+      >
+        <ng-content select="ng-template[tngFlowExecutionPayload]" />
+      </tng-flow-execution-inspector>
+    }
+  } @else if (resolvedDetailsKind() === 'node-properties') {
+    <tng-flow-node-properties
+      [definition]="definition()"
+      [inspectedNodeId]="effectiveInspectedNodeId()"
+      [readonly]="editorMode() !== 'edit'"
+    >
+      <ng-content select="ng-template[tngFlowNodePropertiesData]" />
+    </tng-flow-node-properties>
+  }
+</ng-template>

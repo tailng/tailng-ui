@@ -3,6 +3,7 @@ export { TngFlowExecutionInspectorComponent } from './components/inspector/tng-f
 export { TngFlowNodePropertiesComponent } from './components/node-properties/tng-flow-node-properties.component';
 export { TngFlowExecutionPayloadComponent } from './components/payload/tng-flow-execution-payload.component';
 export { TngFlowExecutionViewerComponent } from './components/viewer/tng-flow-execution-viewer.component';
+export { TngFlowWorkbenchComponent } from './components/workbench/tng-flow-workbench.component';
 export {
   createTngFlowExecutionIndex,
   createTngFlowExecutionPresentation,
@@ -32,6 +33,9 @@ export type {
   TngFlowExecutionViewerState,
   TngFlowExecutionWarning,
   TngFlowExecutionWarningCode,
+  TngFlowWorkbenchDetailsKind,
+  TngFlowWorkbenchMode,
+  TngFlowWorkbenchState,
   TngFlowNodeExecution,
   TngFlowNodePropertyChangeRequest,
   TngFlowNodePropertyChangeSource,
@@ -42,9 +46,13 @@ export {
   TngFlowExecutionInspectorTemplateDirective,
   TngFlowNodePropertiesDataTemplateDirective,
   TngFlowExecutionPayloadTemplateDirective,
+  TngFlowWorkbenchDetailsTemplateDirective,
+  TngFlowWorkbenchPaletteTemplateDirective,
 } from './templates/tng-flow-execution-templates';
 export type {
   TngFlowExecutionInspectorTemplateContext,
   TngFlowNodePropertiesDataTemplateContext,
   TngFlowExecutionPayloadTemplateContext,
+  TngFlowWorkbenchDetailsTemplateContext,
+  TngFlowWorkbenchPaletteTemplateContext,
 } from './templates/tng-flow-execution-templates';

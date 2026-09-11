@@ -253,6 +253,29 @@ export const docsComponentOutlineItemsBySlug: Readonly<
       { id: 'responsive-cases', label: 'Responsive cases' },
     ],
   },
+  'flow-workbench': {
+    overview: [
+      { id: 'imports', label: 'Install and import' },
+      { id: 'modes', label: 'Modes' },
+      { id: 'composition', label: 'Composition' },
+      { id: 'state-ownership', label: 'State ownership' },
+    ],
+    api: [
+      { id: 'workbench-inputs', label: 'Workbench inputs' },
+      { id: 'workbench-outputs', label: 'Workbench outputs' },
+      { id: 'template-hooks', label: 'Template hooks' },
+    ],
+    styling: [
+      { id: 'required-styles', label: 'Required styles' },
+      { id: 'layout-sizing', label: 'Layout sizing' },
+      { id: 'panels', label: 'Panels' },
+    ],
+    examples: [
+      { id: 'basic-workbench', label: 'Editable workbench' },
+      { id: 'custom-panels', label: 'Custom panels' },
+      { id: 'live-workbench', label: 'Live execution' },
+    ],
+  },
   table: {
     overview: [
       { id: 'imports', label: 'Imports' },

@@ -27,14 +27,14 @@
           class="flow-execution-graph-examples__preview"
           [class.dark]="example.forcedTheme === 'dark'"
           [attr.data-theme]="example.forcedTheme"
-          [attr.data-phase]="example.scenario.snapshot.phase"
+          [attr.data-phase]="example.plain.snapshot().phase"
           [attr.data-narrow]="example.narrow ? '' : null"
         >
           <header class="flow-execution-graph-examples__summary">
             <div class="flow-execution-graph-examples__status">
-              <span>{{ example.scenario.snapshot.phase }}</span>
+              <span>{{ example.plain.snapshot().phase }}</span>
               <strong>{{ selectedNodeName(example.plain) }}</strong>
-              <small>{{ progressLabel(example.scenario) }}</small>
+              <small>{{ timelineLabel(example.plain) }}</small>
               <p class="flow-execution-graph-examples__hint">
                 Select a node to reveal connection points. Drag to connect; select a connection and
                 press Delete or Backspace to remove it.
@@ -42,6 +42,22 @@
             </div>
 
             <div class="flow-execution-graph-examples__actions">
+              @if (example.plain.timeline !== null) {
+                <tng-button
+                  appearance="outline"
+                  size="sm"
+                  (click)="togglePlayback(example.plain)"
+                >
+                  {{ example.plain.playing() ? 'Pause' : 'Play' }}
+                </tng-button>
+                <tng-button
+                  appearance="outline"
+                  size="sm"
+                  (click)="restartPlayback(example.plain)"
+                >
+                  Restart
+                </tng-button>
+              }
               @if (hasSelectedConnection(example.plain)) {
                 <tng-button
                   appearance="outline"
@@ -67,7 +83,7 @@
               [flowId]="example.plainFlowId"
               [ariaLabel]="example.ariaLabel"
               [definition]="example.plain.definition()"
-              [snapshot]="example.scenario.snapshot"
+              [snapshot]="example.plain.snapshot()"
               [selection]="example.plain.selection()"
               [inspectedNodeId]="example.plain.inspectedNodeId()"
               [selectedExecutionId]="example.plain.selectedExecutionId()"
@@ -77,7 +93,7 @@
               [showMinimap]="!example.narrow"
               [showControls]="!example.narrow"
               [showSelectionArea]="false"
-              [fitOnInit]="false"
+              [fitOnInit]="true"
               (nodesMoved)="onNodesMoved(example.plain, $event)"
               (connectionCreateRequested)="onConnectionCreateRequested(example.plain, $event)"
               (connectionReconnectRequested)="onConnectionReconnectRequested(example.plain, $event)"
@@ -91,26 +107,6 @@
               (viewportChange)="example.plain.viewport.set($event)"
               (executionActivated)="onExecutionActivated(example.plain, $event)"
             />
-
-            <aside class="flow-execution-graph-examples__details" aria-label="Selected execution">
-              <span>Selected execution</span>
-              <strong>{{ attemptLabel(example.plain, example.scenario) }}</strong>
-              <p>{{ selectedExecutionMessage(example.plain, example.scenario) }}</p>
-              <dl>
-                <div>
-                  <dt>Node history</dt>
-                  <dd>{{ executionCountLabel(example.plain, example.scenario) }}</dd>
-                </div>
-                <div>
-                  <dt>Payload</dt>
-                  <dd>{{ payloadStateLabel(example.plain, example.scenario) }}</dd>
-                </div>
-                <div>
-                  <dt>Last graph event</dt>
-                  <dd>{{ example.plain.lastActivation() }}</dd>
-                </div>
-              </dl>
-            </aside>
           </div>
         </div>
       </ng-template>
@@ -126,19 +122,19 @@
           class="flow-execution-graph-examples__tailwind-preview overflow-hidden rounded-lg border border-tng-border-subtle bg-tng-bg-base p-3"
           [class.dark]="example.forcedTheme === 'dark'"
           [attr.data-theme]="example.forcedTheme"
-          [attr.data-phase]="example.scenario.snapshot.phase"
+          [attr.data-phase]="example.tailwind.snapshot().phase"
           [attr.data-narrow]="example.narrow ? '' : null"
         >
           <header class="mb-3 flex flex-wrap items-start justify-between gap-3">
             <div class="grid gap-1">
               <span class="text-xs font-semibold uppercase text-tng-fg-muted">
-                {{ example.scenario.snapshot.phase }}
+                {{ example.tailwind.snapshot().phase }}
               </span>
               <strong class="text-sm text-tng-fg-primary">{{
                 selectedNodeName(example.tailwind)
               }}</strong>
               <small class="text-xs text-tng-fg-secondary">
-                {{ progressLabel(example.scenario) }}
+                {{ timelineLabel(example.tailwind) }}
               </small>
               <p class="m-0 max-w-xl text-xs text-tng-fg-secondary">
                 Select a node to reveal connection points. Drag to connect; select a connection and
@@ -147,6 +143,22 @@
             </div>
 
             <div class="flex flex-wrap justify-end gap-2">
+              @if (example.tailwind.timeline !== null) {
+                <tng-button
+                  appearance="outline"
+                  size="sm"
+                  (click)="togglePlayback(example.tailwind)"
+                >
+                  {{ example.tailwind.playing() ? 'Pause' : 'Play' }}
+                </tng-button>
+                <tng-button
+                  appearance="outline"
+                  size="sm"
+                  (click)="restartPlayback(example.tailwind)"
+                >
+                  Restart
+                </tng-button>
+              }
               @if (hasSelectedConnection(example.tailwind)) {
                 <tng-button
                   appearance="outline"
@@ -167,14 +179,14 @@
           </header>
 
           <div
-            class="flow-execution-graph-examples__tailwind-surface grid min-h-[28rem] grid-cols-[minmax(0,1fr)_minmax(16rem,20rem)] overflow-hidden rounded-lg border border-tng-border-subtle max-lg:grid-cols-1"
+            class="flow-execution-graph-examples__tailwind-surface h-[28rem] overflow-hidden rounded-lg border border-tng-border-subtle"
           >
             <tng-flow-execution-graph
-              class="block min-h-[28rem]"
+              class="block h-full"
               [flowId]="example.tailwindFlowId"
               [ariaLabel]="example.ariaLabel"
               [definition]="example.tailwind.definition()"
-              [snapshot]="example.scenario.snapshot"
+              [snapshot]="example.tailwind.snapshot()"
               [selection]="example.tailwind.selection()"
               [inspectedNodeId]="example.tailwind.inspectedNodeId()"
               [selectedExecutionId]="example.tailwind.selectedExecutionId()"
@@ -184,7 +196,7 @@
               [showMinimap]="!example.narrow"
               [showControls]="!example.narrow"
               [showSelectionArea]="false"
-              [fitOnInit]="false"
+              [fitOnInit]="true"
               (nodesMoved)="onNodesMoved(example.tailwind, $event)"
               (connectionCreateRequested)="onConnectionCreateRequested(example.tailwind, $event)"
               (connectionReconnectRequested)="
@@ -200,43 +212,6 @@
               (viewportChange)="example.tailwind.viewport.set($event)"
               (executionActivated)="onExecutionActivated(example.tailwind, $event)"
             />
-
-            <aside
-              class="grid content-start gap-3 border-l border-tng-border-subtle bg-tng-bg-muted p-4 text-sm max-lg:border-l-0 max-lg:border-t"
-              aria-label="Selected execution"
-            >
-              <span class="text-xs font-semibold uppercase text-tng-fg-muted">
-                Selected execution
-              </span>
-              <strong class="text-sm text-tng-fg-primary">
-                {{ attemptLabel(example.tailwind, example.scenario) }}
-              </strong>
-              <p class="m-0 text-tng-fg-secondary">
-                {{ selectedExecutionMessage(example.tailwind, example.scenario) }}
-              </p>
-              <dl class="m-0 grid gap-3">
-                <div class="grid gap-1">
-                  <dt class="text-xs font-semibold uppercase text-tng-fg-muted">Node history</dt>
-                  <dd class="m-0 text-tng-fg-primary">
-                    {{ executionCountLabel(example.tailwind, example.scenario) }}
-                  </dd>
-                </div>
-                <div class="grid gap-1">
-                  <dt class="text-xs font-semibold uppercase text-tng-fg-muted">Payload</dt>
-                  <dd class="m-0 text-tng-fg-primary">
-                    {{ payloadStateLabel(example.tailwind, example.scenario) }}
-                  </dd>
-                </div>
-                <div class="grid gap-1">
-                  <dt class="text-xs font-semibold uppercase text-tng-fg-muted">
-                    Last graph event
-                  </dt>
-                  <dd class="m-0 text-tng-fg-primary">
-                    {{ example.tailwind.lastActivation() }}
-                  </dd>
-                </div>
-              </dl>
-            </aside>
           </div>
         </div>
       </ng-template>

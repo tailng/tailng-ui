@@ -1,10 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   FlowExecutionGraphExamplesPageComponent,
   type FlowExecutionGraphExampleId,
 } from './flow-execution-graph-examples-page.component';
-import { findFlowExecutionViewerScenario } from '../../../flow-execution-viewer/sections/examples/flow-execution-viewer-example.data';
+import {
+  FLOW_EXECUTION_VIEWER_DEFINITION,
+  findFlowExecutionViewerScenario,
+} from '../../../flow-execution-viewer/sections/examples/flow-execution-viewer-example.data';
 
 class FlowExecutionGraphTestResizeObserver implements ResizeObserver {
   public constructor(private readonly callback: ResizeObserverCallback) {}
@@ -28,6 +31,10 @@ class FlowExecutionGraphTestResizeObserver implements ResizeObserver {
 globalThis.ResizeObserver ??= FlowExecutionGraphTestResizeObserver;
 
 describe(FlowExecutionGraphExamplesPageComponent.name, () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it('defines one graph example for every visual example in the implementation plan', async () => {
     await TestBed.configureTestingModule({
       imports: [FlowExecutionGraphExamplesPageComponent],
@@ -36,6 +43,7 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
     const expectedIds: readonly FlowExecutionGraphExampleId[] = [
       'queued-workflow',
       'running-node',
+      'delayed-execution',
       'retrying-node',
       'waiting-human-input',
       'successful-workflow',
@@ -65,10 +73,12 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
     fixture.detectChanges();
 
     const nativeElement = fixture.nativeElement as HTMLElement;
-    expect(nativeElement.querySelectorAll('app-docs-example-tabs-section').length).toBe(13);
-    expect(nativeElement.querySelectorAll('tng-flow-execution-graph').length).toBe(26);
+    expect(nativeElement.querySelectorAll('app-docs-example-tabs-section').length).toBe(14);
+    expect(nativeElement.querySelectorAll('tng-flow-execution-graph').length).toBe(28);
     expect(nativeElement.querySelector('tng-flow-execution-viewer')).toBeNull();
     expect(nativeElement.querySelector('tng-flow-node-properties')).toBeNull();
+    expect(nativeElement.querySelector('.flow-execution-graph-examples__details')).toBeNull();
+    expect(nativeElement.querySelector('aside[aria-label="Selected execution"]')).toBeNull();
   });
 
   it('renders Plain CSS and Tailwind CSS variants for every graph example', async () => {
@@ -110,6 +120,12 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
       expect(example.plainCodeTabs.find((tab) => tab.value === 'html')?.code).toContain(
         'attachmentLayout="custom-points"',
       );
+      expect(example.plainCodeTabs.find((tab) => tab.value === 'html')?.code).toContain(
+        '[fitOnInit]="true"',
+      );
+      expect(example.tailwindCodeTabs.find((tab) => tab.value === 'html')?.code).toContain(
+        '[fitOnInit]="true"',
+      );
       expect(example.plainCodeTabs.find((tab) => tab.value === 'ts')?.code).toContain(
         'onConnectionsDeleteRequested',
       );
@@ -127,6 +143,39 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
     for (const execution of [...queuedExecutions, ...completedExecutions]) {
       expect(Object.prototype.hasOwnProperty.call(execution, 'progress')).toBe(false);
     }
+  });
+
+  it('uses spacious multi-row fixture layouts for graph examples', async () => {
+    await TestBed.configureTestingModule({
+      imports: [FlowExecutionGraphExamplesPageComponent],
+    }).compileComponents();
+
+    const component = TestBed.createComponent(
+      FlowExecutionGraphExamplesPageComponent,
+    ).componentInstance;
+    const sharedNodes = new Map(
+      FLOW_EXECUTION_VIEWER_DEFINITION.nodes.map((node) => [node.id, node.position]),
+    );
+    const delayed = component.examples.find((example) => example.id === 'delayed-execution');
+    const delayedNodes = new Map(
+      delayed?.plain.definition().nodes.map((node) => [node.id, node.position]),
+    );
+
+    expect(
+      (sharedNodes.get('normalize')?.x ?? 0) - (sharedNodes.get('intake')?.x ?? 0),
+    ).toBeGreaterThanOrEqual(360);
+    expect(
+      (sharedNodes.get('human-review')?.x ?? 0) - (sharedNodes.get('risk')?.x ?? 0),
+    ).toBeGreaterThanOrEqual(360);
+    expect(
+      (sharedNodes.get('profile')?.y ?? 0) - (sharedNodes.get('risk')?.y ?? 0),
+    ).toBeGreaterThanOrEqual(420);
+    expect(
+      (delayedNodes.get('delay')?.x ?? 0) - (delayedNodes.get('start')?.x ?? 0),
+    ).toBeGreaterThanOrEqual(340);
+    expect(
+      (delayedNodes.get('send')?.y ?? 0) - (delayedNodes.get('prepare')?.y ?? 0),
+    ).toBeGreaterThanOrEqual(280);
   });
 
   it('renders queued nodes at 0% and completed nodes at 100%', async () => {
@@ -171,7 +220,7 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
     const editors = (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLElement>(
       '.tng-flow-editor',
     );
-    expect(editors).toHaveLength(26);
+    expect(editors).toHaveLength(28);
     for (const editor of editors) {
       expect(editor.dataset.mode).toBe('edit');
       expect(editor.dataset.attachmentLayout).toBe('custom-points');
@@ -230,40 +279,74 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
     );
   });
 
-  it('marks dark mode and narrow embedding as concrete rendered examples', async () => {
+  it('marks dark mode and narrow embedding as concrete examples', async () => {
     await TestBed.configureTestingModule({
       imports: [FlowExecutionGraphExamplesPageComponent],
     }).compileComponents();
 
-    const fixture = TestBed.createComponent(FlowExecutionGraphExamplesPageComponent);
-    fixture.detectChanges();
+    const component = TestBed.createComponent(
+      FlowExecutionGraphExamplesPageComponent,
+    ).componentInstance;
+    const darkExample = component.examples.find((example) => example.id === 'dark-mode');
+    const narrowExample = component.examples.find((example) => example.id === 'narrow-surface');
 
-    const nativeElement = fixture.nativeElement as HTMLElement;
-    const darkPreview = nativeElement.querySelector<HTMLElement>(
-      '.flow-execution-graph-examples__preview[data-theme="dark"]',
-    );
-    const narrowPreview = nativeElement.querySelector<HTMLElement>(
-      '.flow-execution-graph-examples__preview[data-narrow]',
-    );
-
-    expect(darkPreview).not.toBeNull();
-    expect(darkPreview?.classList.contains('dark')).toBe(true);
-    expect(narrowPreview).not.toBeNull();
+    expect(darkExample?.forcedTheme).toBe('dark');
+    expect(narrowExample?.narrow).toBe(true);
   });
 
-  it('summarizes payload availability without rendering large or redacted payload values', async () => {
+  it('keeps copied graph examples free of selected-execution details panels', async () => {
+    await TestBed.configureTestingModule({
+      imports: [FlowExecutionGraphExamplesPageComponent],
+    }).compileComponents();
+
+    const component = TestBed.createComponent(
+      FlowExecutionGraphExamplesPageComponent,
+    ).componentInstance;
+
+    for (const example of component.examples) {
+      for (const tab of [...example.plainCodeTabs, ...example.tailwindCodeTabs]) {
+        expect(tab.code).not.toContain('Selected execution');
+        expect(tab.code).not.toContain('execution-graph-example__details');
+        expect(tab.code).not.toContain('<aside');
+      }
+    }
+  });
+
+  it('advances the delayed execution example through animated connection steps', async () => {
     await TestBed.configureTestingModule({
       imports: [FlowExecutionGraphExamplesPageComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(FlowExecutionGraphExamplesPageComponent);
-    fixture.detectChanges();
+    const component = fixture.componentInstance;
+    const delayed = component.examples.find((example) => example.id === 'delayed-execution');
 
-    const text = (fixture.nativeElement as HTMLElement).textContent ?? '';
-    expect(text).toContain('Output payload available');
-    expect(text).toContain('Input payload redacted');
-    expect(text).not.toContain('contactHistory');
-    expect(text).not.toContain('PII and customer message body hidden by retention policy.');
+    expect(delayed).toBeDefined();
+    const state = delayed?.plain;
+    if (state === undefined) {
+      throw new Error('Missing delayed execution graph example.');
+    }
+
+    expect(state.snapshot().id).toBe('delayed-execution-step-0');
+    expect(state.snapshot().connectionExecutions ?? []).toEqual([]);
+
+    vi.useFakeTimers();
+    component.togglePlayback(state);
+    vi.advanceTimersByTime(1300);
+
+    expect(state.snapshot().id).toBe('delayed-execution-step-1');
+    expect(state.inspectedNodeId()).toBe('delay');
+    expect(state.selection().nodeIds).toEqual(new Set(['delay']));
+    expect(state.snapshot().connectionExecutions).toContainEqual(
+      expect.objectContaining({ connectionId: 'start-delay', phase: 'active' }),
+    );
+
+    vi.advanceTimersByTime(1300 * 4);
+
+    expect(state.snapshot().phase).toBe('succeeded');
+    expect(state.inspectedNodeId()).toBe('end');
+    expect(state.playing()).toBe(false);
+    fixture.destroy();
   });
 
   it('resets controlled selection, inspection, viewport, and activation feedback', async () => {
@@ -295,7 +378,7 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
       ),
     }));
 
-    component.resetExample(state, targetScenario);
+    component.resetExample(state, targetExample.scenario);
 
     expect(state.definition().nodes.find((node) => node.id === 'archive')?.name).toBe(
       'Archive audit',

@@ -1,0 +1,41 @@
+<article class="docs-overview">
+  <section id="imports" class="docs-overview-block">
+    <h2 class="docs-overview-title">Flow Workbench</h2>
+    <p class="docs-overview-lead">
+      Flow Workbench is a ready-made shell for creating, editing, viewing, inspecting, and
+      monitoring workflows. It combines the execution-aware graph with optional palette and details
+      panels while keeping workflow state controlled by the application.
+    </p>
+
+    <h3>Import</h3>
+    <pre><code>import &#123; TngFlowWorkbenchComponent &#125; from '&#64;tailng-ui/flow/execution';
+import &#123; TngFlowNodePaletteComponent &#125; from '&#64;tailng-ui/flow';</code></pre>
+  </section>
+
+  <section id="modes" class="docs-overview-block">
+    <h3>Modes</h3>
+    <p>
+      Use <code>create</code> and <code>edit</code> for authoring, <code>view</code> for passive
+      diagrams, <code>inspect</code> for node details, and <code>live</code> for execution history,
+      payloads, and run status.
+    </p>
+  </section>
+
+  <section id="composition" class="docs-overview-block">
+    <h3>Composition</h3>
+    <p>
+      The workbench owns the common layout: left palette, center graph, and right or bottom details.
+      Consumers can use the default node palette and default details, or replace either panel with
+      projected templates.
+    </p>
+  </section>
+
+  <section id="state-ownership" class="docs-overview-block">
+    <h3>State ownership</h3>
+    <p>
+      Applications still own definitions, selections, viewport, execution snapshots, and mutations.
+      The workbench emits typed requests for creation, movement, selection, connection updates, and
+      inspector changes.
+    </p>
+  </section>
+</article>

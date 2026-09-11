@@ -181,7 +181,7 @@ function graphMarkup(
     '  [showMinimap]="true"',
     '  [showControls]="true"',
     '  [showSelectionArea]="false"',
-    '  [fitOnInit]="false"',
+    '  [fitOnInit]="true"',
     '  (nodesMoved)="onNodesMoved($event)"',
     '  (connectionCreateRequested)="onConnectionCreateRequested($event)"',
     '  (connectionReconnectRequested)="onConnectionReconnectRequested($event)"',

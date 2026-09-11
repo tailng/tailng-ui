@@ -8621,6 +8621,65 @@
     ]
   },
   {
+    "title": "Flow Workbench",
+    "description": "Flow Workbench documentation.",
+    "section": "Components / Flow",
+    "url": "/components/flow/flow-workbench",
+    "tags": [
+      "components",
+      "flow",
+      "flow-workbench"
+    ]
+  },
+  {
+    "title": "Flow Workbench Api",
+    "description": "Flow Workbench Api documentation.",
+    "section": "Components / Flow / Flow Workbench",
+    "url": "/components/flow/flow-workbench/api",
+    "tags": [
+      "components",
+      "flow",
+      "flow-workbench",
+      "api"
+    ]
+  },
+  {
+    "title": "Flow Workbench Examples",
+    "description": "Flow Workbench Examples documentation.",
+    "section": "Components / Flow / Flow Workbench",
+    "url": "/components/flow/flow-workbench/examples",
+    "tags": [
+      "components",
+      "flow",
+      "flow-workbench",
+      "examples"
+    ]
+  },
+  {
+    "title": "Flow Workbench Overview",
+    "description": "Flow Workbench Overview documentation.",
+    "section": "Components / Flow / Flow Workbench",
+    "url": "/components/flow/flow-workbench/overview",
+    "tags": [
+      "components",
+      "flow",
+      "flow-workbench",
+      "overview"
+    ]
+  },
+  {
+    "title": "Flow Workbench Styling",
+    "description": "Flow Workbench Styling documentation.",
+    "section": "Components / Flow / Flow Workbench",
+    "url": "/components/flow/flow-workbench/styling",
+    "tags": [
+      "components",
+      "flow",
+      "flow-workbench",
+      "styling"
+    ]
+  },
+  {
     "title": "AutoComplete",
     "description": "Single-value autocomplete patterns and filtering behavior.",
     "section": "Components / Form",

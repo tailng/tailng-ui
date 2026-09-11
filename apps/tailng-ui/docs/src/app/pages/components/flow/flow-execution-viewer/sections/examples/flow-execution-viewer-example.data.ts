@@ -67,7 +67,7 @@ export const FLOW_EXECUTION_VIEWER_DEFINITION = Object.freeze({
       type: 'trigger',
       name: 'Ticket intake',
       description: 'Receives a support ticket from the help desk queue.',
-      position: { x: 20, y: 260 },
+      position: { x: 0, y: 320 },
       ports: [{ id: 'ticket', name: 'Ticket', direction: 'output', kind: 'data', multiple: true }],
     },
     {
@@ -75,7 +75,7 @@ export const FLOW_EXECUTION_VIEWER_DEFINITION = Object.freeze({
       type: 'task',
       name: 'Normalize ticket',
       description: 'Cleans fields, detects language, and extracts customer account metadata.',
-      position: { x: 310, y: 260 },
+      position: { x: 380, y: 320 },
       ports: [
         { id: 'ticket', name: 'Ticket', direction: 'input', kind: 'data' },
         { id: 'normalized', name: 'Normalized', direction: 'output', kind: 'data', multiple: true },
@@ -86,7 +86,7 @@ export const FLOW_EXECUTION_VIEWER_DEFINITION = Object.freeze({
       type: 'task',
       name: 'Risk check',
       description: 'Scores urgency, SLA risk, and churn probability.',
-      position: { x: 610, y: 120 },
+      position: { x: 780, y: 80 },
       ports: [
         { id: 'normalized', name: 'Normalized', direction: 'input', kind: 'data' },
         { id: 'risk', name: 'Risk', direction: 'output', kind: 'data', multiple: true },
@@ -97,7 +97,7 @@ export const FLOW_EXECUTION_VIEWER_DEFINITION = Object.freeze({
       type: 'task',
       name: 'Profile lookup',
       description: 'Loads account plan, owner, and recent product usage.',
-      position: { x: 610, y: 410 },
+      position: { x: 780, y: 560 },
       ports: [
         { id: 'normalized', name: 'Normalized', direction: 'input', kind: 'data' },
         { id: 'profile', name: 'Profile', direction: 'output', kind: 'data', multiple: true },
@@ -108,7 +108,7 @@ export const FLOW_EXECUTION_VIEWER_DEFINITION = Object.freeze({
       type: 'approval',
       name: 'Human review',
       description: 'Support lead approves the proposed escalation response.',
-      position: { x: 930, y: 260 },
+      position: { x: 1180, y: 320 },
       ports: [
         { id: 'risk', name: 'Risk', direction: 'input', kind: 'data' },
         { id: 'profile', name: 'Profile', direction: 'input', kind: 'data' },
@@ -120,7 +120,7 @@ export const FLOW_EXECUTION_VIEWER_DEFINITION = Object.freeze({
       type: 'task',
       name: 'Publish response',
       description: 'Posts the final customer response and escalates ownership.',
-      position: { x: 1240, y: 260 },
+      position: { x: 1580, y: 320 },
       ports: [
         { id: 'decision', name: 'Decision', direction: 'input', kind: 'data' },
         { id: 'result', name: 'Result', direction: 'output', kind: 'data', multiple: true },
@@ -131,7 +131,7 @@ export const FLOW_EXECUTION_VIEWER_DEFINITION = Object.freeze({
       type: 'task',
       name: 'Notify owner',
       description: 'Sends the account owner the escalation summary.',
-      position: { x: 1540, y: 120 },
+      position: { x: 1980, y: 80 },
       ports: [{ id: 'result', name: 'Result', direction: 'input', kind: 'data' }],
     },
     {
@@ -139,7 +139,7 @@ export const FLOW_EXECUTION_VIEWER_DEFINITION = Object.freeze({
       type: 'task',
       name: 'Archive audit',
       description: 'Stores the run transcript and payload metadata.',
-      position: { x: 1540, y: 410 },
+      position: { x: 1980, y: 560 },
       ports: [{ id: 'result', name: 'Result', direction: 'input', kind: 'data' }],
     },
   ],
@@ -541,7 +541,7 @@ export const FLOW_EXECUTION_VIEWER_SCENARIOS: readonly FlowExecutionViewerScenar
           doneConnection('profile-review'),
         ],
       ),
-      viewport: { position: { x: -240, y: -120 }, scale: 0.52 },
+      viewport: { position: { x: -400, y: -120 }, scale: 0.44 },
     }),
   ]);
 
@@ -564,7 +564,7 @@ function scenario(
     id,
     selection:
       partial.inspectedNodeId === null ? emptySelection() : selectNode(partial.inspectedNodeId),
-    viewport: { position: { x: -80, y: -75 }, scale: 0.68 },
+    viewport: { position: { x: -70, y: -60 }, scale: 0.52 },
     ...partial,
   });
 }

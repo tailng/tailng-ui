@@ -1,0 +1,25 @@
+<nav class="tng-flow-node-palette__panel" [attr.aria-label]="ariaLabel()">
+  @if (items().length > 0) {
+    <div class="tng-flow-node-palette__list">
+      @for (item of items(); track item.id) {
+        <button
+          type="button"
+          class="tng-flow-node-palette__item"
+          [tngFlowPaletteItem]="item"
+          [tngFlowPaletteItemDisabled]="disabled()"
+          (tngFlowPaletteItemActivate)="onItemActivated($event)"
+        >
+          <span class="tng-flow-node-palette__icon" aria-hidden="true">{{ itemIcon(item) }}</span>
+          <span class="tng-flow-node-palette__content">
+            <span class="tng-flow-node-palette__name">{{ item.name }}</span>
+            @if (item.description) {
+              <span class="tng-flow-node-palette__description">{{ item.description }}</span>
+            }
+          </span>
+        </button>
+      }
+    </div>
+  } @else {
+    <p class="tng-flow-node-palette__empty">{{ emptyMessage() }}</p>
+  }
+</nav>

@@ -657,6 +657,11 @@
 /components/flow/flow-node-properties/examples
 /components/flow/flow-node-properties/overview
 /components/flow/flow-node-properties/styling
+/components/flow/flow-workbench
+/components/flow/flow-workbench/api
+/components/flow/flow-workbench/examples
+/components/flow/flow-workbench/overview
+/components/flow/flow-workbench/styling
 /components/form/autocomplete
 /components/form/autocomplete/api
 /components/form/autocomplete/examples

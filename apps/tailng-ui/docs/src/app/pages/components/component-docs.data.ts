@@ -322,6 +322,13 @@ export const COMPONENTS_FLOW_GROUP: ComponentsDocsGroup = {
         'Embeddable, controlled node editor for AI agents, automations, and executable workflows.',
     },
     {
+      id: 'flow-workbench',
+      slug: 'flow-workbench',
+      title: 'Flow Workbench',
+      description:
+        'Ready-made flow shell with create, edit, view, inspect, and live modes plus optional palette and details panels.',
+    },
+    {
       id: 'flow-execution-viewer',
       slug: 'flow-execution-viewer',
       title: 'Flow Execution Viewer',

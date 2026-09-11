@@ -59,6 +59,12 @@ describe('FlowExecutionGraphOverviewPageComponent', () => {
     expect(component.plainCssCodeTabs.find((tab) => tab.value === 'html')?.code).toContain(
       'attachmentLayout="custom-points"',
     );
+    expect(component.plainCssCodeTabs.find((tab) => tab.value === 'html')?.code).toContain(
+      '[fitOnInit]="true"',
+    );
+    expect(component.tailwindCodeTabs.find((tab) => tab.value === 'html')?.code).toContain(
+      '[fitOnInit]="true"',
+    );
     expect(component.plainCssCodeTabs.find((tab) => tab.value === 'ts')?.code).toContain(
       'onConnectionCreateRequested',
     );

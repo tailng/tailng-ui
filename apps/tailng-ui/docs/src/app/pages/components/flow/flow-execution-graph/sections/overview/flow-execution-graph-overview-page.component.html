@@ -66,7 +66,7 @@
         [showMinimap]="true"
         [showControls]="true"
         [showSelectionArea]="false"
-        [fitOnInit]="false"
+        [fitOnInit]="true"
         (nodesMoved)="onNodesMoved(plainDefinition, $event)"
         (connectionCreateRequested)="
           onConnectionCreateRequested(plainDefinition, plainSelection, $event)
@@ -136,7 +136,7 @@
         [showMinimap]="true"
         [showControls]="true"
         [showSelectionArea]="false"
-        [fitOnInit]="false"
+        [fitOnInit]="true"
         (nodesMoved)="onNodesMoved(tailwindDefinition, $event)"
         (connectionCreateRequested)="
           onConnectionCreateRequested(tailwindDefinition, tailwindSelection, $event)

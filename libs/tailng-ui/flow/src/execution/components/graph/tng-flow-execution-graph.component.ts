@@ -42,9 +42,12 @@ import type {
   TngFlowConnectionValidator,
   TngFlowEditorMode,
   TngFlowNodeCreateRequest,
+  TngFlowNodeCreateSource,
   TngFlowNodePositionChange,
   TngFlowNodesDeleteRequest,
   TngFlowNodesMovedEvent,
+  TngFlowPaletteItem,
+  TngFlowPoint,
   TngFlowSelection,
   TngFlowViewport,
 } from '../../../lib/types/tng-flow.types';
@@ -221,6 +224,14 @@ export class TngFlowExecutionGraphComponent<
     return this.editor()?.centerNode(nodeId, animated) ?? false;
   }
 
+  public requestNodeCreate(
+    item: TngFlowPaletteItem<TNodeData>,
+    position?: TngFlowPoint,
+    source: TngFlowNodeCreateSource = 'api',
+  ): void {
+    this.editor()?.requestNodeCreate(item, position, source);
+  }
+
   public requestConnectionRoutingChange(
     type: TngFlowConnectionPathType,
     source: TngFlowConnectionRoutingChangeSource = 'api',
@@ -228,6 +239,7 @@ export class TngFlowExecutionGraphComponent<
     return this.editor()?.requestConnectionRoutingChange(type, source) ?? false;
   }
 
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- Public controlled-selection API uses the exported selection type.
   public onEditorSelectionChange(selection: TngFlowSelection): void {
     if (areTngFlowSelectionsEqual(selection, this.selection())) {
       return;
