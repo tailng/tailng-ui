@@ -1111,6 +1111,7 @@ Provide stories/examples for:
 - [x] Large JSON payload.
 - [x] Dark mode.
 - [x] Narrow embedding surface.
+- [x] Controlled node movement and custom-point connection creation, reconnection, and deletion.
 
 ## Acceptance criteria
 

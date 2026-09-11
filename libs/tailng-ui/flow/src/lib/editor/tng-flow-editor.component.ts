@@ -1562,6 +1562,9 @@ export class TngFlowEditorComponent<
     port: TngFlowPort,
     connectorId: string,
   ): boolean {
+    if (!this.canEdit()) {
+      return false;
+    }
     const sourceConnectorId = this.activeCustomPointConnectSourceId();
     if (sourceConnectorId === null) {
       return port.direction === 'output' && this.isNodeSelected(nodeId);

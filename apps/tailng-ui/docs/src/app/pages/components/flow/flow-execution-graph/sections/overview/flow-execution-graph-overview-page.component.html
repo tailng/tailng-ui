@@ -35,7 +35,22 @@
             {{ graphMode }}
           </tng-button>
         }
+        @if (plainMode() === 'edit' && hasSelectedConnection(plainSelection)) {
+          <tng-button
+            appearance="outline"
+            size="sm"
+            (click)="deleteSelectedConnections(plainDefinition, plainSelection)"
+          >
+            Delete connection
+          </tng-button>
+        }
       </div>
+      @if (plainMode() === 'edit') {
+        <p class="flow-execution-graph-overview__hint">
+          Select a node to reveal connection points. Drag to connect; select a connection and press
+          Delete or Backspace to remove it.
+        </p>
+      }
       <tng-flow-execution-graph
         class="flow-execution-graph-overview__graph"
         flowId="overview-running-workflow-plain-css"
@@ -47,11 +62,21 @@
         [selectedExecutionId]="plainSelectedExecutionId()"
         [viewport]="plainViewport()"
         [mode]="plainMode()"
+        attachmentLayout="custom-points"
         [showMinimap]="true"
         [showControls]="true"
         [showSelectionArea]="false"
         [fitOnInit]="false"
         (nodesMoved)="onNodesMoved(plainDefinition, $event)"
+        (connectionCreateRequested)="
+          onConnectionCreateRequested(plainDefinition, plainSelection, $event)
+        "
+        (connectionReconnectRequested)="
+          onConnectionReconnectRequested(plainDefinition, plainSelection, $event)
+        "
+        (connectionsDeleteRequested)="
+          onConnectionsDeleteRequested(plainDefinition, plainSelection, $event)
+        "
         (selectionChange)="plainSelection.set($event)"
         (inspectedNodeIdChange)="plainInspectedNodeId.set($event)"
         (selectedExecutionIdChange)="plainSelectedExecutionId.set($event)"
@@ -77,7 +102,22 @@
             {{ graphMode }}
           </tng-button>
         }
+        @if (tailwindMode() === 'edit' && hasSelectedConnection(tailwindSelection)) {
+          <tng-button
+            appearance="outline"
+            size="sm"
+            (click)="deleteSelectedConnections(tailwindDefinition, tailwindSelection)"
+          >
+            Delete connection
+          </tng-button>
+        }
       </div>
+      @if (tailwindMode() === 'edit') {
+        <p class="mb-3 text-xs text-tng-fg-secondary">
+          Select a node to reveal connection points. Drag to connect; select a connection and press
+          Delete or Backspace to remove it.
+        </p>
+      }
       <tng-flow-execution-graph
         class="block h-[28rem] min-h-[24rem] overflow-hidden rounded-lg border border-tng-border-subtle bg-tng-bg-base"
         flowId="overview-running-workflow-tailwind-css"
@@ -89,11 +129,21 @@
         [selectedExecutionId]="tailwindSelectedExecutionId()"
         [viewport]="tailwindViewport()"
         [mode]="tailwindMode()"
+        attachmentLayout="custom-points"
         [showMinimap]="true"
         [showControls]="true"
         [showSelectionArea]="false"
         [fitOnInit]="false"
         (nodesMoved)="onNodesMoved(tailwindDefinition, $event)"
+        (connectionCreateRequested)="
+          onConnectionCreateRequested(tailwindDefinition, tailwindSelection, $event)
+        "
+        (connectionReconnectRequested)="
+          onConnectionReconnectRequested(tailwindDefinition, tailwindSelection, $event)
+        "
+        (connectionsDeleteRequested)="
+          onConnectionsDeleteRequested(tailwindDefinition, tailwindSelection, $event)
+        "
         (selectionChange)="tailwindSelection.set($event)"
         (inspectedNodeIdChange)="tailwindInspectedNodeId.set($event)"
         (selectedExecutionIdChange)="tailwindSelectedExecutionId.set($event)"

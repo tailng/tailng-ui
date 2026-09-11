@@ -18,6 +18,11 @@
         is the only graph interaction-mode input.
       </li>
       <li>
+        <code>attachmentLayout="custom-points"</code>: displays three connection positions on each
+        node border for free-form authoring. The default <code>static-ports</code> layout renders
+        only ports declared by the workflow definition.
+      </li>
+      <li>
         <code>showControls</code>, <code>showBackground</code>, <code>showMinimap</code>,
         <code>showSelectionArea</code>, and <code>fitOnInit</code>: surface feature toggles.
       </li>
@@ -32,7 +37,19 @@
       <code>executionActivated</code> to keep inspection state synchronized. In edit mode, apply
       <code>nodesMoved</code>, <code>nodeCreateRequested</code>, connection
       create/reconnect/waypoint requests, and node/connection delete requests to a new controlled
-      definition snapshot.
+      definition snapshot. These outputs are proposals: the graph never mutates
+      <code>definition</code> internally.
+    </p>
+  </section>
+
+  <section id="controlled-authoring" class="docs-overview-block">
+    <h3>Controlled connection authoring</h3>
+    <p>
+      When accepting <code>connectionCreateRequested</code>, assign an application-owned ID, append
+      the new connection, and persist custom-point endpoint ports with
+      <code>ensureTngFlowCustomPointPorts()</code>. Apply <code>connectionsDeleteRequested</code> by
+      filtering those IDs from the definition, clearing stale selection, and calling
+      <code>pruneUnusedTngFlowCustomPointPorts()</code>.
     </p>
   </section>
 

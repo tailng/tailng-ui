@@ -2494,6 +2494,11 @@ describe('TngFlowEditorComponent', () => {
     expect(
       host.querySelectorAll('[data-node-id="target"] > [data-custom-point-visible]'),
     ).toHaveLength(0);
+
+    fixture.componentRef.setInput('mode', 'inspect');
+    fixture.detectChanges();
+
+    expect(host.querySelectorAll('[data-custom-point-visible]')).toHaveLength(0);
   });
 
   it('limits custom-points visibility to the source and valid target inputs while connecting', () => {

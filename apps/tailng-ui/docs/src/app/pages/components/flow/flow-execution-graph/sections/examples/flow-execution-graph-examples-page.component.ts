@@ -2,6 +2,9 @@ import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy, type WritableSignal } from '@angular/core';
 import { TngButtonComponent } from '@tailng-ui/components';
 import type {
+  TngFlowConnectionCreateRequest,
+  TngFlowConnectionReconnectRequest,
+  TngFlowConnectionsDeleteRequest,
   TngFlowDefinition,
   TngFlowNodesMovedEvent,
   TngFlowSelection,
@@ -31,6 +34,13 @@ import {
   type FlowExecutionViewerScenario,
   type FlowExecutionViewerScenarioId,
 } from '../../../flow-execution-viewer/sections/examples/flow-execution-viewer-example.data';
+import {
+  applyFlowExecutionGraphConnectionCreate,
+  applyFlowExecutionGraphConnectionReconnect,
+  applyFlowExecutionGraphConnectionsDelete,
+  applyFlowExecutionGraphNodeMoves,
+  type FlowExecutionGraphControlledUpdate,
+} from '../../flow-execution-graph-editing';
 
 export type FlowExecutionGraphExampleId = FlowExecutionViewerScenarioId | 'dark-mode';
 
@@ -264,14 +274,55 @@ export class FlowExecutionGraphExamplesPageComponent implements OnDestroy {
   }
 
   public onNodesMoved(state: FlowExecutionGraphExampleState, event: TngFlowNodesMovedEvent): void {
-    const positions = new Map(event.nodes.map((move) => [move.id, move.position]));
-    state.definition.update((definition) => ({
-      ...definition,
-      nodes: definition.nodes.map((node) => {
-        const position = positions.get(node.id);
-        return position === undefined ? node : { ...node, position };
-      }),
-    }));
+    state.definition.update((definition) => applyFlowExecutionGraphNodeMoves(definition, event));
+  }
+
+  public onConnectionCreateRequested(
+    state: FlowExecutionGraphExampleState,
+    request: TngFlowConnectionCreateRequest,
+  ): void {
+    const update = applyFlowExecutionGraphConnectionCreate(state.definition(), request);
+    this.applyControlledUpdate(state, update);
+    state.lastActivation.set(
+      `Connected ${this.nodeName(state, request.source.nodeId)} to ${this.nodeName(state, request.target.nodeId)}.`,
+    );
+  }
+
+  public onConnectionReconnectRequested(
+    state: FlowExecutionGraphExampleState,
+    request: TngFlowConnectionReconnectRequest,
+  ): void {
+    const update = applyFlowExecutionGraphConnectionReconnect(
+      state.definition(),
+      state.selection(),
+      request,
+    );
+    this.applyControlledUpdate(state, update);
+    state.lastActivation.set(`Updated the ${request.changedEndpoint} connection endpoint.`);
+  }
+
+  public onConnectionsDeleteRequested(
+    state: FlowExecutionGraphExampleState,
+    request: TngFlowConnectionsDeleteRequest,
+  ): void {
+    this.applyControlledUpdate(
+      state,
+      applyFlowExecutionGraphConnectionsDelete(state.definition(), state.selection(), request),
+    );
+    state.lastActivation.set(
+      `Deleted ${request.connectionIds.length} connection${request.connectionIds.length === 1 ? '' : 's'}.`,
+    );
+  }
+
+  public hasSelectedConnection(state: FlowExecutionGraphExampleState): boolean {
+    return state.selection().connectionIds.size > 0;
+  }
+
+  public deleteSelectedConnections(state: FlowExecutionGraphExampleState): void {
+    this.onConnectionsDeleteRequested(state, {
+      connectionIds: [...state.selection().connectionIds],
+      source: 'api',
+    });
   }
 
   private selectedExecution(
@@ -295,5 +346,17 @@ export class FlowExecutionGraphExamplesPageComponent implements OnDestroy {
     return (scenario.snapshot.nodeExecutions ?? []).filter(
       (execution) => execution.nodeId === inspectedNodeId,
     );
+  }
+
+  private applyControlledUpdate(
+    state: FlowExecutionGraphExampleState,
+    update: FlowExecutionGraphControlledUpdate,
+  ): void {
+    state.definition.set(update.definition);
+    state.selection.set(update.selection);
+  }
+
+  private nodeName(state: FlowExecutionGraphExampleState, nodeId: string): string {
+    return state.definition().nodes.find((node) => node.id === nodeId)?.name ?? nodeId;
   }
 }

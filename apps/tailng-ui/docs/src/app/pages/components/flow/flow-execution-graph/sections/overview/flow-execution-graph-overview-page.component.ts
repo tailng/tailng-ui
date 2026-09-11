@@ -2,6 +2,9 @@ import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy, type WritableSignal } from '@angular/core';
 import { TngButtonComponent } from '@tailng-ui/components';
 import type {
+  TngFlowConnectionCreateRequest,
+  TngFlowConnectionReconnectRequest,
+  TngFlowConnectionsDeleteRequest,
   TngFlowDefinition,
   TngFlowEditorMode,
   TngFlowNodesMovedEvent,
@@ -25,6 +28,13 @@ import {
   FLOW_EXECUTION_VIEWER_DEFINITION,
   findFlowExecutionViewerScenario,
 } from '../../../flow-execution-viewer/sections/examples/flow-execution-viewer-example.data';
+import {
+  applyFlowExecutionGraphConnectionCreate,
+  applyFlowExecutionGraphConnectionReconnect,
+  applyFlowExecutionGraphConnectionsDelete,
+  applyFlowExecutionGraphNodeMoves,
+  type FlowExecutionGraphControlledUpdate,
+} from '../../flow-execution-graph-editing';
 
 const overviewScenario = findFlowExecutionViewerScenario('running-node');
 
@@ -110,13 +120,65 @@ export class FlowExecutionGraphOverviewPageComponent implements OnDestroy {
     definition: WritableSignal<TngFlowDefinition<unknown>>,
     event: TngFlowNodesMovedEvent,
   ): void {
-    const positions = new Map(event.nodes.map((move) => [move.id, move.position]));
-    definition.update((current) => ({
-      ...current,
-      nodes: current.nodes.map((node) => {
-        const position = positions.get(node.id);
-        return position === undefined ? node : { ...node, position };
-      }),
-    }));
+    definition.update((current) => applyFlowExecutionGraphNodeMoves(current, event));
+  }
+
+  protected onConnectionCreateRequested(
+    definition: WritableSignal<TngFlowDefinition<unknown>>,
+    selection: WritableSignal<TngFlowSelection>,
+    request: TngFlowConnectionCreateRequest,
+  ): void {
+    this.applyControlledUpdate(
+      definition,
+      selection,
+      applyFlowExecutionGraphConnectionCreate(definition(), request),
+    );
+  }
+
+  protected onConnectionReconnectRequested(
+    definition: WritableSignal<TngFlowDefinition<unknown>>,
+    selection: WritableSignal<TngFlowSelection>,
+    request: TngFlowConnectionReconnectRequest,
+  ): void {
+    this.applyControlledUpdate(
+      definition,
+      selection,
+      applyFlowExecutionGraphConnectionReconnect(definition(), selection(), request),
+    );
+  }
+
+  protected onConnectionsDeleteRequested(
+    definition: WritableSignal<TngFlowDefinition<unknown>>,
+    selection: WritableSignal<TngFlowSelection>,
+    request: TngFlowConnectionsDeleteRequest,
+  ): void {
+    this.applyControlledUpdate(
+      definition,
+      selection,
+      applyFlowExecutionGraphConnectionsDelete(definition(), selection(), request),
+    );
+  }
+
+  protected hasSelectedConnection(selection: WritableSignal<TngFlowSelection>): boolean {
+    return selection().connectionIds.size > 0;
+  }
+
+  protected deleteSelectedConnections(
+    definition: WritableSignal<TngFlowDefinition<unknown>>,
+    selection: WritableSignal<TngFlowSelection>,
+  ): void {
+    this.onConnectionsDeleteRequested(definition, selection, {
+      connectionIds: [...selection().connectionIds],
+      source: 'api',
+    });
+  }
+
+  private applyControlledUpdate(
+    definition: WritableSignal<TngFlowDefinition<unknown>>,
+    selection: WritableSignal<TngFlowSelection>,
+    update: FlowExecutionGraphControlledUpdate,
+  ): void {
+    definition.set(update.definition);
+    selection.set(update.selection);
   }
 }

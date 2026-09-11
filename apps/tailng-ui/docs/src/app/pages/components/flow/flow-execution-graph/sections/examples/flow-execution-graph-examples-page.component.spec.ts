@@ -107,6 +107,12 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
     for (const example of component.examples) {
       expect(example.plainCodeTabs.map((tab) => tab.label)).toEqual(['HTML', 'TS', 'CSS']);
       expect(example.tailwindCodeTabs.map((tab) => tab.label)).toEqual(['HTML', 'TS', 'CSS']);
+      expect(example.plainCodeTabs.find((tab) => tab.value === 'html')?.code).toContain(
+        'attachmentLayout="custom-points"',
+      );
+      expect(example.plainCodeTabs.find((tab) => tab.value === 'ts')?.code).toContain(
+        'onConnectionsDeleteRequested',
+      );
     }
   });
 
@@ -168,8 +174,10 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
     expect(editors).toHaveLength(26);
     for (const editor of editors) {
       expect(editor.dataset.mode).toBe('edit');
+      expect(editor.dataset.attachmentLayout).toBe('custom-points');
       expect(editor.hasAttribute('data-readonly')).toBe(false);
     }
+    expect(editors[0]?.querySelectorAll('[data-custom-point-visible]')).toHaveLength(12);
   });
 
   it('persists controlled node movement in the example definition', () => {
@@ -190,6 +198,36 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
       state.definition().nodes.find((candidate) => candidate.id === node.id)?.position,
     ).toEqual({ x: 321, y: 123 });
     expect(node.position).not.toEqual({ x: 321, y: 123 });
+  });
+
+  it('persists custom-point connection creation and deletion in controlled state', () => {
+    const component = TestBed.createComponent(
+      FlowExecutionGraphExamplesPageComponent,
+    ).componentInstance;
+    const state = component.examples[0]?.plain;
+    if (state === undefined) {
+      throw new Error('Expected a graph example state.');
+    }
+    const originalConnectionCount = state.definition().connections.length;
+
+    component.onConnectionCreateRequested(state, {
+      source: { nodeId: 'intake', portId: 'custom-point-out-bottom-1' },
+      target: { nodeId: 'risk', portId: 'custom-point-in-left-1' },
+    });
+
+    expect(state.definition().connections).toHaveLength(originalConnectionCount + 1);
+    expect(state.selection().connectionIds).toEqual(new Set(['docs-connection-1']));
+    expect(state.definition().nodes.find((node) => node.id === 'intake')?.ports).toContainEqual(
+      expect.objectContaining({ id: 'custom-point-out-bottom-1' }),
+    );
+
+    component.deleteSelectedConnections(state);
+
+    expect(state.definition().connections).toHaveLength(originalConnectionCount);
+    expect(state.selection().connectionIds).toEqual(new Set());
+    expect(state.definition().nodes.find((node) => node.id === 'intake')?.ports).not.toContainEqual(
+      expect.objectContaining({ id: 'custom-point-out-bottom-1' }),
+    );
   });
 
   it('marks dark mode and narrow embedding as concrete rendered examples', async () => {

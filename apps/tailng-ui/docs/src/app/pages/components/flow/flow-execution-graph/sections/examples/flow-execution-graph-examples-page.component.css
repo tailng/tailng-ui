@@ -62,6 +62,13 @@
   font-size: 0.75rem;
 }
 
+.flow-execution-graph-examples__hint {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.75rem;
+  margin: 0.25rem 0 0;
+  max-width: 36rem;
+}
+
 .flow-execution-graph-examples__actions {
   display: flex;
   flex-wrap: wrap;
