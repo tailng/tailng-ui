@@ -191,43 +191,9 @@
 }
 
 .tng-flow-node__progress {
-  --tng-progress-bar-height: 1.5rem;
-
-  position: relative;
-}
-
-.tng-flow-node__progress-label {
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  justify-content: flex-end;
-  min-width: 0;
-  padding-inline: 0.625rem;
-  color: var(--tng-semantic-foreground-muted, #6b7280);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  line-height: 1;
-  pointer-events: none;
-}
-
-.tng-flow-node__progress-message {
-  overflow: hidden;
-  margin-inline-end: auto;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.tng-flow-node__progress-value {
-  flex: none;
+  --tng-progress-bar-height: 0.75rem;
 }
 
 .tng-flow-node__footer[data-status='completed'] .tng-flow-node__progress {
   --tng-progress-bar-indicator: var(--tng-semantic-accent-success, #16a34a);
-}
-
-.tng-flow-node__footer[data-status='completed'] .tng-flow-node__progress-label {
-  color: var(--tng-semantic-foreground-inverse, #fff);
 }

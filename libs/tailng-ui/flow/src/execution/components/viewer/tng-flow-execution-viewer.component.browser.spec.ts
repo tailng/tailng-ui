@@ -103,11 +103,11 @@ describe('TngFlowExecutionViewerComponent browser contracts', () => {
     await nextFrame();
 
     progressRoot = host.querySelector<HTMLElement>('[data-slot="progress-bar"]');
+    const node = host.querySelector<HTMLElement>('tng-flow-node');
     expect(progressRoot?.getAttribute('data-state')).toBe('determinate');
     expect(progressRoot?.getAttribute('aria-valuenow')).toBe('100');
-    expect(host.querySelector('.tng-flow-node__progress-label')?.textContent).toContain(
-      'Completed successfully',
-    );
+    expect(host.querySelector('.tng-flow-node__progress-label')).toBeNull();
+    expect(node?.textContent).not.toContain('Completed successfully');
   });
 
   it('forwards edit-mode movement and persists the controlled node position', async () => {

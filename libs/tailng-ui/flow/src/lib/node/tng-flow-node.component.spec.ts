@@ -84,7 +84,7 @@ describe('TngFlowNodeComponent', () => {
     expect(host.querySelector('tng-progress-bar')).not.toBeNull();
   });
 
-  it('renders completed status text inside a successful 100% progress bar', () => {
+  it('keeps completed status text visually hidden while exposing progress semantics', () => {
     const fixture = TestBed.createComponent(TngFlowNodeComponent);
     fixture.componentRef.setInput('name', 'Research agent');
     fixture.componentRef.setInput('status', 'completed');
@@ -93,14 +93,13 @@ describe('TngFlowNodeComponent', () => {
 
     const host = fixture.nativeElement as HTMLElement;
     const progressRoot = host.querySelector<HTMLElement>('[data-slot="progress-bar"]');
-    const progressLabel = host.querySelector<HTMLElement>('.tng-flow-node__progress-label');
 
     expect(host.querySelector('.tng-flow-node__message')).toBeNull();
     expect(progressRoot?.getAttribute('data-state')).toBe('determinate');
     expect(progressRoot?.getAttribute('aria-valuenow')).toBe('100');
     expect(progressRoot?.getAttribute('aria-valuetext')).toBe('Completed successfully, 100%');
-    expect(progressLabel?.textContent).toContain('Completed successfully');
-    expect(progressLabel?.textContent).toContain('100%');
+    expect(host.querySelector('.tng-flow-node__progress-label')).toBeNull();
+    expect(host.textContent).not.toContain('Completed successfully');
     expect(nodeStyles).toMatch(
       /\[data-status='completed'\][^{]*\{[^}]*--tng-progress-bar-indicator:\s*var\(--tng-semantic-accent-success/s,
     );
@@ -124,7 +123,7 @@ describe('TngFlowNodeComponent', () => {
     progressRoot = host.querySelector<HTMLElement>('[data-slot="progress-bar"]');
     expect(progressRoot?.getAttribute('data-state')).toBe('determinate');
     expect(progressRoot?.getAttribute('aria-valuenow')).toBe('0');
-    expect(host.querySelector('.tng-flow-node__progress-value')?.textContent?.trim()).toBe('0%');
+    expect(host.querySelector('.tng-flow-node__progress-value')).toBeNull();
   });
 
   it('propagates a consumer minimum height to the card host', () => {

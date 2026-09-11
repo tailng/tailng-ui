@@ -43,14 +43,6 @@
           [indeterminate]="progressState().indeterminate"
           [value]="progressState().value"
         />
-        @if (!progressState().indeterminate) {
-          <span class="tng-flow-node__progress-label" aria-hidden="true">
-            @if (completedProgressMessage(); as completedMessage) {
-              <span class="tng-flow-node__progress-message">{{ completedMessage }}</span>
-            }
-            <span class="tng-flow-node__progress-value">{{ progressState().value }}%</span>
-          </span>
-        }
       </div>
     </footer>
   }
