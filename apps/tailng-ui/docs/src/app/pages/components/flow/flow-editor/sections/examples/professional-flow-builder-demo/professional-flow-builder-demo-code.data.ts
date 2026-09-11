@@ -102,7 +102,7 @@ export class FlowBuilderComponent {
           id: 'connection-' + this.sequence++,
           source: request.source,
           target: request.target,
-          type: 'bezier',
+          routing: request.routing,
         },
       ],
     });

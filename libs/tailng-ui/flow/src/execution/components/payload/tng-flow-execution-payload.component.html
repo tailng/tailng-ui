@@ -1,0 +1,34 @@
+@if (customTemplate(); as template) {
+  <ng-container
+    [ngTemplateOutlet]="template.templateRef"
+    [ngTemplateOutletContext]="templateContext()"
+  />
+} @else {
+  @let view = payloadView();
+  <section class="tng-flow-execution-payload__shell">
+    <header class="tng-flow-execution-payload__header">
+      <h4 class="tng-flow-execution-payload__title">{{ view.title }}</h4>
+      <span class="tng-flow-execution-payload__state">{{ view.state }}</span>
+    </header>
+
+    @if (view.state === 'available') {
+      <tng-code-block
+        [code]="view.code"
+        [language]="view.language"
+        [title]="null"
+        [caption]="null"
+        [copy]="copy()"
+        [showHeader]="false"
+        [showLanguageBadge]="false"
+        [highlight]="false"
+        [highlightMode]="'off'"
+        [lineNumbers]="false"
+        [maxHeight]="maxHeight()"
+        [wrap]="true"
+        variant="ghost"
+      />
+    } @else {
+      <p class="tng-flow-execution-payload__message">{{ view.message }}</p>
+    }
+  </section>
+}

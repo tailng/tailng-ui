@@ -28,6 +28,10 @@ describe('progress-bar registry item', () => {
     );
     expect(cssFile?.content).toContain('@media (prefers-reduced-motion: reduce)');
     expect(cssFile?.content).toContain('--tng-progress-bar-track');
+    expect(cssFile?.content).toContain(
+      'border-radius: var(--tng-progress-bar-radius, var(--tng-radius-control, 0.5rem));',
+    );
+    expect(cssFile?.content).not.toContain('var(--tng-progress-bar-radius, 9999px)');
 
     const indexFile = progressBarRegistryItem.files.find((file) =>
       file.path.endsWith('tailng-ui/progress-bar/index.ts'),

@@ -1,10 +1,9 @@
 /// <reference types="vitest" />
-import angular from '@analogjs/vite-plugin-angular';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import angular from '@analogjs/vite-plugin-angular';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
-import { createTailngUiCdkSecondaryAliases } from '../../../tools/vite/tailng-ui-source-aliases';
 
 const projectRoot = dirname(fileURLToPath(import.meta.url));
 
@@ -13,12 +12,11 @@ export default defineConfig({
     angular({
       tsconfig: resolve(projectRoot, '../../../tsconfig.base.json'),
     }),
-    tsconfigPaths({ root: resolve(projectRoot, '../../..'), projects: ['tsconfig.base.json'] }),
+    tsconfigPaths(),
   ],
   root: projectRoot,
   resolve: {
     alias: [
-      ...createTailngUiCdkSecondaryAliases(resolve(projectRoot, '../../..')),
       {
         find: '@foblex/2d',
         replacement: resolve(projectRoot, '../../../node_modules/@foblex/2d/fesm2015/foblex-2d.js'),
@@ -52,6 +50,10 @@ export default defineConfig({
       {
         find: '@tailng-ui/components',
         replacement: resolve(projectRoot, '../../../libs/tailng-ui/components/src/index.ts'),
+      },
+      {
+        find: '@tailng-ui/flow/execution',
+        replacement: resolve(projectRoot, '../../../libs/tailng-ui/flow/src/execution/index.ts'),
       },
       {
         find: '@tailng-ui/flow',

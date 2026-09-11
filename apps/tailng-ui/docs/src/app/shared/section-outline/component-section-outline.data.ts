@@ -227,28 +227,27 @@ export const docsComponentOutlineItemsBySlug: Readonly<
       { id: 'execution-monitor', label: 'Execution monitor' },
     ],
   },
-  'layout-dagre': {
+  'flow-workbench': {
     overview: [
-      { id: 'install', label: 'Install' },
-      { id: 'secondary-entry', label: 'Optional secondary entry point' },
-      { id: 'configure-engine', label: 'Configure an engine' },
-      { id: 'controlled-contract', label: 'Controlled layout contract' },
+      { id: 'imports', label: 'Install and import' },
+      { id: 'modes', label: 'Modes' },
+      { id: 'composition', label: 'Composition' },
+      { id: 'state-ownership', label: 'State ownership' },
     ],
     api: [
-      { id: 'adapter-exports', label: 'Adapter exports' },
-      { id: 'engine-contract', label: 'Engine contract' },
-      { id: 'layout-options', label: 'Layout options' },
-      { id: 'editor-integration', label: 'Flow Editor integration' },
+      { id: 'workbench-inputs', label: 'Workbench inputs' },
+      { id: 'workbench-outputs', label: 'Workbench outputs' },
+      { id: 'template-hooks', label: 'Template hooks' },
     ],
     styling: [
       { id: 'required-styles', label: 'Required styles' },
-      { id: 'host-sizing', label: 'Host sizing' },
-      { id: 'measured-nodes', label: 'Measured custom nodes' },
-      { id: 'viewport-effects', label: 'Viewport effects' },
+      { id: 'layout-sizing', label: 'Layout sizing' },
+      { id: 'panels', label: 'Panels' },
     ],
     examples: [
-      { id: 'direction-lab', label: 'Direction lab' },
-      { id: 'controlled-update', label: 'Controlled position update' },
+      { id: 'basic-workbench', label: 'Editable workbench' },
+      { id: 'custom-panels', label: 'Custom panels' },
+      { id: 'live-workbench', label: 'Live execution' },
     ],
   },
   table: {

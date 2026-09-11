@@ -1,7 +1,7 @@
 export type ComponentsDocsCategoryId =
   | 'getting-started'
-  | 'layout'
   | 'flow'
+  | 'layout'
   | 'overlay'
   | 'feedback'
   | 'form'
@@ -312,19 +312,35 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
 export const COMPONENTS_FLOW_GROUP: ComponentsDocsGroup = {
   id: 'flow',
   title: 'Flow',
-  subtitle: 'Node editing and automatic workflow layout',
+  subtitle: 'Workflow graph and execution surfaces',
   items: [
     {
       id: 'flow-editor',
       slug: 'flow-editor',
       title: 'Flow Editor',
-      description: 'Build controlled, interactive workflow canvases with custom nodes and edges.',
+      description:
+        'Embeddable, controlled node editor for AI agents, automations, and executable workflows.',
     },
     {
-      id: 'layout-dagre',
-      slug: 'layout-dagre',
-      title: 'Dagre Layout',
-      description: 'Add optional automatic graph layout through the official Dagre adapter.',
+      id: 'flow-workbench',
+      slug: 'flow-workbench',
+      title: 'Flow Workbench',
+      description:
+        'Ready-made flow shell with create, edit, view, inspect, and live modes plus optional palette and details panels.',
+    },
+    {
+      id: 'flow-execution-graph',
+      slug: 'flow-execution-graph',
+      title: 'Flow Execution Graph',
+      description:
+        'Standalone workflow graph diagram for execution snapshots, node status, selection, and viewport control.',
+    },
+    {
+      id: 'flow-node-properties',
+      slug: 'flow-node-properties',
+      title: 'Flow Node Properties',
+      description:
+        'Selected-node details and edit panel for metadata, ports, data templates, and immutable change requests.',
     },
   ],
 };
@@ -516,8 +532,8 @@ function withAlphabetizedItems(group: ComponentsDocsGroup): ComponentsDocsGroup 
 export const COMPONENTS_DOCS_GROUPS: readonly ComponentsDocsGroup[] = Object.freeze([
   COMPONENTS_GETTING_STARTED_GROUP,
   withAlphabetizedItems(COMPONENTS_FORM_GROUP),
+  withAlphabetizedItems(COMPONENTS_FLOW_GROUP),
   withAlphabetizedItems(COMPONENTS_LAYOUT_GROUP),
-  COMPONENTS_FLOW_GROUP,
   withAlphabetizedItems(COMPONENTS_NAVIGATION_GROUP),
   withAlphabetizedItems(COMPONENTS_OVERLAY_GROUP),
   withAlphabetizedItems(COMPONENTS_FEEDBACK_GROUP),

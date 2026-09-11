@@ -175,6 +175,8 @@ export type TngFlowConnectionValidator<TNodeData = unknown> = (
 export type TngFlowConnectionCreateRequest = Readonly<{
   source: TngFlowEndpoint;
   target: TngFlowEndpoint;
+  /** Resolved routing selected when the connection was drawn. */
+  routing?: TngFlowConnectionRouting;
 }>;
 
 export type TngFlowConnectionReconnectRequest = Readonly<{

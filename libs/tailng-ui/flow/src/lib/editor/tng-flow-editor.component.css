@@ -1,7 +1,7 @@
 :host {
   display: block;
-  min-height: 24rem;
-  height: 36rem;
+  min-height: var(--tng-flow-editor-min-height, 24rem);
+  height: var(--tng-flow-editor-height, 36rem);
 }
 
 .tng-flow-editor {
@@ -56,11 +56,10 @@
   box-shadow: none;
 }
 
-.tng-flow-editor__node.f-selected .tng-flow-editor__node-content,
-.tng-flow-editor__node--selected .tng-flow-editor__node-content {
-  border-radius: 0.75rem;
-  outline: calc(3 * var(--_ring)) solid var(--_select);
-  outline-offset: calc(3 * var(--_ring));
+.tng-flow-editor__node.f-selected .tng-flow-editor__node-content[data-custom-node],
+.tng-flow-editor__node--selected .tng-flow-editor__node-content[data-custom-node] {
+  --_node-selection-ring-color: var(--_select);
+  --_node-selection-ring-width: calc(2 * var(--_ring));
 }
 
 .tng-flow-editor__connection.f-selected {
@@ -68,18 +67,18 @@
 }
 
 .tng-flow-editor__node[data-validation='error'] .tng-flow-editor__node-content {
-  border-radius: 0.75rem;
-  box-shadow: 0 0 0 2px var(--tng-flow-node-error-border, #dc2626);
+  --_node-validation-ring-color: var(--tng-flow-node-error-border, #dc2626);
+  --_node-validation-ring-width: 2px;
 }
 
 .tng-flow-editor__node[data-validation='warning'] .tng-flow-editor__node-content {
-  border-radius: 0.75rem;
-  box-shadow: 0 0 0 2px var(--tng-flow-node-warning-border, #d97706);
+  --_node-validation-ring-color: var(--tng-flow-node-warning-border, #d97706);
+  --_node-validation-ring-width: 2px;
 }
 
 .tng-flow-editor__node[data-validation='info'] .tng-flow-editor__node-content {
-  border-radius: 0.75rem;
-  box-shadow: 0 0 0 2px var(--tng-flow-node-info-border, #0284c7);
+  --_node-validation-ring-color: var(--tng-flow-node-info-border, #0284c7);
+  --_node-validation-ring-width: 2px;
 }
 
 .tng-flow-editor__node[data-highlighted] .tng-flow-editor__node-content {
@@ -91,14 +90,23 @@
 }
 
 .tng-flow-editor__node-content {
+  --_node-selection-ring-color: transparent;
+  --_node-selection-ring-width: 0px;
+  --_node-validation-ring-color: transparent;
+  --_node-validation-ring-width: 0px;
   position: relative;
   z-index: 1;
   display: block;
   min-width: 17.5rem;
+  border-radius: 0.75rem;
+  box-shadow:
+    0 0 0 var(--_node-validation-ring-width) var(--_node-validation-ring-color),
+    0 0 0 calc(var(--_node-validation-ring-width) + var(--_node-selection-ring-width))
+      var(--_node-selection-ring-color);
 }
 
 .tng-flow-editor__node-content > tng-flow-node {
-  --tng-flow-node-selection-outline: none;
+  --tng-flow-node-selection-shadow: 0 0 0 calc(2 * var(--_ring)) var(--_select);
 }
 
 .tng-flow-editor__drag-handle {
@@ -194,6 +202,54 @@
   );
   box-shadow: 0 6px 20px rgb(15 23 42 / 10%);
   backdrop-filter: blur(8px);
+}
+
+.tng-flow-editor__authoring-tools {
+  position: absolute;
+  z-index: 10;
+  left: 0.75rem;
+  display: inline-flex;
+  max-width: calc(100% - 1.5rem);
+  align-items: center;
+  gap: 0.15rem;
+  overflow-x: auto;
+  padding: 0.25rem;
+  border: 1px solid var(--tng-flow-controls-border, var(--tng-semantic-border-default, #e2e8f0));
+  border-radius: 0.65rem;
+  background: color-mix(
+    in srgb,
+    var(--tng-flow-controls-background, var(--tng-semantic-background-surface, #fff)) 92%,
+    transparent
+  );
+  box-shadow: 0 6px 20px rgb(15 23 42 / 10%);
+  backdrop-filter: blur(8px);
+  transition: top 150ms ease;
+}
+
+.tng-flow-editor__history-control,
+.tng-flow-editor__path-control {
+  --tng-button-min-width: 2rem;
+  --tng-button-padding-inline-sm: 0.4rem;
+  --tng-button-radius: 0.4rem;
+}
+
+.tng-flow-editor__tools-separator {
+  width: 1px;
+  height: 1.5rem;
+  margin-inline: 0.25rem;
+  flex: 0 0 auto;
+  background: var(--tng-flow-controls-border, var(--tng-semantic-border-default, #e2e8f0));
+}
+
+.tng-flow-editor__tool-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  flex: 0 0 auto;
+  overflow: visible;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.75;
 }
 
 .tng-flow-editor__validation-summary {

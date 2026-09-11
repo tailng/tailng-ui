@@ -10,11 +10,12 @@
 }
 
 :host([data-selected]) .tng-flow-node {
-  outline: var(
-    --tng-flow-node-selection-outline,
-    2px solid var(--tng-flow-selection-color, var(--tng-semantic-accent-brand, #2563eb))
+  outline: var(--tng-flow-node-selection-outline, none);
+  outline-offset: var(--tng-flow-node-selection-outline-offset, 0);
+  box-shadow: var(
+    --tng-flow-node-selection-shadow,
+    0 0 0 2px var(--tng-flow-selection-color, var(--tng-semantic-accent-brand, #2563eb))
   );
-  outline-offset: 2px;
 }
 
 :host([data-disabled]) .tng-flow-node {
@@ -188,4 +189,12 @@
 
 .tng-flow-node__footer {
   margin-top: 0.75rem;
+}
+
+.tng-flow-node__progress {
+  --tng-progress-bar-height: 0.75rem;
+}
+
+.tng-flow-node__footer[data-status='completed'] .tng-flow-node__progress {
+  --tng-progress-bar-indicator: var(--tng-semantic-accent-success, #16a34a);
 }

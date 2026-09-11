@@ -1,0 +1,33 @@
+<article class="docs-section-page">
+  <section id="properties-inputs" class="docs-overview-block">
+    <h2 class="docs-overview-title">Properties inputs</h2>
+    <p>
+      Provide either the selected <code>node</code> directly or a <code>definition</code> plus
+      <code>inspectedNodeId</code> so the component can resolve the active node.
+    </p>
+    <ul>
+      <li><code>definition</code>: workflow definition used for node lookup.</li>
+      <li><code>node</code>: explicit selected node override.</li>
+      <li><code>inspectedNodeId</code>: selected node id when using definition lookup.</li>
+      <li><code>readonly</code>: disables edit controls.</li>
+      <li><code>showData</code> and <code>showPorts</code>: toggle optional sections.</li>
+    </ul>
+  </section>
+
+  <section id="properties-outputs" class="docs-overview-block">
+    <h3>Properties outputs</h3>
+    <p>
+      Listen for <code>nodeChangeRequested</code>. The payload is a
+      <code>TngFlowNodePropertyChangeRequest</code> with the node id, source field, and partial node
+      changes to apply.
+    </p>
+  </section>
+
+  <section id="properties-templates" class="docs-overview-block">
+    <h3>Data template</h3>
+    <p>
+      Project <code>ng-template[tngFlowNodePropertiesData]</code> when a product needs custom node
+      data editing or a domain-specific readonly summary.
+    </p>
+  </section>
+</article>

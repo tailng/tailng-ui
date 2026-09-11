@@ -1,0 +1,277 @@
+<article class="docs-overview">
+  <section id="imports" class="docs-overview-block">
+    <h2 class="docs-overview-title">Flow Node Properties</h2>
+    <p class="docs-overview-lead">
+      Flow Node Properties is the standalone details panel for a selected workflow node. Use it
+      beside Flow Execution Graph, Flow Editor, or any product-owned node list that needs consistent
+      node metadata and edit behavior.
+    </p>
+
+    <h3>Import</h3>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="agent-node-properties.component.ts"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
+  </section>
+
+  <section id="editable-node-properties" class="docs-overview-block">
+    <app-docs-example-tabs-section
+      heading="Editable node properties"
+      description="Keep the selected node controlled by the parent, apply emitted changes to the definition, and project a domain form for custom data."
+      ariaLabel="Editable flow node properties styling variants"
+      tabListAriaLabel="Flow node properties styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain CSS"
+        panelTitle="Agent node properties with Plain CSS"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <div class="flow-node-properties-overview__preview">
+          <div class="flow-node-properties-overview__toolbar">
+            <tng-button
+              type="button"
+              appearance="outline"
+              size="sm"
+              tone="neutral"
+              [ariaPressed]="plainReadonly()"
+              (click)="toggleReadonly(plainReadonly, plainStatus)"
+            >
+              {{ plainReadonly() ? 'Make editable' : 'Make readonly' }}
+            </tng-button>
+            <tng-button
+              type="button"
+              appearance="outline"
+              size="sm"
+              tone="neutral"
+              (click)="
+                resetExample(plainDefinition, plainInspectedNodeId, plainReadonly, plainStatus)
+              "
+            >
+              Reset panel
+            </tng-button>
+          </div>
+
+          <div class="flow-node-properties-overview__shell">
+            <aside class="flow-node-properties-overview__nodes" aria-label="Plain CSS nodes">
+              @for (node of plainDefinition().nodes; track node.id) {
+                <button
+                  type="button"
+                  class="flow-node-properties-overview__node-button"
+                  [class.is-selected]="plainInspectedNodeId() === node.id"
+                  (click)="selectNode(plainInspectedNodeId, plainStatus, node)"
+                >
+                  <span>{{ node.name }}</span>
+                  <small>{{ node.type }}</small>
+                </button>
+              }
+            </aside>
+
+            <tng-flow-node-properties
+              class="flow-node-properties-overview__panel"
+              [definition]="plainDefinition()"
+              [inspectedNodeId]="plainInspectedNodeId()"
+              [readonly]="plainReadonly()"
+              [showPorts]="true"
+              [showData]="true"
+              (nodeChangeRequested)="applyNodeChanges(plainDefinition, plainStatus, $event)"
+            >
+              <ng-template
+                tngFlowNodePropertiesData
+                let-data
+                let-readonly="readonly"
+                let-requestDataChange="requestDataChange"
+              >
+                <div class="flow-node-properties-overview__data-grid">
+                  <label>
+                    <span>Owner</span>
+                    <input
+                      type="text"
+                      [value]="dataOwner(data)"
+                      [readOnly]="readonly"
+                      (input)="updateOwner(data, $event, requestDataChange)"
+                    />
+                  </label>
+
+                  <label>
+                    <span>Risk</span>
+                    <select
+                      [value]="dataRisk(data)"
+                      [disabled]="readonly"
+                      (change)="updateRisk(data, $event, requestDataChange)"
+                    >
+                      <option>Low</option>
+                      <option>Medium</option>
+                      <option>High</option>
+                    </select>
+                  </label>
+
+                  <label>
+                    <span>SLA</span>
+                    <input
+                      type="text"
+                      [value]="dataSla(data)"
+                      [readOnly]="readonly"
+                      (input)="updateSla(data, $event, requestDataChange)"
+                    />
+                  </label>
+                </div>
+              </ng-template>
+            </tng-flow-node-properties>
+          </div>
+
+          <p class="flow-node-properties-overview__feedback" aria-live="polite">
+            {{ plainStatus() }}
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Agent node properties with Tailwind CSS"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div class="grid gap-3">
+          <div class="flex flex-wrap justify-end gap-2">
+            <tng-button
+              type="button"
+              appearance="outline"
+              size="sm"
+              tone="neutral"
+              [ariaPressed]="tailwindReadonly()"
+              (click)="toggleReadonly(tailwindReadonly, tailwindStatus)"
+            >
+              {{ tailwindReadonly() ? 'Make editable' : 'Make readonly' }}
+            </tng-button>
+            <tng-button
+              type="button"
+              appearance="outline"
+              size="sm"
+              tone="neutral"
+              (click)="
+                resetExample(
+                  tailwindDefinition,
+                  tailwindInspectedNodeId,
+                  tailwindReadonly,
+                  tailwindStatus
+                )
+              "
+            >
+              Reset panel
+            </tng-button>
+          </div>
+
+          <div
+            class="grid min-h-[34rem] overflow-hidden rounded-lg border border-tng-border-subtle bg-tng-bg-base md:grid-cols-[minmax(12rem,16rem)_minmax(0,1fr)]"
+          >
+            <aside
+              class="grid content-start gap-2 border-b border-tng-border-subtle bg-tng-bg-muted/60 p-3 md:border-b-0 md:border-r"
+              aria-label="Tailwind CSS nodes"
+            >
+              @for (node of tailwindDefinition().nodes; track node.id) {
+                <button
+                  type="button"
+                  class="grid min-w-0 gap-0.5 rounded-lg border border-tng-border-subtle bg-tng-bg-surface px-3 py-2 text-left text-sm text-tng-fg-primary transition hover:bg-tng-bg-muted"
+                  [class.border-tng-accent-primary]="tailwindInspectedNodeId() === node.id"
+                  (click)="selectNode(tailwindInspectedNodeId, tailwindStatus, node)"
+                >
+                  <span class="min-w-0 font-semibold [overflow-wrap:anywhere]">
+                    {{ node.name }}
+                  </span>
+                  <small class="min-w-0 text-xs uppercase text-tng-fg-muted">{{ node.type }}</small>
+                </button>
+              }
+            </aside>
+
+            <tng-flow-node-properties
+              class="min-h-[34rem]"
+              [definition]="tailwindDefinition()"
+              [inspectedNodeId]="tailwindInspectedNodeId()"
+              [readonly]="tailwindReadonly()"
+              [showPorts]="true"
+              [showData]="true"
+              (nodeChangeRequested)="applyNodeChanges(tailwindDefinition, tailwindStatus, $event)"
+            >
+              <ng-template
+                tngFlowNodePropertiesData
+                let-data
+                let-readonly="readonly"
+                let-requestDataChange="requestDataChange"
+              >
+                <div class="grid gap-3">
+                  <label class="grid gap-1.5 text-sm text-tng-fg-secondary">
+                    <span>Owner</span>
+                    <input
+                      class="min-h-10 rounded-lg border border-tng-border-default bg-tng-bg-surface px-3 text-tng-fg-primary"
+                      type="text"
+                      [value]="dataOwner(data)"
+                      [readOnly]="readonly"
+                      (input)="updateOwner(data, $event, requestDataChange)"
+                    />
+                  </label>
+
+                  <label class="grid gap-1.5 text-sm text-tng-fg-secondary">
+                    <span>Risk</span>
+                    <select
+                      class="min-h-10 rounded-lg border border-tng-border-default bg-tng-bg-surface px-3 text-tng-fg-primary"
+                      [value]="dataRisk(data)"
+                      [disabled]="readonly"
+                      (change)="updateRisk(data, $event, requestDataChange)"
+                    >
+                      <option>Low</option>
+                      <option>Medium</option>
+                      <option>High</option>
+                    </select>
+                  </label>
+
+                  <label class="grid gap-1.5 text-sm text-tng-fg-secondary">
+                    <span>SLA</span>
+                    <input
+                      class="min-h-10 rounded-lg border border-tng-border-default bg-tng-bg-surface px-3 text-tng-fg-primary"
+                      type="text"
+                      [value]="dataSla(data)"
+                      [readOnly]="readonly"
+                      (input)="updateSla(data, $event, requestDataChange)"
+                    />
+                  </label>
+                </div>
+              </ng-template>
+            </tng-flow-node-properties>
+          </div>
+
+          <p class="m-0 text-sm leading-6 text-tng-fg-secondary" aria-live="polite">
+            {{ tailwindStatus() }}
+          </p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="properties-fields" class="docs-overview-block">
+    <h3>Built-in fields</h3>
+    <p>
+      The default panel renders name, description, type, disabled state, locked state, input ports,
+      output ports, and a readonly data preview.
+    </p>
+  </section>
+
+  <section id="properties-updates" class="docs-overview-block">
+    <h3>Update model</h3>
+    <p>
+      Edits are emitted as immutable node change requests. The consuming application applies those
+      requests to the workflow definition, which keeps validation, persistence, and collaboration
+      rules outside the presentation component.
+    </p>
+  </section>
+</article>

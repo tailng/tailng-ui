@@ -115,7 +115,11 @@ export class TngBadgePrimitive implements OnDestroy {
     this.renderer.setStyle(badgeElement, 'min-width', 'var(--tng-badge-size, 1.125rem)');
     this.renderer.setStyle(badgeElement, 'height', 'var(--tng-badge-size, 1.125rem)');
     this.renderer.setStyle(badgeElement, 'padding-inline', 'var(--tng-badge-padding-x, 0.3rem)');
-    this.renderer.setStyle(badgeElement, 'border-radius', 'var(--tng-badge-radius, 9999px)');
+    this.renderer.setStyle(
+      badgeElement,
+      'border-radius',
+      'var(--tng-badge-radius, var(--tng-radius-control, 0.5rem))',
+    );
     this.renderer.setStyle(badgeElement, 'font-size', 'var(--tng-badge-font-size, 0.7rem)');
     this.renderer.setStyle(badgeElement, 'font-weight', '700');
     this.renderer.setStyle(badgeElement, 'line-height', '1');

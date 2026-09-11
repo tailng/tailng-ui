@@ -460,7 +460,7 @@ export class TngBadge implements OnDestroy {
     return [
       ['align-items', 'center'],
       ['background', `var(--tng-badge-bg, ${toneColors.background})`],
-      ['border-radius', 'var(--tng-badge-radius, 9999px)'],
+      ['border-radius', 'var(--tng-badge-radius, var(--tng-radius-control, 0.5rem))'],
       ['box-sizing', 'border-box'],
       ['color', `var(--tng-badge-fg, ${toneColors.foreground})`],
       ['display', 'inline-flex'],

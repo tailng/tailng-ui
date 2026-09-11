@@ -7,7 +7,7 @@ if (flowEditorItem === undefined) {
   throw new Error('Missing "flow-editor" in components flow docs group.');
 }
 
-export const COMPONENTS_FLOW_FLOW_EDITOR_ROUTES: Routes = [
+export const COMPONENTS_FLOW_EDITOR_ROUTES: Routes = [
   {
     path: '',
     data: toComponentsDocsRouteData(group, flowEditorItem),

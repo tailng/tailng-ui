@@ -1,41 +1,68 @@
 import type { Routes } from '@angular/router';
-import {
-  COMPONENTS_FLOW_GROUP,
-  toComponentsDocsRouteData,
-  type ComponentsDocsItem,
-} from '../component-docs.data';
+import { COMPONENTS_FLOW_GROUP, toComponentsDocsRouteData } from '../component-docs.data';
 
 const group = COMPONENTS_FLOW_GROUP;
-const items = Object.fromEntries(group.items.map((item) => [item.slug, item]));
+const defaultFlowItem = group.items[0];
+if (defaultFlowItem === undefined) {
+  throw new Error('Components flow docs group must include at least one item.');
+}
 
-function item(slug: string): ComponentsDocsItem {
-  const docsItem = items[slug];
-  if (docsItem === undefined) {
-    throw new Error(`Missing "${slug}" in components flow docs group.`);
-  }
-  return docsItem;
+const flowEditorItem = group.items.find((item) => item.slug === 'flow-editor');
+if (flowEditorItem === undefined) {
+  throw new Error('Missing "flow-editor" in components flow docs group.');
+}
+
+const flowWorkbenchItem = group.items.find((item) => item.slug === 'flow-workbench');
+if (flowWorkbenchItem === undefined) {
+  throw new Error('Missing "flow-workbench" in components flow docs group.');
+}
+
+const flowExecutionGraphItem = group.items.find((item) => item.slug === 'flow-execution-graph');
+if (flowExecutionGraphItem === undefined) {
+  throw new Error('Missing "flow-execution-graph" in components flow docs group.');
+}
+
+const flowNodePropertiesItem = group.items.find((item) => item.slug === 'flow-node-properties');
+if (flowNodePropertiesItem === undefined) {
+  throw new Error('Missing "flow-node-properties" in components flow docs group.');
 }
 
 export const COMPONENTS_FLOW_ROUTES: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'flow-editor',
+    redirectTo: defaultFlowItem.slug,
   },
   {
-    path: 'flow-editor',
-    data: toComponentsDocsRouteData(group, item('flow-editor')),
+    path: flowEditorItem.slug,
+    data: toComponentsDocsRouteData(group, flowEditorItem),
     loadChildren: () =>
-      import('./flow-editor/routes').then((module) => module.COMPONENTS_FLOW_FLOW_EDITOR_ROUTES),
+      import('./flow-editor/routes').then((module) => module.COMPONENTS_FLOW_EDITOR_ROUTES),
   },
   {
-    path: 'layout-dagre',
-    data: toComponentsDocsRouteData(group, item('layout-dagre')),
+    path: flowWorkbenchItem.slug,
+    data: toComponentsDocsRouteData(group, flowWorkbenchItem),
     loadChildren: () =>
-      import('./layout-dagre/routes').then((module) => module.COMPONENTS_FLOW_LAYOUT_DAGRE_ROUTES),
+      import('./flow-workbench/routes').then((module) => module.COMPONENTS_FLOW_WORKBENCH_ROUTES),
+  },
+  {
+    path: flowExecutionGraphItem.slug,
+    data: toComponentsDocsRouteData(group, flowExecutionGraphItem),
+    loadChildren: () =>
+      import('./flow-execution-graph/routes').then(
+        (module) => module.COMPONENTS_FLOW_EXECUTION_GRAPH_ROUTES,
+      ),
+  },
+  {
+    path: flowNodePropertiesItem.slug,
+    data: toComponentsDocsRouteData(group, flowNodePropertiesItem),
+    loadChildren: () =>
+      import('./flow-node-properties/routes').then(
+        (module) => module.COMPONENTS_FLOW_NODE_PROPERTIES_ROUTES,
+      ),
   },
   {
     path: '**',
-    redirectTo: 'flow-editor',
+    redirectTo: defaultFlowItem.slug,
   },
 ];

@@ -1,0 +1,5 @@
+@layer tng.contracts {
+  :where(tng-progress-bar, [tngProgressBar]) {
+    --tng-progress-bar-radius: var(--tng-radius-control);
+  }
+}

@@ -634,6 +634,13 @@ function nextPaint(): Promise<void> {
   });
 }
 
+function maxBoxShadowSpread(boxShadow: string): number {
+  return Math.max(
+    0,
+    ...(boxShadow.match(/-?\d*\.?\d+px/g)?.map((value) => Number.parseFloat(value)) ?? []),
+  );
+}
+
 async function waitForRenderedConnectionPaths(host: HTMLElement): Promise<void> {
   for (let attempt = 0; attempt < 60; attempt += 1) {
     const paths = host.querySelectorAll<SVGPathElement>('[data-connection-id] .f-connection-path');
@@ -1076,6 +1083,7 @@ describe('TngFlowEditorComponent browser contracts', () => {
 
     minimapShell.dispatchEvent(new PointerEvent('pointerleave', { pointerType: 'mouse' }));
     await fixture.whenStable();
+    await nextPaint();
 
     expect(fixture.componentInstance.viewport().position).toEqual({ x: 0, y: 0 });
     expect(fixture.componentInstance.viewportChangeCount()).toBe(3);
@@ -2265,13 +2273,13 @@ describe('TngFlowEditorComponent browser contracts', () => {
       }
       flow.focus();
       dispatchKey(flow, 'Home');
-      const nodeContent = host.querySelector<HTMLElement>(
-        '[data-node-id="start"] .tng-flow-editor__node-content',
+      const nodeSurface = host.querySelector<HTMLElement>(
+        '[data-node-id="start"] tng-flow-node .tng-flow-node',
       );
-      expect(nodeContent).not.toBeNull();
+      expect(nodeSurface).not.toBeNull();
       expect(
-        Number.parseFloat(getComputedStyle(nodeContent!).outlineWidth) * scale,
-      ).toBeGreaterThanOrEqual(2);
+        maxBoxShadowSpread(getComputedStyle(nodeSurface!).boxShadow) * scale,
+      ).toBeGreaterThanOrEqual(1.95);
 
       dispatchKey(flow, 'c');
       await fixture.whenStable();

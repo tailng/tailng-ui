@@ -53,7 +53,7 @@
 
 .progress-example-track {
   background: var(--tng-semantic-background-surface);
-  border-radius: 9999px;
+  border-radius: var(--tng-radius-control, 0.5rem);
   display: block;
   height: 0.625rem;
   overflow: hidden;

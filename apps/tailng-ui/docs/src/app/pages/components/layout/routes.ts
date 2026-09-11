@@ -83,6 +83,15 @@ export const COMPONENTS_LAYOUT_ROUTES: Routes = [
       import('./split/routes').then((module) => module.COMPONENTS_LAYOUT_SPLIT_ROUTES),
   },
   {
+    path: 'flow-editor',
+    pathMatch: 'full',
+    redirectTo: '/components/flow/flow-editor',
+  },
+  {
+    path: 'flow-editor/:section',
+    redirectTo: '/components/flow/flow-editor/:section',
+  },
+  {
     path: cardItem.slug,
     data: toComponentsDocsRouteData(group, cardItem),
     loadChildren: () =>

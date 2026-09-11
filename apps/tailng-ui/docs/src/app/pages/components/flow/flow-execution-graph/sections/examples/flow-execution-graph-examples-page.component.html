@@ -1,0 +1,220 @@
+<article class="docs-section-page flow-execution-graph-examples">
+  <h2 class="flow-execution-graph-examples__title">Examples</h2>
+  <p class="flow-execution-graph-examples__lead">
+    Standalone execution graphs for every planned run state, with copy-ready Plain CSS and Tailwind
+    CSS variants.
+  </p>
+
+  @for (example of examples; track example.id) {
+    <app-docs-example-tabs-section
+      [id]="example.id"
+      class="flow-execution-graph-examples__block"
+      [heading]="example.title"
+      [description]="example.story"
+      [ariaLabel]="example.title + ' graph style variants'"
+      [tabListAriaLabel]="example.title + ' graph style tabs'"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain CSS"
+        [panelTitle]="example.title + ' (Plain CSS)'"
+        [codeTabs]="example.plainCodeTabs"
+      >
+        <div
+          class="flow-execution-graph-examples__preview"
+          [class.dark]="example.forcedTheme === 'dark'"
+          [attr.data-theme]="example.forcedTheme"
+          [attr.data-phase]="example.plain.snapshot().phase"
+          [attr.data-narrow]="example.narrow ? '' : null"
+        >
+          <header class="flow-execution-graph-examples__summary">
+            <div class="flow-execution-graph-examples__status">
+              <span>{{ example.plain.snapshot().phase }}</span>
+              <strong>{{ selectedNodeName(example.plain) }}</strong>
+              <small>{{ timelineLabel(example.plain) }}</small>
+              <p class="flow-execution-graph-examples__hint">
+                Select a node to reveal connection points. Drag to connect; select a connection and
+                press Delete or Backspace to remove it.
+              </p>
+            </div>
+
+            <div class="flow-execution-graph-examples__actions">
+              @if (example.plain.timeline !== null) {
+                <tng-button
+                  appearance="outline"
+                  size="sm"
+                  (click)="togglePlayback(example.plain)"
+                >
+                  {{ example.plain.playing() ? 'Pause' : 'Play' }}
+                </tng-button>
+                <tng-button
+                  appearance="outline"
+                  size="sm"
+                  (click)="restartPlayback(example.plain)"
+                >
+                  Restart
+                </tng-button>
+              }
+              @if (hasSelectedConnection(example.plain)) {
+                <tng-button
+                  appearance="outline"
+                  size="sm"
+                  (click)="deleteSelectedConnections(example.plain)"
+                >
+                  Delete connection
+                </tng-button>
+              }
+              <tng-button
+                appearance="outline"
+                size="sm"
+                (click)="resetExample(example.plain, example.scenario)"
+              >
+                Reset
+              </tng-button>
+            </div>
+          </header>
+
+          <div class="flow-execution-graph-examples__surface">
+            <tng-flow-execution-graph
+              class="flow-execution-graph-examples__graph"
+              [flowId]="example.plainFlowId"
+              [ariaLabel]="example.ariaLabel"
+              [definition]="example.plain.definition()"
+              [snapshot]="example.plain.snapshot()"
+              [selection]="example.plain.selection()"
+              [inspectedNodeId]="example.plain.inspectedNodeId()"
+              [selectedExecutionId]="example.plain.selectedExecutionId()"
+              [viewport]="example.plain.viewport()"
+              [mode]="'edit'"
+              attachmentLayout="custom-points"
+              [showMinimap]="!example.narrow"
+              [showControls]="!example.narrow"
+              [showSelectionArea]="false"
+              [fitOnInit]="true"
+              (nodesMoved)="onNodesMoved(example.plain, $event)"
+              (connectionCreateRequested)="onConnectionCreateRequested(example.plain, $event)"
+              (connectionReconnectRequested)="onConnectionReconnectRequested(example.plain, $event)"
+              (connectionRoutingChangeRequested)="
+                onConnectionRoutingChangeRequested(example.plain, $event)
+              "
+              (connectionsDeleteRequested)="onConnectionsDeleteRequested(example.plain, $event)"
+              (selectionChange)="example.plain.selection.set($event)"
+              (inspectedNodeIdChange)="example.plain.inspectedNodeId.set($event)"
+              (selectedExecutionIdChange)="example.plain.selectedExecutionId.set($event)"
+              (viewportChange)="example.plain.viewport.set($event)"
+              (executionActivated)="onExecutionActivated(example.plain, $event)"
+            />
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        [panelTitle]="example.title + ' (Tailwind CSS)'"
+        [codeTabs]="example.tailwindCodeTabs"
+      >
+        <div
+          class="flow-execution-graph-examples__tailwind-preview overflow-hidden rounded-lg border border-tng-border-subtle bg-tng-bg-base p-3"
+          [class.dark]="example.forcedTheme === 'dark'"
+          [attr.data-theme]="example.forcedTheme"
+          [attr.data-phase]="example.tailwind.snapshot().phase"
+          [attr.data-narrow]="example.narrow ? '' : null"
+        >
+          <header class="mb-3 flex flex-wrap items-start justify-between gap-3">
+            <div class="grid gap-1">
+              <span class="text-xs font-semibold uppercase text-tng-fg-muted">
+                {{ example.tailwind.snapshot().phase }}
+              </span>
+              <strong class="text-sm text-tng-fg-primary">{{
+                selectedNodeName(example.tailwind)
+              }}</strong>
+              <small class="text-xs text-tng-fg-secondary">
+                {{ timelineLabel(example.tailwind) }}
+              </small>
+              <p class="m-0 max-w-xl text-xs text-tng-fg-secondary">
+                Select a node to reveal connection points. Drag to connect; select a connection and
+                press Delete or Backspace to remove it.
+              </p>
+            </div>
+
+            <div class="flex flex-wrap justify-end gap-2">
+              @if (example.tailwind.timeline !== null) {
+                <tng-button
+                  appearance="outline"
+                  size="sm"
+                  (click)="togglePlayback(example.tailwind)"
+                >
+                  {{ example.tailwind.playing() ? 'Pause' : 'Play' }}
+                </tng-button>
+                <tng-button
+                  appearance="outline"
+                  size="sm"
+                  (click)="restartPlayback(example.tailwind)"
+                >
+                  Restart
+                </tng-button>
+              }
+              @if (hasSelectedConnection(example.tailwind)) {
+                <tng-button
+                  appearance="outline"
+                  size="sm"
+                  (click)="deleteSelectedConnections(example.tailwind)"
+                >
+                  Delete connection
+                </tng-button>
+              }
+              <tng-button
+                appearance="outline"
+                size="sm"
+                (click)="resetExample(example.tailwind, example.scenario)"
+              >
+                Reset
+              </tng-button>
+            </div>
+          </header>
+
+          <div
+            class="flow-execution-graph-examples__tailwind-surface h-[28rem] overflow-hidden rounded-lg border border-tng-border-subtle"
+          >
+            <tng-flow-execution-graph
+              class="block h-full"
+              [flowId]="example.tailwindFlowId"
+              [ariaLabel]="example.ariaLabel"
+              [definition]="example.tailwind.definition()"
+              [snapshot]="example.tailwind.snapshot()"
+              [selection]="example.tailwind.selection()"
+              [inspectedNodeId]="example.tailwind.inspectedNodeId()"
+              [selectedExecutionId]="example.tailwind.selectedExecutionId()"
+              [viewport]="example.tailwind.viewport()"
+              [mode]="'edit'"
+              attachmentLayout="custom-points"
+              [showMinimap]="!example.narrow"
+              [showControls]="!example.narrow"
+              [showSelectionArea]="false"
+              [fitOnInit]="true"
+              (nodesMoved)="onNodesMoved(example.tailwind, $event)"
+              (connectionCreateRequested)="onConnectionCreateRequested(example.tailwind, $event)"
+              (connectionReconnectRequested)="
+                onConnectionReconnectRequested(example.tailwind, $event)
+              "
+              (connectionRoutingChangeRequested)="
+                onConnectionRoutingChangeRequested(example.tailwind, $event)
+              "
+              (connectionsDeleteRequested)="onConnectionsDeleteRequested(example.tailwind, $event)"
+              (selectionChange)="example.tailwind.selection.set($event)"
+              (inspectedNodeIdChange)="example.tailwind.inspectedNodeId.set($event)"
+              (selectedExecutionIdChange)="example.tailwind.selectedExecutionId.set($event)"
+              (viewportChange)="example.tailwind.viewport.set($event)"
+              (executionActivated)="onExecutionActivated(example.tailwind, $event)"
+            />
+          </div>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  }
+</article>

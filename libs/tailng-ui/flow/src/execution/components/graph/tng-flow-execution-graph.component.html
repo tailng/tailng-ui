@@ -1,0 +1,52 @@
+<div class="tng-flow-execution-graph__canvas">
+  <tng-flow-editor
+    [definition]="definition()"
+    [selection]="selection()"
+    [presentation]="presentation()"
+    [progressDisplayMode]="'status-driven'"
+    [mode]="mode()"
+    [viewport]="viewport()"
+    [attachmentLayout]="attachmentLayout()"
+    [connectionValidator]="connectionValidator()"
+    [options]="options()"
+    [connectionOptions]="connectionOptions()"
+    [connectionCreationPathType]="connectionCreationPathType()"
+    [connectionAriaLabel]="connectionAriaLabel()"
+    [keyboardOptions]="keyboardOptions()"
+    [smartGuides]="smartGuides()"
+    [commandShortcuts]="commandShortcuts()"
+    [contextMenuEnabled]="contextMenuEnabled()"
+    [snapToGrid]="snapToGrid()"
+    [gridSize]="gridSize()"
+    [showBackground]="showBackground()"
+    [showControls]="showControls()"
+    [showConnectionTools]="showConnectionTools()"
+    [showMinimap]="showMinimap()"
+    [minimapOptions]="minimapOptions()"
+    [showSelectionArea]="showSelectionArea()"
+    [fitOnInit]="fitOnInit()"
+    [flowId]="flowId()"
+    [ariaLabel]="ariaLabel()"
+    (nodesMoved)="nodesMoved.emit($event)"
+    (nodePositionChange)="nodePositionChange.emit($event)"
+    (nodeCreateRequested)="nodeCreateRequested.emit($event)"
+    (connectionCreateRequested)="connectionCreateRequested.emit($event)"
+    (connectionCreationPathTypeChange)="connectionCreationPathType.set($event)"
+    (connectionReconnectRequested)="connectionReconnectRequested.emit($event)"
+    (connectionRoutingChangeRequested)="connectionRoutingChangeRequested.emit($event)"
+    (connectionWaypointsChange)="connectionWaypointsChange.emit($event)"
+    (connectionsDeleteRequested)="connectionsDeleteRequested.emit($event)"
+    (nodesDeleteRequested)="nodesDeleteRequested.emit($event)"
+    (connectionRejected)="connectionRejected.emit($event)"
+    (commandRequested)="commandRequested.emit($event)"
+    (contextMenuRequested)="contextMenuRequested.emit($event)"
+    (selectionChange)="onEditorSelectionChange($event)"
+    (viewportChange)="onViewportChange($event)"
+    (nodeActivated)="onGraphNodeActivated($event)"
+  >
+    <ng-content select="ng-template[tngFlowNode]" />
+    <ng-content select="ng-template[tngFlowConnection], ng-template[tngFlowConnectionLabel]" />
+  </tng-flow-editor>
+</div>
+
+<span class="tng-flow-execution-graph__live" aria-live="polite">{{ liveRegionMessage() }}</span>

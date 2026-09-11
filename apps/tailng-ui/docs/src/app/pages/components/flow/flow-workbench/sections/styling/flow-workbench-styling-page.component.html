@@ -1,0 +1,28 @@
+<article class="docs-section-page">
+  <section id="required-styles" class="docs-overview-block">
+    <h2 class="docs-overview-title">Required styles</h2>
+    <p>
+      Import <code>&#64;tailng-ui/flow/styles.css</code> once so the underlying graph, ports,
+      connections, drag previews, palette items, and execution presentation render correctly.
+    </p>
+  </section>
+
+  <section id="layout-sizing" class="docs-overview-block">
+    <h3>Layout sizing</h3>
+    <p>
+      Set the host height with <code>--tng-flow-workbench-height</code> or regular CSS. The palette,
+      graph, and details panels use fixed minimum sizes so controls and canvas interactions do not
+      collapse in narrow containers.
+    </p>
+  </section>
+
+  <section id="panels" class="docs-overview-block">
+    <h3>Panels</h3>
+    <p>
+      The palette uses <code>--tng-flow-workbench-palette-width</code>; details sizing is controlled
+      by <code>rightDetailsSize</code>, <code>bottomDetailsSize</code>, and
+      <code>detailsPosition</code>. In auto mode, details move below the graph when the container is
+      narrow.
+    </p>
+  </section>
+</article>

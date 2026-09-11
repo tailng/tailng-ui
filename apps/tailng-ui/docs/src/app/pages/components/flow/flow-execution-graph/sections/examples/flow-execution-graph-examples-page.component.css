@@ -1,0 +1,112 @@
+.flow-execution-graph-examples {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.flow-execution-graph-examples__title {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.flow-execution-graph-examples__lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: -0.75rem 0 0;
+}
+
+.flow-execution-graph-examples__block {
+  display: block;
+}
+
+.flow-execution-graph-examples__preview {
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-default);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  padding: 0.75rem;
+}
+
+.flow-execution-graph-examples__preview.dark,
+.flow-execution-graph-examples__tailwind-preview.dark {
+  color-scheme: dark;
+}
+
+.flow-execution-graph-examples__summary {
+  align-items: start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.flow-execution-graph-examples__status {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.flow-execution-graph-examples__status span {
+  color: var(--tng-semantic-foreground-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.flow-execution-graph-examples__status strong {
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.95rem;
+}
+
+.flow-execution-graph-examples__status small {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.75rem;
+}
+
+.flow-execution-graph-examples__hint {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.75rem;
+  margin: 0.25rem 0 0;
+  max-width: 36rem;
+}
+
+.flow-execution-graph-examples__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: end;
+}
+
+.flow-execution-graph-examples__surface {
+  height: 28rem;
+  overflow: hidden;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.5rem;
+}
+
+.flow-execution-graph-examples__graph {
+  display: block;
+  height: 100%;
+}
+
+.flow-execution-graph-examples__preview[data-narrow],
+.flow-execution-graph-examples__tailwind-preview[data-narrow] {
+  max-width: 20rem;
+}
+
+.flow-execution-graph-examples__preview[data-narrow] .flow-execution-graph-examples__surface,
+.flow-execution-graph-examples__tailwind-preview[data-narrow]
+  .flow-execution-graph-examples__tailwind-surface {
+  height: 22rem;
+}
+
+.flow-execution-graph-examples__preview[data-narrow] .flow-execution-graph-examples__graph,
+.flow-execution-graph-examples__tailwind-preview[data-narrow] tng-flow-execution-graph {
+  height: 100%;
+}
+
+@media (max-width: 720px) {
+  .flow-execution-graph-examples__summary,
+  .flow-execution-graph-examples__actions {
+    justify-content: stretch;
+  }
+}

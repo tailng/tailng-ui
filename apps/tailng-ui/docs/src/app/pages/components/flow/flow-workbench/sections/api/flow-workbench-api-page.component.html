@@ -1,0 +1,54 @@
+<article class="docs-section-page">
+  <section id="workbench-inputs" class="docs-overview-block">
+    <h2 class="docs-overview-title">Workbench inputs</h2>
+    <p>
+      Pass <code>definition</code> for every mode and <code>snapshot</code> when execution state is
+      available. Use <code>mode</code>, <code>paletteItems</code>, <code>detailsKind</code>,
+      <code>detailsPosition</code>, <code>selection</code>, and <code>viewport</code> to control the
+      shell.
+    </p>
+    <ul>
+      <li>
+        <code>mode</code>: <code>create</code>, <code>edit</code>, <code>view</code>,
+        <code>inspect</code>, or <code>live</code>.
+      </li>
+      <li>
+        <code>detailsKind</code>: <code>auto</code>, <code>node-properties</code>,
+        <code>execution</code>, or <code>none</code>.
+      </li>
+      <li>
+        <code>paletteItems</code>: default node catalog rendered by
+        <code>tng-flow-node-palette</code>.
+      </li>
+      <li>
+        <code>paletteOpen</code> and <code>detailsOpen</code>: controlled panel visibility for
+        API-driven toolbars.
+      </li>
+      <li>
+        <code>showPaletteToggle</code> and <code>showDetailsToggle</code>: hide the built-in panel
+        buttons when an application renders its own controls.
+      </li>
+      <li><code>canvasMode</code>: optional low-level override for the underlying graph mode.</li>
+    </ul>
+  </section>
+
+  <section id="workbench-outputs" class="docs-overview-block">
+    <h3>Workbench outputs</h3>
+    <p>
+      The workbench forwards controlled graph events for nodes, connections, selection, viewport,
+      and command requests. It also emits <code>paletteOpenChange</code>,
+      <code>detailsOpenChange</code>, and execution activation events from graph or history
+      interactions.
+    </p>
+  </section>
+
+  <section id="template-hooks" class="docs-overview-block">
+    <h3>Template hooks</h3>
+    <p>
+      Use <code>ng-template[tngFlowWorkbenchPalette]</code> to replace the left panel and
+      <code>ng-template[tngFlowWorkbenchDetails]</code> to replace the details panel. Existing
+      execution payload, execution inspector, node properties data, node, and connection templates
+      continue to work inside the composed shell.
+    </p>
+  </section>
+</article>

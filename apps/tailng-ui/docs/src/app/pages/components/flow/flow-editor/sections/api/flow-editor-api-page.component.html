@@ -107,6 +107,15 @@
             </td>
           </tr>
           <tr>
+            <td><code>connectionCreationPathType</code></td>
+            <td><code>TngFlowConnectionPathType | null</code></td>
+            <td><code>null</code></td>
+            <td>
+              Two-way model for the path used by the live connection preview and newly requested
+              connections. Null resolves from the configured connection default, then Bézier.
+            </td>
+          </tr>
+          <tr>
             <td><code>connectionAriaLabel</code></td>
             <td><code>TngFlowConnectionAriaLabelFactory | null</code></td>
             <td><code>null</code></td>
@@ -154,12 +163,6 @@
             </td>
           </tr>
           <tr>
-            <td><code>readonly</code> <small>(deprecated)</small></td>
-            <td><code>boolean</code></td>
-            <td><code>false</code></td>
-            <td>Compatibility alias that forces readonly mode when true.</td>
-          </tr>
-          <tr>
             <td><code>ariaLabel</code></td>
             <td><code>string</code></td>
             <td><code>'Workflow editor'</code></td>
@@ -184,6 +187,15 @@
             <td><code>boolean</code></td>
             <td><code>true</code></td>
             <td>Controls the built-in grid, viewport toolbar, and marquee selection surface.</td>
+          </tr>
+          <tr>
+            <td><code>showConnectionTools</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>
+              Shows the edit-mode toolbar with five future-connection styles and disabled Undo/Redo
+              placeholders.
+            </td>
           </tr>
           <tr>
             <td><code>showMinimap</code></td>
@@ -272,12 +284,27 @@
           <tr>
             <td><code>connectionCreateRequested</code></td>
             <td><code>TngFlowConnectionCreateRequest</code></td>
-            <td>After a connection candidate passes built-in and consumer validation.</td>
+            <td>
+              After a connection candidate passes validation, including the resolved routing chosen
+              for the new connection.
+            </td>
+          </tr>
+          <tr>
+            <td><code>connectionCreationPathTypeChange</code></td>
+            <td><code>TngFlowConnectionPathType | null</code></td>
+            <td>When the user chooses a future-connection style from the canvas toolbar.</td>
           </tr>
           <tr>
             <td><code>connectionReconnectRequested</code></td>
             <td><code>TngFlowConnectionReconnectRequest</code></td>
             <td>After a reassigned endpoint produces a valid complete connection.</td>
+          </tr>
+          <tr>
+            <td><code>connectionRoutingChangeRequested</code></td>
+            <td><code>TngFlowConnectionRoutingChangeRequest</code></td>
+            <td>
+              When the imperative API requests a controlled style change for selected connections.
+            </td>
           </tr>
           <tr>
             <td><code>connectionWaypointsChange</code></td>

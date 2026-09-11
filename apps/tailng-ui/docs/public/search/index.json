@@ -8386,7 +8386,7 @@
   },
   {
     "title": "Flow Editor",
-    "description": "Build controlled, interactive workflow canvases with custom nodes and edges.",
+    "description": "Flow Editor documentation.",
     "section": "Components / Flow",
     "url": "/components/flow/flow-editor",
     "tags": [
@@ -8396,8 +8396,8 @@
     ]
   },
   {
-    "title": "Flow Editor API",
-    "description": "Flow Editor inputs, outputs, graph models, templates, commands, and validation contracts.",
+    "title": "Flow Editor Api",
+    "description": "Flow Editor Api documentation.",
     "section": "Components / Flow / Flow Editor",
     "url": "/components/flow/flow-editor/api",
     "tags": [
@@ -8409,7 +8409,7 @@
   },
   {
     "title": "Flow Editor Examples",
-    "description": "Production-oriented workflow, routing, selection, and execution examples.",
+    "description": "Flow Editor Examples documentation.",
     "section": "Components / Flow / Flow Editor",
     "url": "/components/flow/flow-editor/examples",
     "tags": [
@@ -8421,7 +8421,7 @@
   },
   {
     "title": "Flow Editor Overview",
-    "description": "Install Flow Editor and build a controlled workflow canvas.",
+    "description": "Flow Editor Overview documentation.",
     "section": "Components / Flow / Flow Editor",
     "url": "/components/flow/flow-editor/overview",
     "tags": [
@@ -8433,7 +8433,7 @@
   },
   {
     "title": "Flow Editor Styling",
-    "description": "Required styles, host sizing, CSS variables, and custom node content.",
+    "description": "Flow Editor Styling documentation.",
     "section": "Components / Flow / Flow Editor",
     "url": "/components/flow/flow-editor/styling",
     "tags": [
@@ -8444,61 +8444,179 @@
     ]
   },
   {
-    "title": "Dagre Layout",
-    "description": "Add optional automatic graph layout through the official Dagre adapter.",
+    "title": "Flow Execution Graph",
+    "description": "Flow Execution Graph documentation.",
     "section": "Components / Flow",
-    "url": "/components/flow/layout-dagre",
+    "url": "/components/flow/flow-execution-graph",
     "tags": [
       "components",
       "flow",
-      "layout-dagre"
+      "flow-execution-graph"
     ]
   },
   {
-    "title": "Dagre Layout API",
-    "description": "Dagre adapter exports, engine contracts, layout options, and Flow Editor integration.",
-    "section": "Components / Flow / Dagre Layout",
-    "url": "/components/flow/layout-dagre/api",
+    "title": "Flow Execution Graph Api",
+    "description": "Flow Execution Graph Api documentation.",
+    "section": "Components / Flow / Flow Execution Graph",
+    "url": "/components/flow/flow-execution-graph/api",
     "tags": [
       "components",
       "flow",
-      "layout-dagre",
+      "flow-execution-graph",
       "api"
     ]
   },
   {
-    "title": "Dagre Layout Examples",
-    "description": "Arrange a controlled workflow in every supported Dagre graph direction.",
-    "section": "Components / Flow / Dagre Layout",
-    "url": "/components/flow/layout-dagre/examples",
+    "title": "Flow Execution Graph Examples",
+    "description": "Flow Execution Graph Examples documentation.",
+    "section": "Components / Flow / Flow Execution Graph",
+    "url": "/components/flow/flow-execution-graph/examples",
     "tags": [
       "components",
       "flow",
-      "layout-dagre",
+      "flow-execution-graph",
       "examples"
     ]
   },
   {
-    "title": "Dagre Layout Overview",
-    "description": "Install and configure the optional Dagre secondary entry point for Flow Editor.",
-    "section": "Components / Flow / Dagre Layout",
-    "url": "/components/flow/layout-dagre/overview",
+    "title": "Flow Execution Graph Overview",
+    "description": "Flow Execution Graph Overview documentation.",
+    "section": "Components / Flow / Flow Execution Graph",
+    "url": "/components/flow/flow-execution-graph/overview",
     "tags": [
       "components",
       "flow",
-      "layout-dagre",
+      "flow-execution-graph",
       "overview"
     ]
   },
   {
-    "title": "Dagre Layout Styling",
-    "description": "Size the Flow Editor host and custom nodes for stable measured Dagre geometry.",
-    "section": "Components / Flow / Dagre Layout",
-    "url": "/components/flow/layout-dagre/styling",
+    "title": "Flow Execution Graph Styling",
+    "description": "Flow Execution Graph Styling documentation.",
+    "section": "Components / Flow / Flow Execution Graph",
+    "url": "/components/flow/flow-execution-graph/styling",
     "tags": [
       "components",
       "flow",
-      "layout-dagre",
+      "flow-execution-graph",
+      "styling"
+    ]
+  },
+  {
+    "title": "Flow Node Properties",
+    "description": "Flow Node Properties documentation.",
+    "section": "Components / Flow",
+    "url": "/components/flow/flow-node-properties",
+    "tags": [
+      "components",
+      "flow",
+      "flow-node-properties"
+    ]
+  },
+  {
+    "title": "Flow Node Properties Api",
+    "description": "Flow Node Properties Api documentation.",
+    "section": "Components / Flow / Flow Node Properties",
+    "url": "/components/flow/flow-node-properties/api",
+    "tags": [
+      "components",
+      "flow",
+      "flow-node-properties",
+      "api"
+    ]
+  },
+  {
+    "title": "Flow Node Properties Examples",
+    "description": "Flow Node Properties Examples documentation.",
+    "section": "Components / Flow / Flow Node Properties",
+    "url": "/components/flow/flow-node-properties/examples",
+    "tags": [
+      "components",
+      "flow",
+      "flow-node-properties",
+      "examples"
+    ]
+  },
+  {
+    "title": "Flow Node Properties Overview",
+    "description": "Flow Node Properties Overview documentation.",
+    "section": "Components / Flow / Flow Node Properties",
+    "url": "/components/flow/flow-node-properties/overview",
+    "tags": [
+      "components",
+      "flow",
+      "flow-node-properties",
+      "overview"
+    ]
+  },
+  {
+    "title": "Flow Node Properties Styling",
+    "description": "Flow Node Properties Styling documentation.",
+    "section": "Components / Flow / Flow Node Properties",
+    "url": "/components/flow/flow-node-properties/styling",
+    "tags": [
+      "components",
+      "flow",
+      "flow-node-properties",
+      "styling"
+    ]
+  },
+  {
+    "title": "Flow Workbench",
+    "description": "Flow Workbench documentation.",
+    "section": "Components / Flow",
+    "url": "/components/flow/flow-workbench",
+    "tags": [
+      "components",
+      "flow",
+      "flow-workbench"
+    ]
+  },
+  {
+    "title": "Flow Workbench Api",
+    "description": "Flow Workbench Api documentation.",
+    "section": "Components / Flow / Flow Workbench",
+    "url": "/components/flow/flow-workbench/api",
+    "tags": [
+      "components",
+      "flow",
+      "flow-workbench",
+      "api"
+    ]
+  },
+  {
+    "title": "Flow Workbench Examples",
+    "description": "Flow Workbench Examples documentation.",
+    "section": "Components / Flow / Flow Workbench",
+    "url": "/components/flow/flow-workbench/examples",
+    "tags": [
+      "components",
+      "flow",
+      "flow-workbench",
+      "examples"
+    ]
+  },
+  {
+    "title": "Flow Workbench Overview",
+    "description": "Flow Workbench Overview documentation.",
+    "section": "Components / Flow / Flow Workbench",
+    "url": "/components/flow/flow-workbench/overview",
+    "tags": [
+      "components",
+      "flow",
+      "flow-workbench",
+      "overview"
+    ]
+  },
+  {
+    "title": "Flow Workbench Styling",
+    "description": "Flow Workbench Styling documentation.",
+    "section": "Components / Flow / Flow Workbench",
+    "url": "/components/flow/flow-workbench/styling",
+    "tags": [
+      "components",
+      "flow",
+      "flow-workbench",
       "styling"
     ]
   },

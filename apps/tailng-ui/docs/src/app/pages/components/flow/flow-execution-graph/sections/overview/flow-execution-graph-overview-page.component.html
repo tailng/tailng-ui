@@ -1,0 +1,180 @@
+<article class="docs-section-page flow-execution-graph-overview">
+  <section id="graph-purpose" class="docs-overview-block">
+    <h2 class="docs-overview-title">Flow Execution Graph</h2>
+    <p>
+      Flow Execution Graph is the standalone workflow diagram used by live execution surfaces. Use it
+      when a product already owns the surrounding inspector, properties panel, routing, or layout
+      but still needs the same execution-aware graph surface.
+    </p>
+  </section>
+
+  <app-docs-example-tabs-section
+    id="running-workflow"
+    heading="Running workflow"
+    description="Switch one controlled graph between editable, inspect-only, and readonly interaction modes."
+    ariaLabel="Running workflow graph styling variants"
+    tabListAriaLabel="Running workflow graph styles"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain CSS"
+      panelTitle="Running workflow graph with Plain CSS"
+      [codeTabs]="plainCssCodeTabs"
+    >
+      <div class="flow-execution-graph-overview__modes" aria-label="Plain CSS graph mode">
+        @for (graphMode of modes; track graphMode) {
+          <tng-button
+            size="sm"
+            [appearance]="plainMode() === graphMode ? 'solid' : 'outline'"
+            [ariaPressed]="plainMode() === graphMode"
+            (click)="plainMode.set(graphMode)"
+          >
+            {{ graphMode }}
+          </tng-button>
+        }
+        @if (plainMode() === 'edit' && hasSelectedConnection(plainSelection)) {
+          <tng-button
+            appearance="outline"
+            size="sm"
+            (click)="deleteSelectedConnections(plainDefinition, plainSelection)"
+          >
+            Delete connection
+          </tng-button>
+        }
+      </div>
+      @if (plainMode() === 'edit') {
+        <p class="flow-execution-graph-overview__hint">
+          Select a node to reveal connection points. Drag to connect; select a connection and press
+          Delete or Backspace to remove it.
+        </p>
+      }
+      <tng-flow-execution-graph
+        class="flow-execution-graph-overview__graph"
+        flowId="overview-running-workflow-plain-css"
+        ariaLabel="Running support workflow execution graph styled with Plain CSS"
+        [definition]="plainDefinition()"
+        [snapshot]="snapshot"
+        [selection]="plainSelection()"
+        [inspectedNodeId]="plainInspectedNodeId()"
+        [selectedExecutionId]="plainSelectedExecutionId()"
+        [viewport]="plainViewport()"
+        [mode]="plainMode()"
+        attachmentLayout="custom-points"
+        [showMinimap]="true"
+        [showControls]="true"
+        [showSelectionArea]="false"
+        [fitOnInit]="true"
+        (nodesMoved)="onNodesMoved(plainDefinition, $event)"
+        (connectionCreateRequested)="
+          onConnectionCreateRequested(plainDefinition, plainSelection, $event)
+        "
+        (connectionReconnectRequested)="
+          onConnectionReconnectRequested(plainDefinition, plainSelection, $event)
+        "
+        (connectionRoutingChangeRequested)="
+          onConnectionRoutingChangeRequested(plainDefinition, $event)
+        "
+        (connectionsDeleteRequested)="
+          onConnectionsDeleteRequested(plainDefinition, plainSelection, $event)
+        "
+        (selectionChange)="plainSelection.set($event)"
+        (inspectedNodeIdChange)="plainInspectedNodeId.set($event)"
+        (selectedExecutionIdChange)="plainSelectedExecutionId.set($event)"
+        (viewportChange)="plainViewport.set($event)"
+      />
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Running workflow graph with Tailwind CSS"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div class="mb-3 flex flex-wrap gap-2" aria-label="Tailwind CSS graph mode">
+        @for (graphMode of modes; track graphMode) {
+          <tng-button
+            size="sm"
+            [appearance]="tailwindMode() === graphMode ? 'solid' : 'outline'"
+            [ariaPressed]="tailwindMode() === graphMode"
+            (click)="tailwindMode.set(graphMode)"
+          >
+            {{ graphMode }}
+          </tng-button>
+        }
+        @if (tailwindMode() === 'edit' && hasSelectedConnection(tailwindSelection)) {
+          <tng-button
+            appearance="outline"
+            size="sm"
+            (click)="deleteSelectedConnections(tailwindDefinition, tailwindSelection)"
+          >
+            Delete connection
+          </tng-button>
+        }
+      </div>
+      @if (tailwindMode() === 'edit') {
+        <p class="mb-3 text-xs text-tng-fg-secondary">
+          Select a node to reveal connection points. Drag to connect; select a connection and press
+          Delete or Backspace to remove it.
+        </p>
+      }
+      <tng-flow-execution-graph
+        class="block h-[28rem] min-h-[24rem] overflow-hidden rounded-lg border border-tng-border-subtle bg-tng-bg-base"
+        flowId="overview-running-workflow-tailwind-css"
+        ariaLabel="Running support workflow execution graph styled with Tailwind CSS"
+        [definition]="tailwindDefinition()"
+        [snapshot]="snapshot"
+        [selection]="tailwindSelection()"
+        [inspectedNodeId]="tailwindInspectedNodeId()"
+        [selectedExecutionId]="tailwindSelectedExecutionId()"
+        [viewport]="tailwindViewport()"
+        [mode]="tailwindMode()"
+        attachmentLayout="custom-points"
+        [showMinimap]="true"
+        [showControls]="true"
+        [showSelectionArea]="false"
+        [fitOnInit]="true"
+        (nodesMoved)="onNodesMoved(tailwindDefinition, $event)"
+        (connectionCreateRequested)="
+          onConnectionCreateRequested(tailwindDefinition, tailwindSelection, $event)
+        "
+        (connectionReconnectRequested)="
+          onConnectionReconnectRequested(tailwindDefinition, tailwindSelection, $event)
+        "
+        (connectionRoutingChangeRequested)="
+          onConnectionRoutingChangeRequested(tailwindDefinition, $event)
+        "
+        (connectionsDeleteRequested)="
+          onConnectionsDeleteRequested(tailwindDefinition, tailwindSelection, $event)
+        "
+        (selectionChange)="tailwindSelection.set($event)"
+        (inspectedNodeIdChange)="tailwindInspectedNodeId.set($event)"
+        (selectedExecutionIdChange)="tailwindSelectedExecutionId.set($event)"
+        (viewportChange)="tailwindViewport.set($event)"
+      />
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section id="graph-responsibilities" class="docs-overview-block">
+    <h3>Responsibilities</h3>
+    <p>
+      The graph maps a workflow definition and run snapshot into node and connection presentation
+      state. It controls selection, inspected node, selected execution, viewport forwarding, and
+      execution activation events.
+    </p>
+  </section>
+
+  <section id="graph-boundary" class="docs-overview-block">
+    <h3>Boundary</h3>
+    <p>
+      The component does not render a property panel, execution history, payload viewer, or split
+      layout. Pair it with Flow Node Properties or a product-owned inspector when users need details
+      beside the diagram. Use <code>mode="edit"</code> when users need to move nodes or author
+      connections, <code>mode="inspect"</code> for selection without mutations, and
+      <code>mode="readonly"</code> for viewport-only interaction.
+    </p>
+  </section>
+</article>

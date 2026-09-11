@@ -25,7 +25,7 @@ export class ProgressBarStylingPageComponent implements OnDestroy {
   protected readonly slotContractCode = [
     '[data-slot="progress-bar"] {',
     '  background: var(--tng-progress-bar-track, var(--tng-semantic-background-muted));',
-    '  border-radius: var(--tng-progress-bar-radius, 9999px);',
+    '  border-radius: var(--tng-progress-bar-radius, var(--tng-radius-control, 0.5rem));',
     '  height: var(--tng-progress-bar-height, 0.625rem);',
     '  overflow: hidden;',
     '}',

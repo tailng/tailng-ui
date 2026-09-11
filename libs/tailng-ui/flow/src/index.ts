@@ -11,6 +11,7 @@ export { TngFlowValidationBadgeComponent } from './lib/validation-badge/tng-flow
 export { TngFlowNodeTemplateDirective } from './lib/node-template/tng-flow-node-template.directive';
 export type { TngFlowNodeTemplateContext } from './lib/node-template/tng-flow-node-template.directive';
 export { TngFlowPaletteItemDirective } from './lib/palette-item/tng-flow-palette-item.directive';
+export { TngFlowNodePaletteComponent } from './lib/node-palette/tng-flow-node-palette.component';
 export {
   DEFAULT_TNG_FLOW_CONNECTION_OPTIONS,
   RECOMMENDED_TNG_FLOW_CONNECTION_OPTIONS,
@@ -23,6 +24,8 @@ export type {
   TngFlowConnectionMarker,
   TngFlowConnectionPathType,
   TngFlowConnectionRouting,
+  TngFlowConnectionRoutingChangeRequest,
+  TngFlowConnectionRoutingChangeSource,
   TngFlowConnectionWaypointsChange,
   TngFlowDefaultConnectionOptions,
   TngFlowDefaultConnectionRouting,
@@ -190,6 +193,7 @@ export type {
   TngFlowConnectionStatus,
   TngFlowNodePresentation,
   TngFlowPresentation,
+  TngFlowProgressDisplayMode,
   TngFlowResolvedConnectionView,
   TngFlowResolvedNodeView,
 } from './lib/types/tng-flow-presentation.types';

@@ -13,6 +13,7 @@ import {
   effect,
   inject,
   input,
+  model,
   output,
   signal,
   type TemplateRef,
@@ -116,6 +117,10 @@ import type { TngFlowConnectionTemplateContext } from '../types/tng-flow-connect
 import {
   DEFAULT_TNG_FLOW_CONNECTION_OPTIONS,
   type TngFlowConnectionAriaLabelFactory,
+  type TngFlowConnectionPathType,
+  type TngFlowConnectionRouting,
+  type TngFlowConnectionRoutingChangeRequest,
+  type TngFlowConnectionRoutingChangeSource,
   type TngFlowConnectionWaypointsChange,
   type TngFlowDefaultConnectionOptions,
   type TngFlowEditorConnectionOptions,
@@ -153,6 +158,7 @@ import type { TngFlowRevealOptions } from '../types/tng-flow-navigation.types';
 import {
   EMPTY_TNG_FLOW_PRESENTATION,
   type TngFlowPresentation,
+  type TngFlowProgressDisplayMode,
   type TngFlowResolvedConnectionView,
   type TngFlowResolvedNodeView,
 } from '../types/tng-flow-presentation.types';
@@ -212,6 +218,7 @@ const emptyResolvedNodeView = Object.freeze({
   locked: false,
   status: 'idle',
   progress: null,
+  progressSpecified: false,
   statusMessage: null,
   validationSeverity: null,
   invalid: false,
@@ -403,6 +410,43 @@ type MinimapHoverNavigationSnapshot = Readonly<{
 }>;
 
 const TNG_FLOW_LAYOUT_REFRESH_DEBOUNCE_MS = 64;
+const TNG_FLOW_CONNECTION_PATH_TYPES = new Set<TngFlowConnectionPathType>([
+  'bezier',
+  'straight',
+  'orthogonal',
+  'orthogonal-rounded',
+  'adaptive',
+]);
+
+type TngFlowConnectionPathOption = Readonly<{
+  ariaLabel: string;
+  label: string;
+  type: TngFlowConnectionPathType;
+}>;
+
+const TNG_FLOW_CONNECTION_PATH_OPTIONS: readonly TngFlowConnectionPathOption[] = Object.freeze([
+  Object.freeze({
+    ariaLabel: 'Use adaptive curve connections',
+    label: 'Adaptive curve',
+    type: 'adaptive',
+  }),
+  Object.freeze({
+    ariaLabel: 'Use Bézier curve connections',
+    label: 'Bézier curve',
+    type: 'bezier',
+  }),
+  Object.freeze({
+    ariaLabel: 'Use orthogonal elbow connections',
+    label: 'Orthogonal elbow',
+    type: 'orthogonal',
+  }),
+  Object.freeze({
+    ariaLabel: 'Use rounded orthogonal elbow connections',
+    label: 'Rounded orthogonal elbow',
+    type: 'orthogonal-rounded',
+  }),
+  Object.freeze({ ariaLabel: 'Use straight connections', label: 'Straight', type: 'straight' }),
+]);
 
 @Component({
   selector: 'tng-flow-editor',
@@ -494,6 +538,7 @@ export class TngFlowEditorComponent<
   public readonly presentation = input<TngFlowPresentation<TStatus>>(
     EMPTY_TNG_FLOW_PRESENTATION as TngFlowPresentation<TStatus>,
   );
+  public readonly progressDisplayMode = input<TngFlowProgressDisplayMode>('status-driven');
   /** @deprecated Use `presentation.nodes`. */
   public readonly nodeViews = input<TngFlowNodeViews<TStatus>>({});
   public readonly mode = input<TngFlowEditorMode>('edit');
@@ -509,6 +554,8 @@ export class TngFlowEditorComponent<
   public readonly connectionValidator = input<TngFlowConnectionValidator<TData> | null>(null);
   public readonly options = input<TngFlowEditorOptions | null>(null);
   public readonly connectionOptions = input<TngFlowEditorConnectionOptions | null>(null);
+  /** Path shape used by the live connection preview and newly requested connections. */
+  public readonly connectionCreationPathType = model<TngFlowConnectionPathType | null>(null);
   public readonly connectionAriaLabel =
     input<TngFlowConnectionAriaLabelFactory<TConnectionData> | null>(null);
   public readonly connectionAriaLabelFactory =
@@ -521,10 +568,6 @@ export class TngFlowEditorComponent<
   public readonly contextMenuEnabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
-  /** @deprecated Use `mode="readonly"`. When true, this input takes precedence over `mode`. */
-  public readonly readonly = input<boolean, boolean | string>(false, {
-    transform: booleanAttribute,
-  });
   public readonly ariaLabel = input<string>('Workflow editor');
   public readonly flowId = input<string>('tng-flow-editor');
   public readonly fitOnInit = input<boolean, boolean | string>(true, {
@@ -534,6 +577,9 @@ export class TngFlowEditorComponent<
     transform: booleanAttribute,
   });
   public readonly showControls = input<boolean, boolean | string>(true, {
+    transform: booleanAttribute,
+  });
+  public readonly showConnectionTools = input<boolean, boolean | string>(true, {
     transform: booleanAttribute,
   });
   public readonly showMinimap = input<boolean, boolean | string>(false, {
@@ -557,6 +603,8 @@ export class TngFlowEditorComponent<
   public readonly nodeCreateRequested = output<TngFlowNodeCreateRequest<TData>>();
   public readonly connectionCreateRequested = output<TngFlowConnectionCreateRequest>();
   public readonly connectionReconnectRequested = output<TngFlowConnectionReconnectRequest>();
+  public readonly connectionRoutingChangeRequested =
+    output<TngFlowConnectionRoutingChangeRequest>();
   public readonly connectionWaypointsChange = output<TngFlowConnectionWaypointsChange>();
   public readonly connectionsDeleteRequested = output<TngFlowConnectionsDeleteRequest>();
   public readonly nodesDeleteRequested = output<TngFlowNodesDeleteRequest>();
@@ -591,12 +639,7 @@ export class TngFlowEditorComponent<
   });
   protected readonly graphNodes = computed(() => this.analysis().nodes);
   protected readonly graphConnections = computed(() => this.analysis().connections);
-  protected readonly effectiveMode = computed<TngFlowEditorMode>(() =>
-    this.readonly() ? 'readonly' : this.mode(),
-  );
-  protected readonly capabilities = computed(() =>
-    resolveTngFlowCapabilities(this.effectiveMode()),
-  );
+  protected readonly capabilities = computed(() => resolveTngFlowCapabilities(this.mode()));
   protected readonly canEdit = computed(() => this.capabilities().move);
   protected readonly canSelect = computed(() => this.capabilities().select);
   private readonly effectiveCanvasScale = computed(() => {
@@ -832,6 +875,50 @@ export class TngFlowEditorComponent<
       ]),
     );
   });
+  protected readonly connectionPathOptions = TNG_FLOW_CONNECTION_PATH_OPTIONS;
+  private readonly editableSelectedConnectionIds = computed(() => {
+    const selectedIds = this.sanitizedSelection().connectionIds;
+    return this.graphConnections()
+      .filter((connection) => selectedIds.has(connection.id) && connection.disabled !== true)
+      .map((connection) => connection.id);
+  });
+  protected readonly activeConnectionPathType = computed<TngFlowConnectionPathType>(() => {
+    const selectedType = this.connectionCreationPathType();
+    if (this.isConnectionPathType(selectedType)) {
+      return selectedType;
+    }
+    const configuredType = this.effectiveConnectionOptions().defaultConnection?.routing?.type;
+    return this.isConnectionPathType(configuredType)
+      ? configuredType
+      : this.compatibilityConnectionDefaults().routing.type;
+  });
+  private readonly resolvedConnectionCreationOptions = computed(() =>
+    resolveTngFlowConnectionOptions(
+      {
+        id: '__tng-flow-connection-creation-preview',
+        source: { nodeId: '', portId: '' },
+        target: { nodeId: '', portId: '' },
+        routing: { type: this.activeConnectionPathType() },
+      },
+      this.effectiveConnectionOptions(),
+      this.compatibilityConnectionDefaults(),
+    ),
+  );
+  protected readonly connectionCreationRouting = computed<TngFlowConnectionRouting>(() => {
+    const routing = this.resolvedConnectionCreationOptions().routing;
+    return Object.freeze({
+      type: routing.type,
+      offset: routing.offset,
+      radius: routing.radius,
+    });
+  });
+  protected readonly connectionCreationRendererType = computed(() =>
+    tngFlowPathTypeToRendererType(this.activeConnectionPathType()),
+  );
+  protected readonly connectionToolsTop = computed(() => {
+    const minimap = this.resolvedMinimapOptions();
+    return this.showMinimap() && minimap.position === 'top-left' ? minimap.height + 24 : 12;
+  });
   private readonly rendererConnectionWaypoints = computed(
     () =>
       new Map(
@@ -997,7 +1084,7 @@ export class TngFlowEditorComponent<
   private readonly keyboardFocusRecoveryEffect = afterRenderEffect(() => {
     this.graphNodes();
     this.graphConnections();
-    this.effectiveMode();
+    this.mode();
     this.syncKeyboardFocusAfterRender();
   });
   private readonly pointerConnectionSyncEffect = afterRenderEffect((onCleanup) => {
@@ -1325,7 +1412,7 @@ export class TngFlowEditorComponent<
       node,
       view: this.viewFor(node.id),
       issues,
-      mode: this.effectiveMode(),
+      mode: this.mode(),
       readonly: !this.canEdit(),
       selected: this.isNodeSelected(node.id),
     };
@@ -1340,7 +1427,7 @@ export class TngFlowEditorComponent<
       connection,
       view,
       issues: this.connectionIssues(connection.id),
-      mode: this.effectiveMode(),
+      mode: this.mode(),
       selected: view.selected,
     };
   }
@@ -1568,6 +1655,9 @@ export class TngFlowEditorComponent<
     port: TngFlowPort,
     connectorId: string,
   ): boolean {
+    if (!this.canEdit()) {
+      return false;
+    }
     const sourceConnectorId = this.activeCustomPointConnectSourceId();
     if (sourceConnectorId === null) {
       return port.direction === 'output' && this.isNodeSelected(nodeId);
@@ -1714,6 +1804,42 @@ export class TngFlowEditorComponent<
     if (!this.isInteractiveActivationTarget(event.target)) {
       this.emitConnectionActivated(connectionId, 'pointer');
     }
+  }
+
+  public requestConnectionRoutingChange(
+    type: TngFlowConnectionPathType,
+    source: TngFlowConnectionRoutingChangeSource = 'api',
+  ): boolean {
+    if (!this.canEdit() || !this.isConnectionPathType(type)) {
+      return false;
+    }
+    const connectionIds = this.editableSelectedConnectionIds();
+    if (connectionIds.length === 0) {
+      return false;
+    }
+    this.runInAngular(() =>
+      this.connectionRoutingChangeRequested.emit({ connectionIds, type, source }),
+    );
+    return true;
+  }
+
+  public selectConnectionCreationPathType(type: TngFlowConnectionPathType): boolean {
+    if (!this.canEdit() || !this.isConnectionPathType(type)) {
+      return false;
+    }
+    this.connectionCreationPathType.set(type);
+    return true;
+  }
+
+  protected isActiveConnectionPathType(type: TngFlowConnectionPathType): boolean {
+    return this.activeConnectionPathType() === type;
+  }
+
+  private isConnectionPathType(value: unknown): value is TngFlowConnectionPathType {
+    return (
+      typeof value === 'string' &&
+      TNG_FLOW_CONNECTION_PATH_TYPES.has(value as TngFlowConnectionPathType)
+    );
   }
 
   protected onConnectionWaypointsChanged(event: RendererConnectionWaypointsChangedLike): void {
@@ -2211,6 +2337,7 @@ export class TngFlowEditorComponent<
       this.connectionCreateRequested.emit({
         source: candidate.source,
         target: candidate.target,
+        routing: this.connectionCreationRouting(),
       });
       this.connectionCreated.emit({
         source: candidate.source,

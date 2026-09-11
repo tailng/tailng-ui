@@ -77,6 +77,15 @@ export type TngFlowConnectionWaypointsChange = Readonly<{
   waypoints: readonly TngFlowPoint[];
 }>;
 
+export type TngFlowConnectionRoutingChangeSource = 'api' | 'controls';
+
+/** Controlled request to change the path shape of one or more connections. */
+export type TngFlowConnectionRoutingChangeRequest = Readonly<{
+  connectionIds: readonly string[];
+  type: TngFlowConnectionPathType;
+  source: TngFlowConnectionRoutingChangeSource;
+}>;
+
 export type TngFlowConnectionAriaContext = Readonly<{
   source: string;
   target: string;

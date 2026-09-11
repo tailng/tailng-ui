@@ -11,6 +11,7 @@ import type {
   TngFlowConnection,
   TngFlowConnectionPathType,
   TngFlowConnectionRouting,
+  TngFlowConnectionRoutingChangeRequest,
   TngFlowConnectionWaypointsChange,
   TngFlowConnectionTemplateContext,
   TngFlowContextMenuRequest,
@@ -196,12 +197,18 @@ describe('Flow production public contracts', () => {
       previousWaypoints: routing.waypoints ?? [],
       waypoints: [{ x: 360, y: 220 }],
     };
+    const routingChange: TngFlowConnectionRoutingChangeRequest = {
+      connectionIds: [connection.id],
+      type: 'straight',
+      source: 'controls',
+    };
 
     expect(DEFAULT_TNG_FLOW_CONNECTION_OPTIONS.routing.type).toBe('bezier');
     expect(resolveTngFlowConnectionOptions(connection, options).routing.type).toBe(
       'orthogonal-rounded',
     );
     expect(change.waypoints).toEqual([{ x: 360, y: 220 }]);
+    expect(routingChange.type).toBe('straight');
     expect(editorOptions.defaultConnection?.marker).toBe('arrow');
     expectTypeOf(routing.type).toEqualTypeOf<TngFlowConnectionPathType | undefined>();
   });

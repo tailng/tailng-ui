@@ -1,7 +1,17 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it } from 'vitest';
 import { toTngProgressBarPercent, TngProgressBarComponent } from '../tng-progress-bar.component';
+
+const progressBarComponentCss = readFileSync(
+  join(
+    process.cwd(),
+    'libs/tailng-ui/components/src/lib/feedback/progress-bar/tng-progress-bar.component.css',
+  ),
+  'utf8',
+);
 
 function getByTestId<T extends Element>(
   fixture: { nativeElement: HTMLElement },
@@ -56,6 +66,13 @@ describe('tng-progress-bar component', () => {
 
   it('exports the public TngProgressBar symbol', () => {
     expect(typeof TngProgressBarComponent).toBe('function');
+  });
+
+  it('uses the shared control radius as the default themed border radius', () => {
+    expect(progressBarComponentCss).toContain(
+      'border-radius: var(--tng-progress-bar-radius, var(--tng-radius-control, 0.5rem));',
+    );
+    expect(progressBarComponentCss).not.toContain('var(--tng-progress-bar-radius, 9999px)');
   });
 
   it('maps values to percentage for the indicator width', () => {

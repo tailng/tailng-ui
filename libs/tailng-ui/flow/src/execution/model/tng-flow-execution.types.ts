@@ -1,0 +1,152 @@
+import type {
+  TngFlowDefinition,
+  TngFlowNode,
+} from '../../lib/types/tng-flow.types';
+
+export type TngFlowExecutionPhase =
+  | 'idle'
+  | 'pending'
+  | 'active'
+  | 'waiting'
+  | 'succeeded'
+  | 'failed'
+  | 'cancelled'
+  | 'skipped';
+
+export type TngFlowWorkbenchState = 'empty' | 'error' | 'loading' | 'ready';
+
+export type TngFlowExecutionInspectorScope = 'auto' | 'node' | 'run';
+
+export type TngFlowExecutionInspectorPosition = 'auto' | 'bottom' | 'right';
+
+export type TngFlowWorkbenchMode = 'create' | 'edit' | 'inspect' | 'live' | 'view';
+
+export type TngFlowWorkbenchDetailsKind = 'auto' | 'execution' | 'node-properties' | 'none';
+
+export type TngFlowExecutionDateTimeFormatter = (
+  value: string,
+  context: Readonly<{ field: 'finishedAt' | 'startedAt' | 'updatedAt' }>,
+) => string;
+
+export type TngFlowExecutionPayload<TValue = unknown> =
+  | Readonly<{
+      state: 'available';
+      value: TValue;
+      contentType?: string;
+      language?: string;
+      label?: string;
+    }>
+  | Readonly<{
+      state: 'not-recorded' | 'pending' | 'redacted' | 'unavailable';
+      reason?: string;
+      label?: string;
+    }>;
+
+export type TngFlowNodeExecution<TPayload = unknown> = Readonly<{
+  id: string;
+  nodeId: string;
+  activationId: string;
+  attempt: number;
+  maxAttempts?: number;
+  phase: TngFlowExecutionPhase;
+  statusMessage?: string | null;
+  progress?: number | null;
+  input?: TngFlowExecutionPayload<TPayload>;
+  output?: TngFlowExecutionPayload<TPayload>;
+  error?: TngFlowExecutionPayload<TPayload>;
+  startedAt?: string;
+  finishedAt?: string;
+  updatedAt?: string;
+  durationMs?: number;
+  sequence?: number;
+}>;
+
+export type TngFlowConnectionExecution<TPayload = unknown> = Readonly<{
+  id: string;
+  connectionId: string;
+  activationId: string;
+  attempt: number;
+  phase: TngFlowExecutionPhase;
+  statusMessage?: string | null;
+  payload?: TngFlowExecutionPayload<TPayload>;
+  startedAt?: string;
+  finishedAt?: string;
+  updatedAt?: string;
+  sequence?: number;
+}>;
+
+export type TngFlowRunExecutionSnapshot<TPayload = unknown> = Readonly<{
+  id: string;
+  definitionId: string;
+  definitionRevision?: string;
+  phase: TngFlowExecutionPhase;
+  statusMessage?: string | null;
+  progress?: number | null;
+  input?: TngFlowExecutionPayload<TPayload>;
+  output?: TngFlowExecutionPayload<TPayload>;
+  error?: TngFlowExecutionPayload<TPayload>;
+  startedAt?: string;
+  finishedAt?: string;
+  updatedAt?: string;
+  durationMs?: number;
+  nodeExecutions?: readonly TngFlowNodeExecution<TPayload>[];
+  connectionExecutions?: readonly TngFlowConnectionExecution<TPayload>[];
+}>;
+
+export type TngFlowExecutionWarningCode =
+  | 'definition-mismatch'
+  | 'duplicate-execution-id'
+  | 'invalid-number'
+  | 'missing-connection'
+  | 'missing-node';
+
+export type TngFlowExecutionWarning = Readonly<{
+  code: TngFlowExecutionWarningCode;
+  message: string;
+  id?: string;
+}>;
+
+export type TngFlowExecutionActivation<TPayload = unknown> = Readonly<{
+  activationId: string;
+  executions: readonly TngFlowNodeExecution<TPayload>[];
+}>;
+
+export type TngFlowExecutionIndex<TPayload = unknown> = Readonly<{
+  definition: TngFlowDefinition | null;
+  snapshot: TngFlowRunExecutionSnapshot<TPayload> | null;
+  warnings: readonly TngFlowExecutionWarning[];
+  nodeExecutions: readonly TngFlowNodeExecution<TPayload>[];
+  connectionExecutions: readonly TngFlowConnectionExecution<TPayload>[];
+  nodeExecutionsByNodeId: ReadonlyMap<string, readonly TngFlowNodeExecution<TPayload>[]>;
+  connectionExecutionsByConnectionId: ReadonlyMap<
+    string,
+    readonly TngFlowConnectionExecution<TPayload>[]
+  >;
+}>;
+
+export type TngFlowExecutionActivatedEvent<TPayload = unknown> = Readonly<{
+  node: TngFlowNode | null;
+  execution: TngFlowNodeExecution<TPayload> | null;
+  source: 'api' | 'graph' | 'history' | 'inspector';
+}>;
+
+export type TngFlowExecutionPayloadView = Readonly<{
+  title: string;
+  state: TngFlowExecutionPayload['state'] | 'omitted';
+  code: string;
+  language: string;
+  message: string | null;
+}>;
+
+export type TngFlowNodePropertyChangeSource = 'data-template' | 'field';
+
+export type TngFlowNodePropertyChanges<TData = unknown> = Partial<
+  Pick<TngFlowNode<TData>, 'data' | 'description' | 'disabled' | 'locked' | 'name'>
+>;
+
+export type TngFlowNodePropertyChangeRequest<TData = unknown> = Readonly<{
+  node: TngFlowNode<TData>;
+  nodeId: string;
+  changes: TngFlowNodePropertyChanges<TData>;
+  source: TngFlowNodePropertyChangeSource;
+}>;

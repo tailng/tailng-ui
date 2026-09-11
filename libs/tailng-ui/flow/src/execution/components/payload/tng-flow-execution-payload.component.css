@@ -1,0 +1,54 @@
+:host {
+  display: block;
+}
+
+.tng-flow-execution-payload__shell {
+  display: grid;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.tng-flow-execution-payload__header {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tng-flow-execution-payload__title {
+  margin: 0;
+  overflow: hidden;
+  color: var(--tng-flow-execution-heading-color, var(--tng-semantic-foreground-default, #111827));
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tng-flow-execution-payload__state {
+  flex: 0 0 auto;
+  padding: 0.125rem 0.45rem;
+  border: 1px solid
+    var(--tng-flow-execution-border-color, var(--tng-semantic-border-default, #e5e7eb));
+  border-radius: 999px;
+  color: var(--tng-flow-execution-muted-color, var(--tng-semantic-foreground-muted, #6b7280));
+  font-size: 0.72rem;
+  line-height: 1.4;
+  text-transform: capitalize;
+}
+
+.tng-flow-execution-payload__message {
+  margin: 0;
+  padding: 0.75rem;
+  border: 1px dashed
+    var(--tng-flow-execution-border-color, var(--tng-semantic-border-default, #e5e7eb));
+  border-radius: 0.5rem;
+  color: var(--tng-flow-execution-muted-color, var(--tng-semantic-foreground-muted, #6b7280));
+  background: var(
+    --tng-flow-execution-muted-background,
+    var(--tng-semantic-background-muted, #f9fafb)
+  );
+  font-size: 0.85rem;
+  line-height: 1.45;
+}

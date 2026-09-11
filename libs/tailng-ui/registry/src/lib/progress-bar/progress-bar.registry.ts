@@ -224,7 +224,7 @@ const progressBarTemplateCss = `:host {
     --tng-progress-bar-track,
     var(--tng-semantic-background-muted, #e2e8f0)
   );
-  border-radius: var(--tng-progress-bar-radius, 9999px);
+  border-radius: var(--tng-progress-bar-radius, var(--tng-radius-control, 0.5rem));
   height: var(--tng-progress-bar-height, 0.625rem);
   overflow: hidden;
   position: relative;

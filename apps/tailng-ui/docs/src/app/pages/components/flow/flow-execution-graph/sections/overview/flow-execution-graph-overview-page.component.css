@@ -1,0 +1,31 @@
+:host {
+  display: block;
+}
+
+.flow-execution-graph-overview {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.flow-execution-graph-overview__graph {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.5rem;
+  display: block;
+  height: 28rem;
+  min-height: 24rem;
+  overflow: hidden;
+}
+
+.flow-execution-graph-overview__modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.flow-execution-graph-overview__hint {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.75rem;
+  margin: 0 0 0.75rem;
+}

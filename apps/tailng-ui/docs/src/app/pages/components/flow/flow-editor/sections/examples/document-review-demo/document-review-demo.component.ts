@@ -221,7 +221,7 @@ export class DocumentReviewDemoComponent {
     const id = `document-connection-${this.nextConnectionId++}`;
     this.definition.update((definition) => ({
       ...definition,
-      connections: [...definition.connections, { id, ...request, type: 'bezier' }],
+      connections: [...definition.connections, { id, ...request }],
     }));
     this.setLastEvent(`Created ${id}; the application accepted the connection request.`);
   }

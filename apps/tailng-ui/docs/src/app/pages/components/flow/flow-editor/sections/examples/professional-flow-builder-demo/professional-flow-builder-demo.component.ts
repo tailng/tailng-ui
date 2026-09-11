@@ -485,7 +485,7 @@ export class ProfessionalFlowBuilderDemoComponent {
         nodes,
         connections: [
           ...definition.connections,
-          { id, source: request.source, target: request.target, type: 'bezier' },
+          { id, source: request.source, target: request.target, routing: request.routing },
         ],
       },
       `Connected ${this.nodeName(request.source.nodeId)} to ${this.nodeName(request.target.nodeId)}.`,

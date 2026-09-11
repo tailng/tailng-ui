@@ -180,7 +180,7 @@ export class FlowEditorOverviewPageComponent implements OnDestroy {
     '        id: crypto.randomUUID(),',
     '        source: event.source,',
     '        target: event.target,',
-    "        type: 'bezier',",
+    '        routing: event.routing,',
     '      },',
     '    ]);',
     '  }',
@@ -206,7 +206,7 @@ export class FlowEditorOverviewPageComponent implements OnDestroy {
         id,
         source: event.source,
         target: event.target,
-        type: 'bezier',
+        routing: event.routing,
       },
     ]);
   }

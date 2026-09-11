@@ -203,6 +203,16 @@ Definitions without routing remain Bézier for compatibility. Waypoint changes a
 events: create a new definition snapshot with the returned points rather than mutating the supplied
 connection.
 
+In edit mode, the canvas toolbar exposes all five path types for the next connection: straight,
+Bézier, orthogonal, rounded orthogonal, and adaptive. The active
+`connectionCreationPathType` also drives the live drag preview and is included as resolved
+`routing` in `connectionCreateRequested`; persist that routing when accepting the request. The
+disabled Undo and Redo icons reserve the history controls but do not perform an action yet. Existing
+connections are not restyled when the creation style changes; use
+`requestConnectionRoutingChange()` and apply `connectionRoutingChangeRequested` for that controlled
+operation. Set `showConnectionTools="false"` to hide the toolbar; it is never rendered in inspect or
+readonly mode.
+
 ## Palette and node creation
 
 Use the headless `TngFlowPaletteItemDirective` on native buttons. A drag emits a controlled
@@ -685,8 +695,11 @@ anchor to the active graph element, or the viewport centre when no graph element
 
 ## Compatibility
 
-The `inputs`/`outputs`, `nodeViews`, `readonly`, connection-presentation `animated`,
+The `inputs`/`outputs`, `nodeViews`, connection-presentation `animated`,
 `connectionCreated`, `connectionReassigned`, `selectionChanged`, and combined `deleteRequested`
 APIs remain available as deprecated aliases for one compatibility cycle. New code should use
 `ports`, `presentation` with `motion`, `mode`, controlled `selection`, and the request outputs
 documented above.
+
+Graph interaction is controlled exclusively by `mode`. The former boolean `readonly` input has
+been removed from the editor, execution graph, and workbench.
