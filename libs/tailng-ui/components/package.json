@@ -11,11 +11,11 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@angular/common": "^21.1.0",
-    "@angular/core": "^21.1.0",
-    "@angular/forms": "^21.1.0",
-    "@angular/platform-browser": "^21.1.0",
-    "@angular/router": "^21.1.0",
+    "@angular/common": "^21.1.0 || ^22.0.0",
+    "@angular/core": "^21.1.0 || ^22.0.0",
+    "@angular/forms": "^21.1.0 || ^22.0.0",
+    "@angular/platform-browser": "^21.1.0 || ^22.0.0",
+    "@angular/router": "^21.1.0 || ^22.0.0",
     "@tailng-ui/cdk": "workspace:^",
     "@tailng-ui/primitives": "workspace:^"
   },

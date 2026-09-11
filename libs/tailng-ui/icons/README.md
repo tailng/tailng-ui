@@ -54,7 +54,7 @@ npm install @tailng-ui/icons
 
 Peer dependencies:
 
-- `@angular/core` `^21.1.0`
+- `@angular/core` `^21.1.0 || ^22.0.0`
 - `tslib` `^2.3.0`
 
 ## Quick start

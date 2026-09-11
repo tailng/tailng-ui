@@ -16,12 +16,10 @@ import type {
   TngFlowConnectionPresentation,
   TngFlowNodePresentation,
   TngFlowPresentation,
-} from '../../lib/types/tng-flow-presentation.types';
-import type {
   TngFlowDefinition,
   TngFlowNodeStatus,
   TngFlowSelection,
-} from '../../lib/types/tng-flow.types';
+} from '@tailng-ui/flow';
 
 const activePhaseRank: Readonly<Record<TngFlowExecutionPhase, number>> = Object.freeze({
   active: 0,

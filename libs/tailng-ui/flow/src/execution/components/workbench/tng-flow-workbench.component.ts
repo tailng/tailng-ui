@@ -26,46 +26,42 @@ import {
   TngSplitPaneDirective,
   type TngSplitResizeEvent,
 } from '@tailng-ui/components';
-import { areTngFlowSelectionsEqual } from '../../../lib/model/tng-flow-selection';
-import { TngFlowNodePaletteComponent } from '../../../lib/node-palette/tng-flow-node-palette.component';
-import type { TngFlowSmartGuidesOptions } from '../../../lib/types/tng-flow-arrangement.types';
-import type {
-  TngFlowEditorCommandRequest,
-  TngFlowEditorCommandShortcuts,
-} from '../../../lib/types/tng-flow-command.types';
-import type {
-  TngFlowConnectionAriaLabelFactory,
-  TngFlowConnectionPathType,
-  TngFlowConnectionRoutingChangeRequest,
-  TngFlowConnectionRoutingChangeSource,
-  TngFlowConnectionWaypointsChange,
-  TngFlowEditorConnectionOptions,
-  TngFlowEditorOptions,
-} from '../../../lib/types/tng-flow-connection.types';
-import type { TngFlowContextMenuRequest } from '../../../lib/types/tng-flow-context-menu.types';
-import type { TngFlowKeyboardOptions } from '../../../lib/types/tng-flow-keyboard.types';
-import type { TngFlowMinimapOptions } from '../../../lib/types/tng-flow-minimap.types';
-import type {
-  TngFlowAttachmentLayout,
-  TngFlowConnectionCreateRequest,
-  TngFlowConnectionReconnectRequest,
-  TngFlowConnectionRejectedEvent,
-  TngFlowConnectionsDeleteRequest,
-  TngFlowConnectionValidator,
-  TngFlowDefinition,
-  TngFlowEditorMode,
-  TngFlowNode,
-  TngFlowNodeCreateRequest,
-  TngFlowNodePositionChange,
-  TngFlowNodesDeleteRequest,
-  TngFlowNodesMovedEvent,
-  TngFlowPaletteItem,
-  TngFlowPaletteItemActivation,
-  TngFlowPoint,
-  TngFlowSelection,
-  TngFlowViewport,
-} from '../../../lib/types/tng-flow.types';
-import { EMPTY_TNG_FLOW_SELECTION } from '../../../lib/types/tng-flow.types';
+import {
+  EMPTY_TNG_FLOW_SELECTION,
+  TngFlowNodePaletteComponent,
+  areTngFlowSelectionsEqual,
+  type TngFlowAttachmentLayout,
+  type TngFlowConnectionAriaLabelFactory,
+  type TngFlowConnectionCreateRequest,
+  type TngFlowConnectionPathType,
+  type TngFlowConnectionReconnectRequest,
+  type TngFlowConnectionRejectedEvent,
+  type TngFlowConnectionRoutingChangeRequest,
+  type TngFlowConnectionRoutingChangeSource,
+  type TngFlowConnectionsDeleteRequest,
+  type TngFlowConnectionValidator,
+  type TngFlowConnectionWaypointsChange,
+  type TngFlowContextMenuRequest,
+  type TngFlowDefinition,
+  type TngFlowEditorCommandRequest,
+  type TngFlowEditorCommandShortcuts,
+  type TngFlowEditorConnectionOptions,
+  type TngFlowEditorMode,
+  type TngFlowEditorOptions,
+  type TngFlowKeyboardOptions,
+  type TngFlowMinimapOptions,
+  type TngFlowNode,
+  type TngFlowNodeCreateRequest,
+  type TngFlowNodePositionChange,
+  type TngFlowNodesDeleteRequest,
+  type TngFlowNodesMovedEvent,
+  type TngFlowPaletteItem,
+  type TngFlowPaletteItemActivation,
+  type TngFlowPoint,
+  type TngFlowSelection,
+  type TngFlowSmartGuidesOptions,
+  type TngFlowViewport,
+} from '@tailng-ui/flow';
 import {
   createTngFlowExecutionIndex,
   resolveTngFlowExecutionInspectedNodeId,
@@ -198,6 +194,9 @@ export class TngFlowWorkbenchComponent<
     transform: booleanAttribute,
   });
   public readonly fitOnInit = input<boolean, boolean | string>(true, {
+    transform: booleanAttribute,
+  });
+  public readonly fitOnDefinitionChange = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
   public readonly flowId = input<string>('tng-flow-workbench');

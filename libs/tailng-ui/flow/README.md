@@ -15,6 +15,26 @@ Add the global flow styles once:
 @import '@tailng-ui/flow/styles.css';
 ```
 
+## Package compatibility
+
+Use compatible TailNG package minors together. Flow publishes a primary editor entry point,
+`@tailng-ui/flow`, the Dagre adapter at `@tailng-ui/flow/layout-dagre`, and the execution/workbench
+surface at `@tailng-ui/flow/execution`.
+
+| Package | Compatible range |
+| --- | --- |
+| `@tailng-ui/flow` | `0.28.x` |
+| `@tailng-ui/components` | `0.117.x` |
+| `@tailng-ui/icons` | `0.21.x` |
+| `@tailng-ui/primitives` | `0.85.x` |
+| `@tailng-ui/cdk` | `0.58.x` |
+| `@tailng-ui/theme` | `0.75.x` |
+| Angular | `^21.1.0 || ^22.0.0` |
+
+`@tailng-ui/flow` directly peers `@tailng-ui/components` and `@tailng-ui/icons`; components then
+bring the matching primitives/CDK peer expectations. Add `@tailng-ui/theme` when the application
+uses TailNG theme tokens.
+
 ## Controlled editor
 
 ```ts
@@ -304,6 +324,21 @@ the same non-viewport-mutating refresh through the exported component instance:
 
 `refreshLayout()` redraws connection geometry immediately. It does not fit, center, change zoom or
 pan, or emit `viewportChange`.
+
+Set `fitOnDefinitionChange` for runtime viewers that should reframe when the controlled definition
+changes after the first render:
+
+```html
+<tng-flow-editor
+  [definition]="workflow()"
+  [fitOnInit]="false"
+  [fitOnDefinitionChange]="true"
+/>
+```
+
+`fitOnDefinitionChange` updates the viewport only after node or connection identity, endpoint, or
+position changes. Use `refreshLayout()` for geometry-only redraws and `fitToScreen()` for direct
+imperative viewport control.
 
 ## Automatic layout
 
@@ -601,6 +636,39 @@ createConnection(request: TngFlowConnectionCreateRequest): void {
 }
 ```
 
+When runtime logic has semantic handles such as `yes`, `no`, `success`, `error`, or `caseId`, keep
+the visual socket in `source.portId` / `target.portId` and store the logical handles in connection
+data. TailNG exports helpers for this convention:
+
+```ts
+const semanticRequest = createTngFlowSemanticConnectionCreateRequest(request, {
+  sourceHandle: 'yes',
+  targetHandle: 'caseId',
+});
+
+const nodes = ensureTngFlowCustomPointPorts(this.definition().nodes, [
+  semanticRequest.source,
+  semanticRequest.target,
+]);
+
+this.definition.update((definition) => ({
+  ...definition,
+  nodes,
+  connections: [
+    ...definition.connections,
+    {
+      id: crypto.randomUUID(),
+      source: semanticRequest.source,
+      target: semanticRequest.target,
+      data: semanticRequest.data,
+    },
+  ],
+}));
+```
+
+Use `resolveTngFlowSemanticHandles(connection)` when reading a persisted connection back into a
+runtime planner.
+
 ## Keyboard interaction
 
 - Arrow keys navigate spatially across nodes and connections; `Command/Ctrl + Arrow` follows graph
@@ -703,3 +771,19 @@ documented above.
 
 Graph interaction is controlled exclusively by `mode`. The former boolean `readonly` input has
 been removed from the editor, execution graph, and workbench.
+
+## Execution and workbench
+
+Execution graph, inspector, payload, node-properties, and workbench APIs are published from the
+secondary entry point:
+
+```ts
+import {
+  TngFlowExecutionGraphComponent,
+  TngFlowWorkbenchComponent,
+  type TngFlowRunExecutionSnapshot,
+} from '@tailng-ui/flow/execution';
+```
+
+Use this entry point for runtime viewers and workbench shells. The primary `@tailng-ui/flow` entry
+point remains focused on the controlled editor primitives and shared graph utilities.

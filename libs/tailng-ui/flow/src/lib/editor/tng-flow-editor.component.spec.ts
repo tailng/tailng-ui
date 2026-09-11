@@ -384,6 +384,57 @@ describe('TngFlowEditorComponent', () => {
     expect(viewportChanged).not.toHaveBeenCalled();
   });
 
+  it('fits the viewport after controlled definition changes when requested', async () => {
+    const fixture = TestBed.createComponent(TngFlowEditorComponent);
+    fixture.componentRef.setInput('definition', definition);
+    fixture.componentRef.setInput('fitOnInit', false);
+    fixture.componentRef.setInput('fitOnDefinitionChange', true);
+    fixture.detectChanges();
+
+    const fitToScreen = vi.spyOn(fixture.componentInstance, 'fitToScreen');
+    fixture.componentRef.setInput('definition', {
+      ...definition,
+      nodes: [
+        ...definition.nodes,
+        {
+          id: 'summary',
+          type: 'step',
+          name: 'Summary',
+          position: { x: 720, y: 120 },
+        },
+      ],
+    });
+    fixture.detectChanges();
+    await Promise.resolve();
+
+    expect(fitToScreen).toHaveBeenCalledOnce();
+  });
+
+  it('does not fit the viewport after controlled definition changes by default', async () => {
+    const fixture = TestBed.createComponent(TngFlowEditorComponent);
+    fixture.componentRef.setInput('definition', definition);
+    fixture.componentRef.setInput('fitOnInit', false);
+    fixture.detectChanges();
+
+    const fitToScreen = vi.spyOn(fixture.componentInstance, 'fitToScreen');
+    fixture.componentRef.setInput('definition', {
+      ...definition,
+      nodes: [
+        ...definition.nodes,
+        {
+          id: 'summary',
+          type: 'step',
+          name: 'Summary',
+          position: { x: 720, y: 120 },
+        },
+      ],
+    });
+    fixture.detectChanges();
+    await Promise.resolve();
+
+    expect(fitToScreen).not.toHaveBeenCalled();
+  });
+
   it('ignores the initial flow size, coalesces resize bursts, and cleans up on destroy', () => {
     const originalResizeObserver = globalThis.ResizeObserver;
     vi.useFakeTimers();

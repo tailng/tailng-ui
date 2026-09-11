@@ -505,6 +505,7 @@ export class TngFlowEditorComponent<
     optional: true,
   }) as TngFlowLayoutEngine<TData, TConnectionData> | null;
   private hasFittedInitialNodes = false;
+  private lastFitDefinitionSignature: string | null = null;
   private isFullyRendered = false;
   private layoutRequestSequence = 0;
   private pendingReveal: PendingReveal | null = null;
@@ -571,6 +572,9 @@ export class TngFlowEditorComponent<
   public readonly ariaLabel = input<string>('Workflow editor');
   public readonly flowId = input<string>('tng-flow-editor');
   public readonly fitOnInit = input<boolean, boolean | string>(true, {
+    transform: booleanAttribute,
+  });
+  public readonly fitOnDefinitionChange = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
   public readonly showBackground = input<boolean, boolean | string>(true, {
@@ -1171,6 +1175,9 @@ export class TngFlowEditorComponent<
   private readonly layoutViewportSyncEffect = afterRenderEffect(() => {
     this.graphNodes();
     this.syncPendingLayoutViewport();
+  });
+  private readonly definitionFitSyncEffect = afterRenderEffect(() => {
+    this.syncFitOnDefinitionChange();
   });
 
   public connectorId(nodeId: string, portId: string): string {
@@ -1778,6 +1785,7 @@ export class TngFlowEditorComponent<
   protected onNodesRendered(): void {
     if (this.fitOnInit() && !this.hasFittedInitialNodes && this.graphNodes().length > 0) {
       this.hasFittedInitialNodes = true;
+      this.lastFitDefinitionSignature = this.createFitDefinitionSignature();
       this.fitToScreen(false);
     }
     this.refreshMeasuredNodeSizes();
@@ -3535,6 +3543,43 @@ export class TngFlowEditorComponent<
       this.viewportAnimationAllowed(pending.viewport.animated),
       pending.viewport.padding,
     );
+  }
+
+  private syncFitOnDefinitionChange(): void {
+    const signature = this.createFitDefinitionSignature();
+    if (signature === null) {
+      this.lastFitDefinitionSignature = null;
+      return;
+    }
+    if (this.lastFitDefinitionSignature === null) {
+      this.lastFitDefinitionSignature = signature;
+      return;
+    }
+    if (signature === this.lastFitDefinitionSignature) {
+      return;
+    }
+    this.lastFitDefinitionSignature = signature;
+    if (!this.fitOnDefinitionChange() || this.graphNodes().length === 0) {
+      return;
+    }
+    queueMicrotask(() => this.fitToScreen());
+  }
+
+  private createFitDefinitionSignature(): string | null {
+    const nodes = this.graphNodes();
+    if (nodes.length === 0) {
+      return null;
+    }
+    const nodeSignature = nodes
+      .map((node) => `${node.id}:${node.position.x}:${node.position.y}:${node.ports?.length ?? 0}`)
+      .join('|');
+    const connectionSignature = this.graphConnections()
+      .map(
+        (connection) =>
+          `${connection.id}:${connection.source.nodeId}:${connection.source.portId}>${connection.target.nodeId}:${connection.target.portId}`,
+      )
+      .join('|');
+    return `${nodeSignature}::${connectionSignature}`;
   }
 
   private layoutPositionsApplied(positions: Readonly<ReadonlyMap<string, TngFlowPoint>>): boolean {

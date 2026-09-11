@@ -58,7 +58,7 @@ npm install @tailng-ui/primitives @tailng-ui/cdk
 
 Peer dependencies:
 
-- `@angular/core` `^21.1.0`
+- `@angular/core` `^21.1.0 || ^22.0.0`
 - `tslib` `^2.3.0`
 
 ## Design principles

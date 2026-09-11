@@ -12,8 +12,8 @@
     "./styles.scss": "./styles.scss"
   },
   "peerDependencies": {
-    "@angular/common": "^21.1.0",
-    "@angular/core": "^21.1.0",
+    "@angular/common": "^21.1.0 || ^22.0.0",
+    "@angular/core": "^21.1.0 || ^22.0.0",
     "@foblex/2d": "^1.2.2",
     "@foblex/flow": "^19.1.2",
     "@foblex/mediator": "^1.1.3",

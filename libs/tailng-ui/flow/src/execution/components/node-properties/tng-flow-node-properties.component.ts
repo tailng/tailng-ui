@@ -8,7 +8,7 @@ import {
   input,
   output,
 } from '@angular/core';
-import type { TngFlowDefinition, TngFlowNode, TngFlowPort } from '../../../lib/types/tng-flow.types';
+import type { TngFlowDefinition, TngFlowNode, TngFlowPort } from '@tailng-ui/flow';
 import type {
   TngFlowNodePropertyChangeRequest,
   TngFlowNodePropertyChanges,

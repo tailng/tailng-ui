@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import type { TngFlowDefinition, TngFlowNode } from '../types/tng-flow.types';
 import {
+  applyTngFlowSemanticHandles,
+  createTngFlowSemanticConnectionCreateRequest,
+  createTngFlowSemanticHandleData,
   createTngFlowCustomPointGrid,
   createTngFlowCustomPointId,
   ensureTngFlowCustomPointPorts,
@@ -8,6 +11,7 @@ import {
   mergeTngFlowCustomPointPorts,
   parseTngFlowCustomPointId,
   pruneUnusedTngFlowCustomPointPorts,
+  resolveTngFlowSemanticHandles,
   TNG_FLOW_CUSTOM_POINTS_PER_SIDE,
 } from './tng-flow-custom-point';
 
@@ -49,6 +53,61 @@ describe('tng-flow custom point ids', () => {
     const merged = mergeTngFlowCustomPointPorts(existing);
     expect(merged.find((port) => port.id === 'custom-point-out-right-1')?.name).toBe('Pinned');
     expect(merged.length).toBeGreaterThan(existing.length);
+  });
+});
+
+describe('semantic custom-point handles', () => {
+  it('creates compact connection data for logical handles', () => {
+    expect(
+      createTngFlowSemanticHandleData({
+        sourceHandle: 'success',
+        targetHandle: '',
+      }),
+    ).toEqual({ sourceHandle: 'success' });
+  });
+
+  it('keeps visual custom-point endpoints separate from logical handles', () => {
+    const request = createTngFlowSemanticConnectionCreateRequest(
+      {
+        source: { nodeId: 'condition', portId: 'custom-point-out-right-1' },
+        target: { nodeId: 'notify', portId: 'custom-point-in-left-1' },
+      },
+      {
+        sourceHandle: 'yes',
+        targetHandle: 'input',
+      },
+    );
+
+    expect(request).toEqual({
+      source: { nodeId: 'condition', portId: 'custom-point-out-right-1' },
+      target: { nodeId: 'notify', portId: 'custom-point-in-left-1' },
+      data: {
+        sourceHandle: 'yes',
+        targetHandle: 'input',
+      },
+    });
+  });
+
+  it('applies and resolves semantic handles on connection data', () => {
+    const connection = applyTngFlowSemanticHandles(
+      {
+        id: 'condition-to-notify',
+        source: { nodeId: 'condition', portId: 'custom-point-out-right-1' },
+        target: { nodeId: 'notify', portId: 'custom-point-in-left-1' },
+        data: { ruleId: 'primary' },
+      },
+      { sourceHandle: 'success', targetHandle: 'caseId' },
+    );
+
+    expect(connection.data).toEqual({
+      ruleId: 'primary',
+      sourceHandle: 'success',
+      targetHandle: 'caseId',
+    });
+    expect(resolveTngFlowSemanticHandles(connection)).toEqual({
+      sourceHandle: 'success',
+      targetHandle: 'caseId',
+    });
   });
 });
 

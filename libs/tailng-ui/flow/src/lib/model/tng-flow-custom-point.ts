@@ -1,4 +1,6 @@
 import type {
+  TngFlowConnection,
+  TngFlowConnectionCreateRequest,
   TngFlowDefinition,
   TngFlowEndpoint,
   TngFlowNode,
@@ -27,6 +29,21 @@ export type TngFlowCustomPointSlot = Readonly<{
   side: TngFlowPortSide;
   index: number;
 }>;
+
+export type TngFlowSemanticConnectionHandles = Readonly<{
+  sourceHandle?: string;
+  targetHandle?: string;
+}>;
+
+export type TngFlowSemanticHandleConnectionData = Readonly<{
+  sourceHandle?: string;
+  targetHandle?: string;
+}>;
+
+export type TngFlowSemanticConnectionCreateRequest = TngFlowConnectionCreateRequest &
+  Readonly<{
+    data: TngFlowSemanticHandleConnectionData;
+  }>;
 
 export function createTngFlowCustomPointId(
   direction: TngFlowPortDirection,
@@ -62,6 +79,47 @@ export function createTngFlowCustomPointPort(slot: TngFlowCustomPointSlot): TngF
     side: slot.side,
     multiple: false,
   };
+}
+
+export function createTngFlowSemanticHandleData(
+  handles: TngFlowSemanticConnectionHandles,
+): TngFlowSemanticHandleConnectionData {
+  return compactTngFlowSemanticHandles(handles);
+}
+
+export function createTngFlowSemanticConnectionCreateRequest(
+  request: TngFlowConnectionCreateRequest,
+  handles: TngFlowSemanticConnectionHandles,
+): TngFlowSemanticConnectionCreateRequest {
+  return {
+    ...request,
+    data: createTngFlowSemanticHandleData(handles),
+  };
+}
+
+export function applyTngFlowSemanticHandles<TConnectionData extends Record<string, unknown>>(
+  connection: TngFlowConnection<TConnectionData>,
+  handles: TngFlowSemanticConnectionHandles,
+): TngFlowConnection<TConnectionData & TngFlowSemanticHandleConnectionData> {
+  return {
+    ...connection,
+    data: {
+      ...(connection.data ?? {}),
+      ...compactTngFlowSemanticHandles(handles),
+    } as TConnectionData & TngFlowSemanticHandleConnectionData,
+  };
+}
+
+export function resolveTngFlowSemanticHandles(
+  connection: TngFlowConnection<unknown>,
+): TngFlowSemanticHandleConnectionData {
+  if (!isRecord(connection.data)) {
+    return {};
+  }
+  return compactTngFlowSemanticHandles({
+    sourceHandle: stringValue(connection.data['sourceHandle']),
+    targetHandle: stringValue(connection.data['targetHandle']),
+  });
 }
 
 /** Full 3-per-side out+in grid (24 ports). */
@@ -162,4 +220,25 @@ export function pruneUnusedTngFlowCustomPointPorts<
       ),
     })),
   };
+}
+
+function compactTngFlowSemanticHandles(
+  handles: TngFlowSemanticConnectionHandles,
+): TngFlowSemanticHandleConnectionData {
+  const result: { sourceHandle?: string; targetHandle?: string } = {};
+  if (handles.sourceHandle !== undefined && handles.sourceHandle !== '') {
+    result.sourceHandle = handles.sourceHandle;
+  }
+  if (handles.targetHandle !== undefined && handles.targetHandle !== '') {
+    result.targetHandle = handles.targetHandle;
+  }
+  return result;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function stringValue(value: unknown): string | undefined {
+  return typeof value === 'string' ? value : undefined;
 }

@@ -13,7 +13,7 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@angular/core": "^21.1.0"
+    "@angular/core": "^21.1.0 || ^22.0.0"
   },
   "sideEffects": [
     "./fesm2022/tailng-ui-icons.mjs"

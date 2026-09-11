@@ -1,7 +1,4 @@
-import type {
-  TngFlowDefinition,
-  TngFlowNode,
-} from '../../lib/types/tng-flow.types';
+import type { TngFlowDefinition, TngFlowNode } from '@tailng-ui/flow';
 
 export type TngFlowExecutionPhase =
   | 'idle'

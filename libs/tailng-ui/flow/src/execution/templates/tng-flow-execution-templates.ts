@@ -1,5 +1,5 @@
 import { Directive, TemplateRef, inject } from '@angular/core';
-import type { TngFlowDefinition, TngFlowNode } from '../../lib/types/tng-flow.types';
+import type { TngFlowDefinition, TngFlowNode } from '@tailng-ui/flow';
 import type {
   TngFlowExecutionPayload,
   TngFlowExecutionPayloadView,
