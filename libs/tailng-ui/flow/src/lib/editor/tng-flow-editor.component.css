@@ -58,9 +58,8 @@
 
 .tng-flow-editor__node.f-selected .tng-flow-editor__node-content,
 .tng-flow-editor__node--selected .tng-flow-editor__node-content {
-  border-radius: 0.75rem;
-  outline: calc(3 * var(--_ring)) solid var(--_select);
-  outline-offset: calc(3 * var(--_ring));
+  --_node-selection-ring-color: var(--_select);
+  --_node-selection-ring-width: calc(2 * var(--_ring));
 }
 
 .tng-flow-editor__connection.f-selected {
@@ -68,18 +67,18 @@
 }
 
 .tng-flow-editor__node[data-validation='error'] .tng-flow-editor__node-content {
-  border-radius: 0.75rem;
-  box-shadow: 0 0 0 2px var(--tng-flow-node-error-border, #dc2626);
+  --_node-validation-ring-color: var(--tng-flow-node-error-border, #dc2626);
+  --_node-validation-ring-width: 2px;
 }
 
 .tng-flow-editor__node[data-validation='warning'] .tng-flow-editor__node-content {
-  border-radius: 0.75rem;
-  box-shadow: 0 0 0 2px var(--tng-flow-node-warning-border, #d97706);
+  --_node-validation-ring-color: var(--tng-flow-node-warning-border, #d97706);
+  --_node-validation-ring-width: 2px;
 }
 
 .tng-flow-editor__node[data-validation='info'] .tng-flow-editor__node-content {
-  border-radius: 0.75rem;
-  box-shadow: 0 0 0 2px var(--tng-flow-node-info-border, #0284c7);
+  --_node-validation-ring-color: var(--tng-flow-node-info-border, #0284c7);
+  --_node-validation-ring-width: 2px;
 }
 
 .tng-flow-editor__node[data-highlighted] .tng-flow-editor__node-content {
@@ -91,10 +90,19 @@
 }
 
 .tng-flow-editor__node-content {
+  --_node-selection-ring-color: transparent;
+  --_node-selection-ring-width: 0px;
+  --_node-validation-ring-color: transparent;
+  --_node-validation-ring-width: 0px;
   position: relative;
   z-index: 1;
   display: block;
   min-width: 17.5rem;
+  border-radius: 0.75rem;
+  box-shadow:
+    0 0 0 var(--_node-validation-ring-width) var(--_node-validation-ring-color),
+    0 0 0 calc(var(--_node-validation-ring-width) + var(--_node-selection-ring-width))
+      var(--_node-selection-ring-color);
 }
 
 .tng-flow-editor__node-content > tng-flow-node {

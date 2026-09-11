@@ -634,6 +634,13 @@ function nextPaint(): Promise<void> {
   });
 }
 
+function maxBoxShadowSpread(boxShadow: string): number {
+  return Math.max(
+    0,
+    ...(boxShadow.match(/-?\d*\.?\d+px/g)?.map((value) => Number.parseFloat(value)) ?? []),
+  );
+}
+
 async function waitForRenderedConnectionPaths(host: HTMLElement): Promise<void> {
   for (let attempt = 0; attempt < 60; attempt += 1) {
     const paths = host.querySelectorAll<SVGPathElement>('[data-connection-id] .f-connection-path');
@@ -2271,8 +2278,8 @@ describe('TngFlowEditorComponent browser contracts', () => {
       );
       expect(nodeContent).not.toBeNull();
       expect(
-        Number.parseFloat(getComputedStyle(nodeContent!).outlineWidth) * scale,
-      ).toBeGreaterThanOrEqual(2);
+        maxBoxShadowSpread(getComputedStyle(nodeContent!).boxShadow) * scale,
+      ).toBeGreaterThanOrEqual(1.95);
 
       dispatchKey(flow, 'c');
       await fixture.whenStable();

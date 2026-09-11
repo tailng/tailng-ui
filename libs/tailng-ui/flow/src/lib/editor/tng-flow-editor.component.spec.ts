@@ -817,6 +817,10 @@ describe('TngFlowEditorComponent', () => {
     expect(editorStyles).toMatch(
       /\.tng-flow-editor__node--selected \.tng-flow-editor__node-content\s*\{/,
     );
+    expect(editorStyles).toMatch(/--_node-selection-ring-width:\s*calc\(2 \* var\(--_ring\)\);/);
+    expect(editorStyles).toMatch(
+      /box-shadow:\s*0 0 0 var\(--_node-validation-ring-width\) var\(--_node-validation-ring-color\),\s*0 0 0 calc\(var\(--_node-validation-ring-width\) \+ var\(--_node-selection-ring-width\)\)\s*var\(--_node-selection-ring-color\);/s,
+    );
     expect(editorStyles).toMatch(
       /\.tng-flow-editor__node-content > tng-flow-node\s*\{[^}]*--tng-flow-node-selection-outline:\s*none;/s,
     );

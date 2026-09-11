@@ -1,0 +1,25 @@
+.flow-workbench-examples__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.flow-workbench-examples__button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.flow-workbench-examples__workbench {
+  --tng-flow-workbench-height: 34rem;
+  --tng-flow-workbench-min-height: 28rem;
+  --tng-flow-workbench-palette-width: 16rem;
+}
+
+@media (max-width: 720px) {
+  .flow-workbench-examples__workbench {
+    --tng-flow-workbench-height: 30rem;
+  }
+}
