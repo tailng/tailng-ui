@@ -11,7 +11,7 @@ on:
         description: "patch: 2.1.0 -> 2.1.1 | minor: 2.1.0 -> 2.2.0 | major: 2.x -> 3.0.0"
         required: true
         type: choice
-        options: [patch, minor, major]
+        options: [minor, major, patch]
       npm_tag:
         description: "npm dist-tag"
         required: true
