@@ -100,9 +100,8 @@
   min-width: 17.5rem;
   border-radius: 0.75rem;
   box-shadow:
-    0 0 0 var(--_node-validation-ring-width) var(--_node-validation-ring-color),
-    0 0 0 calc(var(--_node-validation-ring-width) + var(--_node-selection-ring-width))
-      var(--_node-selection-ring-color);
+    inset 0 0 0 var(--_node-validation-ring-width) var(--_node-validation-ring-color),
+    0 0 0 var(--_node-selection-ring-width) var(--_node-selection-ring-color);
 }
 
 .tng-flow-editor__node-content > tng-flow-node {
