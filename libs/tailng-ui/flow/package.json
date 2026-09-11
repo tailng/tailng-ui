@@ -7,19 +7,7 @@
     "url": "https://github.com/tailng/tailng-ui"
   },
   "type": "module",
-  "main": "./src/index.js",
-  "types": "./src/index.d.ts",
   "exports": {
-    ".": {
-      "types": "./src/index.d.ts",
-      "import": "./src/index.js",
-      "default": "./src/index.js"
-    },
-    "./execution": {
-      "types": "./src/execution/index.d.ts",
-      "import": "./src/execution/index.js",
-      "default": "./src/execution/index.js"
-    },
     "./styles.css": "./styles.css",
     "./styles.scss": "./styles.scss"
   },
