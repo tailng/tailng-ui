@@ -1,8 +1,6 @@
 import type {
   TngFlowDefinition,
   TngFlowNode,
-  TngFlowSelection,
-  TngFlowViewport,
 } from '../../lib/types/tng-flow.types';
 
 export type TngFlowExecutionPhase =
@@ -15,9 +13,7 @@ export type TngFlowExecutionPhase =
   | 'cancelled'
   | 'skipped';
 
-export type TngFlowExecutionViewerState = 'empty' | 'error' | 'loading' | 'ready';
-
-export type TngFlowWorkbenchState = TngFlowExecutionViewerState;
+export type TngFlowWorkbenchState = 'empty' | 'error' | 'loading' | 'ready';
 
 export type TngFlowExecutionInspectorScope = 'auto' | 'node' | 'run';
 
@@ -140,14 +136,6 @@ export type TngFlowExecutionPayloadView = Readonly<{
   code: string;
   language: string;
   message: string | null;
-}>;
-
-export type TngFlowExecutionViewerChange<TPayload = unknown> = Readonly<{
-  selection: TngFlowSelection;
-  inspectedNodeId: string | null;
-  selectedExecutionId: string | null;
-  viewport: TngFlowViewport | null;
-  snapshot: TngFlowRunExecutionSnapshot<TPayload> | null;
 }>;
 
 export type TngFlowNodePropertyChangeSource = 'data-template' | 'field';

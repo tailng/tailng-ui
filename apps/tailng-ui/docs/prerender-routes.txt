@@ -647,11 +647,6 @@
 /components/flow/flow-execution-graph/examples
 /components/flow/flow-execution-graph/overview
 /components/flow/flow-execution-graph/styling
-/components/flow/flow-execution-viewer
-/components/flow/flow-execution-viewer/api
-/components/flow/flow-execution-viewer/examples
-/components/flow/flow-execution-viewer/overview
-/components/flow/flow-execution-viewer/styling
 /components/flow/flow-node-properties
 /components/flow/flow-node-properties/api
 /components/flow/flow-node-properties/examples

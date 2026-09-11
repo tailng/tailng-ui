@@ -2,7 +2,6 @@ export { TngFlowExecutionGraphComponent } from './components/graph/tng-flow-exec
 export { TngFlowExecutionInspectorComponent } from './components/inspector/tng-flow-execution-inspector.component';
 export { TngFlowNodePropertiesComponent } from './components/node-properties/tng-flow-node-properties.component';
 export { TngFlowExecutionPayloadComponent } from './components/payload/tng-flow-execution-payload.component';
-export { TngFlowExecutionViewerComponent } from './components/viewer/tng-flow-execution-viewer.component';
 export { TngFlowWorkbenchComponent } from './components/workbench/tng-flow-workbench.component';
 export {
   createTngFlowExecutionIndex,
@@ -29,8 +28,6 @@ export type {
   TngFlowExecutionPayload,
   TngFlowExecutionPayloadView,
   TngFlowExecutionPhase,
-  TngFlowExecutionViewerChange,
-  TngFlowExecutionViewerState,
   TngFlowExecutionWarning,
   TngFlowExecutionWarningCode,
   TngFlowWorkbenchDetailsKind,

@@ -92,15 +92,6 @@ export const COMPONENTS_LAYOUT_ROUTES: Routes = [
     redirectTo: '/components/flow/flow-editor/:section',
   },
   {
-    path: 'flow-execution-viewer',
-    pathMatch: 'full',
-    redirectTo: '/components/flow/flow-execution-viewer',
-  },
-  {
-    path: 'flow-execution-viewer/:section',
-    redirectTo: '/components/flow/flow-execution-viewer/:section',
-  },
-  {
     path: cardItem.slug,
     data: toComponentsDocsRouteData(group, cardItem),
     loadChildren: () =>

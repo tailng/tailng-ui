@@ -329,13 +329,6 @@ export const COMPONENTS_FLOW_GROUP: ComponentsDocsGroup = {
         'Ready-made flow shell with create, edit, view, inspect, and live modes plus optional palette and details panels.',
     },
     {
-      id: 'flow-execution-viewer',
-      slug: 'flow-execution-viewer',
-      title: 'Flow Execution Viewer',
-      description:
-        'Workflow run viewer components with graph status, node properties, execution history, and payloads.',
-    },
-    {
       id: 'flow-execution-graph',
       slug: 'flow-execution-graph',
       title: 'Flow Execution Graph',

@@ -5,9 +5,9 @@ import {
   type FlowExecutionGraphExampleId,
 } from './flow-execution-graph-examples-page.component';
 import {
-  FLOW_EXECUTION_VIEWER_DEFINITION,
-  findFlowExecutionViewerScenario,
-} from '../../../flow-execution-viewer/sections/examples/flow-execution-viewer-example.data';
+  FLOW_EXECUTION_DEFINITION,
+  findFlowExecutionScenario,
+} from '../../../shared/flow-execution-scenarios.data';
 
 class FlowExecutionGraphTestResizeObserver implements ResizeObserver {
   public constructor(private readonly callback: ResizeObserverCallback) {}
@@ -75,7 +75,7 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
     const nativeElement = fixture.nativeElement as HTMLElement;
     expect(nativeElement.querySelectorAll('app-docs-example-tabs-section').length).toBe(14);
     expect(nativeElement.querySelectorAll('tng-flow-execution-graph').length).toBe(28);
-    expect(nativeElement.querySelector('tng-flow-execution-viewer')).toBeNull();
+    expect(nativeElement.querySelector('tng-flow-workbench')).toBeNull();
     expect(nativeElement.querySelector('tng-flow-node-properties')).toBeNull();
     expect(nativeElement.querySelector('.flow-execution-graph-examples__details')).toBeNull();
     expect(nativeElement.querySelector('aside[aria-label="Selected execution"]')).toBeNull();
@@ -134,9 +134,9 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
 
   it('omits progress for queued and completed node fixtures', () => {
     const queuedExecutions =
-      findFlowExecutionViewerScenario('queued-workflow').snapshot.nodeExecutions ?? [];
+      findFlowExecutionScenario('queued-workflow').snapshot.nodeExecutions ?? [];
     const completedExecutions =
-      findFlowExecutionViewerScenario('successful-workflow').snapshot.nodeExecutions ?? [];
+      findFlowExecutionScenario('successful-workflow').snapshot.nodeExecutions ?? [];
 
     expect(queuedExecutions).not.toHaveLength(0);
     expect(completedExecutions).not.toHaveLength(0);
@@ -154,7 +154,7 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
       FlowExecutionGraphExamplesPageComponent,
     ).componentInstance;
     const sharedNodes = new Map(
-      FLOW_EXECUTION_VIEWER_DEFINITION.nodes.map((node) => [node.id, node.position]),
+      FLOW_EXECUTION_DEFINITION.nodes.map((node) => [node.id, node.position]),
     );
     const delayed = component.examples.find((example) => example.id === 'delayed-execution');
     const delayedNodes = new Map(
@@ -356,7 +356,7 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
 
     const fixture = TestBed.createComponent(FlowExecutionGraphExamplesPageComponent);
     const component = fixture.componentInstance;
-    const targetScenario = findFlowExecutionViewerScenario('failed-node');
+    const targetScenario = findFlowExecutionScenario('failed-node');
     const targetExample = component.examples.find((example) => example.id === 'failed-node');
 
     expect(targetExample).toBeDefined();

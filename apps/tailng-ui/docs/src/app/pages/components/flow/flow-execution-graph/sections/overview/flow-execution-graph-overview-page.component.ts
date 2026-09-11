@@ -26,9 +26,9 @@ import {
   resolveDocsCodeBlockTheme,
 } from '../../../../../../shared/util';
 import {
-  FLOW_EXECUTION_VIEWER_DEFINITION,
-  findFlowExecutionViewerScenario,
-} from '../../../flow-execution-viewer/sections/examples/flow-execution-viewer-example.data';
+  FLOW_EXECUTION_DEFINITION,
+  findFlowExecutionScenario,
+} from '../../../shared/flow-execution-scenarios.data';
 import {
   applyFlowExecutionGraphConnectionCreate,
   applyFlowExecutionGraphConnectionReconnect,
@@ -38,7 +38,7 @@ import {
   type FlowExecutionGraphControlledUpdate,
 } from '../../flow-execution-graph-editing';
 
-const overviewScenario = findFlowExecutionViewerScenario('running-node');
+const overviewScenario = findFlowExecutionScenario('running-node');
 
 function cloneSelection(): TngFlowSelection {
   return {
@@ -56,12 +56,12 @@ function cloneViewport(): TngFlowViewport {
 
 function cloneDefinition(): TngFlowDefinition<unknown> {
   return {
-    ...FLOW_EXECUTION_VIEWER_DEFINITION,
-    nodes: FLOW_EXECUTION_VIEWER_DEFINITION.nodes.map((node) => ({
+    ...FLOW_EXECUTION_DEFINITION,
+    nodes: FLOW_EXECUTION_DEFINITION.nodes.map((node) => ({
       ...node,
       position: { ...node.position },
     })),
-    connections: FLOW_EXECUTION_VIEWER_DEFINITION.connections.map((connection) => ({
+    connections: FLOW_EXECUTION_DEFINITION.connections.map((connection) => ({
       ...connection,
       source: { ...connection.source },
       target: { ...connection.target },

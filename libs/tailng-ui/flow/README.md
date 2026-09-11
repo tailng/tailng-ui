@@ -702,4 +702,4 @@ APIs remain available as deprecated aliases for one compatibility cycle. New cod
 documented above.
 
 Graph interaction is controlled exclusively by `mode`. The former boolean `readonly` input has
-been removed from the editor, execution graph, and execution viewer.
+been removed from the editor, execution graph, and workbench.

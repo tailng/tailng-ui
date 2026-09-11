@@ -8,7 +8,7 @@ import type {
   TngFlowRunExecutionSnapshot,
 } from '@tailng-ui/flow/execution';
 
-export type FlowExecutionViewerScenarioId =
+export type FlowExecutionScenarioId =
   | 'queued-workflow'
   | 'running-node'
   | 'retrying-node'
@@ -22,8 +22,8 @@ export type FlowExecutionViewerScenarioId =
   | 'large-json-payload'
   | 'narrow-surface';
 
-export type FlowExecutionViewerScenario = Readonly<{
-  id: FlowExecutionViewerScenarioId;
+export type FlowExecutionScenario = Readonly<{
+  id: FlowExecutionScenarioId;
   title: string;
   story: string;
   snapshot: TngFlowRunExecutionSnapshot<unknown>;
@@ -58,7 +58,7 @@ type ConnectionSeed = Readonly<{
 
 type FlowExecutionDemoConnection = TngFlowDefinition['connections'][number];
 
-export const FLOW_EXECUTION_VIEWER_DEFINITION = Object.freeze({
+export const FLOW_EXECUTION_DEFINITION = Object.freeze({
   id: 'support-escalation-workflow',
   name: 'Support escalation workflow',
   nodes: [
@@ -162,7 +162,7 @@ export const FLOW_EXECUTION_VIEWER_DEFINITION = Object.freeze({
   ],
 } satisfies TngFlowDefinition);
 
-export const FLOW_EXECUTION_VIEWER_SCENARIOS: readonly FlowExecutionViewerScenario[] =
+export const FLOW_EXECUTION_SCENARIOS: readonly FlowExecutionScenario[] =
   Object.freeze([
     scenario('queued-workflow', {
       title: 'Queued workflow',
@@ -545,21 +545,21 @@ export const FLOW_EXECUTION_VIEWER_SCENARIOS: readonly FlowExecutionViewerScenar
     }),
   ]);
 
-export function findFlowExecutionViewerScenario(
-  id: FlowExecutionViewerScenarioId,
-): FlowExecutionViewerScenario {
-  const scenarioResult = FLOW_EXECUTION_VIEWER_SCENARIOS.find((item) => item.id === id);
+export function findFlowExecutionScenario(
+  id: FlowExecutionScenarioId,
+): FlowExecutionScenario {
+  const scenarioResult = FLOW_EXECUTION_SCENARIOS.find((item) => item.id === id);
   if (scenarioResult === undefined) {
-    throw new Error(`Unknown flow execution viewer scenario "${id}".`);
+    throw new Error(`Unknown flow execution scenario "${id}".`);
   }
   return scenarioResult;
 }
 
 function scenario(
-  id: FlowExecutionViewerScenarioId,
-  partial: Omit<FlowExecutionViewerScenario, 'id' | 'selection' | 'viewport'> &
-    Partial<Pick<FlowExecutionViewerScenario, 'selection' | 'viewport'>>,
-): FlowExecutionViewerScenario {
+  id: FlowExecutionScenarioId,
+  partial: Omit<FlowExecutionScenario, 'id' | 'selection' | 'viewport'> &
+    Partial<Pick<FlowExecutionScenario, 'selection' | 'viewport'>>,
+): FlowExecutionScenario {
   return Object.freeze({
     id,
     selection:
@@ -570,7 +570,7 @@ function scenario(
 }
 
 function snapshot(
-  id: FlowExecutionViewerScenarioId,
+  id: FlowExecutionScenarioId,
   phase: TngFlowExecutionPhase,
   statusMessage: string,
   nodeSeeds: readonly NodeSeed[],
@@ -579,7 +579,7 @@ function snapshot(
 ): TngFlowRunExecutionSnapshot<unknown> {
   return Object.freeze({
     id,
-    definitionId: FLOW_EXECUTION_VIEWER_DEFINITION.id,
+    definitionId: FLOW_EXECUTION_DEFINITION.id,
     definitionRevision: 'docs-example-1',
     phase,
     statusMessage,
@@ -596,7 +596,7 @@ function snapshot(
 }
 
 function successfulSnapshot(
-  id: FlowExecutionViewerScenarioId,
+  id: FlowExecutionScenarioId,
   phase: TngFlowExecutionPhase,
   statusMessage: string,
 ): TngFlowRunExecutionSnapshot<unknown> {
@@ -629,7 +629,7 @@ function successfulSnapshot(
 }
 
 function nodeFromSeed(
-  scenarioId: FlowExecutionViewerScenarioId,
+  scenarioId: FlowExecutionScenarioId,
   seed: NodeSeed,
   index: number,
 ): TngFlowNodeExecution<unknown> {
@@ -666,7 +666,7 @@ function nodeFromSeed(
 }
 
 function connectionFromSeed(
-  scenarioId: FlowExecutionViewerScenarioId,
+  scenarioId: FlowExecutionScenarioId,
   seed: ConnectionSeed,
   index: number,
 ): TngFlowConnectionExecution<unknown> {

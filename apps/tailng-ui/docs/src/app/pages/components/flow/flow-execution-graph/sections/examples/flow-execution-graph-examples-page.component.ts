@@ -33,11 +33,11 @@ import {
   resolveDocsCodeBlockTheme,
 } from '../../../../../../shared/util';
 import {
-  FLOW_EXECUTION_VIEWER_DEFINITION,
-  findFlowExecutionViewerScenario,
-  type FlowExecutionViewerScenario,
-  type FlowExecutionViewerScenarioId,
-} from '../../../flow-execution-viewer/sections/examples/flow-execution-viewer-example.data';
+  FLOW_EXECUTION_DEFINITION,
+  findFlowExecutionScenario,
+  type FlowExecutionScenario,
+  type FlowExecutionScenarioId,
+} from '../../../shared/flow-execution-scenarios.data';
 import {
   applyFlowExecutionGraphConnectionCreate,
   applyFlowExecutionGraphConnectionReconnect,
@@ -48,7 +48,7 @@ import {
 } from '../../flow-execution-graph-editing';
 
 export type FlowExecutionGraphExampleId =
-  | FlowExecutionViewerScenarioId
+  | FlowExecutionScenarioId
   | 'dark-mode'
   | 'delayed-execution';
 
@@ -59,7 +59,7 @@ type FlowExecutionGraphTimelineStep = Readonly<{
   snapshot: TngFlowRunExecutionSnapshot<unknown>;
 }>;
 
-type FlowExecutionGraphScenario = Omit<FlowExecutionViewerScenario, 'id'> &
+type FlowExecutionGraphScenario = Omit<FlowExecutionScenario, 'id'> &
   Readonly<{
     definition: TngFlowDefinition<unknown>;
     id: FlowExecutionGraphExampleId;
@@ -327,10 +327,10 @@ function findFlowExecutionGraphScenario(id: FlowExecutionGraphExampleId): FlowEx
   if (id === 'delayed-execution') {
     return DELAYED_EXECUTION_SCENARIO;
   }
-  const scenario = findFlowExecutionViewerScenario(id === 'dark-mode' ? 'running-node' : id);
+  const scenario = findFlowExecutionScenario(id === 'dark-mode' ? 'running-node' : id);
   return Object.freeze({
     ...scenario,
-    definition: FLOW_EXECUTION_VIEWER_DEFINITION,
+    definition: FLOW_EXECUTION_DEFINITION,
     id,
     timeline: null,
   });

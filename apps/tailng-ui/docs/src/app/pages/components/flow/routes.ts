@@ -17,11 +17,6 @@ if (flowWorkbenchItem === undefined) {
   throw new Error('Missing "flow-workbench" in components flow docs group.');
 }
 
-const flowExecutionViewerItem = group.items.find((item) => item.slug === 'flow-execution-viewer');
-if (flowExecutionViewerItem === undefined) {
-  throw new Error('Missing "flow-execution-viewer" in components flow docs group.');
-}
-
 const flowExecutionGraphItem = group.items.find((item) => item.slug === 'flow-execution-graph');
 if (flowExecutionGraphItem === undefined) {
   throw new Error('Missing "flow-execution-graph" in components flow docs group.');
@@ -49,14 +44,6 @@ export const COMPONENTS_FLOW_ROUTES: Routes = [
     data: toComponentsDocsRouteData(group, flowWorkbenchItem),
     loadChildren: () =>
       import('./flow-workbench/routes').then((module) => module.COMPONENTS_FLOW_WORKBENCH_ROUTES),
-  },
-  {
-    path: flowExecutionViewerItem.slug,
-    data: toComponentsDocsRouteData(group, flowExecutionViewerItem),
-    loadChildren: () =>
-      import('./flow-execution-viewer/routes').then(
-        (module) => module.COMPONENTS_FLOW_EXECUTION_VIEWER_ROUTES,
-      ),
   },
   {
     path: flowExecutionGraphItem.slug,
