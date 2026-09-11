@@ -8,8 +8,189 @@
     </p>
 
     <h3>Import</h3>
-    <pre><code>import &#123; TngFlowWorkbenchComponent &#125; from '&#64;tailng-ui/flow/execution';
-import &#123; TngFlowNodePaletteComponent &#125; from '&#64;tailng-ui/flow';</code></pre>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="agent-workbench.component.ts"
+      [theme]="codeBlockTheme()"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
+  </section>
+
+  <section id="editable-workbench" class="docs-overview-block">
+    <app-docs-example-tabs-section
+      heading="Editable agent workbench"
+      description="Use the workbench when the page needs the palette, graph, and node details in one controlled shell."
+      ariaLabel="Editable flow workbench styling variants"
+      tabListAriaLabel="Editable flow workbench styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain CSS"
+        panelTitle="Agent workbench with Plain CSS"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <div class="flow-workbench-overview__toolbar">
+          <div class="flow-workbench-overview__mode-group" aria-label="Plain CSS workbench mode">
+            @for (mode of modes; track mode.value) {
+              <tng-button
+                type="button"
+                size="sm"
+                [appearance]="plainCssMode() === mode.value ? 'solid' : 'outline'"
+                [tone]="plainCssMode() === mode.value ? 'primary' : 'neutral'"
+                [ariaPressed]="plainCssMode() === mode.value"
+                (click)="plainCssMode.set(mode.value)"
+              >
+                {{ mode.label }}
+              </tng-button>
+            }
+          </div>
+          <div class="flow-workbench-overview__panel-group" aria-label="Plain CSS workbench panels">
+            <tng-button
+              type="button"
+              appearance="outline"
+              size="sm"
+              tone="neutral"
+              [disabled]="plainCssMode() !== 'create' && plainCssMode() !== 'edit'"
+              [ariaPressed]="plainCssPaletteOpen()"
+              (click)="togglePalette('plain-css')"
+            >
+              {{ plainCssPaletteOpen() ? 'Hide palette' : 'Show palette' }}
+            </tng-button>
+            <tng-button
+              type="button"
+              appearance="outline"
+              size="sm"
+              tone="neutral"
+              [disabled]="plainCssMode() === 'view'"
+              [ariaPressed]="plainCssDetailsOpen()"
+              (click)="toggleDetails('plain-css')"
+            >
+              {{ plainCssDetailsOpen() ? 'Hide details' : 'Show details' }}
+            </tng-button>
+            <tng-button appearance="outline" size="sm" (click)="resetDemo('plain-css')">
+              Reset workbench
+            </tng-button>
+          </div>
+        </div>
+        <tng-flow-workbench
+          flowId="docs-agent-workbench-plain-css"
+          class="flow-workbench-overview__workbench"
+          detailsKind="auto"
+          paletteAriaLabel="Agent workflow node palette"
+          ariaLabel="Editable support agent workbench styled with Plain CSS"
+          [definition]="plainCssDefinition()"
+          [snapshot]="executionSnapshot"
+          [mode]="plainCssMode()"
+          attachmentLayout="custom-points"
+          [paletteOpen]="plainCssPaletteOpen()"
+          [detailsOpen]="plainCssDetailsOpen()"
+          [showPaletteToggle]="false"
+          [showDetailsToggle]="false"
+          [selection]="plainCssSelection()"
+          [inspectedNodeId]="plainCssInspectedNodeId()"
+          [state]="workbenchState()"
+          [paletteItems]="paletteItems"
+          [showMinimap]="true"
+          [smartGuides]="{ enabled: true, disableModifier: 'alt' }"
+          (nodeCreateRequested)="onNodeCreateRequested($event, 'plain-css')"
+          (nodesMoved)="onNodesMoved($event, 'plain-css')"
+          (connectionsDeleteRequested)="onConnectionsDeleteRequested($event, 'plain-css')"
+          (nodesDeleteRequested)="onNodesDeleteRequested($event, 'plain-css')"
+          (paletteOpenChange)="plainCssPaletteOpen.set($event)"
+          (detailsOpenChange)="plainCssDetailsOpen.set($event)"
+          (selectionChange)="onSelectionChange($event, 'plain-css')"
+          (inspectedNodeIdChange)="plainCssInspectedNodeId.set($event)"
+        />
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Agent workbench with Tailwind CSS"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="flex flex-wrap gap-2" aria-label="Tailwind CSS workbench mode">
+            @for (mode of modes; track mode.value) {
+              <tng-button
+                type="button"
+                size="sm"
+                [appearance]="tailwindMode() === mode.value ? 'solid' : 'outline'"
+                [tone]="tailwindMode() === mode.value ? 'primary' : 'neutral'"
+                [ariaPressed]="tailwindMode() === mode.value"
+                (click)="tailwindMode.set(mode.value)"
+              >
+                {{ mode.label }}
+              </tng-button>
+            }
+          </div>
+          <div class="flex flex-wrap gap-2" aria-label="Tailwind CSS workbench panels">
+            <tng-button
+              type="button"
+              appearance="outline"
+              size="sm"
+              tone="neutral"
+              [disabled]="tailwindMode() !== 'create' && tailwindMode() !== 'edit'"
+              [ariaPressed]="tailwindPaletteOpen()"
+              (click)="togglePalette('tailwind-css')"
+            >
+              {{ tailwindPaletteOpen() ? 'Hide palette' : 'Show palette' }}
+            </tng-button>
+            <tng-button
+              type="button"
+              appearance="outline"
+              size="sm"
+              tone="neutral"
+              [disabled]="tailwindMode() === 'view'"
+              [ariaPressed]="tailwindDetailsOpen()"
+              (click)="toggleDetails('tailwind-css')"
+            >
+              {{ tailwindDetailsOpen() ? 'Hide details' : 'Show details' }}
+            </tng-button>
+            <tng-button appearance="outline" size="sm" (click)="resetDemo('tailwind-css')">
+              Reset workbench
+            </tng-button>
+          </div>
+        </div>
+        <tng-flow-workbench
+          flowId="docs-agent-workbench-tailwind-css"
+          class="block [--tng-flow-workbench-height:34rem] [--tng-flow-workbench-min-height:28rem] [--tng-flow-workbench-palette-width:16rem] max-[720px]:[--tng-flow-workbench-height:30rem]"
+          detailsKind="auto"
+          paletteAriaLabel="Agent workflow node palette"
+          ariaLabel="Editable support agent workbench styled with Tailwind CSS"
+          [definition]="tailwindDefinition()"
+          [snapshot]="executionSnapshot"
+          [mode]="tailwindMode()"
+          attachmentLayout="custom-points"
+          [paletteOpen]="tailwindPaletteOpen()"
+          [detailsOpen]="tailwindDetailsOpen()"
+          [showPaletteToggle]="false"
+          [showDetailsToggle]="false"
+          [selection]="tailwindSelection()"
+          [inspectedNodeId]="tailwindInspectedNodeId()"
+          [state]="workbenchState()"
+          [paletteItems]="paletteItems"
+          [showMinimap]="true"
+          [smartGuides]="{ enabled: true, disableModifier: 'alt' }"
+          (nodeCreateRequested)="onNodeCreateRequested($event, 'tailwind-css')"
+          (nodesMoved)="onNodesMoved($event, 'tailwind-css')"
+          (connectionsDeleteRequested)="onConnectionsDeleteRequested($event, 'tailwind-css')"
+          (nodesDeleteRequested)="onNodesDeleteRequested($event, 'tailwind-css')"
+          (paletteOpenChange)="tailwindPaletteOpen.set($event)"
+          (detailsOpenChange)="tailwindDetailsOpen.set($event)"
+          (selectionChange)="onSelectionChange($event, 'tailwind-css')"
+          (inspectedNodeIdChange)="tailwindInspectedNodeId.set($event)"
+        />
+      </ng-template>
+    </app-docs-example-tabs-section>
   </section>
 
   <section id="modes" class="docs-overview-block">

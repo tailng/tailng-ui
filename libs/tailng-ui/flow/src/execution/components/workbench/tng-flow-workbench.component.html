@@ -64,7 +64,12 @@
   }
 
   <div class="tng-flow-workbench__actions">
-    @if (showPalette() && hasPaletteContent() && (mode() === 'create' || mode() === 'edit')) {
+    @if (
+      showPaletteToggle() &&
+      showPalette() &&
+      hasPaletteContent() &&
+      (mode() === 'create' || mode() === 'edit')
+    ) {
       <tng-button
         type="button"
         appearance="ghost"
@@ -75,7 +80,7 @@
         {{ showResolvedPalette() ? 'Hide palette' : 'Show palette' }}
       </tng-button>
     }
-    @if (showDetails() && hasDetailsContent()) {
+    @if (showDetailsToggle() && showDetails() && hasDetailsContent()) {
       <tng-button
         type="button"
         appearance="ghost"

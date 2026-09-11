@@ -1,0 +1,31 @@
+.flow-workbench-overview__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.flow-workbench-overview__mode-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.flow-workbench-overview__panel-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.flow-workbench-overview__workbench {
+  --tng-flow-workbench-height: 34rem;
+  --tng-flow-workbench-min-height: 28rem;
+  --tng-flow-workbench-palette-width: 16rem;
+}
+
+@media (max-width: 720px) {
+  .flow-workbench-overview__workbench {
+    --tng-flow-workbench-height: 30rem;
+  }
+}

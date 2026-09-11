@@ -161,10 +161,16 @@ export class TngFlowWorkbenchComponent<
   public readonly detailsOpen = input<boolean, boolean | string>(true, {
     transform: booleanAttribute,
   });
+  public readonly showDetailsToggle = input<boolean, boolean | string>(true, {
+    transform: booleanAttribute,
+  });
   public readonly showPalette = input<boolean, boolean | string>(true, {
     transform: booleanAttribute,
   });
   public readonly paletteOpen = input<boolean, boolean | string>(true, {
+    transform: booleanAttribute,
+  });
+  public readonly showPaletteToggle = input<boolean, boolean | string>(true, {
     transform: booleanAttribute,
   });
   public readonly paletteItems = input<readonly TngFlowPaletteItem<TNodeData>[]>([]);

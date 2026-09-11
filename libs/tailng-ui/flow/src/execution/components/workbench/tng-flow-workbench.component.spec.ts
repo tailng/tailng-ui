@@ -48,6 +48,8 @@ const paletteItems: readonly TngFlowPaletteItem[] = [
       [selection]="selection"
       [paletteItems]="paletteItems"
       [fitOnInit]="false"
+      [showPaletteToggle]="showPaletteToggle"
+      [showDetailsToggle]="showDetailsToggle"
       (nodeCreateRequested)="nodeCreateRequest = $event"
       (selectionChange)="events.push('selection')"
       (inspectedNodeIdChange)="events.push('inspected:' + $event)"
@@ -58,6 +60,8 @@ const paletteItems: readonly TngFlowPaletteItem[] = [
 class WorkbenchHost {
   public readonly workbench = viewChild.required(TngFlowWorkbenchComponent);
   public mode: TngFlowWorkbenchMode = 'edit';
+  public showPaletteToggle = true;
+  public showDetailsToggle = true;
   protected readonly definition = definition;
   protected readonly snapshot = snapshot;
   protected readonly selection: TngFlowSelection = {
@@ -131,5 +135,16 @@ describe(TngFlowWorkbenchComponent.name, () => {
       .componentInstance as TngFlowExecutionGraphComponent;
 
     expect(graph.mode()).toBe('edit');
+  });
+
+  it('can hide built-in panel toggle buttons for API-driven toolbars', () => {
+    const fixture = TestBed.createComponent(WorkbenchHost);
+    fixture.componentInstance.showPaletteToggle = false;
+    fixture.componentInstance.showDetailsToggle = false;
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector('.tng-flow-workbench__actions tng-button'),
+    ).toBeNull();
   });
 });
