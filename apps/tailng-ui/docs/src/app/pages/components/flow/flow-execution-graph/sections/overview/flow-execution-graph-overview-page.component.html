@@ -2,8 +2,8 @@
   <section id="graph-purpose" class="docs-overview-block">
     <h2 class="docs-overview-title">Flow Execution Graph</h2>
     <p>
-      Flow Execution Graph is the standalone workflow diagram used by live execution surfaces. Use it
-      when a product already owns the surrounding inspector, properties panel, routing, or layout
+      Flow Execution Graph is the standalone workflow diagram used by live execution surfaces. Use
+      it when a product already owns the surrounding inspector, properties panel, routing, or layout
       but still needs the same execution-aware graph surface.
     </p>
   </section>
@@ -39,7 +39,7 @@
           <tng-button
             appearance="outline"
             size="sm"
-            (click)="deleteSelectedConnections(plainDefinition, plainSelection)"
+            (click)="deleteSelectedConnections(plainDefinition, plainSelection, plainHistory)"
           >
             Delete connection
           </tng-button>
@@ -67,18 +67,41 @@
         [showControls]="true"
         [showSelectionArea]="false"
         [fitOnInit]="true"
-        (nodesMoved)="onNodesMoved(plainDefinition, $event)"
+        [commandShortcuts]="['undo', 'redo']"
+        [canUndo]="plainHistoryStatus().canUndo"
+        [canRedo]="plainHistoryStatus().canRedo"
+        (nodesMoved)="onNodesMoved(plainDefinition, plainSelection, plainHistory, $event)"
+        (nodesDeleteRequested)="
+          onNodesDeleteRequested(
+            plainDefinition,
+            plainSelection,
+            plainHistory,
+            plainInspectedNodeId,
+            plainSelectedExecutionId,
+            $event
+          )
+        "
         (connectionCreateRequested)="
-          onConnectionCreateRequested(plainDefinition, plainSelection, $event)
+          onConnectionCreateRequested(plainDefinition, plainSelection, plainHistory, $event)
         "
         (connectionReconnectRequested)="
-          onConnectionReconnectRequested(plainDefinition, plainSelection, $event)
+          onConnectionReconnectRequested(plainDefinition, plainSelection, plainHistory, $event)
         "
         (connectionRoutingChangeRequested)="
-          onConnectionRoutingChangeRequested(plainDefinition, $event)
+          onConnectionRoutingChangeRequested(plainDefinition, plainSelection, plainHistory, $event)
         "
         (connectionsDeleteRequested)="
-          onConnectionsDeleteRequested(plainDefinition, plainSelection, $event)
+          onConnectionsDeleteRequested(plainDefinition, plainSelection, plainHistory, $event)
+        "
+        (commandRequested)="
+          onCommandRequested(
+            plainDefinition,
+            plainSelection,
+            plainHistory,
+            plainInspectedNodeId,
+            plainSelectedExecutionId,
+            $event
+          )
         "
         (selectionChange)="plainSelection.set($event)"
         (inspectedNodeIdChange)="plainInspectedNodeId.set($event)"
@@ -109,7 +132,9 @@
           <tng-button
             appearance="outline"
             size="sm"
-            (click)="deleteSelectedConnections(tailwindDefinition, tailwindSelection)"
+            (click)="
+              deleteSelectedConnections(tailwindDefinition, tailwindSelection, tailwindHistory)
+            "
           >
             Delete connection
           </tng-button>
@@ -137,18 +162,61 @@
         [showControls]="true"
         [showSelectionArea]="false"
         [fitOnInit]="true"
-        (nodesMoved)="onNodesMoved(tailwindDefinition, $event)"
+        [commandShortcuts]="['undo', 'redo']"
+        [canUndo]="tailwindHistoryStatus().canUndo"
+        [canRedo]="tailwindHistoryStatus().canRedo"
+        (nodesMoved)="onNodesMoved(tailwindDefinition, tailwindSelection, tailwindHistory, $event)"
+        (nodesDeleteRequested)="
+          onNodesDeleteRequested(
+            tailwindDefinition,
+            tailwindSelection,
+            tailwindHistory,
+            tailwindInspectedNodeId,
+            tailwindSelectedExecutionId,
+            $event
+          )
+        "
         (connectionCreateRequested)="
-          onConnectionCreateRequested(tailwindDefinition, tailwindSelection, $event)
+          onConnectionCreateRequested(
+            tailwindDefinition,
+            tailwindSelection,
+            tailwindHistory,
+            $event
+          )
         "
         (connectionReconnectRequested)="
-          onConnectionReconnectRequested(tailwindDefinition, tailwindSelection, $event)
+          onConnectionReconnectRequested(
+            tailwindDefinition,
+            tailwindSelection,
+            tailwindHistory,
+            $event
+          )
         "
         (connectionRoutingChangeRequested)="
-          onConnectionRoutingChangeRequested(tailwindDefinition, $event)
+          onConnectionRoutingChangeRequested(
+            tailwindDefinition,
+            tailwindSelection,
+            tailwindHistory,
+            $event
+          )
         "
         (connectionsDeleteRequested)="
-          onConnectionsDeleteRequested(tailwindDefinition, tailwindSelection, $event)
+          onConnectionsDeleteRequested(
+            tailwindDefinition,
+            tailwindSelection,
+            tailwindHistory,
+            $event
+          )
+        "
+        (commandRequested)="
+          onCommandRequested(
+            tailwindDefinition,
+            tailwindSelection,
+            tailwindHistory,
+            tailwindInspectedNodeId,
+            tailwindSelectedExecutionId,
+            $event
+          )
         "
         (selectionChange)="tailwindSelection.set($event)"
         (inspectedNodeIdChange)="tailwindInspectedNodeId.set($event)"
