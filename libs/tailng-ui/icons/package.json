@@ -16,7 +16,6 @@
     "@angular/core": "^21.1.0 || ^22.0.0"
   },
   "sideEffects": [
-    "./src/lib/icons.ts",
     "./fesm2022/tailng-ui-icons.mjs"
   ]
 }
