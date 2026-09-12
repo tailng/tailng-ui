@@ -6,6 +6,7 @@ import {
   type TngFlowConnectionRoutingChangeRequest,
   type TngFlowConnectionsDeleteRequest,
   type TngFlowDefinition,
+  type TngFlowNodesDeleteRequest,
   type TngFlowNodesMovedEvent,
   type TngFlowSelection,
 } from '@tailng-ui/flow';
@@ -115,6 +116,43 @@ export function applyFlowExecutionGraphConnectionsDelete(
       nodeIds: new Set(selection.nodeIds),
       connectionIds: new Set(
         [...selection.connectionIds].filter((connectionId) => !deletedIds.has(connectionId)),
+      ),
+    },
+  };
+}
+
+export function applyFlowExecutionGraphNodesDelete(
+  definition: TngFlowDefinition<unknown>,
+  selection: TngFlowSelection,
+  request: Pick<TngFlowNodesDeleteRequest, 'nodeIds'>,
+): FlowExecutionGraphControlledUpdate {
+  const deletedNodeIds = new Set(request.nodeIds);
+  if (deletedNodeIds.size === 0) {
+    return { definition, selection };
+  }
+  const removedConnectionIds = new Set(
+    definition.connections
+      .filter(
+        (connection) =>
+          deletedNodeIds.has(connection.source.nodeId) ||
+          deletedNodeIds.has(connection.target.nodeId),
+      )
+      .map((connection) => connection.id),
+  );
+  return {
+    definition: pruneUnusedTngFlowCustomPointPorts({
+      ...definition,
+      nodes: definition.nodes.filter((node) => !deletedNodeIds.has(node.id)),
+      connections: definition.connections.filter(
+        (connection) => !removedConnectionIds.has(connection.id),
+      ),
+    }),
+    selection: {
+      nodeIds: new Set([...selection.nodeIds].filter((nodeId) => !deletedNodeIds.has(nodeId))),
+      connectionIds: new Set(
+        [...selection.connectionIds].filter(
+          (connectionId) => !removedConnectionIds.has(connectionId),
+        ),
       ),
     },
   };

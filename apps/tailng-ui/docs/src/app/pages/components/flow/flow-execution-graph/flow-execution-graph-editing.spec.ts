@@ -5,6 +5,7 @@ import {
   applyFlowExecutionGraphConnectionReconnect,
   applyFlowExecutionGraphConnectionRoutingChange,
   applyFlowExecutionGraphConnectionsDelete,
+  applyFlowExecutionGraphNodesDelete,
   applyFlowExecutionGraphNodeMoves,
 } from './flow-execution-graph-editing';
 
@@ -117,5 +118,25 @@ describe('flow execution graph controlled editing', () => {
       targetMarker: 'arrow',
     });
     expect(withOptions.connections[0]?.routing?.type).toBe('bezier');
+  });
+
+  it('deletes selected nodes and attached connections from controlled state', () => {
+    const connected = applyFlowExecutionGraphConnectionCreate(definition, {
+      source: { nodeId: 'source', portId: 'custom-point-out-right-1' },
+      target: { nodeId: 'target', portId: 'custom-point-in-left-1' },
+    });
+    const deleted = applyFlowExecutionGraphNodesDelete(
+      connected.definition,
+      {
+        nodeIds: new Set(['source']),
+        connectionIds: new Set(['docs-connection-1']),
+      },
+      { nodeIds: ['source'], source: 'keyboard' },
+    );
+
+    expect(deleted.definition.nodes.map((node) => node.id)).toEqual(['target']);
+    expect(deleted.definition.connections).toEqual([]);
+    expect(deleted.definition.nodes.flatMap((node) => node.ports ?? [])).toEqual([]);
+    expect(deleted.selection).toEqual(emptySelection);
   });
 });

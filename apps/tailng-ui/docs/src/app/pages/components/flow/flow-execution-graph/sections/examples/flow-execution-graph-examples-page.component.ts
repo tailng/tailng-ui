@@ -1,5 +1,13 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, inject, signal, type OnDestroy, type WritableSignal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  signal,
+  type OnDestroy,
+  type Signal,
+  type WritableSignal,
+} from '@angular/core';
 import { TngButtonComponent } from '@tailng-ui/components';
 import type {
   TngFlowConnectionCreateRequest,
@@ -7,9 +15,21 @@ import type {
   TngFlowConnectionRoutingChangeRequest,
   TngFlowConnectionsDeleteRequest,
   TngFlowDefinition,
+  TngFlowEditorCommandRequest,
+  TngFlowHistoryState,
+  TngFlowHistoryStatus,
+  TngFlowHistoryUpdate,
+  TngFlowNodesDeleteRequest,
   TngFlowNodesMovedEvent,
   TngFlowSelection,
   TngFlowViewport,
+} from '@tailng-ui/flow';
+import {
+  commitTngFlowHistory,
+  createTngFlowHistory,
+  redoTngFlowHistory,
+  tngFlowHistoryStatus,
+  undoTngFlowHistory,
 } from '@tailng-ui/flow';
 import {
   TngFlowExecutionGraphComponent,
@@ -43,6 +63,7 @@ import {
   applyFlowExecutionGraphConnectionReconnect,
   applyFlowExecutionGraphConnectionRoutingChange,
   applyFlowExecutionGraphConnectionsDelete,
+  applyFlowExecutionGraphNodesDelete,
   applyFlowExecutionGraphNodeMoves,
   type FlowExecutionGraphControlledUpdate,
 } from '../../flow-execution-graph-editing';
@@ -68,6 +89,8 @@ type FlowExecutionGraphScenario = Omit<FlowExecutionScenario, 'id'> &
 
 type FlowExecutionGraphExampleState = Readonly<{
   definition: WritableSignal<TngFlowDefinition<unknown>>;
+  history: WritableSignal<TngFlowHistoryState<unknown>>;
+  historyStatus: Signal<TngFlowHistoryStatus>;
   inspectedNodeId: WritableSignal<string | null>;
   lastActivation: WritableSignal<string>;
   playing: WritableSignal<boolean>;
@@ -252,13 +275,19 @@ const DELAYED_EXECUTION_SCENARIO = Object.freeze({
 } satisfies FlowExecutionGraphScenario);
 
 function createExampleState(scenario: FlowExecutionGraphScenario): FlowExecutionGraphExampleState {
+  const definition = signal(cloneDefinition(scenario.definition));
+  const selection = signal(cloneSelection(scenario.selection));
+  const history = signal(createTngFlowHistory(definition(), { selection: selection() }));
+
   return Object.freeze({
-    definition: signal(cloneDefinition(scenario.definition)),
+    definition,
+    history,
+    historyStatus: computed(() => tngFlowHistoryStatus(history())),
     inspectedNodeId: signal(scenario.inspectedNodeId),
     lastActivation: signal('No graph activation yet.'),
     playing: signal(false),
     selectedExecutionId: signal(scenario.selectedExecutionId),
-    selection: signal(cloneSelection(scenario.selection)),
+    selection,
     snapshot: signal(scenario.snapshot),
     timeline: scenario.timeline,
     timelineIndex: signal(0),
@@ -495,10 +524,13 @@ export class FlowExecutionGraphExamplesPageComponent implements OnDestroy {
     scenario: FlowExecutionGraphScenario,
   ): void {
     this.stopPlayback(state);
-    state.definition.set(cloneDefinition(scenario.definition));
+    const definition = cloneDefinition(scenario.definition);
+    const selection = cloneSelection(scenario.selection);
+    state.definition.set(definition);
+    state.history.set(createTngFlowHistory(definition, { selection }));
     state.inspectedNodeId.set(scenario.inspectedNodeId);
     state.selectedExecutionId.set(scenario.selectedExecutionId);
-    state.selection.set(cloneSelection(scenario.selection));
+    state.selection.set(selection);
     state.snapshot.set(scenario.snapshot);
     state.timelineIndex.set(0);
     state.viewport.set({ ...scenario.viewport, position: { ...scenario.viewport.position } });
@@ -544,7 +576,8 @@ export class FlowExecutionGraphExamplesPageComponent implements OnDestroy {
   }
 
   public onNodesMoved(state: FlowExecutionGraphExampleState, event: TngFlowNodesMovedEvent): void {
-    state.definition.update((definition) => applyFlowExecutionGraphNodeMoves(definition, event));
+    const nextDefinition = applyFlowExecutionGraphNodeMoves(state.definition(), event);
+    this.commitDefinitionUpdate(state, 'Move nodes', () => nextDefinition);
   }
 
   public onConnectionCreateRequested(
@@ -552,7 +585,7 @@ export class FlowExecutionGraphExamplesPageComponent implements OnDestroy {
     request: TngFlowConnectionCreateRequest,
   ): void {
     const update = applyFlowExecutionGraphConnectionCreate(state.definition(), request);
-    this.applyControlledUpdate(state, update);
+    this.applyControlledUpdate(state, update, 'Create connection');
     state.lastActivation.set(
       `Connected ${this.nodeName(state, request.source.nodeId)} to ${this.nodeName(state, request.target.nodeId)}.`,
     );
@@ -567,7 +600,7 @@ export class FlowExecutionGraphExamplesPageComponent implements OnDestroy {
       state.selection(),
       request,
     );
-    this.applyControlledUpdate(state, update);
+    this.applyControlledUpdate(state, update, 'Reconnect connection');
     state.lastActivation.set(`Updated the ${request.changedEndpoint} connection endpoint.`);
   }
 
@@ -575,21 +608,60 @@ export class FlowExecutionGraphExamplesPageComponent implements OnDestroy {
     state: FlowExecutionGraphExampleState,
     request: TngFlowConnectionsDeleteRequest,
   ): void {
-    this.applyControlledUpdate(
-      state,
-      applyFlowExecutionGraphConnectionsDelete(state.definition(), state.selection(), request),
+    const update = applyFlowExecutionGraphConnectionsDelete(
+      state.definition(),
+      state.selection(),
+      request,
     );
+    this.applyControlledUpdate(state, update, 'Delete connections');
     state.lastActivation.set(
       `Deleted ${request.connectionIds.length} connection${request.connectionIds.length === 1 ? '' : 's'}.`,
     );
+  }
+
+  public onNodesDeleteRequested(
+    state: FlowExecutionGraphExampleState,
+    request: TngFlowNodesDeleteRequest,
+  ): void {
+    const update = applyFlowExecutionGraphNodesDelete(
+      state.definition(),
+      state.selection(),
+      request,
+    );
+    this.applyControlledUpdate(state, update, 'Delete nodes');
+    if (
+      state.inspectedNodeId() !== null &&
+      request.nodeIds.includes(state.inspectedNodeId() ?? '')
+    ) {
+      state.inspectedNodeId.set(null);
+      state.selectedExecutionId.set(null);
+    }
+    state.lastActivation.set(
+      `Deleted ${request.nodeIds.length} node${request.nodeIds.length === 1 ? '' : 's'}.`,
+    );
+  }
+
+  public onCommandRequested(
+    state: FlowExecutionGraphExampleState,
+    request: TngFlowEditorCommandRequest,
+  ): void {
+    if (request.command === 'undo') {
+      this.applyHistoryState(state, undoTngFlowHistory(state.history()));
+      return;
+    }
+    if (request.command === 'redo') {
+      this.applyHistoryState(state, redoTngFlowHistory(state.history()));
+    }
   }
 
   public onConnectionRoutingChangeRequested(
     state: FlowExecutionGraphExampleState,
     request: TngFlowConnectionRoutingChangeRequest,
   ): void {
-    state.definition.update((definition) =>
-      applyFlowExecutionGraphConnectionRoutingChange(definition, request),
+    this.commitDefinitionUpdate(
+      state,
+      `Change ${request.type} routing`,
+      (definition) => applyFlowExecutionGraphConnectionRoutingChange(definition, request),
     );
     state.lastActivation.set(
       `Changed ${request.connectionIds.length} connection${request.connectionIds.length === 1 ? '' : 's'} to ${request.type}.`,
@@ -624,9 +696,55 @@ export class FlowExecutionGraphExamplesPageComponent implements OnDestroy {
   private applyControlledUpdate(
     state: FlowExecutionGraphExampleState,
     update: FlowExecutionGraphControlledUpdate,
+    label: string,
   ): void {
     state.definition.set(update.definition);
     state.selection.set(update.selection);
+    state.history.update((history) =>
+      commitTngFlowHistory(history, update.definition, {
+        label,
+        selection: update.selection,
+      }),
+    );
+  }
+
+  private commitDefinitionUpdate(
+    state: FlowExecutionGraphExampleState,
+    label: string,
+    update: TngFlowHistoryUpdate<unknown>,
+  ): void {
+    const nextDefinition = update(state.definition());
+    state.definition.set(nextDefinition);
+    state.history.update((history) =>
+      commitTngFlowHistory(history, nextDefinition, {
+        label,
+        selection: state.selection(),
+      }),
+    );
+  }
+
+  private applyHistoryState(
+    state: FlowExecutionGraphExampleState,
+    history: TngFlowHistoryState<unknown>,
+  ): void {
+    const selection = history.present.selection ?? { connectionIds: new Set(), nodeIds: new Set() };
+    const selectedNodeId = selection.nodeIds.values().next().value;
+
+    state.history.set(history);
+    state.definition.set(history.present.definition);
+    state.selection.set(selection);
+    if (typeof selectedNodeId === 'string') {
+      state.inspectedNodeId.set(selectedNodeId);
+      state.selectedExecutionId.set(null);
+      return;
+    }
+    if (
+      state.inspectedNodeId() !== null &&
+      !history.present.definition.nodes.some((node) => node.id === state.inspectedNodeId())
+    ) {
+      state.inspectedNodeId.set(null);
+      state.selectedExecutionId.set(null);
+    }
   }
 
   private nodeName(state: FlowExecutionGraphExampleState, nodeId: string): string {
