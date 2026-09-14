@@ -1,30 +1,308 @@
-<article class="docs-section-page">
-  <section id="properties-basic-example" class="docs-overview-block">
-    <h2 class="docs-overview-title">Selected node panel</h2>
-    <p>
-      Bind the same inspected node id used by the graph, then apply emitted changes to the
-      definition in the parent component.
+<article class="docs-section-page flow-node-properties-examples">
+  <section class="docs-overview-block">
+    <h2 class="docs-overview-title">Flow Node Properties examples</h2>
+    <p class="docs-overview-lead">
+      Production-shaped node inspectors that keep workflow state controlled in the parent while
+      using Flow Node Properties for the editable details panel.
     </p>
-    <pre><code>&lt;tng-flow-node-properties
-  [definition]="definition()"
-  [inspectedNodeId]="inspectedNodeId()"
-  [readonly]="saving()"
-  [showPorts]="true"
-  [showData]="true"
-  (nodeChangeRequested)="applyNodeChanges($event)"
-/&gt;</code></pre>
   </section>
 
-  <section id="properties-template-example" class="docs-overview-block">
-    <h3>Custom data rendering</h3>
+  <section id="incident-triage-properties" class="docs-overview-block">
+    <app-docs-example-tabs-section
+      heading="Incident triage properties"
+      description="Select a node, edit standard metadata, project a domain-specific data form, and apply emitted changes back to the controlled flow definition."
+      ariaLabel="Incident triage node properties styling variants"
+      tabListAriaLabel="Incident triage node properties styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain CSS"
+        panelTitle="Incident triage properties with Plain CSS"
+        [codeTabs]="plainCssCodeTabs"
+      >
+        <div class="flow-node-properties-example">
+          <header class="flow-node-properties-example__toolbar" aria-label="Panel controls">
+            <label class="flow-node-properties-example__check">
+              <input
+                type="checkbox"
+                [checked]="plainExample.isReadonly()"
+                (change)="setReadonly(plainExample, $event)"
+              />
+              <span>Readonly</span>
+            </label>
+
+            <label class="flow-node-properties-example__check">
+              <input
+                type="checkbox"
+                [checked]="plainExample.showData()"
+                (change)="setShowData(plainExample, $event)"
+              />
+              <span>Data</span>
+            </label>
+
+            <label class="flow-node-properties-example__check">
+              <input
+                type="checkbox"
+                [checked]="plainExample.showPorts()"
+                (change)="setShowPorts(plainExample, $event)"
+              />
+              <span>Ports</span>
+            </label>
+
+            <tng-button
+              type="button"
+              appearance="outline"
+              size="sm"
+              tone="neutral"
+              (click)="resetExample(plainExample)"
+            >
+              Reset
+            </tng-button>
+          </header>
+
+          <div class="flow-node-properties-example__shell">
+            <aside class="flow-node-properties-example__nodes" aria-label="Incident nodes">
+              @for (node of plainExample.definition().nodes; track node.id) {
+                <button
+                  type="button"
+                  class="flow-node-properties-example__node"
+                  [class.is-selected]="plainExample.inspectedNodeId() === node.id"
+                  (click)="selectNode(plainExample, node)"
+                >
+                  <span>{{ node.name }}</span>
+                  <small>{{ node.type }}</small>
+                </button>
+              }
+            </aside>
+
+            <tng-flow-node-properties
+              class="flow-node-properties-example__panel"
+              [definition]="plainExample.definition()"
+              [inspectedNodeId]="plainExample.inspectedNodeId()"
+              [readonly]="plainExample.isReadonly()"
+              [showData]="plainExample.showData()"
+              [showPorts]="plainExample.showPorts()"
+              (nodeChangeRequested)="applyNodeChanges(plainExample, $event)"
+            >
+              <ng-template
+                tngFlowNodePropertiesData
+                let-data
+                let-readonly="readonly"
+                let-requestDataChange="requestDataChange"
+              >
+                <div class="flow-node-properties-example__data-grid">
+                  <label>
+                    <span>Owner</span>
+                    <input
+                      type="text"
+                      [value]="dataOwner(data)"
+                      [readOnly]="readonly"
+                      (input)="updateOwner(data, $event, requestDataChange)"
+                    />
+                  </label>
+
+                  <label>
+                    <span>Queue</span>
+                    <input
+                      type="text"
+                      [value]="dataQueue(data)"
+                      [readOnly]="readonly"
+                      (input)="updateQueue(data, $event, requestDataChange)"
+                    />
+                  </label>
+
+                  <label>
+                    <span>Priority</span>
+                    <select
+                      [value]="dataPriority(data)"
+                      [disabled]="readonly"
+                      (change)="updatePriority(data, $event, requestDataChange)"
+                    >
+                      @for (priority of priorities; track priority) {
+                        <option [value]="priority">{{ priority }}</option>
+                      }
+                    </select>
+                  </label>
+
+                  <label>
+                    <span>Escalation</span>
+                    <input
+                      type="text"
+                      [value]="dataEscalation(data)"
+                      [readOnly]="readonly"
+                      (input)="updateEscalation(data, $event, requestDataChange)"
+                    />
+                  </label>
+                </div>
+              </ng-template>
+            </tng-flow-node-properties>
+          </div>
+
+          <p class="flow-node-properties-example__status" role="status" aria-live="polite">
+            {{ plainExample.status() }}
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Incident triage properties with Tailwind CSS"
+        [codeTabs]="tailwindCodeTabs"
+      >
+        <div class="grid gap-3">
+          <header
+            class="flex flex-wrap items-center justify-end gap-3 rounded-lg border border-tng-border-subtle bg-tng-bg-muted p-3"
+            aria-label="Panel controls"
+          >
+            <label class="inline-flex min-h-9 items-center gap-2 text-sm text-tng-fg-secondary">
+              <input
+                type="checkbox"
+                class="size-4 accent-tng-accent-primary"
+                [checked]="tailwindExample.isReadonly()"
+                (change)="setReadonly(tailwindExample, $event)"
+              />
+              <span>Readonly</span>
+            </label>
+
+            <label class="inline-flex min-h-9 items-center gap-2 text-sm text-tng-fg-secondary">
+              <input
+                type="checkbox"
+                class="size-4 accent-tng-accent-primary"
+                [checked]="tailwindExample.showData()"
+                (change)="setShowData(tailwindExample, $event)"
+              />
+              <span>Data</span>
+            </label>
+
+            <label class="inline-flex min-h-9 items-center gap-2 text-sm text-tng-fg-secondary">
+              <input
+                type="checkbox"
+                class="size-4 accent-tng-accent-primary"
+                [checked]="tailwindExample.showPorts()"
+                (change)="setShowPorts(tailwindExample, $event)"
+              />
+              <span>Ports</span>
+            </label>
+
+            <tng-button
+              type="button"
+              appearance="outline"
+              size="sm"
+              tone="neutral"
+              (click)="resetExample(tailwindExample)"
+            >
+              Reset
+            </tng-button>
+          </header>
+
+          <div
+            class="grid min-h-[36rem] overflow-hidden rounded-lg border border-tng-border-subtle bg-tng-bg-base md:grid-cols-[minmax(13rem,17rem)_minmax(0,1fr)]"
+          >
+            <aside
+              class="grid content-start gap-2 border-b border-tng-border-subtle bg-tng-bg-muted/60 p-3 md:border-b-0 md:border-r"
+              aria-label="Incident nodes"
+            >
+              @for (node of tailwindExample.definition().nodes; track node.id) {
+                <button
+                  type="button"
+                  class="grid min-w-0 gap-1 rounded-lg border border-tng-border-subtle bg-tng-bg-surface px-3 py-2 text-left text-sm text-tng-fg-primary transition hover:bg-tng-bg-muted"
+                  [class.border-tng-accent-primary]="tailwindExample.inspectedNodeId() === node.id"
+                  (click)="selectNode(tailwindExample, node)"
+                >
+                  <span class="min-w-0 font-semibold [overflow-wrap:anywhere]">
+                    {{ node.name }}
+                  </span>
+                  <small class="min-w-0 text-xs uppercase text-tng-fg-muted">{{ node.type }}</small>
+                </button>
+              }
+            </aside>
+
+            <tng-flow-node-properties
+              class="min-h-[36rem]"
+              [definition]="tailwindExample.definition()"
+              [inspectedNodeId]="tailwindExample.inspectedNodeId()"
+              [readonly]="tailwindExample.isReadonly()"
+              [showData]="tailwindExample.showData()"
+              [showPorts]="tailwindExample.showPorts()"
+              (nodeChangeRequested)="applyNodeChanges(tailwindExample, $event)"
+            >
+              <ng-template
+                tngFlowNodePropertiesData
+                let-data
+                let-readonly="readonly"
+                let-requestDataChange="requestDataChange"
+              >
+                <div class="grid gap-3">
+                  <label class="grid gap-1.5 text-sm text-tng-fg-secondary">
+                    <span>Owner</span>
+                    <input
+                      class="min-h-10 rounded-lg border border-tng-border-default bg-tng-bg-surface px-3 text-tng-fg-primary"
+                      type="text"
+                      [value]="dataOwner(data)"
+                      [readOnly]="readonly"
+                      (input)="updateOwner(data, $event, requestDataChange)"
+                    />
+                  </label>
+
+                  <label class="grid gap-1.5 text-sm text-tng-fg-secondary">
+                    <span>Queue</span>
+                    <input
+                      class="min-h-10 rounded-lg border border-tng-border-default bg-tng-bg-surface px-3 text-tng-fg-primary"
+                      type="text"
+                      [value]="dataQueue(data)"
+                      [readOnly]="readonly"
+                      (input)="updateQueue(data, $event, requestDataChange)"
+                    />
+                  </label>
+
+                  <label class="grid gap-1.5 text-sm text-tng-fg-secondary">
+                    <span>Priority</span>
+                    <select
+                      class="min-h-10 rounded-lg border border-tng-border-default bg-tng-bg-surface px-3 text-tng-fg-primary"
+                      [value]="dataPriority(data)"
+                      [disabled]="readonly"
+                      (change)="updatePriority(data, $event, requestDataChange)"
+                    >
+                      @for (priority of priorities; track priority) {
+                        <option [value]="priority">{{ priority }}</option>
+                      }
+                    </select>
+                  </label>
+
+                  <label class="grid gap-1.5 text-sm text-tng-fg-secondary">
+                    <span>Escalation</span>
+                    <input
+                      class="min-h-10 rounded-lg border border-tng-border-default bg-tng-bg-surface px-3 text-tng-fg-primary"
+                      type="text"
+                      [value]="dataEscalation(data)"
+                      [readOnly]="readonly"
+                      (input)="updateEscalation(data, $event, requestDataChange)"
+                    />
+                  </label>
+                </div>
+              </ng-template>
+            </tng-flow-node-properties>
+          </div>
+
+          <p class="m-0 text-sm leading-6 text-tng-fg-secondary" role="status" aria-live="polite">
+            {{ tailwindExample.status() }}
+          </p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="controlled-updates" class="docs-overview-block">
+    <h3>Controlled updates</h3>
     <p>
-      Use the data template when node payloads need a domain form, redacted fields, or a custom
-      summary instead of the default JSON/text preview.
+      The panel never mutates the definition directly. Each edit emits a
+      <code>nodeChangeRequested</code> payload, so product code can validate, persist, or reject
+      changes before rendering the next definition.
     </p>
-    <pre><code>&lt;tng-flow-node-properties [node]="selectedNode()"&gt;
-  &lt;ng-template tngFlowNodePropertiesData let-node&gt;
-    &lt;app-agent-node-settings [node]="node" /&gt;
-  &lt;/ng-template&gt;
-&lt;/tng-flow-node-properties&gt;</code></pre>
   </section>
 </article>

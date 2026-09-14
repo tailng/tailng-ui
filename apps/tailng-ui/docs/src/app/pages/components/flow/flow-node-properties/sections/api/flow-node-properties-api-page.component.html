@@ -1,33 +1,224 @@
 <article class="docs-section-page">
-  <section id="properties-inputs" class="docs-overview-block">
-    <h2 class="docs-overview-title">Properties inputs</h2>
-    <p>
-      Provide either the selected <code>node</code> directly or a <code>definition</code> plus
-      <code>inspectedNodeId</code> so the component can resolve the active node.
+  <section class="docs-overview-block">
+    <h2 class="docs-overview-title">Node Properties API</h2>
+    <p class="docs-overview-lead">
+      Import <code>TngFlowNodePropertiesComponent</code>, the
+      <code>TngFlowNodePropertiesDataTemplateDirective</code>, and related event types from
+      <code>&#64;tailng-ui/flow/execution</code>. The component is controlled: it displays the
+      selected node and emits change requests for the application to apply.
     </p>
-    <ul>
-      <li><code>definition</code>: workflow definition used for node lookup.</li>
-      <li><code>node</code>: explicit selected node override.</li>
-      <li><code>inspectedNodeId</code>: selected node id when using definition lookup.</li>
-      <li><code>readonly</code>: disables edit controls.</li>
-      <li><code>showData</code> and <code>showPorts</code>: toggle optional sections.</li>
-    </ul>
+  </section>
+
+  <section id="properties-inputs" class="docs-overview-block">
+    <h3>Properties inputs</h3>
+    <p>
+      Provide either <code>node</code> directly or <code>definition</code> plus
+      <code>inspectedNodeId</code>. A direct <code>node</code> value takes precedence, which is
+      useful when the surrounding app already resolves selection.
+    </p>
+    <div class="docs-api-table-wrap">
+      <table class="docs-api-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>definition</code></td>
+            <td><code>TngFlowDefinition&lt;TData&gt; | null</code></td>
+            <td><code>null</code></td>
+            <td>Workflow definition used to resolve the inspected node by id.</td>
+          </tr>
+          <tr>
+            <td><code>node</code></td>
+            <td><code>TngFlowNode&lt;TData&gt; | null</code></td>
+            <td><code>null</code></td>
+            <td>Explicit selected node. When present, this overrides definition lookup.</td>
+          </tr>
+          <tr>
+            <td><code>inspectedNodeId</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Node id to inspect when the component receives a full definition.</td>
+          </tr>
+          <tr>
+            <td><code>readonly</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>
+              Disables editable controls and prevents built-in fields or custom templates from
+              emitting change requests.
+            </td>
+          </tr>
+          <tr>
+            <td><code>showData</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Shows the Data section with either the JSON preview or custom data template.</td>
+          </tr>
+          <tr>
+            <td><code>showPorts</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Shows the Ports section with input and output port metadata.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <tng-code-block
+      [code]="basicUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Definition lookup"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
+    <tng-code-block
+      [code]="directNodeCode"
+      adapter="shiki"
+      language="html"
+      title="Direct node"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
   </section>
 
   <section id="properties-outputs" class="docs-overview-block">
     <h3>Properties outputs</h3>
     <p>
-      Listen for <code>nodeChangeRequested</code>. The payload is a
-      <code>TngFlowNodePropertyChangeRequest</code> with the node id, source field, and partial node
-      changes to apply.
+      The component never mutates the supplied node or definition. Listen for
+      <code>nodeChangeRequested</code>, validate the request if needed, then merge the partial
+      changes into application state.
     </p>
+    <div class="docs-api-table-wrap">
+      <table class="docs-api-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>nodeChangeRequested</code></td>
+            <td><code>TngFlowNodePropertyChangeRequest&lt;TData&gt;</code></td>
+            <td>
+              Emitted for built-in name, description, disabled, and locked edits, and for custom
+              data template requests.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="docs-api-table-wrap">
+      <table class="docs-api-table">
+        <thead>
+          <tr>
+            <th>Payload field</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>node</code></td>
+            <td><code>TngFlowNode&lt;TData&gt;</code></td>
+            <td>The node that was displayed when the request was created.</td>
+          </tr>
+          <tr>
+            <td><code>nodeId</code></td>
+            <td><code>string</code></td>
+            <td>Stable id for matching the request back to the definition.</td>
+          </tr>
+          <tr>
+            <td><code>changes</code></td>
+            <td><code>TngFlowNodePropertyChanges&lt;TData&gt;</code></td>
+            <td>
+              Partial changes for <code>name</code>, <code>description</code>,
+              <code>disabled</code>, <code>locked</code>, or <code>data</code>.
+            </td>
+          </tr>
+          <tr>
+            <td><code>source</code></td>
+            <td><code>'field' | 'data-template'</code></td>
+            <td>
+              Identifies whether the request came from built-in fields or a projected template.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <tng-code-block
+      [code]="changeHandlerCode"
+      adapter="shiki"
+      language="ts"
+      title="Controlled update handler"
+      [lineNumbers]="true"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
   </section>
 
   <section id="properties-templates" class="docs-overview-block">
     <h3>Data template</h3>
     <p>
-      Project <code>ng-template[tngFlowNodePropertiesData]</code> when a product needs custom node
-      data editing or a domain-specific readonly summary.
+      Project <code>ng-template[tngFlowNodePropertiesData]</code> when a product needs a typed data
+      editor or a domain-specific readonly summary. The template replaces only the Data section
+      body; the built-in header, base fields, and port list remain available.
     </p>
+    <div class="docs-api-table-wrap">
+      <table class="docs-api-table">
+        <thead>
+          <tr>
+            <th>Context value</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>$implicit</code>, <code>data</code></td>
+            <td><code>TData | undefined</code></td>
+            <td>The selected node data.</td>
+          </tr>
+          <tr>
+            <td><code>node</code></td>
+            <td><code>TngFlowNode&lt;TData&gt;</code></td>
+            <td>The selected node record.</td>
+          </tr>
+          <tr>
+            <td><code>readonly</code></td>
+            <td><code>boolean</code></td>
+            <td>Use this to disable custom controls consistently with the built-in fields.</td>
+          </tr>
+          <tr>
+            <td><code>requestDataChange</code></td>
+            <td><code>(data: TData | undefined) =&gt; void</code></td>
+            <td>Requests a <code>data</code>-only node update.</td>
+          </tr>
+          <tr>
+            <td><code>requestNodeChange</code></td>
+            <td><code>(changes: TngFlowNodePropertyChanges&lt;TData&gt;) =&gt; void</code></td>
+            <td>Requests any supported node property update from the custom template.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <tng-code-block
+      [code]="dataTemplateCode"
+      adapter="shiki"
+      language="html"
+      title="Custom data template"
+      [lineNumbers]="true"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
   </section>
 </article>

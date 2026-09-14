@@ -1,0 +1,156 @@
+.flow-node-properties-examples {
+  min-width: 0;
+}
+
+.flow-node-properties-example {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.flow-node-properties-example__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.5rem;
+  background: var(--tng-semantic-background-muted);
+}
+
+.flow-node-properties-example__check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.25rem;
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.875rem;
+}
+
+.flow-node-properties-example__check input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--tng-semantic-accent-primary);
+}
+
+.flow-node-properties-example__shell {
+  display: grid;
+  grid-template-columns: minmax(13rem, 17rem) minmax(0, 1fr);
+  min-height: 36rem;
+  overflow: hidden;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.5rem;
+  background: var(--tng-semantic-background-base);
+}
+
+.flow-node-properties-example__nodes {
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 0.75rem;
+  border-right: 1px solid var(--tng-semantic-border-subtle);
+  background: color-mix(in srgb, var(--tng-semantic-background-muted) 60%, transparent);
+}
+
+.flow-node-properties-example__node {
+  display: grid;
+  gap: 0.25rem;
+  width: 100%;
+  min-width: 0;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.5rem;
+  color: var(--tng-semantic-foreground-primary);
+  background: var(--tng-semantic-background-surface);
+  text-align: left;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+
+.flow-node-properties-example__node:hover {
+  background: var(--tng-semantic-background-muted);
+}
+
+.flow-node-properties-example__node.is-selected {
+  border-color: var(--tng-semantic-accent-primary);
+}
+
+.flow-node-properties-example__node span,
+.flow-node-properties-example__node small {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.flow-node-properties-example__node span {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.flow-node-properties-example__node small {
+  color: var(--tng-semantic-foreground-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.flow-node-properties-example__panel {
+  min-height: 36rem;
+}
+
+.flow-node-properties-example__data-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.flow-node-properties-example__data-grid label {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+  color: var(--tng-semantic-foreground-muted);
+  font-size: 0.8rem;
+}
+
+.flow-node-properties-example__data-grid input,
+.flow-node-properties-example__data-grid select {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--tng-semantic-border-default);
+  border-radius: 0.5rem;
+  color: var(--tng-semantic-foreground-primary);
+  background: var(--tng-semantic-background-surface);
+  font: inherit;
+  font-size: 0.85rem;
+}
+
+.flow-node-properties-example__data-grid input:focus,
+.flow-node-properties-example__data-grid select:focus {
+  outline: 2px solid var(--tng-semantic-focus-ring);
+  outline-offset: 2px;
+}
+
+.flow-node-properties-example__status {
+  margin: 0;
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 720px) {
+  .flow-node-properties-example__toolbar {
+    justify-content: flex-start;
+  }
+
+  .flow-node-properties-example__shell {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-node-properties-example__nodes {
+    border-right: 0;
+    border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  }
+}

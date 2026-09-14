@@ -227,6 +227,43 @@ export const docsComponentOutlineItemsBySlug: Readonly<
       { id: 'execution-monitor', label: 'Execution monitor' },
     ],
   },
+  'flow-execution-graph': {
+    overview: [
+      { id: 'graph-purpose', label: 'Purpose' },
+      { id: 'running-workflow', label: 'Running workflow' },
+      { id: 'graph-responsibilities', label: 'Responsibilities' },
+      { id: 'graph-boundary', label: 'Boundary' },
+    ],
+    api: [
+      { id: 'graph-inputs', label: 'Graph inputs' },
+      { id: 'graph-editor-options', label: 'Editor options' },
+      { id: 'graph-outputs', label: 'Graph outputs' },
+      { id: 'controlled-authoring', label: 'Controlled authoring' },
+      { id: 'graph-templates', label: 'Template hooks' },
+      { id: 'graph-methods', label: 'Imperative helpers' },
+    ],
+    styling: [
+      { id: 'graph-layout', label: 'Graph layout' },
+      { id: 'graph-theme', label: 'Theme tokens' },
+      { id: 'graph-templates', label: 'Template styling' },
+    ],
+    examples: [
+      { id: 'queued-workflow', label: 'Queued workflow' },
+      { id: 'running-node', label: 'Running node' },
+      { id: 'delayed-execution', label: 'Delayed execution' },
+      { id: 'retrying-node', label: 'Retrying node' },
+      { id: 'waiting-human-input', label: 'Waiting human input' },
+      { id: 'successful-workflow', label: 'Successful workflow' },
+      { id: 'failed-node', label: 'Failed node' },
+      { id: 'skipped-branch', label: 'Skipped branch' },
+      { id: 'parallel-execution', label: 'Parallel execution' },
+      { id: 'loop-activations', label: 'Loop activations' },
+      { id: 'redacted-payloads', label: 'Redacted payloads' },
+      { id: 'large-json-payload', label: 'Large JSON payload' },
+      { id: 'dark-mode', label: 'Dark mode' },
+      { id: 'narrow-surface', label: 'Narrow surface' },
+    ],
+  },
   'flow-workbench': {
     overview: [
       { id: 'imports', label: 'Install and import' },
@@ -248,6 +285,30 @@ export const docsComponentOutlineItemsBySlug: Readonly<
       { id: 'basic-workbench', label: 'Editable workbench' },
       { id: 'custom-panels', label: 'Custom panels' },
       { id: 'live-workbench', label: 'Live execution' },
+    ],
+  },
+  'flow-node-properties': {
+    overview: [
+      { id: 'imports', label: 'Import' },
+      { id: 'editable-node-properties', label: 'Editable node properties' },
+      { id: 'properties-fields', label: 'Built-in fields' },
+      { id: 'properties-updates', label: 'Update model' },
+    ],
+    api: [
+      { id: 'properties-inputs', label: 'Inputs' },
+      { id: 'properties-outputs', label: 'Outputs' },
+      { id: 'properties-templates', label: 'Data template' },
+    ],
+    styling: [
+      { id: 'properties-layout', label: 'Panel layout' },
+      { id: 'properties-theme', label: 'Theme tokens' },
+      { id: 'properties-data-template', label: 'Data template styling' },
+      { id: 'properties-readonly', label: 'Readonly state' },
+      { id: 'properties-accessibility', label: 'Accessibility baseline' },
+    ],
+    examples: [
+      { id: 'incident-triage-properties', label: 'Incident triage properties' },
+      { id: 'controlled-updates', label: 'Controlled updates' },
     ],
   },
   table: {

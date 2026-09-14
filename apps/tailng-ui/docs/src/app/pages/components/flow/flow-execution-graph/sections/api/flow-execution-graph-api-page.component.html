@@ -1,79 +1,338 @@
 <article class="docs-section-page">
-  <section id="graph-inputs" class="docs-overview-block">
-    <h2 class="docs-overview-title">Graph inputs</h2>
-    <p>
-      The required model inputs are <code>definition</code> and <code>snapshot</code>. The graph is
-      otherwise controlled through the same state channels as the editor surface.
+  <section class="docs-overview-block">
+    <h2 class="docs-overview-title">Flow Execution Graph API</h2>
+    <p class="docs-overview-lead">
+      Import <code>TngFlowExecutionGraphComponent</code> from
+      <code>&#64;tailng-ui/flow/execution</code>. The graph is a controlled execution-aware facade
+      over Flow Editor: pass a workflow definition and run snapshot, then persist emitted selection,
+      viewport, and edit requests in application state.
     </p>
-    <ul>
-      <li><code>definition</code>: workflow graph definition.</li>
-      <li><code>snapshot</code>: run, node, and connection execution state.</li>
-      <li>
-        <code>selection</code>, <code>inspectedNodeId</code>, and <code>selectedExecutionId</code>:
-        controlled interaction state.
-      </li>
-      <li><code>viewport</code>: controlled pan and zoom state.</li>
-      <li>
-        <code>connectionCreationPathType</code>: two-way model for the path shape used by the live
-        connection preview and future connection requests. A null value resolves from connection
-        defaults, then falls back to Bézier.
-      </li>
-      <li>
-        <code>mode</code>: <code>edit</code>, <code>inspect</code>, or <code>readonly</code>. This
-        is the only graph interaction-mode input.
-      </li>
-      <li>
-        <code>attachmentLayout="custom-points"</code>: displays three connection positions on each
-        node border for free-form authoring. The default <code>static-ports</code> layout renders
-        only ports declared by the workflow definition.
-      </li>
-      <li>
-        <code>showControls</code>, <code>showConnectionTools</code>, <code>showBackground</code>,
-        <code>showMinimap</code>, <code>showSelectionArea</code>, and <code>fitOnInit</code>:
-        surface feature toggles. Connection tools render only in edit mode.
-      </li>
-    </ul>
+  </section>
+
+  <section id="graph-inputs" class="docs-overview-block">
+    <h3>Graph inputs</h3>
+    <p>
+      <code>definition</code> supplies the workflow topology and <code>snapshot</code> supplies
+      runtime execution state. Selection, inspection, selected execution, and viewport are
+      controlled inputs so dashboards can synchronize the graph with inspectors, history panels, and
+      URL state.
+    </p>
+    <div class="docs-api-table-wrap">
+      <table class="docs-api-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>definition</code></td>
+            <td><code>TngFlowDefinition&lt;TNodeData, TConnectionData&gt; | null</code></td>
+            <td><code>null</code></td>
+            <td>Workflow nodes, connections, ports, labels, positions, and routing metadata.</td>
+          </tr>
+          <tr>
+            <td><code>snapshot</code></td>
+            <td><code>TngFlowRunExecutionSnapshot&lt;TPayload&gt; | null</code></td>
+            <td><code>null</code></td>
+            <td>Run, node, and connection executions used to derive graph status presentation.</td>
+          </tr>
+          <tr>
+            <td><code>selection</code></td>
+            <td><code>TngFlowSelection</code></td>
+            <td><code>EMPTY_TNG_FLOW_SELECTION</code></td>
+            <td>Controlled node and connection selection.</td>
+          </tr>
+          <tr>
+            <td><code>inspectedNodeId</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Node id used by details panels and execution selection resolution.</td>
+          </tr>
+          <tr>
+            <td><code>selectedExecutionId</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Selected execution for the inspected node.</td>
+          </tr>
+          <tr>
+            <td><code>viewport</code></td>
+            <td><code>TngFlowViewport | null</code></td>
+            <td><code>null</code></td>
+            <td>Optional externally supplied canvas position and scale.</td>
+          </tr>
+          <tr>
+            <td><code>mode</code></td>
+            <td><code>'edit' | 'inspect' | 'readonly'</code></td>
+            <td><code>'inspect'</code></td>
+            <td>Controls graph editing, selection, and activation behavior.</td>
+          </tr>
+          <tr>
+            <td><code>flowId</code></td>
+            <td><code>string</code></td>
+            <td><code>'tng-flow-execution-graph'</code></td>
+            <td>Stable underlying flow instance id. Use a unique value for multiple graphs.</td>
+          </tr>
+          <tr>
+            <td><code>ariaLabel</code></td>
+            <td><code>string</code></td>
+            <td><code>'Workflow execution graph'</code></td>
+            <td>Accessible name for the graph surface.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <tng-code-block
+      [code]="basicUsageCode"
+      adapter="shiki"
+      language="html"
+      title="Controlled execution graph"
+      [lineNumbers]="true"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
+  </section>
+
+  <section id="graph-editor-options" class="docs-overview-block">
+    <h3>Editor options</h3>
+    <p>
+      Execution Graph forwards editor configuration to the underlying Flow Editor. Use these inputs
+      for authoring mode, minimap, command shortcuts, connection routing, keyboard movement, and
+      smart guides without dropping down to the editor component directly.
+    </p>
+    <div class="docs-api-table-wrap">
+      <table class="docs-api-table">
+        <thead>
+          <tr>
+            <th>Group</th>
+            <th>Inputs</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Surface toggles</td>
+            <td>
+              <code>showControls</code>, <code>showConnectionTools</code>,
+              <code>showBackground</code>, <code>showMinimap</code>, <code>showSelectionArea</code>,
+              <code>fitOnInit</code>,
+              <code>fitOnDefinitionChange</code>
+            </td>
+            <td>Shows or hides built-in canvas features and controls initial viewport fitting.</td>
+          </tr>
+          <tr>
+            <td>Connection behavior</td>
+            <td>
+              <code>attachmentLayout</code>, <code>connectionValidator</code>, <code>options</code>,
+              <code>connectionOptions</code>, <code>connectionCreationPathType</code>,
+              <code>connectionAriaLabel</code>
+            </td>
+            <td>
+              Configures port strategy, validation, routing defaults, live preview path type, and
+              accessible connection names.
+            </td>
+          </tr>
+          <tr>
+            <td>Keyboard and commands</td>
+            <td>
+              <code>keyboardOptions</code>, <code>commandShortcuts</code>, <code>canUndo</code>,
+              <code>canRedo</code>
+            </td>
+            <td>Configures keyboard movement, shortcut interception, and command toolbar state.</td>
+          </tr>
+          <tr>
+            <td>Layout assistance</td>
+            <td>
+              <code>smartGuides</code>, <code>snapToGrid</code>, <code>gridSize</code>,
+              <code>minimapOptions</code>
+            </td>
+            <td>Controls alignment guides, snapped movement, grid scale, and minimap behavior.</td>
+          </tr>
+          <tr>
+            <td>Context menu</td>
+            <td><code>contextMenuEnabled</code></td>
+            <td>Replaces the native graph context menu with controlled context-menu events.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
   <section id="graph-outputs" class="docs-overview-block">
     <h3>Graph outputs</h3>
     <p>
-      Listen for <code>selectionChange</code>, <code>inspectedNodeIdChange</code>,
-      <code>selectedExecutionIdChange</code>, <code>viewportChange</code>, and
-      <code>executionActivated</code> to keep inspection state synchronized. In edit mode, apply
-      <code>nodesMoved</code>, <code>nodeCreateRequested</code>, connection
-      create/reconnect/routing/waypoint requests, and node/connection delete requests to a new
-      controlled definition snapshot. These outputs are proposals: the graph never mutates
-      <code>definition</code> internally.
+      Outputs are proposals or synchronized state changes. The graph does not mutate
+      <code>definition</code>, <code>selection</code>, or <code>viewport</code> internally.
     </p>
+    <div class="docs-api-table-wrap">
+      <table class="docs-api-table">
+        <thead>
+          <tr>
+            <th>Group</th>
+            <th>Outputs</th>
+            <th>Use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Controlled state</td>
+            <td>
+              <code>selectionChange</code>, <code>inspectedNodeIdChange</code>,
+              <code>selectedExecutionIdChange</code>, <code>viewportChange</code>
+            </td>
+            <td>Persist graph state and synchronize external inspectors or history views.</td>
+          </tr>
+          <tr>
+            <td>Execution activation</td>
+            <td><code>executionActivated</code></td>
+            <td>
+              Emits the activated node and selected execution with source
+              <code>'graph'</code>.
+            </td>
+          </tr>
+          <tr>
+            <td>Node editing</td>
+            <td>
+              <code>nodesMoved</code>, <code>nodePositionChange</code>,
+              <code>nodeCreateRequested</code>, <code>nodesDeleteRequested</code>
+            </td>
+            <td>
+              Apply node position, creation, and deletion requests to a new definition snapshot.
+            </td>
+          </tr>
+          <tr>
+            <td>Connection editing</td>
+            <td>
+              <code>connectionCreateRequested</code>, <code>connectionReconnectRequested</code>,
+              <code>connectionRoutingChangeRequested</code>, <code>connectionWaypointsChange</code>,
+              <code>connectionsDeleteRequested</code>, <code>connectionRejected</code>
+            </td>
+            <td>Create, reconnect, restyle, adjust, delete, or report rejected connections.</td>
+          </tr>
+          <tr>
+            <td>Commands and menus</td>
+            <td><code>commandRequested</code>, <code>contextMenuRequested</code></td>
+            <td>Integrate graph shortcuts, toolbar actions, and custom context menus.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
   <section id="controlled-authoring" class="docs-overview-block">
-    <h3>Controlled connection authoring</h3>
+    <h3>Controlled authoring</h3>
     <p>
-      When accepting <code>connectionCreateRequested</code>, assign an application-owned ID, append
-      the new connection with the request's resolved <code>routing</code>, and persist custom-point
-      endpoint ports with <code>ensureTngFlowCustomPointPorts()</code>. Apply
-      <code>connectionsDeleteRequested</code> by filtering those IDs from the definition, clearing
-      stale selection, and calling <code>pruneUnusedTngFlowCustomPointPorts()</code>.
+      In edit mode, apply movement, creation, reconnect, routing, waypoint, and deletion events to a
+      new controlled definition. For <code>attachmentLayout="custom-points"</code>, persist
+      generated endpoint ports with <code>ensureTngFlowCustomPointPorts()</code> and clean unused
+      endpoints after deletion with <code>pruneUnusedTngFlowCustomPointPorts()</code>.
     </p>
+    <tng-code-block
+      [code]="authoringCode"
+      adapter="shiki"
+      language="html"
+      title="Editable execution graph"
+      [lineNumbers]="true"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
+    <tng-code-block
+      [code]="createConnectionCode"
+      adapter="shiki"
+      language="ts"
+      title="Accepting a connection request"
+      [lineNumbers]="true"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
+  </section>
+
+  <section id="graph-templates" class="docs-overview-block">
+    <h3>Template hooks</h3>
     <p>
-      The edit-mode canvas toolbar exposes straight, Bézier, orthogonal, rounded orthogonal, and
-      adaptive styles at all times. Choosing one updates <code>connectionCreationPathType</code> and
-      affects the live preview plus connections drawn afterward; it does not alter existing
-      connections. Undo and Redo are visible disabled placeholders until history behavior is added.
-      To restyle selected existing connections, call
-      <code>requestConnectionRoutingChange()</code> and apply the resulting controlled
-      <code>connectionRoutingChangeRequested</code> event.
+      Execution Graph projects <code>ng-template[tngFlowNode]</code>,
+      <code>ng-template[tngFlowConnection]</code>, and
+      <code>ng-template[tngFlowConnectionLabel]</code> into the underlying editor. The template
+      context is the same as Flow Editor, with execution presentation already merged into the
+      provided view state.
     </p>
+    <tng-code-block
+      [code]="templateCode"
+      adapter="shiki"
+      language="html"
+      title="Execution-aware templates"
+      [lineNumbers]="true"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
   </section>
 
   <section id="graph-methods" class="docs-overview-block">
     <h3>Imperative helpers</h3>
     <p>
-      The graph forwards layout and viewport helpers such as <code>refreshLayout()</code>,
-      <code>fitToScreen()</code>, <code>resetViewport()</code>, <code>centerNode()</code>, and
-      <code>requestConnectionRoutingChange()</code>.
+      Export the component as <code>tngFlowExecutionGraph</code> or query it with
+      <code>ViewChild</code> when parent tools need to drive viewport or routing behavior from
+      outside the graph.
     </p>
+    <div class="docs-api-table-wrap">
+      <table class="docs-api-table">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Signature</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>refreshLayout</code></td>
+            <td><code>() =&gt; void</code></td>
+            <td>Recomputes editor geometry after external layout changes.</td>
+          </tr>
+          <tr>
+            <td><code>fitToScreen</code></td>
+            <td><code>(animated?: boolean, padding?: number) =&gt; void</code></td>
+            <td>Fits graph content into the visible viewport.</td>
+          </tr>
+          <tr>
+            <td><code>resetViewport</code></td>
+            <td><code>(animated?: boolean) =&gt; void</code></td>
+            <td>Restores the default viewport.</td>
+          </tr>
+          <tr>
+            <td><code>centerNode</code></td>
+            <td><code>(nodeId: string, animated?: boolean) =&gt; boolean</code></td>
+            <td>Centers a node and reports whether the node was found.</td>
+          </tr>
+          <tr>
+            <td><code>requestNodeCreate</code></td>
+            <td>
+              <code
+                >(item: TngFlowPaletteItem&lt;TNodeData&gt;, position?: TngFlowPoint) =&gt;
+                void</code
+              >
+            </td>
+            <td>Starts the same controlled node-create flow used by palette interactions.</td>
+          </tr>
+          <tr>
+            <td><code>requestConnectionRoutingChange</code></td>
+            <td><code>(type: TngFlowConnectionPathType) =&gt; boolean</code></td>
+            <td>Requests a routing style update for selected existing connections.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <tng-code-block
+      [code]="methodsCode"
+      adapter="shiki"
+      language="ts"
+      title="Calling graph helpers"
+      [lineNumbers]="true"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
   </section>
 </article>

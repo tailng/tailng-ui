@@ -1,25 +1,127 @@
 <article class="docs-section-page">
-  <section id="properties-layout" class="docs-overview-block">
-    <h2 class="docs-overview-title">Panel layout</h2>
-    <p>
-      The node properties panel is designed for sidebars, drawers, and inspector columns. The host
-      should own width and height while the component handles internal spacing and section rhythm.
+  <section class="docs-overview-block">
+    <h2 class="docs-overview-title">Node Properties styling</h2>
+    <p class="docs-overview-lead">
+      The panel owns its internal inspector rhythm, form spacing, port list, and empty state.
+      Applications should style the host for layout and set CSS custom properties for product color,
+      border, focus, and density decisions.
     </p>
+  </section>
+
+  <section id="properties-layout" class="docs-overview-block">
+    <h3>Panel layout</h3>
+    <p>
+      Use <code>tng-flow-node-properties</code> as a block-level sidebar, drawer body, split-pane
+      details panel, or bottom inspector. The host should own width, height, and external borders;
+      the component fills that box and scrolls its inner content when fields, data, or ports exceed
+      the available space.
+    </p>
+    <tng-code-block
+      [code]="hostSizingCode"
+      adapter="shiki"
+      language="css"
+      title="agent-builder.component.css"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
   </section>
 
   <section id="properties-theme" class="docs-overview-block">
     <h3>Theme tokens</h3>
     <p>
-      The panel follows the workbench execution theme for background, border, text, muted text,
-      controls, and focus styles so it can sit beside the graph without a second visual system.
+      The built-in fields resolve through the same execution inspector tokens used by Flow
+      Workbench, so the panel can sit beside the graph without a second visual system. Override
+      these properties on the host when a specific inspector needs different surface, text, border,
+      focus, or density treatment.
     </p>
+    <div class="docs-api-table-wrap">
+      <table class="docs-api-table">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>Controls</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--tng-flow-execution-surface</code></td>
+            <td>Panel background and input background.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-flow-execution-muted-background</code></td>
+            <td>Readonly data preview background.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-flow-execution-color</code></td>
+            <td>Primary text, field values, and node title.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-flow-execution-muted-color</code></td>
+            <td>Eyebrow text, field labels, section headings, port metadata, and empty states.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-flow-execution-border-color</code></td>
+            <td>Inputs, type badge, data preview, and port rows.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-flow-execution-focus-color</code></td>
+            <td>Keyboard focus outline for editable inputs.</td>
+          </tr>
+          <tr>
+            <td><code>--tng-flow-execution-inspector-padding</code></td>
+            <td>Inner panel padding.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <tng-code-block
+      [code]="themeCode"
+      adapter="shiki"
+      language="css"
+      title="Inspector token mapping"
+      [lineNumbers]="false"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
+  </section>
+
+  <section id="properties-data-template" class="docs-overview-block">
+    <h3>Data template styling</h3>
+    <p>
+      Projected <code>ng-template[tngFlowNodePropertiesData]</code> content is rendered inside the
+      panel's Data section. Keep template styles scoped to your application classes, preserve the
+      provided <code>readonly</code> state, and call the template request functions instead of
+      mutating node data directly.
+    </p>
+    <tng-code-block
+      [code]="dataTemplateCode"
+      adapter="shiki"
+      language="html"
+      title="Custom data editor"
+      [lineNumbers]="true"
+      [wrap]="true"
+      [sanitizeHtml]="false"
+    />
   </section>
 
   <section id="properties-readonly" class="docs-overview-block">
     <h3>Readonly state</h3>
     <p>
-      Use readonly mode for historical runs, locked workflows, or permission-limited users. The
-      layout remains the same while editable controls become passive display fields.
+      Use <code>readonly</code> for historical runs, locked workflows, and permission-limited users.
+      The host receives <code>data-readonly</code>, text inputs become read-only, toggles become
+      disabled, and change requests are suppressed. Keep the same layout in both modes so switching
+      between edit and review states does not move the user's focus.
+    </p>
+  </section>
+
+  <section id="properties-accessibility" class="docs-overview-block">
+    <h3>Accessibility baseline</h3>
+    <p>
+      Built-in fields keep visible labels, native form controls, keyboard focus outlines, and
+      forced-colors border fallbacks. Custom data templates should follow the same pattern: use
+      semantic labels, avoid color-only state, and keep controls reachable in the panel's scroll
+      area.
     </p>
   </section>
 </article>
