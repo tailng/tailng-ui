@@ -108,7 +108,6 @@ export class TngFlowPaletteItemDirective<TData = unknown> implements OnInit, OnD
     this.externalItemService.remove(this.asExternalItem());
   }
 
-  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- DOM events are browser-owned mutable objects.
   protected onPointerDown(event: PointerEvent): void {
     if (this.disabled() || !event.isPrimary || event.button !== 0) {
       return;
@@ -125,7 +124,7 @@ export class TngFlowPaletteItemDirective<TData = unknown> implements OnInit, OnD
     this.documentRef.addEventListener('pointercancel', this.onPointerEnd, true);
   }
 
-  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- DOM events are browser-owned mutable objects.
+   
   protected onActivate(event: MouseEvent): void {
     if (event.detail > 0 && this.suppressPointerActivation) {
       this.clearPointerActivationSuppression();
@@ -148,7 +147,7 @@ export class TngFlowPaletteItemDirective<TData = unknown> implements OnInit, OnD
     return this as unknown as FExternalItemBase<TngFlowPaletteItemEnvelope<TData>>;
   }
 
-  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- DOM events are browser-owned mutable objects.
+   
   private readonly onPointerMove = (event: PointerEvent): void => {
     const start = this.pointerStart;
     if (start?.pointerId !== event.pointerId) {
@@ -160,7 +159,7 @@ export class TngFlowPaletteItemDirective<TData = unknown> implements OnInit, OnD
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- DOM events are browser-owned mutable objects.
+   
   private readonly onPointerEnd = (event: PointerEvent): void => {
     if (this.pointerStart?.pointerId !== event.pointerId) {
       return;

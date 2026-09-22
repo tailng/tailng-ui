@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types -- Index construction uses private mutable collections. */
 import { createTngFlowConnectorId } from './tng-flow-connector-id';
 import type {
   TngFlowValidation,

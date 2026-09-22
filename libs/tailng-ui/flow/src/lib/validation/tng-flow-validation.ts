@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types, complexity, max-lines-per-function, max-params -- Defensive parsing of unknown graph input is intentionally branch-heavy. */
 import { createTngFlowConnectorId } from '../model/tng-flow-connector-id';
 import {
   createTngFlowGraphIndex,

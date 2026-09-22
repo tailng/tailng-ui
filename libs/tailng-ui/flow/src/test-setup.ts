@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types -- ResizeObserver follows the platform's mutable callback interface. */
 import { getTestBed } from '@angular/core/testing';
 import {
   BrowserDynamicTestingModule,

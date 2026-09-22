@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types, max-params -- Compatibility keeps the existing optional reconnect argument while accepting a reusable index. */
 import { createTngFlowConnectorId } from '../model/tng-flow-connector-id';
 import { tngFlowConnectionPairKey } from '../model/tng-flow-graph';
 import type {

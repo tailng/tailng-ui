@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types -- Set-based selection values are mutable containers behind readonly contracts. */
+
 import type { TngFlowGraphIndex } from './tng-flow-graph';
 import type { TngFlowSelection } from '../types/tng-flow.types';
 

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types -- Angular template guards receive directive instances. */
+
 import { Directive, TemplateRef, inject } from '@angular/core';
 import type { TngFlowConnectionTemplateContext } from '../types/tng-flow-connection-template.types';
 

@@ -40,9 +40,9 @@ export type TngCodeBlockSanitizeHtml = boolean | 'auto';
 export type TngCodeBlockVariant = 'compact' | 'default' | 'ghost';
 
 export type TngCodeBlockCopyContext = {
-  code: string;
-  language: string | null;
-  theme: string | null;
+  readonly code: string;
+  readonly language: string | null;
+  readonly theme: string | null;
 };
 
 export type TngCodeBlockRenderStateChange = {
@@ -370,11 +370,10 @@ export class TngCodeBlockComponent implements OnDestroy {
     transform: coerceTngCodeBlockHighlightMode,
   });
   public readonly language = input<string | null>(null);
-  public readonly lineNumbersMode = input<
+  public readonly lineNumbers = input<
     TngCodeBlockLineNumbersMode,
     string | boolean | null | undefined
   >(false, {
-    alias: 'lineNumbers',
     transform: coerceTngCodeBlockLineNumbersMode,
   });
   public readonly maxHeight = input<string | number | null>(null);
@@ -472,7 +471,7 @@ export class TngCodeBlockComponent implements OnDestroy {
       return legacyValue;
     }
 
-    const mode = this.lineNumbersMode();
+    const mode = this.lineNumbers();
     if (mode === 'auto') {
       return splitCodeLines(this.normalizedCode()).length > 1;
     }
@@ -502,7 +501,7 @@ export class TngCodeBlockComponent implements OnDestroy {
     return this.languageForBadge() ?? 'text';
   });
 
-  protected readonly lineNumbers = computed((): readonly number[] => {
+  protected readonly renderedLineNumbers = computed((): readonly number[] => {
     return this.renderedLines().map((line) => line.lineNumber);
   });
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types -- DOM event objects are framework-owned. */
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { resolveTngFlowValidationSeverity } from '../model/tng-flow-issue-index';
 import type {

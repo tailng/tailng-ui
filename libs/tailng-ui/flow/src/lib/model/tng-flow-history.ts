@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types -- Public history helpers accept immutable TailNG graph snapshots and state records. */
+
 import type { TngFlowDefinition, TngFlowSelection } from '../types/tng-flow.types';
 
 export const TNG_FLOW_HISTORY_DEFAULT_LIMIT = 50;

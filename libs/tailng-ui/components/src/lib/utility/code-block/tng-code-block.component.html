@@ -50,7 +50,7 @@
   >
     @if (shouldRenderBodyLineNumbers()) {
       <ol tngCodeBlockGutter class="tng-code-block__gutter" aria-hidden="true" data-slot="line-numbers">
-        @for (lineNumber of lineNumbers(); track lineNumber) {
+        @for (lineNumber of renderedLineNumbers(); track lineNumber) {
           <li class="tng-code-block__line-number">{{ lineNumber }}</li>
         }
       </ol>

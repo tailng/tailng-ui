@@ -191,7 +191,23 @@ export default [
     files: ['libs/**/*.ts'],
     rules: {
       '@typescript-eslint/prefer-readonly': 'error',
-      '@typescript-eslint/prefer-readonly-parameter-types': 'warn',
+      '@typescript-eslint/prefer-readonly-parameter-types': [
+      'warn',
+      {
+        allow: [
+          {
+            from: 'lib',
+            name: [
+              'Event',
+              'KeyboardEvent',
+              'MouseEvent',
+              'PointerEvent',
+              'FocusEvent',
+            ],
+          },
+        ],
+      },
+    ],
       'unused-imports/no-unused-vars': 'error',
     },
   },
