@@ -30,7 +30,7 @@
             [tngCopyButtonSuccessDurationMs]="effectiveCopyResetDuration()"
             [tngCopyButtonText]="copyPayload()"
             [tngCopyDisabled]="normalizedCode().length === 0"
-            (tngCopy)="onPrimitiveCopy($event)"
+            (tngCopy)="onPrimitiveCopyAttempt($event)"
             (tngCopyError)="onPrimitiveCopyError($event)"
             (tngCopySuccess)="onPrimitiveCopySuccess($event)"
           >

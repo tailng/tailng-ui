@@ -171,12 +171,12 @@ class TriggeredCommandPaletteHost {
 }
 
 function getByTestId<T extends Element>(fixture: { nativeElement: HTMLElement }, testId: string): T {
-  const element = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`) as T | null;
+  const element = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`);
   if (element === null) {
     throw new Error(`Expected element [data-testid="${testId}"] to exist.`);
   }
 
-  return element;
+  return element as T;
 }
 
 function getPanel(fixture: { nativeElement: HTMLElement }): HTMLElement | null {

@@ -60,7 +60,7 @@ import {
       [theme]="theme"
       [title]="title"
       [wrap]="wrap"
-      (copy)="onCopy($event)"
+      (copyAttempt)="onCopyAttempt($event)"
       (copyError)="onCopyError($event)"
       (copySuccess)="onCopySuccess($event)"
       (renderStateChange)="onRenderStateChange($event)"
@@ -94,13 +94,13 @@ class CodeBlockHostComponent {
   public title: string | null = null;
   public wrap = false;
 
-  public readonly copyEvents: TngCopyEvent[] = [];
+  public readonly copyAttemptEvents: TngCopyEvent[] = [];
   public readonly copyErrorEvents: TngCopyErrorEvent[] = [];
   public readonly copySuccessEvents: TngCopySuccessEvent[] = [];
   public readonly renderStateEvents: TngCodeBlockRenderStateChange[] = [];
 
-  public onCopy(event: TngCopyEvent): void {
-    this.copyEvents.push(event);
+  public onCopyAttempt(event: TngCopyEvent): void {
+    this.copyAttemptEvents.push(event);
   }
 
   public onCopyError(event: TngCopyErrorEvent): void {
@@ -1503,7 +1503,7 @@ describe('tng-code-block component', () => {
       expect(button?.textContent?.trim()).toBe('Copy code');
     });
 
-    it('Emits copy events (copy, copySuccess, copyError) from the code-block when integrated', async () => {
+    it('Emits copy events (copyAttempt, copySuccess, copyError) from the code-block when integrated', async () => {
       const writeText = mockClipboardWriteText(() => {
         throw new Error('clipboard denied');
       });
@@ -1526,14 +1526,14 @@ describe('tng-code-block component', () => {
 
       expect(writeText).toHaveBeenCalled();
       expect(execCommand).toHaveBeenCalled();
-      expect(host.copyEvents.length).toBe(1);
+      expect(host.copyAttemptEvents.length).toBe(1);
       expect(host.copyErrorEvents.length).toBe(1);
 
       writeText.mockResolvedValueOnce(undefined);
       queryCopyButton(fixture)?.click();
       await flushRender(fixture);
 
-      expect(host.copyEvents.length).toBe(2);
+      expect(host.copyAttemptEvents.length).toBe(2);
       expect(host.copySuccessEvents.length).toBe(1);
     });
 

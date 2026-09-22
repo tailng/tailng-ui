@@ -66,13 +66,17 @@
             <td>Clipboard action visibility, payload override, and button labels.</td>
           </tr>
           <tr>
-            <td><code>copy</code>, <code>copySuccess</code>, <code>copyError</code>, <code>renderStateChange</code>, <code>tngCopied</code>, <code>tngCopyError</code></td>
+            <td><code>copyAttempt</code>, <code>copySuccess</code>, <code>copyError</code>, <code>renderStateChange</code>, <code>tngCopied</code>, <code>tngCopyError</code></td>
             <td>Outputs</td>
             <td>Clipboard lifecycle events plus render-state notifications.</td>
           </tr>
         </tbody>
       </table>
     </div>
+    <p>
+      <strong>Migration:</strong> Replace <code>(copy)</code> listeners with
+      <code>(copyAttempt)</code>. The <code>[copy]</code> input is unchanged.
+    </p>
   </section>
 
   <section id="primitive-foundation" class="codeblock-api-block">

@@ -337,10 +337,9 @@ export class TngCodeBlockComponent implements OnDestroy {
   public readonly adapter = input<string | null>(null);
   public readonly caption = input<string | null>(null);
   public readonly code = input<string>('');
-  public readonly copyMode = input<TngCodeBlockCopyMode, string | boolean | null | undefined>(
+  public readonly copy = input<TngCodeBlockCopyMode, string | boolean | null | undefined>(
     'auto',
     {
-      alias: 'copy',
       transform: coerceTngCodeBlockCopyMode,
     },
   );
@@ -407,7 +406,7 @@ export class TngCodeBlockComponent implements OnDestroy {
     transform: booleanAttribute,
   });
 
-  public readonly copy = output<TngCopyEvent>();
+  public readonly copyAttempt = output<TngCopyEvent>();
   public readonly copyError = output<TngCopyErrorEvent>();
   public readonly copySuccess = output<TngCopySuccessEvent>();
   public readonly renderStateChange = output<TngCodeBlockRenderStateChange>();
@@ -539,7 +538,7 @@ export class TngCodeBlockComponent implements OnDestroy {
   });
 
   protected readonly shouldShowCopyAction = computed((): boolean => {
-    const mode = this.copyMode();
+    const mode = this.copy();
     if (mode === 'auto') {
       return this.normalizedCode().length > 0;
     }
@@ -589,7 +588,7 @@ export class TngCodeBlockComponent implements OnDestroy {
     this.clearHighlightDebounceTimer();
   }
 
-  protected onPrimitiveCopy(...args: readonly unknown[]): void {
+  protected onPrimitiveCopyAttempt(...args: readonly unknown[]): void {
     const [event] = args;
     if (
       typeof event === 'object' &&
@@ -599,7 +598,7 @@ export class TngCodeBlockComponent implements OnDestroy {
       typeof (event as { text: unknown }).text === 'string' &&
       typeof (event as { trigger: unknown }).trigger === 'string'
     ) {
-      this.copy.emit(event as TngCopyEvent);
+      this.copyAttempt.emit(event as TngCopyEvent);
     }
   }
 
