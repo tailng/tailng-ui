@@ -38,11 +38,11 @@ import {
   type TngWeekdayIndex,
   type TngYearOption,
 } from '@tailng-ui/primitives';
+import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 import {
   TNG_FORM_FIELD_CONTROL,
   type TngFormFieldControl,
 } from '../form-field/tng-form-field.control';
-import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 
 type OptionalBooleanInput = boolean | null | string | undefined;
 type TngDatepickerPlacement = 'auto' | 'bottom' | 'top';
@@ -341,7 +341,7 @@ export class TngDatepickerComponent<TDate = Date>
 
       if (!this.appliedInitialState) {
         if (controlledValue === undefined && this.defaultValue() !== undefined) {
-          this.controller.setValue(this.defaultValue() as TngDateSelectionInput<TDate>);
+          this.controller.setValue(this.defaultValue());
         }
 
         if (controlledOpen === undefined && this.defaultOpen()) {

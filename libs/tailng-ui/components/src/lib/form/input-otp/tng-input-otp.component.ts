@@ -27,11 +27,11 @@ import {
   TngInputOtp as TngInputOtpPrimitive,
 } from '@tailng-ui/primitives';
 
+import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 import {
   TNG_FORM_FIELD_CONTROL,
   type TngFormFieldControl,
 } from '../form-field/tng-form-field.control';
-import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 
 export type TngInputOtpType = 'numeric' | 'alphanumeric' | 'custom';
 export type TngInputOtpInputMode = 'numeric' | 'text' | 'tel' | 'decimal';

@@ -8,7 +8,11 @@
   },
   "type": "module",
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "rxjs": "~7.8.2",
+    "zone.js": "0.16.0",
+    "@angular/platform-browser-dynamic": "^21.1.5",
+    "vitest": "4.0.9"
   },
   "peerDependencies": {
     "@angular/common": "^21.1.0 || ^22.0.0",

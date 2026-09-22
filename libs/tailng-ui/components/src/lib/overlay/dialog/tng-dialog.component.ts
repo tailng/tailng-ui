@@ -187,8 +187,19 @@ export class TngDialogComponent implements OnDestroy {
   private readonly presence = createOverlayPresenceController({
     driver: createCssOverlayPresenceDriver({
       elements: () => {
-        const elements = [this.backdropRef()?.nativeElement, this.panelRef()?.nativeElement];
-        return elements.filter((element): element is HTMLElement => element !== undefined);
+        const elements: HTMLElement[] = [];
+        const backdrop = this.backdropRef()?.nativeElement;
+        const panel = this.panelRef()?.nativeElement;
+      
+        if (backdrop) {
+          elements.push(backdrop);
+        }
+      
+        if (panel) {
+          elements.push(panel);
+        }
+      
+        return elements;
       },
       windowRef: this.documentRef?.defaultView ?? null,
     }),

@@ -272,7 +272,7 @@ describe('tng-multi-autocomplete component', () => {
 
     const options = Array.from(
       getOpenOverlay()?.querySelectorAll('[data-slot="multi-autocomplete-option"]') ?? [],
-    ) as HTMLElement[];
+    );
 
     expect(host.query()).toBe('remote');
     expect(options.map((el) => el.textContent?.trim())).toEqual(['Germany']);
@@ -298,7 +298,7 @@ describe('tng-multi-autocomplete component', () => {
 
     const options = Array.from(
       getOpenOverlay()?.querySelectorAll('[data-slot="multi-autocomplete-option"]') ?? [],
-    ) as HTMLElement[];
+    );
 
     expect(host.open()).toBe(true);
     expect(host.query()).toBe('un');
@@ -354,7 +354,7 @@ describe('tng-multi-autocomplete component', () => {
 
     const chipLabels = Array.from(
       fixture.nativeElement.querySelectorAll('[data-slot="multi-autocomplete-chip"] > span'),
-    ) as HTMLElement[]
+    )
     
     const renderedLabels = chipLabels
       .map((element) => element.textContent?.trim())

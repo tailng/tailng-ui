@@ -19,16 +19,16 @@ import {
 } from '@tailng-ui/primitives';
 
 import {
-  TNG_FORM_FIELD_CONTROL,
-  type TngFormFieldControl,
-} from '../form-field/tng-form-field.control';
-import { snapTngSliderValue, tngSliderValuePercent } from '../slider/tng-slider.utils';
-import {
   normalizeTngRangeSliderGap,
   normalizeTngRangeSliderValue,
   type TngRangeSliderThumb,
   type TngRangeSliderValue,
 } from './tng-range-slider.utils';
+import {
+  TNG_FORM_FIELD_CONTROL,
+  type TngFormFieldControl,
+} from '../form-field/tng-form-field.control';
+import { snapTngSliderValue, tngSliderValuePercent } from '../slider/tng-slider.utils';
 
 let nextRangeSliderId = 0;
 

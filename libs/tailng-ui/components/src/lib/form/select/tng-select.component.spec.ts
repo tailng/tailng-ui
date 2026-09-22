@@ -20,7 +20,7 @@ function keydown(el: HTMLElement, key: string): void {
 }
 
 function getTrigger(root: HTMLElement): HTMLElement {
-  const trigger = root.querySelector('[data-slot="select-trigger"]') as HTMLElement | null;
+  const trigger = root.querySelector('[data-slot="select-trigger"]');
   if (!trigger) {
     throw new Error('Expected select trigger');
   }
@@ -28,7 +28,7 @@ function getTrigger(root: HTMLElement): HTMLElement {
 }
 
 function getOptions(): HTMLElement[] {
-  return Array.from(document.querySelectorAll('[data-slot="select-option"]')) as HTMLElement[];
+  return Array.from(document.querySelectorAll('[data-slot="select-option"]'));
 }
 
 function getOpenOverlay(): HTMLElement {

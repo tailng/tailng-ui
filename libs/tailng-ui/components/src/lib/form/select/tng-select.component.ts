@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ContentChild,
@@ -7,8 +8,8 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { NgTemplateOutlet } from '@angular/common';
 
+import type { TngOverlayScrollStrategy } from '@tailng-ui/cdk';
 import {
   TngSelect,
   TngSelectTrigger,
@@ -19,7 +20,6 @@ import {
   TngSelectListbox,
   TngSelectOption,
 } from '@tailng-ui/primitives';
-import type { TngOverlayScrollStrategy } from '@tailng-ui/cdk';
 
 export type TngSelectGetValue<O, V> = (opt: O) => V;
 export type TngSelectGetLabel<O> = (opt: O) => string;

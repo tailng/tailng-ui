@@ -15,7 +15,7 @@ import {
 import type { ElementRef as NgElementRef } from '@angular/core';
 
 type TngCopyElementRef = Readonly<NgElementRef<HTMLElement>>;
-type TngCopySourceElement = Readonly<HTMLElement>;
+type TngCopySourceElement = HTMLElement;
 
 export type TngCopyFromTarget =
   | TngCopyElementRef

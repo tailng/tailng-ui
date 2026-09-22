@@ -11,11 +11,11 @@ import {
 import type { FormCheckboxControl } from '@angular/forms/signals';
 import { TngSwitch as TngSwitchPrimitive } from '@tailng-ui/primitives';
 
+import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 import {
   TNG_FORM_FIELD_CONTROL,
   type TngFormFieldControl,
 } from '../form-field/tng-form-field.control';
-import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 
 type TngSwitchKeyboardEvent = Readonly<Pick<KeyboardEvent, 'key'>> &
   Readonly<{ preventDefault: () => void }>;

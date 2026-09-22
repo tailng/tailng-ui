@@ -2126,7 +2126,7 @@ export class TngFlowEditorComponent<
   }
 
   private beginMinimapHoverNavigation(
-    flowHost: Readonly<HTMLElement>,
+    flowHost: HTMLElement,
     minimap: Readonly<FMinimapComponent>,
   ): MinimapHoverNavigationSnapshot {
     const canvas = this.canvas();

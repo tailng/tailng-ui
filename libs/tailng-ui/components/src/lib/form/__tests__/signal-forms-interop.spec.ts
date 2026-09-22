@@ -1,6 +1,5 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import {
   FormField,
   form,
@@ -8,8 +7,7 @@ import {
   min as minValidator,
   pattern as patternValidator,
 } from '@angular/forms/signals';
-import { describe, expect, it } from 'vitest';
-
+import { By } from '@angular/platform-browser';
 import {
   TngAutocomplete,
   TngMultiAutocomplete,
@@ -17,22 +15,24 @@ import {
   TngSelect,
   type TngNumberRangeValue,
 } from '@tailng-ui/primitives';
+import { describe, expect, it } from 'vitest';
+
 
 import { TngAutocompleteComponent } from '../autocomplete/tng-autocomplete.component';
 import { TngCheckboxComponent } from '../checkbox/tng-checkbox.component';
 import { TngDateRangePickerComponent } from '../date-range-picker/tng-date-range-picker.component';
 import { TngDatepickerComponent } from '../datepicker/tng-datepicker.component';
-import { TngInputOtpComponent } from '../input-otp/tng-input-otp.component';
 import { TngInputComponent } from '../input/tng-input.component';
+import { TngInputOtpComponent } from '../input-otp/tng-input-otp.component';
 import { TngMonthDaypickerComponent } from '../month-daypicker/tng-month-daypicker.component';
 import { TngMultiAutocompleteComponent } from '../multi-autocomplete/tng-multi-autocomplete.component';
 import { TngMultiSelectComponent } from '../multiselect/tng-multiselect.component';
 import { TngNumberRangeComponent } from '../number-range/tng-number-range.component';
 import { TngRadioComponent } from '../radio/tng-radio.component';
-import { TngSelectComponent } from '../select/tng-select.component';
 import { TngRangeSliderComponent } from '../range-slider/tng-range-slider.component';
-import { TngSliderComponent } from '../slider/tng-slider.component';
 import type { TngRangeSliderValue } from '../range-slider/tng-range-slider.utils';
+import { TngSelectComponent } from '../select/tng-select.component';
+import { TngSliderComponent } from '../slider/tng-slider.component';
 import { TngSwitchComponent } from '../switch/tng-switch.component';
 import { TngTextareaComponent } from '../textarea/tng-textarea.component';
 import { TngToggleComponent } from '../toggle/tng-toggle.component';

@@ -1,4 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
+import type { OnChanges, OnDestroy
+} from '@angular/core';
 import {
   booleanAttribute,
   Component,
@@ -7,7 +9,7 @@ import {
   inject,
   input,
   signal,
-  type TemplateRef,
+  type TemplateRef
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -31,7 +33,7 @@ export type TngBreadcrumbItemDisplayMode = 'ellipsis' | 'hidden' | 'visible';
   templateUrl: './tng-breadcrumb-item.component.html',
   styleUrl: './tng-breadcrumb-item.component.css',
 })
-export class TngBreadcrumbItemComponent {
+export class TngBreadcrumbItemComponent implements OnChanges, OnDestroy {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private keyboardModality = false;
 

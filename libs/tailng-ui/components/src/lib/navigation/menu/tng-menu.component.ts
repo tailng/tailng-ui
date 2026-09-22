@@ -1,3 +1,4 @@
+import type { DoCheck} from '@angular/core';
 import {
   Component,
   DestroyRef,
@@ -7,7 +8,7 @@ import {
   ViewEncapsulation,
   inject,
   input,
-  signal,
+  signal
 } from '@angular/core';
 import {
   computeOverlayPosition,
@@ -101,14 +102,19 @@ type InlineStyleSnapshot = Readonly<{
 }>;
 
 type Rect = {
-  left: number;
-  top: number;
-  width: number;
-  height: number;
+  readonly left: number;
+  readonly top: number;
+  readonly width: number;
+  readonly height: number;
 };
 
-function rectFromClientRect(r: DOMRect | ClientRect): Rect {
-  return { left: r.left, top: r.top, width: r.width, height: r.height };
+function rectFromClientRect(r: DOMRectReadOnly): Rect {
+  return {
+    left: r.left,
+    top: r.top,
+    width: r.width,
+    height: r.height,
+  };
 }
 
 function viewportRect(win: Window): Rect {
@@ -146,7 +152,7 @@ function isInside(target: EventTarget | null, element: HTMLElement): boolean {
   encapsulation: ViewEncapsulation.None,
   exportAs: 'tngMenuComponent',
 })
-export class TngMenuComponent {
+export class TngMenuComponent implements DoCheck {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly primitive = inject<TngMenuPrimitive>(TngMenuPrimitive);
   private readonly destroyRef = inject(DestroyRef);
@@ -429,7 +435,7 @@ export class TngMenuComponent {
 
   private applyPositionStyles(
     host: HTMLElement,
-    result: { side: 'bottom' | 'left' | 'right' | 'top'; x: number; y: number },
+    result: { readonly side: 'bottom' | 'left' | 'right' | 'top'; readonly x: number; readonly y: number },
   ): void {
     this.resolvedSide.set(result.side);
     host.setAttribute('data-side', result.side);

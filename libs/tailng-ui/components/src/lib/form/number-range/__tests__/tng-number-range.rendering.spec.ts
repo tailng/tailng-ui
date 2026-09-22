@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { describe, expect, it } from 'vitest';
 
 import { TngNumberRangeComponent } from '../tng-number-range.component';

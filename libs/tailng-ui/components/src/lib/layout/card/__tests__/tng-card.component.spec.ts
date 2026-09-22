@@ -1,4 +1,4 @@
-/* eslint-disable max-lines-per-function */
+ 
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { TngPress } from '@tailng-ui/primitives';

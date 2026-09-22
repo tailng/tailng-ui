@@ -8,11 +8,11 @@ import {
 } from '@angular/core';
 import { TngToggleGroup as TngToggleGroupPrimitive } from '@tailng-ui/primitives';
 
+import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 import {
   TNG_FORM_FIELD_CONTROL,
   type TngFormFieldControl,
 } from '../form-field/tng-form-field.control';
-import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 
 @Component({
   selector: 'tng-toggle-group',

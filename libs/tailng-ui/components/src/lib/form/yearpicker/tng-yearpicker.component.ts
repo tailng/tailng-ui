@@ -15,11 +15,11 @@ import type { TngOverlayScrollStrategy } from '@tailng-ui/cdk';
 import { defaultDatepickerDateAdapter, type TngDateAdapter } from '@tailng-ui/primitives';
 import { TngDatepickerComponent } from '../datepicker/tng-datepicker.component';
 
+import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 import {
   TNG_FORM_FIELD_CONTROL,
   type TngFormFieldControl,
 } from '../form-field/tng-form-field.control';
-import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 
 function currentYear(): number {
   return new Date().getFullYear();

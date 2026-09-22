@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TestBed } from '@angular/core/testing';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import type { TngNumberRangeValue } from '@tailng-ui/primitives';
 import { describe, expect, it } from 'vitest';
 
-import type { TngNumberRangeValue } from '@tailng-ui/primitives';
 
 import { TngNumberRangeAngularFormsAdapter } from '../../angular-forms-adapters';
 import { TngNumberRangeComponent } from '../tng-number-range.component';
@@ -55,11 +55,11 @@ function setup<T>(hostType: new () => T) {
 }
 
 function getMinInput(el: HTMLElement): HTMLInputElement {
-  return el.querySelector('.tng-number-range__input--min') as HTMLInputElement;
+  return el.querySelector('.tng-number-range__input--min')!;
 }
 
 function getMaxInput(el: HTMLElement): HTMLInputElement {
-  return el.querySelector('.tng-number-range__input--max') as HTMLInputElement;
+  return el.querySelector('.tng-number-range__input--max')!;
 }
 
 function dispatchInput(input: HTMLInputElement, value: string): void {

@@ -15,7 +15,7 @@ import { InjectionToken } from '@angular/core';
  */
 export type TngFormFieldControlKind = 'text' | 'inline' | 'group' | 'composite';
 
-export interface TngFormFieldControl {
+export type TngFormFieldControl = {
   readonly id: string | null;
   readonly disabled: boolean;
   readonly focused: boolean;

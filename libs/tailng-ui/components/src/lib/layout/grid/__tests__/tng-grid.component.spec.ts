@@ -29,7 +29,7 @@ import {
   `,
 })
 class GridComponentHarnessComponent {
-  public readonly valueChanges: Array<Readonly<{ col: number; row: number }> | null> = [];
+  public readonly valueChanges: (Readonly<{ col: number; row: number }> | null)[] = [];
 }
 
 function getByTestId(

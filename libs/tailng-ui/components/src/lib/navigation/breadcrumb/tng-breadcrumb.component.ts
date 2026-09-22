@@ -7,6 +7,7 @@ import {
   input,
   TemplateRef,
   type AfterContentInit,
+  type OnDestroy,
   type QueryList,
 } from '@angular/core';
 import { TngBreadcrumb as TngBreadcrumbPrimitive } from '@tailng-ui/primitives';
@@ -21,7 +22,7 @@ import { TngBreadcrumbSeparatorTemplateDirective } from './tng-breadcrumb-separa
   templateUrl: './tng-breadcrumb.component.html',
   styleUrl: './tng-breadcrumb.component.css',
 })
-export class TngBreadcrumbComponent implements AfterContentInit {
+export class TngBreadcrumbComponent implements AfterContentInit, OnDestroy {
   @ContentChildren(TngBreadcrumbItemComponent, { descendants: true })
   private readonly breadcrumbItems?: QueryList<TngBreadcrumbItemComponent>;
 
@@ -86,7 +87,9 @@ export class TngBreadcrumbComponent implements AfterContentInit {
       return;
     }
 
-    this.itemStateSubscriptions = merge(...items.map((item) => item.stateChanges)).subscribe(() => {
+    this.itemStateSubscriptions = merge(
+      ...items.map((item) => item.stateChanges),
+    ).subscribe(() => {
       this.syncItems();
     });
 

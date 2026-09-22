@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import {
   FormControl,
   FormGroup,
@@ -6,7 +7,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
 import { TngToggleAngularFormsAdapter } from '../../angular-forms-adapters';

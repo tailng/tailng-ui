@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { afterEach, describe, expect, it } from 'vitest';
 import { TngInputOtpAngularFormsAdapter } from '../../angular-forms-adapters';
 import {
@@ -221,7 +221,7 @@ describe('tng-input-otp component', () => {
     const host = queryOtpHost(fixture);
     const root = queryOtpRoot(host);
     expect(querySlots(host)).toHaveLength(4);
-    expect(querySlots(host)[2]!.placeholder).not.toBe('null');
+    expect(querySlots(host)[2].placeholder).not.toBe('null');
     expect(root.getAttribute('data-slot')).toBe('input-otp');
     expect(root.getAttribute('role')).toBe('group');
     expect(root.getAttribute('data-empty')).toBe('');
@@ -271,13 +271,13 @@ describe('tng-input-otp component', () => {
     const host = queryOtpHost(fixture);
     const slots = querySlots(host);
 
-    inputText(slots[0]!, '1');
+    inputText(slots[0], '1');
     fixture.detectChanges();
-    inputText(slots[1]!, '2');
+    inputText(slots[1], '2');
     fixture.detectChanges();
-    inputText(slots[2]!, '3');
+    inputText(slots[2], '3');
     fixture.detectChanges();
-    inputText(slots[3]!, '4');
+    inputText(slots[3], '4');
     fixture.detectChanges();
 
     expect(fixture.componentInstance.valueChanges.at(-1)).toBe('1234');
@@ -297,10 +297,10 @@ describe('tng-input-otp component', () => {
     const host = queryOtpHost(fixture);
     const slots = querySlots(host);
 
-    slots[0]!.focus();
+    slots[0].focus();
     fixture.detectChanges();
 
-    inputText(slots[0]!, '1');
+    inputText(slots[0], '1');
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -318,13 +318,13 @@ describe('tng-input-otp component', () => {
     const slots = querySlots(host);
     const tabbableCount = slots.filter((slot) => slot.tabIndex === 0).length;
     expect(tabbableCount).toBe(1);
-    expect(slots[0]!.tabIndex).toBe(0);
+    expect(slots[0].tabIndex).toBe(0);
 
-    inputText(slots[0]!, '1');
+    inputText(slots[0], '1');
     fixture.detectChanges();
     const nextTabbableCount = slots.filter((slot) => slot.tabIndex === 0).length;
     expect(nextTabbableCount).toBe(1);
-    expect(slots[1]!.tabIndex).toBe(0);
+    expect(slots[1].tabIndex).toBe(0);
   });
 
   it('ignores non-numeric characters in numeric mode', () => {
@@ -335,11 +335,11 @@ describe('tng-input-otp component', () => {
     fixture.detectChanges();
     const host = queryOtpHost(fixture);
 
-    inputText(querySlots(host)[0]!, 'A');
+    inputText(querySlots(host)[0], 'A');
     fixture.detectChanges();
 
     expect(queryHiddenInput(host).value).toBe('');
-    expect(querySlots(host)[0]!.value).toBe('');
+    expect(querySlots(host)[0].value).toBe('');
   });
 
   it('replaces an existing character when typing on a focused filled slot', () => {
@@ -352,9 +352,9 @@ describe('tng-input-otp component', () => {
     const host = queryOtpHost(fixture);
     const slots = querySlots(host);
 
-    slots[1]!.focus();
+    slots[1].focus();
     fixture.detectChanges();
-    inputText(slots[1]!, '9');
+    inputText(slots[1], '9');
     fixture.detectChanges();
 
     expect(queryHiddenInput(host).value).toBe('193');
@@ -372,9 +372,9 @@ describe('tng-input-otp component', () => {
     const host = queryOtpHost(fixture);
     const slots = querySlots(host);
 
-    slots[0]!.focus();
+    slots[0].focus();
     fixture.detectChanges();
-    inputText(slots[0]!, '5');
+    inputText(slots[0], '5');
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -395,9 +395,9 @@ describe('tng-input-otp component', () => {
     const host = queryOtpHost(fixture);
     const slots = querySlots(host);
 
-    slots[0]!.focus();
+    slots[0].focus();
     fixture.detectChanges();
-    inputText(slots[0]!, '9');
+    inputText(slots[0], '9');
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -416,11 +416,11 @@ describe('tng-input-otp component', () => {
     fixture.detectChanges();
 
     const host = queryOtpHost(fixture);
-    inputText(querySlots(host)[0]!, '7');
+    inputText(querySlots(host)[0], '7');
     fixture.detectChanges();
 
     expect(fixture.componentInstance.emitted).toEqual(['7']);
-    expect(querySlots(host)[0]!.value).toBe('7');
+    expect(querySlots(host)[0].value).toBe('7');
   });
 
   it('distributes pasted characters from the active slot and marks complete', () => {
@@ -434,10 +434,10 @@ describe('tng-input-otp component', () => {
 
     const host = queryOtpHost(fixture);
     const slots = querySlots(host);
-    slots[2]!.focus();
+    slots[2].focus();
     fixture.detectChanges();
 
-    const pasteEvent = pasteText(slots[2]!, '3456');
+    const pasteEvent = pasteText(slots[2], '3456');
     fixture.detectChanges();
 
     expect(pasteEvent.defaultPrevented).toBe(true);
@@ -454,7 +454,7 @@ describe('tng-input-otp component', () => {
     fixture.detectChanges();
 
     const host = queryOtpHost(fixture);
-    const firstSlot = querySlots(host)[0]!;
+    const firstSlot = querySlots(host)[0];
     const event = pasteText(firstSlot, '654321');
     fixture.detectChanges();
 
@@ -474,21 +474,21 @@ describe('tng-input-otp component', () => {
     const host = queryOtpHost(fixture);
     const slots = querySlots(host);
 
-    slots[2]!.focus();
+    slots[2].focus();
     fixture.detectChanges();
-    pressKey(slots[2]!, 'ArrowLeft');
+    pressKey(slots[2], 'ArrowLeft');
     fixture.detectChanges();
     expect(document.activeElement).toBe(slots[1]);
 
-    pressKey(slots[1]!, 'ArrowRight');
+    pressKey(slots[1], 'ArrowRight');
     fixture.detectChanges();
     expect(document.activeElement).toBe(slots[2]);
 
-    pressKey(slots[2]!, 'Home');
+    pressKey(slots[2], 'Home');
     fixture.detectChanges();
     expect(document.activeElement).toBe(slots[0]);
 
-    pressKey(slots[0]!, 'End');
+    pressKey(slots[0], 'End');
     fixture.detectChanges();
     expect(document.activeElement).toBe(slots[3]);
   });
@@ -505,27 +505,27 @@ describe('tng-input-otp component', () => {
     const host = queryOtpHost(fixture);
     const slots = querySlots(host);
 
-    slots[2]!.focus();
+    slots[2].focus();
     fixture.detectChanges();
-    pressKey(slots[2]!, 'Backspace');
+    pressKey(slots[2], 'Backspace');
     fixture.detectChanges();
     await Promise.resolve();
     fixture.detectChanges();
     expect(queryHiddenInput(host).value).toBe('12');
     expect(document.activeElement).toBe(slots[1]);
 
-    slots[2]!.focus();
+    slots[2].focus();
     fixture.detectChanges();
-    pressKey(slots[2]!, 'Backspace');
+    pressKey(slots[2], 'Backspace');
     fixture.detectChanges();
     await Promise.resolve();
     fixture.detectChanges();
     expect(queryHiddenInput(host).value).toBe('1');
     expect(document.activeElement).toBe(slots[1]);
 
-    slots[0]!.focus();
+    slots[0].focus();
     fixture.detectChanges();
-    pressKey(slots[0]!, 'Delete');
+    pressKey(slots[0], 'Delete');
     fixture.detectChanges();
     expect(queryHiddenInput(host).value).toBe('');
   });
@@ -540,7 +540,7 @@ describe('tng-input-otp component', () => {
     fixture.detectChanges();
 
     const host = queryOtpHost(fixture);
-    const firstSlot = querySlots(host)[0]!;
+    const firstSlot = querySlots(host)[0];
 
     inputText(firstSlot, '9');
     fixture.detectChanges();
@@ -564,7 +564,7 @@ describe('tng-input-otp component', () => {
     const host = queryOtpHost(fixture);
     const slots = querySlots(host);
 
-    inputText(slots[2]!, '3');
+    inputText(slots[2], '3');
     fixture.detectChanges();
 
     const control = fixture.componentInstance.form.controls.otp;
@@ -572,7 +572,7 @@ describe('tng-input-otp component', () => {
 
     control.disable();
     fixture.detectChanges();
-    expect(querySlots(host)[0]!.disabled).toBe(true);
+    expect(querySlots(host)[0].disabled).toBe(true);
 
     control.enable();
     control.setValue('987');
@@ -588,7 +588,7 @@ describe('tng-input-otp component', () => {
     fixture.detectChanges();
 
     const control = fixture.componentInstance.form.controls.otp;
-    const firstSlot = querySlots(queryOtpHost(fixture))[0]!;
+    const firstSlot = querySlots(queryOtpHost(fixture))[0];
     const externalFocusTarget = document.createElement('button');
     (fixture.nativeElement as HTMLElement).appendChild(externalFocusTarget);
 
@@ -613,9 +613,9 @@ describe('tng-input-otp component', () => {
     fixture.detectChanges();
 
     const host = queryOtpHost(fixture);
-    expect(querySlots(host)[0]!.value).toBe('8');
+    expect(querySlots(host)[0].value).toBe('8');
 
-    inputText(querySlots(host)[1]!, '1');
+    inputText(querySlots(host)[1], '1');
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -636,7 +636,7 @@ describe('tng-input-otp component', () => {
       throw new Error('Expected form element.');
     }
 
-    inputText(querySlots(host)[0]!, '9');
+    inputText(querySlots(host)[0], '9');
     fixture.detectChanges();
     expect(queryHiddenInput(host).value).toBe('9357');
 
@@ -664,7 +664,7 @@ describe('tng-input-otp component', () => {
 
     const otpHost = queryOtpHost(fixture);
     const slots = querySlots(otpHost);
-    pasteText(slots[0]!, '987654');
+    pasteText(slots[0], '987654');
     fixture.detectChanges();
 
     const completeData = new FormData(form);

@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { TngToggle } from '@tailng-ui/primitives';
 import { describe, expect, it } from 'vitest';
 
-import { TngToggle } from '@tailng-ui/primitives';
 import { TngToggleGroupComponent } from '../tng-toggle-group.component';
 
 @Component({
@@ -36,8 +36,8 @@ class ToggleGroupComponentHost {
   public readonly value = signal<string | null | undefined>(undefined);
   public readonly values = signal<readonly string[] | undefined>(undefined);
 
-  public readonly valueChanges: Array<string | null> = [];
-  public readonly valuesChanges: Array<readonly string[]> = [];
+  public readonly valueChanges: (string | null)[] = [];
+  public readonly valuesChanges: (readonly string[])[] = [];
 
   public onValueChange(nextValue: string | null): void {
     this.valueChanges.push(nextValue);

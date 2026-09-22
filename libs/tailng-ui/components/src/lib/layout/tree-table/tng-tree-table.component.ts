@@ -1,8 +1,9 @@
 import { NgStyle, NgTemplateOutlet } from '@angular/common';
+import type {
+  ElementRef} from '@angular/core';
 import {
   Component,
   Directive,
-  ElementRef,
   TemplateRef,
   booleanAttribute,
   computed,
@@ -30,7 +31,6 @@ import {
   type TngTreeTableCellAlign,
   type TngTreeTableClassInput,
   type TngTreeTableColumn,
-  type TngTreeTableGroupColumn,
   type TngTreeTableLeafColumn,
   type TngTreeTableStyleInput,
 } from './tng-tree-table-column.type';
@@ -65,8 +65,8 @@ type TngTreeTableHeaderNode<TRow> = Readonly<{
 }>;
 
 type TngTreeTableHeaderModel<TRow> = Readonly<{
-  headerRows: ReadonlyArray<ReadonlyArray<TngTreeTableHeaderNode<TRow>>>;
-  leafColumns: ReadonlyArray<TngTreeTableLeafColumn<TRow>>;
+  headerRows: readonly (readonly TngTreeTableHeaderNode<TRow>[])[];
+  leafColumns: readonly TngTreeTableLeafColumn<TRow>[];
   maxDepth: number;
 }>;
 
@@ -250,11 +250,11 @@ export class TngTreeTableComponent<TRow = unknown> {
     this.buildHeaderModel(this.columns()),
   );
 
-  protected get leafColumns(): ReadonlyArray<TngTreeTableLeafColumn<TRow>> {
+  protected get leafColumns(): readonly TngTreeTableLeafColumn<TRow>[] {
     return this.headerModel().leafColumns;
   }
 
-  protected get headerRows(): ReadonlyArray<ReadonlyArray<TngTreeTableHeaderNode<TRow>>> {
+  protected get headerRows(): readonly (readonly TngTreeTableHeaderNode<TRow>[])[] {
     return this.headerModel().headerRows;
   }
 
@@ -557,7 +557,7 @@ export class TngTreeTableComponent<TRow = unknown> {
     return Object.freeze({
       headerRows: headerRows.map((row) =>
         Object.freeze(row.slice()),
-      ) as ReadonlyArray<ReadonlyArray<TngTreeTableHeaderNode<TRow>>>,
+      ) as readonly (readonly TngTreeTableHeaderNode<TRow>[])[],
       leafColumns: Object.freeze(leafColumns.slice()),
       maxDepth: Math.max(1, maxDepth),
     });
@@ -580,7 +580,7 @@ export class TngTreeTableComponent<TRow = unknown> {
       }
       if (colspan === 0) return 0;
 
-      headerRows[depth]!.push(
+      headerRows[depth].push(
         Object.freeze({
           column,
           key: column.key,
@@ -598,7 +598,7 @@ export class TngTreeTableComponent<TRow = unknown> {
     const leaf = column as TngTreeTableLeafColumn<TRow>;
     leafColumns.push(leaf);
     const rowspan = Math.max(1, maxDepth - depth);
-    headerRows[depth]!.push(
+    headerRows[depth].push(
       Object.freeze({
         column: leaf,
         key: leaf.key,

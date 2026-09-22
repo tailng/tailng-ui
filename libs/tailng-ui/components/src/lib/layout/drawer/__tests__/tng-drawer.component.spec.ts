@@ -10,7 +10,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { TngDrawerComponent } from '../tng-drawer.component';
 
 function getDrawer(fixture: { nativeElement: HTMLElement }): HTMLElement {
-  const el = fixture.nativeElement.querySelector('[data-slot="drawer"]') as HTMLElement | null;
+  const el = fixture.nativeElement.querySelector('[data-slot="drawer"]');
   if (el === null) {
     throw new Error('Expected [data-slot="drawer"] to exist.');
   }
@@ -18,7 +18,7 @@ function getDrawer(fixture: { nativeElement: HTMLElement }): HTMLElement {
 }
 
 function getContent(fixture: { nativeElement: HTMLElement }): HTMLElement {
-  const el = fixture.nativeElement.querySelector('[data-testid="content"]') as HTMLElement | null;
+  const el = fixture.nativeElement.querySelector('[data-testid="content"]');
   if (el === null) {
     throw new Error('Expected [data-testid="content"] to exist.');
   }

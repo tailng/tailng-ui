@@ -1,9 +1,9 @@
-import { Directive, TemplateRef } from '@angular/core';
+import { Directive, TemplateRef, inject } from '@angular/core';
 
 @Directive({
   selector: 'ng-template[tngBreadcrumbSeparatorTemplate]',
   exportAs: 'tngBreadcrumbSeparatorTemplate',
 })
 export class TngBreadcrumbSeparatorTemplateDirective {
-  public constructor(public readonly templateRef: TemplateRef<unknown>) {}
+  public readonly templateRef = inject<TemplateRef<unknown>>(TemplateRef);
 }

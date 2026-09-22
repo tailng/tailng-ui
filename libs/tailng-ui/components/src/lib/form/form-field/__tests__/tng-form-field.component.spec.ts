@@ -1,5 +1,3 @@
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 
 import { Component, Directive, ElementRef, inject, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
@@ -13,6 +11,8 @@ import {
   TngInputFieldSuffix,
   TngTextarea,
 } from '@tailng-ui/primitives';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import { TngDatepickerComponent } from '../../datepicker/tng-datepicker.component';
 import { TngInputComponent } from '../../input/tng-input.component';

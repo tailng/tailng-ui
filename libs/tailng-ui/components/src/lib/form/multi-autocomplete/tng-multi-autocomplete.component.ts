@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ContentChild,
@@ -7,8 +8,8 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { NgTemplateOutlet } from '@angular/common';
 
+import type { TngOverlayScrollStrategy } from '@tailng-ui/cdk';
 import {
   TngMultiAutocomplete,
   TngMultiAutocompleteChip,
@@ -18,7 +19,6 @@ import {
   TngMultiAutocompleteOverlay,
   TngMultiAutocompleteTrigger,
 } from '@tailng-ui/primitives';
-import type { TngOverlayScrollStrategy } from '@tailng-ui/cdk';
 
 export type TngMultiAutocompleteGetValue<O, V> = (opt: O) => V;
 export type TngMultiAutocompleteGetLabel<O> = (opt: O) => string;

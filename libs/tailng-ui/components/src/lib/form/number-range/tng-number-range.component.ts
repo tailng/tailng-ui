@@ -1,9 +1,10 @@
+import type {
+  ElementRef} from '@angular/core';
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
-  ElementRef,
   HostBinding,
   input,
   model,

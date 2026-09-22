@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { TngInput, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';
 import { describe, expect, it } from 'vitest';
 
 import { TngInputFieldComponent } from '../tng-input-field.component';
-import { TngInput, TngInputFieldPrefix, TngInputFieldSuffix } from '@tailng-ui/primitives';
 
 @Component({
   // Only import TngInputFieldComponent here.
@@ -36,21 +36,21 @@ describe('tng-input-field — accessibility basics', () => {
     expect(hostDe).not.toBeNull();
     expect(groupDe).not.toBeNull();
 
-    const host = hostDe!.nativeElement as HTMLElement;
-    const group = groupDe!.nativeElement as HTMLElement;
+    const host = hostDe.nativeElement as HTMLElement;
+    const group = groupDe.nativeElement as HTMLElement;
 
     // ✅ Query wrappers created by the primitive group.
-    const leadingWrapDe = groupDe!.query(By.css('[data-slot="input-group-leading"]'));
-    const controlWrapDe = groupDe!.query(By.css('[data-slot="input-group-control"]'));
-    const trailingWrapDe = groupDe!.query(By.css('[data-slot="input-group-trailing"]'));
+    const leadingWrapDe = groupDe.query(By.css('[data-slot="input-group-leading"]'));
+    const controlWrapDe = groupDe.query(By.css('[data-slot="input-group-control"]'));
+    const trailingWrapDe = groupDe.query(By.css('[data-slot="input-group-trailing"]'));
 
     expect(leadingWrapDe).not.toBeNull();
     expect(controlWrapDe).not.toBeNull();
     expect(trailingWrapDe).not.toBeNull();
 
-    const leadingWrap = leadingWrapDe!.nativeElement as HTMLElement;
-    const controlWrap = controlWrapDe!.nativeElement as HTMLElement;
-    const trailingWrap = trailingWrapDe!.nativeElement as HTMLElement;
+    const leadingWrap = leadingWrapDe.nativeElement as HTMLElement;
+    const controlWrap = controlWrapDe.nativeElement as HTMLElement;
+    const trailingWrap = trailingWrapDe.nativeElement as HTMLElement;
 
     // No tabindex attributes injected
     expect(host.hasAttribute('tabindex')).toBe(false);
@@ -70,7 +70,7 @@ describe('tng-input-field — accessibility basics', () => {
     const tabbables = Array.from(
       root.querySelectorAll(
         'a[href],button,input,select,textarea,[tabindex]:not([tabindex="-1"])',
-      ) as NodeListOf<HTMLElement>,
+      ),
     ).filter((el) => !el.hasAttribute('disabled'));
 
     expect(tabbables).toHaveLength(1);

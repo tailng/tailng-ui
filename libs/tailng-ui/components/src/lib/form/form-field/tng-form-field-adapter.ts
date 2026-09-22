@@ -10,7 +10,7 @@ import type { TngFormFieldControl, TngFormFieldControlKind } from './tng-form-fi
  * - When the focusable element is the host itself (e.g. listbox), omit the
  *   selector — the adapter will use `hostElement` directly.
  */
-export interface TngFormFieldAdapterDef {
+export type TngFormFieldAdapterDef = {
   hostElement: HTMLElement;
   focusableSelector?: string;
   controlKind: TngFormFieldControlKind;

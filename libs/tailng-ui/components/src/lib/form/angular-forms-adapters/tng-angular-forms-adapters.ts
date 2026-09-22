@@ -19,8 +19,8 @@ import {
   coerceTngCheckboxModelValue,
   type TngCheckboxModelValue,
 } from '../checkbox/tng-checkbox.component';
-import { TngInputOtpComponent } from '../input-otp/tng-input-otp.component';
 import { TngInputComponent } from '../input/tng-input.component';
+import { TngInputOtpComponent } from '../input-otp/tng-input-otp.component';
 import { TngNumberRangeComponent } from '../number-range/tng-number-range.component';
 import { TngToggleComponent } from '../toggle/tng-toggle.component';
 

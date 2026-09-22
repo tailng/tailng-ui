@@ -95,7 +95,7 @@ export class TngMenuTriggerFor {
     }
   }
 
-  private syncAriaState(trigger: Readonly<HTMLElement>): void {
+  private syncAriaState(trigger: HTMLElement): void {
     const menu = this.tngMenuTriggerFor();
 
     this.setTriggerAttributes(trigger, {
@@ -113,7 +113,7 @@ export class TngMenuTriggerFor {
     return true;
   }
 
-  private setTriggerAttributes(trigger: Readonly<HTMLElement>, attributes: TngTriggerTargetAttributes): void {
+  private setTriggerAttributes(trigger: HTMLElement, attributes: TngTriggerTargetAttributes): void {
     if (this.triggerTarget !== null) {
       this.triggerTarget.setTngTriggerAttributes(attributes);
       return;
@@ -125,7 +125,7 @@ export class TngMenuTriggerFor {
   }
 
   private applyAriaHasPopupAttribute(
-    trigger: Readonly<HTMLElement>,
+    trigger: HTMLElement,
     attributes: TngTriggerTargetAttributes,
   ): void {
     if ('ariaHasPopup' in attributes) {
@@ -134,7 +134,7 @@ export class TngMenuTriggerFor {
   }
 
   private applyAriaControlsAttribute(
-    trigger: Readonly<HTMLElement>,
+    trigger: HTMLElement,
     attributes: TngTriggerTargetAttributes,
   ): void {
     if ('ariaControls' in attributes) {
@@ -143,7 +143,7 @@ export class TngMenuTriggerFor {
   }
 
   private applyAriaExpandedAttribute(
-    trigger: Readonly<HTMLElement>,
+    trigger: HTMLElement,
     attributes: TngTriggerTargetAttributes,
   ): void {
     if ('ariaExpanded' in attributes) {
@@ -164,7 +164,7 @@ export class TngMenuTriggerFor {
   }
 
   private setOrRemoveAttribute(
-    trigger: Readonly<HTMLElement>,
+    trigger: HTMLElement,
     name: string,
     value: boolean | string | null | undefined,
   ): void {

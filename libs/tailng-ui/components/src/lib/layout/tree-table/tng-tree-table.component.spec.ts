@@ -1,11 +1,11 @@
-import { existsSync, readFileSync } from 'node:fs';
-
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import type { TngTreeTableKey } from '@tailng-ui/primitives';
+import { existsSync, readFileSync } from 'node:fs';
+
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { TngTreeTableComponent } from './tng-tree-table.component';
 import type { TngTreeTableColumn } from './tng-tree-table-column.type';
-import type { TngTreeTableKey, TngTreeTableRowEvent } from '@tailng-ui/primitives';
+import { TngTreeTableComponent } from './tng-tree-table.component';
 
 const treeTableComponentStylesPath = existsSync(
   'libs/tailng-ui/components/src/lib/layout/tree-table/tng-tree-table.component.css',
@@ -14,7 +14,7 @@ const treeTableComponentStylesPath = existsSync(
   : 'src/lib/layout/tree-table/tng-tree-table.component.css';
 const treeTableComponentStyles = readFileSync(treeTableComponentStylesPath, 'utf8');
 
-interface AccountRow {
+type AccountRow = {
   id: string;
   name: string;
   type: string;
@@ -174,14 +174,14 @@ describe('TngTreeTableComponent', () => {
 
     it('should render correct cell values', () => {
       const rows = getRows(fixture);
-      const firstCells = rows[0]!.querySelectorAll('.tng-tree-table__cell');
+      const firstCells = rows[0].querySelectorAll('.tng-tree-table__cell');
       const nameCell = firstCells[0];
       expect(nameCell?.textContent).toContain('Assets');
     });
 
     it('should wrap regular cell text in cell content span', () => {
       const rows = getRows(fixture);
-      const firstCells = rows[0]!.querySelectorAll('.tng-tree-table__cell');
+      const firstCells = rows[0].querySelectorAll('.tng-tree-table__cell');
       const typeCell = firstCells[1];
       const content = typeCell?.querySelector('.tng-tree-table__cell-content');
       expect(content?.textContent).toContain('Group');
@@ -189,7 +189,7 @@ describe('TngTreeTableComponent', () => {
 
     it('should render tree toggle button for expandable rows', () => {
       const rows = getRows(fixture);
-      const btn = getToggleButton(rows[0]!);
+      const btn = getToggleButton(rows[0]);
       expect(btn).not.toBeNull();
     });
 
@@ -197,7 +197,7 @@ describe('TngTreeTableComponent', () => {
       host.data.set([{ id: 'leaf', name: 'Leaf', type: 'L', balance: 0 }]);
       fixture.detectChanges();
       const rows = getRows(fixture);
-      const btn = getToggleButton(rows[0]!);
+      const btn = getToggleButton(rows[0]);
       expect(btn).toBeNull();
     });
 
@@ -218,7 +218,7 @@ describe('TngTreeTableComponent', () => {
       host.expandedKeys.set(['assets']);
       fixture.detectChanges();
       const rows = getRows(fixture);
-      const cells = rows[0]!.querySelectorAll('.tng-tree-table__cell');
+      const cells = rows[0].querySelectorAll('.tng-tree-table__cell');
       expect(cells[2]?.getAttribute('data-align')).toBe('end');
     });
   });
@@ -228,7 +228,7 @@ describe('TngTreeTableComponent', () => {
   describe('expansion events', () => {
     it('should expand row when expand button is clicked', () => {
       const rows = getRows(fixture);
-      const btn = getToggleButton(rows[0]!)!;
+      const btn = getToggleButton(rows[0])!;
       btn.click();
       fixture.detectChanges();
       expect(host.onExpandedChange).toHaveBeenCalledWith(expect.arrayContaining(['assets']));
@@ -236,7 +236,7 @@ describe('TngTreeTableComponent', () => {
 
     it('should emit rowExpand when row expands', () => {
       const rows = getRows(fixture);
-      const btn = getToggleButton(rows[0]!)!;
+      const btn = getToggleButton(rows[0])!;
       btn.click();
       fixture.detectChanges();
       expect(host.onRowExpand).toHaveBeenCalledOnce();
@@ -246,7 +246,7 @@ describe('TngTreeTableComponent', () => {
       host.expandedKeys.set(['assets']);
       fixture.detectChanges();
       const rows = getRows(fixture);
-      const btn = getToggleButton(rows[0]!)!;
+      const btn = getToggleButton(rows[0])!;
       btn.click();
       fixture.detectChanges();
       expect(host.onExpandedChange).toHaveBeenCalledWith(
@@ -258,7 +258,7 @@ describe('TngTreeTableComponent', () => {
       host.expandedKeys.set(['assets']);
       fixture.detectChanges();
       const rows = getRows(fixture);
-      const btn = getToggleButton(rows[0]!)!;
+      const btn = getToggleButton(rows[0])!;
       btn.click();
       fixture.detectChanges();
       expect(host.onRowCollapse).toHaveBeenCalledOnce();
@@ -268,7 +268,7 @@ describe('TngTreeTableComponent', () => {
       host.expandOnRowClick.set(true);
       fixture.detectChanges();
       const rows = getRows(fixture);
-      rows[0]!.click();
+      rows[0].click();
       fixture.detectChanges();
       expect(host.onExpandedChange).toHaveBeenCalledWith(expect.arrayContaining(['assets']));
     });
@@ -277,7 +277,7 @@ describe('TngTreeTableComponent', () => {
       host.expandOnRowClick.set(false);
       fixture.detectChanges();
       const rows = getRows(fixture);
-      rows[0]!.click();
+      rows[0].click();
       fixture.detectChanges();
       // rowClick emitted but NOT expandedKeysChange
       expect(host.onRowClick).toHaveBeenCalledOnce();
@@ -323,7 +323,7 @@ describe('TngTreeTableComponent', () => {
 
     it('should set meaningful aria-label for expand button', () => {
       const rows = getRows(fixture);
-      const btn = getToggleButton(rows[0]!);
+      const btn = getToggleButton(rows[0]);
       expect(btn?.getAttribute('aria-label')).toBe('Expand row');
     });
 
@@ -331,7 +331,7 @@ describe('TngTreeTableComponent', () => {
       host.expandedKeys.set(['assets']);
       fixture.detectChanges();
       const rows = getRows(fixture);
-      const btn = getToggleButton(rows[0]!);
+      const btn = getToggleButton(rows[0]);
       expect(btn?.getAttribute('aria-label')).toBe('Collapse row');
     });
 
@@ -348,7 +348,7 @@ describe('TngTreeTableComponent', () => {
 
     it('should support keyboard expansion with ArrowRight', () => {
       const rows = getRows(fixture);
-      rows[0]!.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+      rows[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
       fixture.detectChanges();
       expect(host.onExpandedChange).toHaveBeenCalledWith(expect.arrayContaining(['assets']));
     });
@@ -357,7 +357,7 @@ describe('TngTreeTableComponent', () => {
       host.expandedKeys.set(['assets']);
       fixture.detectChanges();
       const rows = getRows(fixture);
-      rows[0]!.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
+      rows[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
       fixture.detectChanges();
       expect(host.onExpandedChange).toHaveBeenCalledWith(
         expect.not.arrayContaining(['assets']),
@@ -366,7 +366,7 @@ describe('TngTreeTableComponent', () => {
 
     it('should support keyboard toggle with Enter', () => {
       const rows = getRows(fixture);
-      rows[0]!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+      rows[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
       fixture.detectChanges();
       expect(host.onExpandedChange).toHaveBeenCalled();
     });
@@ -375,7 +375,7 @@ describe('TngTreeTableComponent', () => {
       host.selectable.set(true);
       fixture.detectChanges();
       const rows = getRows(fixture);
-      rows[0]!.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+      rows[0].dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
       fixture.detectChanges();
       expect(host.onSelectedChange).toHaveBeenCalled();
     });
@@ -385,7 +385,7 @@ describe('TngTreeTableComponent', () => {
       fixture.detectChanges();
       const rows = getRows(fixture);
       const event = new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true });
-      rows[0]!.dispatchEvent(event);
+      rows[0].dispatchEvent(event);
       fixture.detectChanges();
       expect(event.defaultPrevented).toBe(true);
     });
@@ -396,7 +396,7 @@ describe('TngTreeTableComponent', () => {
   describe('selection', () => {
     it('should not select rows when selectable is false', () => {
       const rows = getRows(fixture);
-      rows[0]!.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+      rows[0].dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
       fixture.detectChanges();
       expect(host.onSelectedChange).not.toHaveBeenCalled();
     });
@@ -405,7 +405,7 @@ describe('TngTreeTableComponent', () => {
       host.selectable.set(true);
       fixture.detectChanges();
       const rows = getRows(fixture);
-      rows[0]!.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+      rows[0].dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
       fixture.detectChanges();
       expect(host.onSelectedChange).toHaveBeenCalledWith(expect.arrayContaining(['assets']));
     });
@@ -414,7 +414,7 @@ describe('TngTreeTableComponent', () => {
       host.selectable.set(true);
       fixture.detectChanges();
       const rows = getRows(fixture);
-      rows[0]!.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+      rows[0].dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
       fixture.detectChanges();
       expect(host.onSelectedChange).toHaveBeenCalledOnce();
     });
@@ -496,7 +496,7 @@ describe('TngTreeTableComponent', () => {
       host.expandedKeys.set(keys);
       fixture.detectChanges();
       const rows = getRows(fixture);
-      const btn = getToggleButton(rows[0]!)!;
+      const btn = getToggleButton(rows[0])!;
       btn.click();
       fixture.detectChanges();
       expect(keys).toHaveLength(0); // original array not mutated
@@ -508,7 +508,7 @@ describe('TngTreeTableComponent', () => {
       host.selectedKeys.set(keys);
       fixture.detectChanges();
       const rows = getRows(fixture);
-      rows[0]!.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+      rows[0].dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
       fixture.detectChanges();
       expect(keys).toHaveLength(0);
     });

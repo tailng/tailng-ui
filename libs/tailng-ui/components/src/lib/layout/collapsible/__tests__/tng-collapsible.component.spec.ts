@@ -8,7 +8,7 @@ import {
 } from '../tng-collapsible.component';
 
 function getByTestId<T extends Element>(fixture: { nativeElement: HTMLElement }, testId: string): T {
-  const element = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`) as T | null;
+  const element = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`);
   if (element === null) {
     throw new Error(`Expected element [data-testid="${testId}"] to exist.`);
   }
@@ -17,7 +17,7 @@ function getByTestId<T extends Element>(fixture: { nativeElement: HTMLElement },
 }
 
 function getRequired<T extends Element>(root: ParentNode, selector: string): T {
-  const element = root.querySelector(selector) as T | null;
+  const element = root.querySelector(selector);
   if (element === null) {
     throw new Error(`Expected selector "${selector}" to resolve to an element.`);
   }

@@ -125,8 +125,8 @@ export type TngTableHeaderCellNode<TRow = unknown> = Readonly<{
 }>;
 
 type HeaderTreeModel<TRow> = Readonly<{
-  headerRows: ReadonlyArray<ReadonlyArray<TngTableHeaderCellNode<TRow>>>;
-  leafColumns: ReadonlyArray<TngTableLeafColumn<TRow>>;
+  headerRows: readonly (readonly TngTableHeaderCellNode<TRow>[])[];
+  leafColumns: readonly TngTableLeafColumn<TRow>[];
   maxDepth: number;
 }>;
 
@@ -336,7 +336,7 @@ export class TngTableComponent<TRow = unknown> {
     this.buildHeaderTreeModel(this.columns()),
   );
   protected readonly bodySpanGrid = computed<
-    ReadonlyArray<Readonly<Record<string, TngTableBodyCellSpan>>>
+    readonly Readonly<Record<string, TngTableBodyCellSpan>>[]
   >(() => this.buildBodySpanGrid(this.items(), this.headerTreeModel().leafColumns));
 
   // For each body row, the index of its group leader based on the outermost
@@ -374,11 +374,11 @@ export class TngTableComponent<TRow = unknown> {
     return this.columns().filter((column) => hasValidId(column) && !isHidden(column));
   }
 
-  protected get headerRows(): ReadonlyArray<ReadonlyArray<TngTableHeaderCellNode<TRow>>> {
+  protected get headerRows(): readonly (readonly TngTableHeaderCellNode<TRow>[])[] {
     return this.headerTreeModel().headerRows;
   }
 
-  protected get leafColumns(): ReadonlyArray<TngTableLeafColumn<TRow>> {
+  protected get leafColumns(): readonly TngTableLeafColumn<TRow>[] {
     return this.headerTreeModel().leafColumns;
   }
 
@@ -648,9 +648,7 @@ export class TngTableComponent<TRow = unknown> {
     }
 
     return Object.freeze({
-      headerRows: headerRows.map((row) => Object.freeze(row.slice())) as ReadonlyArray<
-        ReadonlyArray<TngTableHeaderCellNode<TRow>>
-      >,
+      headerRows: headerRows.map((row) => Object.freeze(row.slice())) as readonly (readonly TngTableHeaderCellNode<TRow>[])[],
       leafColumns: Object.freeze(leafColumns.slice()),
       maxDepth: Math.max(1, maxDepth),
     });
@@ -658,8 +656,8 @@ export class TngTableComponent<TRow = unknown> {
 
   private buildBodySpanGrid(
     items: readonly TRow[],
-    leafColumns: ReadonlyArray<TngTableLeafColumn<TRow>>,
-  ): ReadonlyArray<Readonly<Record<string, TngTableBodyCellSpan>>> {
+    leafColumns: readonly TngTableLeafColumn<TRow>[],
+  ): readonly Readonly<Record<string, TngTableBodyCellSpan>>[] {
     const rows = items.map(() => Object.create(null) as Record<string, TngTableBodyCellSpan>);
     for (const row of rows) {
       for (const column of leafColumns) {
@@ -684,18 +682,18 @@ export class TngTableComponent<TRow = unknown> {
       for (const boundary of boundaries) {
         let runStart = boundary.start;
         while (runStart < boundary.end) {
-          const runValue = this.getCellValue(items[runStart] as TRow, column, runStart);
+          const runValue = this.getCellValue(items[runStart], column, runStart);
           let runEnd = runStart + 1;
 
           while (
             runEnd < boundary.end &&
-            areGroupValuesEqual(runValue, this.getCellValue(items[runEnd] as TRow, column, runEnd))
+            areGroupValuesEqual(runValue, this.getCellValue(items[runEnd], column, runEnd))
           ) {
             runEnd += 1;
           }
 
           const groupSize = runEnd - runStart;
-          rows[runStart]![column.id] = Object.freeze({
+          rows[runStart][column.id] = Object.freeze({
             groupSize,
             isGroupLeader: true,
             render: true,
@@ -703,7 +701,7 @@ export class TngTableComponent<TRow = unknown> {
           });
 
           for (let rowIndex = runStart + 1; rowIndex < runEnd; rowIndex += 1) {
-            rows[rowIndex]![column.id] = Object.freeze({
+            rows[rowIndex][column.id] = Object.freeze({
               groupSize,
               isGroupLeader: false,
               render: false,
@@ -719,9 +717,7 @@ export class TngTableComponent<TRow = unknown> {
       boundaries = Object.freeze(nextBoundaries.slice());
     }
 
-    return Object.freeze(rows.map((row) => Object.freeze({ ...row }))) as ReadonlyArray<
-      Readonly<Record<string, TngTableBodyCellSpan>>
-    >;
+    return Object.freeze(rows.map((row) => Object.freeze({ ...row }))) as readonly Readonly<Record<string, TngTableBodyCellSpan>>[];
   }
 
   private walkColumn(
@@ -765,7 +761,7 @@ export class TngTableComponent<TRow = unknown> {
       return colspan;
     }
 
-    const leaf = column as TngTableLeafColumn<TRow>;
+    const leaf = column;
     leafColumns.push(leaf);
     const rowspan = Math.max(1, maxDepth - depth);
     headerRows[depth].push(
@@ -857,7 +853,7 @@ export class TngTableComponent<TRow = unknown> {
           visit(child);
         }
       } else {
-        const leaf = column as TngTableLeafColumn<TRow>;
+        const leaf = column;
         if (leaf.groupBy === true && leaf.sticky !== null && leaf.sticky !== undefined) {
           console.warn(
             `[tng-table] Column "${leaf.id}" combines "groupBy" and "sticky"; sticky offsets may not align with merged body cells.`,

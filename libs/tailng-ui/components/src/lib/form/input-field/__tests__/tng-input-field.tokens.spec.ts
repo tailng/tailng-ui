@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { TngInput } from '@tailng-ui/primitives';
 import { describe, expect, it } from 'vitest';
 
 import { TngInputFieldComponent } from '../tng-input-field.component';
-import { TngInput } from '@tailng-ui/primitives';
 
 @Component({
   imports: [TngInputFieldComponent, TngInput],

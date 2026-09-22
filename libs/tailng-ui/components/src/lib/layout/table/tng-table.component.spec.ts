@@ -1,8 +1,8 @@
-import { existsSync, readFileSync } from 'node:fs';
 
 import { Component, computed, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import type { TngTableScrollAxis, TngTableSortChange } from '@tailng-ui/primitives';
+import { existsSync, readFileSync } from 'node:fs';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {

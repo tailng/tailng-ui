@@ -16,12 +16,12 @@ import {
   TngSlider as TngSliderPrimitive,
 } from '@tailng-ui/primitives';
 
+import { tngSliderValuePercent } from './tng-slider.utils';
+import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 import {
   TNG_FORM_FIELD_CONTROL,
   type TngFormFieldControl,
 } from '../form-field/tng-form-field.control';
-import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
-import { tngSliderValuePercent } from './tng-slider.utils';
 
 export function readTngSliderEventValue(event: unknown): number | null {
   if (!(event instanceof Event)) {

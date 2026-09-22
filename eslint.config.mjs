@@ -194,6 +194,8 @@ export default [
       '@typescript-eslint/prefer-readonly-parameter-types': [
       'warn',
       {
+        ignoreInferredTypes: true,
+        treatMethodsAsReadonly: true,
         allow: [
           {
             from: 'lib',
@@ -203,6 +205,12 @@ export default [
               'MouseEvent',
               'PointerEvent',
               'FocusEvent',
+              'DOMRectReadOnly',
+              'HTMLElement',
+              'Window',
+              'Document',
+              'EventTarget',
+              'Element',
             ],
           },
         ],

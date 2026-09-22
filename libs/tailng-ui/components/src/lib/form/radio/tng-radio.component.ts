@@ -10,11 +10,11 @@ import {
 import type { FormCheckboxControl } from '@angular/forms/signals';
 import { TngRadio as TngRadioPrimitive } from '@tailng-ui/primitives';
 
+import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 import {
   TNG_FORM_FIELD_CONTROL,
   type TngFormFieldControl,
 } from '../form-field/tng-form-field.control';
-import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 
 export function readTngRadioChecked(event: unknown): boolean | null {
   if (!(event instanceof Event)) {

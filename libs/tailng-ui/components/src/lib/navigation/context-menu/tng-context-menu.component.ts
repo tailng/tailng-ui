@@ -6,6 +6,7 @@ import {
   ViewEncapsulation,
   inject,
   input,
+  type DoCheck,
 } from '@angular/core';
 import { createTngIdFactory, getGlobalScrollLockManager } from '@tailng-ui/cdk';
 import {
@@ -32,7 +33,7 @@ const createContextMenuLockId = createTngIdFactory('tng-context-menu-lock');
   encapsulation: ViewEncapsulation.None,
   exportAs: 'tngContextMenuComponent',
 })
-export class TngContextMenuComponent {
+export class TngContextMenuComponent implements DoCheck {
   private readonly menu = inject<TngMenuPrimitive>(TngMenuPrimitive);
   private readonly destroyRef = inject(DestroyRef);
   private readonly ngZone = inject(NgZone);

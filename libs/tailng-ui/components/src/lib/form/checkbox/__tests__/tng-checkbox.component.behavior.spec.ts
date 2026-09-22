@@ -186,7 +186,7 @@ describe('tng-checkbox component behavior', () => {
     fixture.detectChanges();
 
     const host = fixture.componentInstance;
-    const label = queryCheckboxHost(fixture).querySelector('.tng-checkbox-label') as HTMLElement | null;
+    const label = queryCheckboxHost(fixture).querySelector('.tng-checkbox-label');
     expect(label).toBeTruthy();
 
     click(label!);
