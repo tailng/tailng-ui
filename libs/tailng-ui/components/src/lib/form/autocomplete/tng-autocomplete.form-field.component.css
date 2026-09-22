@@ -11,8 +11,10 @@ tng-form-field tng-autocomplete [data-slot='autocomplete-trigger-container'] {
   padding-inline: 0;
 }
 
-tng-form-field tng-autocomplete [data-slot='autocomplete-trigger-container']:hover:not(:has([aria-disabled='true'])) {
-  border-color: transparent;
+tng-form-field[data-appearance='outlined']
+  tng-autocomplete
+  [data-slot='autocomplete-trigger-container'] {
+  --tng-autocomplete-border-hover: transparent;
 }
 
 tng-form-field
