@@ -91,23 +91,29 @@ describe('TailNG split layout sizing engine', () => {
     expect((result.sizes.get('left') ?? 0) + (result.sizes.get('right') ?? 0)).toBe(300);
   });
 
+  
   it('clamps pair movement against both panes', () => {
+    const constraints = {
+      previousMin: 200,
+      previousMax: 450,
+      nextMin: 400,
+      nextMax: 600,
+    };
+
     expect(
-      resizeTngSplitPair(300, 500, 400, {
-        previousMin: 200,
-        previousMax: 450,
-        nextMin: 400,
-        nextMax: 600,
-      }),
+      resizeTngSplitPair(
+        { previousSize: 300, nextSize: 500 },
+        400,
+        constraints,
+      ),
     ).toEqual({ previousSize: 400, nextSize: 400 });
 
     expect(
-      resizeTngSplitPair(300, 500, -400, {
-        previousMin: 200,
-        previousMax: 450,
-        nextMin: 400,
-        nextMax: 600,
-      }),
+      resizeTngSplitPair(
+        { previousSize: 300, nextSize: 500 },
+        -400,
+        constraints,
+      ),
     ).toEqual({ previousSize: 200, nextSize: 600 });
   });
 });

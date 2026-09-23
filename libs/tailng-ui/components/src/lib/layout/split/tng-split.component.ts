@@ -546,7 +546,7 @@ export class TngSplitGroupComponent
     delta: number,
     source: TngSplitResizeSource,
   ): void {
-    const result = resizeTngSplitPair(previousSize, nextSize, delta, this.constraintsFor(pair));
+    const result = resizeTngSplitPair({ previousSize, nextSize }, delta, this.constraintsFor(pair));
     this.applyPaneSize(pair.previous, result.previousSize, source);
     this.applyPaneSize(pair.next, result.nextSize, source);
     this.resize.emit(this.eventForPair(pair, source));

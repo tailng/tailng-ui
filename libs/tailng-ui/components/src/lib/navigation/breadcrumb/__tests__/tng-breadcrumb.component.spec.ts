@@ -17,13 +17,21 @@ type BreadcrumbCrumb = {
   readonly routerLink?: string | readonly (number | string)[] | null;
 };
 
-function getByTestId<T extends Element>(fixture: ComponentFixture<unknown>, testId: string): T {
-  const element = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`);
+function getByTestId<T extends Element>(
+  fixture: ComponentFixture<unknown>,
+  testId: string,
+): T {
+  const host = fixture.nativeElement as Element;
+
+  const element = host.querySelector<T>(
+    `[data-testid="${testId}"]`,
+  );
+
   if (element === null) {
     throw new Error(`Expected element for data-testid="${testId}".`);
   }
 
-  return element as T;
+  return element;
 }
 
 function queryByTestId<T extends Element>(
@@ -907,10 +915,14 @@ describe('tng-breadcrumb component behavior blocks A-L', () => {
       const fixture = TestBed.configureTestingModule({
         imports: [MultipleBreadcrumbHarnessComponent],
       }).createComponent(MultipleBreadcrumbHarnessComponent);
+    
       fixture.detectChanges();
-
-      const nodesWithIds = Array.from(fixture.nativeElement.querySelectorAll<HTMLElement>('[id]'));
-      const ids = nodesWithIds.map((node) => node.id);
+    
+      const host = fixture.nativeElement as HTMLElement;
+    
+      const nodesWithIds = host.querySelectorAll<HTMLElement>('[id]');
+      const ids = Array.from(nodesWithIds, (node) => node.id);
+    
       expect(new Set(ids).size).toBe(ids.length);
     });
 

@@ -77,7 +77,12 @@ export default [
 
       'prefer-const': 'error',
       'no-var': 'error',
-      'no-console': 'error',
+      'no-console': [
+        'error',
+        {
+          allow: ['warn', 'error'],
+        },
+      ],
 
       'max-lines-per-function': [
         'error',
@@ -220,6 +225,16 @@ export default [
     },
   },
   {
+    files: [
+      '**/*.component.ts',
+      '**/*.directive.ts',
+      '**/*.type.ts',
+    ],
+    rules: {
+      '@typescript-eslint/prefer-readonly-parameter-types': 'off',
+    },
+  },
+  {
     files: ['**/*.spec.ts', '**/*.test.ts', '**/__tests__/**/*.ts'],
     rules: {
       'max-lines-per-function': 'off',
@@ -243,7 +258,12 @@ export default [
   {
     files: ['apps/**/*.ts'],
     rules: {
-      'no-console': 'warn',
+      'no-console': [
+        'warn',
+        {
+          allow: ['warn', 'error'],
+        },
+      ],
       'max-params': ['warn', 4],
     },
   },

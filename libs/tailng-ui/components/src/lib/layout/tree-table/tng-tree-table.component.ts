@@ -70,6 +70,12 @@ type TngTreeTableHeaderModel<TRow> = Readonly<{
   maxDepth: number;
 }>;
 
+type TreeTableWalkContext<TRow> = {
+  readonly maxDepth: number;
+  readonly headerRows: TngTreeTableHeaderNode<TRow>[][];
+  readonly leafColumns: TngTreeTableLeafColumn<TRow>[];
+}
+
 // ── Column helpers ────────────────────────────────────────────────────────────
 
 function hasValidKey<TRow>(column: TngTreeTableColumn<TRow>): boolean {
@@ -294,7 +300,11 @@ export class TngTreeTableComponent<TRow = unknown> {
     this.expandedKeysChange.emit([...nextSet]);
 
     const rowEvent = this.makeRowEvent(flatRow, event);
-    flatRow.expanded ? this.rowCollapse.emit(rowEvent) : this.rowExpand.emit(rowEvent);
+    if (flatRow.expanded) {
+      this.rowCollapse.emit(rowEvent);
+    } else {
+      this.rowExpand.emit(rowEvent);
+    }
   }
 
   protected onRowClick(flatRow: TngTreeTableFlatRow<TRow>, event: MouseEvent): void {
@@ -306,66 +316,86 @@ export class TngTreeTableComponent<TRow = unknown> {
       const nextSet = toggleExpandedKey(this.expandedSet(), flatRow.key);
       this.expandedKeysChange.emit([...nextSet]);
       const rowEvent = this.makeRowEvent(flatRow, event);
-      flatRow.expanded ? this.rowCollapse.emit(rowEvent) : this.rowExpand.emit(rowEvent);
+      if (flatRow.expanded) {
+        this.rowCollapse.emit(rowEvent);
+      } else {
+        this.rowExpand.emit(rowEvent);
+      }
+    }
+  }
+
+  private handleRowExpansionKeydown(
+    flatRow: TngTreeTableFlatRow<TRow>,
+    event: KeyboardEvent,
+    intent: ReturnType<typeof resolveTreeTableKeydown>,
+  ): void {
+    if (intent === 'expand') {
+      const nextSet = expandKey(this.expandedSet(), flatRow.key);
+  
+      this.expandedKeysChange.emit([...nextSet]);
+      this.rowExpand.emit(this.makeRowEvent(flatRow, event));
+      return;
+    }
+  
+    if (intent === 'collapse') {
+      const nextSet = collapseKey(this.expandedSet(), flatRow.key);
+  
+      this.expandedKeysChange.emit([...nextSet]);
+      this.rowCollapse.emit(this.makeRowEvent(flatRow, event));
+      return;
+    }
+  
+    if (intent === 'toggle' && flatRow.expandable) {
+      const nextSet = toggleExpandedKey(this.expandedSet(), flatRow.key);
+  
+      this.expandedKeysChange.emit([...nextSet]);
+  
+      const rowEvent = this.makeRowEvent(flatRow, event);
+  
+      if (flatRow.expanded) {
+        this.rowCollapse.emit(rowEvent);
+      } else {
+        this.rowExpand.emit(rowEvent);
+      }
     }
   }
 
   protected onRowKeydown(
     flatRow: TngTreeTableFlatRow<TRow>,
     event: KeyboardEvent,
-    rowIndex: number,
   ): void {
     const intent = resolveTreeTableKeydown(event.key, {
       expandable: flatRow.expandable,
       expanded: flatRow.expanded,
       selectable: this.selectable(),
     });
-
+  
     if (intent === null) return;
-
+  
     if (intent === 'select') {
       event.preventDefault();
-      this.onSelect(flatRow, event);
+      this.onSelect(flatRow);
       return;
     }
-
+  
     if (intent === 'focusFirst') {
       event.preventDefault();
       this.focusRow(0);
       return;
     }
-
+  
     if (intent === 'focusLast') {
       event.preventDefault();
       this.focusRow(this.flatRows().length - 1);
       return;
     }
-
+  
     if (flatRow.disabled || this.disabled()) return;
-
-    if (intent === 'expand') {
-      const nextSet = expandKey(this.expandedSet(), flatRow.key);
-      this.expandedKeysChange.emit([...nextSet]);
-      this.rowExpand.emit(this.makeRowEvent(flatRow, event));
-      return;
-    }
-
-    if (intent === 'collapse') {
-      const nextSet = collapseKey(this.expandedSet(), flatRow.key);
-      this.expandedKeysChange.emit([...nextSet]);
-      this.rowCollapse.emit(this.makeRowEvent(flatRow, event));
-      return;
-    }
-
-    if (intent === 'toggle' && flatRow.expandable) {
-      const nextSet = toggleExpandedKey(this.expandedSet(), flatRow.key);
-      this.expandedKeysChange.emit([...nextSet]);
-      const rowEvent = this.makeRowEvent(flatRow, event);
-      flatRow.expanded ? this.rowCollapse.emit(rowEvent) : this.rowExpand.emit(rowEvent);
-    }
+  
+    this.handleRowExpansionKeydown(flatRow, event, intent);
   }
 
-  protected onSelect(flatRow: TngTreeTableFlatRow<TRow>, event: Event): void {
+  protected onSelect(flatRow: TngTreeTableFlatRow<TRow>): void {
     if (!this.selectable() || flatRow.disabled || this.disabled()) return;
     const nextSet = toggleSelectedKey(this.selectedSet(), flatRow.key);
     this.selectedKeysChange.emit([...nextSet]);
@@ -551,7 +581,7 @@ export class TngTreeTableComponent<TRow = unknown> {
     const leafColumns: TngTreeTableLeafColumn<TRow>[] = [];
 
     for (const column of filtered) {
-      this.walkColumn(column, 0, maxDepth, headerRows, leafColumns);
+      this.walkColumn(column, 0, { maxDepth, headerRows, leafColumns });
     }
 
     return Object.freeze({
@@ -563,42 +593,16 @@ export class TngTreeTableComponent<TRow = unknown> {
     });
   }
 
-  private walkColumn(
-    column: TngTreeTableColumn<TRow>,
+  private walkLeafColumn(
+    leaf: TngTreeTableLeafColumn<TRow>,
     depth: number,
-    maxDepth: number,
-    headerRows: TngTreeTableHeaderNode<TRow>[][],
-    leafColumns: TngTreeTableLeafColumn<TRow>[],
+    context: TreeTableWalkContext<TRow>,
   ): number {
-    if (isTreeTableGroupColumn(column)) {
-      const visibleChildren = column.children.filter((c) => hasValidKey(c) && !isHidden(c));
-      if (visibleChildren.length === 0) return 0;
-
-      let colspan = 0;
-      for (const child of visibleChildren) {
-        colspan += this.walkColumn(child, depth + 1, maxDepth, headerRows, leafColumns);
-      }
-      if (colspan === 0) return 0;
-
-      headerRows[depth].push(
-        Object.freeze({
-          column,
-          key: column.key,
-          label: getColumnLabel(column),
-          isGroup: true,
-          depth,
-          colspan,
-          rowspan: 1,
-        }),
-      );
-      return colspan;
-    }
-
-    // Leaf
-    const leaf = column as TngTreeTableLeafColumn<TRow>;
-    leafColumns.push(leaf);
-    const rowspan = Math.max(1, maxDepth - depth);
-    headerRows[depth].push(
+    context.leafColumns.push(leaf);
+  
+    const rowspan = Math.max(1, context.maxDepth - depth);
+  
+    context.headerRows[depth].push(
       Object.freeze({
         column: leaf,
         key: leaf.key,
@@ -609,7 +613,44 @@ export class TngTreeTableComponent<TRow = unknown> {
         rowspan,
       }),
     );
+  
     return 1;
+  }
+
+  private walkColumn(
+    column: TngTreeTableColumn<TRow>,
+    depth: number,
+    context: TreeTableWalkContext<TRow>,
+  ): number {
+    if (!isTreeTableGroupColumn(column)) {
+      return this.walkLeafColumn(column as TngTreeTableLeafColumn<TRow>, depth, context);
+    }
+  
+    const visibleChildren = column.children.filter((child) => hasValidKey(child) && !isHidden(child));
+  
+    if (visibleChildren.length === 0) return 0;
+  
+    let colspan = 0;
+  
+    for (const child of visibleChildren) {
+      colspan += this.walkColumn(child, depth + 1, context);
+    }
+  
+    if (colspan === 0) return 0;
+  
+    context.headerRows[depth].push(
+      Object.freeze({
+        column,
+        key: column.key,
+        label: getColumnLabel(column),
+        isGroup: true,
+        depth,
+        colspan,
+        rowspan: 1,
+      }),
+    );
+  
+    return colspan;
   }
 
   private computeMaxDepth(columns: readonly TngTreeTableColumn<TRow>[]): number {

@@ -136,60 +136,38 @@ export class TngBreadcrumbComponent implements AfterContentInit, OnDestroy {
     return -1;
   }
 
-  // eslint-disable-next-line complexity,max-lines-per-function
   private resolveDisplayModes(
     items: readonly TngBreadcrumbItemComponent[],
     currentIndex: number,
   ): readonly TngBreadcrumbItemDisplayMode[] {
     const itemCount = items.length;
     const maxItems = this.maxItems();
+  
     if (maxItems === null || maxItems < 1 || itemCount <= maxItems) {
       return Array.from({ length: itemCount }, () => 'visible' as const);
     }
-
-    const itemsBeforeCollapse = Math.max(1, Math.floor(this.itemsBeforeCollapse()));
-    const itemsAfterCollapse = Math.max(1, Math.floor(this.itemsAfterCollapse()));
-    const visibleIndices = new Set<number>();
-
-    for (let index = 0; index < Math.min(itemsBeforeCollapse, itemCount); index += 1) {
-      visibleIndices.add(index);
-    }
-
-    for (
-      let index = Math.max(itemCount - itemsAfterCollapse, 0);
-      index < itemCount;
-      index += 1
-    ) {
-      visibleIndices.add(index);
-    }
-
-    if (currentIndex >= 0) {
-      visibleIndices.add(currentIndex);
-    }
-
-    const hiddenIndices: number[] = [];
-    for (let index = 0; index < itemCount; index += 1) {
-      if (!visibleIndices.has(index)) {
-        hiddenIndices.push(index);
-      }
-    }
-
-    if (hiddenIndices.length === 0) {
-      return Array.from({ length: itemCount }, () => 'visible' as const);
-    }
-
-    const displayModes: TngBreadcrumbItemDisplayMode[] = Array.from(
+  
+    const before = Math.max(1, Math.floor(this.itemsBeforeCollapse()));
+    const after = Math.max(1, Math.floor(this.itemsAfterCollapse()));
+    const afterStart = Math.max(0, itemCount - after);
+  
+    let ellipsisPlaced = false;
+  
+    return Array.from(
       { length: itemCount },
-      () => 'visible' as const,
+      (_, index): TngBreadcrumbItemDisplayMode => {
+        if (index < before || index >= afterStart || index === currentIndex) {
+          return 'visible';
+        }
+  
+        if (!ellipsisPlaced) {
+          ellipsisPlaced = true;
+          return 'ellipsis';
+        }
+  
+        return 'hidden';
+      },
     );
-
-    for (const hiddenIndex of hiddenIndices) {
-      displayModes[hiddenIndex] = 'hidden';
-    }
-
-    // The first hidden item becomes the collapse marker so we avoid introducing a separate focusable node.
-    displayModes[hiddenIndices[0]] = 'ellipsis';
-    return displayModes;
   }
 
   private resolveVisibleIndices(displayModes: readonly TngBreadcrumbItemDisplayMode[]): readonly number[] {

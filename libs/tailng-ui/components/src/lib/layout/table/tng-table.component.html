@@ -168,7 +168,7 @@
                       <ng-container
                         *ngTemplateOutlet="
                           cellTemplate.templateRef;
-                          context: getCellContext(row, column, rowIndex, span)
+                          context: getCellContext(row, column, { rowIndex, span })
                         "
                       />
                     } @else {

@@ -426,7 +426,7 @@ describe('TngTreeTableComponent', () => {
     it('should render loading row when loading is true', () => {
       host.loading.set(true);
       fixture.detectChanges();
-      const loadingRow = fixture.nativeElement.querySelector('.tng-tree-table__loading-row');
+      const loadingRow = fixture.nativeElement.querySelector('.tng-tree-table__loading-row') as HTMLTableRowElement | null;
       expect(loadingRow).not.toBeNull();
     });
 
@@ -434,14 +434,14 @@ describe('TngTreeTableComponent', () => {
       host.loading.set(true);
       host.loadingText.set('Fetching...');
       fixture.detectChanges();
-      const cell = fixture.nativeElement.querySelector('.tng-tree-table__loading-cell');
+      const cell = fixture.nativeElement.querySelector('.tng-tree-table__loading-cell') as HTMLTableCellElement | null;
       expect(cell?.textContent?.trim()).toBe('Fetching...');
     });
 
     it('should render empty row when data is empty', () => {
       host.data.set([]);
       fixture.detectChanges();
-      const emptyRow = fixture.nativeElement.querySelector('.tng-tree-table__empty-row');
+      const emptyRow = fixture.nativeElement.querySelector('.tng-tree-table__empty-row') as HTMLTableRowElement | null;
       expect(emptyRow).not.toBeNull();
     });
 
@@ -449,7 +449,7 @@ describe('TngTreeTableComponent', () => {
       host.data.set([]);
       host.emptyText.set('Nothing here');
       fixture.detectChanges();
-      const cell = fixture.nativeElement.querySelector('.tng-tree-table__empty-cell');
+      const cell = fixture.nativeElement.querySelector('.tng-tree-table__empty-cell') as HTMLTableCellElement | null;
       expect(cell?.textContent?.trim()).toBe('Nothing here');
     });
 
@@ -464,14 +464,14 @@ describe('TngTreeTableComponent', () => {
     it('should use correct colspan for loading row', () => {
       host.loading.set(true);
       fixture.detectChanges();
-      const cell = fixture.nativeElement.querySelector('.tng-tree-table__loading-cell');
+      const cell = fixture.nativeElement.querySelector('.tng-tree-table__loading-cell') as HTMLTableCellElement | null;
       expect(cell?.getAttribute('colspan')).toBe('3');
     });
 
     it('should use correct colspan for empty row', () => {
       host.data.set([]);
       fixture.detectChanges();
-      const cell = fixture.nativeElement.querySelector('.tng-tree-table__empty-cell');
+      const cell = fixture.nativeElement.querySelector('.tng-tree-table__empty-cell') as HTMLTableCellElement | null;
       expect(cell?.getAttribute('colspan')).toBe('3');
     });
   });
