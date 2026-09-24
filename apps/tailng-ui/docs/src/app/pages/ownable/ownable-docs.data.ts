@@ -96,6 +96,14 @@ export const OWNABLE_FORM_GROUP: OwnableDocsGroup = {
         'Ownable textarea install with local wrapper source, import metadata, and generated file structure.',
     },
     {
+      id: 'code-editor',
+      slug: 'code-editor',
+      registrySlug: 'code-editor',
+      title: 'Code Editor',
+      description:
+        'Ownable code editor with local overlay rendering, highlighting adapters, and editable source.',
+    },
+    {
       id: 'label',
       slug: 'label',
       registrySlug: 'label',

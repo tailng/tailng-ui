@@ -1,0 +1,21 @@
+.code-editor-styling {
+  display: grid;
+  gap: 1.5rem;
+}
+.code-editor-styling h2,
+.code-editor-styling h3,
+.code-editor-styling p,
+.code-editor-styling ul {
+  margin: 0;
+}
+.code-editor-styling section {
+  display: grid;
+  gap: 0.75rem;
+}
+.code-editor-styling__lead {
+  color: var(--tng-semantic-foreground-secondary);
+  max-width: 70ch;
+}
+.code-editor-styling ul {
+  padding-inline-start: 1.25rem;
+}

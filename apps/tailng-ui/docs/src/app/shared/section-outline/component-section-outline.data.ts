@@ -1286,6 +1286,35 @@ export const docsComponentOutlineItemsBySlug: Readonly<
       { id: 'import-and-usage', label: 'Import in your feature module/component' },
     ],
   },
+  'code-editor': {
+    overview: [
+      { id: 'imports', label: 'Imports and provider' },
+      { id: 'editable-source', label: 'Editable source' },
+      { id: 'separation-of-responsibilities', label: 'Component boundaries' },
+      { id: 'accessibility-baseline', label: 'Accessibility baseline' },
+    ],
+    api: [
+      { id: 'value-and-form-state', label: 'Value and form state' },
+      { id: 'highlighting', label: 'Highlighting' },
+      { id: 'native-textarea-contract', label: 'Native textarea contract' },
+      { id: 'render-lifecycle', label: 'Render lifecycle' },
+    ],
+    styling: [
+      { id: 'theme-tokens', label: 'Theme tokens' },
+      { id: 'slot-and-state-hooks', label: 'Slot and state hooks' },
+      { id: 'overlay-invariant', label: 'Overlay invariant' },
+    ],
+    examples: [
+      { id: 'language-examples', label: 'Language examples' },
+      { id: 'readonly-and-disabled', label: 'Readonly and disabled' },
+      { id: 'plain-fallback', label: 'Plain fallback' },
+    ],
+    'ownable-install': [
+      { id: 'install-from-registry', label: 'Install from registry' },
+      { id: 'generated-files', label: 'Generated files' },
+      { id: 'import-and-usage', label: 'Import and usage' },
+    ],
+  },
   toast: {
     overview: [
       { id: 'imports', label: 'Imports' },

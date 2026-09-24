@@ -189,6 +189,13 @@ export const appRoutes: Route[] = [
           ),
       },
       {
+        path: 'code-editor',
+        loadComponent: () =>
+          import('./pages/primitives/code-editor-demo/code-editor-playground-page.component').then(
+            (module) => module.CodeEditorPlaygroundPageComponent,
+          ),
+      },
+      {
         path: 'listbox',
         loadComponent: () =>
           import('./pages/primitives/listbox-demo/listbox-playground-page.component').then(

@@ -8,6 +8,7 @@ export const DOCS_SHIKI_LANGUAGES = [
   'bash',
   'html',
   'json',
+  'python',
   'css',
   'scss',
   'shell',

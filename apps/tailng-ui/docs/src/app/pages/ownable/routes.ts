@@ -36,6 +36,7 @@ const chipsItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'chips');
 const inputOtpItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'input-otp');
 const inputItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'input');
 const textareaItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'textarea');
+const codeEditorItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'code-editor');
 const autocompleteItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'autocomplete');
 const switchItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'switch');
 const labelItem = requireOwnableItem(OWNABLE_FORM_GROUP, 'label');
@@ -159,6 +160,14 @@ export const OWNABLE_ROUTES: Routes = [
         loadComponent: () =>
           import('./form/textarea/ownable-textarea-page.component').then(
             (m) => m.OwnableTextareaPageComponent,
+          ),
+      },
+      {
+        path: 'form/code-editor',
+        data: toOwnableDocsRouteData(OWNABLE_FORM_GROUP, codeEditorItem),
+        loadComponent: () =>
+          import('./form/code-editor/ownable-code-editor-page.component').then(
+            (m) => m.OwnableCodeEditorPageComponent,
           ),
       },
       {

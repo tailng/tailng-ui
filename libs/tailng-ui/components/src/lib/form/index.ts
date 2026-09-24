@@ -10,6 +10,7 @@ export * from './button-toggle/tng-button-toggle-group.component';
 export * from './checkbox/tng-checkbox.component';
 export * from './chips/tng-chip.component';
 export * from './chips/tng-chips.component';
+export * from './code-editor/tng-code-editor.component';
 export * from './date-range-picker/tng-date-range-picker.component';
 export * from './datepicker/tng-datepicker.component';
 export * from './form-field/tng-form-field.component';

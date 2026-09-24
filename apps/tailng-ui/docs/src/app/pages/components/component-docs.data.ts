@@ -100,6 +100,13 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
         'Multiline text input patterns with input-first primitives and styled textarea wrappers.',
     },
     {
+      id: 'code-editor',
+      slug: 'code-editor',
+      title: 'Code Editor',
+      description:
+        'Editable source code with adapter-based highlighting, native textarea semantics, and synchronized overlay rendering.',
+    },
+    {
       id: 'label',
       slug: 'label',
       title: 'Label',

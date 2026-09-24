@@ -1,0 +1,32 @@
+.code-editor-api {
+  display: grid;
+  gap: 1.5rem;
+}
+.code-editor-api h2,
+.code-editor-api h3,
+.code-editor-api p {
+  margin: 0;
+}
+.code-editor-api section {
+  display: grid;
+  gap: 0.75rem;
+}
+.code-editor-api__lead {
+  color: var(--tng-semantic-foreground-secondary);
+  max-width: 70ch;
+}
+.code-editor-api__table-wrap {
+  overflow-x: auto;
+}
+.code-editor-api table {
+  border-collapse: collapse;
+  min-width: 44rem;
+  width: 100%;
+}
+.code-editor-api th,
+.code-editor-api td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.65rem;
+  text-align: left;
+  vertical-align: top;
+}

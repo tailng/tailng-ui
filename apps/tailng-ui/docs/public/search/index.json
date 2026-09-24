@@ -8621,6 +8621,65 @@
     ]
   },
   {
+    "title": "Layout Dagre",
+    "description": "Layout Dagre documentation.",
+    "section": "Components / Flow",
+    "url": "/components/flow/layout-dagre",
+    "tags": [
+      "components",
+      "flow",
+      "layout-dagre"
+    ]
+  },
+  {
+    "title": "Layout Dagre Api",
+    "description": "Layout Dagre Api documentation.",
+    "section": "Components / Flow / Layout Dagre",
+    "url": "/components/flow/layout-dagre/api",
+    "tags": [
+      "components",
+      "flow",
+      "layout-dagre",
+      "api"
+    ]
+  },
+  {
+    "title": "Layout Dagre Examples",
+    "description": "Layout Dagre Examples documentation.",
+    "section": "Components / Flow / Layout Dagre",
+    "url": "/components/flow/layout-dagre/examples",
+    "tags": [
+      "components",
+      "flow",
+      "layout-dagre",
+      "examples"
+    ]
+  },
+  {
+    "title": "Layout Dagre Overview",
+    "description": "Layout Dagre Overview documentation.",
+    "section": "Components / Flow / Layout Dagre",
+    "url": "/components/flow/layout-dagre/overview",
+    "tags": [
+      "components",
+      "flow",
+      "layout-dagre",
+      "overview"
+    ]
+  },
+  {
+    "title": "Layout Dagre Styling",
+    "description": "Layout Dagre Styling documentation.",
+    "section": "Components / Flow / Layout Dagre",
+    "url": "/components/flow/layout-dagre/styling",
+    "tags": [
+      "components",
+      "flow",
+      "layout-dagre",
+      "styling"
+    ]
+  },
+  {
     "title": "AutoComplete",
     "description": "Single-value autocomplete patterns and filtering behavior.",
     "section": "Components / Form",
@@ -8913,6 +8972,77 @@
       "components",
       "form",
       "chips",
+      "styling"
+    ]
+  },
+  {
+    "title": "Code Editor",
+    "description": "Code Editor documentation.",
+    "section": "Components / Form",
+    "url": "/components/form/code-editor",
+    "tags": [
+      "components",
+      "form",
+      "code-editor"
+    ]
+  },
+  {
+    "title": "Code Editor Api",
+    "description": "Code Editor Api documentation.",
+    "section": "Components / Form / Code Editor",
+    "url": "/components/form/code-editor/api",
+    "tags": [
+      "components",
+      "form",
+      "code-editor",
+      "api"
+    ]
+  },
+  {
+    "title": "Code Editor Examples",
+    "description": "Code Editor Examples documentation.",
+    "section": "Components / Form / Code Editor",
+    "url": "/components/form/code-editor/examples",
+    "tags": [
+      "components",
+      "form",
+      "code-editor",
+      "examples"
+    ]
+  },
+  {
+    "title": "Code Editor Overview",
+    "description": "Code Editor Overview documentation.",
+    "section": "Components / Form / Code Editor",
+    "url": "/components/form/code-editor/overview",
+    "tags": [
+      "components",
+      "form",
+      "code-editor",
+      "overview"
+    ]
+  },
+  {
+    "title": "Code Editor Ownable Install",
+    "description": "Code Editor Ownable Install documentation.",
+    "section": "Components / Form / Code Editor",
+    "url": "/components/form/code-editor/ownable-install",
+    "tags": [
+      "components",
+      "form",
+      "code-editor",
+      "ownable-install"
+    ]
+  },
+  {
+    "title": "Code Editor Styling",
+    "description": "Code Editor Styling documentation.",
+    "section": "Components / Form / Code Editor",
+    "url": "/components/form/code-editor/styling",
+    "tags": [
+      "components",
+      "form",
+      "code-editor",
       "styling"
     ]
   },
@@ -15250,6 +15380,17 @@
       "form",
       "chips",
       "chips"
+    ]
+  },
+  {
+    "title": "Code Editor",
+    "description": "Code Editor documentation.",
+    "section": "Ownable / Form",
+    "url": "/ownable/form/code-editor",
+    "tags": [
+      "ownable",
+      "form",
+      "code-editor"
     ]
   },
   {

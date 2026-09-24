@@ -1,0 +1,82 @@
+<article class="code-editor-examples">
+  <h2>Examples</h2>
+  <p class="code-editor-examples__lead">
+    Use one editor contract across languages, themes, and form states.
+  </p>
+
+  <section id="language-examples">
+    <h3>Language examples</h3>
+    <div class="code-editor-examples__grid">
+      <div class="code-editor-examples__card">
+        <label for="code-editor-json">JSON settings</label>
+        <tng-code-editor
+          id="code-editor-json"
+          language="json"
+          adapter="shiki"
+          [theme]="codeTheme()"
+          [sanitizeHtml]="false"
+          [rows]="6"
+          [value]="jsonSource()"
+          (valueChange)="jsonSource.set($event)"
+        />
+      </div>
+      <div class="code-editor-examples__card">
+        <label for="code-editor-shell">Shell commands</label>
+        <tng-code-editor
+          id="code-editor-shell"
+          language="shell"
+          adapter="shiki"
+          [theme]="codeTheme()"
+          [sanitizeHtml]="false"
+          [rows]="6"
+          [value]="shellSource()"
+          (valueChange)="shellSource.set($event)"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section id="readonly-and-disabled">
+    <h3>Readonly and disabled</h3>
+    <div class="code-editor-examples__grid">
+      <div class="code-editor-examples__card">
+        <span>Readonly and selectable</span
+        ><tng-code-editor
+          ariaLabel="Readonly source"
+          language="json"
+          adapter="shiki"
+          [theme]="codeTheme()"
+          [sanitizeHtml]="false"
+          [rows]="4"
+          [readonly]="true"
+          [value]="jsonSource()"
+        />
+      </div>
+      <div class="code-editor-examples__card">
+        <span>Disabled</span
+        ><tng-code-editor
+          ariaLabel="Disabled source"
+          language="shell"
+          adapter="shiki"
+          [theme]="codeTheme()"
+          [sanitizeHtml]="false"
+          [rows]="4"
+          [disabled]="true"
+          [value]="shellSource()"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section id="plain-fallback">
+    <h3>Plain fallback</h3>
+    <p>Turn highlighting off when source editing is useful without loading a language adapter.</p>
+    <tng-code-editor
+      ariaLabel="Plain source"
+      [highlight]="false"
+      [rows]="4"
+      [value]="plainSource()"
+      (valueChange)="plainSource.set($event)"
+    />
+  </section>
+</article>

@@ -1,0 +1,42 @@
+<div
+  class="tng-code-editor"
+  data-slot="code-editor"
+  [attr.data-disabled]="dataDisabled()"
+  [attr.data-readonly]="dataReadonly()"
+  [attr.data-state]="renderState()"
+  [style.--tng-code-editor-tab-size]="tabSize()"
+>
+  <pre
+    #highlightLayer
+    class="tng-code-editor__highlight"
+    data-slot="highlight-layer"
+    aria-hidden="true"
+  ><code [innerHTML]="highlightedHtml()"></code></pre>
+
+  <textarea
+    #textarea
+    tngInput
+    class="tng-code-editor__textarea"
+    data-slot="textarea"
+    autocomplete="off"
+    autocapitalize="off"
+    autocorrect="off"
+    spellcheck="false"
+    wrap="off"
+    [rows]="rows()"
+    [disabled]="disabled()"
+    [readonly]="readonly()"
+    [required]="required()"
+    [ariaLabel]="ariaLabel()"
+    [ariaLabelledby]="ariaLabelledby()"
+    [ariaDescribedBy]="ariaDescribedBy()"
+    [ariaInvalid]="ariaInvalid()"
+    [ariaRequired]="ariaRequired()"
+    [attr.id]="normalizeAttrValue(id())"
+    [attr.name]="normalizeAttrValue(inputName())"
+    [attr.placeholder]="normalizeAttrValue(placeholder())"
+    [value]="value()"
+    (input)="onInput($event)"
+    (scroll)="onScroll()"
+  ></textarea>
+</div>

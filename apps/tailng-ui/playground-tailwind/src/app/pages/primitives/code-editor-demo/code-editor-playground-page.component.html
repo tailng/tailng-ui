@@ -1,0 +1,12 @@
+<main class="mx-auto grid max-w-4xl gap-3 p-6">
+  <h1 class="text-2xl font-semibold">Code Editor</h1>
+  <label class="font-semibold" for="tailwind-code-editor">TypeScript source</label>
+  <tng-code-editor
+    id="tailwind-code-editor"
+    language="ts"
+    adapter="demo"
+    [value]="source()"
+    (valueChange)="source.set($event)"
+  />
+  <p class="text-sm text-slate-500">{{ source().length }} characters</p>
+</main>

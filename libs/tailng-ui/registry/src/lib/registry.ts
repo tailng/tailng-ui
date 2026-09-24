@@ -10,6 +10,7 @@ import { cardRegistryItem } from './card/card.registry';
 import { checkboxRegistryItem } from './checkbox/checkbox.registry';
 import { chipsRegistryItem } from './chips/chips.registry';
 import { codeBlockRegistryItem } from './code-block/code-block.registry';
+import { codeEditorRegistryItem } from './code-editor/code-editor.registry';
 import { collapsibleRegistryItem } from './collapsible/collapsible.registry';
 import { comboboxRegistryItem } from './combobox/combobox.registry';
 import { confettiRegistryItem } from './confetti/confetti.registry';
@@ -70,6 +71,7 @@ export const tailngRegistry = [
   menuRegistryItem,
   contextmenuRegistryItem,
   codeBlockRegistryItem,
+  codeEditorRegistryItem,
   confettiRegistryItem,
   copyRegistryItem,
   menubarRegistryItem,

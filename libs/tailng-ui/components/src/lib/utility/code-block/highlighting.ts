@@ -45,16 +45,21 @@ export type TngCodeHighlightResult =
 
 export type TngNormalizedCodeHighlightResult =
   | Readonly<{
-    html: string;
-    kind: 'html';
-    language: string | null;
-    trustedHtml: boolean;
-  }>
+      html: string;
+      kind: 'html';
+      language: string | null;
+      trustedHtml: boolean;
+    }>
   | Readonly<{
-    kind: 'tokens';
-    language: string | null;
-    tokens: readonly TngCodeHighlightTokenLine[];
-  }>;
+      kind: 'tokens';
+      language: string | null;
+      tokens: readonly TngCodeHighlightTokenLine[];
+    }>;
+
+export type TngRenderedCodeHighlightResult = Readonly<{
+  html: string;
+  trustedHtml: boolean;
+}>;
 
 export type TngCodeHighlightRequest = Readonly<{
   adapter: string | null | undefined;
@@ -65,7 +70,9 @@ export type TngCodeHighlightRequest = Readonly<{
 }>;
 
 export type TngCodeHighlighterAdapter = Readonly<{
-  highlight: (input: TngCodeHighlightInput) => Promise<TngCodeHighlightResult> | TngCodeHighlightResult;
+  highlight: (
+    input: TngCodeHighlightInput,
+  ) => Promise<TngCodeHighlightResult> | TngCodeHighlightResult;
   id: string;
   supports?: (language: string | null) => boolean;
 }>;
@@ -245,6 +252,22 @@ function tokensToEscapedHtml(lines: readonly TngCodeHighlightTokenLine[]): strin
     .join('\n');
 }
 
+export function renderTngCodeHighlightResultHtml(
+  result: TngNormalizedCodeHighlightResult,
+): TngRenderedCodeHighlightResult {
+  if (result.kind === 'tokens') {
+    return {
+      html: tokensToEscapedHtml(result.tokens),
+      trustedHtml: false,
+    };
+  }
+
+  return {
+    html: result.html,
+    trustedHtml: result.trustedHtml,
+  };
+}
+
 export function normalizeTngCodeLanguage(value: string | null | undefined): string | null {
   if (value === null || value === undefined) {
     return null;
@@ -269,7 +292,9 @@ export function escapeTngCodeHtml(value: string): string {
 
 export function createTngCodeHighlighterAdapter(
   id: string,
-  highlight: (input: TngCodeHighlightInput) => Promise<TngCodeHighlightResult> | TngCodeHighlightResult,
+  highlight: (
+    input: TngCodeHighlightInput,
+  ) => Promise<TngCodeHighlightResult> | TngCodeHighlightResult,
   supports?: (language: string | null) => boolean,
 ): TngCodeHighlighterAdapter {
   const adapterId = normalizeTngCodeHighlighterId(id);
@@ -375,15 +400,14 @@ export function provideTngCodeHighlighting(
     {
       deps: [TNG_CODE_HIGHLIGHTING_CONFIG],
       provide: TNG_CODE_HIGHLIGHTING_RESOLVER,
-      useFactory: (
-        config: TngResolvedCodeHighlightingConfig,
-      ): TngCodeHighlightingResolverLike => new TngCodeHighlightingResolver(config),
+      useFactory: (config: TngResolvedCodeHighlightingConfig): TngCodeHighlightingResolverLike =>
+        new TngCodeHighlightingResolver(config),
     },
   ]);
 }
 
 export class TngCodeHighlightingResolver {
-  public constructor(private readonly config: TngResolvedCodeHighlightingConfig) { }
+  public constructor(private readonly config: TngResolvedCodeHighlightingConfig) {}
 
   public getAdapterIds(): readonly string[] {
     return Object.keys(this.config.adapters);

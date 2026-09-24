@@ -53,46 +53,47 @@ export function resizeTngSplitPair(
   };
 }
 
+
 export function allocateTngSplitLayout(
   availableSize: number,
   panes: readonly TngSplitPaneLayout[],
 ): TngSplitLayoutResult {
   const available = normalizeTngSplitSize(availableSize, 0);
   const normalized = panes.map((pane) => normalizePane(pane));
-  const sizes = normalized.map((pane) =>
+
+  let sizes = normalized.map((pane) =>
     pane.collapsed
       ? pane.collapsedSize
       : clampTngSplitSize(pane.desiredSize, pane.minSize, pane.maxSize),
   );
 
   let total = sum(sizes);
+
   if (total < available - EPSILON) {
-    growIntoSpace(normalized, sizes, available - total);
+    sizes = growIntoSpace(normalized, sizes, available - total);
     total = sum(sizes);
   }
 
-  if (total > available + EPSILON) {
-    const growPaneIndexes = normalized
-      .map((pane, index) => ({ pane, index }))
-      .filter(({ pane }) => !pane.collapsed && pane.grow > 0)
-      .map(({ index }) => index);
-    shrinkWithinMinimums(normalized, sizes, total - available, growPaneIndexes);
+  for (const growOnly of [true, false]) {
+    if (total <= available + EPSILON) {
+      break;
+    }
+
+    const indexes = normalized.flatMap((pane, index) =>
+      !pane.collapsed && (!growOnly || pane.grow > 0) ? [index] : [],
+    );
+
+    sizes = shrinkWithinMinimums(normalized, sizes, {
+      initialExcess: total - available,
+      indexes,
+    });
     total = sum(sizes);
   }
 
-  if (total > available + EPSILON) {
-    const allExpandedIndexes = normalized
-      .map((pane, index) => ({ pane, index }))
-      .filter(({ pane }) => !pane.collapsed)
-      .map(({ index }) => index);
-    shrinkWithinMinimums(normalized, sizes, total - available, allExpandedIndexes);
-    total = sum(sizes);
-  }
+  const constrained = total > available + EPSILON;
 
-  let constrained = false;
-  if (total > available + EPSILON) {
-    constrained = true;
-    emergencyFit(normalized, sizes, available);
+  if (constrained) {
+    sizes = emergencyFit(normalized, sizes, available);
   }
 
   return {
@@ -115,12 +116,15 @@ function normalizePane(pane: TngSplitPaneLayout): TngSplitPaneLayout {
   };
 }
 
+
 function growIntoSpace(
   panes: readonly TngSplitPaneLayout[],
-  sizes: number[],
+  initialSizes: readonly number[],
   initialSpace: number,
-): void {
+): number[] {
+  const sizes = [...initialSizes];
   let space = initialSpace;
+
   let candidates = panes
     .map((pane, index) => ({ pane, index }))
     .filter(({ pane, index }) => !pane.collapsed && pane.grow > 0 && sizes[index] < pane.maxSize);
@@ -128,75 +132,113 @@ function growIntoSpace(
   while (space > EPSILON && candidates.length > 0) {
     const totalWeight = sum(candidates.map(({ pane }) => pane.grow));
     let consumed = 0;
+
     for (const { pane, index } of candidates) {
       const capacity = pane.maxSize - sizes[index];
       const share = totalWeight > 0 ? (space * pane.grow) / totalWeight : space / candidates.length;
       const addition = Math.min(capacity, share);
-      sizes[index] = sizes[index] + addition;
+
+      sizes[index] += addition;
       consumed += addition;
     }
+
     if (consumed <= EPSILON) {
       break;
     }
+
     space -= consumed;
     candidates = candidates.filter(({ pane, index }) => sizes[index] < pane.maxSize - EPSILON);
   }
+
+  return sizes;
 }
+
 
 function shrinkWithinMinimums(
   panes: readonly TngSplitPaneLayout[],
-  sizes: number[],
-  initialExcess: number,
-  indexes: readonly number[],
-): void {
-  let excess = initialExcess;
-  let candidates = indexes.filter((index) => sizes[index] > panes[index].minSize + EPSILON);
+  initialSizes: readonly number[],
+  options: Readonly<{
+    initialExcess: number;
+    indexes: readonly number[];
+  }>,
+): number[] {
+  const sizes = [...initialSizes];
+  let excess = options.initialExcess;
+
+  let candidates = options.indexes.filter(
+    (index) => sizes[index] > panes[index].minSize + EPSILON,
+  );
 
   while (excess > EPSILON && candidates.length > 0) {
-    const totalCapacity = sum(candidates.map((index) => sizes[index] - panes[index].minSize));
+    const totalCapacity = sum(
+      candidates.map((index) => sizes[index] - panes[index].minSize),
+    );
+
     let consumed = 0;
+
     for (const index of candidates) {
       const capacity = sizes[index] - panes[index].minSize;
       const share =
-        totalCapacity > 0 ? (excess * capacity) / totalCapacity : excess / candidates.length;
+        totalCapacity > 0
+          ? (excess * capacity) / totalCapacity
+          : excess / candidates.length;
+
       const reduction = Math.min(capacity, share);
-      sizes[index] = sizes[index] - reduction;
+
+      sizes[index] -= reduction;
       consumed += reduction;
     }
+
     if (consumed <= EPSILON) {
       break;
     }
+
     excess -= consumed;
-    candidates = candidates.filter((index) => sizes[index] > panes[index].minSize + EPSILON);
+
+    candidates = candidates.filter(
+      (index) => sizes[index] > panes[index].minSize + EPSILON,
+    );
   }
+
+  return sizes;
 }
+
 
 function emergencyFit(
   panes: readonly TngSplitPaneLayout[],
-  sizes: number[],
+  initialSizes: readonly number[],
   available: number,
-): void {
-  const collapsedTotal = sum(panes.map((pane, index) => (pane.collapsed ? sizes[index] : 0)));
-  const expandedIndexes = panes
-    .map((pane, index) => ({ pane, index }))
-    .filter(({ pane }) => !pane.collapsed)
-    .map(({ index }) => index);
+): number[] {
+  const sizes = [...initialSizes];
+
+  const collapsedTotal = sum(
+    panes.map((pane, index) => (pane.collapsed ? sizes[index] : 0)),
+  );
+
+  const expandedIndexes = panes.flatMap((pane, index) =>
+    !pane.collapsed ? [index] : [],
+  );
 
   if (collapsedTotal <= available && expandedIndexes.length > 0) {
     const expandedAvailable = Math.max(0, available - collapsedTotal);
     const expandedTotal = sum(expandedIndexes.map((index) => sizes[index]));
     const ratio = expandedTotal > 0 ? expandedAvailable / expandedTotal : 0;
+
     for (const index of expandedIndexes) {
-      sizes[index] = sizes[index] * ratio;
+      sizes[index] *= ratio;
     }
-    return;
+
+    return sizes;
   }
 
   const total = sum(sizes);
   const ratio = total > 0 ? available / total : 0;
+
   for (let index = 0; index < sizes.length; index += 1) {
-    sizes[index] = sizes[index] * ratio;
+    sizes[index] *= ratio;
   }
+
+  return sizes;
 }
 
 function normalizeMaximum(value: number): number {

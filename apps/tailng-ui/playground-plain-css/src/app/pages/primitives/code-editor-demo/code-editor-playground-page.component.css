@@ -1,0 +1,18 @@
+.code-editor-playground {
+  display: grid;
+  gap: 0.8rem;
+  margin: 2rem auto;
+  max-width: 54rem;
+  padding: 1rem;
+}
+.code-editor-playground h1,
+.code-editor-playground p {
+  margin: 0;
+}
+.code-editor-playground label {
+  font-weight: 650;
+}
+:host ::ng-deep .demo-keyword {
+  color: #7c3aed;
+  font-weight: 650;
+}

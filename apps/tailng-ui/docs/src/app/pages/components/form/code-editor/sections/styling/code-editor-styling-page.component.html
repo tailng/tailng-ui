@@ -1,0 +1,44 @@
+<article class="code-editor-styling">
+  <h2>Styling contract</h2>
+  <p class="code-editor-styling__lead">
+    Code Editor is token-first and exposes stable slots and render states without requiring
+    consumers to depend on its overlay DOM order.
+  </p>
+
+  <section id="theme-tokens">
+    <h3>Theme tokens</h3>
+    <p>
+      Surface, border, focus, foreground, caret, selection, typography, and padding can be
+      customized through <code>--tng-code-editor-*</code> properties.
+    </p>
+    <tng-code-block
+      title="code-editor.tokens.css"
+      language="css"
+      adapter="shiki"
+      [code]="tokensCode"
+      [theme]="codeTheme()"
+      [lineNumbers]="false"
+      [sanitizeHtml]="false"
+    />
+  </section>
+
+  <section id="slot-and-state-hooks">
+    <h3>Slot and state hooks</h3>
+    <ul>
+      <li><code>data-slot="code-editor"</code> identifies the surface.</li>
+      <li><code>data-slot="highlight-layer"</code> identifies the visual overlay.</li>
+      <li><code>data-slot="textarea"</code> identifies the native control.</li>
+      <li><code>data-state</code> reports idle, highlighting, highlighted, or error.</li>
+      <li><code>data-disabled</code> and <code>data-readonly</code> expose form state.</li>
+    </ul>
+  </section>
+
+  <section id="overlay-invariant">
+    <h3>Overlay invariant</h3>
+    <p>
+      The highlight and textarea layers must keep identical font, letter spacing, line height,
+      padding, tab size, and whitespace behavior. Override the public editor tokens rather than
+      styling only one layer.
+    </p>
+  </section>
+</article>

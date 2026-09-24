@@ -1,0 +1,70 @@
+<article class="code-editor-docs">
+  <h2>Code Editor overview</h2>
+  <p class="code-editor-docs__lead">
+    Code Editor combines a native textarea with an aria-hidden highlighted overlay. Editing,
+    selection, clipboard, undo, and IME behavior remain native while highlighting stays
+    adapter-based.
+  </p>
+
+  <section id="imports">
+    <h3>Imports and provider</h3>
+    <p>The component works without a highlighter and renders escaped plain text by default.</p>
+    <div class="code-editor-docs__code-grid">
+      <tng-code-block
+        title="Component import"
+        language="ts"
+        adapter="shiki"
+        [code]="importCode"
+        [theme]="codeTheme()"
+        [lineNumbers]="false"
+        [sanitizeHtml]="false"
+      />
+      <tng-code-block
+        title="Optional highlighting provider"
+        language="ts"
+        adapter="shiki"
+        [code]="providerCode"
+        [theme]="codeTheme()"
+        [lineNumbers]="false"
+        [sanitizeHtml]="false"
+      />
+    </div>
+  </section>
+
+  <section id="editable-source">
+    <h3>Editable source</h3>
+    <div class="code-editor-docs__demo">
+      <label for="code-editor-overview-python">Python source</label>
+      <tng-code-editor
+        id="code-editor-overview-python"
+        language="python"
+        adapter="shiki"
+        ariaLabel="Python source"
+        [theme]="codeTheme()"
+        [sanitizeHtml]="false"
+        [value]="source()"
+        (valueChange)="source.set($event)"
+      />
+      <small>{{ source().length }} characters</small>
+    </div>
+  </section>
+
+  <section id="separation-of-responsibilities">
+    <h3>Component boundaries</h3>
+    <ul>
+      <li><code>tng-textarea</code> is for ordinary plain and multiline form text.</li>
+      <li><code>tng-code-editor</code> is for editable source with optional highlighting.</li>
+      <li><code>tng-code-block</code> is for read-only rendered source.</li>
+    </ul>
+  </section>
+
+  <section id="accessibility-baseline">
+    <h3>Accessibility baseline</h3>
+    <ul>
+      <li>The native textarea is the only interactive and accessibility surface.</li>
+      <li>The highlighted layer is always hidden from assistive technology.</li>
+      <li>Tab keeps its native focus-navigation behavior and is not trapped.</li>
+      <li>Readonly content remains focusable and selectable; disabled content does not.</li>
+    </ul>
+  </section>
+</article>

@@ -2,6 +2,7 @@ import { expect, it } from 'vitest';
 import {
   createTngCodeHighlighterAdapter,
   escapeTngCodeHtml,
+  renderTngCodeHighlightResultHtml,
   resolveTngCodeHighlightingConfig,
   TngCodeHighlightingResolver,
 } from './highlighting';
@@ -10,6 +11,33 @@ it('escapes html entities', () => {
   expect(escapeTngCodeHtml('<button class="a">x & y</button>')).toBe(
     '&lt;button class=&quot;a&quot;&gt;x &amp; y&lt;/button&gt;',
   );
+});
+
+it('renders normalized token results as escaped html', () => {
+  expect(
+    renderTngCodeHighlightResultHtml({
+      kind: 'tokens',
+      language: 'html',
+      tokens: [[{ className: 'tag emphasized', content: '<main>' }]],
+    }),
+  ).toEqual({
+    html: '<span class="tag emphasized">&lt;main&gt;</span>',
+    trustedHtml: false,
+  });
+});
+
+it('preserves normalized html trust metadata', () => {
+  expect(
+    renderTngCodeHighlightResultHtml({
+      html: '<span>safe adapter output</span>',
+      kind: 'html',
+      language: 'ts',
+      trustedHtml: true,
+    }),
+  ).toEqual({
+    html: '<span>safe adapter output</span>',
+    trustedHtml: true,
+  });
 });
 
 it('normalizes adapter ids in config', () => {

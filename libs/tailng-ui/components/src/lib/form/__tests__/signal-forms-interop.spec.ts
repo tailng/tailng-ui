@@ -17,9 +17,9 @@ import {
 } from '@tailng-ui/primitives';
 import { describe, expect, it } from 'vitest';
 
-
 import { TngAutocompleteComponent } from '../autocomplete/tng-autocomplete.component';
 import { TngCheckboxComponent } from '../checkbox/tng-checkbox.component';
+import { TngCodeEditorComponent } from '../code-editor/tng-code-editor.component';
 import { TngDateRangePickerComponent } from '../date-range-picker/tng-date-range-picker.component';
 import { TngDatepickerComponent } from '../datepicker/tng-datepicker.component';
 import { TngInputComponent } from '../input/tng-input.component';
@@ -88,6 +88,20 @@ class InputPatternSignalFormsHostComponent {
 class TextareaSignalFormsHostComponent {
   readonly projectModel = signal({ description: 'Initial notes' });
   readonly projectForm = form(this.projectModel);
+}
+
+@Component({
+  imports: [FormField, TngCodeEditorComponent],
+  template: `<tng-code-editor
+    data-testid="code-editor"
+    ariaLabel="Source code"
+    [formField]="projectForm.source"
+    [highlight]="false"
+  ></tng-code-editor>`,
+})
+class CodeEditorSignalFormsHostComponent {
+  public readonly projectModel = signal({ source: 'const ready = true;' });
+  public readonly projectForm = form(this.projectModel);
 }
 
 @Component({
@@ -559,6 +573,33 @@ describe('tailng-ui signal forms interop', () => {
     fixture.detectChanges();
 
     expect(host.projectModel().description).toBe('User typed notes');
+  });
+
+  it('binds tng-code-editor through its signal forms value model', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [CodeEditorSignalFormsHostComponent],
+    }).createComponent(CodeEditorSignalFormsHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const textarea = queryRequiredElement(
+      fixture,
+      '[data-testid="code-editor"] textarea',
+      HTMLTextAreaElement,
+    );
+
+    expect(textarea.value).toBe('const ready = true;');
+
+    host.projectModel.set({ source: 'const updated = true;' });
+    fixture.detectChanges();
+    expect(textarea.value).toBe('const updated = true;');
+
+    textarea.value = 'const userTyped = true;';
+    textarea.dispatchEvent(new Event('input', { bubbles: true }));
+    fixture.detectChanges();
+
+    expect(host.projectModel().source).toBe('const userTyped = true;');
   });
 
   it('binds tng-slider through its signal forms value model', () => {

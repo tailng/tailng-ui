@@ -35,6 +35,10 @@ const textareaItem = group.items.find((item) => item.slug === 'textarea');
 if (textareaItem === undefined) {
   throw new Error('Missing "textarea" in components form docs group.');
 }
+const codeEditorItem = group.items.find((item) => item.slug === 'code-editor');
+if (codeEditorItem === undefined) {
+  throw new Error('Missing "code-editor" in components form docs group.');
+}
 const inputOtpItem = group.items.find((item) => item.slug === 'input-otp');
 if (inputOtpItem === undefined) {
   throw new Error('Missing "input-otp" in components form docs group.');
@@ -116,6 +120,7 @@ const landingSlugs = new Set([
   datepickerItem.slug,
   dateRangePickerItem.slug,
   textareaItem.slug,
+  codeEditorItem.slug,
   inputOtpItem.slug,
   labelItem.slug,
   checkboxItem.slug,
@@ -178,6 +183,11 @@ export const COMPONENTS_FORM_ROUTES: Routes = [
     path: textareaItem.slug,
     loadChildren: () =>
       import('./textarea/routes').then((module) => module.COMPONENTS_FORM_TEXTAREA_ROUTES),
+  },
+  {
+    path: codeEditorItem.slug,
+    loadChildren: () =>
+      import('./code-editor/routes').then((module) => module.COMPONENTS_FORM_CODE_EDITOR_ROUTES),
   },
   {
     path: inputOtpItem.slug,

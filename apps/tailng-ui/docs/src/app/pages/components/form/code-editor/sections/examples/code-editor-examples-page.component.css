@@ -1,0 +1,32 @@
+.code-editor-examples {
+  display: grid;
+  gap: 1.5rem;
+}
+.code-editor-examples h2,
+.code-editor-examples h3,
+.code-editor-examples p {
+  margin: 0;
+}
+.code-editor-examples section,
+.code-editor-examples__card {
+  display: grid;
+  gap: 0.75rem;
+}
+.code-editor-examples__lead {
+  color: var(--tng-semantic-foreground-secondary);
+  max-width: 70ch;
+}
+.code-editor-examples__grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+}
+.code-editor-examples__card {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 1rem;
+}
+.code-editor-examples__card label,
+.code-editor-examples__card > span {
+  font-weight: 650;
+}

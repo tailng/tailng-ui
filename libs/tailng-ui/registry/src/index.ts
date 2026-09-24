@@ -5,6 +5,7 @@ export * from './lib/menu/menu.registry';
 export * from './lib/dropdown-menu/dropdown-menu.registry';
 export * from './lib/context-menu/context-menu.registry';
 export * from './lib/code-block/code-block.registry';
+export * from './lib/code-editor/code-editor.registry';
 export * from './lib/copy/copy.registry';
 export * from './lib/confetti/confetti.registry';
 export * from './lib/menubar/menubar.registry';

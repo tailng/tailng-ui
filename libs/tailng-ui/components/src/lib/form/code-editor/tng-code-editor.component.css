@@ -1,0 +1,115 @@
+:host {
+  box-sizing: border-box;
+  display: block;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+}
+
+.tng-code-editor {
+  background: var(
+    --tng-code-editor-bg,
+    var(--tng-control-bg, var(--tng-semantic-background-surface))
+  );
+  border: 1px solid
+    var(--tng-code-editor-border, var(--tng-control-border, var(--tng-semantic-border-strong)));
+  border-radius: var(--tng-code-editor-radius, var(--tng-control-radius, 0.5rem));
+  box-shadow: var(--tng-code-editor-shadow, var(--tng-control-shadow, none));
+  box-sizing: border-box;
+  color: var(--tng-code-editor-fg, var(--tng-control-fg, var(--tng-semantic-foreground-primary)));
+  font-family: var(--tng-code-editor-font-family, 'IBM Plex Mono', 'Fira Code', Menlo, monospace);
+  font-size: var(--tng-code-editor-font-size, var(--tng-control-font-size, 0.875rem));
+  font-variant-ligatures: none;
+  line-height: var(--tng-code-editor-line-height, 1.6);
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.tng-code-editor:focus-within {
+  border-color: var(
+    --tng-code-editor-focus-border,
+    var(--tng-control-accent, var(--tng-semantic-accent-brand))
+  );
+  box-shadow: var(
+    --tng-code-editor-focus-shadow,
+    var(--tng-control-focus-shadow, var(--tng-focus-ring))
+  );
+}
+
+.tng-code-editor__highlight,
+.tng-code-editor__textarea {
+  box-sizing: border-box;
+  font: inherit;
+  letter-spacing: inherit;
+  margin: 0;
+  min-height: 0;
+  min-width: 0;
+  padding: var(--tng-code-editor-padding-block, var(--tng-control-padding-block, 0.75rem))
+    var(--tng-code-editor-padding-inline, var(--tng-control-padding-inline, 0.9rem));
+  tab-size: var(--tng-code-editor-tab-size, 4);
+  white-space: pre;
+}
+
+.tng-code-editor__highlight {
+  color: inherit;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+}
+
+.tng-code-editor__highlight code {
+  font: inherit;
+  white-space: inherit;
+}
+
+.tng-code-editor__textarea {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  caret-color: var(--tng-code-editor-caret, var(--tng-semantic-foreground-primary));
+  color: transparent;
+  display: block;
+  outline: 0;
+  overflow: auto;
+  position: relative;
+  resize: none;
+  width: 100%;
+}
+
+.tng-code-editor__textarea::placeholder {
+  color: var(
+    --tng-code-editor-placeholder,
+    var(--tng-control-placeholder, var(--tng-semantic-foreground-muted))
+  );
+}
+
+.tng-code-editor__textarea::selection {
+  background: var(
+    --tng-code-editor-selection,
+    color-mix(in srgb, var(--tng-semantic-accent-brand) 28%, transparent)
+  );
+  color: var(--tng-code-editor-fg, var(--tng-semantic-foreground-primary));
+}
+
+.tng-code-editor[data-disabled] {
+  cursor: not-allowed;
+  opacity: var(--tng-disabled-opacity, 0.55);
+}
+
+.tng-code-editor:has(.tng-code-editor__textarea[data-invalid]) {
+  border-color: var(
+    --tng-code-editor-invalid-border,
+    var(--tng-control-border-invalid, var(--tng-semantic-accent-danger))
+  );
+}
+
+:host-context(tng-form-field) .tng-code-editor {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}

@@ -30,6 +30,9 @@ const documentedFormFamilies: Readonly<Record<string, readonly string[]>> = {
     'libs/tailng-ui/components/src/lib/form/button-toggle/tng-button-toggle-group.component.css',
   ],
   Checkbox: ['libs/tailng-ui/components/src/lib/form/checkbox/tng-checkbox.component.css'],
+  'Code Editor': [
+    'libs/tailng-ui/components/src/lib/form/code-editor/tng-code-editor.component.css',
+  ],
   Chips: [
     'libs/tailng-ui/components/src/lib/form/chips/tng-chip.component.css',
     'libs/tailng-ui/components/src/lib/form/chips/tng-chips.component.css',

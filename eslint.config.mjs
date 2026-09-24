@@ -229,6 +229,7 @@ export default [
       '**/*.component.ts',
       '**/*.directive.ts',
       '**/*.type.ts',
+      '**/*.types.ts',
     ],
     rules: {
       '@typescript-eslint/prefer-readonly-parameter-types': 'off',

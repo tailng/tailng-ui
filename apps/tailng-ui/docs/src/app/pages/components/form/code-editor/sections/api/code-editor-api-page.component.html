@@ -1,0 +1,110 @@
+<article class="code-editor-api">
+  <h2>API reference</h2>
+  <p class="code-editor-api__lead">
+    <code>&lt;tng-code-editor&gt;</code> is a model-backed form component with an optional
+    highlighting adapter.
+  </p>
+
+  <section id="value-and-form-state">
+    <h3>Value and form state</h3>
+    <div class="code-editor-api__table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Input / output</th>
+            <th>Type</th>
+            <th>Default</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>value</code> / <code>valueChange</code></td>
+            <td><code>string</code> / output&lt;string&gt;</td>
+            <td><code>''</code></td>
+          </tr>
+          <tr>
+            <td><code>disabled</code>, <code>readonly</code>, <code>required</code></td>
+            <td>boolean-like</td>
+            <td><code>false</code></td>
+          </tr>
+          <tr>
+            <td><code>rows</code></td>
+            <td><code>number</code></td>
+            <td><code>10</code></td>
+          </tr>
+          <tr>
+            <td><code>placeholder</code>, <code>id</code>, <code>name</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="highlighting">
+    <h3>Highlighting</h3>
+    <div class="code-editor-api__table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>language</code>, <code>adapter</code>, <code>theme</code></td>
+            <td><code>string | null</code></td>
+            <td><code>null</code></td>
+            <td>Passed to the registered highlighting adapter.</td>
+          </tr>
+          <tr>
+            <td><code>highlight</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Disable to keep the escaped plain-text overlay.</td>
+          </tr>
+          <tr>
+            <td><code>highlightDebounceMs</code></td>
+            <td><code>number</code></td>
+            <td><code>75</code></td>
+            <td>Delays adapter work during rapid editing.</td>
+          </tr>
+          <tr>
+            <td><code>sanitizeHtml</code></td>
+            <td><code>boolean | 'auto'</code></td>
+            <td><code>'auto'</code></td>
+            <td>Trusted adapter HTML is bypassed only when explicitly false.</td>
+          </tr>
+          <tr>
+            <td><code>renderStateChange</code></td>
+            <td>output</td>
+            <td>—</td>
+            <td>Emits highlighting, highlighted, idle, and error transitions.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="native-textarea-contract">
+    <h3>Native textarea contract</h3>
+    <p>
+      <code>tabSize</code> defaults to <code>4</code>. Accessible naming accepts
+      <code>ariaLabel</code>, <code>ariaLabelledby</code>, <code>ariaDescribedBy</code>,
+      <code>ariaInvalid</code>, and <code>ariaRequired</code>. Autocomplete, autocorrect,
+      autocapitalization, spellcheck, and wrapping use code-oriented defaults.
+    </p>
+  </section>
+
+  <section id="render-lifecycle">
+    <h3>Render lifecycle</h3>
+    <p>
+      The editor paints escaped source immediately, debounces adapter work, ignores stale async
+      results, and retains plain source when an adapter is unsupported or fails.
+    </p>
+  </section>
+</article>

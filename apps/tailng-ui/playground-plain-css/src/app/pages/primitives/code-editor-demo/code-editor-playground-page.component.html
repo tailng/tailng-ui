@@ -1,0 +1,12 @@
+<main class="code-editor-playground">
+  <h1>Code Editor</h1>
+  <label for="plain-code-editor">TypeScript source</label>
+  <tng-code-editor
+    id="plain-code-editor"
+    language="ts"
+    adapter="demo"
+    [value]="source()"
+    (valueChange)="source.set($event)"
+  />
+  <p>{{ source().length }} characters</p>
+</main>

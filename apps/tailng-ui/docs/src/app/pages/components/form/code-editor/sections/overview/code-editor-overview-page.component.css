@@ -1,0 +1,34 @@
+.code-editor-docs {
+  display: grid;
+  gap: 1.5rem;
+}
+.code-editor-docs h2,
+.code-editor-docs h3,
+.code-editor-docs p,
+.code-editor-docs ul {
+  margin: 0;
+}
+.code-editor-docs section,
+.code-editor-docs__demo,
+.code-editor-docs__code-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+.code-editor-docs__lead {
+  color: var(--tng-semantic-foreground-secondary);
+  max-width: 70ch;
+}
+.code-editor-docs__demo {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 1rem;
+}
+.code-editor-docs__demo label {
+  font-weight: 650;
+}
+.code-editor-docs__demo small {
+  color: var(--tng-semantic-foreground-muted);
+}
+.code-editor-docs ul {
+  padding-inline-start: 1.25rem;
+}
