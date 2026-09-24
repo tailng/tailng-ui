@@ -2,15 +2,27 @@ import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { PACKAGE_BY_TARGET, parseTargets } from './package-catalog.mjs';
+import { APF_PACKAGES, PACKAGE_BY_TARGET, parseTargets } from './package-catalog.mjs';
 
 const selected = parseTargets(process.argv[2] ?? '');
+const selectedSet = new Set(selected);
+const coordinatedApfSetSelected = APF_PACKAGES.every((definition) =>
+  selectedSet.has(definition.target),
+);
 const npmCacheRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'tailng-npm-pack-cache-'));
 
 try {
   for (const t of selected) {
     const definition = PACKAGE_BY_TARGET.get(t);
     if (!definition) continue;
+
+    // The coordinated Angular consumer smoke test performs a real npm pack for
+    // every APF package. Avoid packing the same package once here and again there.
+    if (coordinatedApfSetSelected && definition.apf) {
+      console.log(`[skip] npm pack --dry-run: ${t} (covered by consumer smoke test)`);
+      continue;
+    }
+
     const dir = path.resolve(definition.distDir);
 
     if (!fs.existsSync(dir)) {

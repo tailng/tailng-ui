@@ -1,25 +1,24 @@
-name: "Test, Build, Release & Deploy"
+name: 'Test, Build, Release & Deploy'
 
 on:
   workflow_dispatch:
     inputs:
       targets:
-        description: "Comma list (remove what you don’t want): cdk,primitives,components,theme,icons,charts,flow"
+        description: 'Comma list (remove what you don’t want): cdk,primitives,components,theme,icons,charts,flow'
         required: true
-        default: "cdk,primitives,components,theme,icons,charts,flow"
+        default: 'cdk,primitives,components,theme,icons,charts,flow'
       release_type:
-        description: "patch: 2.1.0 -> 2.1.1 | minor: 2.1.0 -> 2.2.0 | major: 2.x -> 3.0.0"
+        description: 'patch: 2.1.0 -> 2.1.1 | minor: 2.1.0 -> 2.2.0 | major: 2.x -> 3.0.0'
         required: true
         type: choice
         options: [minor, major, patch]
       npm_tag:
-        description: "npm dist-tag"
+        description: 'npm dist-tag'
         required: true
-        default: "latest"
+        default: 'latest'
 
-permissions:
-  contents: write
-  id-token: write
+# Each job receives only the permissions it needs.
+permissions: {}
 
 # Only one production release may calculate and push versions at a time.
 concurrency:
@@ -27,14 +26,16 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  release:
+  validate:
+    name: Validate release request
     runs-on: ubuntu-latest
-    environment: production
+    permissions:
+      contents: read
+    outputs:
+      test_matrix: ${{ steps.tests.outputs.matrix }}
+      has_tests: ${{ steps.tests.outputs.has_tests }}
 
     steps:
-      # ------------------------------------
-      # MAIN BRANCH SAFETY
-      # ------------------------------------
       - name: Ensure running on main branch
         run: |
           if [ "${GITHUB_REF_NAME}" != "main" ]; then
@@ -42,100 +43,120 @@ jobs:
             exit 1
           fi
 
-      # ------------------------------------
-      # CHECKOUT (uses built-in GITHUB_TOKEN)
-      # ------------------------------------
+      - name: Checkout source
+        uses: actions/checkout@v5
+
+      - name: Setup Node 24 LTS
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+
+      - name: Validate inputs
+        run: node tools/release/validate-inputs.mjs "${{ inputs.targets }}" "${{ inputs.release_type }}"
+
+      - name: Resolve parallel test groups
+        id: tests
+        run: node tools/release/resolve-test-matrix.mjs "${{ inputs.targets }}"
+
+  test:
+    name: Test ${{ matrix.name }}
+    needs: validate
+    if: needs.validate.outputs.has_tests == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: true
+      max-parallel: 3
+      matrix: ${{ fromJSON(needs.validate.outputs.test_matrix) }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.0
+
+      - name: Setup Node 24 LTS
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run selected package tests
+        run: |
+          node tools/release/run-if.mjs "${{ matrix.targets }}" cdk "pnpm run test:cdk"
+          node tools/release/run-if.mjs "${{ matrix.targets }}" primitives "pnpm run test:primitives"
+          node tools/release/run-if.mjs "${{ matrix.targets }}" components "pnpm run test:components"
+          node tools/release/run-if.mjs "${{ matrix.targets }}" icons "pnpm run test:icons"
+          node tools/release/run-if.mjs "${{ matrix.targets }}" charts "pnpm run test:charts"
+          node tools/release/run-if.mjs "${{ matrix.targets }}" theme "pnpm run test:theme"
+          node tools/release/run-if.mjs "${{ matrix.targets }}" flow "pnpm run test:flow"
+
+  release:
+    name: Build, publish, and release
+    needs: [validate, test]
+    if: >-
+      ${{
+        always() &&
+        needs.validate.result == 'success' &&
+        (needs.test.result == 'success' || needs.test.result == 'skipped')
+      }}
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
       - name: Checkout source
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: true
-          # token defaults to GITHUB_TOKEN; explicit is fine too:
-          # token: ${{ github.token }}
 
-      # ------------------------------------
-      # NODE AND PNPM (Node 20 for reliable ng-packagr output)
-      # ------------------------------------
-      - name: Setup Node 20 LTS
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.0
+
+      # Node 24 includes an npm version supported by npm Trusted Publishing.
+      - name: Setup Node 24 LTS
         uses: actions/setup-node@v5
         with:
-          node-version: 20
-          registry-url: "https://registry.npmjs.org"
-          package-manager-cache: false
+          node-version: 24
+          registry-url: 'https://registry.npmjs.org'
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
-      # IMPORTANT: upgrade npm for Trusted Publishing + provenance
-      - name: Upgrade npm
+      - name: Verify toolchain
         run: |
-          npm i -g npm@11 && npm --version
+          node --version
           npm --version
-
-      - name: Enable Corepack and pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@10.30.0 --activate
           pnpm --version
-          which pnpm
-
-      - name: Get pnpm store path
-        id: pnpm-cache
-        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
-
-      - name: Cache pnpm store
-        uses: actions/cache@v5
-        with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # ------------------------------------
-      # TESTS (only for selected targets)
-      # ------------------------------------
-      - name: Test cdk if selected
-        run: node tools/release/run-if.mjs "${{ inputs.targets }}" cdk "pnpm run test:cdk"
-
-      - name: Test primitives if selected
-        run: node tools/release/run-if.mjs "${{ inputs.targets }}" primitives "pnpm run test:primitives"
-
-      - name: Test components if selected
-        run: node tools/release/run-if.mjs "${{ inputs.targets }}" components "pnpm run test:components"
-
-      - name: Test icons if selected
-        run: node tools/release/run-if.mjs "${{ inputs.targets }}" icons "pnpm run test:icons"
-
-      - name: Test charts if selected
-        run: node tools/release/run-if.mjs "${{ inputs.targets }}" charts "pnpm run test:charts"
-
-      - name: Test theme if selected
-        run: node tools/release/run-if.mjs "${{ inputs.targets }}" theme "pnpm run test:theme"
-
-      - name: Test flow if selected
-        run: node tools/release/run-if.mjs "${{ inputs.targets }}" flow "pnpm run test:flow"
-
-      - name: Validate inputs
-        run: node tools/release/validate-inputs.mjs "${{ inputs.targets }}" "${{ inputs.release_type }}"
-
       - name: Export TARGETS
-        run: echo "TARGETS=,${{ inputs.targets }}," >> $GITHUB_ENV
+        run: echo "TARGETS=,${{ inputs.targets }}," >> "$GITHUB_ENV"
 
-      # GIT IDENTITY
       - name: Set Git user
         run: |
           git config --global user.email "prince.francis@tociva.com"
           git config --global user.name "Tociva Technologies"
 
-      # VERSION BUMP
       - name: Bump versions
         run: node tools/release/bump-versions.mjs \
           "${{ inputs.targets }}" \
           "${{ inputs.release_type }}"
 
-      # ------------------------------------
-      # COMMIT VERSION CHANGES
-      # ------------------------------------
       - name: Commit and push version changes
         run: |
           git add package.json libs/**/package.json || true
@@ -163,41 +184,27 @@ jobs:
             echo "main advanced during push; retrying (${attempt}/3)"
           done
 
-      # ------------------------------------
-      # BUILD PACKAGES
-      # ------------------------------------
+      # Keep publishable artifacts on the existing clean, uncached build path.
       - name: Build selected packages
         run: node tools/release/build-selected.mjs "${{ inputs.targets }}"
 
       - name: Verify build output
         run: node tools/release/verify-dist.mjs "${{ inputs.targets }}"
 
-      # ------------------------------------
-      # STRONGLY RECOMMENDED: SANITY CHECK (prevent publishing stub bundles)
-      # ------------------------------------
       - name: Sanity check built bundles
         run: node tools/release/assert-bundles.mjs "${{ inputs.targets }}"
 
-      # ------------------------------------
-      # OPTIONAL BUT USEFUL: npm pack dry-run per target
-      # ------------------------------------
       - name: npm pack dry-run (selected targets)
         run: node tools/release/npm-pack-dry-run.mjs "${{ inputs.targets }}"
 
       - name: Packed Angular consumer smoke test
         run: node tools/release/angular-package-smoke-test.mjs "${{ inputs.targets }}"
 
-      # ------------------------------------
-      # PUBLISH (npm Trusted Publishing via OIDC)
-      # ------------------------------------
       - name: Publish selected packages
         run: node tools/release/publish-selected.mjs \
           "${{ inputs.targets }}" \
           "${{ inputs.npm_tag }}"
 
-      # ------------------------------------
-      # TAG AND RELEASE
-      # ------------------------------------
       - name: Tag release
         run: node tools/release/tag-release.mjs
 
