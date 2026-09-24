@@ -44,7 +44,7 @@ export default defineConfig({
         replacement: resolve(projectRoot, '../../../libs/tailng-ui/cdk/src/overlay/index.ts'),
       },
       {
-        find: '@tailng-ui/cdk',
+        find: /^@tailng-ui\/cdk$/,
         replacement: resolve(projectRoot, '../../../libs/tailng-ui/cdk/src/index.ts'),
       },
       {

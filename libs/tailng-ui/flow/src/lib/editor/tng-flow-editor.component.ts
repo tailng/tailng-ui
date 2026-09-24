@@ -1135,7 +1135,9 @@ export class TngFlowEditorComponent<
       const observer = new ResizeObserver(() => {
         if (!hasObservedInitialSize) {
           hasObservedInitialSize = true;
-          return;
+          if (!this.shouldFitInitialNodes()) {
+            return;
+          }
         }
         if (refreshTimer !== undefined) {
           clearTimeout(refreshTimer);
@@ -1143,6 +1145,7 @@ export class TngFlowEditorComponent<
         refreshTimer = setTimeout(() => {
           refreshTimer = undefined;
           this.refreshLayout();
+          this.fitInitialNodesIfReady();
         }, TNG_FLOW_LAYOUT_REFRESH_DEBOUNCE_MS);
       });
       observer.observe(flowHost);
@@ -1198,6 +1201,9 @@ export class TngFlowEditorComponent<
   }
 
   public fitToScreen(animated = true, padding = 48): void {
+    if (!this.hasMeasurableFlowBounds()) {
+      return;
+    }
     const normalizedPadding = Number.isFinite(padding) ? Math.max(0, padding) : 48;
     this.canvas().fitToScreen({ x: normalizedPadding, y: normalizedPadding }, animated);
   }
@@ -1789,11 +1795,7 @@ export class TngFlowEditorComponent<
   }
 
   protected onNodesRendered(): void {
-    if (this.fitOnInit() && !this.hasFittedInitialNodes && this.graphNodes().length > 0) {
-      this.hasFittedInitialNodes = true;
-      this.lastFitDefinitionSignature = this.createFitDefinitionSignature();
-      this.fitToScreen(false);
-    }
+    this.fitInitialNodesIfReady();
     this.refreshMeasuredNodeSizes();
   }
 
@@ -3548,6 +3550,30 @@ export class TngFlowEditorComponent<
     this.fitToScreen(
       this.viewportAnimationAllowed(pending.viewport.animated),
       pending.viewport.padding,
+    );
+  }
+
+  private shouldFitInitialNodes(): boolean {
+    return this.fitOnInit() && !this.hasFittedInitialNodes && this.graphNodes().length > 0;
+  }
+
+  private fitInitialNodesIfReady(): void {
+    if (!this.shouldFitInitialNodes() || !this.hasMeasurableFlowBounds()) {
+      return;
+    }
+    this.hasFittedInitialNodes = true;
+    this.lastFitDefinitionSignature = this.createFitDefinitionSignature();
+    this.fitToScreen(false);
+  }
+
+  private hasMeasurableFlowBounds(): boolean {
+    const bounds = this.flowHost()?.getBoundingClientRect();
+    return (
+      bounds !== undefined &&
+      Number.isFinite(bounds.width) &&
+      Number.isFinite(bounds.height) &&
+      bounds.width > 0 &&
+      bounds.height > 0
     );
   }
 
