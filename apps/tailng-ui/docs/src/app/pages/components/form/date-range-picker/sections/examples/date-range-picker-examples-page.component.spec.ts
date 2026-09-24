@@ -27,9 +27,19 @@ type DateRangePickerExampleCodeTabs = Readonly<{
 }>;
 
 describe('DateRangePickerExamplesPageComponent', () => {
-  let fixture: ComponentFixture<DateRangePickerExamplesPageComponent>;
+  let fixture: ComponentFixture<DateRangePickerExamplesPageComponent> | undefined;
+
+  function createFixture(): ComponentFixture<DateRangePickerExamplesPageComponent> {
+    fixture = TestBed.configureTestingModule({
+      imports: [DateRangePickerExamplesPageComponent],
+    }).createComponent(DateRangePickerExamplesPageComponent);
+    return fixture;
+  }
 
   function getFixtureRoot(): HTMLElement {
+    if (fixture === undefined) {
+      throw new Error('Expected the component fixture to be created.');
+    }
     const root: unknown = fixture.nativeElement;
     if (!(root instanceof HTMLElement)) {
       throw new Error('Expected the fixture root to be an HTMLElement.');
@@ -50,17 +60,15 @@ describe('DateRangePickerExamplesPageComponent', () => {
           }) as unknown as MediaQueryList,
       ),
     });
-    fixture = TestBed.configureTestingModule({
-      imports: [DateRangePickerExamplesPageComponent],
-    }).createComponent(DateRangePickerExamplesPageComponent);
-    fixture.detectChanges();
   });
 
   afterEach(() => {
-    fixture.destroy();
+    fixture?.destroy();
+    fixture = undefined;
   });
 
   it('renders single and dual Plain-CSS and Tailwind variants for every scenario', () => {
+    createFixture().detectChanges();
     const root = getFixtureRoot();
     const groups = Array.from(root.querySelectorAll<HTMLElement>('app-docs-example-tabs-section'));
     const expectedLabels = ['Plain-CSS', 'Tailwind CSS', 'Dual Plain-CSS', 'Dual Tailwind CSS'];
@@ -80,7 +88,9 @@ describe('DateRangePickerExamplesPageComponent', () => {
   });
 
   it('provides TS, HTML, and CSS source tabs for all variants', () => {
-    const component = fixture.componentInstance as unknown as DateRangePickerExampleCodeTabs;
+    const componentFixture = createFixture();
+    const component =
+      componentFixture.componentInstance as unknown as DateRangePickerExampleCodeTabs;
     const collections = [
       component.formPlainCodeTabs,
       component.formTailwindCodeTabs,
@@ -112,7 +122,9 @@ describe('DateRangePickerExamplesPageComponent', () => {
   });
 
   it('sets dual calendar layout in every dual source example', () => {
-    const component = fixture.componentInstance as unknown as DateRangePickerExampleCodeTabs;
+    const componentFixture = createFixture();
+    const component =
+      componentFixture.componentInstance as unknown as DateRangePickerExampleCodeTabs;
     const dualCollections = [
       component.dualFormPlainCodeTabs,
       component.dualFormTailwindCodeTabs,
