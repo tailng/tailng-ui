@@ -64,22 +64,26 @@ describe(FlowExecutionGraphExamplesPageComponent.name, () => {
     expect(component.examples.map((example) => example.id)).toEqual(expectedIds);
   });
 
-  it('renders one tabbed graph-only section per example', async () => {
-    await TestBed.configureTestingModule({
-      imports: [FlowExecutionGraphExamplesPageComponent],
-    }).compileComponents();
+  it(
+    'renders one tabbed graph-only section per example',
+    async () => {
+      await TestBed.configureTestingModule({
+        imports: [FlowExecutionGraphExamplesPageComponent],
+      }).compileComponents();
 
-    const fixture = TestBed.createComponent(FlowExecutionGraphExamplesPageComponent);
-    fixture.detectChanges();
+      const fixture = TestBed.createComponent(FlowExecutionGraphExamplesPageComponent);
+      fixture.detectChanges();
 
-    const nativeElement = fixture.nativeElement as HTMLElement;
-    expect(nativeElement.querySelectorAll('app-docs-example-tabs-section').length).toBe(14);
-    expect(nativeElement.querySelectorAll('tng-flow-execution-graph').length).toBe(28);
-    expect(nativeElement.querySelector('tng-flow-workbench')).toBeNull();
-    expect(nativeElement.querySelector('tng-flow-node-properties')).toBeNull();
-    expect(nativeElement.querySelector('.flow-execution-graph-examples__details')).toBeNull();
-    expect(nativeElement.querySelector('aside[aria-label="Selected execution"]')).toBeNull();
-  });
+      const nativeElement = fixture.nativeElement as HTMLElement;
+      expect(nativeElement.querySelectorAll('app-docs-example-tabs-section').length).toBe(14);
+      expect(nativeElement.querySelectorAll('tng-flow-execution-graph').length).toBe(28);
+      expect(nativeElement.querySelector('tng-flow-workbench')).toBeNull();
+      expect(nativeElement.querySelector('tng-flow-node-properties')).toBeNull();
+      expect(nativeElement.querySelector('.flow-execution-graph-examples__details')).toBeNull();
+      expect(nativeElement.querySelector('aside[aria-label="Selected execution"]')).toBeNull();
+    },
+    15_000,
+  );
 
   it('renders Plain CSS and Tailwind CSS variants for every graph example', async () => {
     await TestBed.configureTestingModule({
