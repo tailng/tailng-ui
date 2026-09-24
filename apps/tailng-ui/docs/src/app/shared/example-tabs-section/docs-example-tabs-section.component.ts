@@ -23,6 +23,7 @@ export class DocsExampleVariantDirective {
   public readonly label = input.required<string>();
   public readonly panelTitle = input.required<string>();
   public readonly codeTabs = input<readonly DocsExampleCodeTab[]>([]);
+  public readonly codeVisibleByDefault = input<boolean>(false);
   public readonly stackblitzUrl = input<string | null>(null);
   public readonly templateRef = inject<TemplateRef<unknown>>(TemplateRef);
 }

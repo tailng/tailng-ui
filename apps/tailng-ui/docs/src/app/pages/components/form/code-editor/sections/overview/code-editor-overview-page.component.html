@@ -31,23 +31,78 @@
     </div>
   </section>
 
-  <section id="editable-source">
-    <h3>Editable source</h3>
-    <div class="code-editor-docs__demo">
-      <label for="code-editor-overview-python">Python source</label>
-      <tng-code-editor
-        id="code-editor-overview-python"
-        language="python"
-        adapter="shiki"
-        ariaLabel="Python source"
-        [theme]="codeTheme()"
-        [sanitizeHtml]="false"
-        [value]="source()"
-        (valueChange)="source.set($event)"
-      />
-      <small>{{ source().length }} characters</small>
-    </div>
-  </section>
+  <app-docs-example-tabs-section
+    id="editable-source"
+    heading="Editable source"
+    description="Compare the same code-editor contract in Plain CSS and Tailwind CSS layouts. Each example includes HTML, CSS, and TypeScript source."
+    ariaLabel="Code Editor overview examples"
+    tabListAriaLabel="Code Editor example style variants"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain CSS"
+      panelTitle="Code Editor (Plain CSS)"
+      [codeTabs]="plainCssCodeTabs"
+      [codeVisibleByDefault]="true"
+    >
+      <section class="code-editor-docs__demo">
+        <div class="code-editor-docs__demo-heading">
+          <label for="code-editor-overview-python">Python source</label>
+          <small>{{ plainCssSource().length }} characters</small>
+        </div>
+        <tng-code-editor
+          id="code-editor-overview-python"
+          language="python"
+          adapter="shiki"
+          ariaLabel="Python source"
+          [theme]="codeTheme()"
+          [sanitizeHtml]="false"
+          [rows]="9"
+          [value]="plainCssSource()"
+          (valueChange)="plainCssSource.set($event)"
+        />
+      </section>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Code Editor (Tailwind CSS)"
+      [codeTabs]="tailwindCodeTabs"
+      [codeVisibleByDefault]="true"
+    >
+      <section
+        class="grid gap-3 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4"
+      >
+        <div class="flex items-center justify-between gap-4">
+          <label
+            for="code-editor-overview-typescript"
+            class="font-semibold text-[var(--tng-semantic-foreground-primary)]"
+          >
+            TypeScript source
+          </label>
+          <small class="text-xs text-[var(--tng-semantic-foreground-muted)]">
+            {{ tailwindSource().length }} characters
+          </small>
+        </div>
+        <tng-code-editor
+          id="code-editor-overview-typescript"
+          language="ts"
+          adapter="shiki"
+          ariaLabel="TypeScript source"
+          [theme]="codeTheme()"
+          [sanitizeHtml]="false"
+          [rows]="9"
+          [value]="tailwindSource()"
+          (valueChange)="tailwindSource.set($event)"
+        />
+      </section>
+    </ng-template>
+  </app-docs-example-tabs-section>
 
   <section id="separation-of-responsibilities">
     <h3>Component boundaries</h3>

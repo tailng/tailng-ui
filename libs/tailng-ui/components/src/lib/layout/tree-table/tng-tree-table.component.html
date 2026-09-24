@@ -74,7 +74,7 @@
             [class]="resolveRowClass(flatRow)"
             [ngStyle]="resolveRowStyle(flatRow)"
             (click)="onRowClick(flatRow, $event)"
-            (keydown)="onRowKeydown(flatRow, $event, rowIndex)"
+            (keydown)="onRowKeydown(flatRow, $event)"
           >
             @for (column of leafColumns; track trackByColumnKey($index, column)) {
               @if (isTreeColumn(column)) {

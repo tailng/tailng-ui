@@ -23,10 +23,16 @@
   border-radius: 0.8rem;
   padding: 1rem;
 }
-.code-editor-docs__demo label {
+.code-editor-docs__demo-heading {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+.code-editor-docs__demo-heading label {
   font-weight: 650;
 }
-.code-editor-docs__demo small {
+.code-editor-docs__demo-heading small {
   color: var(--tng-semantic-foreground-muted);
 }
 .code-editor-docs ul {

@@ -4,79 +4,258 @@
     Use one editor contract across languages, themes, and form states.
   </p>
 
-  <section id="language-examples">
-    <h3>Language examples</h3>
-    <div class="code-editor-examples__grid">
-      <div class="code-editor-examples__card">
-        <label for="code-editor-json">JSON settings</label>
-        <tng-code-editor
-          id="code-editor-json"
-          language="json"
-          adapter="shiki"
-          [theme]="codeTheme()"
-          [sanitizeHtml]="false"
-          [rows]="6"
-          [value]="jsonSource()"
-          (valueChange)="jsonSource.set($event)"
-        />
+  <app-docs-example-tabs-section
+    id="language-examples"
+    heading="Language examples"
+    description="Edit JSON and shell source with the same adapter-based editor contract."
+    ariaLabel="Code Editor language examples"
+    tabListAriaLabel="Code Editor language example style variants"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain CSS"
+      panelTitle="Language examples (Plain CSS)"
+      [codeTabs]="languagePlainCodeTabs"
+      [codeVisibleByDefault]="true"
+    >
+      <div class="code-editor-examples__grid">
+        <div class="code-editor-examples__card">
+          <label for="code-editor-json-plain">JSON settings</label>
+          <tng-code-editor
+            id="code-editor-json-plain"
+            language="json"
+            adapter="shiki"
+            [theme]="codeTheme()"
+            [sanitizeHtml]="false"
+            [rows]="6"
+            [value]="jsonSource()"
+            (valueChange)="jsonSource.set($event)"
+          />
+        </div>
+        <div class="code-editor-examples__card">
+          <label for="code-editor-shell-plain">Shell commands</label>
+          <tng-code-editor
+            id="code-editor-shell-plain"
+            language="shell"
+            adapter="shiki"
+            [theme]="codeTheme()"
+            [sanitizeHtml]="false"
+            [rows]="6"
+            [value]="shellSource()"
+            (valueChange)="shellSource.set($event)"
+          />
+        </div>
       </div>
-      <div class="code-editor-examples__card">
-        <label for="code-editor-shell">Shell commands</label>
-        <tng-code-editor
-          id="code-editor-shell"
-          language="shell"
-          adapter="shiki"
-          [theme]="codeTheme()"
-          [sanitizeHtml]="false"
-          [rows]="6"
-          [value]="shellSource()"
-          (valueChange)="shellSource.set($event)"
-        />
-      </div>
-    </div>
-  </section>
+    </ng-template>
 
-  <section id="readonly-and-disabled">
-    <h3>Readonly and disabled</h3>
-    <div class="code-editor-examples__grid">
-      <div class="code-editor-examples__card">
-        <span>Readonly and selectable</span
-        ><tng-code-editor
-          ariaLabel="Readonly source"
-          language="json"
-          adapter="shiki"
-          [theme]="codeTheme()"
-          [sanitizeHtml]="false"
-          [rows]="4"
-          [readonly]="true"
-          [value]="jsonSource()"
-        />
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Language examples (Tailwind CSS)"
+      [codeTabs]="languageTailwindCodeTabs"
+      [codeVisibleByDefault]="true"
+    >
+      <div class="grid gap-4 lg:grid-cols-2">
+        <div
+          class="grid gap-3 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4"
+        >
+          <label
+            for="code-editor-json-tailwind"
+            class="font-semibold text-[var(--tng-semantic-foreground-primary)]"
+          >
+            JSON settings
+          </label>
+          <tng-code-editor
+            id="code-editor-json-tailwind"
+            language="json"
+            adapter="shiki"
+            [theme]="codeTheme()"
+            [sanitizeHtml]="false"
+            [rows]="6"
+            [value]="jsonSource()"
+            (valueChange)="jsonSource.set($event)"
+          />
+        </div>
+        <div
+          class="grid gap-3 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4"
+        >
+          <label
+            for="code-editor-shell-tailwind"
+            class="font-semibold text-[var(--tng-semantic-foreground-primary)]"
+          >
+            Shell commands
+          </label>
+          <tng-code-editor
+            id="code-editor-shell-tailwind"
+            language="shell"
+            adapter="shiki"
+            [theme]="codeTheme()"
+            [sanitizeHtml]="false"
+            [rows]="6"
+            [value]="shellSource()"
+            (valueChange)="shellSource.set($event)"
+          />
+        </div>
       </div>
-      <div class="code-editor-examples__card">
-        <span>Disabled</span
-        ><tng-code-editor
-          ariaLabel="Disabled source"
-          language="shell"
-          adapter="shiki"
-          [theme]="codeTheme()"
-          [sanitizeHtml]="false"
-          [rows]="4"
-          [disabled]="true"
-          [value]="shellSource()"
-        />
-      </div>
-    </div>
-  </section>
+    </ng-template>
+  </app-docs-example-tabs-section>
 
-  <section id="plain-fallback">
-    <h3>Plain fallback</h3>
-    <p>Turn highlighting off when source editing is useful without loading a language adapter.</p>
-    <tng-code-editor
-      ariaLabel="Plain source"
-      [highlight]="false"
-      [rows]="4"
-      [value]="plainSource()"
-      (valueChange)="plainSource.set($event)"
-    />
-  </section>
+  <app-docs-example-tabs-section
+    id="readonly-and-disabled"
+    heading="Readonly and disabled"
+    description="Compare selectable readonly source with a fully disabled editor."
+    ariaLabel="Code Editor form state examples"
+    tabListAriaLabel="Code Editor form state style variants"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain CSS"
+      panelTitle="Readonly and disabled (Plain CSS)"
+      [codeTabs]="statesPlainCodeTabs"
+      [codeVisibleByDefault]="true"
+    >
+      <div class="code-editor-examples__grid">
+        <div class="code-editor-examples__card">
+          <span>Readonly and selectable</span>
+          <tng-code-editor
+            ariaLabel="Readonly source"
+            language="json"
+            adapter="shiki"
+            [theme]="codeTheme()"
+            [sanitizeHtml]="false"
+            [rows]="4"
+            [readonly]="true"
+            [value]="jsonSource()"
+          />
+        </div>
+        <div class="code-editor-examples__card">
+          <span>Disabled</span>
+          <tng-code-editor
+            ariaLabel="Disabled source"
+            language="shell"
+            adapter="shiki"
+            [theme]="codeTheme()"
+            [sanitizeHtml]="false"
+            [rows]="4"
+            [disabled]="true"
+            [value]="shellSource()"
+          />
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Readonly and disabled (Tailwind CSS)"
+      [codeTabs]="statesTailwindCodeTabs"
+      [codeVisibleByDefault]="true"
+    >
+      <div class="grid gap-4 lg:grid-cols-2">
+        <div
+          class="grid gap-3 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4"
+        >
+          <span class="font-semibold text-[var(--tng-semantic-foreground-primary)]">
+            Readonly and selectable
+          </span>
+          <tng-code-editor
+            ariaLabel="Readonly source"
+            language="json"
+            adapter="shiki"
+            [theme]="codeTheme()"
+            [sanitizeHtml]="false"
+            [rows]="4"
+            [readonly]="true"
+            [value]="jsonSource()"
+          />
+        </div>
+        <div
+          class="grid gap-3 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4"
+        >
+          <span class="font-semibold text-[var(--tng-semantic-foreground-primary)]">
+            Disabled
+          </span>
+          <tng-code-editor
+            ariaLabel="Disabled source"
+            language="shell"
+            adapter="shiki"
+            [theme]="codeTheme()"
+            [sanitizeHtml]="false"
+            [rows]="4"
+            [disabled]="true"
+            [value]="shellSource()"
+          />
+        </div>
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <app-docs-example-tabs-section
+    id="plain-fallback"
+    heading="Plain fallback"
+    description="Turn highlighting off when source editing is useful without loading a language adapter."
+    ariaLabel="Code Editor plain fallback examples"
+    tabListAriaLabel="Code Editor fallback style variants"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain CSS"
+      panelTitle="Plain fallback (Plain CSS)"
+      [codeTabs]="fallbackPlainCodeTabs"
+      [codeVisibleByDefault]="true"
+    >
+      <div class="code-editor-examples__card">
+        <label for="code-editor-fallback-plain">Plain source</label>
+        <p>Highlighting is disabled, so no language adapter is loaded.</p>
+        <tng-code-editor
+          id="code-editor-fallback-plain"
+          [highlight]="false"
+          [rows]="4"
+          [value]="plainSource()"
+          (valueChange)="plainSource.set($event)"
+        />
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Plain fallback (Tailwind CSS)"
+      [codeTabs]="fallbackTailwindCodeTabs"
+      [codeVisibleByDefault]="true"
+    >
+      <div
+        class="grid gap-3 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4"
+      >
+        <label
+          for="code-editor-fallback-tailwind"
+          class="font-semibold text-[var(--tng-semantic-foreground-primary)]"
+        >
+          Plain source
+        </label>
+        <p class="m-0 text-sm text-[var(--tng-semantic-foreground-secondary)]">
+          Highlighting is disabled, so no language adapter is loaded.
+        </p>
+        <tng-code-editor
+          id="code-editor-fallback-tailwind"
+          [highlight]="false"
+          [rows]="4"
+          [value]="plainSource()"
+          (valueChange)="plainSource.set($event)"
+        />
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
 </article>

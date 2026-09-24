@@ -1,4 +1,4 @@
-import { Component, computed, input, output, signal } from '@angular/core';
+import { Component, computed, input, output, signal, type OnInit } from '@angular/core';
 import { TngCodeBlockComponent, TngTabsComponent } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
 import { TngTab, TngTabList, TngTabPanel } from '@tailng-ui/primitives';
@@ -17,10 +17,11 @@ export type DocsExampleCodeTab = Readonly<{
   templateUrl: './docs-example-panel.component.html',
   styleUrl: './docs-example-panel.component.css',
 })
-export class DocsExamplePanelComponent {
+export class DocsExamplePanelComponent implements OnInit {
   public readonly title = input<string>('Example');
   public readonly codeTabs = input<readonly DocsExampleCodeTab[]>([]);
   public readonly codeBlockTheme = input<'github-dark' | 'github-light'>('github-light');
+  public readonly codeVisibleByDefault = input<boolean>(false);
   public readonly stackblitzUrl = input<string | null>(null);
 
   public readonly linkClick = output<void>();
@@ -33,6 +34,10 @@ export class DocsExamplePanelComponent {
     const firstTab = this.codeTabs()[0];
     return firstTab?.value ?? 'html';
   });
+
+  public ngOnInit(): void {
+    this.showCode.set(this.codeVisibleByDefault());
+  }
 
   protected onCodeButtonClick(): void {
     if (!this.hasCodeTabs()) {
