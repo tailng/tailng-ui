@@ -39,6 +39,7 @@ export type TngOverlayInstanceOptions = Readonly<{
   getViewportRect: () => TngOverlayRect;
 
   dismissOnEscape?: boolean; // default true
+  dismissOnFocusOutside?: boolean; // default false
   dismissOnOutsidePointer?: boolean; // default true
   modal?: boolean;
   priority?: number;

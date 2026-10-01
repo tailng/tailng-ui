@@ -915,7 +915,12 @@ export const docsComponentOutlineItemsBySlug: Readonly<
       { id: 'core-data-attributes', label: 'Core data attributes' },
       { id: 'reference-css', label: 'Reference CSS' },
     ],
-    examples: [{ id: 'delete-release-branch', label: 'Delete release branch?' }],
+    examples: [
+      { id: 'delete-release-branch', label: 'Delete release branch?' },
+      { id: 'nested-select-overlay', label: 'Nested select overlay' },
+      { id: 'nested-multiselect-overlay', label: 'Nested multiselect overlay' },
+      { id: 'nested-menu-overlay', label: 'Nested menu overlay' },
+    ],
     'ownable-install': [
       { id: 'install-from-registry', label: 'Install from registry' },
       { id: 'generated-files', label: 'Generated files' },

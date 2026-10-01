@@ -7,6 +7,7 @@ export type TngOverlayDismissReason =
 export type TngOverlayLayer = Readonly<{
   containsTarget?: (target: unknown, path: readonly unknown[]) => boolean;
   dismissOnEscape?: boolean;
+  dismissOnFocusOutside?: boolean;
   dismissOnOutsidePointer?: boolean;
   id: string;
   modal?: boolean;
@@ -23,6 +24,10 @@ export type TngOverlayLayerStack = Readonly<{
   isTopLayer: (id: string) => boolean;
   register: (layer: TngOverlayLayer) => void;
   resolveEscapeDismissTarget: () => TngOverlayLayer | null;
+  resolveFocusOutsideDismissTarget: (
+    target: unknown,
+    path: readonly unknown[],
+  ) => TngOverlayLayer | null;
   resolveOutsidePointerDismissTarget: (
     target: unknown,
     path: readonly unknown[],

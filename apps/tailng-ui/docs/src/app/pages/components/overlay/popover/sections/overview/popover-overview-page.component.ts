@@ -1,12 +1,19 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
-import { TngCodeBlockComponent, TngPopoverComponent } from '@tailng-ui/components';
+import {
+  TngCodeBlockComponent,
+  TngPopoverComponent,
+  TngPopoverTriggerFor,
+} from '@tailng-ui/components';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
 
 type PopoverCloseReason = 'escape' | 'outside-pointer' | 'programmatic' | 'trigger-toggle';
 
@@ -15,6 +22,7 @@ type PopoverCloseReason = 'escape' | 'outside-pointer' | 'programmatic' | 'trigg
   imports: [
     TngCodeBlockComponent,
     TngPopoverComponent,
+    TngPopoverTriggerFor,
     DocsExampleTabsSectionComponent,
     DocsExampleVariantDirective,
   ],
@@ -39,19 +47,20 @@ export class PopoverOverviewPageComponent implements OnDestroy {
   protected readonly tailwindCloseReason = signal<PopoverCloseReason | 'none'>('none');
 
   protected readonly componentImportCode = [
-    "import { TngPopoverComponent } from '@tailng-ui/components';",
+    "import { TngPopoverComponent, TngPopoverTriggerFor } from '@tailng-ui/components';",
     '',
   ].join('\n');
 
   protected readonly componentUsageCode = [
     '<tng-popover',
-    '  triggerLabel="Project actions"',
+    '  #popover="tngPopoverComponent"',
     '  [open]="open()"',
     '  (openChange)="open.set($event)"',
     '  (closed)="onClosed($event)"',
     '>',
     '  <p>Wrapper popover body content.</p>',
     '</tng-popover>',
+    '<button type="button" [tngPopoverTriggerFor]="popover">Project actions</button>',
     '',
   ].join('\n');
 
@@ -63,14 +72,14 @@ export class PopoverOverviewPageComponent implements OnDestroy {
       title: 'popover-overview-plain-css.component.ts',
       code: [
         "import { Component, signal } from '@angular/core';",
-        "import { TngPopoverComponent } from '@tailng-ui/components';",
+        "import { TngPopoverComponent, TngPopoverTriggerFor } from '@tailng-ui/components';",
         '',
         "type PopoverCloseReason = 'escape' | 'outside-pointer' | 'programmatic' | 'trigger-toggle';",
         '',
         '@Component({',
         "  selector: 'app-popover-overview-plain-css',",
         '  standalone: true,',
-        '  imports: [TngPopoverComponent],',
+        '  imports: [TngPopoverComponent, TngPopoverTriggerFor],',
         "  templateUrl: './popover-overview-plain-css.component.html',",
         "  styleUrl: './popover-overview-plain-css.component.css',",
         '})',
@@ -91,18 +100,18 @@ export class PopoverOverviewPageComponent implements OnDestroy {
       title: 'popover-overview-plain-css.component.html',
       code: [
         '<tng-popover',
-        '  #popover',
-        '  triggerLabel="Project actions"',
+        '  #popover="tngPopoverComponent"',
         '  [open]="open()"',
         '  (openChange)="open.set($event)"',
         '  (closed)="onClosed($event)"',
         '>',
-        '  <p class="popover-body-copy">Use wrapper defaults for trigger wiring and dismissal behavior.</p>',
+        '  <p class="popover-body-copy">Use the detached panel with TailNG trigger wiring and dismissal behavior.</p>',
         '  <div class="popover-preview-actions">',
         '    <button type="button" class="popover-action-ghost" (click)="popover.close()">Close</button>',
         '    <button type="button" class="popover-action-primary" (click)="popover.close()">Apply</button>',
         '  </div>',
         '</tng-popover>',
+        '<button type="button" [tngPopoverTriggerFor]="popover">Project actions</button>',
       ].join('\n'),
     },
     {
@@ -165,14 +174,14 @@ export class PopoverOverviewPageComponent implements OnDestroy {
       title: 'popover-overview-tailwind.component.ts',
       code: [
         "import { Component, signal } from '@angular/core';",
-        "import { TngPopoverComponent } from '@tailng-ui/components';",
+        "import { TngPopoverComponent, TngPopoverTriggerFor } from '@tailng-ui/components';",
         '',
         "type PopoverCloseReason = 'escape' | 'outside-pointer' | 'programmatic' | 'trigger-toggle';",
         '',
         '@Component({',
         "  selector: 'app-popover-overview-tailwind',",
         '  standalone: true,',
-        '  imports: [TngPopoverComponent],',
+        '  imports: [TngPopoverComponent, TngPopoverTriggerFor],',
         "  templateUrl: './popover-overview-tailwind.component.html',",
         "  styleUrl: './popover-overview-tailwind.component.css',",
         '})',
@@ -194,8 +203,7 @@ export class PopoverOverviewPageComponent implements OnDestroy {
       code: [
         '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
         '  <tng-popover',
-        '    #popover',
-        '    triggerLabel="Tailwind actions"',
+        '    #popover="tngPopoverComponent"',
         '    [open]="open()"',
         '    (openChange)="open.set($event)"',
         '    (closed)="onClosed($event)"',
@@ -206,6 +214,7 @@ export class PopoverOverviewPageComponent implements OnDestroy {
         '      <button type="button" class="rounded-lg border border-sky-600 bg-sky-600 px-3 py-2 text-sm font-semibold text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300/80 dark:focus-visible:ring-sky-200/80" (click)="popover.close()">Apply</button>',
         '    </div>',
         '  </tng-popover>',
+        '  <button type="button" [tngPopoverTriggerFor]="popover">Tailwind actions</button>',
         '</div>',
       ].join('\n'),
     },

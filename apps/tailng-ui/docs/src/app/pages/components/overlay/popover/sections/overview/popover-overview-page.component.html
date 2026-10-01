@@ -1,14 +1,17 @@
 <article class="popover-overview">
   <h2 class="popover-overview-title">Popover overview</h2>
   <p class="popover-overview-lead">
-    Popover provides a ready-made trigger and anchored panel shell with outside-pointer dismissal,
-    Escape handling, and optional focus restore. For full DOM ownership, use the separate headless
-    popover docs.
+    Popover provides a detached anchored panel that any linked button can open, with collision-aware
+    positioning, outside-pointer dismissal, Escape handling, and optional focus restore. For full
+    DOM ownership, use the separate headless popover docs.
   </p>
 
   <section id="imports" class="popover-overview-block">
     <h3>Imports</h3>
-    <p>Use the wrapper when your team wants built-in trigger markup and a minimum floating panel shell.</p>
+    <p>
+      Use the wrapper when your team wants a styled floating panel linked to a native or TailNG
+      trigger.
+    </p>
     <tng-code-block
       [code]="componentImportCode"
       adapter="shiki"
@@ -54,13 +57,14 @@
     >
       <div class="popover-stage">
         <tng-popover
-          #plainPopover
-          triggerLabel="Project actions"
+          #plainPopover="tngPopoverComponent"
           [open]="plainOpen()"
           (openChange)="plainOpen.set($event)"
           (closed)="onPlainClose($event)"
         >
-          <p class="popover-body-copy">Use wrapper defaults for trigger wiring and dismissal behavior.</p>
+          <p class="popover-body-copy">
+            Use the detached panel with TailNG trigger wiring and dismissal behavior.
+          </p>
           <div class="popover-preview-actions">
             <button type="button" class="popover-action-ghost" (click)="plainPopover.close()">
               Close
@@ -70,6 +74,9 @@
             </button>
           </div>
         </tng-popover>
+        <button type="button" class="popover-action-primary" [tngPopoverTriggerFor]="plainPopover">
+          Project actions
+        </button>
       </div>
       <p class="popover-overview-state">last close reason: {{ plainCloseReason() }}</p>
     </ng-template>
@@ -81,11 +88,12 @@
       panelTitle="Wrapper popover (tailwind shell)"
       [codeTabs]="tailwindCodeTabs"
     >
-      <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+      <div
+        class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+      >
         <div class="popover-stage">
           <tng-popover
-            #tailwindPopover
-            triggerLabel="Tailwind actions"
+            #tailwindPopover="tngPopoverComponent"
             [open]="tailwindOpen()"
             (openChange)="tailwindOpen.set($event)"
             (closed)="onTailwindClose($event)"
@@ -110,6 +118,13 @@
               </button>
             </div>
           </tng-popover>
+          <button
+            type="button"
+            class="rounded-lg border border-sky-600 bg-sky-600 px-3 py-2 text-sm font-semibold text-white"
+            [tngPopoverTriggerFor]="tailwindPopover"
+          >
+            Tailwind actions
+          </button>
         </div>
       </div>
       <p class="popover-overview-state">last close reason: {{ tailwindCloseReason() }}</p>
@@ -119,7 +134,7 @@
   <section id="keyboard-baseline" class="popover-overview-block">
     <h3>Keyboard baseline</h3>
     <ul class="popover-overview-list">
-      <li><code>Enter</code>/<code>Space</code> on the built-in trigger toggles the panel.</li>
+      <li><code>Enter</code>/<code>Space</code> on the linked button toggles the panel.</li>
       <li><code>Escape</code> closes when <code>closeOnEscape</code> is enabled.</li>
       <li>No focus trap is applied by default; <code>Tab</code> can move outside the panel.</li>
       <li>Focus can return to the trigger when <code>restoreFocus</code> is enabled.</li>

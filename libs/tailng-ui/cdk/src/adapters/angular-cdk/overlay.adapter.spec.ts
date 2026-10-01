@@ -30,6 +30,7 @@ function createInteractionOptions(): TngOverlayInteractionOptions {
       isTopLayer: () => false,
       register: () => undefined,
       resolveEscapeDismissTarget: () => null,
+      resolveFocusOutsideDismissTarget: () => null,
       resolveOutsidePointerDismissTarget: () => null,
       unregister: () => undefined,
     },
@@ -79,6 +80,7 @@ function createBackdropMock(): TngOverlayBackdropController {
 
 function createInteractionMock(): TngOverlayInteractionController {
   return {
+    handleFocusIn: () => undefined,
     handleKeydown: () => undefined,
     handlePointerDown: () => undefined,
     isStarted: () => false,

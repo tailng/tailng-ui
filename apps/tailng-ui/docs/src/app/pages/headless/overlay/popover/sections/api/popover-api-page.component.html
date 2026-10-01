@@ -24,10 +24,10 @@
             <td><code>[tngPopover]</code></td>
             <td>
               <code>open</code>, <code>defaultOpen</code>, <code>disabled</code>,
-              <code>closeOnEscape</code>, <code>closeOnOutsidePointer</code>,
-              <code>restoreFocus</code>, <code>autoFocus</code>, <code>side</code>,
-              <code>align</code>, <code>panelRole</code>, <code>ariaHasPopup</code>,
-              <code>ariaLabel</code>
+              <code>closeOnEscape</code>, <code>closeOnFocusOutside</code>,
+              <code>closeOnOutsidePointer</code>, <code>restoreFocus</code>,
+              <code>autoFocus</code>, <code>side</code>, <code>align</code>,
+              <code>panelRole</code>, <code>ariaHasPopup</code>, <code>ariaLabel</code>
             </td>
             <td>Owns open state, dismissal policy, focus handoff, and panel accessibility metadata.</td>
           </tr>
@@ -87,9 +87,16 @@
   <section id="behavior-and-events" class="headless-popover-api-block">
     <h3>Behavior and events</h3>
     <ul>
-      <li><code>closed</code> emits <code>'escape' | 'outside-pointer' | 'programmatic' | 'trigger-toggle'</code>.</li>
+      <li>
+        <code>closed</code> emits
+        <code>'escape' | 'focus-outside' | 'outside-pointer' | 'programmatic' | 'trigger-toggle'</code>.
+      </li>
       <li><code>autoFocus</code> can prefer the first focusable, the panel itself, or no initial focus move.</li>
-      <li>Popover does not trap focus by default, so <code>Tab</code> may leave the panel.</li>
+      <li>
+        Popover does not trap focus by default, so <code>Tab</code> may leave the panel.
+        Focus leaving closes only when <code>closeOnFocusOutside</code> is enabled; it defaults to
+        <code>false</code>.
+      </li>
       <li><code>side</code> and <code>align</code> only mirror state as attributes; they do not perform automatic positioning math.</li>
       <li><code>panelRole</code> supports <code>dialog</code>, <code>menu</code>, <code>listbox</code>, <code>region</code>, or <code>none</code>.</li>
     </ul>

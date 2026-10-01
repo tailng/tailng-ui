@@ -14,6 +14,7 @@ function createLayer(
     modal: options.modal ?? false,
     priority: options.priority,
     dismissOnEscape: options.dismissOnEscape ?? true,
+    dismissOnFocusOutside: options.dismissOnFocusOutside ?? false,
     dismissOnOutsidePointer: options.dismissOnOutsidePointer ?? true,
     containsTarget: options.floating.containsTarget,
     onDismiss: (reason: TngOverlayDismissReason) => close(reason),

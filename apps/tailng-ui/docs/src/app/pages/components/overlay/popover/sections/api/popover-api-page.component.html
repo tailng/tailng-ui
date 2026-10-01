@@ -22,7 +22,9 @@
             <td><code>&lt;tng-popover&gt;</code></td>
             <td><code>open</code>, <code>openChange</code></td>
             <td><code>boolean</code></td>
-            <td>Controlled popover state. Leave <code>open</code> undefined for uncontrolled mode.</td>
+            <td>
+              Controlled popover state. Leave <code>open</code> undefined for uncontrolled mode.
+            </td>
           </tr>
           <tr>
             <td><code>&lt;tng-popover&gt;</code></td>
@@ -31,10 +33,13 @@
             <td>Initial open state when uncontrolled.</td>
           </tr>
           <tr>
-            <td><code>&lt;tng-popover&gt;</code></td>
-            <td><code>triggerLabel</code></td>
-            <td><code>string</code></td>
-            <td>Text rendered in the built-in trigger button.</td>
+            <td><code>[tngPopoverTriggerFor]</code></td>
+            <td>Popover reference</td>
+            <td><code>TngPopoverComponent</code></td>
+            <td>
+              Links a native button, <code>tng-button</code>, or trigger-target component to the
+              detached panel.
+            </td>
           </tr>
           <tr>
             <td><code>&lt;tng-popover&gt;</code></td>
@@ -50,6 +55,15 @@
           </tr>
           <tr>
             <td><code>&lt;tng-popover&gt;</code></td>
+            <td><code>closeOnFocusOutside</code></td>
+            <td><code>boolean</code></td>
+            <td>
+              Closes when focus enters an element outside the trigger, panel, and owned nested
+              overlays. Defaults to <code>false</code>.
+            </td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-popover&gt;</code></td>
             <td><code>restoreFocus</code></td>
             <td><code>boolean</code></td>
             <td>Restores focus to trigger/previous element after close.</td>
@@ -57,8 +71,11 @@
           <tr>
             <td><code>&lt;tng-popover&gt;</code></td>
             <td><code>autoFocus</code></td>
-            <td><code>'first-focusable' | 'panel' | 'none'</code></td>
-            <td>Controls what receives focus when the panel opens.</td>
+            <td><code>boolean | 'first-focusable' | 'panel' | 'none'</code></td>
+            <td>
+              Controls what receives focus when the panel opens. <code>true</code> maps to
+              <code>'first-focusable'</code>; <code>false</code> maps to <code>'none'</code>.
+            </td>
           </tr>
           <tr>
             <td><code>&lt;tng-popover&gt;</code></td>
@@ -67,18 +84,39 @@
               <code>'top' | 'right' | 'bottom' | 'left'</code>,
               <code>'start' | 'center' | 'end'</code>
             </td>
-            <td>Placement hooks exposed via <code>data-side</code> and <code>data-align</code>.</td>
+            <td>
+              Requested anchored placement. The resolved placement is exposed via
+              <code>data-side</code> and <code>data-align</code>.
+            </td>
           </tr>
           <tr>
             <td><code>&lt;tng-popover&gt;</code></td>
-            <td><code>panelRole</code>, <code>ariaLabel</code>, <code>ariaHasPopup</code></td>
-            <td><code>'dialog' | 'menu' | 'listbox' | 'region' | 'none'</code>, <code>string</code></td>
-            <td>ARIA contract for panel semantics and trigger <code>aria-haspopup</code>.</td>
+            <td><code>offset</code>, <code>collisionPadding</code></td>
+            <td><code>number</code></td>
+            <td>
+              Controls trigger distance and minimum viewport clearance while flipping and shifting.
+            </td>
+          </tr>
+          <tr>
+            <td><code>&lt;tng-popover&gt;</code></td>
+            <td>
+              <code>panelRole</code>, <code>panelAriaLabel</code>, <code>panelAriaLabelledby</code>,
+              <code>ariaHasPopup</code>
+            </td>
+            <td>
+              <code>'dialog' | 'menu' | 'listbox' | 'region' | 'none'</code>, <code>string</code>
+            </td>
+            <td>ARIA contract for panel semantics and the linked trigger.</td>
           </tr>
           <tr>
             <td><code>&lt;tng-popover&gt;</code></td>
             <td><code>closed</code></td>
-            <td><code>'escape' | 'outside-pointer' | 'programmatic' | 'trigger-toggle'</code></td>
+            <td>
+              <code
+                >'escape' | 'focus-outside' | 'outside-pointer' | 'programmatic' |
+                'trigger-toggle'</code
+              >
+            </td>
             <td>Close reason payload for analytics and flow state tracking.</td>
           </tr>
         </tbody>
@@ -100,11 +138,14 @@
         <tbody>
           <tr>
             <td><code>tngPopover</code></td>
-            <td>Root state machine for open/close, dismissal, placement, and accessibility wiring.</td>
+            <td>
+              Root state machine for open/close, dismissal, placement, and accessibility wiring.
+            </td>
             <td>
               <code>open</code>, <code>defaultOpen</code>, <code>closeOnEscape</code>,
-              <code>closeOnOutsidePointer</code>, <code>autoFocus</code>, <code>side</code>,
-              <code>align</code>, <code>openChange</code>, <code>closed</code>
+              <code>closeOnFocusOutside</code>, <code>closeOnOutsidePointer</code>,
+              <code>autoFocus</code>, <code>side</code>, <code>align</code>,
+              <code>openChange</code>, <code>closed</code>
             </td>
           </tr>
           <tr>
@@ -119,7 +160,9 @@
           </tr>
           <tr>
             <td><code>tngPopoverClose</code></td>
-            <td>Closes the popover when clicked and emits reason through root <code>closed</code>.</td>
+            <td>
+              Closes the popover when clicked and emits reason through root <code>closed</code>.
+            </td>
             <td><code>[tngPopoverClose]</code> close reason (optional)</td>
           </tr>
         </tbody>
@@ -135,6 +178,10 @@
       <li>
         Outside pointer interactions close when <code>closeOnOutsidePointer</code> is enabled and
         target is outside the popover root.
+      </li>
+      <li>
+        Focus leaving the complete owned overlay tree closes only when
+        <code>closeOnFocusOutside</code> is enabled.
       </li>
       <li>Focus restore after close is controlled by <code>restoreFocus</code>.</li>
       <li>Popover does not trap focus by default; <code>Tab</code> can move outside the panel.</li>

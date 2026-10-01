@@ -1,6 +1,9 @@
 import { expect, it } from 'vitest';
 import { createOverlayRuntime, type TngOverlayRuntime } from './overlay-runtime';
-import type { TngOverlayDismissReason } from '../layer-stack/layer-stack.types';
+import type {
+  TngOverlayDismissReason,
+  TngOverlayLayer,
+} from '../layer-stack/layer-stack.types';
 
 type TngDismissEvent = Readonly<{
   id: string;
@@ -9,6 +12,7 @@ type TngDismissEvent = Readonly<{
 
 type TngCreateLayerOptions = Readonly<{
   containsTarget: (target: unknown, path: readonly unknown[]) => boolean;
+  dismissOnFocusOutside?: boolean;
   id: string;
   onDismiss: (event: TngDismissEvent) => void;
 }>;
@@ -16,13 +20,10 @@ type TngCreateLayerOptions = Readonly<{
 function createLayer(
   runtime: TngOverlayRuntime,
   options: TngCreateLayerOptions,
-): Readonly<{
-  containsTarget: (target: unknown, path: readonly unknown[]) => boolean;
-  id: string;
-  onDismiss: (reason: TngOverlayDismissReason) => void;
-}> {
+): TngOverlayLayer {
   return {
     containsTarget: options.containsTarget,
+    dismissOnFocusOutside: options.dismissOnFocusOutside,
     id: options.id,
     onDismiss: (reason: TngOverlayDismissReason): void => {
       options.onDismiss({ id: options.id, reason });
@@ -30,6 +31,25 @@ function createLayer(
     },
   };
 }
+
+it('keeps outside focus opt-in and dispatches a distinct reason', () => {
+  const runtime = createOverlayRuntime();
+  const dismissEvents: TngDismissEvent[] = [];
+  runtime.registerLayer(
+    createLayer(runtime, {
+      containsTarget: containsNever,
+      dismissOnFocusOutside: true,
+      id: 'popover',
+      onDismiss: (event): void => {
+        dismissEvents.push(event);
+      },
+    }),
+  );
+
+  runtime.dispatchFocusIn({ target: 'outside' });
+
+  expect(dismissEvents).toEqual([{ id: 'popover', reason: 'focus-outside' }]);
+});
 
 function containsNever(): boolean {
   return false;

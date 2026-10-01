@@ -15,6 +15,8 @@ describe('popover registry item', () => {
     expect(popoverFile).toBeDefined();
     expect(popoverFile?.content).toContain("selector: 'tng-popover'");
     expect(popoverFile?.content).toContain("from './tng-popover-primitive';");
+    expect(popoverFile?.content).toContain('closeOnFocusOutside');
+    expect(popoverFile?.content).toContain("this.requestClose('focus-outside')");
     expect(popoverFile?.content).not.toContain('@tailng-ui/cdk');
 
     const primitiveFile = popoverRegistryItem.files.find((file) =>
@@ -22,6 +24,7 @@ describe('popover registry item', () => {
     );
     expect(primitiveFile).toBeDefined();
     expect(primitiveFile?.content).toContain('createPopoverId');
+    expect(primitiveFile?.content).toContain("| 'focus-outside'");
 
     const indexFile = popoverRegistryItem.files.find((file) =>
       file.path.endsWith('tailng-ui/popover/index.ts'),

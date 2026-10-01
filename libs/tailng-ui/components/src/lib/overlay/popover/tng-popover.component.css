@@ -1,49 +1,32 @@
 :host {
-  display: inline-flex;
+  display: block;
+  left: 0;
+  max-width: calc(100vw - 1rem);
+  position: fixed;
+  top: 0;
+}
+
+:host([data-positioning-state='pending']) {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .tng-popover-root {
-  display: inline-flex;
-  position: relative;
-}
-
-.tng-popover-trigger {
-  align-items: center;
-  appearance: none;
-  background: var(--tng-semantic-background-surface);
-  border: 1px solid var(--tng-semantic-border-strong);
-  border-radius: var(--tng-popover-radius, var(--tng-radius-control, 0.5rem));
-  color: var(--tng-semantic-foreground-primary);
-  cursor: pointer;
-  display: inline-flex;
-  font-family: inherit;
-  font-size: var(--tng-text-body, 0.875rem);
-  font-weight: var(--tng-font-weight-semibold, 600);
-  gap: 0.4rem;
-  min-height: var(--tng-control-height-md, 2.5rem);
-  padding: 0 0.85rem;
-}
-
-.tng-popover-trigger:focus-visible {
-  box-shadow: var(--tng-popover-focus-ring, var(--tng-focus-ring, 0 0 0 3px var(--tng-semantic-focus-ring)));
-  outline: none;
+  display: block;
 }
 
 .tng-popover-panel {
   background: var(--tng-semantic-background-surface);
   border: 1px solid var(--tng-semantic-border-strong);
   border-radius: var(--tng-popover-panel-radius, var(--tng-radius-panel, 0.75rem));
-  box-shadow: 0 18px 28px color-mix(in srgb, var(--tng-semantic-foreground-primary) 18%, transparent);
+  box-shadow: 0 18px 28px
+    color-mix(in srgb, var(--tng-semantic-foreground-primary) 18%, transparent);
   color: var(--tng-semantic-foreground-primary);
   display: grid;
   gap: 0.75rem;
-  left: 0;
-  margin-top: 0.45rem;
-  min-width: 14rem;
+  max-width: min(28rem, calc(100vw - 1rem));
+  min-width: min(14rem, calc(100vw - 1rem));
   padding: 0.85rem;
-  position: absolute;
-  top: 100%;
-  z-index: 60;
 }
 
 .tng-popover-panel[hidden] {
@@ -51,6 +34,9 @@
 }
 
 .tng-popover-panel:focus-visible {
-  box-shadow: var(--tng-popover-focus-ring, var(--tng-focus-ring, 0 0 0 3px var(--tng-semantic-focus-ring)));
+  box-shadow: var(
+    --tng-popover-focus-ring,
+    var(--tng-focus-ring, 0 0 0 3px var(--tng-semantic-focus-ring))
+  );
   outline: none;
 }

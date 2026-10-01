@@ -8,10 +8,11 @@ import { DocsOwnableInstallSectionComponent } from '../../../../shared/ownable-i
 })
 export class OwnablePopoverPageComponent {
   protected readonly usageCode = [
-    '<tng-popover triggerLabel="Project actions">',
+    '<tng-popover #popover="tngPopover">',
     '  <p>Popover body content.</p>',
     '  <button type="button">Apply</button>',
     '</tng-popover>',
+    '<button type="button" [tngPopoverTriggerFor]="popover">Project actions</button>',
     '',
   ].join('\n');
 }

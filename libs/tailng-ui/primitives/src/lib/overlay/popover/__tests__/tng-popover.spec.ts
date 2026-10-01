@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { afterEach, describe, expect, it } from 'vitest';
 import type { TngOverlayScrollStrategy } from '@tailng-ui/cdk';
+import { afterEach, describe, expect, it } from 'vitest';
 import {
   TngPopover,
   TngPopoverClose,
@@ -19,7 +19,7 @@ function getByTestId<T extends Element>(
   fixture: { nativeElement: HTMLElement },
   testId: string,
 ): T {
-  const element = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`) as T | null;
+  const element = fixture.nativeElement.querySelector<T>(`[data-testid="${testId}"]`);
   if (element === null) {
     throw new Error(`Expected element [data-testid="${testId}"] to exist.`);
   }
@@ -64,6 +64,7 @@ async function settle(fixture: {
       [defaultOpen]="defaultOpen()"
       [disabled]="disabled()"
       [closeOnEscape]="closeOnEscape()"
+      [closeOnFocusOutside]="closeOnFocusOutside()"
       [closeOnOutsidePointer]="closeOnOutsidePointer()"
       [restoreFocus]="restoreFocus()"
       [autoFocus]="autoFocus()"
@@ -72,6 +73,7 @@ async function settle(fixture: {
       [ariaHasPopup]="ariaHasPopup()"
       [panelRole]="panelRole()"
       [ariaLabel]="ariaLabel()"
+      [ariaLabelledby]="ariaLabelledby()"
       (openChange)="openChanges.push($event)"
       (closed)="closeReasons.push($event)"
     >
@@ -88,20 +90,22 @@ async function settle(fixture: {
   `,
 })
 class UncontrolledPopoverHarnessComponent {
-  readonly defaultOpen = signal(false);
-  readonly disabled = signal(false);
-  readonly closeOnEscape = signal(true);
-  readonly closeOnOutsidePointer = signal(true);
-  readonly restoreFocus = signal(true);
-  readonly autoFocus = signal<TngPopoverAutoFocus>('first-focusable');
-  readonly side = signal<TngPopoverSide>('bottom');
-  readonly align = signal<TngPopoverAlign>('start');
-  readonly ariaHasPopup = signal<TngPopoverAriaHasPopup>('dialog');
-  readonly panelRole = signal<TngPopoverPanelRole>('dialog');
-  readonly ariaLabel = signal<string | null>('Quick actions');
+  public readonly defaultOpen = signal(false);
+  public readonly disabled = signal(false);
+  public readonly closeOnEscape = signal(true);
+  public readonly closeOnFocusOutside = signal(false);
+  public readonly closeOnOutsidePointer = signal(true);
+  public readonly restoreFocus = signal(true);
+  public readonly autoFocus = signal<TngPopoverAutoFocus>('first-focusable');
+  public readonly side = signal<TngPopoverSide>('bottom');
+  public readonly align = signal<TngPopoverAlign>('start');
+  public readonly ariaHasPopup = signal<TngPopoverAriaHasPopup>('dialog');
+  public readonly panelRole = signal<TngPopoverPanelRole>('dialog');
+  public readonly ariaLabel = signal<string | null>('Quick actions');
+  public readonly ariaLabelledby = signal<string | null>(null);
 
-  readonly openChanges: boolean[] = [];
-  readonly closeReasons: TngPopoverCloseReason[] = [];
+  public readonly openChanges: boolean[] = [];
+  public readonly closeReasons: TngPopoverCloseReason[] = [];
 }
 
 @Component({
@@ -124,9 +128,9 @@ class UncontrolledPopoverHarnessComponent {
   `,
 })
 class ControlledPopoverHarnessComponent {
-  readonly open = signal(true);
-  readonly openChanges: boolean[] = [];
-  readonly closeReasons: TngPopoverCloseReason[] = [];
+  public readonly open = signal(true);
+  public readonly openChanges: boolean[] = [];
+  public readonly closeReasons: TngPopoverCloseReason[] = [];
 }
 
 @Component({
@@ -152,9 +156,9 @@ class ControlledPopoverHarnessComponent {
   `,
 })
 class ScrollStrategyPopoverHarnessComponent {
-  readonly open = signal(true);
-  readonly scrollStrategy = signal<TngOverlayScrollStrategy>('block');
-  readonly closeReasons: TngPopoverCloseReason[] = [];
+  public readonly open = signal(true);
+  public readonly scrollStrategy = signal<TngOverlayScrollStrategy>('block');
+  public readonly closeReasons: TngPopoverCloseReason[] = [];
 }
 
 @Component({
@@ -198,8 +202,8 @@ class ScrollStrategyPopoverHarnessComponent {
   `,
 })
 class StackedPopoverHarnessComponent {
-  readonly firstCloseReasons: TngPopoverCloseReason[] = [];
-  readonly secondCloseReasons: TngPopoverCloseReason[] = [];
+  public readonly firstCloseReasons: TngPopoverCloseReason[] = [];
+  public readonly secondCloseReasons: TngPopoverCloseReason[] = [];
 }
 
 describe('tng-popover primitive behavior', () => {
@@ -252,14 +256,16 @@ describe('tng-popover primitive behavior', () => {
     }).createComponent(UncontrolledPopoverHarnessComponent);
     fixture.componentInstance.defaultOpen.set(true);
     fixture.componentInstance.panelRole.set('menu');
-    fixture.componentInstance.ariaLabel.set('Project actions');
+    fixture.componentInstance.ariaLabel.set(null);
+    fixture.componentInstance.ariaLabelledby.set('project-actions-heading');
 
     await settle(fixture);
 
     const panel = getByTestId<HTMLElement>(fixture, 'panel');
     expect(panel.getAttribute('hidden')).toBeNull();
     expect(panel.getAttribute('role')).toBe('menu');
-    expect(panel.getAttribute('aria-label')).toBe('Project actions');
+    expect(panel.getAttribute('aria-label')).toBeNull();
+    expect(panel.getAttribute('aria-labelledby')).toBe('project-actions-heading');
   });
 
   it('trigger toggles uncontrolled open/close and emits reasons', async () => {
@@ -386,6 +392,37 @@ describe('tng-popover primitive behavior', () => {
 
     expect(fixture.componentInstance.closeReasons).toEqual([]);
     expect(getByTestId<HTMLElement>(fixture, 'panel').getAttribute('hidden')).toBeNull();
+  });
+
+  it('keeps the popover open when focus moves outside by default', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledPopoverHarnessComponent],
+    }).createComponent(UncontrolledPopoverHarnessComponent);
+    fixture.componentInstance.defaultOpen.set(true);
+    fixture.componentInstance.autoFocus.set('none');
+    await settle(fixture);
+
+    getByTestId<HTMLButtonElement>(fixture, 'outside').focus();
+    await settle(fixture);
+
+    expect(fixture.componentInstance.closeReasons).toEqual([]);
+    expect(getByTestId<HTMLElement>(fixture, 'panel').getAttribute('hidden')).toBeNull();
+  });
+
+  it('closes with focus-outside when explicitly enabled', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledPopoverHarnessComponent],
+    }).createComponent(UncontrolledPopoverHarnessComponent);
+    fixture.componentInstance.defaultOpen.set(true);
+    fixture.componentInstance.autoFocus.set('none');
+    fixture.componentInstance.closeOnFocusOutside.set(true);
+    await settle(fixture);
+
+    getByTestId<HTMLButtonElement>(fixture, 'outside').focus();
+    await settle(fixture);
+
+    expect(fixture.componentInstance.closeReasons).toEqual(['focus-outside']);
+    expect(getByTestId<HTMLElement>(fixture, 'panel').getAttribute('hidden')).toBe('');
   });
 
   it('closes when the page scrolls while open', async () => {

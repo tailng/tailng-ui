@@ -1,11 +1,4 @@
-import {
-  booleanAttribute,
-  Component,
-  forwardRef,
-  input,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { booleanAttribute, Component, forwardRef, input, signal, viewChild } from '@angular/core';
 import type { ElementRef } from '@angular/core';
 import {
   coerceTngPressAriaHasPopup,
@@ -46,6 +39,8 @@ export class TngButtonComponent implements TngTriggerTarget {
   public readonly ariaPressed = input<boolean | null, NullableBooleanInput>(null, {
     transform: coerceTngPressNullableBoolean,
   });
+  public readonly ariaLabel = input<string | null>(null);
+  public readonly ariaLabelledby = input<string | null>(null);
   public readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
@@ -56,6 +51,7 @@ export class TngButtonComponent implements TngTriggerTarget {
   protected readonly triggerAriaControls = signal<string | null>(null);
   protected readonly triggerAriaExpanded = signal<boolean | null>(null);
   protected readonly triggerAriaHasPopup = signal<TngPressAriaHasPopup | null>(null);
+  protected readonly triggerDisabled = signal<boolean | null>(null);
   protected readonly buttonRef = viewChild<ElementRef<HTMLButtonElement>>('buttonRef');
 
   public getTngTriggerElement(): HTMLButtonElement | null {
@@ -75,6 +71,9 @@ export class TngButtonComponent implements TngTriggerTarget {
       this.triggerAriaHasPopup.set(coerceTngPressAriaHasPopup(attributes.ariaHasPopup));
     }
 
+    if ('disabled' in attributes) {
+      this.triggerDisabled.set(attributes.disabled ?? null);
+    }
   }
 }
 export { TngButtonComponent as TngButton };

@@ -80,6 +80,35 @@ class OverlayLayerStack implements TngOverlayLayerStack {
   }
 
   /**
+   * Outside focus is opt-in. Containment still protects the complete owned
+   * overlay tree, while ineligible top layers may fall through to a parent.
+   */
+  public resolveFocusOutsideDismissTarget(
+    target: unknown,
+    path: readonly unknown[],
+  ): TngOverlayLayer | null {
+    const startIndex = this.resolveModalFloorIndex();
+
+    for (let index = this.layers.length - 1; index >= startIndex; index -= 1) {
+      const entry = this.layers[index];
+      const layer = entry?.layer;
+      if (!layer) continue;
+
+      if (layer.containsTarget?.(target, path) === true) {
+        return null;
+      }
+
+      if (layer.dismissOnFocusOutside !== true) {
+        continue;
+      }
+
+      return layer;
+    }
+
+    return null;
+  }
+
+  /**
    * Outside pointer should dismiss the first eligible layer from the top
    * that does NOT contain the target/path.
    *

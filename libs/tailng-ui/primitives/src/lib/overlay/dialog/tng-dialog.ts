@@ -586,6 +586,7 @@ export class TngDialog implements OnDestroy, OnInit {
         return path.includes(hostElement);
       },
       dismissOnEscape: this.shouldCloseFromEscape(),
+      dismissOnFocusOutside: false,
       dismissOnOutsidePointer: false,
       id: this.instanceId,
       modal: true,

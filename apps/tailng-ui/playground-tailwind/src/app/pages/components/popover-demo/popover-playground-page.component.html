@@ -3,25 +3,32 @@
     <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
       <h2 class="text-lg font-semibold">Quick Actions</h2>
       <tng-popover
-        triggerLabel="Project Actions"
+        #actionsPopover="tngPopoverComponent"
         [open]="actionsPopoverOpen()"
         (openChange)="onActionsPopoverChange($event)"
       >
         <div class="space-y-1">
           @for (action of actions; track action.id) {
-            <button type="button" class="block w-full rounded px-2 py-2 text-left text-sm hover:bg-tng-bg-muted" (click)="onActionPick(action.id)">
+            <button
+              type="button"
+              class="block w-full rounded px-2 py-2 text-left text-sm hover:bg-tng-bg-muted"
+              (click)="onActionPick(action.id)"
+            >
               <p class="font-medium m-0">{{ action.label }}</p>
               <p class="text-tng-fg-secondary text-xs m-0 mt-0.5">{{ action.description }}</p>
             </button>
           }
         </div>
       </tng-popover>
+      <tng-button [tngPopoverTriggerFor]="actionsPopover" appearance="outline">
+        Project Actions
+      </tng-button>
     </section>
 
     <section class="rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-5 space-y-3">
       <h2 class="text-lg font-semibold">Release Info</h2>
       <tng-popover
-        triggerLabel="View Details"
+        #detailsPopover="tngPopoverComponent"
         [open]="detailsPopoverOpen()"
         (openChange)="onDetailsPopoverChange($event)"
       >
@@ -34,6 +41,9 @@
           </ul>
         </div>
       </tng-popover>
+      <tng-button [tngPopoverTriggerFor]="detailsPopover" appearance="outline">
+        View Details
+      </tng-button>
     </section>
   </div>
 

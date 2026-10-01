@@ -1,5 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { TngButtonComponent, TngPopoverComponent } from '@tailng-ui/components';
+import {
+  TngButtonComponent,
+  TngPopoverComponent,
+  TngPopoverTriggerFor,
+} from '@tailng-ui/components';
 
 type TngQuickAction = Readonly<{
   description: string;
@@ -27,7 +31,7 @@ const quickActions: readonly TngQuickAction[] = Object.freeze([
 
 @Component({
   selector: 'app-popover-playground-page',
-  imports: [TngButtonComponent, TngPopoverComponent],
+  imports: [TngButtonComponent, TngPopoverComponent, TngPopoverTriggerFor],
   templateUrl: './popover-playground-page.component.html',
   styleUrl: './popover-playground-page.component.css',
 })
@@ -49,7 +53,9 @@ export class PopoverPlaygroundPageComponent {
     this.selectedAction.set(null);
     this.actionsPopoverOpen.set(false);
     this.detailsPopoverOpen.set(false);
-    this.lastInteraction.set(selectedAction === null ? 'Selection was already clear.' : 'Selection cleared.');
+    this.lastInteraction.set(
+      selectedAction === null ? 'Selection was already clear.' : 'Selection cleared.',
+    );
   }
 
   public onActionsPopoverChange(isOpen: boolean): void {

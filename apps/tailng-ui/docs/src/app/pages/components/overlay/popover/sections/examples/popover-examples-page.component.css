@@ -14,13 +14,6 @@
   margin: 0;
 }
 
-.popover-examples-subtitle {
-  color: var(--tng-semantic-foreground-primary);
-  font-size: 1.05rem;
-  font-weight: 700;
-  margin: 0;
-}
-
 .popover-examples-lead {
   color: var(--tng-semantic-foreground-secondary);
   margin: 0;
@@ -124,12 +117,6 @@
   margin: 0;
 }
 
-.popover-nested-grid {
-  display: grid;
-  gap: 0.85rem;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
-}
-
 .popover-nested-demo {
   align-items: start;
   background: color-mix(in srgb, var(--tng-semantic-background-surface) 72%, transparent);
@@ -169,14 +156,27 @@
   --tng-menu-border: var(--tng-semantic-border-strong);
   --tng-menu-focus-ring: var(--tng-semantic-focus-ring);
   --tng-menu-fg: var(--tng-semantic-foreground-primary);
-  --tng-menu-item-bg-hover: color-mix(in srgb, var(--tng-menu-brand) 10%, var(--tng-semantic-background-muted));
-  --tng-menu-item-bg-active: color-mix(in srgb, var(--tng-menu-brand) 16%, var(--tng-semantic-background-muted));
-  --tng-menu-item-bg-selected: color-mix(in srgb, var(--tng-menu-brand) 20%, var(--tng-semantic-background-muted));
+  --tng-menu-item-bg-hover: color-mix(
+    in srgb,
+    var(--tng-menu-brand) 10%,
+    var(--tng-semantic-background-muted)
+  );
+  --tng-menu-item-bg-active: color-mix(
+    in srgb,
+    var(--tng-menu-brand) 16%,
+    var(--tng-semantic-background-muted)
+  );
+  --tng-menu-item-bg-selected: color-mix(
+    in srgb,
+    var(--tng-menu-brand) 20%,
+    var(--tng-semantic-background-muted)
+  );
   --tng-menu-item-fg: var(--tng-semantic-foreground-primary);
   --tng-menu-item-fg-selected: color-mix(in srgb, var(--tng-menu-brand) 82%, var(--tng-menu-fg));
   --tng-menu-padding: 0.35rem;
   --tng-menu-radius: 0.65rem;
-  --tng-menu-shadow: 0 18px 28px color-mix(in srgb, var(--tng-semantic-foreground-primary) 18%, transparent);
+  --tng-menu-shadow: 0 18px 28px
+    color-mix(in srgb, var(--tng-semantic-foreground-primary) 18%, transparent);
   --tng-menu-z-overlay: 80;
 }
 

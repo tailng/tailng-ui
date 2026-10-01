@@ -1762,6 +1762,7 @@ class DatepickerController<TDate> implements TngDatepickerController<TDate> {
         (target instanceof Node && this.triggerElement?.contains(target) === true) ||
         (target instanceof Node && this.anchorElement?.contains(target) === true),
       dismissOnEscape: this.config.closeOnEscape,
+      dismissOnFocusOutside: this.config.closeOnOutsideClick,
       dismissOnOutsidePointer: this.config.closeOnOutsideClick,
       id: `${this.instanceId}-layer`,
       modal: false,

@@ -23,11 +23,13 @@
       >
         <div class="popover-example-stage">
           <tng-popover
-            triggerLabel="Delete release branch"
+            #plainPopover="tngPopoverComponent"
             [open]="plainOpen()"
             (openChange)="plainOpen.set($event)"
           >
-            <p class="popover-example-copy">This action removes branch automation and cannot be undone.</p>
+            <p class="popover-example-copy">
+              This action removes branch automation and cannot be undone.
+            </p>
             <div class="popover-action-row">
               <button type="button" class="popover-example-secondary" (click)="onPlainCancel()">
                 Cancel
@@ -37,6 +39,13 @@
               </button>
             </div>
           </tng-popover>
+          <button
+            type="button"
+            class="popover-example-danger"
+            [tngPopoverTriggerFor]="plainPopover"
+          >
+            Delete release branch
+          </button>
         </div>
         <p class="popover-example-state">result: {{ plainResult() }}</p>
       </ng-template>
@@ -48,10 +57,12 @@
         panelTitle="Wrapper deployment confirmation"
         [codeTabs]="tailwindCodeTabs"
       >
-        <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+        <div
+          class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
           <div class="popover-example-stage">
             <tng-popover
-              triggerLabel="Approve deployment"
+              #tailwindPopover="tngPopoverComponent"
               [open]="tailwindOpen()"
               (openChange)="tailwindOpen.set($event)"
             >
@@ -75,6 +86,13 @@
                 </button>
               </div>
             </tng-popover>
+            <button
+              type="button"
+              class="rounded-lg border border-emerald-600 bg-emerald-600 px-3 py-2 text-sm font-semibold text-white"
+              [tngPopoverTriggerFor]="tailwindPopover"
+            >
+              Approve deployment
+            </button>
           </div>
         </div>
         <p class="popover-example-state">result: {{ tailwindResult() }}</p>
@@ -82,67 +100,262 @@
     </app-docs-example-tabs-section>
   </section>
 
-  <section id="nested-overlays" class="popover-examples-block">
-    <h3 class="popover-examples-subtitle">Nested interactive overlays</h3>
-    <p class="popover-examples-lead">
-      Select, multiselect, and menu interactions run inside a popover without dismissing the
-      parent popover.
-    </p>
+  <section id="nested-select-overlay" class="popover-examples-block">
+    <app-docs-example-tabs-section
+      heading="Nested select overlay"
+      description="Open a select inside a popover without dismissing the parent overlay."
+      ariaLabel="Nested select popover examples"
+      tabListAriaLabel="Nested select popover style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Select inside a popover"
+        [codeTabs]="nestedSelectPlainCodeTabs"
+        [codeVisibleByDefault]="true"
+      >
+        <div class="popover-nested-demo">
+          <tng-popover #plainRolePopover="tngPopoverComponent" [autoFocus]="true">
+            <div class="popover-nested-panel">
+              <p class="popover-nested-label">Role</p>
+              <tng-select
+                [options]="nestedRoleOptions"
+                [placeholder]="'Choose role'"
+                [value]="nestedSelectPlainValue()"
+                (valueChange)="nestedSelectPlainValue.set($event)"
+              />
+              <p class="popover-example-state">selected: {{ nestedSelectPlainValue() }}</p>
+            </div>
+          </tng-popover>
+          <button
+            type="button"
+            class="popover-example-secondary"
+            [tngPopoverTriggerFor]="plainRolePopover"
+          >
+            Role filter
+          </button>
+        </div>
+      </ng-template>
 
-    <div class="popover-nested-grid">
-      <div class="popover-nested-demo">
-        <tng-popover triggerLabel="Role filter" [autoFocus]="'none'" [restoreFocus]="false">
-          <div class="popover-nested-panel">
-            <p class="popover-nested-label">Role</p>
-            <tng-select
-              [options]="nestedRoleOptions"
-              [placeholder]="'Choose role'"
-              [value]="nestedSelectValue()"
-              (valueChange)="nestedSelectValue.set($event)"
-            />
-            <p class="popover-example-state">selected: {{ nestedSelectValue() }}</p>
-          </div>
-        </tng-popover>
-      </div>
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Select inside a popover"
+        [codeTabs]="nestedSelectTailwindCodeTabs"
+        [codeVisibleByDefault]="true"
+      >
+        <div
+          class="grid min-h-32 place-items-start rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-popover #tailwindRolePopover="tngPopoverComponent" [autoFocus]="true">
+            <div class="grid min-w-60 gap-3">
+              <p class="m-0 text-xs font-bold text-slate-900 dark:text-slate-100">Role</p>
+              <tng-select
+                [options]="nestedRoleOptions"
+                [placeholder]="'Choose role'"
+                [value]="nestedSelectTailwindValue()"
+                (valueChange)="nestedSelectTailwindValue.set($event)"
+              />
+              <p class="m-0 text-sm text-slate-600 dark:text-slate-300">
+                selected: {{ nestedSelectTailwindValue() }}
+              </p>
+            </div>
+          </tng-popover>
+          <button
+            type="button"
+            class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:text-slate-100"
+            [tngPopoverTriggerFor]="tailwindRolePopover"
+          >
+            Role filter
+          </button>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
 
-      <div class="popover-nested-demo">
-        <tng-popover triggerLabel="Notify channels" [autoFocus]="'none'" [restoreFocus]="false">
-          <div class="popover-nested-panel">
-            <p class="popover-nested-label">Channels</p>
-            <tng-multiselect
-              [options]="nestedChannelOptions"
-              [placeholder]="'Choose channels'"
-              [value]="nestedMultiSelectValue()"
-              (valueChange)="nestedMultiSelectValue.set($event)"
-            />
-            <p class="popover-example-state">selected: {{ nestedMultiSelectValue().join(', ') || 'none' }}</p>
-          </div>
-        </tng-popover>
-      </div>
+  <section id="nested-multiselect-overlay" class="popover-examples-block">
+    <app-docs-example-tabs-section
+      heading="Nested multiselect overlay"
+      description="Choose multiple values from a nested overlay while the parent popover remains open."
+      ariaLabel="Nested multiselect popover examples"
+      tabListAriaLabel="Nested multiselect popover style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Multiselect inside a popover"
+        [codeTabs]="nestedMultiSelectPlainCodeTabs"
+        [codeVisibleByDefault]="true"
+      >
+        <div class="popover-nested-demo">
+          <tng-popover #plainChannelsPopover="tngPopoverComponent" [autoFocus]="true">
+            <div class="popover-nested-panel">
+              <p class="popover-nested-label">Channels</p>
+              <tng-multiselect
+                [options]="nestedChannelOptions"
+                [placeholder]="'Choose channels'"
+                [value]="nestedMultiSelectPlainValue()"
+                (valueChange)="nestedMultiSelectPlainValue.set($event)"
+              />
+              <p class="popover-example-state">
+                selected: {{ nestedMultiSelectPlainValue().join(', ') || 'none' }}
+              </p>
+            </div>
+          </tng-popover>
+          <button
+            type="button"
+            class="popover-example-secondary"
+            [tngPopoverTriggerFor]="plainChannelsPopover"
+          >
+            Notify channels
+          </button>
+        </div>
+      </ng-template>
 
-      <div class="popover-nested-demo">
-        <tng-popover triggerLabel="Menu actions" [autoFocus]="'none'" [restoreFocus]="false">
-          <div class="popover-nested-panel">
-            <p class="popover-nested-label">Project action</p>
-            <button type="button" class="popover-example-secondary" [tngMenuTriggerFor]="nestedMenu">
-              Open menu
-            </button>
-            <tng-menu
-              #nestedMenu="tngMenu"
-              ariaLabel="Project actions"
-              (tngMenuSelect)="onNestedMenuSelect($event)"
-            >
-              <button type="button" tngMenuItem [tngMenuItemValue]="'Duplicate project'">
-                Duplicate project
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Multiselect inside a popover"
+        [codeTabs]="nestedMultiSelectTailwindCodeTabs"
+        [codeVisibleByDefault]="true"
+      >
+        <div
+          class="grid min-h-32 place-items-start rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-popover #tailwindChannelsPopover="tngPopoverComponent" [autoFocus]="true">
+            <div class="grid min-w-60 gap-3">
+              <p class="m-0 text-xs font-bold text-slate-900 dark:text-slate-100">Channels</p>
+              <tng-multiselect
+                [options]="nestedChannelOptions"
+                [placeholder]="'Choose channels'"
+                [value]="nestedMultiSelectTailwindValue()"
+                (valueChange)="nestedMultiSelectTailwindValue.set($event)"
+              />
+              <p class="m-0 text-sm text-slate-600 dark:text-slate-300">
+                selected: {{ nestedMultiSelectTailwindValue().join(', ') || 'none' }}
+              </p>
+            </div>
+          </tng-popover>
+          <button
+            type="button"
+            class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:text-slate-100"
+            [tngPopoverTriggerFor]="tailwindChannelsPopover"
+          >
+            Notify channels
+          </button>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section id="nested-menu-overlay" class="popover-examples-block">
+    <app-docs-example-tabs-section
+      heading="Nested menu overlay"
+      description="Open a menu from inside the popover and keep parent dismissal boundaries intact."
+      ariaLabel="Nested menu popover examples"
+      tabListAriaLabel="Nested menu popover style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Menu inside a popover"
+        [codeTabs]="nestedMenuPlainCodeTabs"
+        [codeVisibleByDefault]="true"
+      >
+        <div class="popover-nested-demo">
+          <tng-popover #plainMenuPopover="tngPopoverComponent" [autoFocus]="true">
+            <div class="popover-nested-panel">
+              <p class="popover-nested-label">Project action</p>
+              <button
+                type="button"
+                class="popover-example-secondary"
+                [tngMenuTriggerFor]="plainNestedMenu"
+              >
+                Open menu
               </button>
-              <button type="button" tngMenuItem [tngMenuItemValue]="'Archive project'">
-                Archive project
+              <tng-menu
+                #plainNestedMenu="tngMenu"
+                ariaLabel="Project actions"
+                (tngMenuSelect)="onNestedMenuPlainSelect($event)"
+              >
+                <button type="button" tngMenuItem [tngMenuItemValue]="'Duplicate project'">
+                  Duplicate project
+                </button>
+                <button type="button" tngMenuItem [tngMenuItemValue]="'Archive project'">
+                  Archive project
+                </button>
+              </tng-menu>
+              <p class="popover-example-state">command: {{ nestedMenuPlainResult() }}</p>
+            </div>
+          </tng-popover>
+          <button
+            type="button"
+            class="popover-example-secondary"
+            [tngPopoverTriggerFor]="plainMenuPopover"
+          >
+            Menu actions
+          </button>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Menu inside a popover"
+        [codeTabs]="nestedMenuTailwindCodeTabs"
+        [codeVisibleByDefault]="true"
+      >
+        <div
+          class="grid min-h-32 place-items-start rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60"
+        >
+          <tng-popover #tailwindMenuPopover="tngPopoverComponent" [autoFocus]="true">
+            <div class="grid min-w-60 gap-3">
+              <p class="m-0 text-xs font-bold text-slate-900 dark:text-slate-100">Project action</p>
+              <button
+                type="button"
+                class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:text-slate-100"
+                [tngMenuTriggerFor]="tailwindNestedMenu"
+              >
+                Open menu
               </button>
-            </tng-menu>
-            <p class="popover-example-state">command: {{ nestedMenuResult() }}</p>
-          </div>
-        </tng-popover>
-      </div>
-    </div>
+              <tng-menu
+                #tailwindNestedMenu="tngMenu"
+                ariaLabel="Project actions"
+                (tngMenuSelect)="onNestedMenuTailwindSelect($event)"
+              >
+                <button type="button" tngMenuItem [tngMenuItemValue]="'Duplicate project'">
+                  Duplicate project
+                </button>
+                <button type="button" tngMenuItem [tngMenuItemValue]="'Archive project'">
+                  Archive project
+                </button>
+              </tng-menu>
+              <p class="m-0 text-sm text-slate-600 dark:text-slate-300">
+                command: {{ nestedMenuTailwindResult() }}
+              </p>
+            </div>
+          </tng-popover>
+          <button
+            type="button"
+            class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:text-slate-100"
+            [tngPopoverTriggerFor]="tailwindMenuPopover"
+          >
+            Menu actions
+          </button>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
   </section>
 </article>

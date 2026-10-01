@@ -33,13 +33,45 @@ it('resolves dismiss targets from top layer policies', () => {
 
   stack.register({
     dismissOnEscape: false,
+    dismissOnFocusOutside: false,
     dismissOnOutsidePointer: false,
     id: 'top',
     onDismiss: () => undefined,
   });
 
   expect(stack.resolveEscapeDismissTarget()).toBeNull();
+  expect(stack.resolveFocusOutsideDismissTarget(null, [])).toBeNull();
   expect(stack.resolveOutsidePointerDismissTarget(null, [])).toBeNull();
+});
+
+it('resolves outside focus only for explicitly opted-in layers', () => {
+  const stack = createOverlayLayerStack();
+
+  stack.register({
+    dismissOnFocusOutside: true,
+    id: 'parent',
+    onDismiss: () => undefined,
+  });
+  stack.register({
+    dismissOnFocusOutside: false,
+    id: 'child',
+    onDismiss: () => undefined,
+  });
+
+  expect(stack.resolveFocusOutsideDismissTarget('outside', ['outside'])?.id).toBe('parent');
+});
+
+it('does not dismiss an opted-in focus layer when focus enters that layer', () => {
+  const stack = createOverlayLayerStack();
+
+  stack.register({
+    containsTarget: (target) => target === 'inside',
+    dismissOnFocusOutside: true,
+    id: 'popover',
+    onDismiss: () => undefined,
+  });
+
+  expect(stack.resolveFocusOutsideDismissTarget('inside', ['inside'])).toBeNull();
 });
 
 it('supports top modal lookup', () => {

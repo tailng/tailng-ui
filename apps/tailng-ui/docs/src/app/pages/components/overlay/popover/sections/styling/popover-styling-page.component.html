@@ -9,16 +9,21 @@
     <h3>Core data attributes</h3>
     <ul>
       <li>
-        <code>[data-slot="popover"]</code> root with <code>data-open</code>, <code>data-state</code>,
-        <code>data-side</code>, <code>data-align</code>, and <code>data-disabled</code>.
+        <code>[data-slot="popover"]</code> root with <code>data-open</code>,
+        <code>data-state</code>, <code>data-side</code>, <code>data-align</code>, and
+        <code>data-disabled</code>.
       </li>
       <li>
         <code>[data-slot="popover-trigger"]</code> exposes <code>aria-expanded</code>,
         <code>aria-controls</code>, and matching <code>data-state</code>.
       </li>
       <li>
-        <code>[data-slot="popover-panel"]</code> carries <code>data-side</code>, <code>data-align</code>,
-        <code>data-state</code>, and <code>[hidden]</code> while closed.
+        <code>&lt;tng-popover&gt;</code> carries the resolved <code>data-side</code>,
+        <code>data-align</code>, and <code>data-state</code> after collision-aware positioning.
+      </li>
+      <li>
+        <code>[data-slot="popover-panel"]</code> carries panel state and <code>[hidden]</code> while
+        closed.
       </li>
       <li><code>[data-slot="popover-close"]</code> for explicit in-panel dismissal actions.</li>
     </ul>

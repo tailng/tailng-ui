@@ -11,6 +11,7 @@ import {
   type TngOverlayInteractionController,
   type TngOverlayInteractionDocument,
   type TngOverlayInteractionDomDocument,
+  type TngOverlayFocusEvent,
   type TngOverlayKeyboardEvent,
   type TngOverlayLayer,
   type TngOverlayLayerStack,
@@ -37,6 +38,7 @@ export type TngOverlayRuntimeOptions = Readonly<
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions -- A named interface prevents ng-packagr from inlining private secondary-entry-point paths.
 export interface TngOverlayRuntime {
   readonly clearLayers: () => void;
+  readonly dispatchFocusIn: (event: Readonly<TngOverlayFocusEvent>) => void;
   readonly dispatchKeydown: (event: Readonly<TngOverlayKeyboardEvent>) => void;
   readonly dispatchPointerDown: (event: Readonly<TngOverlayPointerEvent>) => void;
   readonly dismissById: (id: string, reason: TngOverlayDismissReason) => void;
@@ -77,6 +79,10 @@ class OverlayRuntime implements TngOverlayRuntime {
     for (const id of this.getLayerIds()) {
       this.unregisterLayer(id);
     }
+  }
+
+  public dispatchFocusIn(event: Readonly<TngOverlayFocusEvent>): void {
+    this.interaction.handleFocusIn(event);
   }
 
   public dispatchKeydown(event: Readonly<TngOverlayKeyboardEvent>): void {

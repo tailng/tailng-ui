@@ -418,6 +418,7 @@ export class TngTooltip implements OnDestroy, OnInit {
         return path.includes(hostElement);
       },
       dismissOnEscape: this.shouldCloseFromEscape(),
+      dismissOnFocusOutside: this.shouldCloseFromOutsidePointer(),
       dismissOnOutsidePointer: this.shouldCloseFromOutsidePointer(),
       id: this.instanceId,
       onDismiss: (reason: TngOverlayDismissReason): void => {

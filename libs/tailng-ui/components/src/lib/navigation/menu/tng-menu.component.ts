@@ -1,5 +1,6 @@
-import type { DoCheck} from '@angular/core';
+import type { DoCheck } from '@angular/core';
 import {
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   ElementRef,
@@ -8,7 +9,7 @@ import {
   ViewEncapsulation,
   inject,
   input,
-  signal
+  signal,
 } from '@angular/core';
 import {
   computeOverlayPosition,
@@ -26,6 +27,8 @@ import {
   type TngPortalDocument,
 } from '@tailng-ui/cdk';
 import {
+  clearOverlayOwnerId,
+  stampOverlayOwnerId,
   TNG_MENU_DEFER_HOST_FOCUS_UNTIL_POSITIONED,
   TngMenu as TngMenuPrimitive,
 } from '@tailng-ui/primitives';
@@ -137,6 +140,17 @@ function isInside(target: EventTarget | null, element: HTMLElement): boolean {
   return target instanceof Node && element.contains(target);
 }
 
+function isUsableAnchorRect(rect: Rect): boolean {
+  return (
+    Number.isFinite(rect.left) &&
+    Number.isFinite(rect.top) &&
+    Number.isFinite(rect.width) &&
+    Number.isFinite(rect.height) &&
+    rect.width >= 0.5 &&
+    rect.height >= 0.5
+  );
+}
+
 @Component({
   selector: 'tng-menu',
   providers: [{ provide: TNG_MENU_DEFER_HOST_FOCUS_UNTIL_POSITIONED, useValue: true }],
@@ -154,6 +168,7 @@ function isInside(target: EventTarget | null, element: HTMLElement): boolean {
 })
 export class TngMenuComponent implements DoCheck {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly primitive = inject<TngMenuPrimitive>(TngMenuPrimitive);
   private readonly destroyRef = inject(DestroyRef);
   private readonly ngZone = inject(NgZone);
@@ -185,6 +200,7 @@ export class TngMenuComponent implements DoCheck {
   private lastOpenState = false;
   private focusSyncQueued = false;
   private focusSyncAttempts = 0;
+  private invalidAnchorCloseHandle: number | null = null;
 
   private placeholder: Comment | null = null;
   private originalParent: Node | null = null;
@@ -240,6 +256,9 @@ export class TngMenuComponent implements DoCheck {
       this.detachPositioningListeners();
       this.restoreToPlaceholder();
       this.primitive.setExitPresenceActive(false);
+      if (this.invalidAnchorCloseHandle !== null) {
+        this.ownerWindow.clearTimeout(this.invalidAnchorCloseHandle);
+      }
       this.placeholder = null;
       this.originalParent = null;
     });
@@ -292,6 +311,10 @@ export class TngMenuComponent implements DoCheck {
     this.setPositioningPending(false);
     this.focusSyncAttempts = 0;
     this.focusSyncQueued = false;
+    if (this.invalidAnchorCloseHandle !== null) {
+      this.ownerWindow.clearTimeout(this.invalidAnchorCloseHandle);
+      this.invalidAnchorCloseHandle = null;
+    }
   }
 
   private handleFocusSyncWhenOpen(): void {
@@ -348,14 +371,39 @@ export class TngMenuComponent implements DoCheck {
       return;
     }
 
-    const finalOverlay = this.getOverlayRect(host);
     const anchor = rectFromClientRect(trigger.getBoundingClientRect());
+    if (!trigger.isConnected || !isUsableAnchorRect(anchor)) {
+      this.queueInvalidAnchorClose();
+      return;
+    }
+
+    const finalOverlay = this.getOverlayRect(host);
     const viewport = viewportRect(this.ownerWindow);
     const positionResult = this.computePosition(anchor, finalOverlay, viewport);
 
     this.applyPositionStyles(host, positionResult);
     this.clearPositioningPending();
     this.scheduleFocusAfterReposition();
+  }
+
+  private queueInvalidAnchorClose(): void {
+    if (this.invalidAnchorCloseHandle !== null) {
+      return;
+    }
+
+    this.ngZone.runOutsideAngular((): void => {
+      this.invalidAnchorCloseHandle = this.ownerWindow.setTimeout((): void => {
+        this.invalidAnchorCloseHandle = null;
+        if (!this.primitive.isOpen()) {
+          return;
+        }
+
+        this.ngZone.run((): void => {
+          this.changeDetectorRef.markForCheck();
+          this.primitive.close(false);
+        });
+      }, 0);
+    });
   }
 
   private shouldCloseIfAnchorHidden(trigger: HTMLElement): boolean {
@@ -435,7 +483,11 @@ export class TngMenuComponent implements DoCheck {
 
   private applyPositionStyles(
     host: HTMLElement,
-    result: { readonly side: 'bottom' | 'left' | 'right' | 'top'; readonly x: number; readonly y: number },
+    result: {
+      readonly side: 'bottom' | 'left' | 'right' | 'top';
+      readonly x: number;
+      readonly y: number;
+    },
   ): void {
     this.resolvedSide.set(result.side);
     host.setAttribute('data-side', result.side);
@@ -520,6 +572,7 @@ export class TngMenuComponent implements DoCheck {
     }
 
     this.captureOriginalLocation();
+    stampOverlayOwnerId(host, this.primitive.getTriggerElement() ?? host);
     this.syncPortalledThemeVars();
     this.portalled = this.portalManager.mount({
       node: host,
@@ -557,6 +610,7 @@ export class TngMenuComponent implements DoCheck {
     }
 
     this.restorePortalledThemeVars();
+    clearOverlayOwnerId(host);
   }
 
   private syncPortalledThemeVars(): void {

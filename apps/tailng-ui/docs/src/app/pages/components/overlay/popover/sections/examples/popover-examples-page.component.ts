@@ -1,11 +1,12 @@
+/* eslint-disable max-lines-per-function -- Code-tab builders keep complete copy-ready examples together. */
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
 import {
   TngMenuComponent,
   TngMenuTriggerFor,
   TngMultiSelectComponent,
   TngPopoverComponent,
+  TngPopoverTriggerFor,
   TngSelectComponent,
 } from '@tailng-ui/components';
 import { TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
@@ -14,16 +15,314 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
 
 type NestedOverlayOption = Readonly<{
   label: string;
   value: string;
 }>;
 
+type ExampleStyle = 'plain-css' | 'tailwind-css';
+
+function createCodeTabs(
+  exampleName: string,
+  tsCode: string,
+  htmlCode: string,
+  cssCode: string,
+): readonly DocsExampleCodeTab[] {
+  return Object.freeze([
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: `${exampleName}.component.ts`,
+      code: tsCode,
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: `${exampleName}.component.html`,
+      code: htmlCode,
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: `${exampleName}.component.css`,
+      code: cssCode,
+    },
+  ]);
+}
+
+function createNestedSelectCodeTabs(style: ExampleStyle): readonly DocsExampleCodeTab[] {
+  const exampleName = `popover-nested-select-${style}`;
+  const tsCode = [
+    "import { Component, signal } from '@angular/core';",
+    "import { TngPopoverComponent, TngPopoverTriggerFor, TngSelectComponent } from '@tailng-ui/components';",
+    '',
+    '@Component({',
+    `  selector: 'app-${exampleName}',`,
+    '  standalone: true,',
+    '  imports: [TngPopoverComponent, TngPopoverTriggerFor, TngSelectComponent],',
+    `  templateUrl: './${exampleName}.component.html',`,
+    `  styleUrl: './${exampleName}.component.css',`,
+    '})',
+    `export class ${style === 'plain-css' ? 'PopoverNestedSelectPlainCssComponent' : 'PopoverNestedSelectTailwindComponent'} {`,
+    "  protected readonly value = signal<string | null>('owner');",
+    '  protected readonly options = [',
+    "    { label: 'Owner', value: 'owner' },",
+    "    { label: 'Maintainer', value: 'maintainer' },",
+    "    { label: 'Viewer', value: 'viewer' },",
+    '  ];',
+    '}',
+  ].join('\n');
+  const plainHtml = [
+    '<div class="popover-nested-demo">',
+    '  <tng-popover #popover="tngPopoverComponent" [autoFocus]="true">',
+    '    <div class="popover-nested-panel">',
+    '      <p class="popover-nested-label">Role</p>',
+    '      <tng-select',
+    '        [options]="options"',
+    '        [placeholder]="\'Choose role\'"',
+    '        [value]="value()"',
+    '        (valueChange)="value.set($event)"',
+    '      />',
+    '      <p class="popover-example-state">selected: {{ value() }}</p>',
+    '    </div>',
+    '  </tng-popover>',
+    '  <button type="button" class="popover-example-secondary" [tngPopoverTriggerFor]="popover">',
+    '    Role filter',
+    '  </button>',
+    '</div>',
+  ].join('\n');
+  const tailwindHtml = [
+    '<div class="grid min-h-32 place-items-start rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
+    '  <tng-popover #popover="tngPopoverComponent" [autoFocus]="true">',
+    '    <div class="grid min-w-60 gap-3">',
+    '      <p class="m-0 text-xs font-bold text-slate-900 dark:text-slate-100">Role</p>',
+    '      <tng-select',
+    '        [options]="options"',
+    '        [placeholder]="\'Choose role\'"',
+    '        [value]="value()"',
+    '        (valueChange)="value.set($event)"',
+    '      />',
+    '      <p class="m-0 text-sm text-slate-600 dark:text-slate-300">selected: {{ value() }}</p>',
+    '    </div>',
+    '  </tng-popover>',
+    '  <button type="button" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:text-slate-100" [tngPopoverTriggerFor]="popover">',
+    '    Role filter',
+    '  </button>',
+    '</div>',
+  ].join('\n');
+  const plainCss = [
+    '.popover-nested-demo {',
+    '  background: var(--tng-semantic-background-surface);',
+    '  border: 1px solid var(--tng-semantic-border-subtle);',
+    '  border-radius: 0.75rem;',
+    '  min-height: 8rem;',
+    '  padding: 0.9rem;',
+    '}',
+    '',
+    '.popover-nested-panel {',
+    '  display: grid;',
+    '  gap: 0.7rem;',
+    '  min-width: 15rem;',
+    '}',
+  ].join('\n');
+
+  return createCodeTabs(
+    exampleName,
+    tsCode,
+    style === 'plain-css' ? plainHtml : tailwindHtml,
+    style === 'plain-css'
+      ? plainCss
+      : '/* Tailwind utilities are applied directly in the template. */',
+  );
+}
+
+function createNestedMultiSelectCodeTabs(style: ExampleStyle): readonly DocsExampleCodeTab[] {
+  const exampleName = `popover-nested-multiselect-${style}`;
+  const tsCode = [
+    "import { Component, signal } from '@angular/core';",
+    "import { TngMultiSelectComponent, TngPopoverComponent, TngPopoverTriggerFor } from '@tailng-ui/components';",
+    '',
+    '@Component({',
+    `  selector: 'app-${exampleName}',`,
+    '  standalone: true,',
+    '  imports: [TngMultiSelectComponent, TngPopoverComponent, TngPopoverTriggerFor],',
+    `  templateUrl: './${exampleName}.component.html',`,
+    `  styleUrl: './${exampleName}.component.css',`,
+    '})',
+    `export class ${style === 'plain-css' ? 'PopoverNestedMultiSelectPlainCssComponent' : 'PopoverNestedMultiSelectTailwindComponent'} {`,
+    "  protected readonly value = signal<readonly string[]>(['email']);",
+    '  protected readonly options = [',
+    "    { label: 'Email', value: 'email' },",
+    "    { label: 'Slack', value: 'slack' },",
+    "    { label: 'PagerDuty', value: 'pagerduty' },",
+    '  ];',
+    '}',
+  ].join('\n');
+  const plainHtml = [
+    '<div class="popover-nested-demo">',
+    '  <tng-popover #popover="tngPopoverComponent" [autoFocus]="true">',
+    '    <div class="popover-nested-panel">',
+    '      <p class="popover-nested-label">Channels</p>',
+    '      <tng-multiselect',
+    '        [options]="options"',
+    '        [placeholder]="\'Choose channels\'"',
+    '        [value]="value()"',
+    '        (valueChange)="value.set($event)"',
+    '      />',
+    "      <p class=\"popover-example-state\">selected: {{ value().join(', ') || 'none' }}</p>",
+    '    </div>',
+    '  </tng-popover>',
+    '  <button type="button" class="popover-example-secondary" [tngPopoverTriggerFor]="popover">',
+    '    Notify channels',
+    '  </button>',
+    '</div>',
+  ].join('\n');
+  const tailwindHtml = [
+    '<div class="grid min-h-32 place-items-start rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
+    '  <tng-popover #popover="tngPopoverComponent" [autoFocus]="true">',
+    '    <div class="grid min-w-60 gap-3">',
+    '      <p class="m-0 text-xs font-bold text-slate-900 dark:text-slate-100">Channels</p>',
+    '      <tng-multiselect',
+    '        [options]="options"',
+    '        [placeholder]="\'Choose channels\'"',
+    '        [value]="value()"',
+    '        (valueChange)="value.set($event)"',
+    '      />',
+    "      <p class=\"m-0 text-sm text-slate-600 dark:text-slate-300\">selected: {{ value().join(', ') || 'none' }}</p>",
+    '    </div>',
+    '  </tng-popover>',
+    '  <button type="button" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:text-slate-100" [tngPopoverTriggerFor]="popover">',
+    '    Notify channels',
+    '  </button>',
+    '</div>',
+  ].join('\n');
+  const plainCss = [
+    '.popover-nested-demo {',
+    '  background: var(--tng-semantic-background-surface);',
+    '  border: 1px solid var(--tng-semantic-border-subtle);',
+    '  border-radius: 0.75rem;',
+    '  min-height: 8rem;',
+    '  padding: 0.9rem;',
+    '}',
+    '',
+    '.popover-nested-panel {',
+    '  display: grid;',
+    '  gap: 0.7rem;',
+    '  min-width: 15rem;',
+    '}',
+  ].join('\n');
+
+  return createCodeTabs(
+    exampleName,
+    tsCode,
+    style === 'plain-css' ? plainHtml : tailwindHtml,
+    style === 'plain-css'
+      ? plainCss
+      : '/* Tailwind utilities are applied directly in the template. */',
+  );
+}
+
+function createNestedMenuCodeTabs(style: ExampleStyle): readonly DocsExampleCodeTab[] {
+  const exampleName = `popover-nested-menu-${style}`;
+  const tsCode = [
+    "import { Component, signal } from '@angular/core';",
+    "import { TngMenuComponent, TngMenuTriggerFor, TngPopoverComponent, TngPopoverTriggerFor } from '@tailng-ui/components';",
+    "import { TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';",
+    '',
+    '@Component({',
+    `  selector: 'app-${exampleName}',`,
+    '  standalone: true,',
+    '  imports: [TngMenuComponent, TngMenuItem, TngMenuTriggerFor, TngPopoverComponent, TngPopoverTriggerFor],',
+    `  templateUrl: './${exampleName}.component.html',`,
+    `  styleUrl: './${exampleName}.component.css',`,
+    '})',
+    `export class ${style === 'plain-css' ? 'PopoverNestedMenuPlainCssComponent' : 'PopoverNestedMenuTailwindComponent'} {`,
+    "  protected readonly result = signal('No command selected');",
+    '',
+    '  protected onSelect(event: TngMenuSelectEvent): void {',
+    "    this.result.set(typeof event.value === 'string' ? event.value : event.itemId);",
+    '  }',
+    '}',
+  ].join('\n');
+  const menuMarkup = [
+    '      <tng-menu #menu="tngMenu" ariaLabel="Project actions" (tngMenuSelect)="onSelect($event)">',
+    '        <button type="button" tngMenuItem [tngMenuItemValue]="\'Duplicate project\'">Duplicate project</button>',
+    '        <button type="button" tngMenuItem [tngMenuItemValue]="\'Archive project\'">Archive project</button>',
+    '      </tng-menu>',
+  ];
+  const plainHtml = [
+    '<div class="popover-nested-demo">',
+    '  <tng-popover #popover="tngPopoverComponent" [autoFocus]="true">',
+    '    <div class="popover-nested-panel">',
+    '      <p class="popover-nested-label">Project action</p>',
+    '      <button type="button" class="popover-example-secondary" [tngMenuTriggerFor]="menu">',
+    '        Open menu',
+    '      </button>',
+    ...menuMarkup,
+    '      <p class="popover-example-state">command: {{ result() }}</p>',
+    '    </div>',
+    '  </tng-popover>',
+    '  <button type="button" class="popover-example-secondary" [tngPopoverTriggerFor]="popover">',
+    '    Menu actions',
+    '  </button>',
+    '</div>',
+  ].join('\n');
+  const tailwindHtml = [
+    '<div class="grid min-h-32 place-items-start rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
+    '  <tng-popover #popover="tngPopoverComponent" [autoFocus]="true">',
+    '    <div class="grid min-w-60 gap-3">',
+    '      <p class="m-0 text-xs font-bold text-slate-900 dark:text-slate-100">Project action</p>',
+    '      <button type="button" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:text-slate-100" [tngMenuTriggerFor]="menu">',
+    '        Open menu',
+    '      </button>',
+    ...menuMarkup,
+    '      <p class="m-0 text-sm text-slate-600 dark:text-slate-300">command: {{ result() }}</p>',
+    '    </div>',
+    '  </tng-popover>',
+    '  <button type="button" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:text-slate-100" [tngPopoverTriggerFor]="popover">',
+    '    Menu actions',
+    '  </button>',
+    '</div>',
+  ].join('\n');
+  const plainCss = [
+    '.popover-nested-demo {',
+    '  background: var(--tng-semantic-background-surface);',
+    '  border: 1px solid var(--tng-semantic-border-subtle);',
+    '  border-radius: 0.75rem;',
+    '  min-height: 8rem;',
+    '  padding: 0.9rem;',
+    '}',
+    '',
+    '.popover-nested-panel {',
+    '  display: grid;',
+    '  gap: 0.7rem;',
+    '  min-width: 15rem;',
+    '}',
+  ].join('\n');
+
+  return createCodeTabs(
+    exampleName,
+    tsCode,
+    style === 'plain-css' ? plainHtml : tailwindHtml,
+    style === 'plain-css'
+      ? plainCss
+      : '/* Tailwind utilities are applied directly in the template. */',
+  );
+}
+
 @Component({
   selector: 'app-popover-examples-page',
   imports: [
     TngPopoverComponent,
+    TngPopoverTriggerFor,
     TngSelectComponent,
     TngMultiSelectComponent,
     TngMenuComponent,
@@ -51,9 +350,12 @@ export class PopoverExamplesPageComponent implements OnDestroy {
 
   protected readonly plainResult = signal('No decision yet');
   protected readonly tailwindResult = signal('No decision yet');
-  protected readonly nestedSelectValue = signal<string | null>('owner');
-  protected readonly nestedMultiSelectValue = signal<readonly string[]>(['email']);
-  protected readonly nestedMenuResult = signal('No command selected');
+  protected readonly nestedSelectPlainValue = signal<string | null>('owner');
+  protected readonly nestedSelectTailwindValue = signal<string | null>('owner');
+  protected readonly nestedMultiSelectPlainValue = signal<readonly string[]>(['email']);
+  protected readonly nestedMultiSelectTailwindValue = signal<readonly string[]>(['email']);
+  protected readonly nestedMenuPlainResult = signal('No command selected');
+  protected readonly nestedMenuTailwindResult = signal('No command selected');
 
   protected readonly nestedRoleOptions: readonly NestedOverlayOption[] = [
     { label: 'Owner', value: 'owner' },
@@ -74,12 +376,12 @@ export class PopoverExamplesPageComponent implements OnDestroy {
       title: 'popover-examples-plain-css.component.ts',
       code: [
         "import { Component, signal } from '@angular/core';",
-        "import { TngPopoverComponent } from '@tailng-ui/components';",
+        "import { TngPopoverComponent, TngPopoverTriggerFor } from '@tailng-ui/components';",
         '',
         '@Component({',
         "  selector: 'app-popover-examples-plain-css',",
         '  standalone: true,',
-        '  imports: [TngPopoverComponent],',
+        '  imports: [TngPopoverComponent, TngPopoverTriggerFor],',
         "  templateUrl: './popover-examples-plain-css.component.html',",
         "  styleUrl: './popover-examples-plain-css.component.css',",
         '})',
@@ -106,7 +408,7 @@ export class PopoverExamplesPageComponent implements OnDestroy {
       title: 'popover-examples-plain-css.component.html',
       code: [
         '<tng-popover',
-        '  triggerLabel="Delete release branch"',
+        '  #popover="tngPopoverComponent"',
         '  [open]="open()"',
         '  (openChange)="open.set($event)"',
         '>',
@@ -116,6 +418,7 @@ export class PopoverExamplesPageComponent implements OnDestroy {
         '    <button type="button" class="popover-example-danger" (click)="onApprove()">Delete</button>',
         '  </div>',
         '</tng-popover>',
+        '<button type="button" [tngPopoverTriggerFor]="popover">Delete release branch</button>',
       ].join('\n'),
     },
     {
@@ -147,12 +450,12 @@ export class PopoverExamplesPageComponent implements OnDestroy {
       title: 'popover-examples-tailwind.component.ts',
       code: [
         "import { Component, signal } from '@angular/core';",
-        "import { TngPopoverComponent } from '@tailng-ui/components';",
+        "import { TngPopoverComponent, TngPopoverTriggerFor } from '@tailng-ui/components';",
         '',
         '@Component({',
         "  selector: 'app-popover-examples-tailwind',",
         '  standalone: true,',
-        '  imports: [TngPopoverComponent],',
+        '  imports: [TngPopoverComponent, TngPopoverTriggerFor],',
         "  templateUrl: './popover-examples-tailwind.component.html',",
         "  styleUrl: './popover-examples-tailwind.component.css',",
         '})',
@@ -180,7 +483,7 @@ export class PopoverExamplesPageComponent implements OnDestroy {
       code: [
         '<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">',
         '  <tng-popover',
-        '    triggerLabel="Approve deployment"',
+        '    #popover="tngPopoverComponent"',
         '    [open]="open()"',
         '    (openChange)="open.set($event)"',
         '  >',
@@ -190,6 +493,7 @@ export class PopoverExamplesPageComponent implements OnDestroy {
         '      <button type="button" class="rounded-lg border border-emerald-600 bg-emerald-600 px-3 py-2 text-sm font-semibold text-white" (click)="onApprove()">Approve</button>',
         '    </div>',
         '  </tng-popover>',
+        '  <button type="button" [tngPopoverTriggerFor]="popover">Approve deployment</button>',
         '</div>',
       ].join('\n'),
     },
@@ -201,6 +505,14 @@ export class PopoverExamplesPageComponent implements OnDestroy {
       code: '/* Tailwind utilities are applied directly in the template. */',
     },
   ]);
+
+  protected readonly nestedSelectPlainCodeTabs = createNestedSelectCodeTabs('plain-css');
+  protected readonly nestedSelectTailwindCodeTabs = createNestedSelectCodeTabs('tailwind-css');
+  protected readonly nestedMultiSelectPlainCodeTabs = createNestedMultiSelectCodeTabs('plain-css');
+  protected readonly nestedMultiSelectTailwindCodeTabs =
+    createNestedMultiSelectCodeTabs('tailwind-css');
+  protected readonly nestedMenuPlainCodeTabs = createNestedMenuCodeTabs('plain-css');
+  protected readonly nestedMenuTailwindCodeTabs = createNestedMenuCodeTabs('tailwind-css');
 
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
@@ -226,7 +538,11 @@ export class PopoverExamplesPageComponent implements OnDestroy {
     this.tailwindOpen.set(false);
   }
 
-  protected onNestedMenuSelect(event: TngMenuSelectEvent): void {
-    this.nestedMenuResult.set(String(event.value ?? event.itemId));
+  protected onNestedMenuPlainSelect(event: TngMenuSelectEvent): void {
+    this.nestedMenuPlainResult.set(typeof event.value === 'string' ? event.value : event.itemId);
+  }
+
+  protected onNestedMenuTailwindSelect(event: TngMenuSelectEvent): void {
+    this.nestedMenuTailwindResult.set(typeof event.value === 'string' ? event.value : event.itemId);
   }
 }

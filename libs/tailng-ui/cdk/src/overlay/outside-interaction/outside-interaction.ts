@@ -69,16 +69,14 @@ class OverlayInteractionController implements TngOverlayInteractionController {
   public handleFocusIn(event: TngOverlayFocusEvent): void {
     if (isDefaultPrevented(event)) return;
 
-    const dismissLayer = this.options.layerStack.resolveOutsidePointerDismissTarget?.(
+    const dismissLayer = this.options.layerStack.resolveFocusOutsideDismissTarget(
       event.target,
       toEventPath(event),
     );
 
-    // Backwards compatible: if stack doesn’t support focus yet, do nothing.
-    if (dismissLayer === null || dismissLayer === undefined) return;
+    if (dismissLayer === null) return;
 
-    dismissLayer.onDismiss('outside-pointer');
-    // don't preventDefault focusin; we generally don't want to fight focus
+    dismissLayer.onDismiss('focus-outside');
   }
 
   public isStarted(): boolean {

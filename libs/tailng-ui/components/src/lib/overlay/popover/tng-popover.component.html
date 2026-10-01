@@ -6,27 +6,21 @@
   [defaultOpen]="defaultOpen()"
   [disabled]="disabled()"
   [closeOnEscape]="closeOnEscape()"
+  [closeOnFocusOutside]="closeOnFocusOutside()"
   [closeOnOutsidePointer]="closeOnOutsidePointer()"
   [restoreFocus]="restoreFocus()"
   [autoFocus]="autoFocus()"
   [side]="side()"
   [align]="align()"
   [panelRole]="panelRole()"
-  [ariaLabel]="ariaLabel()"
+  [ariaLabel]="panelAriaLabel()"
+  [ariaLabelledby]="panelAriaLabelledby()"
   [ariaHasPopup]="ariaHasPopup()"
   [scrollStrategy]="scrollStrategy()"
-  (openChange)="openChange.emit($event)"
+  (openChange)="onPrimitiveOpenChange($event)"
   (closed)="closed.emit($event)"
 >
-  <button
-    type="button"
-    class="tng-popover-trigger"
-    [tngPopoverTrigger]="popoverRef"
-  >
-    {{ triggerLabel() }}
-  </button>
-
-  <section tngPopoverPanel class="tng-popover-panel">
+  <section #panelRef tngPopoverPanel class="tng-popover-panel">
     <ng-content />
   </section>
 </div>

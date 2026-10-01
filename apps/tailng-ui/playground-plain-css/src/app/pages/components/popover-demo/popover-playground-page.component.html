@@ -4,7 +4,7 @@
       <article class="card">
         <h2>Quick Actions</h2>
         <tng-popover
-          triggerLabel="Project Actions"
+          #actionsPopover="tngPopoverComponent"
           [open]="actionsPopoverOpen()"
           (openChange)="onActionsPopoverChange($event)"
         >
@@ -17,12 +17,15 @@
             }
           </div>
         </tng-popover>
+        <tng-button [tngPopoverTriggerFor]="actionsPopover" appearance="outline">
+          Project Actions
+        </tng-button>
       </article>
 
       <article class="card">
         <h2>Release Info</h2>
         <tng-popover
-          triggerLabel="View Details"
+          #detailsPopover="tngPopoverComponent"
           [open]="detailsPopoverOpen()"
           (openChange)="onDetailsPopoverChange($event)"
         >
@@ -35,6 +38,9 @@
             </ul>
           </div>
         </tng-popover>
+        <tng-button [tngPopoverTriggerFor]="detailsPopover" appearance="outline">
+          View Details
+        </tng-button>
       </article>
     </section>
 

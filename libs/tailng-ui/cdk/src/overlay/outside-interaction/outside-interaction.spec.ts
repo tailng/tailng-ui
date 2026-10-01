@@ -119,6 +119,37 @@ it('ignores inside pointer for top layer', () => {
   expect(onDismiss).not.toHaveBeenCalled();
 });
 
+it('does not dismiss on outside focus unless the layer explicitly opts in', () => {
+  const stack = createOverlayLayerStack();
+  const onDismiss = vi.fn();
+  stack.register({
+    containsTarget: () => false,
+    id: 'layer',
+    onDismiss,
+  });
+
+  const controller = createOverlayInteractionController({ layerStack: stack });
+  controller.handleFocusIn({ target: 'outside' });
+
+  expect(onDismiss).not.toHaveBeenCalled();
+});
+
+it('dismisses an opted-in layer with a distinct focus-outside reason', () => {
+  const stack = createOverlayLayerStack();
+  const onDismiss = vi.fn();
+  stack.register({
+    containsTarget: () => false,
+    dismissOnFocusOutside: true,
+    id: 'layer',
+    onDismiss,
+  });
+
+  const controller = createOverlayInteractionController({ layerStack: stack });
+  controller.handleFocusIn({ target: 'outside' });
+
+  expect(onDismiss).toHaveBeenCalledWith('focus-outside');
+});
+
 it('start and stop attach listeners through interaction document adapter', () => {
   const stack = createOverlayLayerStack();
   const fake = createFakeInteractionDocument();
