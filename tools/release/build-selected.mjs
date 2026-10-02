@@ -1,5 +1,8 @@
 import { spawnSync } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
 import { PACKAGE_BY_TARGET, parseTargets } from './package-catalog.mjs';
+import { readJson, writeJson } from './package-manifest-utils.mjs';
 
 const selected = new Set(parseTargets((process.argv[2] ?? '').trim()));
 // Avoid Node's ESM loading race when Nx scans Vitest configs concurrently.
@@ -28,9 +31,8 @@ run('pnpm', ['nx', 'reset']);
 // the CLI release target is selected. Nx handles the remaining project graph.
 if (selected.has('cli')) selected.add('registry');
 
-const projects = [...selected]
-  .map((target) => PACKAGE_BY_TARGET.get(target)?.project)
-  .filter(Boolean);
+const definitions = [...selected].map((target) => PACKAGE_BY_TARGET.get(target)).filter(Boolean);
+const projects = definitions.map((definition) => definition.project);
 
 if (projects.length > 0) {
   run('pnpm', [
@@ -42,4 +44,19 @@ if (projects.length > 0) {
     projects.join(','),
     '--skip-nx-cache',
   ]);
+}
+
+// Workspace manifests may include source-only side-effect markers for local
+// path-mapped builds. Published manifests must describe only packaged files.
+for (const definition of definitions) {
+  if (definition.publishedSideEffects === undefined) continue;
+
+  const packageJsonPath = path.join(definition.distDir, 'package.json');
+  if (!fs.existsSync(packageJsonPath)) {
+    throw new Error(`Missing built package manifest: ${packageJsonPath}`);
+  }
+
+  const packageJson = readJson(packageJsonPath);
+  packageJson.sideEffects = definition.publishedSideEffects;
+  writeJson(packageJsonPath, packageJson);
 }

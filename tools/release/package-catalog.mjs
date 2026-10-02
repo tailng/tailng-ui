@@ -6,6 +6,7 @@ export const PACKAGE_CATALOG = Object.freeze([
     sourcePackageJson: 'libs/tailng-ui/cdk/package.json',
     distDir: 'dist/libs/tailng-ui/cdk',
     apf: true,
+    publishedSideEffects: false,
   },
   {
     target: 'primitives',
@@ -14,6 +15,7 @@ export const PACKAGE_CATALOG = Object.freeze([
     sourcePackageJson: 'libs/tailng-ui/primitives/package.json',
     distDir: 'dist/libs/tailng-ui/primitives',
     apf: true,
+    publishedSideEffects: false,
   },
   {
     target: 'components',
@@ -22,6 +24,7 @@ export const PACKAGE_CATALOG = Object.freeze([
     sourcePackageJson: 'libs/tailng-ui/components/package.json',
     distDir: 'dist/libs/tailng-ui/components',
     apf: true,
+    publishedSideEffects: false,
   },
   {
     target: 'icons',
@@ -30,6 +33,7 @@ export const PACKAGE_CATALOG = Object.freeze([
     sourcePackageJson: 'libs/tailng-ui/icons/package.json',
     distDir: 'dist/libs/tailng-ui/icons',
     apf: true,
+    publishedSideEffects: ['./fesm2022/tailng-ui-icons.mjs'],
   },
   {
     target: 'theme',
@@ -38,6 +42,7 @@ export const PACKAGE_CATALOG = Object.freeze([
     sourcePackageJson: 'libs/tailng-ui/theme/package.json',
     distDir: 'dist/libs/tailng-ui/theme',
     apf: true,
+    publishedSideEffects: ['**/*.css'],
   },
   {
     target: 'registry',
@@ -54,6 +59,7 @@ export const PACKAGE_CATALOG = Object.freeze([
     sourcePackageJson: 'libs/tailng-ui/charts/package.json',
     distDir: 'dist/libs/tailng-ui/charts',
     apf: true,
+    publishedSideEffects: false,
   },
   {
     target: 'flow',
@@ -62,6 +68,7 @@ export const PACKAGE_CATALOG = Object.freeze([
     sourcePackageJson: 'libs/tailng-ui/flow/package.json',
     distDir: 'dist/libs/tailng-ui/flow',
     apf: true,
+    publishedSideEffects: ['./styles.css', './styles.scss'],
   },
   {
     target: 'cli',

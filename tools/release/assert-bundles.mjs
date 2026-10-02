@@ -4,16 +4,6 @@ import { APF_PACKAGES, parseTargets } from './package-catalog.mjs';
 
 const selected = new Set(parseTargets(process.argv[2] ?? ''));
 
-const EXPECTED_SIDE_EFFECTS = new Map([
-  ['cdk', false],
-  ['primitives', false],
-  ['components', false],
-  ['icons', ['./fesm2022/tailng-ui-icons.mjs']],
-  ['theme', ['**/*.css']],
-  ['charts', false],
-  ['flow', ['./styles.css', './styles.scss']],
-]);
-
 const EXPECTED_SECONDARY_ENTRY_POINTS = new Map([
   ['cdk', ['./a11y', './adapters', './collections', './core', './overlay', './runtime']],
   ['flow', ['./layout-dagre']],
@@ -130,7 +120,7 @@ function assertApfPackage(definition) {
   }
   if (pkg.type !== 'module') fail(`${name}: package.json must declare "type": "module"`);
 
-  const expectedSideEffects = EXPECTED_SIDE_EFFECTS.get(name);
+  const expectedSideEffects = definition.publishedSideEffects;
   if (JSON.stringify(pkg.sideEffects) !== JSON.stringify(expectedSideEffects)) {
     fail(
       `${name}: sideEffects must be ${JSON.stringify(expectedSideEffects)}, received ${JSON.stringify(pkg.sideEffects)}`,
