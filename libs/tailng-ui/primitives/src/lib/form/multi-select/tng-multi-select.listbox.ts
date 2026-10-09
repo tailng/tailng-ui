@@ -4,6 +4,7 @@ import { arraysEqual, normalizeToArray } from '../../internal/combobox';
 import type { ListboxValue } from '../listbox/listbox.directive';
 import { TngListboxDirective } from '../listbox/listbox.directive';
 import { TngOptionDirective } from '../listbox/option.directive';
+import { TNG_LISTBOX_PRESERVE_VALUE_ON_UNREGISTER } from '../listbox/tokens';
 import { TNG_MULTI_SELECT } from './tng-multi-select.tokens';
 import type { TngMultiSelect } from './tng-multi-select';
 import { TngMultiSelectListboxApi } from './tng-multi-select.listbox.types';
@@ -13,7 +14,10 @@ const createListboxId = createTngIdFactory('tng-multi-select-listbox');
 
 @Directive({
   selector: '[tngMultiSelectListbox]',
-  providers: [{ provide: TNG_MULTI_SELECT_LISTBOX, useExisting: TngMultiSelectListbox }],
+  providers: [
+    { provide: TNG_MULTI_SELECT_LISTBOX, useExisting: TngMultiSelectListbox },
+    { provide: TNG_LISTBOX_PRESERVE_VALUE_ON_UNREGISTER, useValue: true },
+  ],
   hostDirectives: [
     {
       directive: TngListboxDirective,

@@ -4,6 +4,7 @@ import {
   TngCodeBlockComponent,
   TngPopoverComponent,
   TngPopoverTriggerFor,
+  type TngPopoverCloseReason,
 } from '@tailng-ui/components';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
@@ -14,8 +15,6 @@ import {
   observeDocsCodeThemeChanges,
   resolveDocsCodeBlockTheme,
 } from '../../../../../../shared/util';
-
-type PopoverCloseReason = 'escape' | 'outside-pointer' | 'programmatic' | 'trigger-toggle';
 
 @Component({
   selector: 'app-popover-overview-page',
@@ -43,11 +42,11 @@ export class PopoverOverviewPageComponent implements OnDestroy {
   protected readonly plainOpen = signal(false);
   protected readonly tailwindOpen = signal(false);
 
-  protected readonly plainCloseReason = signal<PopoverCloseReason | 'none'>('none');
-  protected readonly tailwindCloseReason = signal<PopoverCloseReason | 'none'>('none');
+  protected readonly plainCloseReason = signal<TngPopoverCloseReason | 'none'>('none');
+  protected readonly tailwindCloseReason = signal<TngPopoverCloseReason | 'none'>('none');
 
   protected readonly componentImportCode = [
-    "import { TngPopoverComponent, TngPopoverTriggerFor } from '@tailng-ui/components';",
+    "import { TngPopoverComponent, TngPopoverTriggerFor, type TngPopoverCloseReason } from '@tailng-ui/components';",
     '',
   ].join('\n');
 
@@ -72,9 +71,7 @@ export class PopoverOverviewPageComponent implements OnDestroy {
       title: 'popover-overview-plain-css.component.ts',
       code: [
         "import { Component, signal } from '@angular/core';",
-        "import { TngPopoverComponent, TngPopoverTriggerFor } from '@tailng-ui/components';",
-        '',
-        "type PopoverCloseReason = 'escape' | 'outside-pointer' | 'programmatic' | 'trigger-toggle';",
+        "import { TngPopoverComponent, TngPopoverTriggerFor, type TngPopoverCloseReason } from '@tailng-ui/components';",
         '',
         '@Component({',
         "  selector: 'app-popover-overview-plain-css',",
@@ -85,9 +82,9 @@ export class PopoverOverviewPageComponent implements OnDestroy {
         '})',
         'export class PopoverOverviewPlainCssComponent {',
         '  protected readonly open = signal(false);',
-        "  protected readonly lastReason = signal<PopoverCloseReason | 'none'>('none');",
+        "  protected readonly lastReason = signal<TngPopoverCloseReason | 'none'>('none');",
         '',
-        '  protected onClosed(reason: PopoverCloseReason): void {',
+        '  protected onClosed(reason: TngPopoverCloseReason): void {',
         '    this.lastReason.set(reason);',
         '  }',
         '}',
@@ -174,9 +171,7 @@ export class PopoverOverviewPageComponent implements OnDestroy {
       title: 'popover-overview-tailwind.component.ts',
       code: [
         "import { Component, signal } from '@angular/core';",
-        "import { TngPopoverComponent, TngPopoverTriggerFor } from '@tailng-ui/components';",
-        '',
-        "type PopoverCloseReason = 'escape' | 'outside-pointer' | 'programmatic' | 'trigger-toggle';",
+        "import { TngPopoverComponent, TngPopoverTriggerFor, type TngPopoverCloseReason } from '@tailng-ui/components';",
         '',
         '@Component({',
         "  selector: 'app-popover-overview-tailwind',",
@@ -187,9 +182,9 @@ export class PopoverOverviewPageComponent implements OnDestroy {
         '})',
         'export class PopoverOverviewTailwindComponent {',
         '  protected readonly open = signal(false);',
-        "  protected readonly lastReason = signal<PopoverCloseReason | 'none'>('none');",
+        "  protected readonly lastReason = signal<TngPopoverCloseReason | 'none'>('none');",
         '',
-        '  protected onClosed(reason: PopoverCloseReason): void {',
+        '  protected onClosed(reason: TngPopoverCloseReason): void {',
         '    this.lastReason.set(reason);',
         '  }',
         '}',
@@ -231,11 +226,11 @@ export class PopoverOverviewPageComponent implements OnDestroy {
     this.colorSchemeObserver?.disconnect();
   }
 
-  protected onPlainClose(reason: PopoverCloseReason): void {
+  protected onPlainClose(reason: TngPopoverCloseReason): void {
     this.plainCloseReason.set(reason);
   }
 
-  protected onTailwindClose(reason: PopoverCloseReason): void {
+  protected onTailwindClose(reason: TngPopoverCloseReason): void {
     this.tailwindCloseReason.set(reason);
   }
 }
