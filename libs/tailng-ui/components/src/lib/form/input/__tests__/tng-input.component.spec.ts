@@ -344,6 +344,25 @@ describe('<tng-input> component', () => {
     expect(inputEl.getAttribute('data-slot')).toBe('input');
   });
 
+  it('keeps the native focus reset scoped to the input-group wrapper', async () => {
+    await TestBed.configureTestingModule({ imports: [InputHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(InputHostComponent);
+    fixture.detectChanges();
+
+    const inputGroup = fixture.debugElement.query(By.css('[data-slot="input-group"]'))
+      .nativeElement as HTMLElement;
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+
+    inputEl.focus();
+
+    expect(inputGroup.contains(inputEl)).toBe(true);
+    expect(getComputedStyle(inputEl).borderWidth).toBe('0px');
+    expect(getComputedStyle(inputEl).boxShadow).toBe('none');
+    expect(themeContractCss).toContain(
+      ":where([data-slot='input-group']) :where([data-slot='input']:focus)",
+    );
+  });
+
   it('emits valueChange when the internal input changes', async () => {
     await TestBed.configureTestingModule({ imports: [InputHostComponent] }).compileComponents();
     const fixture = TestBed.createComponent(InputHostComponent);

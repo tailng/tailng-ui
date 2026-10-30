@@ -75,9 +75,9 @@
   width: 100%;
 }
 
-:where([data-slot='input']:focus),
-:where([data-slot='input']:focus-visible),
-:where([data-slot='input']:-moz-focusring) {
+:where([data-slot='input-group']) :where([data-slot='input']:focus),
+:where([data-slot='input-group']) :where([data-slot='input']:focus-visible),
+:where([data-slot='input-group']) :where([data-slot='input']:-moz-focusring) {
   border: 0 !important;
   box-shadow: none !important;
   outline: none !important;
