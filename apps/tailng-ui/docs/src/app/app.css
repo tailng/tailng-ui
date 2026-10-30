@@ -3,6 +3,13 @@
   min-height: 100vh;
 }
 
+.docs-page-breadcrumb {
+  background: var(--tng-semantic-background-canvas);
+  position: sticky;
+  top: 4rem;
+  z-index: 10;
+}
+
 .menu-trigger-icon[data-slot='menu-trigger'] {
   --tng-menu-trigger-gap: 0;
   --tng-menu-trigger-min-height: auto;

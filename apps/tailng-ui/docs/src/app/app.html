@@ -279,7 +279,7 @@
     class="w-full flex-1"
   >
     @if (breadcrumbs().length > 1 && !componentsDocsLayout()) {
-    <section class="py-3">
+    <section class="docs-page-breadcrumb py-3">
       <tng-breadcrumb ariaLabel="Current page path" separator="›">
         @for (crumb of breadcrumbs(); track $index) {
         <tng-breadcrumb-item [current]="crumb.current" [href]="crumb.url">
