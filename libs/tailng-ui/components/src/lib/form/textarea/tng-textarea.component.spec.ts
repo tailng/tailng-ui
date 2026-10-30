@@ -8,18 +8,6 @@ import { readTngTextareaEventValue, TngTextareaComponent } from './tng-textarea.
 
 @Component({
   imports: [TngTextareaComponent],
-  styles: [
-    `
-      :host {
-        --tng-semantic-accent-brand: rgb(37, 99, 235);
-        --tng-semantic-background-surface: rgb(255, 255, 255);
-        --tng-semantic-border-strong: rgb(127, 146, 170);
-        --tng-semantic-focus-ring: rgb(37, 99, 235);
-        --tng-semantic-foreground-muted: rgb(100, 116, 139);
-        --tng-semantic-foreground-primary: rgb(31, 41, 55);
-      }
-    `,
-  ],
   template: `<tng-textarea ariaLabel="Summary" />`,
 })
 class TextareaHostComponent {}
@@ -28,20 +16,21 @@ const inputThemeContractCss = readFileSync(
   join(process.cwd(), 'libs/tailng-ui/theme/src/lib/component-contracts/form/input/input.css'),
   'utf8',
 );
-const textareaComponentCss = readFileSync(
-  join(
-    process.cwd(),
-    'libs/tailng-ui/components/src/lib/form/textarea/tng-textarea.component.css',
-  ),
-  'utf8',
-);
+// jsdom does not resolve custom properties inside the component's `border`
+// shorthand. A concrete equivalent keeps this test focused on whether the
+// global input focus reset improperly overrides standalone component chrome.
+const standaloneTextareaChromeCss = `
+  .tng-textarea {
+    border: 1px solid rgb(127, 146, 170);
+  }
+`;
 
 describe('tng-textarea component', () => {
   let themeStyleElement: HTMLStyleElement | null = null;
 
   beforeAll(() => {
     themeStyleElement = document.createElement('style');
-    themeStyleElement.textContent = `${inputThemeContractCss}\n${textareaComponentCss}`;
+    themeStyleElement.textContent = `${inputThemeContractCss}\n${standaloneTextareaChromeCss}`;
     document.head.appendChild(themeStyleElement);
   });
 
