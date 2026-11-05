@@ -1,0 +1,800 @@
+# TailNG agent knowledge
+
+---
+
+Source: https://tailng.dev/ai/components/button/overview.md
+
+---
+id: components/button/overview
+title: Button component
+description: Import and use the styled TailNG button component.
+category: components
+status: stable
+tags: ["button", "utility", "action"]
+package: @tailng-ui/components
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/button/tng-button.component.ts", "apps/tailng-ui/docs/src/app/pages/components/utility/button/sections/overview/button-overview-page.component.ts"]
+humanDocsUrl: https://tailng.dev/components/utility/button/overview
+---
+
+# Button component
+
+Import `TngButtonComponent` into the consuming standalone component:
+
+```ts
+import { Component } from '@angular/core';
+import { TngButtonComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngButtonComponent],
+  template: `
+    <tng-button tone="primary" appearance="solid" type="button" (click)="save()">
+      Save changes
+    </tng-button>
+  `,
+})
+export class SaveButtonExample {
+  save(): void {}
+}
+```
+
+Public inputs include:
+
+- `appearance`: `ghost | outline | solid`; default `solid`.
+- `tone`: `danger | neutral | primary | success`; default `primary`.
+- `size`: `lg | md | sm`; default `md`.
+- `type`: native button type; default `button`.
+- `disabled`: boolean.
+- `ariaLabel`, `ariaLabelledby`, `ariaControls`, `ariaExpanded`, `ariaHasPopup`, and `ariaPressed`.
+
+Prefer visible button text. Use `ariaLabel` for an icon-only button.
+
+---
+
+Source: https://tailng.dev/ai/components/dialog/overview.md
+
+---
+id: components/dialog/overview
+title: Dialog component
+description: Control an accessible TailNG dialog with Angular signal state.
+category: components
+status: stable
+tags: ["dialog", "overlay", "modal"]
+package: @tailng-ui/components
+sourcePaths: ["libs/tailng-ui/components/src/lib/overlay/dialog/tng-dialog.component.ts", "apps/tailng-ui/docs/src/app/pages/components/overlay/dialog/sections/overview/dialog-overview-page.component.ts"]
+humanDocsUrl: https://tailng.dev/components/overlay/dialog/overview
+---
+
+# Dialog component
+
+`TngDialogComponent` supplies the modal panel, backdrop, focus management, escape handling, scroll locking, and focus restoration.
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngDialogComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngDialogComponent],
+  template: `
+    <button type="button" (click)="open.set(true)">Open review</button>
+
+    <tng-dialog
+      title="Review changes"
+      description="Confirm before publishing the release."
+      [open]="open()"
+      (openChange)="open.set($event)"
+    >
+      <p>Review the pending changes.</p>
+      <button type="button" (click)="open.set(false)">Cancel</button>
+    </tng-dialog>
+  `,
+})
+export class ReviewDialogExample {
+  readonly open = signal(false);
+}
+```
+
+Inputs:
+
+- `open`: dialog visibility.
+- `title`: accessible title; default `Dialog`.
+- `description`: optional accessible description.
+- `closeOnBackdrop`: default `true`.
+- `closeOnEscape`: default `true`.
+
+Outputs:
+
+- `openChange`: synchronize external visibility state.
+- `closed`: close reason: `backdrop`, `close-button`, `escape`, or `programmatic`.
+
+---
+
+Source: https://tailng.dev/ai/components/index.md
+
+---
+id: components/index
+title: TailNG components
+description: Discover the documented TailNG styled components and their Angular imports.
+category: components
+status: stable
+tags: ["components", "angular", "imports"]
+package: @tailng-ui/components
+sourcePaths: ["libs/tailng-ui/components/src/index.ts", "apps/tailng-ui/docs/src/app/pages/components/component-docs.data.ts"]
+humanDocsUrl: https://tailng.dev/components
+---
+
+# TailNG components
+
+TailNG components are standalone Angular components exported from `@tailng-ui/components`.
+
+Detailed agent guides currently cover:
+
+- [Button](https://tailng.dev/ai/components/button/overview.md)
+- [Input](https://tailng.dev/ai/components/input/overview.md)
+- [Dialog](https://tailng.dev/ai/components/dialog/overview.md)
+- [Table](https://tailng.dev/ai/components/table/overview.md)
+
+For every component:
+
+1. Import the component class into the consuming standalone Angular component.
+2. Use the documented selector and public inputs.
+3. Load the TailNG theme contract stylesheet.
+4. Provide an accessible name where the component does not have visible labelling.
+5. Run the Angular production build after integration.
+
+The absence of an agent guide does not imply that a component does not exist. Consult the [human component catalog](https://tailng.dev/components) and verify exports in the installed package before use.
+
+---
+
+Source: https://tailng.dev/ai/components/input/overview.md
+
+---
+id: components/input/overview
+title: Input component
+description: Import and configure the styled TailNG input component.
+category: components
+status: stable
+tags: ["input", "form", "validation"]
+package: @tailng-ui/components
+sourcePaths: ["libs/tailng-ui/components/src/lib/form/input/tng-input.component.ts", "apps/tailng-ui/docs/src/app/pages/components/form/input/sections/overview/input-overview-page.component.ts"]
+humanDocsUrl: https://tailng.dev/components/form/input/overview
+---
+
+# Input component
+
+Use `TngInputComponent` for the styled wrapper:
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngInputComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngInputComponent],
+  template: `
+    <tng-input
+      type="email"
+      placeholder="team@example.com"
+      ariaLabel="Work email"
+      autocomplete="email"
+      [value]="email()"
+      (valueChange)="email.set($event)"
+    />
+  `,
+})
+export class EmailInputExample {
+  readonly email = signal<string | null>(null);
+}
+```
+
+The component supports native-style attributes including `type`, `placeholder`, `autocomplete`, `required`, `readonly`, `disabled`, `min`, `max`, `minlength`, `maxlength`, `pattern`, and input events.
+
+Use `ariaLabel` when no visible label is associated with the field. Use `ariaErrormessage` and `ariaInvalid` for validation feedback. For projected prefixes or suffixes, use `TngInputFieldComponent` with the relevant primitives.
+
+---
+
+Source: https://tailng.dev/ai/components/table/overview.md
+
+---
+id: components/table/overview
+title: Table component
+description: Render accessible row data from typed TailNG table column metadata.
+category: components
+status: stable
+tags: ["table", "layout", "data"]
+package: @tailng-ui/components
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/table/tng-table.component.ts", "apps/tailng-ui/docs/src/app/pages/components/layout/table/sections/overview/table-overview-page.component.ts"]
+humanDocsUrl: https://tailng.dev/components/layout/table/overview
+---
+
+# Table component
+
+Define typed column metadata and row data:
+
+```ts
+import { Component } from '@angular/core';
+import { TngTableComponent, type TngTableColumn } from '@tailng-ui/components';
+
+type ReleaseRow = Readonly<{ service: string; owner: string; status: string }>;
+
+@Component({
+  standalone: true,
+  imports: [TngTableComponent],
+  template: `
+    <tng-table
+      ariaLabel="Release status"
+      density="compact"
+      stickyHeader
+      [columns]="columns"
+      [items]="rows"
+    />
+  `,
+})
+export class ReleaseStatusTableExample {
+  readonly columns: readonly TngTableColumn<ReleaseRow>[] = [
+    { id: 'service', label: 'Service', sortable: true },
+    { id: 'owner', label: 'Owner' },
+    { id: 'status', label: 'Status' },
+  ];
+
+  readonly rows: readonly ReleaseRow[] = [
+    { service: 'Billing API', owner: 'Mina Lee', status: 'Ready' },
+    { service: 'Search index', owner: 'Omar Aziz', status: 'Blocked' },
+  ];
+}
+```
+
+Provide `ariaLabel` or `ariaLabelledby`. Column IDs default to property lookup when no accessor is provided. Use meaningful column labels because sortable headers announce them.
+
+The component also supports density, sticky headers, sorting state, filtering state, pagination state, loading/error states, row styling, nested column groups, and custom cell/header templates.
+
+---
+
+Source: https://tailng.dev/ai/configuration/index.md
+
+---
+id: configuration/index
+title: TailNG configuration
+description: Configure TailNG providers, global styles, and styling strategy in Angular.
+category: configuration
+status: stable
+tags: ['configuration', 'providers', 'styles']
+sourcePaths: ['apps/tailng-ui/docs/src/app/pages/components/getting-started']
+humanDocsUrl: https://tailng.dev/components/getting-started/configure-theme
+---
+
+# TailNG configuration
+
+For a standalone Angular application:
+
+1. Configure the runtime theme provider with [standalone Angular configuration](https://tailng.dev/ai/configuration/standalone-angular.md).
+2. Choose exactly one styling setup:
+   - [Plain CSS](https://tailng.dev/ai/configuration/plain-css.md)
+   - [Tailwind CSS](https://tailng.dev/ai/configuration/tailwind.md)
+3. Configure [icons](https://tailng.dev/ai/icons/index.md) only when the application uses `tng-icon` or components that require registered icons.
+4. Import each standalone TailNG component in the Angular component that uses it.
+
+---
+
+Source: https://tailng.dev/ai/configuration/plain-css.md
+
+---
+id: configuration/plain-css
+title: Plain CSS configuration
+description: Load TailNG component contracts and customize semantic variables with plain CSS.
+category: configuration
+status: stable
+tags: ["css", "styles", "tokens"]
+package: @tailng-ui/theme
+sourcePaths: ["libs/tailng-ui/theme/index.css", "libs/tailng-ui/theme/src/lib/component-contracts/index.css"]
+humanDocsUrl: https://tailng.dev/components/getting-started/plain-css-setup
+---
+
+# Plain CSS configuration
+
+Import the published theme stylesheet once in `src/styles.css`:
+
+```css
+@import '@tailng-ui/theme/index.css';
+```
+
+The root stylesheet imports the complete component-contract bundle. To load contracts without the root entry point, use:
+
+```css
+@import '@tailng-ui/theme/component-contracts/index.css';
+```
+
+Override semantic variables after the import:
+
+```css
+:root {
+  --tng-semantic-background-canvas: #ffffff;
+  --tng-semantic-background-surface: #f8fafc;
+  --tng-semantic-foreground-primary: #0f172a;
+  --tng-semantic-border-subtle: #cbd5e1;
+  --tng-semantic-accent-brand: #2563eb;
+  --tng-semantic-focus-ring: rgb(37 99 235 / 35%);
+}
+```
+
+Do not reference `@tailng-ui/theme/css`; that is not a published package export in the current package manifest.
+
+---
+
+Source: https://tailng.dev/ai/configuration/standalone-angular.md
+
+---
+id: configuration/standalone-angular
+title: Standalone Angular configuration
+description: Register the TailNG runtime theme in an Angular ApplicationConfig.
+category: configuration
+status: stable
+tags: ["angular", "application-config", "provider"]
+package: @tailng-ui/theme
+sourcePaths: ["libs/tailng-ui/theme/src/lib/adapters/angular/provide-tailng-theme.ts", "apps/tailng-ui/docs/src/app/pages/components/getting-started/plain-css-setup/plain-css-setup-page.component.ts"]
+humanDocsUrl: https://tailng.dev/components/getting-started/configure-theme
+---
+
+# Standalone Angular configuration
+
+Register the TailNG theme provider once near the application root:
+
+```ts
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { defaultDarkThemePreset, provideTailngTheme } from '@tailng-ui/theme';
+
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideRouter(routes), provideTailngTheme({ theme: defaultDarkThemePreset })],
+};
+```
+
+`provideTailngTheme` applies the selected theme through TailNG's Angular adapter. Import it from `@tailng-ui/theme`; do not use an invented `provideTheme` helper.
+
+Configure icon providers separately when required.
+
+---
+
+Source: https://tailng.dev/ai/configuration/tailwind.md
+
+---
+id: configuration/tailwind
+title: Tailwind CSS configuration
+description: Combine Tailwind utilities with TailNG component contracts and semantic tokens.
+category: configuration
+status: stable
+tags: ["tailwind", "css", "configuration"]
+package: @tailng-ui/theme
+sourcePaths: ["apps/tailng-ui/docs/src/app/pages/components/getting-started/tailwind-setup/tailwind-setup-page.component.ts", "apps/tailng-ui/docs/src/tailwind-preflight.layer.css"]
+humanDocsUrl: https://tailng.dev/components/getting-started/tailwind-setup
+---
+
+# Tailwind CSS configuration
+
+Install Tailwind for the version used by the application. TailNG's current documentation uses Tailwind 3 configuration:
+
+```bash
+pnpm add -D tailwindcss postcss autoprefixer
+```
+
+Configure template discovery and disable Tailwind preflight when the application owns reset behavior:
+
+```ts
+import type { Config } from 'tailwindcss';
+
+export default {
+  content: ['./src/**/*.{html,ts}'],
+  corePlugins: {
+    preflight: false,
+  },
+  theme: {
+    extend: {
+      colors: {
+        brand: 'var(--tng-semantic-accent-brand)',
+      },
+    },
+  },
+  plugins: [],
+} satisfies Config;
+```
+
+Load utilities and TailNG contracts from `src/styles.css`:
+
+```css
+@layer tw.preflight, components, tng.tokens, tng.contracts, utilities;
+@tailwind components;
+@tailwind utilities;
+
+@import '@tailng-ui/theme/component-contracts/index.css';
+```
+
+Keep component behavior and semantic contract variables in TailNG; use Tailwind utilities for application-owned layout and presentation.
+
+---
+
+Source: https://tailng.dev/ai/icons/index.md
+
+---
+id: icons/index
+title: TailNG icons
+description: Configure and use TailNG icons with the built-in Lucide pack or explicit custom packs.
+category: icons
+status: stable
+tags: ["icons", "lucide", "provider", "accessibility"]
+package: @tailng-ui/icons
+sourcePaths: ["libs/tailng-ui/icons/README.md", "libs/tailng-ui/icons/src/index.ts"]
+humanDocsUrl: https://tailng.dev/icons/overview
+---
+
+# TailNG icons
+
+Install the package:
+
+```bash
+pnpm add @tailng-ui/icons
+```
+
+Register the built-in Lucide pack:
+
+```ts
+import { ApplicationConfig } from '@angular/core';
+import { provideTngIcons } from '@tailng-ui/icons';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideTngIcons()],
+};
+```
+
+Import and use the standalone component:
+
+```ts
+import { TngIcon } from '@tailng-ui/icons';
+```
+
+```html
+<!-- Decorative when adjacent text provides the meaning. -->
+<tng-icon icon="home" size="1.25rem" />
+
+<!-- Meaningful standalone icon. -->
+<tng-icon icon="search" label="Search" size="1.25rem" />
+```
+
+Unprefixed names use the default pack. Explicit references use `pack:name`, for example `lucide:star`.
+
+Use `@tailng-ui/icons/core` when the application should register only explicitly imported icons and exclude the built-in registry. In that mode, provide at least one pack to `provideTngIcons`.
+
+---
+
+Source: https://tailng.dev/ai/index.md
+
+---
+id: index
+title: TailNG agent guide
+description: Entry point for installing, configuring, and using TailNG in Angular applications.
+category: overview
+status: stable
+tags: ['tailng', 'angular', 'agents']
+sourcePaths: ['package.json', 'apps/tailng-ui/docs/src/app/pages']
+humanDocsUrl: https://tailng.dev/
+---
+
+# TailNG agent guide
+
+Use this documentation when creating or modifying an Angular application with TailNG.
+
+## Required workflow
+
+1. Read the [package versions](https://tailng.dev/ai/versions.json).
+2. Choose package installation or ownable installation from the [installation guide](https://tailng.dev/ai/installation/index.md).
+3. Apply the [Angular configuration](https://tailng.dev/ai/configuration/index.md).
+4. Import only the components used by the application.
+5. Configure [theme](https://tailng.dev/ai/theme/index.md) and [icons](https://tailng.dev/ai/icons/index.md) when required.
+6. Run the application's production build and fix integration errors before adding more UI.
+
+Do not guess package names, exports, selectors, providers, or CSS entry points. Use the documents in the machine-readable [index](https://tailng.dev/ai/index.json).
+
+---
+
+Source: https://tailng.dev/ai/installation/index.md
+
+---
+id: installation/index
+title: TailNG installation
+description: Choose and verify the correct TailNG installation path for an Angular application.
+category: installation
+status: stable
+tags: ['installation', 'packages', 'ownable']
+sourcePaths: ['libs/tailng-ui/components/package.json', 'libs/tailng/cli/README.md']
+humanDocsUrl: https://tailng.dev/components/getting-started/installation
+---
+
+# TailNG installation
+
+TailNG supports two adoption paths.
+
+## Package installation
+
+Use published packages when the application should receive TailNG fixes through dependency upgrades. Start with [package installation](https://tailng.dev/ai/installation/packages.md).
+
+## Ownable installation
+
+Use the `tailng` CLI when the application should copy component source into the application for local ownership and customization. Start with [ownable installation](https://tailng.dev/ai/installation/ownable.md).
+
+Do not mix the two paths for the same component without a deliberate migration plan. After either path, run the application's production build.
+
+---
+
+Source: https://tailng.dev/ai/installation/new-angular-project.md
+
+---
+id: installation/new-angular-project
+title: New Angular project
+description: Create a standalone Angular project and add TailNG packages and configuration.
+category: installation
+status: stable
+tags: ["angular-cli", "standalone", "quick-start"]
+package: @tailng-ui/components
+sourcePaths: ["package.json", "apps/tailng-ui/docs/src/app/pages/components/getting-started/plain-css-setup/plain-css-setup-page.component.ts"]
+humanDocsUrl: https://tailng.dev/components/getting-started/plain-css-setup
+---
+
+# New Angular project
+
+Create a standalone application with routing and CSS:
+
+```bash
+ng new tailng-app --standalone --routing --style css
+cd tailng-app
+```
+
+Install TailNG:
+
+```bash
+pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons
+```
+
+Then:
+
+1. Configure the theme provider using the [standalone Angular guide](https://tailng.dev/ai/configuration/standalone-angular.md).
+2. Import the TailNG stylesheet using the [plain CSS guide](https://tailng.dev/ai/configuration/plain-css.md).
+3. Add the required standalone component imports.
+4. Run `ng build` or the project's production build command.
+
+Do not continue to feature development while Angular reports missing peer dependencies, unknown TailNG elements, or unresolved CSS imports.
+
+---
+
+Source: https://tailng.dev/ai/installation/ownable.md
+
+---
+id: installation/ownable
+title: Ownable installation
+description: Copy a TailNG component into an Angular application with the TailNG CLI.
+category: installation
+status: stable
+tags: ['ownable', 'cli', 'registry']
+package: tailng
+sourcePaths:
+  - libs/tailng/cli/README.md
+  - libs/tailng/cli/src/index.ts
+  - libs/tailng-ui/registry/package.json
+humanDocsUrl: https://tailng.dev/ownable/getting-started/quick-start
+---
+
+# Ownable installation
+
+List the components supported by the installed CLI version:
+
+```bash
+pnpm dlx tailng list
+```
+
+Preview an installation:
+
+```bash
+pnpm dlx tailng add button --dry-run
+```
+
+Install into the current Angular application:
+
+```bash
+pnpm dlx tailng add button
+```
+
+Use `--cwd <path>` when the Angular application is not the current directory. Generated source is written below `src/app/tailng-ui/<component>/`.
+
+Do not overwrite existing generated files unless the user explicitly wants replacement. The CLI rejects existing files by default; `--force` opts into overwrite behavior.
+
+After generation, follow the CLI's import hints and run the application build.
+
+---
+
+Source: https://tailng.dev/ai/installation/packages.md
+
+---
+id: installation/packages
+title: Package installation
+description: Install the TailNG component, primitive, CDK, theme, and icon packages.
+category: installation
+status: stable
+tags: ["installation", "npm", "pnpm", "yarn"]
+package: @tailng-ui/components
+sourcePaths: ["libs/tailng-ui/components/package.json", "libs/tailng-ui/theme/package.json", "libs/tailng-ui/icons/package.json"]
+humanDocsUrl: https://tailng.dev/components/getting-started/installation
+---
+
+# Package installation
+
+Check [versions.json](https://tailng.dev/ai/versions.json) before installation. The component package declares its supported Angular range and its TailNG peer dependencies there.
+
+## Styled components with theme and icons
+
+```bash
+pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons
+```
+
+```bash
+npm install @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons
+```
+
+```bash
+yarn add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons
+```
+
+`@tailng-ui/components` ships separately from `@tailng-ui/primitives` and `@tailng-ui/cdk`; install those packages explicitly.
+
+Next, apply the [standalone Angular configuration](https://tailng.dev/ai/configuration/standalone-angular.md), then choose [plain CSS](https://tailng.dev/ai/configuration/plain-css.md) or [Tailwind CSS](https://tailng.dev/ai/configuration/tailwind.md).
+
+---
+
+Source: https://tailng.dev/ai/theme/index.md
+
+---
+id: theme/index
+title: TailNG theme
+description: Configure TailNG presets, runtime theme application, tokens, and component contracts.
+category: theme
+status: stable
+tags: ["theme", "tokens", "presets"]
+package: @tailng-ui/theme
+sourcePaths: ["libs/tailng-ui/theme/src/index.ts", "libs/tailng-ui/theme/index.css"]
+humanDocsUrl: https://tailng.dev/theme/guides/getting-started
+---
+
+# TailNG theme
+
+The theme package has two complementary responsibilities:
+
+- Runtime theme definitions and presets through `provideTailngTheme`.
+- Component styling contracts through published CSS.
+
+Most styled applications need both:
+
+```ts
+provideTailngTheme({ theme: defaultDarkThemePreset });
+```
+
+```css
+@import '@tailng-ui/theme/index.css';
+```
+
+Read [runtime themes](https://tailng.dev/ai/theme/runtime.md) for preset application and [theme tokens](https://tailng.dev/ai/theme/tokens.md) for CSS customization.
+
+---
+
+Source: https://tailng.dev/ai/theme/runtime.md
+
+---
+id: theme/runtime
+title: Runtime themes
+description: Apply a built-in TailNG theme preset with provideTailngTheme.
+category: theme
+status: stable
+tags: ["theme", "provider", "presets"]
+package: @tailng-ui/theme
+sourcePaths: ["libs/tailng-ui/theme/src/index.ts", "libs/tailng-ui/theme/src/lib/adapters/angular/provide-tailng-theme.ts"]
+humanDocsUrl: https://tailng.dev/theme/guides/getting-started
+---
+
+# Runtime themes
+
+Apply a preset in `app.config.ts`:
+
+```ts
+import { ApplicationConfig } from '@angular/core';
+import { defaultThemePreset, provideTailngTheme } from '@tailng-ui/theme';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideTailngTheme({ theme: defaultThemePreset })],
+};
+```
+
+Built-in exports include default, minimal, slate, nexus, prism, atlas, sterling, and daybook-classic presets, with light and dark variants where exported by the package.
+
+Use `createTheme` or `mergeTheme` for programmatic theme composition. Use `toCssVars` when CSS variable output is needed outside the Angular provider.
+
+---
+
+Source: https://tailng.dev/ai/theme/tokens.md
+
+---
+id: theme/tokens
+title: Theme tokens and contracts
+description: Customize TailNG semantic variables and component contract styles.
+category: theme
+status: stable
+tags: ["tokens", "css-variables", "contracts"]
+package: @tailng-ui/theme
+sourcePaths: ["libs/tailng-ui/theme/README.md", "libs/tailng-ui/theme/src/lib/component-contracts/index.css"]
+humanDocsUrl: https://tailng.dev/theme/reference/styling
+---
+
+# Theme tokens and contracts
+
+Import the full component contract bundle:
+
+```css
+@import '@tailng-ui/theme/component-contracts/index.css';
+```
+
+Override shared control variables on `:root`, a theme scope, or a component subtree:
+
+```css
+:root {
+  --tng-control-bg: var(--tng-semantic-background-surface);
+  --tng-control-fg: var(--tng-semantic-foreground-primary);
+  --tng-control-border: var(--tng-semantic-border-strong);
+  --tng-control-radius: 0.5rem;
+  --tng-focus-ring-color: var(--tng-semantic-focus-ring);
+}
+```
+
+Prefer semantic and shared contract variables over selectors that depend on internal component markup. Scope an override to a component subtree when the change should not affect the whole application.
+
+---
+
+Source: https://tailng.dev/ai/troubleshooting/index.md
+
+---
+id: troubleshooting/index
+title: TailNG troubleshooting
+description: Diagnose package, provider, component import, icon, and stylesheet failures.
+category: troubleshooting
+status: stable
+tags: ['troubleshooting', 'errors', 'diagnostics']
+sourcePaths:
+  - libs/tailng-ui/components/package.json
+  - libs/tailng-ui/theme/package.json
+  - libs/tailng-ui/icons/package.json
+humanDocsUrl: https://tailng.dev/components/getting-started/installation
+---
+
+# TailNG troubleshooting
+
+## Unknown TailNG element
+
+Confirm that the corresponding standalone component is present in the consuming component's `imports` array. Import it from the documented package root.
+
+## Components render without expected styling
+
+Confirm that `src/styles.css` imports `@tailng-ui/theme/index.css` or the required component-contract stylesheet. Verify that the CSS import resolves during the production build.
+
+## Missing theme provider
+
+Register `provideTailngTheme` once in the root `ApplicationConfig`. Do not substitute an undocumented provider name.
+
+## Icon is empty or unresolved
+
+Register `provideTngIcons()` and verify the icon name. When using `@tailng-ui/icons/core`, provide explicit packs.
+
+## Dependency resolution fails
+
+Read [versions.json](https://tailng.dev/ai/versions.json) and compare the installed Angular and TailNG packages with the published peer ranges. Install `@tailng-ui/primitives` and `@tailng-ui/cdk` explicitly with `@tailng-ui/components`.
+
+## Ownable installation refuses to write
+
+Use `--dry-run` first. Existing files are protected by default. Use `--force` only when overwriting is intended.
+

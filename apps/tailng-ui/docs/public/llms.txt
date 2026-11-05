@@ -1,0 +1,22 @@
+# TailNG
+
+> Agent-oriented documentation for installing, configuring, and using TailNG in Angular applications.
+
+Use the package versions and compatibility data from https://tailng.dev/ai/versions.json before changing an application.
+
+## Start here
+
+- [TailNG agent guide](https://tailng.dev/ai/index.md): Entry point for installing, configuring, and using TailNG in Angular applications.
+- [TailNG installation](https://tailng.dev/ai/installation/index.md): Choose and verify the correct TailNG installation path for an Angular application.
+- [TailNG configuration](https://tailng.dev/ai/configuration/index.md): Configure TailNG providers, global styles, and styling strategy in Angular.
+- [TailNG components](https://tailng.dev/ai/components/index.md): Discover the documented TailNG styled components and their Angular imports.
+- [TailNG theme](https://tailng.dev/ai/theme/index.md): Configure TailNG presets, runtime theme application, tokens, and component contracts.
+- [TailNG icons](https://tailng.dev/ai/icons/index.md): Configure and use TailNG icons with the built-in Lucide pack or explicit custom packs.
+- [TailNG troubleshooting](https://tailng.dev/ai/troubleshooting/index.md): Diagnose package, provider, component import, icon, and stylesheet failures.
+
+## Machine-readable discovery
+
+- [Document index](https://tailng.dev/ai/index.json)
+- [Package versions](https://tailng.dev/ai/versions.json)
+- [Full knowledge bundle](https://tailng.dev/llms-full.txt)
+

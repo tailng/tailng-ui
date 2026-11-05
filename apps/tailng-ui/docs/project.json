@@ -8,7 +8,7 @@
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "dependsOn": [],
+      "dependsOn": ["build-agent-knowledge"],
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/tailng-ui/docs",
@@ -53,6 +53,18 @@
         }
       },
       "defaultConfiguration": "production"
+    },
+    "build-agent-knowledge": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node apps/tailng-ui/docs/scripts/agent-knowledge.mjs build"
+      }
+    },
+    "check-agent-knowledge": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node apps/tailng-ui/docs/scripts/agent-knowledge.mjs check"
+      }
     },
     "serve": {
       "continuous": true,

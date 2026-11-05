@@ -1,0 +1,154 @@
+# TailNG installation
+
+---
+
+Source: https://tailng.dev/ai/installation/index.md
+
+---
+id: installation/index
+title: TailNG installation
+description: Choose and verify the correct TailNG installation path for an Angular application.
+category: installation
+status: stable
+tags: ['installation', 'packages', 'ownable']
+sourcePaths: ['libs/tailng-ui/components/package.json', 'libs/tailng/cli/README.md']
+humanDocsUrl: https://tailng.dev/components/getting-started/installation
+---
+
+# TailNG installation
+
+TailNG supports two adoption paths.
+
+## Package installation
+
+Use published packages when the application should receive TailNG fixes through dependency upgrades. Start with [package installation](https://tailng.dev/ai/installation/packages.md).
+
+## Ownable installation
+
+Use the `tailng` CLI when the application should copy component source into the application for local ownership and customization. Start with [ownable installation](https://tailng.dev/ai/installation/ownable.md).
+
+Do not mix the two paths for the same component without a deliberate migration plan. After either path, run the application's production build.
+
+---
+
+Source: https://tailng.dev/ai/installation/new-angular-project.md
+
+---
+id: installation/new-angular-project
+title: New Angular project
+description: Create a standalone Angular project and add TailNG packages and configuration.
+category: installation
+status: stable
+tags: ["angular-cli", "standalone", "quick-start"]
+package: @tailng-ui/components
+sourcePaths: ["package.json", "apps/tailng-ui/docs/src/app/pages/components/getting-started/plain-css-setup/plain-css-setup-page.component.ts"]
+humanDocsUrl: https://tailng.dev/components/getting-started/plain-css-setup
+---
+
+# New Angular project
+
+Create a standalone application with routing and CSS:
+
+```bash
+ng new tailng-app --standalone --routing --style css
+cd tailng-app
+```
+
+Install TailNG:
+
+```bash
+pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons
+```
+
+Then:
+
+1. Configure the theme provider using the [standalone Angular guide](https://tailng.dev/ai/configuration/standalone-angular.md).
+2. Import the TailNG stylesheet using the [plain CSS guide](https://tailng.dev/ai/configuration/plain-css.md).
+3. Add the required standalone component imports.
+4. Run `ng build` or the project's production build command.
+
+Do not continue to feature development while Angular reports missing peer dependencies, unknown TailNG elements, or unresolved CSS imports.
+
+---
+
+Source: https://tailng.dev/ai/installation/ownable.md
+
+---
+id: installation/ownable
+title: Ownable installation
+description: Copy a TailNG component into an Angular application with the TailNG CLI.
+category: installation
+status: stable
+tags: ['ownable', 'cli', 'registry']
+package: tailng
+sourcePaths:
+  - libs/tailng/cli/README.md
+  - libs/tailng/cli/src/index.ts
+  - libs/tailng-ui/registry/package.json
+humanDocsUrl: https://tailng.dev/ownable/getting-started/quick-start
+---
+
+# Ownable installation
+
+List the components supported by the installed CLI version:
+
+```bash
+pnpm dlx tailng list
+```
+
+Preview an installation:
+
+```bash
+pnpm dlx tailng add button --dry-run
+```
+
+Install into the current Angular application:
+
+```bash
+pnpm dlx tailng add button
+```
+
+Use `--cwd <path>` when the Angular application is not the current directory. Generated source is written below `src/app/tailng-ui/<component>/`.
+
+Do not overwrite existing generated files unless the user explicitly wants replacement. The CLI rejects existing files by default; `--force` opts into overwrite behavior.
+
+After generation, follow the CLI's import hints and run the application build.
+
+---
+
+Source: https://tailng.dev/ai/installation/packages.md
+
+---
+id: installation/packages
+title: Package installation
+description: Install the TailNG component, primitive, CDK, theme, and icon packages.
+category: installation
+status: stable
+tags: ["installation", "npm", "pnpm", "yarn"]
+package: @tailng-ui/components
+sourcePaths: ["libs/tailng-ui/components/package.json", "libs/tailng-ui/theme/package.json", "libs/tailng-ui/icons/package.json"]
+humanDocsUrl: https://tailng.dev/components/getting-started/installation
+---
+
+# Package installation
+
+Check [versions.json](https://tailng.dev/ai/versions.json) before installation. The component package declares its supported Angular range and its TailNG peer dependencies there.
+
+## Styled components with theme and icons
+
+```bash
+pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons
+```
+
+```bash
+npm install @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons
+```
+
+```bash
+yarn add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk @tailng-ui/theme @tailng-ui/icons
+```
+
+`@tailng-ui/components` ships separately from `@tailng-ui/primitives` and `@tailng-ui/cdk`; install those packages explicitly.
+
+Next, apply the [standalone Angular configuration](https://tailng.dev/ai/configuration/standalone-angular.md), then choose [plain CSS](https://tailng.dev/ai/configuration/plain-css.md) or [Tailwind CSS](https://tailng.dev/ai/configuration/tailwind.md).
+

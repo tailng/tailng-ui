@@ -1,0 +1,322 @@
+{
+  "schemaVersion": 1,
+  "repositoryVersion": "0.164.0",
+  "baseUrl": "https://tailng.dev/ai/",
+  "packageVersions": {
+    "@tailng-ui/components": "0.127.0",
+    "@tailng-ui/primitives": "0.95.0",
+    "@tailng-ui/cdk": "0.67.0",
+    "@tailng-ui/theme": "0.84.0",
+    "@tailng-ui/icons": "0.30.0",
+    "@tailng-ui/registry": "1.1.0",
+    "tailng": "1.3.0"
+  },
+  "documents": [
+    {
+      "id": "components/button/overview",
+      "title": "Button component",
+      "description": "Import and use the styled TailNG button component.",
+      "category": "components",
+      "status": "stable",
+      "tags": [
+        "button",
+        "utility",
+        "action"
+      ],
+      "package": "@tailng-ui/components",
+      "packageVersion": "0.127.0",
+      "url": "https://tailng.dev/ai/components/button/overview.md",
+      "humanDocsUrl": "https://tailng.dev/components/utility/button/overview"
+    },
+    {
+      "id": "components/dialog/overview",
+      "title": "Dialog component",
+      "description": "Control an accessible TailNG dialog with Angular signal state.",
+      "category": "components",
+      "status": "stable",
+      "tags": [
+        "dialog",
+        "overlay",
+        "modal"
+      ],
+      "package": "@tailng-ui/components",
+      "packageVersion": "0.127.0",
+      "url": "https://tailng.dev/ai/components/dialog/overview.md",
+      "humanDocsUrl": "https://tailng.dev/components/overlay/dialog/overview"
+    },
+    {
+      "id": "components/index",
+      "title": "TailNG components",
+      "description": "Discover the documented TailNG styled components and their Angular imports.",
+      "category": "components",
+      "status": "stable",
+      "tags": [
+        "components",
+        "angular",
+        "imports"
+      ],
+      "package": "@tailng-ui/components",
+      "packageVersion": "0.127.0",
+      "url": "https://tailng.dev/ai/components/index.md",
+      "humanDocsUrl": "https://tailng.dev/components"
+    },
+    {
+      "id": "components/input/overview",
+      "title": "Input component",
+      "description": "Import and configure the styled TailNG input component.",
+      "category": "components",
+      "status": "stable",
+      "tags": [
+        "input",
+        "form",
+        "validation"
+      ],
+      "package": "@tailng-ui/components",
+      "packageVersion": "0.127.0",
+      "url": "https://tailng.dev/ai/components/input/overview.md",
+      "humanDocsUrl": "https://tailng.dev/components/form/input/overview"
+    },
+    {
+      "id": "components/table/overview",
+      "title": "Table component",
+      "description": "Render accessible row data from typed TailNG table column metadata.",
+      "category": "components",
+      "status": "stable",
+      "tags": [
+        "table",
+        "layout",
+        "data"
+      ],
+      "package": "@tailng-ui/components",
+      "packageVersion": "0.127.0",
+      "url": "https://tailng.dev/ai/components/table/overview.md",
+      "humanDocsUrl": "https://tailng.dev/components/layout/table/overview"
+    },
+    {
+      "id": "configuration/index",
+      "title": "TailNG configuration",
+      "description": "Configure TailNG providers, global styles, and styling strategy in Angular.",
+      "category": "configuration",
+      "status": "stable",
+      "tags": [
+        "configuration",
+        "providers",
+        "styles"
+      ],
+      "package": null,
+      "packageVersion": null,
+      "url": "https://tailng.dev/ai/configuration/index.md",
+      "humanDocsUrl": "https://tailng.dev/components/getting-started/configure-theme"
+    },
+    {
+      "id": "configuration/plain-css",
+      "title": "Plain CSS configuration",
+      "description": "Load TailNG component contracts and customize semantic variables with plain CSS.",
+      "category": "configuration",
+      "status": "stable",
+      "tags": [
+        "css",
+        "styles",
+        "tokens"
+      ],
+      "package": "@tailng-ui/theme",
+      "packageVersion": "0.84.0",
+      "url": "https://tailng.dev/ai/configuration/plain-css.md",
+      "humanDocsUrl": "https://tailng.dev/components/getting-started/plain-css-setup"
+    },
+    {
+      "id": "configuration/standalone-angular",
+      "title": "Standalone Angular configuration",
+      "description": "Register the TailNG runtime theme in an Angular ApplicationConfig.",
+      "category": "configuration",
+      "status": "stable",
+      "tags": [
+        "angular",
+        "application-config",
+        "provider"
+      ],
+      "package": "@tailng-ui/theme",
+      "packageVersion": "0.84.0",
+      "url": "https://tailng.dev/ai/configuration/standalone-angular.md",
+      "humanDocsUrl": "https://tailng.dev/components/getting-started/configure-theme"
+    },
+    {
+      "id": "configuration/tailwind",
+      "title": "Tailwind CSS configuration",
+      "description": "Combine Tailwind utilities with TailNG component contracts and semantic tokens.",
+      "category": "configuration",
+      "status": "stable",
+      "tags": [
+        "tailwind",
+        "css",
+        "configuration"
+      ],
+      "package": "@tailng-ui/theme",
+      "packageVersion": "0.84.0",
+      "url": "https://tailng.dev/ai/configuration/tailwind.md",
+      "humanDocsUrl": "https://tailng.dev/components/getting-started/tailwind-setup"
+    },
+    {
+      "id": "icons/index",
+      "title": "TailNG icons",
+      "description": "Configure and use TailNG icons with the built-in Lucide pack or explicit custom packs.",
+      "category": "icons",
+      "status": "stable",
+      "tags": [
+        "icons",
+        "lucide",
+        "provider",
+        "accessibility"
+      ],
+      "package": "@tailng-ui/icons",
+      "packageVersion": "0.30.0",
+      "url": "https://tailng.dev/ai/icons/index.md",
+      "humanDocsUrl": "https://tailng.dev/icons/overview"
+    },
+    {
+      "id": "index",
+      "title": "TailNG agent guide",
+      "description": "Entry point for installing, configuring, and using TailNG in Angular applications.",
+      "category": "overview",
+      "status": "stable",
+      "tags": [
+        "tailng",
+        "angular",
+        "agents"
+      ],
+      "package": null,
+      "packageVersion": null,
+      "url": "https://tailng.dev/ai/index.md",
+      "humanDocsUrl": "https://tailng.dev/"
+    },
+    {
+      "id": "installation/index",
+      "title": "TailNG installation",
+      "description": "Choose and verify the correct TailNG installation path for an Angular application.",
+      "category": "installation",
+      "status": "stable",
+      "tags": [
+        "installation",
+        "packages",
+        "ownable"
+      ],
+      "package": null,
+      "packageVersion": null,
+      "url": "https://tailng.dev/ai/installation/index.md",
+      "humanDocsUrl": "https://tailng.dev/components/getting-started/installation"
+    },
+    {
+      "id": "installation/new-angular-project",
+      "title": "New Angular project",
+      "description": "Create a standalone Angular project and add TailNG packages and configuration.",
+      "category": "installation",
+      "status": "stable",
+      "tags": [
+        "angular-cli",
+        "standalone",
+        "quick-start"
+      ],
+      "package": "@tailng-ui/components",
+      "packageVersion": "0.127.0",
+      "url": "https://tailng.dev/ai/installation/new-angular-project.md",
+      "humanDocsUrl": "https://tailng.dev/components/getting-started/plain-css-setup"
+    },
+    {
+      "id": "installation/ownable",
+      "title": "Ownable installation",
+      "description": "Copy a TailNG component into an Angular application with the TailNG CLI.",
+      "category": "installation",
+      "status": "stable",
+      "tags": [
+        "ownable",
+        "cli",
+        "registry"
+      ],
+      "package": "tailng",
+      "packageVersion": "1.3.0",
+      "url": "https://tailng.dev/ai/installation/ownable.md",
+      "humanDocsUrl": "https://tailng.dev/ownable/getting-started/quick-start"
+    },
+    {
+      "id": "installation/packages",
+      "title": "Package installation",
+      "description": "Install the TailNG component, primitive, CDK, theme, and icon packages.",
+      "category": "installation",
+      "status": "stable",
+      "tags": [
+        "installation",
+        "npm",
+        "pnpm",
+        "yarn"
+      ],
+      "package": "@tailng-ui/components",
+      "packageVersion": "0.127.0",
+      "url": "https://tailng.dev/ai/installation/packages.md",
+      "humanDocsUrl": "https://tailng.dev/components/getting-started/installation"
+    },
+    {
+      "id": "theme/index",
+      "title": "TailNG theme",
+      "description": "Configure TailNG presets, runtime theme application, tokens, and component contracts.",
+      "category": "theme",
+      "status": "stable",
+      "tags": [
+        "theme",
+        "tokens",
+        "presets"
+      ],
+      "package": "@tailng-ui/theme",
+      "packageVersion": "0.84.0",
+      "url": "https://tailng.dev/ai/theme/index.md",
+      "humanDocsUrl": "https://tailng.dev/theme/guides/getting-started"
+    },
+    {
+      "id": "theme/runtime",
+      "title": "Runtime themes",
+      "description": "Apply a built-in TailNG theme preset with provideTailngTheme.",
+      "category": "theme",
+      "status": "stable",
+      "tags": [
+        "theme",
+        "provider",
+        "presets"
+      ],
+      "package": "@tailng-ui/theme",
+      "packageVersion": "0.84.0",
+      "url": "https://tailng.dev/ai/theme/runtime.md",
+      "humanDocsUrl": "https://tailng.dev/theme/guides/getting-started"
+    },
+    {
+      "id": "theme/tokens",
+      "title": "Theme tokens and contracts",
+      "description": "Customize TailNG semantic variables and component contract styles.",
+      "category": "theme",
+      "status": "stable",
+      "tags": [
+        "tokens",
+        "css-variables",
+        "contracts"
+      ],
+      "package": "@tailng-ui/theme",
+      "packageVersion": "0.84.0",
+      "url": "https://tailng.dev/ai/theme/tokens.md",
+      "humanDocsUrl": "https://tailng.dev/theme/reference/styling"
+    },
+    {
+      "id": "troubleshooting/index",
+      "title": "TailNG troubleshooting",
+      "description": "Diagnose package, provider, component import, icon, and stylesheet failures.",
+      "category": "troubleshooting",
+      "status": "stable",
+      "tags": [
+        "troubleshooting",
+        "errors",
+        "diagnostics"
+      ],
+      "package": null,
+      "packageVersion": null,
+      "url": "https://tailng.dev/ai/troubleshooting/index.md",
+      "humanDocsUrl": "https://tailng.dev/components/getting-started/installation"
+    }
+  ]
+}

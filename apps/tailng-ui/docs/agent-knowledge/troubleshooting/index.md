@@ -1,0 +1,39 @@
+---
+id: troubleshooting/index
+title: TailNG troubleshooting
+description: Diagnose package, provider, component import, icon, and stylesheet failures.
+category: troubleshooting
+status: stable
+tags: ['troubleshooting', 'errors', 'diagnostics']
+sourcePaths:
+  - libs/tailng-ui/components/package.json
+  - libs/tailng-ui/theme/package.json
+  - libs/tailng-ui/icons/package.json
+humanDocsUrl: https://tailng.dev/components/getting-started/installation
+---
+
+# TailNG troubleshooting
+
+## Unknown TailNG element
+
+Confirm that the corresponding standalone component is present in the consuming component's `imports` array. Import it from the documented package root.
+
+## Components render without expected styling
+
+Confirm that `src/styles.css` imports `@tailng-ui/theme/index.css` or the required component-contract stylesheet. Verify that the CSS import resolves during the production build.
+
+## Missing theme provider
+
+Register `provideTailngTheme` once in the root `ApplicationConfig`. Do not substitute an undocumented provider name.
+
+## Icon is empty or unresolved
+
+Register `provideTngIcons()` and verify the icon name. When using `@tailng-ui/icons/core`, provide explicit packs.
+
+## Dependency resolution fails
+
+Read [versions.json](https://tailng.dev/ai/versions.json) and compare the installed Angular and TailNG packages with the published peer ranges. Install `@tailng-ui/primitives` and `@tailng-ui/cdk` explicitly with `@tailng-ui/components`.
+
+## Ownable installation refuses to write
+
+Use `--dry-run` first. Existing files are protected by default. Use `--force` only when overwriting is intended.

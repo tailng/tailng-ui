@@ -1,0 +1,55 @@
+# TailNG icons
+
+---
+
+Source: https://tailng.dev/ai/icons/index.md
+
+---
+id: icons/index
+title: TailNG icons
+description: Configure and use TailNG icons with the built-in Lucide pack or explicit custom packs.
+category: icons
+status: stable
+tags: ["icons", "lucide", "provider", "accessibility"]
+package: @tailng-ui/icons
+sourcePaths: ["libs/tailng-ui/icons/README.md", "libs/tailng-ui/icons/src/index.ts"]
+humanDocsUrl: https://tailng.dev/icons/overview
+---
+
+# TailNG icons
+
+Install the package:
+
+```bash
+pnpm add @tailng-ui/icons
+```
+
+Register the built-in Lucide pack:
+
+```ts
+import { ApplicationConfig } from '@angular/core';
+import { provideTngIcons } from '@tailng-ui/icons';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideTngIcons()],
+};
+```
+
+Import and use the standalone component:
+
+```ts
+import { TngIcon } from '@tailng-ui/icons';
+```
+
+```html
+<!-- Decorative when adjacent text provides the meaning. -->
+<tng-icon icon="home" size="1.25rem" />
+
+<!-- Meaningful standalone icon. -->
+<tng-icon icon="search" label="Search" size="1.25rem" />
+```
+
+Unprefixed names use the default pack. Explicit references use `pack:name`, for example `lucide:star`.
+
+Use `@tailng-ui/icons/core` when the application should register only explicitly imported icons and exclude the built-in registry. In that mode, provide at least one pack to `provideTngIcons`.
+

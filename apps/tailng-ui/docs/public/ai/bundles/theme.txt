@@ -1,0 +1,108 @@
+# TailNG theme
+
+---
+
+Source: https://tailng.dev/ai/theme/index.md
+
+---
+id: theme/index
+title: TailNG theme
+description: Configure TailNG presets, runtime theme application, tokens, and component contracts.
+category: theme
+status: stable
+tags: ["theme", "tokens", "presets"]
+package: @tailng-ui/theme
+sourcePaths: ["libs/tailng-ui/theme/src/index.ts", "libs/tailng-ui/theme/index.css"]
+humanDocsUrl: https://tailng.dev/theme/guides/getting-started
+---
+
+# TailNG theme
+
+The theme package has two complementary responsibilities:
+
+- Runtime theme definitions and presets through `provideTailngTheme`.
+- Component styling contracts through published CSS.
+
+Most styled applications need both:
+
+```ts
+provideTailngTheme({ theme: defaultDarkThemePreset });
+```
+
+```css
+@import '@tailng-ui/theme/index.css';
+```
+
+Read [runtime themes](https://tailng.dev/ai/theme/runtime.md) for preset application and [theme tokens](https://tailng.dev/ai/theme/tokens.md) for CSS customization.
+
+---
+
+Source: https://tailng.dev/ai/theme/runtime.md
+
+---
+id: theme/runtime
+title: Runtime themes
+description: Apply a built-in TailNG theme preset with provideTailngTheme.
+category: theme
+status: stable
+tags: ["theme", "provider", "presets"]
+package: @tailng-ui/theme
+sourcePaths: ["libs/tailng-ui/theme/src/index.ts", "libs/tailng-ui/theme/src/lib/adapters/angular/provide-tailng-theme.ts"]
+humanDocsUrl: https://tailng.dev/theme/guides/getting-started
+---
+
+# Runtime themes
+
+Apply a preset in `app.config.ts`:
+
+```ts
+import { ApplicationConfig } from '@angular/core';
+import { defaultThemePreset, provideTailngTheme } from '@tailng-ui/theme';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideTailngTheme({ theme: defaultThemePreset })],
+};
+```
+
+Built-in exports include default, minimal, slate, nexus, prism, atlas, sterling, and daybook-classic presets, with light and dark variants where exported by the package.
+
+Use `createTheme` or `mergeTheme` for programmatic theme composition. Use `toCssVars` when CSS variable output is needed outside the Angular provider.
+
+---
+
+Source: https://tailng.dev/ai/theme/tokens.md
+
+---
+id: theme/tokens
+title: Theme tokens and contracts
+description: Customize TailNG semantic variables and component contract styles.
+category: theme
+status: stable
+tags: ["tokens", "css-variables", "contracts"]
+package: @tailng-ui/theme
+sourcePaths: ["libs/tailng-ui/theme/README.md", "libs/tailng-ui/theme/src/lib/component-contracts/index.css"]
+humanDocsUrl: https://tailng.dev/theme/reference/styling
+---
+
+# Theme tokens and contracts
+
+Import the full component contract bundle:
+
+```css
+@import '@tailng-ui/theme/component-contracts/index.css';
+```
+
+Override shared control variables on `:root`, a theme scope, or a component subtree:
+
+```css
+:root {
+  --tng-control-bg: var(--tng-semantic-background-surface);
+  --tng-control-fg: var(--tng-semantic-foreground-primary);
+  --tng-control-border: var(--tng-semantic-border-strong);
+  --tng-control-radius: 0.5rem;
+  --tng-focus-ring-color: var(--tng-semantic-focus-ring);
+}
+```
+
+Prefer semantic and shared contract variables over selectors that depend on internal component markup. Scope an override to a component subtree when the change should not affect the whole application.
+

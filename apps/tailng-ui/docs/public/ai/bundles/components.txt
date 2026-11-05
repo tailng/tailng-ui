@@ -1,0 +1,251 @@
+# TailNG components
+
+---
+
+Source: https://tailng.dev/ai/components/button/overview.md
+
+---
+id: components/button/overview
+title: Button component
+description: Import and use the styled TailNG button component.
+category: components
+status: stable
+tags: ["button", "utility", "action"]
+package: @tailng-ui/components
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/button/tng-button.component.ts", "apps/tailng-ui/docs/src/app/pages/components/utility/button/sections/overview/button-overview-page.component.ts"]
+humanDocsUrl: https://tailng.dev/components/utility/button/overview
+---
+
+# Button component
+
+Import `TngButtonComponent` into the consuming standalone component:
+
+```ts
+import { Component } from '@angular/core';
+import { TngButtonComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngButtonComponent],
+  template: `
+    <tng-button tone="primary" appearance="solid" type="button" (click)="save()">
+      Save changes
+    </tng-button>
+  `,
+})
+export class SaveButtonExample {
+  save(): void {}
+}
+```
+
+Public inputs include:
+
+- `appearance`: `ghost | outline | solid`; default `solid`.
+- `tone`: `danger | neutral | primary | success`; default `primary`.
+- `size`: `lg | md | sm`; default `md`.
+- `type`: native button type; default `button`.
+- `disabled`: boolean.
+- `ariaLabel`, `ariaLabelledby`, `ariaControls`, `ariaExpanded`, `ariaHasPopup`, and `ariaPressed`.
+
+Prefer visible button text. Use `ariaLabel` for an icon-only button.
+
+---
+
+Source: https://tailng.dev/ai/components/dialog/overview.md
+
+---
+id: components/dialog/overview
+title: Dialog component
+description: Control an accessible TailNG dialog with Angular signal state.
+category: components
+status: stable
+tags: ["dialog", "overlay", "modal"]
+package: @tailng-ui/components
+sourcePaths: ["libs/tailng-ui/components/src/lib/overlay/dialog/tng-dialog.component.ts", "apps/tailng-ui/docs/src/app/pages/components/overlay/dialog/sections/overview/dialog-overview-page.component.ts"]
+humanDocsUrl: https://tailng.dev/components/overlay/dialog/overview
+---
+
+# Dialog component
+
+`TngDialogComponent` supplies the modal panel, backdrop, focus management, escape handling, scroll locking, and focus restoration.
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngDialogComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngDialogComponent],
+  template: `
+    <button type="button" (click)="open.set(true)">Open review</button>
+
+    <tng-dialog
+      title="Review changes"
+      description="Confirm before publishing the release."
+      [open]="open()"
+      (openChange)="open.set($event)"
+    >
+      <p>Review the pending changes.</p>
+      <button type="button" (click)="open.set(false)">Cancel</button>
+    </tng-dialog>
+  `,
+})
+export class ReviewDialogExample {
+  readonly open = signal(false);
+}
+```
+
+Inputs:
+
+- `open`: dialog visibility.
+- `title`: accessible title; default `Dialog`.
+- `description`: optional accessible description.
+- `closeOnBackdrop`: default `true`.
+- `closeOnEscape`: default `true`.
+
+Outputs:
+
+- `openChange`: synchronize external visibility state.
+- `closed`: close reason: `backdrop`, `close-button`, `escape`, or `programmatic`.
+
+---
+
+Source: https://tailng.dev/ai/components/index.md
+
+---
+id: components/index
+title: TailNG components
+description: Discover the documented TailNG styled components and their Angular imports.
+category: components
+status: stable
+tags: ["components", "angular", "imports"]
+package: @tailng-ui/components
+sourcePaths: ["libs/tailng-ui/components/src/index.ts", "apps/tailng-ui/docs/src/app/pages/components/component-docs.data.ts"]
+humanDocsUrl: https://tailng.dev/components
+---
+
+# TailNG components
+
+TailNG components are standalone Angular components exported from `@tailng-ui/components`.
+
+Detailed agent guides currently cover:
+
+- [Button](https://tailng.dev/ai/components/button/overview.md)
+- [Input](https://tailng.dev/ai/components/input/overview.md)
+- [Dialog](https://tailng.dev/ai/components/dialog/overview.md)
+- [Table](https://tailng.dev/ai/components/table/overview.md)
+
+For every component:
+
+1. Import the component class into the consuming standalone Angular component.
+2. Use the documented selector and public inputs.
+3. Load the TailNG theme contract stylesheet.
+4. Provide an accessible name where the component does not have visible labelling.
+5. Run the Angular production build after integration.
+
+The absence of an agent guide does not imply that a component does not exist. Consult the [human component catalog](https://tailng.dev/components) and verify exports in the installed package before use.
+
+---
+
+Source: https://tailng.dev/ai/components/input/overview.md
+
+---
+id: components/input/overview
+title: Input component
+description: Import and configure the styled TailNG input component.
+category: components
+status: stable
+tags: ["input", "form", "validation"]
+package: @tailng-ui/components
+sourcePaths: ["libs/tailng-ui/components/src/lib/form/input/tng-input.component.ts", "apps/tailng-ui/docs/src/app/pages/components/form/input/sections/overview/input-overview-page.component.ts"]
+humanDocsUrl: https://tailng.dev/components/form/input/overview
+---
+
+# Input component
+
+Use `TngInputComponent` for the styled wrapper:
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngInputComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngInputComponent],
+  template: `
+    <tng-input
+      type="email"
+      placeholder="team@example.com"
+      ariaLabel="Work email"
+      autocomplete="email"
+      [value]="email()"
+      (valueChange)="email.set($event)"
+    />
+  `,
+})
+export class EmailInputExample {
+  readonly email = signal<string | null>(null);
+}
+```
+
+The component supports native-style attributes including `type`, `placeholder`, `autocomplete`, `required`, `readonly`, `disabled`, `min`, `max`, `minlength`, `maxlength`, `pattern`, and input events.
+
+Use `ariaLabel` when no visible label is associated with the field. Use `ariaErrormessage` and `ariaInvalid` for validation feedback. For projected prefixes or suffixes, use `TngInputFieldComponent` with the relevant primitives.
+
+---
+
+Source: https://tailng.dev/ai/components/table/overview.md
+
+---
+id: components/table/overview
+title: Table component
+description: Render accessible row data from typed TailNG table column metadata.
+category: components
+status: stable
+tags: ["table", "layout", "data"]
+package: @tailng-ui/components
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/table/tng-table.component.ts", "apps/tailng-ui/docs/src/app/pages/components/layout/table/sections/overview/table-overview-page.component.ts"]
+humanDocsUrl: https://tailng.dev/components/layout/table/overview
+---
+
+# Table component
+
+Define typed column metadata and row data:
+
+```ts
+import { Component } from '@angular/core';
+import { TngTableComponent, type TngTableColumn } from '@tailng-ui/components';
+
+type ReleaseRow = Readonly<{ service: string; owner: string; status: string }>;
+
+@Component({
+  standalone: true,
+  imports: [TngTableComponent],
+  template: `
+    <tng-table
+      ariaLabel="Release status"
+      density="compact"
+      stickyHeader
+      [columns]="columns"
+      [items]="rows"
+    />
+  `,
+})
+export class ReleaseStatusTableExample {
+  readonly columns: readonly TngTableColumn<ReleaseRow>[] = [
+    { id: 'service', label: 'Service', sortable: true },
+    { id: 'owner', label: 'Owner' },
+    { id: 'status', label: 'Status' },
+  ];
+
+  readonly rows: readonly ReleaseRow[] = [
+    { service: 'Billing API', owner: 'Mina Lee', status: 'Ready' },
+    { service: 'Search index', owner: 'Omar Aziz', status: 'Blocked' },
+  ];
+}
+```
+
+Provide `ariaLabel` or `ariaLabelledby`. Column IDs default to property lookup when no accessor is provided. Use meaningful column labels because sortable headers announce them.
+
+The component also supports density, sticky headers, sorting state, filtering state, pagination state, loading/error states, row styling, nested column groups, and custom cell/header templates.
+

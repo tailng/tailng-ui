@@ -1,0 +1,166 @@
+# TailNG configuration
+
+---
+
+Source: https://tailng.dev/ai/configuration/index.md
+
+---
+id: configuration/index
+title: TailNG configuration
+description: Configure TailNG providers, global styles, and styling strategy in Angular.
+category: configuration
+status: stable
+tags: ['configuration', 'providers', 'styles']
+sourcePaths: ['apps/tailng-ui/docs/src/app/pages/components/getting-started']
+humanDocsUrl: https://tailng.dev/components/getting-started/configure-theme
+---
+
+# TailNG configuration
+
+For a standalone Angular application:
+
+1. Configure the runtime theme provider with [standalone Angular configuration](https://tailng.dev/ai/configuration/standalone-angular.md).
+2. Choose exactly one styling setup:
+   - [Plain CSS](https://tailng.dev/ai/configuration/plain-css.md)
+   - [Tailwind CSS](https://tailng.dev/ai/configuration/tailwind.md)
+3. Configure [icons](https://tailng.dev/ai/icons/index.md) only when the application uses `tng-icon` or components that require registered icons.
+4. Import each standalone TailNG component in the Angular component that uses it.
+
+---
+
+Source: https://tailng.dev/ai/configuration/plain-css.md
+
+---
+id: configuration/plain-css
+title: Plain CSS configuration
+description: Load TailNG component contracts and customize semantic variables with plain CSS.
+category: configuration
+status: stable
+tags: ["css", "styles", "tokens"]
+package: @tailng-ui/theme
+sourcePaths: ["libs/tailng-ui/theme/index.css", "libs/tailng-ui/theme/src/lib/component-contracts/index.css"]
+humanDocsUrl: https://tailng.dev/components/getting-started/plain-css-setup
+---
+
+# Plain CSS configuration
+
+Import the published theme stylesheet once in `src/styles.css`:
+
+```css
+@import '@tailng-ui/theme/index.css';
+```
+
+The root stylesheet imports the complete component-contract bundle. To load contracts without the root entry point, use:
+
+```css
+@import '@tailng-ui/theme/component-contracts/index.css';
+```
+
+Override semantic variables after the import:
+
+```css
+:root {
+  --tng-semantic-background-canvas: #ffffff;
+  --tng-semantic-background-surface: #f8fafc;
+  --tng-semantic-foreground-primary: #0f172a;
+  --tng-semantic-border-subtle: #cbd5e1;
+  --tng-semantic-accent-brand: #2563eb;
+  --tng-semantic-focus-ring: rgb(37 99 235 / 35%);
+}
+```
+
+Do not reference `@tailng-ui/theme/css`; that is not a published package export in the current package manifest.
+
+---
+
+Source: https://tailng.dev/ai/configuration/standalone-angular.md
+
+---
+id: configuration/standalone-angular
+title: Standalone Angular configuration
+description: Register the TailNG runtime theme in an Angular ApplicationConfig.
+category: configuration
+status: stable
+tags: ["angular", "application-config", "provider"]
+package: @tailng-ui/theme
+sourcePaths: ["libs/tailng-ui/theme/src/lib/adapters/angular/provide-tailng-theme.ts", "apps/tailng-ui/docs/src/app/pages/components/getting-started/plain-css-setup/plain-css-setup-page.component.ts"]
+humanDocsUrl: https://tailng.dev/components/getting-started/configure-theme
+---
+
+# Standalone Angular configuration
+
+Register the TailNG theme provider once near the application root:
+
+```ts
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { defaultDarkThemePreset, provideTailngTheme } from '@tailng-ui/theme';
+
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideRouter(routes), provideTailngTheme({ theme: defaultDarkThemePreset })],
+};
+```
+
+`provideTailngTheme` applies the selected theme through TailNG's Angular adapter. Import it from `@tailng-ui/theme`; do not use an invented `provideTheme` helper.
+
+Configure icon providers separately when required.
+
+---
+
+Source: https://tailng.dev/ai/configuration/tailwind.md
+
+---
+id: configuration/tailwind
+title: Tailwind CSS configuration
+description: Combine Tailwind utilities with TailNG component contracts and semantic tokens.
+category: configuration
+status: stable
+tags: ["tailwind", "css", "configuration"]
+package: @tailng-ui/theme
+sourcePaths: ["apps/tailng-ui/docs/src/app/pages/components/getting-started/tailwind-setup/tailwind-setup-page.component.ts", "apps/tailng-ui/docs/src/tailwind-preflight.layer.css"]
+humanDocsUrl: https://tailng.dev/components/getting-started/tailwind-setup
+---
+
+# Tailwind CSS configuration
+
+Install Tailwind for the version used by the application. TailNG's current documentation uses Tailwind 3 configuration:
+
+```bash
+pnpm add -D tailwindcss postcss autoprefixer
+```
+
+Configure template discovery and disable Tailwind preflight when the application owns reset behavior:
+
+```ts
+import type { Config } from 'tailwindcss';
+
+export default {
+  content: ['./src/**/*.{html,ts}'],
+  corePlugins: {
+    preflight: false,
+  },
+  theme: {
+    extend: {
+      colors: {
+        brand: 'var(--tng-semantic-accent-brand)',
+      },
+    },
+  },
+  plugins: [],
+} satisfies Config;
+```
+
+Load utilities and TailNG contracts from `src/styles.css`:
+
+```css
+@layer tw.preflight, components, tng.tokens, tng.contracts, utilities;
+@tailwind components;
+@tailwind utilities;
+
+@import '@tailng-ui/theme/component-contracts/index.css';
+```
+
+Keep component behavior and semantic contract variables in TailNG; use Tailwind utilities for application-owned layout and presentation.
+

@@ -78,11 +78,11 @@ export class ConfigureThemePageComponent implements OnDestroy {
   // ── 1. Import theme CSS ────────────────────────────────────────────────────
 
   protected readonly importThemeCssCode = `/* styles.css */
-@import '@tailng-ui/theme/css';`;
+@import '@tailng-ui/theme/index.css';`;
 
   protected readonly angularJsonStylesCode = `// angular.json
 "styles": [
-  "node_modules/@tailng-ui/theme/css/index.css",
+  "node_modules/@tailng-ui/theme/index.css",
   "src/styles.css"
 ]`;
 
@@ -125,7 +125,7 @@ export class ConfigureThemePageComponent implements OnDestroy {
 </html>`;
 
   protected readonly darkModeMediaCode = `/* styles.css – media strategy (automatic) */
-@import '@tailng-ui/theme/css';
+@import '@tailng-ui/theme/index.css';
 /* Dark tokens are applied via @media (prefers-color-scheme: dark)
    inside the theme bundle – nothing extra required. */`;
 
@@ -149,7 +149,7 @@ export class AppComponent {
   // ── 4. Customizing tokens ─────────────────────────────────────────────────
 
   protected readonly customizeTokensCode = `/* styles.css – override any token after importing the theme */
-@import '@tailng-ui/theme/css';
+@import '@tailng-ui/theme/index.css';
 
 :root {
   /* Swap brand accent to teal */
