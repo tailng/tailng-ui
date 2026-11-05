@@ -114,7 +114,10 @@ jobs:
       # ------------------------------------
       - name: Commit and push version changes
         run: |
-          git add package.json libs/**/package.json || true
+          git add package.json libs/**/package.json \
+            apps/tailng-ui/docs/public/ai \
+            apps/tailng-ui/docs/public/llms.txt \
+            apps/tailng-ui/docs/public/llms-full.txt || true
           git commit -m "chore(release): ${{ inputs.release_type }} (registry,cli) [skip ci]" || echo "Nothing to commit"
           git push origin HEAD:${GITHUB_REF_NAME}
 

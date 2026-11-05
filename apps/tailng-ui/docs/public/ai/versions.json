@@ -1,39 +1,39 @@
 {
   "schemaVersion": 1,
-  "repositoryVersion": "0.164.0",
+  "repositoryVersion": "1.0.0",
   "packages": {
     "@tailng-ui/components": {
-      "version": "0.127.0",
+      "version": "1.0.0",
       "peerDependencies": {
         "@angular/common": "^21.1.0 || ^22.0.0",
         "@angular/core": "^21.1.0 || ^22.0.0",
         "@angular/forms": "^21.1.0 || ^22.0.0",
         "@angular/platform-browser": "^21.1.0 || ^22.0.0",
         "@angular/router": "^21.1.0 || ^22.0.0",
-        "@tailng-ui/cdk": "^0.67.0",
-        "@tailng-ui/primitives": "^0.95.0",
+        "@tailng-ui/cdk": "^1.0.0",
+        "@tailng-ui/primitives": "^1.0.0",
         "rxjs": "~7.8.2"
       }
     },
     "@tailng-ui/primitives": {
-      "version": "0.95.0",
+      "version": "1.0.0",
       "peerDependencies": {
         "@angular/core": "^21.1.0 || ^22.0.0",
-        "@tailng-ui/cdk": "^0.67.0"
+        "@tailng-ui/cdk": "^1.0.0"
       }
     },
     "@tailng-ui/cdk": {
-      "version": "0.67.0",
+      "version": "1.0.0",
       "peerDependencies": {}
     },
     "@tailng-ui/theme": {
-      "version": "0.84.0",
+      "version": "1.0.0",
       "peerDependencies": {
         "@angular/core": "^21.1.0 || ^22.0.0"
       }
     },
     "@tailng-ui/icons": {
-      "version": "0.30.0",
+      "version": "1.0.0",
       "peerDependencies": {
         "@angular/core": "^21.1.0 || ^22.0.0"
       }

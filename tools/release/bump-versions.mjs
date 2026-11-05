@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { PACKAGE_BY_TARGET, VALID_RELEASE_TYPES, parseTargets } from './package-catalog.mjs';
 
 const targets = parseTargets((process.argv[2] ?? '').trim());
@@ -66,3 +67,10 @@ for (const target of targets) {
 // are resolved to concrete semver ranges at publish time by rewriteWorkspaceProtocols
 // in publish-selected.mjs. No rewriting needed here — keeping workspace:^ in the
 // source preserves pnpm lockfile consistency.
+
+// Agent-facing package metadata is committed with the repository. Regenerate it
+// after every version change so release commits cannot leave the docs deployment
+// blocked by stale index.json or versions.json files.
+execFileSync(process.execPath, ['apps/tailng-ui/docs/scripts/agent-knowledge.mjs', 'build'], {
+  stdio: 'inherit',
+});

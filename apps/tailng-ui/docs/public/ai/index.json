@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "repositoryVersion": "0.164.0",
+  "repositoryVersion": "1.0.0",
   "baseUrl": "https://tailng.dev/ai/",
   "packageVersions": {
-    "@tailng-ui/components": "0.127.0",
-    "@tailng-ui/primitives": "0.95.0",
-    "@tailng-ui/cdk": "0.67.0",
-    "@tailng-ui/theme": "0.84.0",
-    "@tailng-ui/icons": "0.30.0",
+    "@tailng-ui/components": "1.0.0",
+    "@tailng-ui/primitives": "1.0.0",
+    "@tailng-ui/cdk": "1.0.0",
+    "@tailng-ui/theme": "1.0.0",
+    "@tailng-ui/icons": "1.0.0",
     "@tailng-ui/registry": "1.1.0",
     "tailng": "1.3.0"
   },
@@ -24,7 +24,7 @@
         "action"
       ],
       "package": "@tailng-ui/components",
-      "packageVersion": "0.127.0",
+      "packageVersion": "1.0.0",
       "url": "https://tailng.dev/ai/components/button/overview.md",
       "humanDocsUrl": "https://tailng.dev/components/utility/button/overview"
     },
@@ -40,7 +40,7 @@
         "modal"
       ],
       "package": "@tailng-ui/components",
-      "packageVersion": "0.127.0",
+      "packageVersion": "1.0.0",
       "url": "https://tailng.dev/ai/components/dialog/overview.md",
       "humanDocsUrl": "https://tailng.dev/components/overlay/dialog/overview"
     },
@@ -56,7 +56,7 @@
         "imports"
       ],
       "package": "@tailng-ui/components",
-      "packageVersion": "0.127.0",
+      "packageVersion": "1.0.0",
       "url": "https://tailng.dev/ai/components/index.md",
       "humanDocsUrl": "https://tailng.dev/components"
     },
@@ -72,7 +72,7 @@
         "validation"
       ],
       "package": "@tailng-ui/components",
-      "packageVersion": "0.127.0",
+      "packageVersion": "1.0.0",
       "url": "https://tailng.dev/ai/components/input/overview.md",
       "humanDocsUrl": "https://tailng.dev/components/form/input/overview"
     },
@@ -88,7 +88,7 @@
         "data"
       ],
       "package": "@tailng-ui/components",
-      "packageVersion": "0.127.0",
+      "packageVersion": "1.0.0",
       "url": "https://tailng.dev/ai/components/table/overview.md",
       "humanDocsUrl": "https://tailng.dev/components/layout/table/overview"
     },
@@ -120,7 +120,7 @@
         "tokens"
       ],
       "package": "@tailng-ui/theme",
-      "packageVersion": "0.84.0",
+      "packageVersion": "1.0.0",
       "url": "https://tailng.dev/ai/configuration/plain-css.md",
       "humanDocsUrl": "https://tailng.dev/components/getting-started/plain-css-setup"
     },
@@ -136,7 +136,7 @@
         "provider"
       ],
       "package": "@tailng-ui/theme",
-      "packageVersion": "0.84.0",
+      "packageVersion": "1.0.0",
       "url": "https://tailng.dev/ai/configuration/standalone-angular.md",
       "humanDocsUrl": "https://tailng.dev/components/getting-started/configure-theme"
     },
@@ -152,7 +152,7 @@
         "configuration"
       ],
       "package": "@tailng-ui/theme",
-      "packageVersion": "0.84.0",
+      "packageVersion": "1.0.0",
       "url": "https://tailng.dev/ai/configuration/tailwind.md",
       "humanDocsUrl": "https://tailng.dev/components/getting-started/tailwind-setup"
     },
@@ -169,7 +169,7 @@
         "accessibility"
       ],
       "package": "@tailng-ui/icons",
-      "packageVersion": "0.30.0",
+      "packageVersion": "1.0.0",
       "url": "https://tailng.dev/ai/icons/index.md",
       "humanDocsUrl": "https://tailng.dev/icons/overview"
     },
@@ -217,7 +217,7 @@
         "quick-start"
       ],
       "package": "@tailng-ui/components",
-      "packageVersion": "0.127.0",
+      "packageVersion": "1.0.0",
       "url": "https://tailng.dev/ai/installation/new-angular-project.md",
       "humanDocsUrl": "https://tailng.dev/components/getting-started/plain-css-setup"
     },
@@ -250,7 +250,7 @@
         "yarn"
       ],
       "package": "@tailng-ui/components",
-      "packageVersion": "0.127.0",
+      "packageVersion": "1.0.0",
       "url": "https://tailng.dev/ai/installation/packages.md",
       "humanDocsUrl": "https://tailng.dev/components/getting-started/installation"
     },
@@ -266,7 +266,7 @@
         "presets"
       ],
       "package": "@tailng-ui/theme",
-      "packageVersion": "0.84.0",
+      "packageVersion": "1.0.0",
       "url": "https://tailng.dev/ai/theme/index.md",
       "humanDocsUrl": "https://tailng.dev/theme/guides/getting-started"
     },
@@ -282,7 +282,7 @@
         "presets"
       ],
       "package": "@tailng-ui/theme",
-      "packageVersion": "0.84.0",
+      "packageVersion": "1.0.0",
       "url": "https://tailng.dev/ai/theme/runtime.md",
       "humanDocsUrl": "https://tailng.dev/theme/guides/getting-started"
     },
@@ -298,7 +298,7 @@
         "contracts"
       ],
       "package": "@tailng-ui/theme",
-      "packageVersion": "0.84.0",
+      "packageVersion": "1.0.0",
       "url": "https://tailng.dev/ai/theme/tokens.md",
       "humanDocsUrl": "https://tailng.dev/theme/reference/styling"
     },

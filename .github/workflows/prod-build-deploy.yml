@@ -160,7 +160,10 @@ jobs:
 
       - name: Commit and push version changes
         run: |
-          git add package.json libs/**/package.json || true
+          git add package.json libs/**/package.json \
+            apps/tailng-ui/docs/public/ai \
+            apps/tailng-ui/docs/public/llms.txt \
+            apps/tailng-ui/docs/public/llms-full.txt || true
           if git diff --cached --quiet; then
             echo "Nothing to commit"
           else
