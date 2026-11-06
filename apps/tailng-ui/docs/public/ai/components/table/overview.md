@@ -50,3 +50,9 @@ export class ReleaseStatusTableExample {
 Provide `ariaLabel` or `ariaLabelledby`. Column IDs default to property lookup when no accessor is provided. Use meaningful column labels because sortable headers announce them.
 
 The component also supports density, sticky headers, sorting state, filtering state, pagination state, loading/error states, row styling, nested column groups, and custom cell/header templates.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/table/api.md)
+- [Styling](https://tailng.dev/ai/components/table/styling.md)
+- [Examples](https://tailng.dev/ai/components/table/examples.md)

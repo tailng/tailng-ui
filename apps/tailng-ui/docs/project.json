@@ -66,6 +66,12 @@
         "command": "node apps/tailng-ui/docs/scripts/agent-knowledge.mjs check"
       }
     },
+    "test-agent-knowledge": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node apps/tailng-ui/docs/scripts/agent-knowledge.mjs test"
+      }
+    },
     "serve": {
       "continuous": true,
       "executor": "@angular/build:dev-server",

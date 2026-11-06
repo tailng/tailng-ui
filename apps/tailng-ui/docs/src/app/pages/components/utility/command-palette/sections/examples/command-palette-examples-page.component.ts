@@ -10,7 +10,10 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
 import {
   COMMAND_PALETTE_DEVICES,
   filterCommandPaletteDevices,
@@ -81,6 +84,9 @@ export class CommandPaletteExamplesPageComponent implements OnDestroy {
         "import { Component, computed, signal } from '@angular/core';",
         "import { TngCommandPaletteComponent } from '@tailng-ui/components';",
         '',
+        "const DEVICES = [{ value: 'router', label: 'Router', description: 'Network gateway' }];",
+        'const filterDevices = (query: string) => DEVICES.filter((device) => device.label.toLowerCase().includes(query.toLowerCase()));',
+        '',
         '@Component({',
         "  selector: 'app-command-palette-default',",
         '  standalone: true,',
@@ -91,6 +97,7 @@ export class CommandPaletteExamplesPageComponent implements OnDestroy {
         '  protected readonly open = signal(false);',
         "  protected readonly query = signal('');",
         '  protected readonly options = computed(() => filterDevices(this.query()));',
+        '  protected selectDevice(_event: unknown): void {}',
         '}',
       ].join('\n'),
     },
@@ -135,6 +142,9 @@ export class CommandPaletteExamplesPageComponent implements OnDestroy {
       code: [
         "import { Component, computed, signal } from '@angular/core';",
         "import { TngButtonComponent, TngCommandPaletteComponent } from '@tailng-ui/components';",
+        '',
+        "const DEVICES = [{ value: 'router', label: 'Router', description: 'Network gateway' }];",
+        'const filterDevices = (query: string) => DEVICES.filter((device) => device.label.toLowerCase().includes(query.toLowerCase()));',
         '',
         '@Component({',
         "  selector: 'app-command-palette-tailwind',",
@@ -205,6 +215,9 @@ export class CommandPaletteExamplesPageComponent implements OnDestroy {
         '  description: string;',
         '  status: string;',
         '};',
+        '',
+        "const DEVICES: readonly Device[] = [{ id: 'router', label: 'Router', description: 'Network gateway', status: 'Online' }];",
+        'const filterDevices = (devices: readonly Device[], query: string) => devices.filter((device) => device.label.toLowerCase().includes(query.toLowerCase()));',
         '',
         '@Component({',
         "  selector: 'app-command-palette-custom',",
@@ -288,6 +301,9 @@ export class CommandPaletteExamplesPageComponent implements OnDestroy {
         '  description: string;',
         '  status: string;',
         '};',
+        '',
+        "const DEVICES: readonly Device[] = [{ id: 'router', label: 'Router', description: 'Network gateway', status: 'Online' }];",
+        'const filterDevices = (devices: readonly Device[], query: string) => devices.filter((device) => device.label.toLowerCase().includes(query.toLowerCase()));',
         '',
         '@Component({',
         "  selector: 'app-command-palette-custom-tailwind',",

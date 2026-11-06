@@ -20,3 +20,16 @@ Use the package versions and compatibility data from https://tailng.dev/ai/versi
 - [Package versions](https://tailng.dev/ai/versions.json)
 - [Full knowledge bundle](https://tailng.dev/llms-full.txt)
 
+## Component bundles
+
+- [Feedback components](https://tailng.dev/ai/bundles/components-feedback.txt)
+- [Flow components](https://tailng.dev/ai/bundles/components-flow.txt)
+- [Form components](https://tailng.dev/ai/bundles/components-form.txt)
+- [Layout components](https://tailng.dev/ai/bundles/components-layout.txt)
+- [Navigation components](https://tailng.dev/ai/bundles/components-navigation.txt)
+- [Overlay components](https://tailng.dev/ai/bundles/components-overlay.txt)
+- [Utility components](https://tailng.dev/ai/bundles/components-utility.txt)
+- [Component API references](https://tailng.dev/ai/bundles/components-api.txt)
+- [Component styling references](https://tailng.dev/ai/bundles/components-styling.txt)
+- [Component examples](https://tailng.dev/ai/bundles/components-examples.txt)
+

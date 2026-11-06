@@ -1,0 +1,3870 @@
+# TailNG layout components
+
+---
+
+Source: https://tailng.dev/ai/components/accordion/api.md
+
+---
+id: "components/accordion/api"
+title: "Accordion API"
+description: "Accordion API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["accordion","layout","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/accordion/tng-accordion.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/accordion/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/accordion/sections/api/accordion-api-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/accordion/sections/api/accordion-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/accordion/sections/api/accordion-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/accordion/api"
+componentGroup: "layout"
+symbols: ["TngAccordionComponent","TngAccordionItemComponent","TngAccordionPanelComponent","TngAccordionTriggerComponent"]
+selectors: ["tng-accordion","tng-accordion-item","tng-accordion-panel","tng-accordion-trigger"]
+productId: "accordion"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Accordion API
+
+Single and multi-expand panel groups with keyboard navigation and aria wiring.
+
+## API reference
+
+Accordion ships as headless directives and styled wrappers. The core behavior contract lives in `tngAccordion`, while wrappers forward the same interaction model.
+
+### Primitive composition
+
+Use root, item, trigger, and panel directives together. This gives full styling control while preserving accessibility and keyboard behavior.
+
+#### Headless accordion
+
+```html
+<section tngAccordion [defaultValue]="'overview'" [collapsible]="true">
+  <article tngAccordionItem value="overview">
+    <button tngAccordionTrigger type="button">Overview</button>
+    <div tngAccordionPanel>Overview content</div>
+  </article>
+  <article tngAccordionItem value="api">
+    <button tngAccordionTrigger type="button">API</button>
+    <div tngAccordionPanel>API content</div>
+  </article>
+</section>
+```
+
+| Directive | Selector | Purpose |
+| --- | --- | --- |
+| `TngAccordion` | `[tngAccordion]` | Owns expanded values, focus movement, and keyboard/pointer interactions. |
+| `TngAccordionItem` | `[tngAccordionItem]` | Registers a value/disabled item boundary under the root. |
+| `TngAccordionTrigger` | `[tngAccordionTrigger]` | Applies trigger ARIA state and keyboard handling. |
+| `TngAccordionPanel` | `[tngAccordionPanel]` | Exposes `role="region"` with trigger association and mount policy. |
+
+### Wrapper composition
+
+`tng-accordion` and subcomponents are thin wrappers over the same primitive behavior contract, and `[tngAccordionIndicator]` lets you replace the default chevron with your own projected icon.
+
+#### Component wrapper
+
+```html
+<tng-accordion ariaLabel="Documentation" [defaultValue]="'install'">
+  <tng-accordion-item value="install">
+    <tng-accordion-trigger>Installation</tng-accordion-trigger>
+    <tng-accordion-panel>Install instructions.</tng-accordion-panel>
+  </tng-accordion-item>
+  <tng-accordion-item value="migration">
+    <tng-accordion-trigger>Migration</tng-accordion-trigger>
+    <tng-accordion-panel>Upgrade notes.</tng-accordion-panel>
+  </tng-accordion-item>
+</tng-accordion>
+```
+
+| Input | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `ariaLabel` | `string` | `'Accordion'` | Applies an accessible label to the wrapper host. |
+| `type` | `'single' \| 'multiple'` | `'single'` | Single allows one expanded item; multiple allows many. |
+| `defaultValue` | `string \| number \| readonly (string \| number)[] \| null` | `undefined` | Initial uncontrolled selection. |
+| `value` | `string \| number \| readonly (string \| number)[] \| null` | `undefined` | Controlled selection source. |
+| `collapsible` | `boolean` | `true` | When single-mode, allows closing the active item. |
+| `disabled` | `boolean` | `false` | Disables interactions for the full accordion. |
+| `loop` | `boolean` | `true` | Arrow key traversal wraps from end to start and vice versa. |
+| `lazy` | `boolean` | `false` | Mount panels only after first expansion. |
+| `keepAlive` | `boolean` | `true` | Keep previously mounted panels in DOM when collapsed. |
+| `[tngAccordionIndicator]` | `Directive` | Optional | Project a custom icon into the trigger and suppress the built-in default chevron. |
+
+### Outputs
+
+Listen to state changes from either primitives or wrapper components.
+
+#### Outputs
+
+```html
+<section
+  tngAccordion
+  [type]="'multiple'"
+  (valueChange)="onValueChange($event)"
+  (expandedChange)="onExpandedChange($event)"
+></section>
+```
+
+| Output | Payload | When it fires |
+| --- | --- | --- |
+| `valueChange` | `value \| value[] \| null` | Selection changes from user or imperative toggles. |
+| `valuesChange` | `readonly value[]` | Multiple-mode selection updates. |
+| `expandedChange` | `{ value, expanded, previousValues, values, trigger }` | Normalized event with previous/next values and trigger source. |
+| `openStart`/`opened` | `value` | Open lifecycle phases. |
+| `closeStart`/`closed` | `value` | Close lifecycle phases. |
+
+## Source-derived public Angular API
+
+### `TngAccordionComponent` — `tng-accordion`
+
+- Inputs: `ariaLabel`
+- Forwarded inputs: `collapsible`, `defaultValue`, `disabled`, `keepAlive`, `lazy`, `loop`, `type`, `value`
+- Forwarded outputs: `closed`, `closeStart`, `expandedChange`, `opened`, `openStart`, `valueChange`, `valuesChange`
+
+### `TngAccordionItemComponent` — `tng-accordion-item`
+
+- Forwarded inputs: `disabled`, `value`
+
+### Structural surfaces
+
+These APIs provide composition or projection surfaces without their own bindable signal API:
+
+- `TngAccordionPanelComponent` — `tng-accordion-panel`
+- `TngAccordionTriggerComponent` — `tng-accordion-trigger`
+
+---
+
+Source: https://tailng.dev/ai/components/accordion/examples.md
+
+---
+id: "components/accordion/examples"
+title: "Accordion examples"
+description: "Accordion examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["accordion","layout","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/accordion/tng-accordion.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/accordion/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/accordion/sections/examples/accordion-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/accordion/sections/examples/accordion-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/accordion/sections/examples/accordion-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/accordion/examples"
+componentGroup: "layout"
+symbols: ["TngAccordionComponent","TngAccordionItemComponent","TngAccordionPanelComponent","TngAccordionTriggerComponent"]
+selectors: ["tng-accordion","tng-accordion-item","tng-accordion-panel","tng-accordion-trigger"]
+productId: "accordion"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Accordion examples
+
+## Examples
+
+Production-friendly wrapper patterns for FAQ groups, settings clusters, and disabled sections.
+
+### accordion-examples-faq-plain-css.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import {
+  TngAccordionComponent,
+  TngAccordionItemComponent,
+  TngAccordionPanelComponent,
+  TngAccordionTriggerComponent,
+} from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-accordion-examples-faq-plain-css',
+  standalone: true,
+  imports: [
+    TngAccordionComponent,
+    TngAccordionItemComponent,
+    TngAccordionTriggerComponent,
+    TngAccordionPanelComponent,
+  ],
+  templateUrl: './accordion-examples-faq-plain-css.component.html',
+  styleUrl: './accordion-examples-faq-plain-css.component.css',
+})
+export class AccordionExamplesFaqPlainCssComponent {}
+```
+
+### accordion-examples-faq-plain-css.component.html
+
+```html
+<div class="accordion-example-shell accordion-example-shell--plain">
+  <tng-accordion ariaLabel="Project FAQ" [defaultValue]="'timeline'">
+    <tng-accordion-item value="timeline">
+      <tng-accordion-trigger class="accordion-example-trigger">Timeline</tng-accordion-trigger>
+      <tng-accordion-panel class="accordion-example-panel">Roadmap and release cadence.</tng-accordion-panel>
+    </tng-accordion-item>
+    <tng-accordion-item value="governance">
+      <tng-accordion-trigger class="accordion-example-trigger">Governance</tng-accordion-trigger>
+      <tng-accordion-panel class="accordion-example-panel">Contribution and review policy.</tng-accordion-panel>
+    </tng-accordion-item>
+  </tng-accordion>
+</div>
+```
+
+### accordion-examples-faq-plain-css.component.css
+
+```css
+.accordion-example-panel {
+  color: var(--tng-semantic-foreground-secondary);
+}
+```
+
+### accordion-examples-faq-tailwind.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import {
+  TngAccordionComponent,
+  TngAccordionItemComponent,
+  TngAccordionPanelComponent,
+  TngAccordionTriggerComponent,
+} from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-accordion-examples-faq-tailwind',
+  standalone: true,
+  imports: [
+    TngAccordionComponent,
+    TngAccordionItemComponent,
+    TngAccordionTriggerComponent,
+    TngAccordionPanelComponent,
+  ],
+  templateUrl: './accordion-examples-faq-tailwind.component.html',
+  styleUrl: './accordion-examples-faq-tailwind.component.css',
+})
+export class AccordionExamplesFaqTailwindComponent {}
+```
+
+### accordion-examples-faq-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+  <tng-accordion ariaLabel="Project FAQ" [defaultValue]="'release'">
+    <tng-accordion-item value="release">
+      <tng-accordion-trigger class="accordion-example-trigger font-medium text-slate-900 dark:text-slate-100">
+        Release model
+      </tng-accordion-trigger>
+      <tng-accordion-panel class="accordion-example-panel text-slate-700 dark:text-slate-300">
+        Weekly patch and monthly minor cadence.
+      </tng-accordion-panel>
+    </tng-accordion-item>
+    <tng-accordion-item value="quality">
+      <tng-accordion-trigger class="accordion-example-trigger font-medium text-slate-900 dark:text-slate-100">
+        Quality gates
+      </tng-accordion-trigger>
+      <tng-accordion-panel class="accordion-example-panel text-slate-700 dark:text-slate-300">
+        Tests and lint pass before merge.
+      </tng-accordion-panel>
+    </tng-accordion-item>
+  </tng-accordion>
+</div>
+```
+
+### accordion-examples-faq-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+### accordion-examples-settings-plain-css.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import {
+  TngAccordionComponent,
+  TngAccordionItemComponent,
+  TngAccordionPanelComponent,
+  TngAccordionTriggerComponent,
+} from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-accordion-examples-settings-plain-css',
+  standalone: true,
+  imports: [
+    TngAccordionComponent,
+    TngAccordionItemComponent,
+    TngAccordionTriggerComponent,
+    TngAccordionPanelComponent,
+  ],
+  templateUrl: './accordion-examples-settings-plain-css.component.html',
+  styleUrl: './accordion-examples-settings-plain-css.component.css',
+})
+export class AccordionExamplesSettingsPlainCssComponent {}
+```
+
+### accordion-examples-settings-plain-css.component.html
+
+```html
+<div class="accordion-example-shell accordion-example-shell--plain">
+  <tng-accordion type="multiple" [defaultValue]="['alerts']" ariaLabel="System settings">
+    <tng-accordion-item value="alerts">
+      <tng-accordion-trigger class="accordion-example-trigger">Alerts</tng-accordion-trigger>
+      <tng-accordion-panel class="accordion-example-panel">PagerDuty, email, and Slack routing.</tng-accordion-panel>
+    </tng-accordion-item>
+    <tng-accordion-item value="audits">
+      <tng-accordion-trigger class="accordion-example-trigger">Audits</tng-accordion-trigger>
+      <tng-accordion-panel class="accordion-example-panel">Retention and export scheduling.</tng-accordion-panel>
+    </tng-accordion-item>
+    <tng-accordion-item value="billing" disabled>
+      <tng-accordion-trigger class="accordion-example-trigger">Billing (disabled)</tng-accordion-trigger>
+      <tng-accordion-panel class="accordion-example-panel">Disabled sections stay locked.</tng-accordion-panel>
+    </tng-accordion-item>
+  </tng-accordion>
+</div>
+```
+
+### accordion-examples-settings-plain-css.component.css
+
+```css
+tng-accordion-item[disabled] {
+  opacity: 0.65;
+}
+```
+
+### accordion-examples-settings-tailwind.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import {
+  TngAccordionComponent,
+  TngAccordionItemComponent,
+  TngAccordionPanelComponent,
+  TngAccordionTriggerComponent,
+} from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-accordion-examples-settings-tailwind',
+  standalone: true,
+  imports: [
+    TngAccordionComponent,
+    TngAccordionItemComponent,
+    TngAccordionTriggerComponent,
+    TngAccordionPanelComponent,
+  ],
+  templateUrl: './accordion-examples-settings-tailwind.component.html',
+  styleUrl: './accordion-examples-settings-tailwind.component.css',
+})
+export class AccordionExamplesSettingsTailwindComponent {}
+```
+
+### accordion-examples-settings-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+  <tng-accordion type="multiple" [defaultValue]="['alerts']" ariaLabel="System settings">
+    <tng-accordion-item value="alerts">
+      <tng-accordion-trigger class="accordion-example-trigger font-medium text-slate-900 dark:text-slate-100">
+        Alerts
+      </tng-accordion-trigger>
+      <tng-accordion-panel class="accordion-example-panel text-slate-700 dark:text-slate-300">
+        PagerDuty, email, and Slack routing.
+      </tng-accordion-panel>
+    </tng-accordion-item>
+    <tng-accordion-item value="audits">
+      <tng-accordion-trigger class="accordion-example-trigger font-medium text-slate-900 dark:text-slate-100">
+        Audits
+      </tng-accordion-trigger>
+      <tng-accordion-panel class="accordion-example-panel text-slate-700 dark:text-slate-300">
+        Retention and export scheduling.
+      </tng-accordion-panel>
+    </tng-accordion-item>
+  </tng-accordion>
+</div>
+```
+
+### accordion-examples-settings-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+---
+
+Source: https://tailng.dev/ai/components/accordion/overview.md
+
+---
+id: "components/accordion/overview"
+title: "Accordion component"
+description: "Single and multi-expand panel groups with keyboard navigation and aria wiring."
+category: "components"
+status: "stable"
+tags: ["accordion","layout","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/accordion/tng-accordion.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/accordion/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/accordion/overview"
+componentGroup: "layout"
+symbols: ["TngAccordionComponent","TngAccordionItemComponent","TngAccordionPanelComponent","TngAccordionTriggerComponent"]
+selectors: ["tng-accordion","tng-accordion-item","tng-accordion-panel","tng-accordion-trigger"]
+productId: "accordion"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Accordion component
+
+Single and multi-expand panel groups with keyboard navigation and aria wiring.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngAccordionComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngAccordionComponent],
+  template: `<tng-accordion />`,
+})
+export class AccordionAgentExample {}
+```
+
+## Component family
+
+- `TngAccordionComponent` — selector `tng-accordion`
+- `TngAccordionItemComponent` — selector `tng-accordion-item`
+- `TngAccordionPanelComponent` — selector `tng-accordion-panel`
+- `TngAccordionTriggerComponent` — selector `tng-accordion-trigger`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/layout/accordion/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/accordion/api.md)
+- [Styling](https://tailng.dev/ai/components/accordion/styling.md)
+- [Examples](https://tailng.dev/ai/components/accordion/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/accordion/styling.md
+
+---
+id: "components/accordion/styling"
+title: "Accordion styling"
+description: "Accordion styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["accordion","layout","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/accordion/tng-accordion.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/accordion/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/accordion/sections/styling/accordion-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/accordion/sections/styling/accordion-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/accordion/sections/styling/accordion-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/accordion/styling"
+componentGroup: "layout"
+symbols: ["TngAccordionComponent","TngAccordionItemComponent","TngAccordionPanelComponent","TngAccordionTriggerComponent"]
+selectors: ["tng-accordion","tng-accordion-item","tng-accordion-panel","tng-accordion-trigger"]
+productId: "accordion"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Accordion styling
+
+## Styling contract
+
+Accordion exposes predictable slot/state attributes so teams can style primitives and wrappers consistently in plain CSS or utility layers.
+
+### State hooks
+
+| Hook | Where | Use |
+| --- | --- | --- |
+| `data-slot="accordion"` | Root | Overall container surface, border, spacing, and group-level layout. |
+| `data-type="single\|multiple"` | Root | Switch layout accents based on single or multiple expansion mode. |
+| `data-slot="accordion-item"` | Item | Per-item separators and disabled presentation. |
+| `data-slot="accordion-trigger"` | Trigger | Button typography, hover, focus, and open/closed state styles. |
+| `data-slot="accordion-indicator"` | Default chevron or projected custom indicator | Icon sizing, alignment, and open-state transforms. |
+| `data-state="open\|closed"` | Item, trigger, panel, indicator | Animate chevrons, open panels, and stateful backgrounds. |
+| `data-disabled="true\|false"` | Root, item, trigger | Visual lock for disabled sections and pointer affordances. |
+| `data-slot="accordion-panel"` | Panel | Panel container spacing and typography treatment. |
+
+### CSS starter
+
+#### Accordion state contract
+
+```css
+[data-slot="accordion"] {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+}
+
+[data-slot="accordion-trigger"][data-state="open"] {
+  color: var(--tng-semantic-accent-brand);
+}
+
+[data-slot="accordion-indicator"][data-state="open"] {
+  transform: rotate(180deg);
+}
+
+[data-slot="accordion-item"][data-disabled="true"] {
+  opacity: 0.6;
+}
+
+[data-slot="accordion-panel"][data-state="closed"] {
+  display: none;
+}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/bottom-sheet/api.md
+
+---
+id: "components/bottom-sheet/api"
+title: "Bottom Sheet API"
+description: "Bottom Sheet API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["bottom-sheet","layout","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/bottom-sheet/tng-bottom-sheet.component.ts"]
+componentGroup: "layout"
+symbols: ["TngBottomSheetComponent"]
+selectors: ["tng-bottom-sheet"]
+productId: "bottom-sheet"
+section: "api"
+officialCatalog: false
+generated: true
+---
+
+# Bottom Sheet API
+
+Display focused content in a modal panel attached to the bottom of the viewport.
+
+## Source-derived public Angular API
+
+### `TngBottomSheetComponent` — `tng-bottom-sheet`
+
+- Inputs: `ariaLabel`
+
+---
+
+Source: https://tailng.dev/ai/components/bottom-sheet/examples.md
+
+---
+id: "components/bottom-sheet/examples"
+title: "Bottom Sheet examples"
+description: "Bottom Sheet examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["bottom-sheet","layout","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/bottom-sheet/tng-bottom-sheet.component.ts"]
+componentGroup: "layout"
+symbols: ["TngBottomSheetComponent"]
+selectors: ["tng-bottom-sheet"]
+productId: "bottom-sheet"
+section: "examples"
+officialCatalog: false
+generated: true
+---
+
+# Bottom Sheet examples
+
+## Minimal example
+
+```ts
+import { Component } from '@angular/core';
+import { TngBottomSheetComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngBottomSheetComponent],
+  template: `<tng-bottom-sheet />`,
+})
+export class BottomSheetExample {}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/bottom-sheet/overview.md
+
+---
+id: "components/bottom-sheet/overview"
+title: "Bottom Sheet component"
+description: "Display focused content in a modal panel attached to the bottom of the viewport."
+category: "components"
+status: "stable"
+tags: ["bottom-sheet","layout","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/bottom-sheet/tng-bottom-sheet.component.ts"]
+componentGroup: "layout"
+symbols: ["TngBottomSheetComponent"]
+selectors: ["tng-bottom-sheet"]
+productId: "bottom-sheet"
+section: "overview"
+officialCatalog: false
+generated: true
+---
+
+# Bottom Sheet component
+
+Display focused content in a modal panel attached to the bottom of the viewport.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngBottomSheetComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngBottomSheetComponent],
+  template: `<tng-bottom-sheet />`,
+})
+export class BottomSheetAgentExample {}
+```
+
+## Component family
+
+- `TngBottomSheetComponent` — selector `tng-bottom-sheet`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+This public export does not yet have a dedicated human catalog page; use this reference together with the package source API.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/bottom-sheet/api.md)
+- [Styling](https://tailng.dev/ai/components/bottom-sheet/styling.md)
+- [Examples](https://tailng.dev/ai/components/bottom-sheet/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/bottom-sheet/styling.md
+
+---
+id: "components/bottom-sheet/styling"
+title: "Bottom Sheet styling"
+description: "Bottom Sheet styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["bottom-sheet","layout","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/bottom-sheet/tng-bottom-sheet.component.ts"]
+componentGroup: "layout"
+symbols: ["TngBottomSheetComponent"]
+selectors: ["tng-bottom-sheet"]
+productId: "bottom-sheet"
+section: "styling"
+officialCatalog: false
+generated: true
+---
+
+# Bottom Sheet styling
+
+## Styling contract
+
+Load the TailNG theme contract stylesheet and prefer semantic tokens over hard-coded colors.
+
+### CSS custom properties
+
+- `--tng-semantic-background-base`
+- `--tng-semantic-border-subtle`
+- `--tng-semantic-foreground-primary`
+
+---
+
+Source: https://tailng.dev/ai/components/card/api.md
+
+---
+id: "components/card/api"
+title: "Card API"
+description: "Card API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["card","layout","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/card/tng-card.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/card/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/card/sections/api/card-api-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/card/sections/api/card-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/card/sections/api/card-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/card/api"
+componentGroup: "layout"
+symbols: ["TngCardActionsComponent","TngCardComponent","TngCardContentComponent","TngCardDescriptionComponent","TngCardDividerComponent","TngCardFooterComponent","TngCardHeaderComponent","TngCardLinkComponent","TngCardMediaComponent","TngCardTitleComponent"]
+selectors: ["tng-card-actions","tng-card","tng-card-content","tng-card-description","tng-card-divider","tng-card-footer","tng-card-header","tng-card-link","tng-card-media","tng-card-title"]
+productId: "card"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Card API
+
+Grouped content surfaces with optional media, actions, and footer composition.
+
+## API reference
+
+Card is a structural surface primitive with optional wrapper components for consistent visual defaults.
+
+### `tngCard` and slot directives (primitives)
+
+Attach directives to semantic elements to define the card structure while keeping full markup ownership.
+
+#### Primitive attachment
+
+```html
+<article tngCard>
+  <header tngCardHeader>
+    <h3 tngCardTitle>Card title</h3>
+    <p tngCardDescription>Card description</p>
+  </header>
+  <section tngCardContent>Body content</section>
+  <footer tngCardFooter>
+    <div tngCardActions>
+      <button type="button">Action</button>
+    </div>
+  </footer>
+</article>
+```
+
+| Directive | Selector | Data slot | Purpose |
+| --- | --- | --- | --- |
+| `TngCard` | `[tngCard]` | `card` | Root container for grouped content. |
+| `TngCardHeader` | `[tngCardHeader]` | `card-header` | Top metadata section. |
+| `TngCardTitle` | `[tngCardTitle]` | `card-title` | Primary heading hook. |
+| `TngCardDescription` | `[tngCardDescription]` | `card-description` | Supporting summary text. |
+| `TngCardContent` | `[tngCardContent]` | `card-content` | Main body region. |
+| `TngCardFooter` | `[tngCardFooter]` | `card-footer` | Footer container for meta/actions. |
+| `TngCardMedia` | `[tngCardMedia]` | `card-media` | Image/video slot wrapper. |
+| `TngCardActions` | `[tngCardActions]` | `card-actions` | Action row alignment hook. |
+| `TngCardDivider` | `[tngCardDivider]` | `card-divider` | Separator hook between sections. |
+| `TngCardLink` | `[tngCardLink]` | `card-link` | Focusable link hook inside card surfaces. |
+
+### `tng-card` wrappers (components)
+
+Wrapper components apply baseline styles while preserving primitive slot contracts and composition.
+
+#### Component attachment
+
+```html
+<tng-card variant="outline" tone="neutral" padding="md">
+  <tng-card-header>
+    <tng-card-title>Card title</tng-card-title>
+    <tng-card-description>Card description</tng-card-description>
+  </tng-card-header>
+  <tng-card-content>Body content</tng-card-content>
+  <tng-card-footer>
+    <tng-card-actions>
+      <button type="button">Action</button>
+    </tng-card-actions>
+  </tng-card-footer>
+</tng-card>
+```
+
+| Surface | Input | Type | Default |
+| --- | --- | --- | --- |
+| `tng-card` | `variant` | `'ghost' \| 'outline' \| 'solid'` | `'solid'` |
+| `tng-card` | `tone` | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'neutral'` |
+| `tng-card` | `padding` | `'none' \| 'sm' \| 'md' \| 'lg'` | `'md'` |
+| `tng-card` | `interactive` | `boolean` | `false` |
+| `tng-card` | `elevated` | `boolean` | `false` |
+| `tng-card-actions` | `align` | `'start' \| 'end'` | `'end'` |
+| `tng-card-link` | `href` | `string \| null` | `'#'` |
+| `tng-card-link` | `disabled` | `boolean` | `false` |
+
+## Source-derived public Angular API
+
+### `TngCardActionsComponent` — `tng-card-actions`
+
+- Inputs: `align`
+
+### `TngCardComponent` — `tng-card`
+
+- Inputs: `elevated`, `interactive`, `padding`, `tone`, `variant`
+
+### `TngCardLinkComponent` — `tng-card-link`
+
+- Inputs: `ariaLabel`, `disabled`, `href`, `rel`, `target`
+
+### Structural surfaces
+
+These APIs provide composition or projection surfaces without their own bindable signal API:
+
+- `TngCardContentComponent` — `tng-card-content`
+- `TngCardDescriptionComponent` — `tng-card-description`
+- `TngCardDividerComponent` — `tng-card-divider`
+- `TngCardFooterComponent` — `tng-card-footer`
+- `TngCardHeaderComponent` — `tng-card-header`
+- `TngCardMediaComponent` — `tng-card-media`
+- `TngCardTitleComponent` — `tng-card-title`
+
+---
+
+Source: https://tailng.dev/ai/components/card/examples.md
+
+---
+id: "components/card/examples"
+title: "Card examples"
+description: "Card examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["card","layout","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/card/tng-card.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/card/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/card/sections/examples/card-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/card/sections/examples/card-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/card/sections/examples/card-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/card/examples"
+componentGroup: "layout"
+symbols: ["TngCardActionsComponent","TngCardComponent","TngCardContentComponent","TngCardDescriptionComponent","TngCardDividerComponent","TngCardFooterComponent","TngCardHeaderComponent","TngCardLinkComponent","TngCardMediaComponent","TngCardTitleComponent"]
+selectors: ["tng-card-actions","tng-card","tng-card-content","tng-card-description","tng-card-divider","tng-card-footer","tng-card-header","tng-card-link","tng-card-media","tng-card-title"]
+productId: "card"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Card examples
+
+## Examples
+
+Wrapper-based card patterns for profile summaries and action queues.
+
+### card-examples-media-plain-css.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import {
+  TngCardActionsComponent,
+  TngCardComponent,
+  TngCardContentComponent,
+  TngCardDescriptionComponent,
+  TngCardFooterComponent,
+  TngCardHeaderComponent,
+  TngCardMediaComponent,
+  TngCardTitleComponent,
+} from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-card-examples-media-plain-css',
+  standalone: true,
+  imports: [
+    TngCardComponent,
+    TngCardMediaComponent,
+    TngCardHeaderComponent,
+    TngCardTitleComponent,
+    TngCardDescriptionComponent,
+    TngCardContentComponent,
+    TngCardFooterComponent,
+    TngCardActionsComponent,
+  ],
+  templateUrl: './card-examples-media-plain-css.component.html',
+  styleUrl: './card-examples-media-plain-css.component.css',
+})
+export class CardExamplesMediaPlainCssComponent {}
+```
+
+### card-examples-media-plain-css.component.html
+
+```html
+<div class="card-example-shell card-example-shell--plain">
+  <tng-card variant="outline" tone="neutral" interactive>
+    <tng-card-media><div class="card-example__media-placeholder" aria-hidden="true">AV</div></tng-card-media>
+    <tng-card-header>
+      <tng-card-title>Ava Mathews</tng-card-title>
+      <tng-card-description>Design systems engineer</tng-card-description>
+    </tng-card-header>
+    <tng-card-content>
+      <p>Building reusable interaction patterns across product teams.</p>
+    </tng-card-content>
+    <tng-card-footer>
+      <tng-card-actions>
+        <button type="button">Message</button>
+        <button type="button">Follow</button>
+      </tng-card-actions>
+    </tng-card-footer>
+  </tng-card>
+</div>
+```
+
+### card-examples-media-plain-css.component.css
+
+```css
+.card-example-shell--plain {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  padding: 1rem;
+}
+```
+
+### card-examples-media-tailwind.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import {
+  TngCardActionsComponent,
+  TngCardComponent,
+  TngCardContentComponent,
+  TngCardDescriptionComponent,
+  TngCardFooterComponent,
+  TngCardHeaderComponent,
+  TngCardMediaComponent,
+  TngCardTitleComponent,
+} from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-card-examples-media-tailwind',
+  standalone: true,
+  imports: [
+    TngCardComponent,
+    TngCardMediaComponent,
+    TngCardHeaderComponent,
+    TngCardTitleComponent,
+    TngCardDescriptionComponent,
+    TngCardContentComponent,
+    TngCardFooterComponent,
+    TngCardActionsComponent,
+  ],
+  templateUrl: './card-examples-media-tailwind.component.html',
+  styleUrl: './card-examples-media-tailwind.component.css',
+})
+export class CardExamplesMediaTailwindComponent {}
+```
+
+### card-examples-media-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+  <tng-card variant="outline" tone="primary" padding="lg" interactive>
+    <tng-card-media><div class="card-example__media-placeholder" aria-hidden="true">AV</div></tng-card-media>
+    <tng-card-header>
+      <tng-card-title>Ava Mathews</tng-card-title>
+      <tng-card-description>Design systems engineer</tng-card-description>
+    </tng-card-header>
+    <tng-card-content>
+      <p class="text-sm text-slate-600 dark:text-slate-300">
+        Building reusable interaction patterns across product teams.
+      </p>
+    </tng-card-content>
+    <tng-card-footer>
+      <tng-card-actions>
+        <button type="button">Message</button>
+        <button type="button">Follow</button>
+      </tng-card-actions>
+    </tng-card-footer>
+  </tng-card>
+</div>
+```
+
+### card-examples-media-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+### card-examples-actions-plain-css.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import {
+  TngCardActionsComponent,
+  TngCardComponent,
+  TngCardContentComponent,
+  TngCardDescriptionComponent,
+  TngCardDividerComponent,
+  TngCardFooterComponent,
+  TngCardHeaderComponent,
+  TngCardLinkComponent,
+  TngCardTitleComponent,
+} from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-card-examples-actions-plain-css',
+  standalone: true,
+  imports: [
+    TngCardComponent,
+    TngCardHeaderComponent,
+    TngCardTitleComponent,
+    TngCardDescriptionComponent,
+    TngCardContentComponent,
+    TngCardDividerComponent,
+    TngCardFooterComponent,
+    TngCardLinkComponent,
+    TngCardActionsComponent,
+  ],
+  templateUrl: './card-examples-actions-plain-css.component.html',
+  styleUrl: './card-examples-actions-plain-css.component.css',
+})
+export class CardExamplesActionsPlainCssComponent {}
+```
+
+### card-examples-actions-plain-css.component.html
+
+```html
+<div class="card-example-shell card-example-shell--plain">
+  <tng-card variant="outline" tone="warning" padding="md">
+    <tng-card-header>
+      <tng-card-title>Billing reminder</tng-card-title>
+      <tng-card-description>Invoice #3912 is due in 2 days.</tng-card-description>
+    </tng-card-header>
+    <tng-card-content>
+      <p>Assign owner and send reminder before due date.</p>
+    </tng-card-content>
+    <tng-card-divider></tng-card-divider>
+    <tng-card-footer>
+      <tng-card-link href="#invoice">Open invoice</tng-card-link>
+      <tng-card-actions>
+        <button type="button">Snooze</button>
+        <button type="button">Assign owner</button>
+      </tng-card-actions>
+    </tng-card-footer>
+  </tng-card>
+</div>
+```
+
+### card-examples-actions-plain-css.component.css
+
+```css
+.card-example-shell--plain [data-slot="card-link"] {
+  color: var(--tng-semantic-accent-brand);
+}
+```
+
+### card-examples-actions-tailwind.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import {
+  TngCardActionsComponent,
+  TngCardComponent,
+  TngCardContentComponent,
+  TngCardDescriptionComponent,
+  TngCardDividerComponent,
+  TngCardFooterComponent,
+  TngCardHeaderComponent,
+  TngCardLinkComponent,
+  TngCardTitleComponent,
+} from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-card-examples-actions-tailwind',
+  standalone: true,
+  imports: [
+    TngCardComponent,
+    TngCardHeaderComponent,
+    TngCardTitleComponent,
+    TngCardDescriptionComponent,
+    TngCardContentComponent,
+    TngCardDividerComponent,
+    TngCardFooterComponent,
+    TngCardLinkComponent,
+    TngCardActionsComponent,
+  ],
+  templateUrl: './card-examples-actions-tailwind.component.html',
+  styleUrl: './card-examples-actions-tailwind.component.css',
+})
+export class CardExamplesActionsTailwindComponent {}
+```
+
+### card-examples-actions-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+  <tng-card variant="outline" tone="warning" padding="md" interactive>
+    <tng-card-header>
+      <tng-card-title>Billing reminder</tng-card-title>
+      <tng-card-description>Invoice #3912 is due in 2 days.</tng-card-description>
+    </tng-card-header>
+    <tng-card-content>
+      <p class="text-sm text-slate-600 dark:text-slate-300">
+        Assign owner and send reminder before due date.
+      </p>
+    </tng-card-content>
+    <tng-card-divider></tng-card-divider>
+    <tng-card-footer>
+      <tng-card-link href="#invoice">Open invoice</tng-card-link>
+      <tng-card-actions>
+        <button type="button">Snooze</button>
+        <button type="button">Assign owner</button>
+      </tng-card-actions>
+    </tng-card-footer>
+  </tng-card>
+</div>
+```
+
+### card-examples-actions-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+---
+
+Source: https://tailng.dev/ai/components/card/overview.md
+
+---
+id: "components/card/overview"
+title: "Card component"
+description: "Grouped content surfaces with optional media, actions, and footer composition."
+category: "components"
+status: "stable"
+tags: ["card","layout","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/card/tng-card.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/card/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/card/overview"
+componentGroup: "layout"
+symbols: ["TngCardActionsComponent","TngCardComponent","TngCardContentComponent","TngCardDescriptionComponent","TngCardDividerComponent","TngCardFooterComponent","TngCardHeaderComponent","TngCardLinkComponent","TngCardMediaComponent","TngCardTitleComponent"]
+selectors: ["tng-card-actions","tng-card","tng-card-content","tng-card-description","tng-card-divider","tng-card-footer","tng-card-header","tng-card-link","tng-card-media","tng-card-title"]
+productId: "card"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Card component
+
+Grouped content surfaces with optional media, actions, and footer composition.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngCardComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngCardComponent],
+  template: `<tng-card />`,
+})
+export class CardAgentExample {}
+```
+
+## Component family
+
+- `TngCardActionsComponent` — selector `tng-card-actions`
+- `TngCardComponent` — selector `tng-card`
+- `TngCardContentComponent` — selector `tng-card-content`
+- `TngCardDescriptionComponent` — selector `tng-card-description`
+- `TngCardDividerComponent` — selector `tng-card-divider`
+- `TngCardFooterComponent` — selector `tng-card-footer`
+- `TngCardHeaderComponent` — selector `tng-card-header`
+- `TngCardLinkComponent` — selector `tng-card-link`
+- `TngCardMediaComponent` — selector `tng-card-media`
+- `TngCardTitleComponent` — selector `tng-card-title`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/layout/card/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/card/api.md)
+- [Styling](https://tailng.dev/ai/components/card/styling.md)
+- [Examples](https://tailng.dev/ai/components/card/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/card/styling.md
+
+---
+id: "components/card/styling"
+title: "Card styling"
+description: "Card styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["card","layout","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/card/tng-card.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/card/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/card/sections/styling/card-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/card/sections/styling/card-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/card/sections/styling/card-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/card/styling"
+componentGroup: "layout"
+symbols: ["TngCardActionsComponent","TngCardComponent","TngCardContentComponent","TngCardDescriptionComponent","TngCardDividerComponent","TngCardFooterComponent","TngCardHeaderComponent","TngCardLinkComponent","TngCardMediaComponent","TngCardTitleComponent"]
+selectors: ["tng-card-actions","tng-card","tng-card-content","tng-card-description","tng-card-divider","tng-card-footer","tng-card-header","tng-card-link","tng-card-media","tng-card-title"]
+productId: "card"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Card styling
+
+## Styling contract
+
+Card styling is slot-driven. Target slot hooks and wrapper data attributes so headless and wrapper implementations stay visually aligned.
+
+### State and slot hooks
+
+| Hook | Where | Use |
+| --- | --- | --- |
+| `data-slot="card"` | Root | Container layout, border, surface tone, and spacing. |
+| `data-slot="card-header"` | Header | Title/description spacing rules. |
+| `data-slot="card-content"` | Content | Body rhythm and typography normalization. |
+| `data-slot="card-footer"` | Footer | Footer alignment and action spacing. |
+| `data-slot="card-media"` | Media | Media aspect ratio and clipping. |
+| `data-slot="card-actions"` | Actions | Action row layout and optional start/end alignment. |
+| `data-slot="card-link"` | Link | Link styling and disabled semantics. |
+| `data-variant`, `data-tone`, `data-padding` | `tng-card` root | Variant, tone, and spacing theming controls. |
+| `data-interactive`, `data-elevated` | `tng-card` root | Hover/focus states and elevation treatment. |
+
+### CSS starter
+
+#### Card styling contract
+
+```css
+[data-slot="card"] {
+  display: grid;
+  gap: 0.85rem;
+  border: 1px solid var(--tng-semantic-border-strong);
+  border-radius: 1rem;
+}
+
+[data-slot="card"][data-variant="outline"] {
+  background: var(--tng-semantic-background-canvas);
+}
+
+[data-slot="card"][data-tone="primary"] {
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 40%, var(--tng-semantic-border-strong));
+}
+
+[data-slot="card"][data-interactive]:hover {
+  border-color: var(--tng-semantic-accent-brand);
+}
+
+[data-slot="card-actions"][data-align="start"] {
+  justify-content: flex-start;
+}
+
+[data-slot="card-link"][aria-disabled="true"] {
+  opacity: 0.65;
+  pointer-events: none;
+}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/collapsible/api.md
+
+---
+id: "components/collapsible/api"
+title: "Collapsible API"
+description: "Collapsible API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["collapsible","layout","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/collapsible/tng-collapsible.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/collapsible/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/collapsible/sections/api/collapsible-api-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/collapsible/sections/api/collapsible-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/collapsible/sections/api/collapsible-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/collapsible/api"
+componentGroup: "layout"
+symbols: ["TngCollapsibleComponent"]
+selectors: ["tng-collapsible"]
+productId: "collapsible"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Collapsible API
+
+Expandable disclosure regions with headless and styled integration paths.
+
+## API reference
+
+Collapsible exposes a small headless primitive trio and a wrapper component. The wrapper owns a baseline trigger shell, while the primitive stays available for fully custom markup.
+
+### `tngCollapsible` (directive)
+
+Attach on a container element to reflect root state. Pair it with `tngCollapsibleTrigger` and `tngCollapsibleContent` when you want full control over the markup.
+
+#### Primitive attachment
+
+```html
+<section tngCollapsible [open]="open()">
+  <button
+    tngCollapsibleTrigger
+    [open]="open()"
+    [contentId]="contentId"
+    (click)="open.set(!open())"
+  >
+    Release flow
+  </button>
+
+  <ol
+    tngCollapsibleContent
+    [id]="contentId"
+    [open]="open()"
+    aria-label="Release flow"
+  >
+    <li>Draft</li>
+    <li>Review</li>
+    <li>Publish</li>
+  </ol>
+</section>
+```
+
+| Surface | Value | Purpose |
+| --- | --- | --- |
+| Input | `open`, `disabled` | Mirrors into `data-state` and `data-disabled`. |
+| Selector | `[tngCollapsible]` | Attach collapsible semantics without imposing markup. |
+| Export alias | `tngCollapsible` | Reference directive instance from templates if needed. |
+
+### `tng-collapsible` (component)
+
+Wrapper that renders the trigger button, generated content id wiring, and a baseline shell around projected content.
+
+#### Component state
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngCollapsibleComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-collapsible-api-demo',
+  standalone: true,
+  imports: [TngCollapsibleComponent],
+  templateUrl: './collapsible-api-demo.component.html',
+})
+export class CollapsibleApiDemoComponent {
+  readonly open = signal(false);
+}
+```
+
+#### Component attachment
+
+```html
+<tng-collapsible title="Checkout steps" [open]="open()" (openChange)="open.set($event)">
+  <ol>
+    <li data-state="current"><span>1</span> Shipping</li>
+    <li data-state="upcoming"><span>2</span> Payment</li>
+    <li data-state="upcoming"><span>3</span> Confirmation</li>
+  </ol>
+</tng-collapsible>
+```
+
+| Input | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `contentId` | `string` | Generated id | Overrides the generated content id if you need a stable external hook. |
+| `disabled` | `boolean` | `false` | Locks the trigger and keeps the current open state unchanged. |
+| `open` | `boolean` | `false` | Controls whether the projected content is visible. |
+| `title` | `string` | `'Collapsible'` | Visible trigger label rendered inside the wrapper trigger. |
+| `openChange` | `EventEmitter<boolean>` | n/a | Emits the next requested open state when the trigger is activated. |
+
+## Source-derived public Angular API
+
+### `TngCollapsibleComponent` — `tng-collapsible`
+
+- Inputs: `contentId`, `disabled`, `open`, `title`
+- Outputs: `openChange`
+
+---
+
+Source: https://tailng.dev/ai/components/collapsible/examples.md
+
+---
+id: "components/collapsible/examples"
+title: "Collapsible examples"
+description: "Collapsible examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["collapsible","layout","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/collapsible/tng-collapsible.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/collapsible/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/collapsible/sections/examples/collapsible-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/collapsible/sections/examples/collapsible-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/collapsible/sections/examples/collapsible-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/collapsible/examples"
+componentGroup: "layout"
+symbols: ["TngCollapsibleComponent"]
+selectors: ["tng-collapsible"]
+productId: "collapsible"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Collapsible examples
+
+## Examples
+
+Wrapper-focused collapsible patterns for progress disclosure and compact error recovery panels.
+
+### collapsible-examples-checkout-plain-css.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngCollapsibleComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-collapsible-examples-checkout-plain',
+  standalone: true,
+  imports: [TngCollapsibleComponent],
+  templateUrl: './collapsible-examples-checkout-plain-css.component.html',
+  styleUrl: './collapsible-examples-checkout-plain-css.component.css',
+})
+export class CollapsibleExamplesCheckoutPlainComponent {
+  readonly open = signal(true);
+}
+```
+
+### collapsible-examples-checkout-plain-css.component.html
+
+```html
+<div class="collapsible-example-shell collapsible-example-shell--plain">
+  <tng-collapsible
+    title="Checkout progress"
+    [open]="open()"
+    (openChange)="open.set($event)"
+  >
+    <ol class="collapsible-example-list">
+      <li class="collapsible-example-item is-complete"><span class="dot">✓</span> Cart</li>
+      <li class="collapsible-example-item is-current"><span class="dot">2</span> Shipping</li>
+      <li class="collapsible-example-item"><span class="dot">3</span> Payment</li>
+    </ol>
+  </tng-collapsible>
+</div>
+```
+
+### collapsible-examples-checkout-plain-css.component.css
+
+```css
+.collapsible-example-shell--plain {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.9rem 1rem;
+}
+```
+
+### collapsible-examples-checkout-tailwind.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngCollapsibleComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-collapsible-examples-checkout-tailwind',
+  standalone: true,
+  imports: [TngCollapsibleComponent],
+  templateUrl: './collapsible-examples-checkout-tailwind.component.html',
+  styleUrl: './collapsible-examples-checkout-tailwind.component.css',
+})
+export class CollapsibleExamplesCheckoutTailwindComponent {
+  readonly open = signal(false);
+}
+```
+
+### collapsible-examples-checkout-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+  <tng-collapsible
+    title="Checkout progress"
+    [open]="open()"
+    (openChange)="open.set($event)"
+  >
+    <ol class="collapsible-example-list">
+      <li class="collapsible-example-item is-complete"><span class="dot">✓</span> Cart</li>
+      <li class="collapsible-example-item is-current"><span class="dot">2</span> Shipping</li>
+      <li class="collapsible-example-item"><span class="dot">3</span> Payment</li>
+    </ol>
+  </tng-collapsible>
+</div>
+```
+
+### collapsible-examples-checkout-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+### collapsible-examples-error-plain-css.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngCollapsibleComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-collapsible-examples-error-plain',
+  standalone: true,
+  imports: [TngCollapsibleComponent],
+  templateUrl: './collapsible-examples-error-plain-css.component.html',
+  styleUrl: './collapsible-examples-error-plain-css.component.css',
+})
+export class CollapsibleExamplesErrorPlainComponent {
+  readonly open = signal(true);
+}
+```
+
+### collapsible-examples-error-plain-css.component.html
+
+```html
+<div class="collapsible-example-shell collapsible-example-shell--plain">
+  <tng-collapsible
+    title="Onboarding"
+    [open]="open()"
+    (openChange)="open.set($event)"
+  >
+    <ol class="collapsible-example-list">
+      <li class="collapsible-example-item is-complete"><span class="dot">✓</span> Profile</li>
+      <li class="collapsible-example-item is-error"><span class="dot">2</span> Billing</li>
+      <li class="collapsible-example-item"><span class="dot">3</span> Team invite</li>
+    </ol>
+  </tng-collapsible>
+</div>
+```
+
+### collapsible-examples-error-plain-css.component.css
+
+```css
+.collapsible-example-item.is-error {
+  border-color: var(--tng-semantic-accent-danger);
+  background: color-mix(in srgb, var(--tng-semantic-accent-danger) 10%, transparent);
+}
+```
+
+### collapsible-examples-error-tailwind.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngCollapsibleComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-collapsible-examples-error-tailwind',
+  standalone: true,
+  imports: [TngCollapsibleComponent],
+  templateUrl: './collapsible-examples-error-tailwind.component.html',
+  styleUrl: './collapsible-examples-error-tailwind.component.css',
+})
+export class CollapsibleExamplesErrorTailwindComponent {
+  readonly open = signal(false);
+}
+```
+
+### collapsible-examples-error-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+  <tng-collapsible
+    title="Onboarding"
+    [open]="open()"
+    (openChange)="open.set($event)"
+  >
+    <ol class="collapsible-example-list">
+      <li class="collapsible-example-item is-complete"><span class="dot">✓</span> Profile</li>
+      <li class="collapsible-example-item is-error"><span class="dot">2</span> Billing</li>
+      <li class="collapsible-example-item"><span class="dot">3</span> Team invite</li>
+    </ol>
+  </tng-collapsible>
+</div>
+```
+
+### collapsible-examples-error-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+---
+
+Source: https://tailng.dev/ai/components/collapsible/overview.md
+
+---
+id: "components/collapsible/overview"
+title: "Collapsible component"
+description: "Expandable disclosure regions with headless and styled integration paths."
+category: "components"
+status: "stable"
+tags: ["collapsible","layout","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/collapsible/tng-collapsible.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/collapsible/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/collapsible/overview"
+componentGroup: "layout"
+symbols: ["TngCollapsibleComponent"]
+selectors: ["tng-collapsible"]
+productId: "collapsible"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Collapsible component
+
+Expandable disclosure regions with headless and styled integration paths.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngCollapsibleComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngCollapsibleComponent],
+  template: `<tng-collapsible />`,
+})
+export class CollapsibleAgentExample {}
+```
+
+## Component family
+
+- `TngCollapsibleComponent` — selector `tng-collapsible`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/layout/collapsible/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/collapsible/api.md)
+- [Styling](https://tailng.dev/ai/components/collapsible/styling.md)
+- [Examples](https://tailng.dev/ai/components/collapsible/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/collapsible/styling.md
+
+---
+id: "components/collapsible/styling"
+title: "Collapsible styling"
+description: "Collapsible styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["collapsible","layout","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/collapsible/tng-collapsible.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/collapsible/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/collapsible/sections/styling/collapsible-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/collapsible/sections/styling/collapsible-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/collapsible/sections/styling/collapsible-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/collapsible/styling"
+componentGroup: "layout"
+symbols: ["TngCollapsibleComponent"]
+selectors: ["tng-collapsible"]
+productId: "collapsible"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Collapsible styling
+
+## Styling contract
+
+Style against explicit data hooks from the collapsible host and each step item. Keep state tokens centralized so current/completed/error remain visually consistent across flows.
+
+### State hooks
+
+| Hook | Where | Use |
+| --- | --- | --- |
+| `data-slot="collapsible"` | Root | Container spacing, orientation layouts, connector styling. |
+| `data-state="current"` | Owner-authored child item | Active step emphasis and readable focus baseline. |
+| `data-state="completed"` | Owner-authored child item | Past-step confirmation colors and icon treatment. |
+| `data-state="upcoming"` | Owner-authored child item | Muted future-step presentation. |
+| `data-state="error"` | Owner-authored child item | Validation/processing failure styling. |
+
+### CSS starter
+
+#### Collapsible state contract
+
+```css
+[data-slot="collapsible"] {
+  display: grid;
+  gap: 0.65rem;
+}
+
+[data-slot="collapsible"] [data-state="current"] {
+  border-color: var(--tng-semantic-accent-brand);
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, transparent);
+}
+
+[data-slot="collapsible"] [data-state="completed"] {
+  border-color: var(--tng-semantic-accent-success);
+}
+
+[data-slot="collapsible"] [data-state="error"] {
+  border-color: var(--tng-semantic-accent-danger);
+}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/drawer/api.md
+
+---
+id: "components/drawer/api"
+title: "Drawer API"
+description: "Drawer API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["drawer","layout","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/drawer/tng-drawer.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/drawer/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/drawer/sections/api/drawer-api-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/drawer/sections/api/drawer-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/drawer/sections/api/drawer-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/drawer/api"
+componentGroup: "layout"
+symbols: ["TngDrawerComponent"]
+selectors: ["tng-drawer"]
+productId: "drawer"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Drawer API
+
+Slide-in overlay panel with position, mode, focus trap, and backdrop support.
+
+## API reference
+
+Drawer provides a container directive (`tngDrawerContainer`), drawer directive (`tngDrawer`), content directive (`tngDrawerContent`), and a styled wrapper component (`<tng-drawer>`).
+
+### `[tngDrawerContainer]` directive
+
+Attach on a wrapper element that hosts one or more drawers and the main content. Manages backdrop, scroll lock, and coordination between multiple drawers.
+
+#### Inputs
+
+| Input | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `hasBackdrop` | `'auto' \| boolean` | `'auto'` | Show backdrop when any overlay drawer is open. |
+| `closeOthersOnOpen` | `boolean` | `true` | Close other drawers when one opens. |
+| `animate` | `boolean` | `true` | Enable open/close animations. |
+| `lockScroll` | `'auto' \| boolean` | `'auto'` | Lock body scroll when overlay drawer is open. |
+| `dir` | `'ltr' \| 'rtl' \| 'auto'` | `'auto'` | Layout direction for start/end positioning. |
+
+#### Host attributes
+
+| Attribute | Value | Purpose |
+| --- | --- | --- |
+| `data-slot` | `"drawer-container"` | Stable styling and query hook. |
+| `data-direction` | Resolved direction | Current layout direction. |
+| `data-content-count` | Number | Number of drawer content slots. |
+| `data-content-conflict` | Present when conflict | Indicates push/side mode conflict. |
+
+### `[tngDrawer]` directive
+
+Attach on the drawer panel element. Controls open state, mode, position, focus trap, and accessibility.
+
+#### Inputs
+
+| Input | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `opened` | `boolean` | — | Controlled open state. |
+| `defaultOpened` | `boolean` | `false` | Initial uncontrolled open state. |
+| `mode` | `'overlay' \| 'push' \| 'side'` | `'overlay'` | How drawer overlays or displaces content. |
+| `position` | `'start' \| 'end'` | `'start'` | Side of the viewport. |
+| `disabled` | `boolean` | `false` | Disable drawer interactions. |
+| `backdrop` | `'auto' \| boolean` | `'auto'` | Show backdrop (overlay mode). |
+| `closeOnOutsideClick` | `boolean \| undefined` | — | Close on backdrop click; undefined inherits from container. |
+| `closeOnEscape` | `boolean` | `true` | Close on Escape key. |
+| `restoreFocus` | `boolean` | `true` | Restore focus to trigger on close. |
+| `autoFocus` | `'drawer' \| 'first-focusable' \| 'none'` | `'drawer'` | Focus target when opening. |
+| `trapFocus` | `'auto' \| boolean` | `'auto'` | Trap focus inside drawer when open. |
+| `role` | `'navigation' \| 'dialog' \| 'complementary' \| 'region'` | `'navigation'` | ARIA role for the drawer. |
+| `inertContent` | `boolean` | `false` | Make main content inert when open. |
+| `allowBodyScroll` | `boolean` | `false` | Allow body scroll when overlay drawer is open. |
+| `swipeToClose` | `boolean` | `false` | Close on swipe gesture (touch). |
+| `fixedInViewport` | `boolean` | `false` | Fix drawer within viewport bounds. |
+| `fixedTopGap` | `number` | `0` | Gap from top when fixed in viewport. |
+| `fixedBottomGap` | `number` | `0` | Gap from bottom when fixed in viewport. |
+
+#### Outputs
+
+| Output | Payload | When it fires |
+| --- | --- | --- |
+| `openedChange` | `boolean` | Open state changes. |
+| `tngDrawerOpened` | — | After drawer finishes opening. |
+| `tngDrawerClosed` | — | After drawer finishes closing. |
+| `openStart` | — | When open animation begins. |
+| `closeStart` | — | When close animation begins. |
+| `backdropClick` | — | When backdrop is clicked. |
+| `positionChange` | `'start' \| 'end'` | When position changes. |
+
+#### Host attributes
+
+| Attribute | Value | Purpose |
+| --- | --- | --- |
+| `data-slot` | `"drawer"` | Stable styling and query hook. |
+| `data-state` | open/closed | Current open state. |
+| `data-position` | start/end | Current position. |
+| `data-mode` | overlay/push/side | Current mode. |
+| `data-side` | left/right | Resolved side for RTL. |
+| `data-disabled` | Present when disabled | Disabled state. |
+| `hidden` | Present when closed | Visibility for closed state. |
+
+### `[tngDrawerContent]` directive
+
+Attach on the main content element. Receives offset from the container in push/side mode when drawers are open.
+
+#### Host attributes
+
+| Attribute | Value | Purpose |
+| --- | --- | --- |
+| `data-slot` | `"drawer-content"` | Stable styling and query hook. |
+
+### `<tng-drawer>` component
+
+Styled wrapper that uses `tngDrawer` via host directives. Exposes all primitive inputs/outputs plus component-specific API.
+
+#### Inputs
+
+| Input | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `ariaLabel` | `string` | `'Drawer'` | Accessible label for the drawer. |
+| Plus all primitive inputs from `tngDrawer`: `opened`, `defaultOpened`, `mode`, `position`, `disabled`, `backdrop`, `closeOnOutsideClick`, `closeOnEscape`, `restoreFocus`, `autoFocus`, `trapFocus`, `role`, `inertContent`, `allowBodyScroll`, `swipeToClose`, `fixedInViewport`, `fixedTopGap`, `fixedBottomGap`. |
+
+#### Outputs
+
+| Output | Payload | When it fires |
+| --- | --- | --- |
+| All primitive outputs from `tngDrawer`: `openedChange`, `tngDrawerOpened`, `tngDrawerClosed`, `openStart`, `closeStart`, `backdropClick`, `positionChange`. |
+
+#### Methods
+
+| Method | Signature | Description |
+| --- | --- | --- |
+| `open()` | `() => void` | Opens the drawer. |
+| `close()` | `() => void` | Closes the drawer. |
+| `toggle(force?)` | `(force?: boolean) => void` | Toggles open state; optional `force` to set explicitly. |
+| `isOpen()` | `() => boolean` | Returns current open state. |
+| `setRestoreFocusFallback(target)` | `(target: HTMLElement \| null) => void` | Sets fallback element for focus restore when trigger is unavailable. |
+| `setRestoreFocusTarget(target)` | `(target: HTMLElement \| null) => void` | Sets explicit target for focus restore on close. |
+
+## Source-derived public Angular API
+
+### `TngDrawerComponent` — `tng-drawer`
+
+- Inputs: `ariaLabel`
+- Forwarded inputs: `allowBodyScroll`, `autoFocus`, `backdrop`, `closeOnEscape`, `closeOnOutsideClick`, `closeOnTab`, `defaultOpened`, `disabled`, `fixedBottomGap`, `fixedInViewport`, `fixedTopGap`, `inertContent`, `mode`, `opened`, `position`, `restoreFocus`, `role`, `swipeToClose`, `trapFocus`
+- Forwarded outputs: `backdropClick`, `closeStart`, `openedChange`, `openStart`, `positionChange`, `tngDrawerClosed`, `tngDrawerOpened`
+
+---
+
+Source: https://tailng.dev/ai/components/drawer/examples.md
+
+---
+id: "components/drawer/examples"
+title: "Drawer examples"
+description: "Drawer examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["drawer","layout","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/drawer/tng-drawer.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/drawer/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/drawer/sections/examples/drawer-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/drawer/sections/examples/drawer-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/drawer/sections/examples/drawer-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/drawer/examples"
+componentGroup: "layout"
+symbols: ["TngDrawerComponent"]
+selectors: ["tng-drawer"]
+productId: "drawer"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Drawer examples
+
+## Drawer examples
+
+Persistent side drawer used as a navigation panel. Content shifts when the drawer opens or closes.
+
+## Minimal example
+
+```ts
+import { Component } from '@angular/core';
+import { TngDrawerComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngDrawerComponent],
+  template: `<tng-drawer />`,
+})
+export class DrawerExample {}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/drawer/overview.md
+
+---
+id: "components/drawer/overview"
+title: "Drawer component"
+description: "Slide-in overlay panel with position, mode, focus trap, and backdrop support."
+category: "components"
+status: "stable"
+tags: ["drawer","layout","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/drawer/tng-drawer.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/drawer/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/drawer/overview"
+componentGroup: "layout"
+symbols: ["TngDrawerComponent"]
+selectors: ["tng-drawer"]
+productId: "drawer"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Drawer component
+
+Slide-in overlay panel with position, mode, focus trap, and backdrop support.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngDrawerComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngDrawerComponent],
+  template: `<tng-drawer />`,
+})
+export class DrawerAgentExample {}
+```
+
+## Component family
+
+- `TngDrawerComponent` — selector `tng-drawer`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/layout/drawer/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/drawer/api.md)
+- [Styling](https://tailng.dev/ai/components/drawer/styling.md)
+- [Examples](https://tailng.dev/ai/components/drawer/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/drawer/styling.md
+
+---
+id: "components/drawer/styling"
+title: "Drawer styling"
+description: "Drawer styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["drawer","layout","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/drawer/tng-drawer.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/drawer/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/drawer/sections/styling/drawer-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/drawer/sections/styling/drawer-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/drawer/sections/styling/drawer-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/drawer/styling"
+componentGroup: "layout"
+symbols: ["TngDrawerComponent"]
+selectors: ["tng-drawer"]
+productId: "drawer"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Drawer styling
+
+## Drawer styling
+
+Drawer exposes data attributes on each primitive for targeted styling. The styled `<tng-drawer>` component applies sensible defaults.
+
+### Primitive data hooks
+
+| Selector | Attribute | Values |
+| --- | --- | --- |
+| `[tngDrawerContainer]` | `data-slot` | `"drawer-container"` |
+| `[tngDrawerContainer]` | `data-direction` | `"ltr"` \| `"rtl"` |
+| `[tngDrawer]` | `data-slot` | `"drawer"` |
+| `[tngDrawer]` | `data-state` | `"open"` \| `"closed"` |
+| `[tngDrawer]` | `data-position` | `"start"` \| `"end"` |
+| `[tngDrawer]` | `data-mode` | `"overlay"` \| `"push"` \| `"side"` |
+| `[tngDrawer]` | `data-side` | `"left"` \| `"right"` |
+| `[tngDrawer]` | `data-disabled` | Present when disabled |
+| `[tngDrawerContent]` | `data-slot` | `"drawer-content"` |
+
+### Component CSS classes
+
+The `<tng-drawer>` component renders on the `:host` element with semantic token defaults for background, border, and padding. Override styles via `::ng-deep` or custom CSS targeting `data-slot` / `data-state` attributes.
+
+### Starter CSS
+
+Baseline styles for building a drawer layout from the headless primitives.
+
+#### drawer.css
+
+```css
+/* Drawer container layout */
+[data-slot="drawer-container"] {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Drawer panel */
+[data-slot="drawer"] {
+  background: var(--tng-semantic-background-surface);
+  border-right: 1px solid var(--tng-semantic-border-subtle);
+  min-width: 16rem;
+  padding: 1rem;
+  transition: transform 0.3s ease;
+}
+
+[data-slot="drawer"][data-state="closed"] {
+  display: none;
+}
+
+[data-slot="drawer"][data-position="end"] {
+  border-left: 1px solid var(--tng-semantic-border-subtle);
+  border-right: none;
+}
+
+/* Drawer content */
+[data-slot="drawer-content"] {
+  flex: 1;
+  padding: 1rem;
+  transition: margin 0.3s ease;
+}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/grid/api.md
+
+---
+id: "components/grid/api"
+title: "Grid API"
+description: "Grid API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["grid","layout","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/grid/tng-grid.component.ts"]
+componentGroup: "layout"
+symbols: ["TngGridCellComponent","TngGridComponent","TngGridRowComponent"]
+selectors: ["tng-grid-cell","tng-grid","tng-grid-row"]
+productId: "grid"
+section: "api"
+officialCatalog: false
+generated: true
+---
+
+# Grid API
+
+Arrange content in a responsive styled grid surface.
+
+## Source-derived public Angular API
+
+### `TngGridCellComponent` — `tng-grid-cell`
+
+- Forwarded inputs: `cellRole`, `colIndex`, `colSpan`, `disabled`, `rowIndex`, `rowSpan`, `selected`
+
+### `TngGridComponent` — `tng-grid`
+
+- Forwarded inputs: `ariaColcount`, `ariaLabel`, `ariaRowcount`, `defaultValue`, `dir`, `focusCol`, `focusRow`, `selectionMode`, `value`, `wrap`
+- Forwarded outputs: `cellActivate`, `focusChange`, `focusColChange`, `focusRowChange`, `valueChange`
+
+### Structural surfaces
+
+These APIs provide composition or projection surfaces without their own bindable signal API:
+
+- `TngGridRowComponent` — `tng-grid-row`
+
+---
+
+Source: https://tailng.dev/ai/components/grid/examples.md
+
+---
+id: "components/grid/examples"
+title: "Grid examples"
+description: "Grid examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["grid","layout","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/grid/tng-grid.component.ts"]
+componentGroup: "layout"
+symbols: ["TngGridCellComponent","TngGridComponent","TngGridRowComponent"]
+selectors: ["tng-grid-cell","tng-grid","tng-grid-row"]
+productId: "grid"
+section: "examples"
+officialCatalog: false
+generated: true
+---
+
+# Grid examples
+
+## Minimal example
+
+```ts
+import { Component } from '@angular/core';
+import { TngGridComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngGridComponent],
+  template: `<tng-grid />`,
+})
+export class GridExample {}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/grid/overview.md
+
+---
+id: "components/grid/overview"
+title: "Grid component"
+description: "Arrange content in a responsive styled grid surface."
+category: "components"
+status: "stable"
+tags: ["grid","layout","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/grid/tng-grid.component.ts"]
+componentGroup: "layout"
+symbols: ["TngGridCellComponent","TngGridComponent","TngGridRowComponent"]
+selectors: ["tng-grid-cell","tng-grid","tng-grid-row"]
+productId: "grid"
+section: "overview"
+officialCatalog: false
+generated: true
+---
+
+# Grid component
+
+Arrange content in a responsive styled grid surface.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngGridComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngGridComponent],
+  template: `<tng-grid />`,
+})
+export class GridAgentExample {}
+```
+
+## Component family
+
+- `TngGridCellComponent` — selector `tng-grid-cell`
+- `TngGridComponent` — selector `tng-grid`
+- `TngGridRowComponent` — selector `tng-grid-row`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+This public export does not yet have a dedicated human catalog page; use this reference together with the package source API.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/grid/api.md)
+- [Styling](https://tailng.dev/ai/components/grid/styling.md)
+- [Examples](https://tailng.dev/ai/components/grid/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/grid/styling.md
+
+---
+id: "components/grid/styling"
+title: "Grid styling"
+description: "Grid styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["grid","layout","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/grid/tng-grid.component.ts"]
+componentGroup: "layout"
+symbols: ["TngGridCellComponent","TngGridComponent","TngGridRowComponent"]
+selectors: ["tng-grid-cell","tng-grid","tng-grid-row"]
+productId: "grid"
+section: "styling"
+officialCatalog: false
+generated: true
+---
+
+# Grid styling
+
+## Styling contract
+
+Load the TailNG theme contract stylesheet and prefer semantic tokens over hard-coded colors.
+
+### CSS custom properties
+
+- `--tng-grid-gap`
+- `--tng-semantic-background-base`
+- `--tng-semantic-border-subtle`
+- `--tng-semantic-foreground-primary`
+
+---
+
+Source: https://tailng.dev/ai/components/separator/api.md
+
+---
+id: "components/separator/api"
+title: "Separator API"
+description: "Separator API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["separator","layout","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/separator/tng-separator.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/separator/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/separator/sections/api/separator-api-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/separator/sections/api/separator-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/separator/sections/api/separator-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/separator/api"
+componentGroup: "layout"
+symbols: ["TngSeparatorComponent"]
+selectors: ["tng-separator"]
+productId: "separator"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Separator API
+
+Horizontal and vertical dividers for visual or semantic content grouping.
+
+## API reference
+
+Separator is a non-interactive divider primitive with a thin wrapper component. The API surface is intentionally small: orientation and decorative semantics.
+
+### `tngSeparator` (directive)
+
+Attach on any block element to render a horizontal or vertical divider with semantic control.
+
+#### Primitive attachment
+
+```html
+<div tngSeparator></div>
+<div tngSeparator orientation="vertical"></div>
+<div tngSeparator [decorative]="false"></div>
+```
+
+| Input | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Controls visual line axis and semantic `aria-orientation` when semantic. |
+| `decorative` | `boolean` | `true` | When `true`, applies `aria-hidden="true"`. When `false`, applies `role="separator"`. |
+
+### `tng-separator` (component)
+
+Wrapper component that renders an inner element with `tngSeparator` and forwards the same inputs.
+
+#### Component usage
+
+```html
+<tng-separator></tng-separator>
+<tng-separator orientation="vertical"></tng-separator>
+<tng-separator [decorative]="false"></tng-separator>
+```
+
+| Surface | Value | Purpose |
+| --- | --- | --- |
+| Root hook | `data-slot="separator"` | Stable CSS selector for both primitive and wrapper usage. |
+| Orientation hook | `data-orientation="horizontal\|vertical"` | Drive horizontal/vertical dimensions in custom CSS. |
+| Semantic mode | `role="separator"` + `aria-orientation` | Expose meaningful structure to assistive technologies. |
+
+## Source-derived public Angular API
+
+### `TngSeparatorComponent` — `tng-separator`
+
+- Inputs: `decorative`, `orientation`
+
+---
+
+Source: https://tailng.dev/ai/components/separator/examples.md
+
+---
+id: "components/separator/examples"
+title: "Separator examples"
+description: "Separator examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["separator","layout","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/separator/tng-separator.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/separator/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/separator/sections/examples/separator-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/separator/sections/examples/separator-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/separator/sections/examples/separator-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/separator/examples"
+componentGroup: "layout"
+symbols: ["TngSeparatorComponent"]
+selectors: ["tng-separator"]
+productId: "separator"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Separator examples
+
+## Examples
+
+Wrapper-based separator patterns for toolbars, command strips, and grouped list content.
+
+### separator-examples-toolbar-plain-css.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngSeparatorComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-separator-examples-toolbar-plain-css',
+  standalone: true,
+  imports: [TngSeparatorComponent],
+  templateUrl: './separator-examples-toolbar-plain-css.component.html',
+  styleUrl: './separator-examples-toolbar-plain-css.component.css',
+})
+export class SeparatorExamplesToolbarPlainCssComponent {}
+```
+
+### separator-examples-toolbar-plain-css.component.html
+
+```html
+<div class="toolbar-shell toolbar-shell--plain">
+  <button type="button">All</button>
+  <tng-separator orientation="vertical" class="toolbar-separator"></tng-separator>
+  <button type="button">Running</button>
+  <tng-separator orientation="vertical" class="toolbar-separator"></tng-separator>
+  <button type="button">Archived</button>
+</div>
+```
+
+### separator-examples-toolbar-plain-css.component.css
+
+```css
+.toolbar-shell--plain {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.55rem 0.8rem;
+}
+```
+
+### separator-examples-toolbar-tailwind.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngSeparatorComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-separator-examples-toolbar-tailwind',
+  standalone: true,
+  imports: [TngSeparatorComponent],
+  templateUrl: './separator-examples-toolbar-tailwind.component.html',
+  styleUrl: './separator-examples-toolbar-tailwind.component.css',
+})
+export class SeparatorExamplesToolbarTailwindComponent {}
+```
+
+### separator-examples-toolbar-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-slate-300 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-900/60">
+  <div class="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-200">
+    <button type="button">Pipelines</button>
+    <tng-separator orientation="vertical" class="self-stretch min-h-5"></tng-separator>
+    <button type="button">Jobs</button>
+    <tng-separator orientation="vertical" class="self-stretch min-h-5"></tng-separator>
+    <button type="button">Artifacts</button>
+  </div>
+</div>
+```
+
+### separator-examples-toolbar-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+### separator-examples-list-plain-css.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngSeparatorComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-separator-examples-list-plain-css',
+  standalone: true,
+  imports: [TngSeparatorComponent],
+  templateUrl: './separator-examples-list-plain-css.component.html',
+  styleUrl: './separator-examples-list-plain-css.component.css',
+})
+export class SeparatorExamplesListPlainCssComponent {}
+```
+
+### separator-examples-list-plain-css.component.html
+
+```html
+<section class="list-shell list-shell--plain">
+  <div class="list-row">Design review</div>
+  <tng-separator></tng-separator>
+  <div class="list-row">QA signoff</div>
+  <tng-separator></tng-separator>
+  <div class="list-row">Release freeze</div>
+</section>
+```
+
+### separator-examples-list-plain-css.component.css
+
+```css
+.list-shell--plain {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.8rem 1rem;
+}
+```
+
+### separator-examples-list-tailwind.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngSeparatorComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-separator-examples-list-tailwind',
+  standalone: true,
+  imports: [TngSeparatorComponent],
+  templateUrl: './separator-examples-list-tailwind.component.html',
+  styleUrl: './separator-examples-list-tailwind.component.css',
+})
+export class SeparatorExamplesListTailwindComponent {}
+```
+
+### separator-examples-list-tailwind.component.html
+
+```html
+<section class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+  <div class="py-2 text-sm text-slate-700 dark:text-slate-200">Canary rollout</div>
+  <tng-separator></tng-separator>
+  <div class="py-2 text-sm text-slate-700 dark:text-slate-200">Regional promotion</div>
+  <tng-separator></tng-separator>
+  <div class="py-2 text-sm text-slate-700 dark:text-slate-200">Post-release checks</div>
+</section>
+```
+
+### separator-examples-list-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+---
+
+Source: https://tailng.dev/ai/components/separator/overview.md
+
+---
+id: "components/separator/overview"
+title: "Separator component"
+description: "Horizontal and vertical dividers for visual or semantic content grouping."
+category: "components"
+status: "stable"
+tags: ["separator","layout","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/separator/tng-separator.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/separator/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/separator/overview"
+componentGroup: "layout"
+symbols: ["TngSeparatorComponent"]
+selectors: ["tng-separator"]
+productId: "separator"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Separator component
+
+Horizontal and vertical dividers for visual or semantic content grouping.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngSeparatorComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngSeparatorComponent],
+  template: `<tng-separator />`,
+})
+export class SeparatorAgentExample {}
+```
+
+## Component family
+
+- `TngSeparatorComponent` — selector `tng-separator`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/layout/separator/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/separator/api.md)
+- [Styling](https://tailng.dev/ai/components/separator/styling.md)
+- [Examples](https://tailng.dev/ai/components/separator/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/separator/styling.md
+
+---
+id: "components/separator/styling"
+title: "Separator styling"
+description: "Separator styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["separator","layout","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/separator/tng-separator.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/separator/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/separator/sections/styling/separator-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/separator/sections/styling/separator-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/separator/sections/styling/separator-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/separator/styling"
+componentGroup: "layout"
+symbols: ["TngSeparatorComponent"]
+selectors: ["tng-separator"]
+productId: "separator"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Separator styling
+
+## Styling contract
+
+Separator exposes a compact styling contract built around slot and orientation data attributes. Theme at the token level and keep context-specific spacing in container styles.
+
+### State hooks
+
+| Hook | Where | Use |
+| --- | --- | --- |
+| `data-slot="separator"` | Primitive + wrapper root | Base color, thickness, and shared motion tokens. |
+| `data-orientation="horizontal"` | Root | Horizontal width/height rules. |
+| `data-orientation="vertical"` | Root | Vertical width/min-height rules. |
+| `aria-hidden="true"` | Decorative mode | Confirms divider is presentational only. |
+| `role="separator"` | Semantic mode | Announces meaningful separation to assistive tech. |
+
+### CSS starter
+
+#### Separator CSS contract
+
+```css
+[data-slot="separator"] {
+  background: var(--tng-semantic-border-strong);
+}
+
+[data-slot="separator"][data-orientation="horizontal"] {
+  block-size: 1px;
+  inline-size: 100%;
+}
+
+[data-slot="separator"][data-orientation="vertical"] {
+  inline-size: 1px;
+  min-block-size: 1rem;
+}
+
+.toolbar [data-slot="separator"] {
+  margin-inline: 0.5rem;
+}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/split/api.md
+
+---
+id: "components/split/api"
+title: "Split Layout API"
+description: "Split Layout API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["split","layout","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/split/tng-split-layout.engine.ts","libs/tailng-ui/components/src/lib/layout/split/tng-split-layout.types.ts","libs/tailng-ui/components/src/lib/layout/split/tng-split.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/split/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/split/sections/api/split-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/split/sections/api/split-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/split/api"
+componentGroup: "layout"
+symbols: ["TngSplitGroupComponent","TngSplitHandleComponent","TngSplitPaneDirective"]
+selectors: ["tng-split-group","tng-split-handle","[tngSplitPane]"]
+productId: "split"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Split Layout API
+
+Resizable horizontal and vertical panes with controlled sizes, collapse states, and accessible handles.
+
+## Split Layout API
+
+Import all three standalone building blocks from `@tailng-ui/components`.
+
+### `tng-split-group`
+
+| Input | Type | Default | Description |
+| --- | --- | --- | --- |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Chooses left/right or top/bottom layout. |
+| `disabled` | `boolean` | `false` | Preserves sizes while disabling every handle. |
+| `step` | `number` | `10` | Default arrow-key increment in pixels. |
+| `largeStep` | `number` | `50` | Default Shift+Arrow increment. |
+
+### `[tngSplitPane]`
+
+| Input | Type | Default | Description |
+| --- | --- | --- | --- |
+| `paneId` | `string` | generated | Stable id used by events and imperative methods. |
+| `size` | `number \| null` | `null` | Controlled pixel size. |
+| `defaultSize` | `number \| null` | `null` | Initial uncontrolled pixel size. |
+| `minSize`, `maxSize` | `number` | `0`, unbounded | Expanded size constraints. |
+| `grow` | `number` | `0` | Weight used to receive remaining container space. |
+| `collapsible` | `boolean` | `false` | Allows keyboard, pointer, or API collapse. |
+| `collapsed` | `boolean \| undefined` | `undefined` | Optional controlled collapse state. |
+| `defaultCollapsed` | `boolean` | `false` | Initial uncontrolled collapse state. |
+| `collapsedSize` | `number` | `0` | Collapsed pixels; use a nonzero value for an icon rail. |
+| `disabled` | `boolean` | `false` | Prevents adjacent handles from resizing this pane. |
+
+`sizeChange` and `collapsedChange` emit controlled-state requests.
+
+### `tng-split-handle`
+
+`ariaLabel` names the separator. Optional `step` and `largeStep` override the group, while `primaryPane` selects `'previous'`, `'next'`, or automatic collapse behavior.
+
+### Events and methods
+
+`resizeStart`, frame-coalesced `resize`, and `resizeEnd` emit `TngSplitResizeEvent` with adjacent ids, final pixel sizes, and `pointer`, `keyboard`, or `api` source.
+
+The exported group instance provides `recalculate()`, `setPaneSize(id, pixels)`, `setPaneCollapsed(id, state)`, and `togglePane(id)`. Persistence remains application-owned.
+
+## Source-derived public Angular API
+
+### `TngSplitGroupComponent` — `tng-split-group`
+
+- Inputs: `disabled`, `largeStep`, `orientation`, `step`
+- Outputs: `resize`, `resizeEnd`, `resizeStart`
+
+### `TngSplitHandleComponent` — `tng-split-handle`
+
+- Inputs: `ariaLabel`, `disabled`, `largeStep`, `primaryPane`, `step`
+
+### `TngSplitPaneDirective` — `[tngSplitPane]`
+
+- Inputs: `collapsed`, `collapsedSize`, `collapsible`, `defaultCollapsed`, `defaultSize`, `disabled`, `grow`, `maxSize`, `minSize`, `paneId`, `size`
+- Outputs: `collapsedChange`, `sizeChange`
+
+---
+
+Source: https://tailng.dev/ai/components/split/examples.md
+
+---
+id: "components/split/examples"
+title: "Split Layout examples"
+description: "Split Layout examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["split","layout","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/split/tng-split-layout.engine.ts","libs/tailng-ui/components/src/lib/layout/split/tng-split-layout.types.ts","libs/tailng-ui/components/src/lib/layout/split/tng-split.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/split/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/split/sections/examples/split-examples-code.data.ts","apps/tailng-ui/docs/src/app/pages/components/layout/split/sections/examples/split-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/split/sections/examples/split-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/split/sections/examples/split-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/split/examples"
+componentGroup: "layout"
+symbols: ["TngSplitGroupComponent","TngSplitHandleComponent","TngSplitPaneDirective"]
+selectors: ["tng-split-group","tng-split-handle","[tngSplitPane]"]
+productId: "split"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Split Layout examples
+
+## Examples
+
+Production split-layout patterns with copy-ready Plain CSS and Tailwind implementations.
+
+## Minimal example
+
+```ts
+import { Component } from '@angular/core';
+import { TngSplitGroupComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngSplitGroupComponent],
+  template: `<tng-split-group />`,
+})
+export class SplitExample {}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/split/overview.md
+
+---
+id: "components/split/overview"
+title: "Split Layout component"
+description: "Resizable horizontal and vertical panes with controlled sizes, collapse states, and accessible handles."
+category: "components"
+status: "stable"
+tags: ["split","layout","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/split/tng-split-layout.engine.ts","libs/tailng-ui/components/src/lib/layout/split/tng-split-layout.types.ts","libs/tailng-ui/components/src/lib/layout/split/tng-split.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/split/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/split/overview"
+componentGroup: "layout"
+symbols: ["TngSplitGroupComponent","TngSplitHandleComponent","TngSplitPaneDirective"]
+selectors: ["tng-split-group","tng-split-handle","[tngSplitPane]"]
+productId: "split"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Split Layout component
+
+Resizable horizontal and vertical panes with controlled sizes, collapse states, and accessible handles.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngSplitGroupComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngSplitGroupComponent],
+  template: `<tng-split-group />`,
+})
+export class SplitAgentExample {}
+```
+
+## Component family
+
+- `TngSplitGroupComponent` — selector `tng-split-group`
+- `TngSplitHandleComponent` — selector `tng-split-handle`
+- `TngSplitPaneDirective` — selector `[tngSplitPane]`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/layout/split/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/split/api.md)
+- [Styling](https://tailng.dev/ai/components/split/styling.md)
+- [Examples](https://tailng.dev/ai/components/split/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/split/styling.md
+
+---
+id: "components/split/styling"
+title: "Split Layout styling"
+description: "Split Layout styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["split","layout","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/split/tng-split-layout.engine.ts","libs/tailng-ui/components/src/lib/layout/split/tng-split-layout.types.ts","libs/tailng-ui/components/src/lib/layout/split/tng-split.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/split/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/split/sections/styling/split-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/split/sections/styling/split-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/split/styling"
+componentGroup: "layout"
+symbols: ["TngSplitGroupComponent","TngSplitHandleComponent","TngSplitPaneDirective"]
+selectors: ["tng-split-group","tng-split-handle","[tngSplitPane]"]
+productId: "split"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Split Layout styling
+
+## Split Layout styling
+
+The default separator resolves through TailNG semantic tokens and includes dark-mode and forced-colors behavior.
+
+### CSS custom properties
+
+### State hooks
+
+Panes expose `data-collapsed`, `data-resizing`, and `data-disabled`. Groups expose orientation, disabled, resizing, and `data-constrained` when the container is smaller than the combined minimums. Handles expose orientation, disabled, and resizing states.
+
+Fully collapsed zero-size panes also receive `inert` and `aria-hidden="true"`. Use the pane state hook to swap full content for an icon rail at nonzero collapsed sizes.
+
+---
+
+Source: https://tailng.dev/ai/components/stepper/api.md
+
+---
+id: "components/stepper/api"
+title: "Stepper API"
+description: "Stepper API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["stepper","layout","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/stepper/tng-stepper.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/stepper/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/stepper/sections/api/stepper-api-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/stepper/sections/api/stepper-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/stepper/sections/api/stepper-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/stepper/api"
+componentGroup: "layout"
+symbols: ["TngStepperComponent","TngStepperItemComponent"]
+selectors: ["tng-stepper","tng-stepper-item"]
+productId: "stepper"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Stepper API
+
+Styled stepper shell powered by headless value, focus, and state management.
+
+## API reference
+
+Stepper provides a headless primitive set for value, focus, and state management, plus a styled wrapper component that hosts the same primitive internally.
+
+### `tngStepper` (directive)
+
+Attach on a container element (`ol`, `section`, etc.) and project stepper items, triggers, labels, descriptions, panels, and connectors inside it.
+
+#### Primitive attachment
+
+```html
+<ol tngStepper aria-label="Release flow" defaultValue="review">
+  <li tngStepperItem value="draft" label="Draft" completed>
+    <button tngStepperTrigger><span tngStepperLabel>Draft</span></button>
+  </li>
+  <li tngStepperItem value="review" label="Review">
+    <button tngStepperTrigger><span tngStepperLabel>Review</span></button>
+  </li>
+  <li tngStepperItem value="publish" label="Publish" optional>
+    <button tngStepperTrigger><span tngStepperLabel>Publish</span></button>
+  </li>
+</ol>
+```
+
+| Surface | Value | Purpose |
+| --- | --- | --- |
+| Root attributes | `data-slot`, `data-orientation`, `data-linear` | Stable styling hooks for the primitive root. |
+| Root inputs | `value`, `defaultValue`, `orientation`, `linear`, `loopFocus` | Control selection, first render state, orientation, linear gating, and focus wrapping. |
+| Root outputs | `valueChange`, `stepChange` | Observe selected value changes and activation source metadata. |
+| Item selector | `[tngStepperItem]` | Registers each step and emits `data-state`, `data-step-index`, and optional state hooks. |
+| Trigger selector | `[tngStepperTrigger]` | Handles click activation, arrow-key focus, `aria-current`, and disabled semantics. |
+
+### `tng-stepper` (component)
+
+Wrapper that applies the baseline shell and attaches the headless `tngStepper` directive to its host. Use `[steps]` for data-driven flows, or project styled `tng-stepper-item` children for declarative markup.
+
+#### Component attachment
+
+```html
+protected readonly steps: readonly TngStepperStep[] = [
+  { value: 'cart', label: 'Cart', completed: true },
+  { value: 'shipping', label: 'Shipping' },
+  { value: 'payment', label: 'Payment' },
+];
+
+<tng-stepper ariaLabel="Checkout steps" defaultValue="shipping" [steps]="steps" />
+```
+
+#### Declarative item composition
+
+```html
+<tng-stepper ariaLabel="Checkout steps" defaultValue="shipping" linear>
+  <tng-stepper-item value="cart" label="Cart" completed />
+  <tng-stepper-item value="shipping" label="Shipping" />
+  <tng-stepper-item value="payment" label="Payment" />
+</tng-stepper>
+```
+
+| Input | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `steps` | `readonly TngStepperStep[] \| null` | `null` | Generates styled `tng-stepper-item` rows from data. |
+| `ordered` | `boolean` | `true` | Uses an ordered list for generated `steps`; set false for an unordered list. |
+| `ariaLabel` | `string` | `'Stepper'` | Sets accessible label on the underlying stepper host. |
+| `ariaLabelledby` | `string \| null` | `null` | Uses an external label element and suppresses the fallback `ariaLabel`. |
+| `value` | `string \| number \| null` | `undefined` | Controls the selected step value when supplied. |
+| `defaultValue` | `string \| number \| null` | `undefined` | Sets the initial uncontrolled selected value. |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Controls orientation metadata and keyboard direction behavior. |
+| `linear` | `boolean` | `false` | Prevents activation of future incomplete steps. |
+| `loopFocus` | `boolean` | `true` | Allows arrow-key focus to wrap at the ends. |
+| `valueChange` | `EventEmitter<string \| number>` | - | Emits the newly selected value. |
+| `stepChange` | `EventEmitter<TngStepperValueChangeEvent>` | - | Emits value, previous value, and activation source. |
+
+### `tng-stepper-item` (component)
+
+Styled child item that hosts `tngStepperItem` internally and renders the trigger, label, description, marker, and state styling.
+
+| Input | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `value` | `string \| number` | generated | Stable step identity used by selection and events. |
+| `label` | `string \| null` | `null` | Visible label and accessible label source. |
+| `description` | `string \| null` | `null` | Optional supporting text rendered below the label. |
+| `completed`, `optional`, `disabled`, `error` | `boolean` | `false` | State flags forwarded to the headless item primitive. |
+
+## Source-derived public Angular API
+
+### `TngStepperComponent` — `tng-stepper`
+
+- Inputs: `ariaLabel`, `ariaLabelledby`, `ordered`, `steps`
+- Forwarded inputs: `defaultValue`, `linear`, `loopFocus`, `orientation`, `value`
+- Forwarded outputs: `stepChange`, `valueChange`
+
+### `TngStepperItemComponent` — `tng-stepper-item`
+
+- Forwarded inputs: `completed`, `description`, `disabled`, `error`, `label`, `optional`, `value`
+
+---
+
+Source: https://tailng.dev/ai/components/stepper/examples.md
+
+---
+id: "components/stepper/examples"
+title: "Stepper examples"
+description: "Stepper examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["stepper","layout","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/stepper/tng-stepper.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/stepper/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/stepper/sections/examples/stepper-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/stepper/sections/examples/stepper-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/stepper/sections/examples/stepper-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/stepper/examples"
+componentGroup: "layout"
+symbols: ["TngStepperComponent","TngStepperItemComponent"]
+selectors: ["tng-stepper","tng-stepper-item"]
+productId: "stepper"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Stepper examples
+
+## Examples
+
+Reusable wrapper-based stepper layouts that compose the styled host with headless step items, triggers, and state attributes.
+
+### stepper-examples-horizontal-plain-css.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngStepperComponent, TngStepperItemComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-stepper-examples-horizontal-plain-css',
+  standalone: true,
+  imports: [TngStepperComponent, TngStepperItemComponent],
+  templateUrl: './stepper-examples-horizontal-plain-css.component.html',
+  styleUrl: './stepper-examples-horizontal-plain-css.component.css',
+})
+export class StepperExamplesHorizontalPlainCssComponent {}
+```
+
+### stepper-examples-horizontal-plain-css.component.html
+
+```html
+<div class="stepper-example-shell stepper-example-shell--plain stepper-example-shell--horizontal">
+  <tng-stepper orientation="horizontal" defaultValue="plan" ariaLabel="Horizontal onboarding progress">
+    <tng-stepper-item value="account" label="Account" completed />
+    <tng-stepper-item value="plan" label="Plan" description="Choose workspace limits" />
+    <tng-stepper-item value="invite" label="Invite" description="Optional team setup" optional />
+  </tng-stepper>
+</div>
+```
+
+### stepper-examples-horizontal-plain-css.component.css
+
+```css
+.stepper-example-shell--horizontal {
+  max-width: 48rem;
+}
+```
+
+### stepper-examples-horizontal-tailwind.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngStepperComponent, TngStepperItemComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-stepper-examples-horizontal-tailwind',
+  standalone: true,
+  imports: [TngStepperComponent, TngStepperItemComponent],
+  templateUrl: './stepper-examples-horizontal-tailwind.component.html',
+  styleUrl: './stepper-examples-horizontal-tailwind.component.css',
+})
+export class StepperExamplesHorizontalTailwindComponent {}
+```
+
+### stepper-examples-horizontal-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+  <tng-stepper orientation="horizontal" defaultValue="plan" ariaLabel="Horizontal onboarding progress">
+    <tng-stepper-item value="account" label="Account" completed />
+    <tng-stepper-item value="plan" label="Plan" description="Workspace limits" />
+    <tng-stepper-item value="invite" label="Invite" description="Optional team setup" optional />
+  </tng-stepper>
+</div>
+```
+
+### stepper-examples-horizontal-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+### stepper-examples-checkout-plain-css.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngStepperComponent } from '@tailng-ui/components';
+import { TngStepperDescription, TngStepperItem, TngStepperLabel, TngStepperTrigger } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-stepper-examples-checkout-plain-css',
+  standalone: true,
+  imports: [TngStepperComponent, TngStepperDescription, TngStepperItem, TngStepperLabel, TngStepperTrigger],
+  templateUrl: './stepper-examples-checkout-plain-css.component.html',
+  styleUrl: './stepper-examples-checkout-plain-css.component.css',
+})
+export class StepperExamplesCheckoutPlainCssComponent {}
+```
+
+### stepper-examples-checkout-plain-css.component.html
+
+```html
+<div class="stepper-example-shell stepper-example-shell--plain">
+  <tng-stepper ariaLabel="Checkout progress" defaultValue="shipping" linear>
+    <ol class="stepper-example-list">
+      <li tngStepperItem value="cart" label="Cart" completed class="stepper-example-item">
+        <button tngStepperTrigger class="stepper-example-trigger"><span class="dot">1</span><span tngStepperLabel>Cart</span></button>
+      </li>
+      <li tngStepperItem value="shipping" label="Shipping" class="stepper-example-item">
+        <button tngStepperTrigger class="stepper-example-trigger"><span class="dot">2</span><span tngStepperLabel>Shipping</span></button>
+      </li>
+      <li tngStepperItem value="payment" label="Payment" class="stepper-example-item">
+        <button tngStepperTrigger class="stepper-example-trigger"><span class="dot">3</span><span tngStepperLabel>Payment</span></button>
+      </li>
+    </ol>
+  </tng-stepper>
+</div>
+```
+
+### stepper-examples-checkout-plain-css.component.css
+
+```css
+.stepper-example-shell--plain {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.9rem 1rem;
+}
+```
+
+### stepper-examples-checkout-tailwind.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngStepperComponent } from '@tailng-ui/components';
+import { TngStepperDescription, TngStepperItem, TngStepperLabel, TngStepperTrigger } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-stepper-examples-checkout-tailwind',
+  standalone: true,
+  imports: [TngStepperComponent, TngStepperDescription, TngStepperItem, TngStepperLabel, TngStepperTrigger],
+  templateUrl: './stepper-examples-checkout-tailwind.component.html',
+  styleUrl: './stepper-examples-checkout-tailwind.component.css',
+})
+export class StepperExamplesCheckoutTailwindComponent {}
+```
+
+### stepper-examples-checkout-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+  <tng-stepper ariaLabel="Checkout progress" defaultValue="shipping" linear>
+    <ol class="stepper-example-list">
+      <li tngStepperItem value="cart" label="Cart" completed class="stepper-example-item">
+        <button tngStepperTrigger class="stepper-example-trigger"><span class="dot">1</span><span tngStepperLabel>Cart</span></button>
+      </li>
+      <li tngStepperItem value="shipping" label="Shipping" class="stepper-example-item">
+        <button tngStepperTrigger class="stepper-example-trigger"><span class="dot">2</span><span tngStepperLabel>Shipping</span></button>
+      </li>
+      <li tngStepperItem value="payment" label="Payment" class="stepper-example-item">
+        <button tngStepperTrigger class="stepper-example-trigger"><span class="dot">3</span><span tngStepperLabel>Payment</span></button>
+      </li>
+    </ol>
+  </tng-stepper>
+</div>
+```
+
+### stepper-examples-checkout-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+### stepper-examples-release-plain-css.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngStepperComponent } from '@tailng-ui/components';
+import { TngStepperDescription, TngStepperItem, TngStepperLabel, TngStepperTrigger } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-stepper-examples-release-plain-css',
+  standalone: true,
+  imports: [TngStepperComponent, TngStepperDescription, TngStepperItem, TngStepperLabel, TngStepperTrigger],
+  templateUrl: './stepper-examples-release-plain-css.component.html',
+  styleUrl: './stepper-examples-release-plain-css.component.css',
+})
+export class StepperExamplesReleasePlainCssComponent {}
+```
+
+### stepper-examples-release-plain-css.component.html
+
+```html
+<div class="stepper-example-shell stepper-example-shell--plain">
+  <tng-stepper ariaLabel="Release flow" defaultValue="publish">
+    <ol class="stepper-example-list">
+      <li tngStepperItem value="draft" label="Draft" completed class="stepper-example-item">
+        <button tngStepperTrigger class="stepper-example-trigger"><span class="dot">1</span><span tngStepperLabel>Draft</span></button>
+      </li>
+      <li tngStepperItem value="review" label="Review" completed class="stepper-example-item">
+        <button tngStepperTrigger class="stepper-example-trigger"><span class="dot">2</span><span tngStepperLabel>Review</span></button>
+      </li>
+      <li tngStepperItem value="publish" label="Publish" class="stepper-example-item">
+        <button tngStepperTrigger class="stepper-example-trigger"><span class="dot">3</span><span tngStepperLabel>Publish</span></button>
+      </li>
+    </ol>
+  </tng-stepper>
+</div>
+```
+
+### stepper-examples-release-plain-css.component.css
+
+```css
+.stepper-example-item[data-state="completed"] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-success) 12%, transparent);
+}
+```
+
+### stepper-examples-release-tailwind.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngStepperComponent } from '@tailng-ui/components';
+import { TngStepperDescription, TngStepperItem, TngStepperLabel, TngStepperTrigger } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-stepper-examples-release-tailwind',
+  standalone: true,
+  imports: [TngStepperComponent, TngStepperDescription, TngStepperItem, TngStepperLabel, TngStepperTrigger],
+  templateUrl: './stepper-examples-release-tailwind.component.html',
+  styleUrl: './stepper-examples-release-tailwind.component.css',
+})
+export class StepperExamplesReleaseTailwindComponent {}
+```
+
+### stepper-examples-release-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+  <tng-stepper ariaLabel="Release flow" defaultValue="publish">
+    <ol class="stepper-example-list">
+      <li tngStepperItem value="draft" label="Draft" completed class="stepper-example-item">
+        <button tngStepperTrigger class="stepper-example-trigger"><span class="dot">1</span><span tngStepperLabel>Draft</span></button>
+      </li>
+      <li tngStepperItem value="review" label="Review" completed class="stepper-example-item">
+        <button tngStepperTrigger class="stepper-example-trigger"><span class="dot">2</span><span tngStepperLabel>Review</span></button>
+      </li>
+      <li tngStepperItem value="publish" label="Publish" class="stepper-example-item">
+        <button tngStepperTrigger class="stepper-example-trigger"><span class="dot">3</span><span tngStepperLabel>Publish</span></button>
+      </li>
+    </ol>
+  </tng-stepper>
+</div>
+```
+
+### stepper-examples-release-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+### stepper-examples-error-plain-css.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngStepperComponent } from '@tailng-ui/components';
+import { TngStepperDescription, TngStepperItem, TngStepperLabel, TngStepperTrigger } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-stepper-examples-error-plain-css',
+  standalone: true,
+  imports: [TngStepperComponent, TngStepperDescription, TngStepperItem, TngStepperLabel, TngStepperTrigger],
+  templateUrl: './stepper-examples-error-plain-css.component.html',
+  styleUrl: './stepper-examples-error-plain-css.component.css',
+})
+export class StepperExamplesErrorPlainCssComponent {}
+```
+
+### stepper-examples-error-plain-css.component.html
+
+```html
+<div class="stepper-example-shell stepper-example-shell--plain">
+  <tng-stepper ariaLabel="Onboarding" defaultValue="billing">
+    <ol class="stepper-example-list">
+      <li tngStepperItem value="profile" label="Profile" completed class="stepper-example-item">
+        <button tngStepperTrigger class="stepper-example-trigger"><span class="dot">1</span><span tngStepperLabel>Profile</span></button>
+      </li>
+      <li tngStepperItem value="billing" label="Billing" error class="stepper-example-item">
+        <button tngStepperTrigger class="stepper-example-trigger"><span class="dot">2</span><span tngStepperLabel>Billing</span></button>
+        <span tngStepperDescription class="stepper-example-description">Card declined</span>
+      </li>
+      <li tngStepperItem value="invite" label="Team invite" class="stepper-example-item">
+        <button tngStepperTrigger class="stepper-example-trigger"><span class="dot">3</span><span tngStepperLabel>Team invite</span></button>
+      </li>
+    </ol>
+  </tng-stepper>
+</div>
+```
+
+### stepper-examples-error-plain-css.component.css
+
+```css
+.stepper-example-item[data-state="error"] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-danger) 10%, transparent);
+}
+```
+
+### stepper-examples-error-tailwind.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngStepperComponent } from '@tailng-ui/components';
+import { TngStepperDescription, TngStepperItem, TngStepperLabel, TngStepperTrigger } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-stepper-examples-error-tailwind',
+  standalone: true,
+  imports: [TngStepperComponent, TngStepperDescription, TngStepperItem, TngStepperLabel, TngStepperTrigger],
+  templateUrl: './stepper-examples-error-tailwind.component.html',
+  styleUrl: './stepper-examples-error-tailwind.component.css',
+})
+export class StepperExamplesErrorTailwindComponent {}
+```
+
+### stepper-examples-error-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+  <tng-stepper ariaLabel="Onboarding" defaultValue="billing">
+    <ol class="stepper-example-list">
+      <li tngStepperItem value="profile" label="Profile" completed class="stepper-example-item">
+        <button tngStepperTrigger class="stepper-example-trigger"><span class="dot">1</span><span tngStepperLabel>Profile</span></button>
+      </li>
+      <li tngStepperItem value="billing" label="Billing" error class="stepper-example-item">
+        <button tngStepperTrigger class="stepper-example-trigger"><span class="dot">2</span><span tngStepperLabel>Billing</span></button>
+        <span tngStepperDescription class="stepper-example-description">Card declined</span>
+      </li>
+      <li tngStepperItem value="invite" label="Team invite" class="stepper-example-item">
+        <button tngStepperTrigger class="stepper-example-trigger"><span class="dot">3</span><span tngStepperLabel>Team invite</span></button>
+      </li>
+    </ol>
+  </tng-stepper>
+</div>
+```
+
+### stepper-examples-error-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+---
+
+Source: https://tailng.dev/ai/components/stepper/overview.md
+
+---
+id: "components/stepper/overview"
+title: "Stepper component"
+description: "Styled stepper shell powered by headless value, focus, and state management."
+category: "components"
+status: "stable"
+tags: ["stepper","layout","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/stepper/tng-stepper.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/stepper/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/stepper/overview"
+componentGroup: "layout"
+symbols: ["TngStepperComponent","TngStepperItemComponent"]
+selectors: ["tng-stepper","tng-stepper-item"]
+productId: "stepper"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Stepper component
+
+Styled stepper shell powered by headless value, focus, and state management.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngStepperComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngStepperComponent],
+  template: `<tng-stepper />`,
+})
+export class StepperAgentExample {}
+```
+
+## Component family
+
+- `TngStepperComponent` — selector `tng-stepper`
+- `TngStepperItemComponent` — selector `tng-stepper-item`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/layout/stepper/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/stepper/api.md)
+- [Styling](https://tailng.dev/ai/components/stepper/styling.md)
+- [Examples](https://tailng.dev/ai/components/stepper/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/stepper/styling.md
+
+---
+id: "components/stepper/styling"
+title: "Stepper styling"
+description: "Stepper styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["stepper","layout","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/stepper/tng-stepper.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/stepper/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/stepper/sections/styling/stepper-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/stepper/sections/styling/stepper-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/stepper/sections/styling/stepper-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/stepper/styling"
+componentGroup: "layout"
+symbols: ["TngStepperComponent","TngStepperItemComponent"]
+selectors: ["tng-stepper","tng-stepper-item"]
+productId: "stepper"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Stepper styling
+
+## Styling contract
+
+The wrapper owns the shell class while the headless primitive emits stable slot, orientation, state, and focus hooks across projected items and triggers.
+
+### State hooks
+
+| Hook | Where | Use |
+| --- | --- | --- |
+| `data-slot="stepper"` | Root (library-owned) | Container spacing, orientation layouts, connector styling. |
+| `data-orientation` | Root (library-owned) | Horizontal and vertical layout selectors. |
+| `data-linear` | Root (library-owned) | Linear-flow styling or analytics hook when linear mode is active. |
+| `data-slot="stepper-item"` | Projected item (library-owned) | Per-step row styling. |
+| `data-slot="stepper-trigger"` | Projected trigger (library-owned) | Focus rings, hit target sizing, and button/link reset styles. |
+| `data-state="current"` | Projected item and trigger (library-owned) | Active step emphasis and readable current-state styling. |
+| `data-state="completed"` | Projected item and trigger (library-owned) | Past-step confirmation colors and icon treatment. |
+| `data-state="upcoming"` | Projected item and trigger (library-owned) | Muted future-step presentation. |
+| `data-state="error"` | Projected item and trigger (library-owned) | Validation/processing failure styling. |
+| `aria-current="step"` | Projected trigger (library-owned) | Current-step accessibility and selector hook. |
+
+### CSS starter
+
+#### Stepper state contract
+
+```css
+tng-stepper.tng-stepper,
+[tngStepper][data-slot="stepper"] {
+  display: grid;
+  gap: 0.65rem;
+}
+
+[data-slot="stepper-item"][data-state="current"] {
+  border-color: var(--tng-semantic-accent-brand);
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, transparent);
+}
+
+[data-slot="stepper-item"][data-state="completed"] {
+  border-color: var(--tng-semantic-accent-success);
+}
+
+[data-slot="stepper-item"][data-state="error"] {
+  border-color: var(--tng-semantic-accent-danger);
+}
+
+[data-slot="stepper-trigger"]:focus-visible {
+  outline: 2px solid var(--tng-semantic-accent-brand);
+  outline-offset: 2px;
+}
+```
+
+Style the wrapper host for the shell, then target projected primitive slots for item state, trigger focus, optional markers, panels, and connectors.
+
+---
+
+Source: https://tailng.dev/ai/components/table/api.md
+
+---
+id: "components/table/api"
+title: "Table API"
+description: "Table API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["table","layout","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/table/tng-table.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/table/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/table/sections/api/table-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/table/api"
+componentGroup: "layout"
+symbols: ["TngTableComponent"]
+selectors: ["tng-table"]
+productId: "table"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Table API
+
+Styled data table shell with columns, sorting, sticky cells, and empty states.
+
+## Source-derived public Angular API
+
+### `TngTableComponent` — `tng-table`
+
+- Inputs: `ariaLabel`, `ariaLabelledby`, `columns`, `density`, `dir`, `error`, `filterable`, `hoverMode`, `items`, `layout`, `loading`, `pageable`, `rowClass`, `rowStyle`, `scrollAxis`, `sortActive`, `sortDirection`, `sortDisableClear`, `stickyHeader`
+- Outputs: `sortChange`
+
+---
+
+Source: https://tailng.dev/ai/components/table/examples.md
+
+---
+id: "components/table/examples"
+title: "Table examples"
+description: "Table examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["table","layout","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/table/tng-table.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/table/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/table/sections/examples/table-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/table/examples"
+componentGroup: "layout"
+symbols: ["TngTableComponent"]
+selectors: ["tng-table"]
+productId: "table"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Table examples
+
+## Minimal example
+
+```ts
+import { Component } from '@angular/core';
+import { TngTableComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngTableComponent],
+  template: `<tng-table />`,
+})
+export class TableExample {}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/table/overview.md
+
+---
+id: components/table/overview
+title: Table component
+description: Render accessible row data from typed TailNG table column metadata.
+category: components
+status: stable
+tags: ["table", "layout", "data"]
+package: @tailng-ui/components
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/table/tng-table.component.ts", "apps/tailng-ui/docs/src/app/pages/components/layout/table/sections/overview/table-overview-page.component.ts"]
+humanDocsUrl: https://tailng.dev/components/layout/table/overview
+---
+
+# Table component
+
+Define typed column metadata and row data:
+
+```ts
+import { Component } from '@angular/core';
+import { TngTableComponent, type TngTableColumn } from '@tailng-ui/components';
+
+type ReleaseRow = Readonly<{ service: string; owner: string; status: string }>;
+
+@Component({
+  standalone: true,
+  imports: [TngTableComponent],
+  template: `
+    <tng-table
+      ariaLabel="Release status"
+      density="compact"
+      stickyHeader
+      [columns]="columns"
+      [items]="rows"
+    />
+  `,
+})
+export class ReleaseStatusTableExample {
+  readonly columns: readonly TngTableColumn<ReleaseRow>[] = [
+    { id: 'service', label: 'Service', sortable: true },
+    { id: 'owner', label: 'Owner' },
+    { id: 'status', label: 'Status' },
+  ];
+
+  readonly rows: readonly ReleaseRow[] = [
+    { service: 'Billing API', owner: 'Mina Lee', status: 'Ready' },
+    { service: 'Search index', owner: 'Omar Aziz', status: 'Blocked' },
+  ];
+}
+```
+
+Provide `ariaLabel` or `ariaLabelledby`. Column IDs default to property lookup when no accessor is provided. Use meaningful column labels because sortable headers announce them.
+
+The component also supports density, sticky headers, sorting state, filtering state, pagination state, loading/error states, row styling, nested column groups, and custom cell/header templates.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/table/api.md)
+- [Styling](https://tailng.dev/ai/components/table/styling.md)
+- [Examples](https://tailng.dev/ai/components/table/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/table/styling.md
+
+---
+id: "components/table/styling"
+title: "Table styling"
+description: "Table styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["table","layout","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/table/tng-table.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/table/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/table/sections/styling/table-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/table/styling"
+componentGroup: "layout"
+symbols: ["TngTableComponent"]
+selectors: ["tng-table"]
+productId: "table"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Table styling
+
+## Styling contract
+
+Load the TailNG theme contract stylesheet and prefer semantic tokens over hard-coded colors.
+
+### State and slot hooks
+
+- `data-slot='table'`
+- `data-slot='table-header-cell'`
+- `data-slot='table-row'`
+- `data-slot='table-scroll'`
+
+### CSS custom properties
+
+- `--tng-semantic-background-base`
+- `--tng-semantic-background-surface`
+- `--tng-semantic-border-subtle`
+- `--tng-semantic-focus-ring`
+- `--tng-semantic-foreground-primary`
+- `--tng-semantic-foreground-secondary`
+- `--tng-table-border`
+- `--tng-table-cell-px`
+- `--tng-table-cell-py`
+- `--tng-table-header-bg`
+- `--tng-table-header-z-index`
+- `--tng-table-min-width`
+- `--tng-table-radius`
+- `--tng-table-row-bg`
+- `--tng-table-row-hover-bg`
+- `--tng-table-scroll-max-height`
+- `--tng-table-scroll-overflow-x`
+- `--tng-table-scroll-overflow-y`
+
+---
+
+Source: https://tailng.dev/ai/components/tree-table/api.md
+
+---
+id: "components/tree-table/api"
+title: "Tree Table API"
+description: "Tree Table API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["tree-table","layout","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/tree-table/index.ts","libs/tailng-ui/components/src/lib/layout/tree-table/tng-tree-table-column.type.ts","libs/tailng-ui/components/src/lib/layout/tree-table/tng-tree-table.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/tree-table/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/tree-table/sections/api/tree-table-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/tree-table/api"
+componentGroup: "layout"
+symbols: ["TngTreeTableComponent"]
+selectors: ["tng-tree-table"]
+productId: "tree-table"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Tree Table API
+
+Hierarchical treegrid table with expand/collapse rows, selection, keyboard navigation, and accessible aria attributes.
+
+## Source-derived public Angular API
+
+### `TngTreeTableComponent` — `tng-tree-table`
+
+- Inputs: `ariaLabel`, `columns`, `data`, `density`, `dir`, `disabled`, `emptyText`, `expandedKeys`, `expandOnRowClick`, `getChildren`, `getKey`, `indentSize`, `loading`, `loadingText`, `rowClass`, `rowStyle`, `selectable`, `selectedKeys`, `treeColumnKey`
+- Required inputs: `columns`
+- Outputs: `expandedKeysChange`, `rowClick`, `rowCollapse`, `rowExpand`, `selectedKeysChange`
+
+---
+
+Source: https://tailng.dev/ai/components/tree-table/examples.md
+
+---
+id: "components/tree-table/examples"
+title: "Tree Table examples"
+description: "Tree Table examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["tree-table","layout","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/tree-table/index.ts","libs/tailng-ui/components/src/lib/layout/tree-table/tng-tree-table-column.type.ts","libs/tailng-ui/components/src/lib/layout/tree-table/tng-tree-table.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/tree-table/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/tree-table/sections/examples/tree-table-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/layout/tree-table/sections/examples/tree-table-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/layout/tree-table/sections/examples/tree-table-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/tree-table/examples"
+componentGroup: "layout"
+symbols: ["TngTreeTableComponent"]
+selectors: ["tng-tree-table"]
+productId: "tree-table"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Tree Table examples
+
+## Examples
+
+Copy-pasteable tree table examples. Each demo is interactive — click the toggle buttons or press ArrowRight/Left on any row.
+
+## Minimal example
+
+```ts
+import { Component } from '@angular/core';
+import { TngTreeTableComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngTreeTableComponent],
+  template: `<tng-tree-table />`,
+})
+export class TreeTableExample {}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/tree-table/overview.md
+
+---
+id: "components/tree-table/overview"
+title: "Tree Table component"
+description: "Hierarchical treegrid table with expand/collapse rows, selection, keyboard navigation, and accessible aria attributes."
+category: "components"
+status: "stable"
+tags: ["tree-table","layout","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/tree-table/index.ts","libs/tailng-ui/components/src/lib/layout/tree-table/tng-tree-table-column.type.ts","libs/tailng-ui/components/src/lib/layout/tree-table/tng-tree-table.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/tree-table/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/tree-table/overview"
+componentGroup: "layout"
+symbols: ["TngTreeTableComponent"]
+selectors: ["tng-tree-table"]
+productId: "tree-table"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Tree Table component
+
+Hierarchical treegrid table with expand/collapse rows, selection, keyboard navigation, and accessible aria attributes.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngTreeTableComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngTreeTableComponent],
+  template: `<tng-tree-table [columns]="$any(null)" />`,
+})
+export class TreeTableAgentExample {}
+```
+
+## Component family
+
+- `TngTreeTableComponent` — selector `tng-tree-table`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/layout/tree-table/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/tree-table/api.md)
+- [Styling](https://tailng.dev/ai/components/tree-table/styling.md)
+- [Examples](https://tailng.dev/ai/components/tree-table/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/tree-table/styling.md
+
+---
+id: "components/tree-table/styling"
+title: "Tree Table styling"
+description: "Tree Table styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["tree-table","layout","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/layout/tree-table/index.ts","libs/tailng-ui/components/src/lib/layout/tree-table/tng-tree-table-column.type.ts","libs/tailng-ui/components/src/lib/layout/tree-table/tng-tree-table.component.ts","apps/tailng-ui/docs/src/app/pages/components/layout/tree-table/routes.ts","apps/tailng-ui/docs/src/app/pages/components/layout/tree-table/sections/styling/tree-table-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/layout/tree-table/styling"
+componentGroup: "layout"
+symbols: ["TngTreeTableComponent"]
+selectors: ["tng-tree-table"]
+productId: "tree-table"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Tree Table styling
+
+## Styling contract
+
+Load the TailNG theme contract stylesheet and prefer semantic tokens over hard-coded colors.
+
+### State and slot hooks
+
+- `data-disabled`
+- `data-selected`
+
+### CSS custom properties
+
+- `--tng-disabled-opacity`
+- `--tng-focus-ring`
+- `--tng-focus-ring-color`
+- `--tng-radius-panel`
+- `--tng-semantic-accent-danger`
+- `--tng-semantic-accent-info`
+- `--tng-semantic-accent-success`
+- `--tng-semantic-accent-warning`
+- `--tng-semantic-background-base`
+- `--tng-semantic-background-surface`
+- `--tng-semantic-border-subtle`
+- `--tng-semantic-focus-ring`
+- `--tng-semantic-foreground-primary`
+- `--tng-semantic-foreground-secondary`
+- `--tng-tree-table-border`
+- `--tng-tree-table-cell-px`
+- `--tng-tree-table-cell-py`
+- `--tng-tree-table-group-header-bg`
+- `--tng-tree-table-header-bg`
+- `--tng-tree-table-radius`
+- `--tng-tree-table-row-bg`
+- `--tng-tree-table-row-hover-bg`
+- `--tng-tree-table-row-selected-bg`
+- `--tng-tree-table-toggle-color`
+- `--tng-tree-table-toggle-hover-bg`
+

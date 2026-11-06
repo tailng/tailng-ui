@@ -1,0 +1,2748 @@
+# TailNG utility components
+
+---
+
+Source: https://tailng.dev/ai/components/avatar/api.md
+
+---
+id: "components/avatar/api"
+title: "Avatar API"
+description: "Avatar API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["avatar","utility","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/avatar/tng-avatar.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/avatar/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/avatar/sections/api/avatar-api-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/avatar/sections/api/avatar-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/avatar/sections/api/avatar-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/avatar/api"
+componentGroup: "utility"
+symbols: ["TngAvatarComponent"]
+selectors: ["tng-avatar"]
+productId: "avatar"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Avatar API
+
+Identity surfaces with fallback handling, shape, and size variants.
+
+## API reference
+
+`<tng-avatar>` wraps the headless avatar slots and owns the common avatar lifecycle: image load/error handling, fallback text generation, and a minimum size/shape shell.
+
+### Wrapper component
+
+The wrapper renders a `span.tng-avatar` host, an image slot, and a fallback slot. It automatically toggles which slot is visible based on `src` presence and image load success.
+
+### Wrapper inputs
+
+| Input | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `src` | `string \| null` | `null` | Image source URL. Empty/null resolves to fallback. |
+| `fallback` | `string \| null` | `null` | Fallback source text converted into initials when possible. |
+| `alt` | `string \| null` | `'Avatar'` | Alt text passed to image node when present. |
+| `shape` | `'circle' \| 'square'` | `'circle'` | Controls avatar frame geometry. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Controls host dimensions and fallback typography scale. |
+
+### Primitive foundation
+
+`<tng-avatar>` is built on the headless `tngAvatar`, `tngAvatarImage`, and `tngAvatarFallback` directives. Use the dedicated headless Avatar page when you need fully custom sizing contracts, nonstandard markup, or owner-managed fallback visibility.
+
+## Source-derived public Angular API
+
+### `TngAvatarComponent` — `tng-avatar`
+
+- Inputs: `alt`, `fallback`, `shape`, `size`, `src`
+
+---
+
+Source: https://tailng.dev/ai/components/avatar/examples.md
+
+---
+id: "components/avatar/examples"
+title: "Avatar examples"
+description: "Avatar examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["avatar","utility","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/avatar/tng-avatar.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/avatar/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/avatar/sections/examples/avatar-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/avatar/sections/examples/avatar-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/avatar/sections/examples/avatar-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/avatar/examples"
+componentGroup: "utility"
+symbols: ["TngAvatarComponent"]
+selectors: ["tng-avatar"]
+productId: "avatar"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Avatar examples
+
+## Examples
+
+These examples stay wrapper-focused: the component owns fallback display and slot markup while you compose surrounding roster and status layouts.
+
+### avatar-examples-team-roster-plain-css.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngAvatarComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-avatar-examples-team-roster-plain-css',
+  standalone: true,
+  imports: [TngAvatarComponent],
+  templateUrl: './avatar-examples-team-roster-plain-css.component.html',
+  styleUrl: './avatar-examples-team-roster-plain-css.component.css',
+})
+export class AvatarExamplesTeamRosterPlainCssComponent {
+  protected readonly sampleImage = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%2360a5fa%22/%3E%3C/svg%3E';
+}
+```
+
+### avatar-examples-team-roster-plain-css.component.html
+
+```html
+<div class="avatar-team-grid">
+  <div class="avatar-team-card">
+    <tng-avatar [src]="sampleImage" fallback="Alex" alt="Alex Morgan"></tng-avatar>
+    <div>
+      <strong>Alex Morgan</strong>
+      <p>Design systems</p>
+    </div>
+  </div>
+  <div class="avatar-team-card">
+    <tng-avatar [src]="null" fallback="TN" alt="Taylor Nguyen"></tng-avatar>
+    <div>
+      <strong>Taylor Nguyen</strong>
+      <p>Release engineering</p>
+    </div>
+  </div>
+</div>
+```
+
+### avatar-examples-team-roster-plain-css.component.css
+
+```css
+.avatar-team-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.avatar-team-card {
+  align-items: center;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: auto 1fr;
+}
+```
+
+### avatar-examples-team-roster-tailwind.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngAvatarComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-avatar-examples-team-roster-tailwind',
+  standalone: true,
+  imports: [TngAvatarComponent],
+  templateUrl: './avatar-examples-team-roster-tailwind.component.html',
+  styleUrl: './avatar-examples-team-roster-tailwind.component.css',
+})
+export class AvatarExamplesTeamRosterTailwindComponent {
+  protected readonly sampleImage = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%2360a5fa%22/%3E%3C/svg%3E';
+}
+```
+
+### avatar-examples-team-roster-tailwind.component.html
+
+```html
+<div class="grid gap-3 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
+  <div class="grid grid-cols-[auto_1fr] items-center gap-3">
+    <tng-avatar [src]="sampleImage" fallback="Alex" alt="Alex Morgan" size="lg"></tng-avatar>
+    <div>
+      <p class="text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]">Alex Morgan</p>
+      <p class="text-sm text-[var(--tng-semantic-foreground-secondary)]">Design systems</p>
+    </div>
+  </div>
+  <div class="grid grid-cols-[auto_1fr] items-center gap-3">
+    <tng-avatar [src]="null" fallback="TN" alt="Taylor Nguyen"></tng-avatar>
+    <div>
+      <p class="text-sm font-semibold text-[var(--tng-semantic-foreground-primary)]">Taylor Nguyen</p>
+      <p class="text-sm text-[var(--tng-semantic-foreground-secondary)]">Release engineering</p>
+    </div>
+  </div>
+</div>
+```
+
+### avatar-examples-team-roster-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+### avatar-examples-presence-strip-plain-css.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngAvatarComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-avatar-examples-presence-strip-plain-css',
+  standalone: true,
+  imports: [TngAvatarComponent],
+  templateUrl: './avatar-examples-presence-strip-plain-css.component.html',
+  styleUrl: './avatar-examples-presence-strip-plain-css.component.css',
+})
+export class AvatarExamplesPresenceStripPlainCssComponent {
+  protected readonly sampleImage = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%2360a5fa%22/%3E%3C/svg%3E';
+}
+```
+
+### avatar-examples-presence-strip-plain-css.component.html
+
+```html
+<div class="avatar-presence-strip">
+  <div class="avatar-presence-item">
+    <tng-avatar [src]="sampleImage" fallback="PR" alt="Priya Raman"></tng-avatar>
+    <span class="avatar-presence-dot avatar-presence-dot--online"></span>
+  </div>
+  <div class="avatar-presence-item">
+    <tng-avatar [src]="null" fallback="DN" alt="Dev Narang" shape="square"></tng-avatar>
+    <span class="avatar-presence-dot avatar-presence-dot--busy"></span>
+  </div>
+</div>
+```
+
+### avatar-examples-presence-strip-plain-css.component.css
+
+```css
+.avatar-presence-strip {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.avatar-presence-item {
+  position: relative;
+}
+
+.avatar-presence-dot {
+  border: 2px solid var(--tng-semantic-background-base);
+  border-radius: 9999px;
+  bottom: -0.12rem;
+  height: 0.85rem;
+  position: absolute;
+  right: -0.12rem;
+  width: 0.85rem;
+}
+
+.avatar-presence-dot--online {
+  background: var(--tng-semantic-accent-success);
+}
+
+.avatar-presence-dot--busy {
+  background: var(--tng-semantic-accent-warning);
+}
+```
+
+### avatar-examples-presence-strip-tailwind.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngAvatarComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-avatar-examples-presence-strip-tailwind',
+  standalone: true,
+  imports: [TngAvatarComponent],
+  templateUrl: './avatar-examples-presence-strip-tailwind.component.html',
+  styleUrl: './avatar-examples-presence-strip-tailwind.component.css',
+})
+export class AvatarExamplesPresenceStripTailwindComponent {
+  protected readonly sampleImage = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%2360a5fa%22/%3E%3C/svg%3E';
+}
+```
+
+### avatar-examples-presence-strip-tailwind.component.html
+
+```html
+<div class="flex gap-3 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
+  <div class="relative">
+    <tng-avatar [src]="sampleImage" fallback="PR" alt="Priya Raman"></tng-avatar>
+    <span class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-[var(--tng-semantic-background-base)] bg-[var(--tng-semantic-accent-success)] shadow-[0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_70%,transparent)]"></span>
+  </div>
+  <div class="relative">
+    <tng-avatar [src]="null" fallback="DN" alt="Dev Narang" shape="square"></tng-avatar>
+    <span class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-[var(--tng-semantic-background-base)] bg-[var(--tng-semantic-accent-warning)] shadow-[0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_70%,transparent)]"></span>
+  </div>
+</div>
+```
+
+### avatar-examples-presence-strip-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+---
+
+Source: https://tailng.dev/ai/components/avatar/overview.md
+
+---
+id: "components/avatar/overview"
+title: "Avatar component"
+description: "Identity surfaces with fallback handling, shape, and size variants."
+category: "components"
+status: "stable"
+tags: ["avatar","utility","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/avatar/tng-avatar.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/avatar/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/avatar/overview"
+componentGroup: "utility"
+symbols: ["TngAvatarComponent"]
+selectors: ["tng-avatar"]
+productId: "avatar"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Avatar component
+
+Identity surfaces with fallback handling, shape, and size variants.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngAvatarComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngAvatarComponent],
+  template: `<tng-avatar />`,
+})
+export class AvatarAgentExample {}
+```
+
+## Component family
+
+- `TngAvatarComponent` — selector `tng-avatar`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/utility/avatar/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/avatar/api.md)
+- [Styling](https://tailng.dev/ai/components/avatar/styling.md)
+- [Examples](https://tailng.dev/ai/components/avatar/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/avatar/styling.md
+
+---
+id: "components/avatar/styling"
+title: "Avatar styling"
+description: "Avatar styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["avatar","utility","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/avatar/tng-avatar.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/avatar/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/avatar/sections/styling/avatar-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/avatar/sections/styling/avatar-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/avatar/sections/styling/avatar-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/avatar/styling"
+componentGroup: "utility"
+symbols: ["TngAvatarComponent"]
+selectors: ["tng-avatar"]
+productId: "avatar"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Avatar styling
+
+## Styling contract
+
+Style the wrapper through the stable attributes on the rendered avatar shell and slot nodes, rather than depending on extra local classes on `<tng-avatar>` itself.
+
+### Wrapper state hooks
+
+| Attribute | Values | Usage |
+| --- | --- | --- |
+| `data-shape` | `circle \| square` | Controls shell geometry on the internal `.tng-avatar` element. |
+| `data-size` | `sm \| md \| lg` | Controls wrapper dimensions and fallback text scale. |
+| `data-slot` | `avatar \| avatar-image \| avatar-fallback` | Targets shell, image, and fallback nodes. |
+| `hidden` | Applied to image or fallback | Reflects which visual layer is currently active. |
+
+### Wrapper shell
+
+### Owner guidance
+
+Override the wrapper by targeting the internal shell under `tng-avatar`. If you need custom host structure or owner-managed fallback visibility, move to the headless Avatar page.
+
+#### avatar.contract.css
+
+```css
+tng-avatar > .tng-avatar[data-size="lg"] {
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, transparent);
+}
+
+tng-avatar > .tng-avatar[data-shape="square"] {
+  border-radius: 1rem;
+}
+
+tng-avatar > .tng-avatar [data-slot="avatar-fallback"] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 10%, transparent);
+}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/badge/api.md
+
+---
+id: "components/badge/api"
+title: "Badge API"
+description: "Badge API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["badge","utility","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/badge/tng-badge.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/badge/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/badge/sections/api/badge-api-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/badge/sections/api/badge-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/badge/sections/api/badge-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/badge/api"
+componentGroup: "utility"
+symbols: ["TngBadgeComponent"]
+selectors: ["[tngBadge]"]
+productId: "badge"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Badge API
+
+Count, dot, and placement badges for notifications and status overlays.
+
+## API reference
+
+The components package re-exports `tngBadge` with the same generated badge-node behavior, so the API surface is the same directive contract available from `@tailng-ui/components`.
+
+### Component package export
+
+Import `TngBadge` from `@tailng-ui/components` when you want to stay on the components surface. It keeps the same `[tngBadge]` selector and does not add extra wrapper DOM around your host.
+
+### Directive inputs
+
+| Input | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `tngBadge` | `number \| string \| null \| undefined` | `null` | Primary badge content value. |
+| `tngBadgeDot` | `boolean` | `false` | When true, renders dot-only mode and hides text content. |
+| `tngBadgeMax` | `number` | `99` | Numeric cap. Values above max render as `max+`. |
+| `tngBadgeHidden` | `boolean` | `false` | Temporarily disables rendering without changing the value. |
+| `tngBadgePosition` | `'top-end' \| 'top-start' \| 'bottom-end' \| 'bottom-start'` | `'top-end'` | Anchor corner used for badge placement. |
+| `tngBadgeSize` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size data hook for badge spacing/typography contracts. |
+| `tngBadgeTone` | `'danger' \| 'info' \| 'neutral' \| 'success' \| 'warning'` | `'danger'` | Semantic tone hook and default color pair. |
+| `tngBadgeVariant` | `'solid' \| 'soft' \| 'outline'` | `'solid'` | Variant hook for contract-level styling. |
+| `tngBadgeOffsetX` | `number \| string \| null \| undefined` | `null` | Horizontal offset, for example `4` or `'0.25rem'`. |
+| `tngBadgeOffsetY` | `number \| string \| null \| undefined` | `null` | Vertical offset. |
+| `tngBadgeClass` | `string \| null \| undefined` | `null` | Appends class names to generated badge node. |
+| `tngBadgeStyle` | `Record<string, string \| number> \| null \| undefined` | `null` | Inline style map merged onto the badge node. |
+| `tngBadgeDisabled` | `boolean` | `false` | Adds `data-disabled` hook on the badge node. |
+
+### Primitive foundation
+
+The components export extends the headless Badge primitive. There are no extra outputs or imperative methods, and rendering still updates reactively from the bound inputs.
+
+Use the dedicated headless Badge page when you want the primitive-only import surface or when you are documenting lower-level host ownership patterns.
+
+## Source-derived public Angular API
+
+### Structural surfaces
+
+These APIs provide composition or projection surfaces without their own bindable signal API:
+
+- `TngBadgeComponent` — `[tngBadge]`
+
+---
+
+Source: https://tailng.dev/ai/components/badge/examples.md
+
+---
+id: "components/badge/examples"
+title: "Badge examples"
+description: "Badge examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["badge","utility","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/badge/tng-badge.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/badge/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/badge/sections/examples/badge-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/badge/sections/examples/badge-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/badge/sections/examples/badge-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/badge/examples"
+componentGroup: "utility"
+symbols: ["TngBadgeComponent"]
+selectors: ["[tngBadge]"]
+productId: "badge"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Badge examples
+
+## Examples
+
+Production badge scenarios rendered through the components package with Plain-CSS and Tailwind host styling layers.
+
+## Minimal example
+
+```ts
+import { Component } from '@angular/core';
+import { TngBadgeComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngBadgeComponent],
+  template: `<div tngBadge></div>`,
+})
+export class BadgeExample {}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/badge/overview.md
+
+---
+id: "components/badge/overview"
+title: "Badge component"
+description: "Count, dot, and placement badges for notifications and status overlays."
+category: "components"
+status: "stable"
+tags: ["badge","utility","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/badge/tng-badge.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/badge/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/badge/overview"
+componentGroup: "utility"
+symbols: ["TngBadgeComponent"]
+selectors: ["[tngBadge]"]
+productId: "badge"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Badge component
+
+Count, dot, and placement badges for notifications and status overlays.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngBadgeComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngBadgeComponent],
+  template: `<div tngBadge></div>`,
+})
+export class BadgeAgentExample {}
+```
+
+## Component family
+
+- `TngBadgeComponent` — selector `[tngBadge]`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/utility/badge/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/badge/api.md)
+- [Styling](https://tailng.dev/ai/components/badge/styling.md)
+- [Examples](https://tailng.dev/ai/components/badge/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/badge/styling.md
+
+---
+id: "components/badge/styling"
+title: "Badge styling"
+description: "Badge styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["badge","utility","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/badge/tng-badge.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/badge/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/badge/sections/styling/badge-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/badge/sections/styling/badge-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/badge/sections/styling/badge-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/badge/styling"
+componentGroup: "utility"
+symbols: ["TngBadgeComponent"]
+selectors: ["[tngBadge]"]
+productId: "badge"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Badge styling
+
+## Styling contract
+
+The components package keeps the same stable badge hooks as the primitive, so you style the host and generated bubble without depending on any extra wrapper markup.
+
+### Stable hooks
+
+| Attribute | Values | Usage |
+| --- | --- | --- |
+| `data-slot` | `badge` | Stable selector for the generated badge bubble element. |
+| `data-position` | `top-end \| top-start \| bottom-end \| bottom-start` | Placement hook for custom transforms and alignment tweaks. |
+| `data-size` | `sm \| md \| lg` | Size scale hook. |
+| `data-tone` | `danger \| info \| neutral \| success \| warning` | Semantic tone hook. |
+| `data-variant` | `solid \| soft \| outline` | Variant hook for filled, soft, and outlined treatments. |
+| `data-dot` | `present / absent` | Applied when dot mode is active. |
+| `data-disabled` | `present / absent` | Applied when `tngBadgeDisabled` is true. |
+
+### Generated node
+
+### Owner guidance
+
+Target the generated bubble under your host and keep host layout decisions on your own host class. The components export does not add a visual wrapper of its own.
+
+#### badge.contract.css
+
+```css
+.tng-badge-host {
+  position: relative;
+}
+
+.tng-badge[data-tone="success"][data-variant="soft"] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-success) 18%, transparent);
+  color: var(--tng-semantic-accent-success);
+}
+
+.tng-badge[data-variant="outline"] {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-strong);
+}
+
+.tng-badge[data-dot] {
+  min-height: 0.56rem;
+  min-width: 0.56rem;
+  padding: 0;
+}
+
+.tng-badge[data-position="bottom-start"] {
+  transform: translate(-50%, 50%);
+}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/button/api.md
+
+---
+id: "components/button/api"
+title: "Button API"
+description: "Button API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["button","utility","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/button/tng-button.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/button/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/button/sections/api/button-api-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/button/sections/api/button-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/button/sections/api/button-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/button/api"
+componentGroup: "utility"
+symbols: ["TngButtonComponent"]
+selectors: ["tng-button"]
+productId: "button"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Button API
+
+Press/action semantics, accessibility, and interaction states.
+
+## API reference
+
+`<tng-button>` wraps `tngPress` with a minimum visual shell and forwards the primitive’s ARIA and disabled semantics to the internal button host.
+
+### Wrapper component
+
+The wrapper always renders a native button and applies the base `.tng-button` shell. Use it when you want the library’s size, tone, and appearance contract rather than styling every button host yourself.
+
+### ARIA and state inputs
+
+| Input | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `appearance` | `'solid' \| 'outline' \| 'ghost'` | `'solid'` | Visual button treatment. |
+| `tone` | `'primary' \| 'neutral' \| 'success' \| 'danger'` | `'primary'` | Semantic color intent. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control height and horizontal padding. |
+| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | Forwarded to the native button host. |
+| `disabled` | `boolean` | `false` | Disables interaction and reflects disabled host attrs. |
+| `ariaPressed` | `boolean \| null` | `null` | Pressed-state semantics for toggle-like buttons. |
+| `ariaExpanded` | `boolean \| null` | `null` | Expanded state for disclosure and popup triggers. |
+| `ariaHasPopup` | `TngPressAriaHasPopup \| null` | `null` | Popup relationship hint like `menu`, `dialog`, or `listbox`. |
+| `ariaControls` | `string \| null` | `null` | ID reference for the controlled content surface. |
+
+### Primitive foundation
+
+The wrapper is built on `tngPress`. If you need anchor hosts, button-like link semantics, or completely custom visuals, use the dedicated headless `Button` page and apply `tngPress` directly to native `button` or `a` hosts.
+
+## Source-derived public Angular API
+
+### `TngButtonComponent` — `tng-button`
+
+- Inputs: `appearance`, `ariaControls`, `ariaExpanded`, `ariaHasPopup`, `ariaLabel`, `ariaLabelledby`, `ariaPressed`, `disabled`, `size`, `tone`, `type`
+
+---
+
+Source: https://tailng.dev/ai/components/button/examples.md
+
+---
+id: "components/button/examples"
+title: "Button examples"
+description: "Button examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["button","utility","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/button/tng-button.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/button/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/button/sections/examples/button-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/button/sections/examples/button-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/button/sections/examples/button-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/button/examples"
+componentGroup: "utility"
+symbols: ["TngButtonComponent"]
+selectors: ["tng-button"]
+productId: "button"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Button examples
+
+## Examples
+
+These examples stay wrapper-focused: the component owns the button shell while you own the surrounding layout and any projected icon content.
+
+### button-examples-action-row-plain-css.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngButtonComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-button-examples-action-row-plain-css',
+  standalone: true,
+  imports: [TngButtonComponent],
+  templateUrl: './button-examples-action-row-plain-css.component.html',
+  styleUrl: './button-examples-action-row-plain-css.component.css',
+})
+export class ButtonExamplesActionRowPlainCssComponent {
+  protected readonly count = signal(0);
+  protected increment(): void { this.count.update((value) => value + 1); }
+}
+```
+
+### button-examples-action-row-plain-css.component.html
+
+```html
+<div class="button-example-row button-example-row--plain">
+  <tng-button tone="primary" appearance="solid" type="button" (click)="increment()">
+    Save draft
+  </tng-button>
+  <tng-button tone="neutral" appearance="outline" type="button">Cancel</tng-button>
+  <tng-button tone="danger" appearance="ghost" type="button" [disabled]="true">Delete</tng-button>
+</div>
+```
+
+### button-examples-action-row-plain-css.component.css
+
+```css
+.button-example-row--plain {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+```
+
+### button-examples-action-row-tailwind.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngButtonComponent } from '@tailng-ui/components';
+import { TngIcon } from '@tailng-ui/icons';
+
+@Component({
+  selector: 'app-button-examples-action-row-tailwind',
+  standalone: true,
+  imports: [TngButtonComponent, TngIcon],
+  templateUrl: './button-examples-action-row-tailwind.component.html',
+  styleUrl: './button-examples-action-row-tailwind.component.css',
+})
+export class ButtonExamplesActionRowTailwindComponent {
+  protected readonly count = signal(0);
+  protected increment(): void { this.count.update((value) => value + 1); }
+}
+```
+
+### button-examples-action-row-tailwind.component.html
+
+```html
+<div class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
+  <div class="flex flex-wrap gap-3">
+    <tng-button tone="success" appearance="solid" type="button" (click)="increment()">
+      <tng-icon icon="check" class="h-4 w-4"></tng-icon>
+      Publish
+    </tng-button>
+    <tng-button tone="neutral" appearance="outline" type="button">Preview</tng-button>
+  </div>
+  <p class="mt-3 text-sm text-[var(--tng-semantic-foreground-secondary)]">clicked: {{ count() }}</p>
+</div>
+```
+
+### button-examples-action-row-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+### button-examples-menu-trigger-plain-css.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngButtonComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-button-examples-menu-trigger-plain-css',
+  standalone: true,
+  imports: [TngButtonComponent],
+  templateUrl: './button-examples-menu-trigger-plain-css.component.html',
+  styleUrl: './button-examples-menu-trigger-plain-css.component.css',
+})
+export class ButtonExamplesMenuTriggerPlainCssComponent {
+  protected readonly open = signal(false);
+}
+```
+
+### button-examples-menu-trigger-plain-css.component.html
+
+```html
+<tng-button
+  tone="neutral"
+  appearance="outline"
+  type="button"
+  [ariaHasPopup]="'menu'"
+  [ariaExpanded]="open()"
+  [ariaControls]="'plain-button-menu'"
+  (click)="open.set(!open())"
+>
+  Actions
+</tng-button>
+<div id="plain-button-menu" class="button-menu-surface" [hidden]="!open()">Menu content</div>
+```
+
+### button-examples-menu-trigger-plain-css.component.css
+
+```css
+.button-menu-surface {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  margin-top: 0.6rem;
+  padding: 0.6rem 0.75rem;
+}
+```
+
+### button-examples-menu-trigger-tailwind.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngButtonComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-button-examples-menu-trigger-tailwind',
+  standalone: true,
+  imports: [TngButtonComponent],
+  templateUrl: './button-examples-menu-trigger-tailwind.component.html',
+  styleUrl: './button-examples-menu-trigger-tailwind.component.css',
+})
+export class ButtonExamplesMenuTriggerTailwindComponent {
+  protected readonly open = signal(false);
+}
+```
+
+### button-examples-menu-trigger-tailwind.component.html
+
+```html
+<div class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
+  <tng-button
+    tone="neutral"
+    appearance="ghost"
+    type="button"
+    [ariaHasPopup]="'menu'"
+    [ariaExpanded]="open()"
+    [ariaControls]="'tailwind-button-menu'"
+    (click)="open.set(!open())"
+  >
+    Open menu
+  </tng-button>
+  <div
+    id="tailwind-button-menu"
+    class="mt-3 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-base)] p-3 text-sm text-[var(--tng-semantic-foreground-primary)]"
+    [hidden]="!open()"
+  >
+    Menu content
+  </div>
+</div>
+```
+
+### button-examples-menu-trigger-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+### button-examples-layout-tokens.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngButtonComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-button-examples-layout-tokens',
+  standalone: true,
+  imports: [TngButtonComponent],
+  templateUrl: './button-examples-layout-tokens.component.html',
+  styleUrl: './button-examples-layout-tokens.component.css',
+})
+export class ButtonExamplesLayoutTokensComponent {}
+```
+
+### button-examples-layout-tokens.component.html
+
+```html
+<div class="button-layout-token-example">
+  <tng-button
+    class="button-layout-token-example__trigger"
+    tone="neutral"
+    appearance="outline"
+    size="sm"
+    type="button"
+  >
+    <span>Search</span>
+    <span class="button-layout-token-example__hint">Ctrl K</span>
+  </tng-button>
+</div>
+```
+
+### button-examples-layout-tokens.component.css
+
+```css
+.button-layout-token-example {
+  width: min(100%, 16rem);
+}
+
+.button-layout-token-example__trigger {
+  --tng-button-justify: space-between;
+  --tng-button-min-width: 12rem;
+  --tng-button-width: 100%;
+}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/button/overview.md
+
+---
+id: components/button/overview
+title: Button component
+description: Import and use the styled TailNG button component.
+category: components
+status: stable
+tags: ["button", "utility", "action"]
+package: @tailng-ui/components
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/button/tng-button.component.ts", "apps/tailng-ui/docs/src/app/pages/components/utility/button/sections/overview/button-overview-page.component.ts"]
+humanDocsUrl: https://tailng.dev/components/utility/button/overview
+---
+
+# Button component
+
+Import `TngButtonComponent` into the consuming standalone component:
+
+```ts
+import { Component } from '@angular/core';
+import { TngButtonComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngButtonComponent],
+  template: `
+    <tng-button tone="primary" appearance="solid" type="button" (click)="save()">
+      Save changes
+    </tng-button>
+  `,
+})
+export class SaveButtonExample {
+  save(): void {}
+}
+```
+
+Public inputs include:
+
+- `appearance`: `ghost | outline | solid`; default `solid`.
+- `tone`: `danger | neutral | primary | success`; default `primary`.
+- `size`: `lg | md | sm`; default `md`.
+- `type`: native button type; default `button`.
+- `disabled`: boolean.
+- `ariaLabel`, `ariaLabelledby`, `ariaControls`, `ariaExpanded`, `ariaHasPopup`, and `ariaPressed`.
+
+Prefer visible button text. Use `ariaLabel` for an icon-only button.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/button/api.md)
+- [Styling](https://tailng.dev/ai/components/button/styling.md)
+- [Examples](https://tailng.dev/ai/components/button/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/button/styling.md
+
+---
+id: "components/button/styling"
+title: "Button styling"
+description: "Button styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["button","utility","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/button/tng-button.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/button/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/button/sections/styling/button-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/button/sections/styling/button-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/button/sections/styling/button-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/button/styling"
+componentGroup: "utility"
+symbols: ["TngButtonComponent"]
+selectors: ["tng-button"]
+productId: "button"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Button styling
+
+## Styling contract
+
+Style the wrapper through the stable attributes on the rendered button host rather than relying on page-level utility classes or brittle DOM assumptions.
+
+### Wrapper state hooks
+
+| Attribute | Values | Usage |
+| --- | --- | --- |
+| `data-appearance` | `solid \| outline \| ghost` | Selects visual button style. |
+| `data-tone` | `primary \| neutral \| success \| danger` | Maps semantic color intent. |
+| `data-size` | `sm \| md \| lg` | Controls component dimensions. |
+| `data-disabled` | `""` when disabled | Use for styling disabled affordance. |
+
+### Wrapper shell
+
+### Layout tokens
+
+Use custom properties on the `tng-button` host to control width and content alignment without deep selectors or global overrides.
+
+| Token | Default | Usage |
+| --- | --- | --- |
+| `--tng-button-width` | `auto` | Sets explicit inline width for the rendered button. |
+| `--tng-button-min-width` | `auto` | Provides minimum width without affecting host layout helpers. |
+| `--tng-button-max-width` | `none` | Constrains button growth in flexible rows. |
+| `--tng-button-justify` | `center` | Controls content alignment inside the internal button. |
+| `--tng-button-gap` | `0.5rem` | Adjusts spacing between projected icon and label. |
+| `--tng-button-padding-inline-sm/md/lg` | `0.75rem / 1rem / 1.25rem` | Size-aware horizontal padding tokens. |
+| `--tng-button-padding-block` | `0` | Optional vertical padding shared across sizes. |
+
+### Owner guidance
+
+Override the wrapper by targeting the internal button under `tng-button`. For fully custom hosts or anchor-button patterns, move to the headless `Button` page and use `tngPress` directly.
+
+#### button.contract.css
+
+```css
+.docs-search-trigger-button {
+  --tng-button-min-width: 10rem;
+  --tng-button-width: 100%;
+  --tng-button-justify: space-between;
+}
+
+.docs-search-trigger-button > .tng-button[data-size="sm"] {
+  --tng-button-padding-inline-sm: 0.875rem;
+}
+
+tng-button > .tng-button[data-tone="danger"][data-appearance="solid"] {
+  background: var(--tng-semantic-accent-danger);
+  color: var(--tng-color-white);
+}
+
+tng-button > .tng-button[data-disabled] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/codeblock/api.md
+
+---
+id: "components/codeblock/api"
+title: "Codeblock API"
+description: "Codeblock API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["codeblock","utility","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/code-block/highlighting.ts","libs/tailng-ui/components/src/lib/utility/code-block/tng-code-block.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/codeblock/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/codeblock/sections/api/codeblock-api-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/codeblock/sections/api/codeblock-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/codeblock/sections/api/codeblock-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/codeblock/api"
+componentGroup: "utility"
+symbols: ["TngCodeBlockComponent"]
+selectors: ["tng-code-block"]
+productId: "codeblock"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Codeblock API
+
+Code rendering, highlighting adapters, and line metadata.
+
+## API reference
+
+The wrapper owns rendering, copy feedback, and line treatment for you while still exposing the headless slot contract underneath.
+
+### Wrapper component
+
+#### Wrapper usage
+
+```html
+<tng-code-block
+  title="review.ts"
+  language="ts"
+  [code]="snippet"
+  [lineNumbers]="true"
+  [highlightLines]="[3, [4, 4]]"
+  [focusLines]="true"
+  [wrap]="true"
+  [copy]="true"
+  caption="Focused review shell"
+></tng-code-block>
+```
+
+### Rendering and copy inputs
+
+| Input / output | Type | Notes |
+| --- | --- | --- |
+| `code` | `string` | Source content rendered inside the wrapper shell. |
+| `title`, `caption`, `variant` | `string \| null`, `'default' \| 'compact' \| 'ghost'` | Header copy and overall wrapper presentation. |
+| `language`, `adapter`, `theme` | `string \| null` | Language metadata and adapter selection for highlighted rendering. |
+| `lineNumbers`, `startingLineNumber`, `showLineNumbers` | `boolean \| 'auto'`, `number`, `boolean \| undefined` | Line-number visibility and numbering offset. |
+| `highlightLines`, `focusLines`, `wrap`, `maxHeight` | `Array<number \| [number, number]>`, `boolean`, `boolean`, `string \| number \| null` | Line emphasis, dimming, wrapping, and scrollable height control. |
+| `highlight`, `highlightMode`, `sanitizeHtml` | `boolean`, `'auto' \| 'off' \| 'on'`, `boolean \| 'auto'` | Controls whether adapter output is used and how incoming HTML is treated. |
+| `copy`, `copyText`, `copyLabel`, `copiedLabel`, `errorLabel` | `boolean \| 'auto'`, `string \| ((ctx) => string) \| null`, `string` | Clipboard action visibility, payload override, and button labels. |
+| `copyAttempt`, `copySuccess`, `copyError`, `renderStateChange`, `tngCopied`, `tngCopyError` | Outputs | Clipboard lifecycle events plus render-state notifications. |
+
+Migration: Replace `(copy)` listeners with `(copyAttempt)`. The `[copy]` input is unchanged.
+
+### Primitive foundation
+
+Under the hood the wrapper uses the headless codeblock directives for the root, header, body, gutter, and code regions. Reach for the headless page when you want to author that shell yourself.
+
+#### Primitive foundation
+
+```html
+<section tngCodeBlock>
+  <header tngCodeBlockHeader>...</header>
+  <div tngCodeBlockBody>
+    <ol tngCodeBlockGutter aria-hidden="true"></ol>
+    <pre><code tngCodeBlockCode>...</code></pre>
+  </div>
+</section>
+```
+
+## Source-derived public Angular API
+
+### `TngCodeBlockComponent` — `tng-code-block`
+
+- Inputs: `adapter`, `caption`, `code`, `copiedLabel`, `copy`, `copyLabel`, `copyResetDuration`, `copySuccessDurationMs`, `copyText`, `errorLabel`, `focusLines`, `highlight`, `highlightDebounceMs`, `highlightLines`, `highlightMode`, `language`, `lineNumbers`, `maxHeight`, `sanitizeHtml`, `showHeader`, `showLanguageBadge`, `showLineNumbers`, `startingLineNumber`, `theme`, `title`, `variant`, `wrap`
+- Outputs: `copyAttempt`, `copyError`, `copySuccess`, `renderStateChange`, `tngCopied`, `tngCopyError`
+
+---
+
+Source: https://tailng.dev/ai/components/codeblock/examples.md
+
+---
+id: "components/codeblock/examples"
+title: "Codeblock examples"
+description: "Codeblock examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["codeblock","utility","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/code-block/highlighting.ts","libs/tailng-ui/components/src/lib/utility/code-block/tng-code-block.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/codeblock/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/codeblock/sections/examples/codeblock-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/codeblock/sections/examples/codeblock-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/codeblock/sections/examples/codeblock-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/codeblock/examples"
+componentGroup: "utility"
+symbols: ["TngCodeBlockComponent"]
+selectors: ["tng-code-block"]
+productId: "codeblock"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Codeblock examples
+
+## Examples
+
+Use the wrapper for compact snippets or richer review surfaces with focused lines, captions, and copy actions.
+
+### codeblock-examples-compact-plain-css.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngCodeBlockComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-codeblock-examples-compact-plain-css',
+  standalone: true,
+  imports: [TngCodeBlockComponent],
+  templateUrl: './codeblock-examples-compact-plain-css.component.html',
+  styleUrl: './codeblock-examples-compact-plain-css.component.css',
+})
+export class CodeblockExamplesCompactPlainCssComponent {
+  protected readonly snippet = "export const status = 'ready';\n";
+}
+```
+
+### codeblock-examples-compact-plain-css.component.html
+
+```html
+<div class="codeblock-example-shell codeblock-example-shell--plain">
+  <tng-code-block
+    title="status.ts"
+    variant="compact"
+    language="ts"
+    [code]="snippet"
+    [copy]="true"
+  ></tng-code-block>
+</div>
+```
+
+### codeblock-examples-compact-plain-css.component.css
+
+```css
+.codeblock-example-shell--plain {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.9rem 1rem;
+}
+```
+
+### codeblock-examples-compact-tailwind.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngCodeBlockComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-codeblock-examples-compact-tailwind',
+  standalone: true,
+  imports: [TngCodeBlockComponent],
+  templateUrl: './codeblock-examples-compact-tailwind.component.html',
+  styleUrl: './codeblock-examples-compact-tailwind.component.css',
+})
+export class CodeblockExamplesCompactTailwindComponent {
+  protected readonly snippet = "export const status = 'ready';\n";
+}
+```
+
+### codeblock-examples-compact-tailwind.component.html
+
+```html
+<div class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
+  <tng-code-block
+    title="status.ts"
+    variant="ghost"
+    language="ts"
+    [code]="snippet"
+    [copy]="true"
+  ></tng-code-block>
+</div>
+```
+
+### codeblock-examples-compact-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+### codeblock-examples-review-plain-css.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngCodeBlockComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-codeblock-examples-review-plain-css',
+  standalone: true,
+  imports: [TngCodeBlockComponent],
+  templateUrl: './codeblock-examples-review-plain-css.component.html',
+  styleUrl: './codeblock-examples-review-plain-css.component.css',
+})
+export class CodeblockExamplesReviewPlainCssComponent {
+  protected readonly snippet = [
+    'const draft = await loadDraft();',
+    '',
+    "if (draft.status !== 'approved') {",
+    "  return 'needs-review';",
+    '}',
+    '',
+    'return draft.summary;',
+    '',
+  ].join('\n');
+}
+```
+
+### codeblock-examples-review-plain-css.component.html
+
+```html
+<div class="codeblock-example-shell codeblock-example-shell--plain">
+  <tng-code-block
+    title="review.ts"
+    language="ts"
+    [code]="snippet"
+    [lineNumbers]="true"
+    [highlightLines]="[3, [4, 4]]"
+    [focusLines]="true"
+    [wrap]="true"
+    maxHeight="14rem"
+    [copy]="true"
+    caption="Focused review shell"
+  ></tng-code-block>
+</div>
+```
+
+### codeblock-examples-review-plain-css.component.css
+
+```css
+.codeblock-example-shell--plain {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.8rem;
+  padding: 0.9rem 1rem;
+}
+```
+
+### codeblock-examples-review-tailwind.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngCodeBlockComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-codeblock-examples-review-tailwind',
+  standalone: true,
+  imports: [TngCodeBlockComponent],
+  templateUrl: './codeblock-examples-review-tailwind.component.html',
+  styleUrl: './codeblock-examples-review-tailwind.component.css',
+})
+export class CodeblockExamplesReviewTailwindComponent {
+  protected readonly snippet = [
+    'const draft = await loadDraft();',
+    '',
+    "if (draft.status !== 'approved') {",
+    "  return 'needs-review';",
+    '}',
+    '',
+    'return draft.summary;',
+    '',
+  ].join('\n');
+}
+```
+
+### codeblock-examples-review-tailwind.component.html
+
+```html
+<div class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
+  <tng-code-block
+    title="review.ts"
+    variant="ghost"
+    language="ts"
+    [code]="snippet"
+    [lineNumbers]="true"
+    [highlightLines]="[3, [4, 4]]"
+    [focusLines]="true"
+    [wrap]="true"
+    maxHeight="14rem"
+    [copy]="true"
+    caption="Focused review shell"
+  ></tng-code-block>
+</div>
+```
+
+### codeblock-examples-review-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+---
+
+Source: https://tailng.dev/ai/components/codeblock/overview.md
+
+---
+id: "components/codeblock/overview"
+title: "Codeblock component"
+description: "Code rendering, highlighting adapters, and line metadata."
+category: "components"
+status: "stable"
+tags: ["codeblock","utility","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/code-block/highlighting.ts","libs/tailng-ui/components/src/lib/utility/code-block/tng-code-block.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/codeblock/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/codeblock/overview"
+componentGroup: "utility"
+symbols: ["TngCodeBlockComponent"]
+selectors: ["tng-code-block"]
+productId: "codeblock"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Codeblock component
+
+Code rendering, highlighting adapters, and line metadata.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngCodeBlockComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngCodeBlockComponent],
+  template: `<tng-code-block />`,
+})
+export class CodeblockAgentExample {}
+```
+
+## Component family
+
+- `TngCodeBlockComponent` — selector `tng-code-block`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/utility/codeblock/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/codeblock/api.md)
+- [Styling](https://tailng.dev/ai/components/codeblock/styling.md)
+- [Examples](https://tailng.dev/ai/components/codeblock/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/codeblock/styling.md
+
+---
+id: "components/codeblock/styling"
+title: "Codeblock styling"
+description: "Codeblock styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["codeblock","utility","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/code-block/highlighting.ts","libs/tailng-ui/components/src/lib/utility/code-block/tng-code-block.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/codeblock/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/codeblock/sections/styling/codeblock-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/codeblock/sections/styling/codeblock-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/codeblock/sections/styling/codeblock-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/codeblock/styling"
+componentGroup: "utility"
+symbols: ["TngCodeBlockComponent"]
+selectors: ["tng-code-block"]
+productId: "codeblock"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Codeblock styling
+
+## Styling contract
+
+Style the wrapper through its public slot and state hooks instead of depending on internal DOM details.
+
+### Wrapper slot hooks
+
+The wrapper forwards the primitive slot contract and adds documented owner-facing parts such as line numbers, rendered lines, captions, and the copy button.
+
+#### Wrapper slot hooks
+
+```css
+[data-slot="code-block"] {
+  --tng-code-block-radius: 0.9rem;
+  --tng-code-block-border: color-mix(in srgb, var(--tng-semantic-border-subtle) 75%, #fff);
+}
+
+[data-slot="line-numbers"] {
+  min-width: 3.25rem;
+}
+
+[data-slot="copy-button"] {
+  border-radius: 999px;
+}
+```
+
+### Wrapper state attributes
+
+### Owner guidance
+
+Set your design tokens on the wrapper slots first, then layer any token-color or line-focus treatment in owner CSS.
+
+#### Owner CSS
+
+```css
+.docs-codeblock [data-slot="line"].tng-code-block__line--highlight {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 16%, transparent);
+}
+
+.docs-codeblock [data-slot="code"] {
+  font-family: 'IBM Plex Mono', 'Fira Code', monospace;
+}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/command-palette/api.md
+
+---
+id: "components/command-palette/api"
+title: "Command Palette API"
+description: "Command Palette API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["command-palette","utility","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/command-palette/tng-command-palette.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/command-palette/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/command-palette/sections/api/command-palette-api-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/command-palette/sections/api/command-palette-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/command-palette/sections/api/command-palette-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/command-palette/api"
+componentGroup: "utility"
+symbols: ["TngCommandPaletteComponent"]
+selectors: ["tng-command-palette"]
+productId: "command-palette"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Command Palette API
+
+Modal search palette with query output, templated results, keyboard selection, and empty/loading states.
+
+## API reference
+
+`<tng-command-palette>` is a controlled wrapper: bind open, query, and options from the parent, then react to query and selection outputs.
+
+### Component inputs
+
+| Input | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `open` | `boolean` | `false` | Controls whether the dialog-backed popup is visible. |
+| `query` | `string` | `''` | Displayed in the search input. |
+| `options` | `readonly O[]` | `[]` | Rows rendered in the result list. |
+| `loading` | `boolean` | `false` | Shows loading content and takes precedence over the empty state. |
+| `placeholder` | `string` | `'Search...'` | Placeholder forwarded to the input. |
+| `ariaLabel` | `string` | `'Command search'` | Labels the dialog and input. |
+| `emptyText` | `string` | `'No results found'` | Default empty state text. |
+| `loadingText` | `string` | `'Loading...'` | Default loading state text. |
+| `footerText` | `string` | `'↑ ↓ Navigate · Enter Select · Esc Close'` | Default footer hint text. |
+| `closeOnSelect` | `boolean` | `true` | Closes after pointer or keyboard selection. |
+| `showClearButton` | `boolean` | `true` | Shows the default suffix clear button when query is non-empty. |
+
+### Option mapping
+
+| Input | Type | Purpose |
+| --- | --- | --- |
+| `getOptionValue` | `(option: O) => V` | Value emitted and used for active/selected matching. |
+| `getOptionLabel` | `(option: O) => string` | Default row label and selection payload label. |
+| `getOptionDescription` | `(option: O) => string \| null \| undefined` | Optional default row description. |
+| `isOptionDisabled` | `(option: O) => boolean` | Marks a row disabled and blocks selection. |
+| `trackBy` | `(index: number, option: O) => unknown` | Controls Angular row tracking. |
+
+### Outputs and templates
+
+| Name | Type | Notes |
+| --- | --- | --- |
+| `openChange` | `boolean` | Emitted for Escape, backdrop close, and close-on-select. |
+| `queryChange` | `string` | Emitted on typing and default clear button click. |
+| `optionSelect` | ` option: O; value: V; label: string ` | Emitted for pointer click and Enter on the active option. |
+| `#tngCommandPaletteInputPrefixTpl` | `TemplateRef` | Replaces the default search prefix. |
+| `#tngCommandPaletteInputSuffixTpl` | `TemplateRef` | Replaces the default clear suffix. |
+| `#tngCommandPaletteOptionTpl` | `TemplateRef` | Receives option, value, label, description, active, selected, and disabled context. |
+| `#tngCommandPaletteEmptyTpl` | `TemplateRef` | Replaces the empty state. |
+| `#tngCommandPaletteLoadingTpl` | `TemplateRef` | Replaces the loading state. |
+| `#tngCommandPaletteFooterTpl` | `TemplateRef` | Replaces the keyboard-help footer. |
+
+## Source-derived public Angular API
+
+### `TngCommandPaletteComponent` — `tng-command-palette`
+
+- Inputs: `ariaLabel`, `closeOnSelect`, `emptyText`, `footerText`, `getOptionDescription`, `getOptionLabel`, `getOptionValue`, `isOptionDisabled`, `loading`, `loadingText`, `open`, `options`, `placeholder`, `query`, `showClearButton`, `trackBy`
+- Outputs: `openChange`, `optionSelect`, `queryChange`
+
+---
+
+Source: https://tailng.dev/ai/components/command-palette/examples.md
+
+---
+id: "components/command-palette/examples"
+title: "Command Palette examples"
+description: "Command Palette examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["command-palette","utility","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/command-palette/tng-command-palette.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/command-palette/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/command-palette/sections/examples/command-palette-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/command-palette/sections/examples/command-palette-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/command-palette/sections/examples/command-palette-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/command-palette/examples"
+componentGroup: "utility"
+symbols: ["TngCommandPaletteComponent"]
+selectors: ["tng-command-palette"]
+productId: "command-palette"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Command Palette examples
+
+## Examples
+
+Use the default renderer for simple search results, then add templates when rows need richer operational context.
+
+### command-palette-default.component.ts
+
+```ts
+import { Component, computed, signal } from '@angular/core';
+import { TngCommandPaletteComponent } from '@tailng-ui/components';
+
+const DEVICES = [{ value: 'router', label: 'Router', description: 'Network gateway' }];
+const filterDevices = (query: string) => DEVICES.filter((device) => device.label.toLowerCase().includes(query.toLowerCase()));
+
+@Component({
+  selector: 'app-command-palette-default',
+  standalone: true,
+  imports: [TngCommandPaletteComponent],
+  templateUrl: './command-palette-default.component.html',
+})
+export class CommandPaletteDefaultComponent {
+  protected readonly open = signal(false);
+  protected readonly query = signal('');
+  protected readonly options = computed(() => filterDevices(this.query()));
+  protected selectDevice(_event: unknown): void {}
+}
+```
+
+### command-palette-default.component.html
+
+```html
+<button type="button" (click)="open.set(true)">Search devices</button>
+<tng-command-palette
+  [open]="open()"
+  [query]="query()"
+  [options]="options()"
+  placeholder="Search devices..."
+  (openChange)="open.set($event)"
+  (queryChange)="query.set($event)"
+  (optionSelect)="selectDevice($event)"
+/>
+```
+
+### command-palette-default.component.css
+
+```css
+.command-palette-example-overlay {
+  --tng-z-overlay: 1200;
+}
+```
+
+### command-palette-tailwind.component.ts
+
+```ts
+import { Component, computed, signal } from '@angular/core';
+import { TngButtonComponent, TngCommandPaletteComponent } from '@tailng-ui/components';
+
+const DEVICES = [{ value: 'router', label: 'Router', description: 'Network gateway' }];
+const filterDevices = (query: string) => DEVICES.filter((device) => device.label.toLowerCase().includes(query.toLowerCase()));
+
+@Component({
+  selector: 'app-command-palette-tailwind',
+  standalone: true,
+  imports: [TngButtonComponent, TngCommandPaletteComponent],
+  templateUrl: './command-palette-tailwind.component.html',
+  styleUrl: './command-palette-tailwind.component.css',
+})
+export class CommandPaletteTailwindComponent {
+  protected readonly open = signal(false);
+  protected readonly query = signal('');
+  protected readonly selected = signal<string | null>(null);
+  protected readonly options = computed(() => filterDevices(this.query()));
+}
+```
+
+### command-palette-tailwind.component.html
+
+```html
+<div class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
+  <div class="flex flex-wrap items-center gap-3">
+    <tng-button type="button" appearance="solid" tone="primary" (click)="open.set(true)">
+      Open palette
+    </tng-button>
+    @if (selected(); as value) {
+      <p class="text-sm text-[var(--tng-semantic-foreground-secondary)]">Selected: {{ value }}</p>
+    }
+  </div>
+</div>
+
+<tng-command-palette
+  class="command-palette-example-overlay"
+  [open]="open()"
+  [query]="query()"
+  [options]="options()"
+  placeholder="Search devices..."
+  (openChange)="open.set($event)"
+  (queryChange)="query.set($event)"
+  (optionSelect)="selected.set($event.option.label)"
+/>
+```
+
+### command-palette-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+### command-palette-custom.component.ts
+
+```ts
+import { Component, computed, signal } from '@angular/core';
+import { TngCommandPaletteComponent, type TngCommandPaletteOptionSelect } from '@tailng-ui/components';
+
+type Device = {
+  id: string;
+  label: string;
+  description: string;
+  status: string;
+};
+
+const DEVICES: readonly Device[] = [{ id: 'router', label: 'Router', description: 'Network gateway', status: 'Online' }];
+const filterDevices = (devices: readonly Device[], query: string) => devices.filter((device) => device.label.toLowerCase().includes(query.toLowerCase()));
+
+@Component({
+  selector: 'app-command-palette-custom',
+  standalone: true,
+  imports: [TngCommandPaletteComponent],
+  templateUrl: './command-palette-custom.component.html',
+  styleUrl: './command-palette-custom.component.css',
+})
+export class CommandPaletteCustomComponent {
+  protected readonly open = signal(false);
+  protected readonly query = signal('');
+  protected readonly selected = signal<Device | null>(null);
+
+  protected readonly options = computed(() => filterDevices(DEVICES, this.query()));
+
+  protected readonly getOptionValue = (device: Device): string => device.id;
+  protected readonly getOptionLabel = (device: Device): string => device.label;
+  protected readonly getOptionDescription = (device: Device): string => device.description;
+
+  protected onSelect(event: TngCommandPaletteOptionSelect<Device, unknown>): void {
+    this.selected.set(event.option);
+  }
+}
+```
+
+### command-palette-custom.component.html
+
+```html
+<tng-command-palette [open]="open()" [query]="query()" [options]="options()">
+  <ng-template #tngCommandPaletteInputPrefixTpl>
+    <span aria-hidden="true">⌘K</span>
+  </ng-template>
+
+  <ng-template #tngCommandPaletteOptionTpl let-item>
+    <span class="device-row">
+      <strong>{{ item.label }}</strong>
+      <span>{{ item.status }}</span>
+    </span>
+  </ng-template>
+
+  <ng-template #tngCommandPaletteFooterTpl>
+    Arrows move · Enter opens · Esc closes
+  </ng-template>
+</tng-command-palette>
+```
+
+### command-palette-custom.component.css
+
+```css
+.device-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+```
+
+### command-palette-custom-tailwind.component.ts
+
+```ts
+import { Component, computed, signal } from '@angular/core';
+import { TngButtonComponent, TngCommandPaletteComponent, type TngCommandPaletteOptionSelect } from '@tailng-ui/components';
+
+type Device = {
+  id: string;
+  label: string;
+  description: string;
+  status: string;
+};
+
+const DEVICES: readonly Device[] = [{ id: 'router', label: 'Router', description: 'Network gateway', status: 'Online' }];
+const filterDevices = (devices: readonly Device[], query: string) => devices.filter((device) => device.label.toLowerCase().includes(query.toLowerCase()));
+
+@Component({
+  selector: 'app-command-palette-custom-tailwind',
+  standalone: true,
+  imports: [TngButtonComponent, TngCommandPaletteComponent],
+  templateUrl: './command-palette-custom-tailwind.component.html',
+  styleUrl: './command-palette-custom-tailwind.component.css',
+})
+export class CommandPaletteCustomTailwindComponent {
+  protected readonly open = signal(false);
+  protected readonly query = signal('');
+  protected readonly selected = signal<Device | null>(null);
+
+  protected readonly options = computed(() => filterDevices(DEVICES, this.query()));
+
+  protected readonly getOptionValue = (device: Device): string => device.id;
+  protected readonly getOptionLabel = (device: Device): string => device.label;
+  protected readonly getOptionDescription = (device: Device): string => device.description;
+
+  protected onSelect(event: TngCommandPaletteOptionSelect<Device, unknown>): void {
+    this.selected.set(event.option);
+  }
+}
+```
+
+### command-palette-custom-tailwind.component.html
+
+```html
+<tng-command-palette [open]="open()" [query]="query()" [options]="options()">
+  <ng-template #tngCommandPaletteInputPrefixTpl>
+    <span class="rounded border border-[var(--tng-semantic-border-subtle)] px-1 py-0.5 text-[0.72rem] font-bold text-[var(--tng-semantic-foreground-secondary)]">
+      ⌘K
+    </span>
+  </ng-template>
+
+  <ng-template #tngCommandPaletteOptionTpl let-item>
+    <span class="flex min-w-0 items-center justify-between gap-4">
+      <span class="min-w-0">
+        <strong class="block truncate">{{ item.label }}</strong>
+        <small class="mt-0.25 block text-[var(--tng-semantic-foreground-secondary)]">{{ item.description }}</small>
+      </span>
+      <span class="shrink-0 rounded-full border border-[var(--tng-semantic-border-subtle)] px-2 py-0.5 text-xs text-[var(--tng-semantic-foreground-secondary)]">
+        {{ item.status }}
+      </span>
+    </span>
+  </ng-template>
+
+  <ng-template #tngCommandPaletteFooterTpl>
+    <span class="text-[var(--tng-semantic-foreground-muted)]">
+      Arrows move · Enter opens · Esc closes
+    </span>
+  </ng-template>
+</tng-command-palette>
+```
+
+### command-palette-custom-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+---
+
+Source: https://tailng.dev/ai/components/command-palette/overview.md
+
+---
+id: "components/command-palette/overview"
+title: "Command Palette component"
+description: "Modal search palette with query output, templated results, keyboard selection, and empty/loading states."
+category: "components"
+status: "stable"
+tags: ["command-palette","utility","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/command-palette/tng-command-palette.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/command-palette/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/command-palette/overview"
+componentGroup: "utility"
+symbols: ["TngCommandPaletteComponent"]
+selectors: ["tng-command-palette"]
+productId: "command-palette"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Command Palette component
+
+Modal search palette with query output, templated results, keyboard selection, and empty/loading states.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngCommandPaletteComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngCommandPaletteComponent],
+  template: `<tng-command-palette />`,
+})
+export class CommandPaletteAgentExample {}
+```
+
+## Component family
+
+- `TngCommandPaletteComponent` — selector `tng-command-palette`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/utility/command-palette/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/command-palette/api.md)
+- [Styling](https://tailng.dev/ai/components/command-palette/styling.md)
+- [Examples](https://tailng.dev/ai/components/command-palette/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/command-palette/styling.md
+
+---
+id: "components/command-palette/styling"
+title: "Command Palette styling"
+description: "Command Palette styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["command-palette","utility","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/command-palette/tng-command-palette.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/command-palette/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/command-palette/sections/styling/command-palette-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/command-palette/sections/styling/command-palette-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/command-palette/sections/styling/command-palette-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/command-palette/styling"
+componentGroup: "utility"
+symbols: ["TngCommandPaletteComponent"]
+selectors: ["tng-command-palette"]
+productId: "command-palette"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Command Palette styling
+
+## Styling contract
+
+Style the palette through its host tokens, stable classes, and listbox state attributes. The component owns the modal shell while option content can be fully templated.
+
+### Layout tokens
+
+| Token | Default | Usage |
+| --- | --- | --- |
+| `--tng-command-palette-width` | `min(40rem, calc(100vw - 2rem))` | Controls modal panel width. |
+| `--tng-command-palette-max-height` | `min(35rem, calc(100vh - 4rem))` | Constrains the full panel. |
+| `--tng-command-palette-list-max-height` | `min(22rem, calc(100vh - 15rem))` | Constrains the scrolling result area. |
+
+### State hooks
+
+### Inner component styles
+
+Add a class on `<tng-command-palette>` and target the stable inner classes to customize backdrop, panel shell, search row, options, and footer without changing component behavior.
+
+### Template guidance
+
+Combine host tokens for layout/stacking with scoped inner-class selectors for shell details. Prefer templates for app-specific row content and metadata layout.
+
+#### command-palette.contract.css
+
+```css
+.docs-command-palette {
+  --tng-command-palette-width: min(44rem, calc(100vw - 2rem));
+  --tng-command-palette-max-height: min(38rem, calc(100vh - 4rem));
+  --tng-command-palette-list-max-height: 24rem;
+  --tng-z-overlay: 1200;
+}
+
+.docs-command-palette .tng-command-palette-backdrop {
+  background: color-mix(in srgb, #020617 55%, transparent);
+}
+
+.docs-command-palette .tng-command-palette-panel {
+  border-radius: 1rem;
+  box-shadow: 0 2rem 4rem color-mix(in srgb, #000 35%, transparent);
+}
+
+.docs-command-palette .tng-command-palette-search {
+  padding: 1rem;
+}
+
+.docs-command-palette .tng-command-palette-option[data-active] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 10%, transparent);
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 40%, transparent);
+}
+
+.docs-command-palette .tng-command-palette-footer {
+  font-size: 0.8rem;
+}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/copybutton/api.md
+
+---
+id: "components/copybutton/api"
+title: "CopyButton API"
+description: "CopyButton API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["copybutton","utility","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/copy-button/tng-copy-button.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/copybutton/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/copybutton/sections/api/copybutton-api-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/copybutton/sections/api/copybutton-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/copybutton/sections/api/copybutton-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/copybutton/api"
+componentGroup: "utility"
+symbols: ["TngCopyButtonComponent"]
+selectors: ["tng-copy-button"]
+productId: "copybutton"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# CopyButton API
+
+Clipboard actions, success/error states, and feedback hooks.
+
+## API reference
+
+`<tng-copy-button>` gives you a ready-made copy control on top of the headless clipboard primitive.
+
+### Wrapper component
+
+The wrapper renders a native button, swaps its label and icon state while copying, and exposes a polite live region for success and error feedback. Use it when you want a production-ready copy control without owning the transient state machine yourself.
+
+### Content and feedback inputs
+
+| Input | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `text` | `string \| null \| undefined` | `undefined` | Explicit text payload to copy. |
+| `from` | `TngCopyFromTarget` | `null` | Fallback source element or selector when `text` is omitted. |
+| `ignoreSelectors` | `string \| string[] \| null` | `null` | Removes matched nodes from copied DOM text when copying from another element. |
+| `appearance` | `'outline' \| 'solid' \| 'ghost'` | `'outline'` | Controls the default wrapper treatment. |
+| `size` | `'sm' \| 'md'` | `'md'` | Changes minimum height and horizontal padding. |
+| `showIcon` | `boolean` | `true` | Shows or hides the icon slot. |
+| `disabled` | `boolean` | `false` | Disables all copy interaction. |
+| `resetDelay` | `number` | `1500` | Milliseconds before the wrapper returns to the idle state. |
+| `copyLabel`, `copyingLabel`, `copiedLabel`, `errorLabel` | `string` | built-in defaults | Label text for each wrapper state. |
+| `copyIconText`, `copiedIconText` | `string` | `⧉`, `✓` | Fallback icon glyphs when no projected icon content is provided. |
+
+| Output | Payload | Description |
+| --- | --- | --- |
+| `tngCopied` | `string` | Emits the copied text after success. |
+| `tngCopyError` | `Error` | Emits a normalized error when the copy attempt fails. |
+
+### Primitive foundation
+
+Under the hood, the wrapper forwards `text`, `from`, and `ignoreSelectors` into the headless `tngCopy` directive. If you need hotkeys, programmatic copy, or owner-managed live announcements, move to the dedicated headless `CopyButton` page and use `tngCopy` directly.
+
+## Source-derived public Angular API
+
+### `TngCopyButtonComponent` — `tng-copy-button`
+
+- Inputs: `appearance`, `copiedIconText`, `copiedLabel`, `copyIconText`, `copyingLabel`, `copyLabel`, `disabled`, `errorLabel`, `from`, `ignoreSelectors`, `resetDelay`, `showIcon`, `size`, `text`
+- Outputs: `tngCopied`, `tngCopyError`
+
+---
+
+Source: https://tailng.dev/ai/components/copybutton/examples.md
+
+---
+id: "components/copybutton/examples"
+title: "CopyButton examples"
+description: "CopyButton examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["copybutton","utility","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/copy-button/tng-copy-button.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/copybutton/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/copybutton/sections/examples/copybutton-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/copybutton/sections/examples/copybutton-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/copybutton/sections/examples/copybutton-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/copybutton/examples"
+componentGroup: "utility"
+symbols: ["TngCopyButtonComponent"]
+selectors: ["tng-copy-button"]
+productId: "copybutton"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# CopyButton examples
+
+## Examples
+
+These examples stay wrapper-focused: the component owns copy state and feedback, while you own the surrounding shell and any projected icon slots.
+
+### copybutton-examples-install-plain-css.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngCopyButtonComponent } from '@tailng-ui/components';
+import { TngIcon } from '@tailng-ui/icons';
+
+@Component({
+  selector: 'app-copybutton-examples-install-plain-css',
+  standalone: true,
+  imports: [TngCopyButtonComponent, TngIcon],
+  templateUrl: './copybutton-examples-install-plain-css.component.html',
+  styleUrl: './copybutton-examples-install-plain-css.component.css',
+})
+export class CopybuttonExamplesInstallPlainCssComponent {
+  protected readonly installCommand = 'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk';
+  protected readonly status = signal('No copy action yet.');
+
+  protected onCopied(payload: string): void {
+    this.status.set(`Copied ${payload.length} characters.`);
+  }
+
+  protected onCopyError(): void {
+    this.status.set('Copy failed.');
+  }
+}
+```
+
+### copybutton-examples-install-plain-css.component.html
+
+```html
+<div class="copybutton-example-shell copybutton-example-shell--plain">
+  <tng-copy-button
+    [text]="installCommand"
+    appearance="outline"
+    (tngCopied)="onCopied($event)"
+    (tngCopyError)="onCopyError()"
+  >
+    <tng-icon copyIcon icon="copy"></tng-icon>
+    <tng-icon copiedIcon icon="check"></tng-icon>
+  </tng-copy-button>
+  <p class="copybutton-example-status">{{ status() }}</p>
+</div>
+```
+
+### copybutton-examples-install-plain-css.component.css
+
+```css
+.copybutton-example-shell--plain {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.85rem;
+  padding: 1rem;
+}
+```
+
+### copybutton-examples-install-tailwind.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngCopyButtonComponent } from '@tailng-ui/components';
+import { TngIcon } from '@tailng-ui/icons';
+
+@Component({
+  selector: 'app-copybutton-examples-install-tailwind',
+  standalone: true,
+  imports: [TngCopyButtonComponent, TngIcon],
+  templateUrl: './copybutton-examples-install-tailwind.component.html',
+  styleUrl: './copybutton-examples-install-tailwind.component.css',
+})
+export class CopybuttonExamplesInstallTailwindComponent {
+  protected readonly installCommand = 'pnpm add @tailng-ui/components @tailng-ui/primitives @tailng-ui/cdk';
+  protected readonly status = signal('No copy action yet.');
+
+  protected onCopied(payload: string): void {
+    this.status.set(`Copied ${payload.length} characters.`);
+  }
+
+  protected onCopyError(): void {
+    this.status.set('Copy failed.');
+  }
+}
+```
+
+### copybutton-examples-install-tailwind.component.html
+
+```html
+<div class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
+  <tng-copy-button
+    [text]="installCommand"
+    appearance="outline"
+    (tngCopied)="onCopied($event)"
+    (tngCopyError)="onCopyError()"
+  >
+    <tng-icon copyIcon icon="copy" class="h-4 w-4"></tng-icon>
+    <tng-icon copiedIcon icon="check" class="h-4 w-4"></tng-icon>
+  </tng-copy-button>
+  <p class="mt-3 text-sm text-[var(--tng-semantic-foreground-secondary)]">{{ status() }}</p>
+</div>
+```
+
+### copybutton-examples-install-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+### copybutton-examples-target-plain-css.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngCopyButtonComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-copybutton-examples-target-plain-css',
+  standalone: true,
+  imports: [TngCopyButtonComponent],
+  templateUrl: './copybutton-examples-target-plain-css.component.html',
+  styleUrl: './copybutton-examples-target-plain-css.component.css',
+})
+export class CopybuttonExamplesTargetPlainCssComponent {
+  protected readonly status = signal('No copy action yet.');
+
+  protected onCopied(payload: string): void {
+    this.status.set(`Copied ${payload.length} characters.`);
+  }
+
+  protected onCopyError(): void {
+    this.status.set('Copy failed.');
+  }
+}
+```
+
+### copybutton-examples-target-plain-css.component.html
+
+```html
+<div class="copybutton-example-shell copybutton-example-shell--plain">
+  <pre #snippet class="copybutton-snippet">
+<span class="copybutton-snippet-line"><span class="copybutton-snippet-line-no" data-copy-ignore>1</span>pnpm nx run docs:serve</span>
+<span class="copybutton-snippet-line"><span class="copybutton-snippet-line-no" data-copy-ignore>2</span>pnpm nx run docs:build</span>
+  </pre>
+  <tng-copy-button
+    [from]="snippet"
+    [ignoreSelectors]="['[data-copy-ignore]']"
+    (tngCopied)="onCopied($event)"
+    (tngCopyError)="onCopyError()"
+  >
+    Copy snippet without line numbers
+  </tng-copy-button>
+  <p class="copybutton-example-status">{{ status() }}</p>
+</div>
+```
+
+### copybutton-examples-target-plain-css.component.css
+
+```css
+.copybutton-snippet {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+}
+```
+
+### copybutton-examples-target-tailwind.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngCopyButtonComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-copybutton-examples-target-tailwind',
+  standalone: true,
+  imports: [TngCopyButtonComponent],
+  templateUrl: './copybutton-examples-target-tailwind.component.html',
+  styleUrl: './copybutton-examples-target-tailwind.component.css',
+})
+export class CopybuttonExamplesTargetTailwindComponent {
+  protected readonly status = signal('No copy action yet.');
+
+  protected onCopied(payload: string): void {
+    this.status.set(`Copied ${payload.length} characters.`);
+  }
+
+  protected onCopyError(): void {
+    this.status.set('Copy failed.');
+  }
+}
+```
+
+### copybutton-examples-target-tailwind.component.html
+
+```html
+<div class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
+  <pre #snippet class="m-0 rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-base)] p-3 text-sm text-[var(--tng-semantic-foreground-primary)]">
+<span class="block"><span class="mr-2 text-[var(--tng-semantic-foreground-muted)]" data-copy-ignore>1</span>pnpm nx run docs:serve</span>
+<span class="block"><span class="mr-2 text-[var(--tng-semantic-foreground-muted)]" data-copy-ignore>2</span>pnpm nx run docs:build</span>
+  </pre>
+  <tng-copy-button
+    class="mt-3"
+    [from]="snippet"
+    [ignoreSelectors]="['[data-copy-ignore]']"
+    (tngCopied)="onCopied($event)"
+    (tngCopyError)="onCopyError()"
+  >
+    Copy snippet without line numbers
+  </tng-copy-button>
+  <p class="mt-3 text-sm text-[var(--tng-semantic-foreground-secondary)]">{{ status() }}</p>
+</div>
+```
+
+### copybutton-examples-target-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+---
+
+Source: https://tailng.dev/ai/components/copybutton/overview.md
+
+---
+id: "components/copybutton/overview"
+title: "CopyButton component"
+description: "Clipboard actions, success/error states, and feedback hooks."
+category: "components"
+status: "stable"
+tags: ["copybutton","utility","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/copy-button/tng-copy-button.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/copybutton/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/copybutton/overview"
+componentGroup: "utility"
+symbols: ["TngCopyButtonComponent"]
+selectors: ["tng-copy-button"]
+productId: "copybutton"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# CopyButton component
+
+Clipboard actions, success/error states, and feedback hooks.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngCopyButtonComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngCopyButtonComponent],
+  template: `<tng-copy-button />`,
+})
+export class CopybuttonAgentExample {}
+```
+
+## Component family
+
+- `TngCopyButtonComponent` — selector `tng-copy-button`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/utility/copybutton/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/copybutton/api.md)
+- [Styling](https://tailng.dev/ai/components/copybutton/styling.md)
+- [Examples](https://tailng.dev/ai/components/copybutton/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/copybutton/styling.md
+
+---
+id: "components/copybutton/styling"
+title: "CopyButton styling"
+description: "CopyButton styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["copybutton","utility","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/copy-button/tng-copy-button.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/copybutton/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/copybutton/sections/styling/copybutton-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/copybutton/sections/styling/copybutton-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/copybutton/sections/styling/copybutton-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/copybutton/styling"
+componentGroup: "utility"
+symbols: ["TngCopyButtonComponent"]
+selectors: ["tng-copy-button"]
+productId: "copybutton"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# CopyButton styling
+
+## Styling contract
+
+The wrapper ships with a minimum button shell. Customize the surrounding layout, projected icons, and state treatments by targeting the rendered button’s stable attributes.
+
+### Wrapper slot hooks
+
+### Wrapper state attributes
+
+| Attribute | Values | Usage |
+| --- | --- | --- |
+| `data-appearance` | `outline \| solid \| ghost` | Switches the default wrapper treatment. |
+| `data-size` | `sm \| md` | Adjusts minimum height and padding. |
+| `data-state` | `idle \| copying \| copied \| error` | Drives copied and error emphasis after a copy attempt. |
+
+### Owner guidance
+
+Target the rendered button inside `tng-copy-button` when you need custom stateful styling. Keep the live region hidden, and prefer wrapper-level containers for layout and spacing rather than overriding the component’s internal flex alignment.
+
+#### copybutton.contract.css
+
+```css
+tng-copy-button > .tng-copy-button[data-appearance="solid"] {
+  background: var(--tng-semantic-accent-brand);
+  color: var(--tng-color-white);
+}
+
+tng-copy-button > .tng-copy-button[data-state="copied"] {
+  background: var(--tng-semantic-accent-success);
+  border-color: transparent;
+}
+
+tng-copy-button > .tng-copy-button[data-state="error"] {
+  background: var(--tng-semantic-accent-danger);
+  border-color: transparent;
+}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/tag/api.md
+
+---
+id: "components/tag/api"
+title: "Tag API"
+description: "Tag API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["tag","utility","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/tag/tng-tag.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/tag/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/tag/sections/api/tag-api-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/tag/sections/api/tag-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/tag/sections/api/tag-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/tag/api"
+componentGroup: "utility"
+symbols: ["TngTagComponent"]
+selectors: ["tng-tag"]
+productId: "tag"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Tag API
+
+Compact label chips with optional icon and removable close action.
+
+## API reference
+
+The wrapper component builds on the headless tag primitives. You style and author projected content through `<tng-tag>`, while remove behavior still comes from the primitive foundation under the hood.
+
+### Component wrapper
+
+| Input / Output | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `tone` | `'neutral' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `'neutral'` | Semantic tone styling. |
+| `appearance` | `'soft' \| 'solid' \| 'outline'` | `'soft'` | Visual treatment. |
+| `shape` | `'pill' \| 'rounded'` | `'pill'` | Corner radius mode. |
+| `size` | `'sm' \| 'md'` | `'md'` | Size preset hook. |
+| `disabled` | `boolean` | `false` | Disables remove action and reflects disabled state on the inner primitive. |
+| `removable` | `boolean` | `false` | Renders the built-in close button. |
+| `label` | `string \| null` | `null` | Forwarded to the primitive label context. |
+| `closeAriaLabel` | `string \| null` | `null` | Accessible label override for the built-in close button. |
+| `(removed)` | `void` | — | Emitted when the built-in close button removes the tag. |
+
+### Projected primitives
+
+Use `tngTagIcon` when you want the wrapper to apply the stable icon slot hook to projected leading content.
+
+### Primitive foundation
+
+| Name | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `tngTagDisabled` | `boolean` | `false` | Marks the tag disabled and prevents close removal. |
+| `tngTagRemovable` | `boolean` | `false` | Enables removable behavior for `tngTagClose`. |
+| `tngTagLabel` | `string \| null` | `null` | Label source used for the default close `aria-label`. |
+| `(tngTagRemoved)` | `void` | — | Emitted when the close action is accepted. |
+| `tngTagCloseAriaLabel` | `string \| null` | `null` | Explicit accessible name for the close action. |
+| `Keyboard` | `Enter / Space` | Enabled | Triggers remove request when the parent tag is removable. |
+
+The wrapper does not replace the primitive slots. It layers style defaults and a close button on top of the same headless remove contract.
+
+## Source-derived public Angular API
+
+### `TngTagComponent` — `tng-tag`
+
+- Inputs: `appearance`, `closeAriaLabel`, `disabled`, `label`, `removable`, `shape`, `size`, `tone`
+- Outputs: `removed`
+
+---
+
+Source: https://tailng.dev/ai/components/tag/examples.md
+
+---
+id: "components/tag/examples"
+title: "Tag examples"
+description: "Tag examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["tag","utility","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/tag/tng-tag.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/tag/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/tag/sections/examples/tag-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/tag/sections/examples/tag-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/tag/sections/examples/tag-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/tag/examples"
+componentGroup: "utility"
+symbols: ["TngTagComponent"]
+selectors: ["tng-tag"]
+productId: "tag"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Tag examples
+
+## Examples
+
+Common tag patterns rendered through the wrapper component with Plain-CSS and Tailwind styling.
+
+## Minimal example
+
+```ts
+import { Component } from '@angular/core';
+import { TngTagComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngTagComponent],
+  template: `<tng-tag />`,
+})
+export class TagExample {}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/tag/overview.md
+
+---
+id: "components/tag/overview"
+title: "Tag component"
+description: "Compact label chips with optional icon and removable close action."
+category: "components"
+status: "stable"
+tags: ["tag","utility","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/tag/tng-tag.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/tag/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/tag/overview"
+componentGroup: "utility"
+symbols: ["TngTagComponent"]
+selectors: ["tng-tag"]
+productId: "tag"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Tag component
+
+Compact label chips with optional icon and removable close action.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngTagComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngTagComponent],
+  template: `<tng-tag />`,
+})
+export class TagAgentExample {}
+```
+
+## Component family
+
+- `TngTagComponent` — selector `tng-tag`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/utility/tag/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/tag/api.md)
+- [Styling](https://tailng.dev/ai/components/tag/styling.md)
+- [Examples](https://tailng.dev/ai/components/tag/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/tag/styling.md
+
+---
+id: "components/tag/styling"
+title: "Tag styling"
+description: "Tag styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["tag","utility","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/tag/tng-tag.component.ts","apps/tailng-ui/docs/src/app/pages/components/utility/tag/routes.ts","apps/tailng-ui/docs/src/app/pages/components/utility/tag/sections/styling/tag-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/utility/tag/sections/styling/tag-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/utility/tag/sections/styling/tag-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/utility/tag/styling"
+componentGroup: "utility"
+symbols: ["TngTagComponent"]
+selectors: ["tng-tag"]
+productId: "tag"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Tag styling
+
+## Styling contract
+
+Tag exposes stable slot and state hooks so teams can theme headless and wrapper usage without relying on brittle DOM selectors.
+
+### Slot and state hooks
+
+| Attribute | Values | Usage |
+| --- | --- | --- |
+| `data-slot` | `tag \| tag-icon \| tag-close` | Stable slot selectors for root/icon/close parts. |
+| `data-disabled` | `present / absent` | Applied when tag removal should be disabled. |
+| `data-removable` | `present / absent` | Applied on root when removable mode is enabled. |
+| `data-focused` | `present / absent` | Applied on close trigger while focused. |
+
+### Wrapper data hooks
+
+| Attribute | Values | Usage |
+| --- | --- | --- |
+| `data-tone` | `neutral \| info \| success \| warning \| danger` | Semantic color system. |
+| `data-appearance` | `soft \| solid \| outline` | Variant style mode. |
+| `data-shape` | `pill \| rounded` | Corner style mode. |
+| `data-size` | `sm \| md` | Tag sizing preset. |
+
+### Example contract overrides
+
+#### tag.contract.css
+
+```css
+.tag-chip[data-slot="tag"] {
+  border-radius: 9999px;
+  display: inline-flex;
+  gap: 0.35rem;
+}
+
+.tng-tag[data-tone="success"][data-appearance="soft"] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-success) 18%, transparent);
+  color: var(--tng-semantic-accent-success);
+}
+
+.tng-tag[data-appearance="outline"] {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-strong);
+}
+
+.tng-tag [data-slot="tag-close"] {
+  border-radius: 9999px;
+  inline-size: 1rem;
+  block-size: 1rem;
+}
+
+.tng-tag[data-disabled] {
+  opacity: 0.62;
+}
+```
+

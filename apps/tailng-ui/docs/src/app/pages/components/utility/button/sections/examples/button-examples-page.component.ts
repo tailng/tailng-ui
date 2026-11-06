@@ -7,7 +7,10 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
 
 @Component({
   selector: 'app-button-examples-page',
@@ -58,6 +61,7 @@ export class ButtonExamplesPageComponent implements OnDestroy {
         '})',
         'export class ButtonExamplesActionRowPlainCssComponent {',
         '  protected readonly count = signal(0);',
+        '  protected increment(): void { this.count.update((value) => value + 1); }',
         '}',
       ].join('\n'),
     },
@@ -68,7 +72,7 @@ export class ButtonExamplesPageComponent implements OnDestroy {
       title: 'button-examples-action-row-plain-css.component.html',
       code: [
         '<div class="button-example-row button-example-row--plain">',
-        '  <tng-button tone="primary" appearance="solid" type="button" (click)="count.update((value) => value + 1)">',
+        '  <tng-button tone="primary" appearance="solid" type="button" (click)="increment()">',
         '    Save draft',
         '  </tng-button>',
         '  <tng-button tone="neutral" appearance="outline" type="button">Cancel</tng-button>',
@@ -113,6 +117,7 @@ export class ButtonExamplesPageComponent implements OnDestroy {
         '})',
         'export class ButtonExamplesActionRowTailwindComponent {',
         '  protected readonly count = signal(0);',
+        '  protected increment(): void { this.count.update((value) => value + 1); }',
         '}',
       ].join('\n'),
     },
@@ -124,7 +129,7 @@ export class ButtonExamplesPageComponent implements OnDestroy {
       code: [
         '<div class="rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">',
         '  <div class="flex flex-wrap gap-3">',
-        '    <tng-button tone="success" appearance="solid" type="button" (click)="count.update((value) => value + 1)">',
+        '    <tng-button tone="success" appearance="solid" type="button" (click)="increment()">',
         '      <tng-icon icon="check" class="h-4 w-4"></tng-icon>',
         '      Publish',
         '    </tng-button>',

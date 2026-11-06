@@ -12,14 +12,14 @@ humanDocsUrl: https://tailng.dev/components
 
 # TailNG components
 
-TailNG components are standalone Angular components exported from `@tailng-ui/components`.
+TailNG component products use standalone Angular components and directives exported from
+`@tailng-ui/components`, `@tailng-ui/flow`, and selected `@tailng-ui/primitives` APIs.
 
-Detailed agent guides currently cover:
+The catalog below covers every official styled component product and every additional
+top-level component exported by the package. Compound component symbols are documented
+with their parent product.
 
-- [Button](https://tailng.dev/ai/components/button/overview.md)
-- [Input](https://tailng.dev/ai/components/input/overview.md)
-- [Dialog](https://tailng.dev/ai/components/dialog/overview.md)
-- [Table](https://tailng.dev/ai/components/table/overview.md)
+<!-- COMPONENT_CATALOG -->
 
 For every component:
 
@@ -29,4 +29,4 @@ For every component:
 4. Provide an accessible name where the component does not have visible labelling.
 5. Run the Angular production build after integration.
 
-The absence of an agent guide does not imply that a component does not exist. Consult the [human component catalog](https://tailng.dev/components) and verify exports in the installed package before use.
+Consult the [human component catalog](https://tailng.dev/components) for interactive examples and verify package compatibility in [the version manifest](https://tailng.dev/ai/versions.json) before installation.

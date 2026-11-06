@@ -42,3 +42,9 @@ Public inputs include:
 - `ariaLabel`, `ariaLabelledby`, `ariaControls`, `ariaExpanded`, `ariaHasPopup`, and `ariaPressed`.
 
 Prefer visible button text. Use `ariaLabel` for an icon-only button.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/button/api.md)
+- [Styling](https://tailng.dev/ai/components/button/styling.md)
+- [Examples](https://tailng.dev/ai/components/button/examples.md)

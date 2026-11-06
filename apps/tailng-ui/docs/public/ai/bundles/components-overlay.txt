@@ -1,0 +1,1199 @@
+# TailNG overlay components
+
+---
+
+Source: https://tailng.dev/ai/components/dialog/api.md
+
+---
+id: "components/dialog/api"
+title: "Dialog API"
+description: "Dialog API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["dialog","overlay","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/overlay/dialog/tng-dialog.component.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/dialog/routes.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/dialog/sections/api/dialog-api-page.component.css","apps/tailng-ui/docs/src/app/pages/components/overlay/dialog/sections/api/dialog-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/overlay/dialog/sections/api/dialog-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/overlay/dialog/api"
+componentGroup: "overlay"
+symbols: ["TngDialogComponent"]
+selectors: ["tng-dialog"]
+productId: "dialog"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Dialog API
+
+Modal panel with backdrop dismissal, focus trap, and close reason outputs.
+
+## API reference
+
+Component dialog uses the styled `<tng-dialog>` wrapper and sits on top of the same primitive contract documented on the separate headless dialog page.
+
+### Wrapper APIs
+
+| Element | Input / Output | Type | Description |
+| --- | --- | --- | --- |
+| `<tng-dialog>` | `open`, `openChange` | `boolean` | Controlled open state for wrapper dialog instances. |
+| `<tng-dialog>` | `title`, `description` | `string` | Accessible heading and description text rendered in the wrapper header. |
+| `<tng-dialog>` | `closeOnEscape`, `closeOnBackdrop` | `boolean` | Dismiss policy for keyboard and backdrop interactions. |
+| `<tng-dialog>` | `closed` | `'escape' \| 'backdrop' \| 'close-button' \| 'programmatic'` | Close reason payload for analytics and custom workflows. |
+| `<tng-dialog>` projected content | `data-slot="dialog-content"` | attribute | Wrapper exposes a stable body hook around projected `ng-content`. |
+| `<tng-dialog>` styling | `--tng-dialog-width`, `--tng-dialog-height` | `CSS length` | Panel dimension tokens. Width defaults to `34rem`; height defaults to `auto`. |
+
+### Primitive directives
+
+| Directive | Purpose | Key inputs |
+| --- | --- | --- |
+| `tngDialog` | Root modal state, focus trap, and dismissal logic. | `open`, `defaultOpen`, `trapFocus`, `restoreFocus` |
+| `tngDialogBackdrop`, `tngDialogPanel` | Backdrop dismissal target and panel semantics/ARIA wiring. | `closeOnBackdropClick`, `ariaLabel*` |
+| `tngDialogTrigger`, `tngDialogClose` | Open and close controls with reason emission. | `[tngDialogTrigger]`, `[tngDialogClose]` |
+| `tngDialogTitle`, `tngDialogDescription`, `tngDialogContent`, `tngDialogActions` | Structured slots and IDs for accessible dialog labeling. | - |
+
+### Keyboard contract (high level)
+
+## Source-derived public Angular API
+
+### `TngDialogComponent` — `tng-dialog`
+
+- Inputs: `closeOnBackdrop`, `closeOnEscape`, `description`, `open`, `title`
+- Outputs: `closed`, `openChange`
+
+---
+
+Source: https://tailng.dev/ai/components/dialog/examples.md
+
+---
+id: "components/dialog/examples"
+title: "Dialog examples"
+description: "Dialog examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["dialog","overlay","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/overlay/dialog/tng-dialog.component.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/dialog/routes.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/dialog/sections/examples/dialog-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/overlay/dialog/sections/examples/dialog-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/overlay/dialog/sections/examples/dialog-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/overlay/dialog/examples"
+componentGroup: "overlay"
+symbols: ["TngDialogComponent"]
+selectors: ["tng-dialog"]
+productId: "dialog"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Dialog examples
+
+## Examples
+
+Wrapper dialog examples focused on common confirmation flows. Use the headless dialog page when you need to author the overlay DOM yourself.
+
+### dialog-examples-plain-css.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngDialogComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-dialog-examples-plain-css',
+  standalone: true,
+  imports: [TngDialogComponent],
+  templateUrl: './dialog-examples-plain-css.component.html',
+  styleUrl: './dialog-examples-plain-css.component.css',
+})
+export class DialogExamplesPlainCssComponent {
+  protected readonly open = signal(false);
+  protected readonly result = signal('No decision yet');
+
+  protected onApprove(): void {
+    this.result.set('Deleted release branch');
+    this.open.set(false);
+  }
+
+  protected onCancel(): void {
+    this.result.set('Canceled');
+    this.open.set(false);
+  }
+}
+```
+
+### dialog-examples-plain-css.component.html
+
+```html
+<button type="button" class="dialog-example-trigger" (click)="open.set(true)">
+  Delete release branch
+</button>
+
+<tng-dialog
+  title="Delete release branch?"
+  description="This action removes branch automation and cannot be undone."
+  [open]="open()"
+  (openChange)="open.set($event)"
+>
+  <div class="dialog-action-row">
+    <button type="button" class="dialog-example-secondary" (click)="onCancel()">Cancel</button>
+    <button type="button" class="dialog-example-danger" (click)="onApprove()">Delete</button>
+  </div>
+</tng-dialog>
+```
+
+### dialog-examples-plain-css.component.css
+
+```css
+.dialog-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  justify-content: flex-end;
+}
+
+.dialog-example-danger {
+  background: #dc2626;
+  color: #fff;
+}
+```
+
+### dialog-content-slot-plain.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngDialogComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-dialog-content-slot-plain',
+  standalone: true,
+  imports: [TngDialogComponent],
+  templateUrl: './dialog-content-slot-plain.component.html',
+  styleUrl: './dialog-content-slot-plain.component.css',
+})
+export class DialogContentSlotPlainComponent {
+  protected readonly open = signal(false);
+}
+```
+
+### dialog-content-slot-plain.component.html
+
+```html
+<button type="button" class="dialog-example-trigger" (click)="open.set(true)">
+  Open rollout notes
+</button>
+
+<tng-dialog
+  title="Rollout notes"
+  description="Review the deployment summary before approving."
+  [open]="open()"
+  (openChange)="open.set($event)"
+>
+  <p>Traffic shifts in us-east first, then eu-west after health checks pass.</p>
+  <ul>
+    <li>Canary window: 15 minutes</li>
+    <li>Rollback owner: platform-oncall</li>
+    <li>Feature flags: checkout-v2, billing-sync</li>
+  </ul>
+</tng-dialog>
+```
+
+### dialog-content-slot-plain.component.css
+
+```css
+tng-dialog [data-slot="dialog-content"] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 8%, var(--tng-semantic-background-surface));
+  border: 1px dashed var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.85rem 1rem;
+}
+```
+
+### dialog-content-slot-tailwind.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngDialogComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-dialog-content-slot-tailwind',
+  standalone: true,
+  imports: [TngDialogComponent],
+  templateUrl: './dialog-content-slot-tailwind.component.html',
+  styleUrl: './dialog-content-slot-tailwind.component.css',
+})
+export class DialogContentSlotTailwindComponent {
+  protected readonly open = signal(false);
+}
+```
+
+### dialog-content-slot-tailwind.component.html
+
+```html
+<tng-dialog
+  title="Rollout notes"
+  description="Review the deployment summary before approving."
+  [open]="open()"
+  (openChange)="open.set($event)"
+>
+  <p class="m-0 text-sm text-slate-700 dark:text-slate-300">Traffic shifts in us-east first.</p>
+  <ul class="m-0 grid list-disc gap-1 pl-5 text-sm text-slate-700 dark:text-slate-300">
+    <li>Canary window: 15 minutes</li>
+    <li>Rollback owner: platform-oncall</li>
+  </ul>
+</tng-dialog>
+```
+
+### dialog-content-slot-tailwind.component.css
+
+```css
+tng-dialog [data-slot="dialog-content"] {
+  background: rgb(248 250 252);
+  border: 1px solid rgb(226 232 240);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+:host-context(.dark) tng-dialog [data-slot="dialog-content"] {
+  background: rgb(15 23 42);
+  border-color: rgb(51 65 85);
+}
+```
+
+### dialog-custom-size.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngDialogComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-dialog-custom-size',
+  standalone: true,
+  imports: [TngDialogComponent],
+  templateUrl: './dialog-custom-size.component.html',
+  styleUrl: './dialog-custom-size.component.css',
+})
+export class DialogCustomSizeComponent {
+  protected readonly open = signal(false);
+  protected readonly width = signal('42rem');
+  protected readonly height = signal('24rem');
+
+  protected onWidthInput(event: Event): void {
+    this.width.set((event.target as HTMLInputElement).value);
+  }
+
+  protected onHeightInput(event: Event): void {
+    this.height.set((event.target as HTMLInputElement).value);
+  }
+}
+```
+
+### dialog-custom-size.component.html
+
+```html
+<div class="dialog-size-controls">
+  <label>
+    Width
+    <input type="text" [value]="width()" (input)="onWidthInput($event)" />
+  </label>
+  <label>
+    Height
+    <input type="text" [value]="height()" (input)="onHeightInput($event)" />
+  </label>
+  <button type="button" (click)="open.set(true)">Open custom dialog</button>
+</div>
+
+<tng-dialog
+  title="Custom dimensions"
+  description="Width and height come from CSS variables on the host."
+  [style.--tng-dialog-width]="width()"
+  [style.--tng-dialog-height]="height()"
+  [open]="open()"
+  (openChange)="open.set($event)"
+>
+  <p>Current width: {{ width() }}</p>
+  <p>Current height: {{ height() }}</p>
+</tng-dialog>
+```
+
+### dialog-custom-size.component.css
+
+```css
+.dialog-size-controls {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 28rem;
+}
+
+.dialog-size-controls label {
+  display: grid;
+  gap: 0.35rem;
+}
+```
+
+### dialog-examples-tailwind.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngDialogComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-dialog-examples-tailwind',
+  standalone: true,
+  imports: [TngDialogComponent],
+  templateUrl: './dialog-examples-tailwind.component.html',
+  styleUrl: './dialog-examples-tailwind.component.css',
+})
+export class DialogExamplesTailwindComponent {
+  protected readonly open = signal(false);
+  protected readonly result = signal('No decision yet');
+
+  protected onApprove(): void {
+    this.result.set('Deployment approved');
+    this.open.set(false);
+  }
+
+  protected onCancel(): void {
+    this.result.set('Canceled');
+    this.open.set(false);
+  }
+}
+```
+
+### dialog-examples-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+  <button
+    type="button"
+    class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
+    (click)="open.set(true)"
+  >
+    Approve deployment
+  </button>
+
+  <tng-dialog
+    title="Approve deployment"
+    description="Proceed with production rollout for version 2.7.0?"
+    [open]="open()"
+    (openChange)="open.set($event)"
+  >
+    <p class="m-0 text-sm text-slate-700 dark:text-slate-300">Rollout will start in us-east and eu-west.</p>
+    <div class="mt-3 flex flex-wrap justify-end gap-2">
+      <button type="button" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 dark:border-slate-600 dark:text-slate-200" (click)="onCancel()">Hold</button>
+      <button type="button" class="rounded-lg border border-emerald-600 bg-emerald-600 px-3 py-2 text-sm font-semibold text-white" (click)="onApprove()">Approve</button>
+    </div>
+  </tng-dialog>
+</div>
+```
+
+### dialog-examples-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+---
+
+Source: https://tailng.dev/ai/components/dialog/overview.md
+
+---
+id: components/dialog/overview
+title: Dialog component
+description: Control an accessible TailNG dialog with Angular signal state.
+category: components
+status: stable
+tags: ["dialog", "overlay", "modal"]
+package: @tailng-ui/components
+sourcePaths: ["libs/tailng-ui/components/src/lib/overlay/dialog/tng-dialog.component.ts", "apps/tailng-ui/docs/src/app/pages/components/overlay/dialog/sections/overview/dialog-overview-page.component.ts"]
+humanDocsUrl: https://tailng.dev/components/overlay/dialog/overview
+---
+
+# Dialog component
+
+`TngDialogComponent` supplies the modal panel, backdrop, focus management, escape handling, scroll locking, and focus restoration.
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngDialogComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngDialogComponent],
+  template: `
+    <button type="button" (click)="open.set(true)">Open review</button>
+
+    <tng-dialog
+      title="Review changes"
+      description="Confirm before publishing the release."
+      [open]="open()"
+      (openChange)="open.set($event)"
+    >
+      <p>Review the pending changes.</p>
+      <button type="button" (click)="open.set(false)">Cancel</button>
+    </tng-dialog>
+  `,
+})
+export class ReviewDialogExample {
+  readonly open = signal(false);
+}
+```
+
+Inputs:
+
+- `open`: dialog visibility.
+- `title`: accessible title; default `Dialog`.
+- `description`: optional accessible description.
+- `closeOnBackdrop`: default `true`.
+- `closeOnEscape`: default `true`.
+
+Outputs:
+
+- `openChange`: synchronize external visibility state.
+- `closed`: close reason: `backdrop`, `close-button`, `escape`, or `programmatic`.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/dialog/api.md)
+- [Styling](https://tailng.dev/ai/components/dialog/styling.md)
+- [Examples](https://tailng.dev/ai/components/dialog/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/dialog/styling.md
+
+---
+id: "components/dialog/styling"
+title: "Dialog styling"
+description: "Dialog styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["dialog","overlay","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/overlay/dialog/tng-dialog.component.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/dialog/routes.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/dialog/sections/styling/dialog-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/overlay/dialog/sections/styling/dialog-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/overlay/dialog/sections/styling/dialog-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/overlay/dialog/styling"
+componentGroup: "overlay"
+symbols: ["TngDialogComponent"]
+selectors: ["tng-dialog"]
+productId: "dialog"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Dialog styling
+
+## Styling contract
+
+Wrapper dialog ships minimum theme styles, and the underlying primitive surface still exposes stable slot and state attributes for deeper shell customization.
+
+### Core data attributes
+
+### Reference CSS
+
+#### dialog-styling.css
+
+```css
+[tngDialog][data-open="true"] {
+  --dialog-backdrop: rgb(2 6 23 / 56%);
+  --tng-dialog-width: 64rem;
+  --tng-dialog-height: 28rem;
+}
+
+[data-slot="dialog-backdrop"] {
+  align-items: center;
+  background: var(--dialog-backdrop);
+  display: grid;
+  inset: 0;
+  position: fixed;
+}
+
+[data-slot="dialog-panel"] {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.9rem;
+  display: grid;
+  gap: 0.75rem;
+  height: var(--tng-dialog-height, auto);
+  max-width: var(--tng-dialog-width, 34rem);
+  padding: 1rem;
+}
+
+[data-slot="dialog-content"] {
+  display: grid;
+  gap: 0.75rem;
+  max-block-size: min(52vh, 24rem);
+  overflow: auto;
+  padding-inline: 1rem;
+}
+
+[data-slot="dialog-close"] {
+  border-radius: 0.6rem;
+  min-height: 2rem;
+}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/popover/api.md
+
+---
+id: "components/popover/api"
+title: "Popover API"
+description: "Popover API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["popover","overlay","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/overlay/popover/tng-popover-trigger-for.directive.ts","libs/tailng-ui/components/src/lib/overlay/popover/tng-popover.component.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/popover/routes.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/popover/sections/api/popover-api-page.component.css","apps/tailng-ui/docs/src/app/pages/components/overlay/popover/sections/api/popover-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/overlay/popover/sections/api/popover-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/overlay/popover/api"
+componentGroup: "overlay"
+symbols: ["TngPopoverComponent"]
+selectors: ["tng-popover"]
+productId: "popover"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Popover API
+
+Anchored floating panel with trigger semantics and outside/Escape dismissal.
+
+## API reference
+
+Component popover uses the styled `<tng-popover>` wrapper and sits on top of the same primitive contract documented on the separate headless popover page.
+
+### Wrapper component: <tng-popover>
+
+| Element | Input / Output | Type | Description |
+| --- | --- | --- | --- |
+| `<tng-popover>` | `open`, `openChange` | `boolean` | Controlled popover state. Leave `open` undefined for uncontrolled mode. |
+| `<tng-popover>` | `defaultOpen` | `boolean` | Initial open state when uncontrolled. |
+| `[tngPopoverTriggerFor]` | Popover reference | `TngPopoverComponent` | Links a native button, `tng-button`, or trigger-target component to the detached panel. |
+| `<tng-popover>` | `disabled` | `boolean` | Prevents opening from trigger interactions. |
+| `<tng-popover>` | `closeOnEscape`, `closeOnOutsidePointer` | `boolean` | Dismiss policy for keyboard escape and outside pointer interactions. |
+| `<tng-popover>` | `closeOnFocusOutside` | `boolean` | Closes when focus enters an element outside the trigger, panel, and owned nested overlays. Defaults to `false`. |
+| `<tng-popover>` | `restoreFocus` | `boolean` | Restores focus to trigger/previous element after close. |
+| `<tng-popover>` | `autoFocus` | `boolean \| 'first-focusable' \| 'panel' \| 'none'` | Controls what receives focus when the panel opens. `true` maps to `'first-focusable'`; `false` maps to `'none'`. |
+| `<tng-popover>` | `side`, `align` | `'top' \| 'right' \| 'bottom' \| 'left'`, `'start' \| 'center' \| 'end'` | Requested anchored placement. The resolved placement is exposed via `data-side` and `data-align`. |
+| `<tng-popover>` | `offset`, `collisionPadding` | `number` | Controls trigger distance and minimum viewport clearance while flipping and shifting. |
+| `<tng-popover>` | `panelRole`, `panelAriaLabel`, `panelAriaLabelledby`, `ariaHasPopup` | `'dialog' \| 'menu' \| 'listbox' \| 'region' \| 'none'`, `string` | ARIA contract for panel semantics and the linked trigger. |
+| `<tng-popover>` | `closed` | `'escape' \| 'focus-outside' \| 'outside-pointer' \| 'programmatic' \| 'trigger-toggle' | Close reason payload for analytics and flow state tracking. |
+
+### Primitive directives
+
+| Directive | Purpose | Key inputs / outputs |
+| --- | --- | --- |
+| `tngPopover` | Root state machine for open/close, dismissal, placement, and accessibility wiring. | `open`, `defaultOpen`, `closeOnEscape`, `closeOnFocusOutside`, `closeOnOutsidePointer`, `autoFocus`, `side`, `align`, `openChange`, `closed` |
+| `tngPopoverTrigger` | Binds trigger element to a popover instance and toggles open/close on click. | `[tngPopoverTrigger]` (optional explicit popover instance) |
+| `tngPopoverPanel` / `tngPopoverContent` | Panel surface with generated id, role, hidden state, and slot attributes. | Reads state from root; no separate inputs required. |
+| `tngPopoverClose` | Closes the popover when clicked and emits reason through root `closed`. | `[tngPopoverClose]` close reason (optional) |
+
+### Keyboard contract (high level)
+
+## Source-derived public Angular API
+
+### `TngPopoverComponent` — `tng-popover`
+
+- Inputs: `align`, `ariaHasPopup`, `autoFocus`, `closeOnEscape`, `closeOnFocusOutside`, `closeOnOutsidePointer`, `collisionPadding`, `defaultOpen`, `disabled`, `offset`, `open`, `panelAriaLabel`, `panelAriaLabelledby`, `panelRole`, `restoreFocus`, `scrollStrategy`, `side`
+- Outputs: `closed`, `openChange`
+
+---
+
+Source: https://tailng.dev/ai/components/popover/examples.md
+
+---
+id: "components/popover/examples"
+title: "Popover examples"
+description: "Popover examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["popover","overlay","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/overlay/popover/tng-popover-trigger-for.directive.ts","libs/tailng-ui/components/src/lib/overlay/popover/tng-popover.component.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/popover/routes.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/popover/sections/examples/popover-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/overlay/popover/sections/examples/popover-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/overlay/popover/sections/examples/popover-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/overlay/popover/examples"
+componentGroup: "overlay"
+symbols: ["TngPopoverComponent"]
+selectors: ["tng-popover"]
+productId: "popover"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Popover examples
+
+## Examples
+
+Wrapper popover examples focused on compact confirmation flows. Use the headless popover page when the anchored DOM belongs entirely to the feature.
+
+### popover-examples-plain-css.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngPopoverComponent, TngPopoverTriggerFor } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-popover-examples-plain-css',
+  standalone: true,
+  imports: [TngPopoverComponent, TngPopoverTriggerFor],
+  templateUrl: './popover-examples-plain-css.component.html',
+  styleUrl: './popover-examples-plain-css.component.css',
+})
+export class PopoverExamplesPlainCssComponent {
+  protected readonly open = signal(false);
+  protected readonly result = signal('No decision yet');
+
+  protected onCancel(): void {
+    this.result.set('Canceled');
+    this.open.set(false);
+  }
+
+  protected onApprove(): void {
+    this.result.set('Deleted release branch');
+    this.open.set(false);
+  }
+}
+```
+
+### popover-examples-plain-css.component.html
+
+```html
+<tng-popover
+  #popover="tngPopoverComponent"
+  [open]="open()"
+  (openChange)="open.set($event)"
+>
+  <p class="popover-example-copy">This action removes branch automation and cannot be undone.</p>
+  <div class="popover-action-row">
+    <button type="button" class="popover-example-secondary" (click)="onCancel()">Cancel</button>
+    <button type="button" class="popover-example-danger" (click)="onApprove()">Delete</button>
+  </div>
+</tng-popover>
+<button type="button" [tngPopoverTriggerFor]="popover">Delete release branch</button>
+```
+
+### popover-examples-plain-css.component.css
+
+```css
+.popover-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  justify-content: flex-end;
+}
+
+.popover-example-danger {
+  background: #dc2626;
+  color: #fff;
+}
+```
+
+### popover-examples-tailwind.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngPopoverComponent, TngPopoverTriggerFor } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-popover-examples-tailwind',
+  standalone: true,
+  imports: [TngPopoverComponent, TngPopoverTriggerFor],
+  templateUrl: './popover-examples-tailwind.component.html',
+  styleUrl: './popover-examples-tailwind.component.css',
+})
+export class PopoverExamplesTailwindComponent {
+  protected readonly open = signal(false);
+  protected readonly result = signal('No decision yet');
+
+  protected onCancel(): void {
+    this.result.set('Deployment on hold');
+    this.open.set(false);
+  }
+
+  protected onApprove(): void {
+    this.result.set('Deployment approved');
+    this.open.set(false);
+  }
+}
+```
+
+### popover-examples-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+  <tng-popover
+    #popover="tngPopoverComponent"
+    [open]="open()"
+    (openChange)="open.set($event)"
+  >
+    <p class="m-0 text-sm text-slate-700 dark:text-slate-300">Rollout will start in us-east and eu-west.</p>
+    <div class="mt-3 flex flex-wrap justify-end gap-2">
+      <button type="button" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 dark:border-slate-600 dark:text-slate-200" (click)="onCancel()">Hold</button>
+      <button type="button" class="rounded-lg border border-emerald-600 bg-emerald-600 px-3 py-2 text-sm font-semibold text-white" (click)="onApprove()">Approve</button>
+    </div>
+  </tng-popover>
+  <button type="button" [tngPopoverTriggerFor]="popover">Approve deployment</button>
+</div>
+```
+
+### popover-examples-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+---
+
+Source: https://tailng.dev/ai/components/popover/overview.md
+
+---
+id: "components/popover/overview"
+title: "Popover component"
+description: "Anchored floating panel with trigger semantics and outside/Escape dismissal."
+category: "components"
+status: "stable"
+tags: ["popover","overlay","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/overlay/popover/tng-popover-trigger-for.directive.ts","libs/tailng-ui/components/src/lib/overlay/popover/tng-popover.component.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/popover/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/overlay/popover/overview"
+componentGroup: "overlay"
+symbols: ["TngPopoverComponent"]
+selectors: ["tng-popover"]
+productId: "popover"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Popover component
+
+Anchored floating panel with trigger semantics and outside/Escape dismissal.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngPopoverComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngPopoverComponent],
+  template: `<tng-popover />`,
+})
+export class PopoverAgentExample {}
+```
+
+## Component family
+
+- `TngPopoverComponent` — selector `tng-popover`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/overlay/popover/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/popover/api.md)
+- [Styling](https://tailng.dev/ai/components/popover/styling.md)
+- [Examples](https://tailng.dev/ai/components/popover/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/popover/styling.md
+
+---
+id: "components/popover/styling"
+title: "Popover styling"
+description: "Popover styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["popover","overlay","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/overlay/popover/tng-popover-trigger-for.directive.ts","libs/tailng-ui/components/src/lib/overlay/popover/tng-popover.component.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/popover/routes.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/popover/sections/styling/popover-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/overlay/popover/sections/styling/popover-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/overlay/popover/sections/styling/popover-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/overlay/popover/styling"
+componentGroup: "overlay"
+symbols: ["TngPopoverComponent"]
+selectors: ["tng-popover"]
+productId: "popover"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Popover styling
+
+## Styling contract
+
+Wrapper popover ships minimum theme styles, and the underlying primitive surface still exposes stable slot and state attributes for teams that need deeper shell customization.
+
+### Core data attributes
+
+### Reference CSS
+
+#### popover-styling.css
+
+```css
+tng-popover {
+  --tng-popover-panel-radius: 0.9rem;
+  --tng-popover-z-overlay: 60;
+}
+
+[data-slot="popover-trigger"] {
+  border-radius: 0.65rem;
+}
+
+[data-slot="popover-panel"] {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-strong);
+  border-radius: 0.9rem;
+  display: grid;
+  gap: 0.75rem;
+  min-width: 16rem;
+  max-width: min(24rem, 90vw);
+  padding: 1rem;
+  box-shadow: 0 22px 42px color-mix(in srgb, var(--tng-semantic-foreground-primary) 22%, transparent);
+}
+
+[data-slot="popover-close"] {
+  border-radius: 0.6rem;
+  min-height: 2rem;
+}
+
+[data-slot="popover-panel"][hidden] {
+  display: none !important;
+}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/tooltip/api.md
+
+---
+id: "components/tooltip/api"
+title: "Tooltip API"
+description: "Tooltip API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["tooltip","overlay","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/overlay/tooltip/tng-tooltip.component.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/tooltip/routes.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/tooltip/sections/api/tooltip-api-page.component.css","apps/tailng-ui/docs/src/app/pages/components/overlay/tooltip/sections/api/tooltip-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/overlay/tooltip/sections/api/tooltip-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/overlay/tooltip/api"
+componentGroup: "overlay"
+symbols: ["TngTooltipComponent"]
+selectors: ["tng-tooltip"]
+productId: "tooltip"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Tooltip API
+
+Hover/focus helper text with trigger/content association and side placement hooks.
+
+## API reference
+
+The wrapper surface centers on `<tng-tooltip>`. For primitive directives and root-owned positioning details, use the headless tooltip docs.
+
+### Wrapper component: <tng-tooltip>
+
+| Input / Output | Type | Description |
+| --- | --- | --- |
+| `triggerLabel` | `string` | Fallback trigger text rendered by the built-in button. |
+| `text` | `string` | Fallback tooltip message when no projected content is provided. |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | Placement hint exposed through `data-side` on tooltip content and flipped when needed. |
+| `openDelay`, `closeDelay` | `number` | Delay in milliseconds before open/close transitions are applied. |
+| `disabled` | `boolean` | Disables hover/focus interactions and keeps tooltip closed. |
+| `ariaLabel` | `string \| null` | Accessible label for the built-in trigger button. |
+| `openChange` | `boolean` | Emits each time wrapper state changes from open to closed (and vice versa). |
+
+### Projected content
+
+| Surface | Purpose | Notes |
+| --- | --- | --- |
+| `[trigger]` slot | Projects custom trigger content into the built-in wrapper button. | Use this for icons or branded trigger labels without replacing the wrapper behavior. |
+| Default content slot | Projects tooltip body content into the floating shell. | Fallbacks to `text` when nothing is projected. Keep the content short and non-interactive. |
+
+### Behavior baseline
+
+## Source-derived public Angular API
+
+### `TngTooltipComponent` — `tng-tooltip`
+
+- Inputs: `ariaLabel`, `closeDelay`, `disabled`, `openDelay`, `side`, `text`, `triggerLabel`
+- Outputs: `openChange`
+
+---
+
+Source: https://tailng.dev/ai/components/tooltip/examples.md
+
+---
+id: "components/tooltip/examples"
+title: "Tooltip examples"
+description: "Tooltip examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["tooltip","overlay","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/overlay/tooltip/tng-tooltip.component.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/tooltip/routes.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/tooltip/sections/examples/tooltip-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/overlay/tooltip/sections/examples/tooltip-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/overlay/tooltip/sections/examples/tooltip-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/overlay/tooltip/examples"
+componentGroup: "overlay"
+symbols: ["TngTooltipComponent"]
+selectors: ["tng-tooltip"]
+productId: "tooltip"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Tooltip examples
+
+## Examples
+
+Production tooltip patterns for short helper hints across plain CSS and Tailwind wrapper shells.
+
+### tooltip-examples-plain-css.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngTooltipComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-tooltip-examples-plain-css',
+  standalone: true,
+  imports: [TngTooltipComponent],
+  templateUrl: './tooltip-examples-plain-css.component.html',
+  styleUrl: './tooltip-examples-plain-css.component.css',
+})
+export class TooltipExamplesPlainCssComponent {
+  protected readonly open = signal(false);
+}
+```
+
+### tooltip-examples-plain-css.component.html
+
+```html
+<div class="tooltip-example-shell tooltip-example-stage">
+  <tng-tooltip
+    triggerLabel="Archive release notes"
+    text="Moves notes to readonly archive."
+    side="bottom"
+    [openDelay]="100"
+    [closeDelay]="80"
+    (openChange)="open.set($event)"
+  ></tng-tooltip>
+</div>
+```
+
+### tooltip-examples-plain-css.component.css
+
+```css
+.tooltip-example-shell {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.95rem;
+  padding: 1rem;
+}
+```
+
+### tooltip-examples-tailwind.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngTooltipComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-tooltip-examples-tailwind',
+  standalone: true,
+  imports: [TngTooltipComponent],
+  templateUrl: './tooltip-examples-tailwind.component.html',
+  styleUrl: './tooltip-examples-tailwind.component.css',
+})
+export class TooltipExamplesTailwindComponent {
+  protected readonly open = signal(false);
+}
+```
+
+### tooltip-examples-tailwind.component.html
+
+```html
+<div
+  class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+>
+  <div class="grid min-h-[8.5rem] content-start justify-items-start gap-3">
+    <tng-tooltip
+      triggerLabel="Approve deployment"
+      side="top"
+      [openDelay]="150"
+      [closeDelay]="100"
+      (openChange)="open.set($event)"
+    >
+      <span class="block max-w-56 text-sm leading-6 text-[var(--tng-semantic-foreground-primary)]">
+        Rollout starts in us-east, then eu-west.
+      </span>
+    </tng-tooltip>
+  </div>
+</div>
+```
+
+### tooltip-examples-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in template. */
+```
+
+---
+
+Source: https://tailng.dev/ai/components/tooltip/overview.md
+
+---
+id: "components/tooltip/overview"
+title: "Tooltip component"
+description: "Hover/focus helper text with trigger/content association and side placement hooks."
+category: "components"
+status: "stable"
+tags: ["tooltip","overlay","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/overlay/tooltip/tng-tooltip.component.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/tooltip/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/overlay/tooltip/overview"
+componentGroup: "overlay"
+symbols: ["TngTooltipComponent"]
+selectors: ["tng-tooltip"]
+productId: "tooltip"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Tooltip component
+
+Hover/focus helper text with trigger/content association and side placement hooks.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngTooltipComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngTooltipComponent],
+  template: `<tng-tooltip />`,
+})
+export class TooltipAgentExample {}
+```
+
+## Component family
+
+- `TngTooltipComponent` — selector `tng-tooltip`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/overlay/tooltip/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/tooltip/api.md)
+- [Styling](https://tailng.dev/ai/components/tooltip/styling.md)
+- [Examples](https://tailng.dev/ai/components/tooltip/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/tooltip/styling.md
+
+---
+id: "components/tooltip/styling"
+title: "Tooltip styling"
+description: "Tooltip styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["tooltip","overlay","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/overlay/tooltip/tng-tooltip.component.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/tooltip/routes.ts","apps/tailng-ui/docs/src/app/pages/components/overlay/tooltip/sections/styling/tooltip-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/overlay/tooltip/sections/styling/tooltip-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/overlay/tooltip/sections/styling/tooltip-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/overlay/tooltip/styling"
+componentGroup: "overlay"
+symbols: ["TngTooltipComponent"]
+selectors: ["tng-tooltip"]
+productId: "tooltip"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Tooltip styling
+
+## Styling contract
+
+The wrapper forwards slot and state hooks through its built-in trigger and floating content, so teams can restyle the shell without depending on internal DOM structure.
+
+### Core data attributes
+
+### Overlay z-index
+
+Tooltip content uses `var(--tng-tooltip-z-overlay, var(--tng-tooltip-overlay-z-index, var(--tng-z-overlay, 20)))`. Set `--tng-tooltip-z-overlay` on `tng-tooltip` (or an ancestor), or set `--tng-z-overlay` app-wide so tooltips share the same stacking context as other overlays.
+
+### Reference CSS
+
+#### tooltip-styling.css
+
+```css
+tng-tooltip {
+  --tng-tooltip-z-overlay: 1100;
+}
+
+/* or app-wide */
+:root {
+  --tng-z-overlay: 1100;
+}
+
+[data-slot="tooltip-trigger"] {
+  border-radius: 0.7rem;
+  min-height: 2.1rem;
+  padding-inline: 0.9rem;
+}
+
+[data-slot="tooltip-trigger"][data-state="open"] {
+  border-color: var(--tng-semantic-accent-brand);
+}
+
+[data-slot="tooltip-content"] {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.7rem;
+  box-shadow: 0 20px 36px color-mix(in srgb, #020617 24%, transparent);
+  padding: 0.45rem 0.62rem;
+  pointer-events: none;
+}
+
+[data-slot="tooltip-content"][data-side="top"] {
+  transform-origin: bottom center;
+}
+
+[data-slot="tooltip-content"][hidden] {
+  display: none !important;
+}
+```
+

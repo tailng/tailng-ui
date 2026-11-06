@@ -52,3 +52,9 @@ Outputs:
 
 - `openChange`: synchronize external visibility state.
 - `closed`: close reason: `backdrop`, `close-button`, `escape`, or `programmatic`.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/dialog/api.md)
+- [Styling](https://tailng.dev/ai/components/dialog/styling.md)
+- [Examples](https://tailng.dev/ai/components/dialog/examples.md)

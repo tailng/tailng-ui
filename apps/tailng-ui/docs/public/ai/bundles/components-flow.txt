@@ -1,0 +1,1878 @@
+# TailNG flow components
+
+---
+
+Source: https://tailng.dev/ai/components/flow-editor/api.md
+
+---
+id: "components/flow-editor/api"
+title: "Flow Editor API"
+description: "Flow Editor API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["flow-editor","flow","api"]
+package: "@tailng-ui/flow"
+importPath: "@tailng-ui/flow"
+sourcePaths: ["libs/tailng-ui/flow/src/lib/connection-template/tng-flow-connection-template.directive.ts","libs/tailng-ui/flow/src/lib/editor/tng-flow-connection-marker-diamond.directive.ts","libs/tailng-ui/flow/src/lib/editor/tng-flow-editor.component.ts","libs/tailng-ui/flow/src/lib/editor/tng-flow-foblex-bridge.directive.ts","libs/tailng-ui/flow/src/lib/editor/tng-flow-keyboard-config.ts","libs/tailng-ui/flow/src/lib/node/tng-flow-node.component.ts","libs/tailng-ui/flow/src/lib/node-template/tng-flow-node-template.directive.ts","libs/tailng-ui/flow/src/lib/node-palette/tng-flow-node-palette.component.ts","libs/tailng-ui/flow/src/lib/palette-item/tng-flow-palette-item.directive.ts","libs/tailng-ui/flow/src/lib/port/tng-flow-port.component.ts","libs/tailng-ui/flow/src/lib/validation-badge/tng-flow-validation-badge.component.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/routes.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/api/flow-editor-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/api/flow-editor-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/flow/flow-editor/api"
+componentGroup: "flow"
+symbols: ["TngFlowConnectionMarkerDiamondDirective","TngFlowConnectionTemplateDirective","TngFlowEditorComponent","TngFlowFoblexBridgeDirective","TngFlowNodeComponent","TngFlowNodePaletteComponent","TngFlowNodeTemplateDirective","TngFlowPaletteItemDirective","TngFlowPortComponent","TngFlowValidationBadgeComponent"]
+selectors: ["f-connection-marker-circle[tngFlowConnectionMarkerDiamond]","ng-template[tngFlowConnection], ng-template[tngFlowConnectionLabel]","tng-flow-editor","[tngFlowFoblexBridge]","tng-flow-node","tng-flow-node-palette","ng-template[tngFlowNode]","[tngFlowPaletteItem]","tng-flow-port","tng-flow-validation-badge"]
+productId: "flow-editor"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Flow Editor API
+
+Embeddable, controlled node editor for AI agents, automations, and executable workflows.
+
+## Flow Editor API
+
+Import the editor, template directives, graph types, event types, and validation helper from `@tailng-ui/flow`.
+
+### Editor inputs
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `definition` | `TngFlowDefinition<TData, TConnectionData>` | `null` | Controlled JSON workflow snapshot. Takes precedence over separate node and connection inputs. |
+| `nodes` | `readonly TngFlowNode<TData>[]` | `null` | Controlled node records for the separate-input form. |
+| `connections` | `readonly TngFlowConnection[]` | `[]` | Controlled connector-to-connector edges. |
+| `presentation` | `TngFlowPresentation<TStatus>` | `` | Controlled runtime status and visual emphasis for nodes and connections. |
+| `validation` | `TngFlowValidation` | `EMPTY_TNG_FLOW_VALIDATION` | Controlled application issues merged with TailNG structural issues. |
+| `nodeViews` | `TngFlowNodeViews<TStatus>` | `` | Deprecated compatibility input. Use `presentation.nodes`. |
+| `mode` | `'edit' \| 'inspect' \| 'readonly'` | `'edit'` | Controls selection and graph editing permissions while preserving pan and zoom. |
+| `selection` | `TngFlowSelection` | empty sets | Controlled node and connection selection owned by the consuming application. |
+| `viewport` | `TngFlowViewport \| null` | `null` | Optional externally supplied canvas position and scale. |
+| `connectionValidator` | `TngFlowConnectionValidator \| null` | `null` | Runs after built-in connection validation for application-specific rules. |
+| `options` | `TngFlowEditorOptions \| null` | `null` | Configures editor-level routing, marker and label defaults, global connection selection and reassignment gates, waypoint editing, and motion preference. Per-connection values take precedence. |
+| `connectionOptions` | `TngFlowEditorConnectionOptions \| null` | `null` | Focused compatibility input for the same connection options. Values supplied here take precedence over matching fields in `options`. |
+| `connectionCreationPathType` | `TngFlowConnectionPathType \| null` | `null` | Two-way model for the path used by the live connection preview and newly requested connections. Null resolves from the configured connection default, then Bézier. |
+| `connectionAriaLabel` | `TngFlowConnectionAriaLabelFactory \| null` | `null` | Optional accessible-name factory receiving the connection, endpoint descriptions, and resolved presentation state. |
+| `keyboardOptions` | `TngFlowKeyboardOptions \| null` | `null` | Overrides normal and coarse canvas movement steps and the keys that enter connection authoring. Defaults resolve from the active grid policy and `['c']`. |
+| `smartGuides` | `TngFlowSmartGuidesOptions \| null` | `null` | Opts into magnetic alignment and spacing guides. Thresholds are screen pixels and `disableModifier` suppresses guides for the complete drag that starts with that modifier pressed. |
+| `commandShortcuts` | `boolean \| readonly TngFlowEditorCommand[]` | `false` | Opts into all mode-allowed command shortcuts or an explicit allow-list. This affects keyboard interception only; direct `requestCommand()` calls still follow the active mode. |
+| `contextMenuEnabled` | `boolean` | `false` | Replaces the native graph context menu with controlled `contextMenuRequested` events in edit and inspect modes. |
+| `ariaLabel` | `string` | `'Workflow editor'` | Accessible name for the editor surface. |
+| `flowId` | `string` | `'tng-flow-editor'` | Stable Foblex flow instance id. Set a unique value for multiple editors. |
+| `fitOnInit` | `boolean` | `true` | Fits the first non-empty node collection into the viewport. |
+| `showBackground`, `showControls`, `showSelectionArea` | `boolean` | `true` | Controls the built-in grid, viewport toolbar, and marquee selection surface. |
+| `showConnectionTools` | `boolean` | `true` | Shows the edit-mode toolbar with five future-connection styles and disabled Undo/Redo placeholders. |
+| `showMinimap` | `boolean` | `false` | Shows the themed workflow overview. When interactive, hovering temporarily previews a position and leaving restores the canvas; clicking commits the previewed position. |
+| `minimapOptions` | `TngFlowMinimapOptions \| null` | `null` | Configures position, dimensions, minimum overview size, node render limit, interactivity, and accessible label. |
+| `snapToGrid` | `boolean` | `false` | Snaps node movement to `gridSize`. Multi-node keyboard movement applies one shared snapped delta so relative geometry is preserved. |
+| `gridSize` | `number` | `16` | Base horizontal and vertical grid cell size in pixels. Controls the snap interval and the base dotted-background spacing. |
+| `backgroundGridMode` | `TngFlowBackgroundGridMode` | `'canvas'` | `'canvas'` displays every base-grid point. `'adaptive'` displays a fixed on-screen dot density while zooming in or out without changing the `gridSize` snap interval. |
+| `zoomMinimum`, `zoomMaximum`, `zoomStep` | `number` | `0.35`, `2`, `0.15` | Viewport zoom limits and button/wheel increment. |
+
+### Editor outputs
+
+| Name | Payload | When it emits |
+| --- | --- | --- |
+| `nodesMoved` | `TngFlowNodesMovedEvent` | After one or more selected nodes finish moving. |
+| `nodePositionChange` | `TngFlowNodePositionChange` | Once per moved node, with its previous and new positions. |
+| `nodeCreateRequested` | `TngFlowNodeCreateRequest<TData>` | After a typed palette drop, keyboard activation, or API creation request. |
+| `connectionCreateRequested` | `TngFlowConnectionCreateRequest` | After a connection candidate passes validation, including the resolved routing chosen for the new connection. |
+| `connectionCreationPathTypeChange` | `TngFlowConnectionPathType \| null` | When the user chooses a future-connection style from the canvas toolbar. |
+| `connectionReconnectRequested` | `TngFlowConnectionReconnectRequest` | After a reassigned endpoint produces a valid complete connection. |
+| `connectionRoutingChangeRequested` | `TngFlowConnectionRoutingChangeRequest` | When the imperative API requests a controlled style change for selected connections. |
+| `connectionWaypointsChange` | `TngFlowConnectionWaypointsChange` | Once after an enabled waypoint add, move, or remove interaction commits in edit mode. The application writes the returned points into a new definition snapshot. |
+| `connectionsDeleteRequested` | `TngFlowConnectionsDeleteRequest` | When editable selected connections are requested for deletion. |
+| `nodesDeleteRequested` | `TngFlowNodesDeleteRequest` | When unlocked selected nodes are requested for deletion. |
+| `nodesArrangementRequested` | `TngFlowNodesArrangementRequest` | Once after a successful selected-node alignment or distribution request. Contains position-only moves and never mutates the controlled graph. |
+| `selectionChange` | `TngFlowSelection` | When the user requests a different controlled selection. |
+| `commandRequested` | `TngFlowEditorCommandRequest` | After an enabled shortcut or successful `requestCommand()` call. The application owns history, clipboard data, validation, ids, and mutation. |
+| `contextMenuRequested` | `TngFlowContextMenuRequest` | After an enabled pointer or keyboard context request, with target, source, client and canvas coordinates, and the proposed controlled selection. |
+| `connectionRejected` | `TngFlowConnectionRejectedEvent` | When a drop targets a known port but connection validation fails. |
+| `nodeActivated` | `TngFlowNodeActivatedEvent` | On node double-click, Enter activation, or the public activation API. |
+| `connectionActivated` | `TngFlowConnectionActivatedEvent` | On connection double-click, Enter activation, or the public activation API. |
+| `validationIssueActivated` | `TngFlowValidationIssueActivatedEvent` | When a rendered issue marker is selected or activated through the API. |
+| `viewportChange` | `TngFlowViewport` | When canvas position or scale changes. |
+| `viewportChanged` (deprecated) | `TngFlowViewportChangedEvent` | Compatibility alias for `viewportChange`. |
+| `ready` | `void` | After the flow completes its first full render. |
+
+Foblex gesture callbacks may run outside Angular's zone. Flow Editor re-enters the zone before every public output is emitted.
+
+### Graph models
+
+| Type | Required fields | Optional behavior |
+| --- | --- | --- |
+| `TngFlowDefinition<TNodeData, TConnectionData>` | `id`, `nodes`, `connections` | Optional workflow name and typed node/connection data. |
+| `TngFlowNode<TData>` | `id`, `type`, `name`, `position` | `data`, description, icon, disabled or locked state, and directed ports. |
+| `TngFlowPort` | `id`, `direction`, `kind` | Name/label, data type, required state, disabled state, multiplicity, and explicit self-connection policy. Use `side` to place a port on the `top`, `right`, `bottom`, or `left` border. Inputs default to `left` and outputs to `right`. Port ids are scoped to their owning node. |
+| `TngFlowConnection` | `id`, `source`, `target` | Source and target are `TngFlowEndpoint` values containing `nodeId` and `portId`. Connections also support `label`, `description`, typed data, disabled, reassignable, selectable, persisted `routing`, source and target markers, and label placement. The legacy renderer-named `type` property is deprecated. |
+| `TngFlowPresentation<TStatus>` | none | Runtime status, progress, messages, highlights, dimming, and connection motion. |
+| `TngFlowConnectionPresentation` | none | Status, message and emphasis plus flow or pulse motion, speed, and direction. This state is never persisted into the graph connection. |
+| `TngFlowValidation` | `issues` | Generic errors, warnings, and information with a discriminated flow, node, port, or connection target. |
+| `TngFlowPaletteItem<TData>` | `id`, `type`, `name` | Catalog metadata and optional node data. Its id is not a workflow node id. |
+| `TngFlowNodeCreateRequest<TData>` | `item`, `position`, `source` | Controlled request using a top-left canvas position. |
+| `TngFlowNodeBounds` | `id`, `position`, `size` | Measured unscaled canvas geometry accepted by the pure alignment and distribution utilities. Optional disabled and locked flags control participation. |
+
+Built-in statuses include idle, queued, running, waiting, completed, failed, paused, retrying, skipped, cancelled, and awaiting-input. Supply a custom string union through the editor's `TStatus` generic when your runtime needs additional states.
+
+`TngFlowPortComponent` is the reusable visual port shell used by the editor. Foblex connector directives remain private to `TngFlowEditorComponent`.
+
+### Connection routing
+
+Persist path geometry in `connection.routing`. A connection override wins over `options.defaultConnection`, which wins over TailNG's compatibility default. Existing definitions remain Bézier unless an application opts into another default.
+
+| Path | Behavior |
+| --- | --- |
+| `straight` | Direct source-to-target line. |
+| `bezier` | Smooth cubic curve and the backward-compatible default. |
+| `orthogonal` | Horizontal and vertical segments with square corners. |
+| `orthogonal-rounded` | Horizontal and vertical segments using the configured corner radius. |
+| `adaptive` | A side-aware curve that adapts its control points to endpoint direction. |
+
+`offset` and `radius` are non-negative canvas values. `waypoints` are canvas coordinates. Set `connectionWaypointsEnabled: true` to show editing handles on selected connections in edit mode; inspect and readonly modes only render the saved route.
+
+### Connection motion
+
+Set connection motion through `presentation.connections`. Motion changes only the SVG path presentation, so straight, Bézier, segmented, and adaptive connections retain their existing geometry. Multiple connections can animate at the same time.
+
+| Property | Type | Default | Description |
+| --- | --- | --- | --- |
+| `motion` | `'none' \| 'flow' \| 'pulse'` | `'none'` | `flow` shows a directional travelling dash. `pulse` emphasizes a waiting or retrying route without implying direction. |
+| `motionSpeed` | `'slow' \| 'normal' \| 'fast'` | `'normal'` | Selects the duration token used by flowing motion. |
+| `motionDirection` | `'forward' \| 'reverse'` | `'forward'` | Moves from source to target or in the reverse visual direction. |
+| `animated` (deprecated) | `boolean` | `false` | Compatibility alias for `motion: 'flow'`. An explicit `motion` value takes precedence. |
+
+`options.motionPreference` accepts `system`, `enabled`, or `disabled`. Reduced motion preserves a static emphasized path, so execution state remains visible without movement.
+
+### Node template context
+
+Add `<ng-template tngFlowNode="node-type">` as editor content. The template replaces only the node body; Flow Editor retains node geometry, drag handling, connectors, selection, and accessibility.
+
+| Context value | Type | Description |
+| --- | --- | --- |
+| `$implicit` / `node` | `TngFlowNode<TData>` | Current domain node. |
+| `view` | `TngFlowResolvedNodeView<TStatus>` | Resolved structural, controlled selection, presentation, and validation state. |
+| `issues` | `readonly TngFlowValidationIssue[]` | Indexed validation issues targeting this node. |
+| `mode` | `TngFlowEditorMode` | The current edit, inspect, or readonly mode. |
+| `readonly` | `boolean` | Deprecated convenience value equivalent to `mode !== 'edit'`. |
+| `selected` | `boolean` | Current transient selection state. |
+
+### Connection labels and template context
+
+A connection with `label` receives a default, visually truncated path label while retaining its complete accessible name. `description` supplies additional accessible and hover context. Add `<ng-template tngFlowConnectionLabel>` to replace only the default label content. The earlier `tngFlowConnection` spelling remains supported. Flow Editor retains the path, true-path midpoint shell, validation badge, selection, reassignment, and accessibility behavior.
+
+| Context value | Type | Description |
+| --- | --- | --- |
+| `$implicit` / `connection` | `TngFlowConnection<TConnectionData>` | Current application-owned connection record. |
+| `view` | `TngFlowResolvedConnectionView` | Resolved runtime, presentation, selection, and validation state. |
+| `issues` | `readonly TngFlowValidationIssue[]` | Indexed validation issues targeting this connection. |
+| `mode` | `TngFlowEditorMode` | The current edit, inspect, or readonly mode. |
+| `selected` | `boolean` | Current controlled selection state. |
+
+The first connection-template contract deliberately omits `midpoint`. Foblex positions the editor-owned shell at the configured start, center, or end position along the true path for adaptive, Bézier, orthogonal, and straight connections.
+
+### Palette items
+
+Apply `[tngFlowPaletteItem]` to a native button to make a typed catalog item draggable. Bind `(tngFlowPaletteItemActivate)` to `editor.requestNodeCreate(...)` for click and keyboard placement at the visible viewport center.
+
+The directive and editor exchange a private payload. Foblex external-item data is not part of the TailNG public contract.
+
+### Imperative methods
+
+| Method | Description |
+| --- | --- |
+| `fitToScreen(animated = true)` | Fits all rendered nodes into the viewport. |
+| `resetViewport(animated = true)` | Resets scale and centers the flow. |
+| `centerNode(nodeId, animated = true)` | Centers a node by id and returns whether it exists. |
+| `revealTarget(target, options?)` | Centers a validation target and optionally requests controlled selection. |
+| `activateNode(nodeId)` / `activateConnection(connectionId)` | Emits a generic API activation event when allowed by the current mode. |
+| `activateValidationIssue(issueId)` | Reveals and emits a known validation issue by stable id. |
+| `zoomBy(delta)` | Changes scale while respecting zoom limits. |
+| `zoomIn()` / `zoomOut()` | Changes scale by the configured zoom step. |
+| `screenToCanvas(point)` | Converts client-screen coordinates into the current canvas coordinate system. |
+| `requestNodeCreate(item, position?, source?)` | Emits a controlled creation request, using viewport center when position is omitted. |
+| `requestCommand(command, source?, canvasPosition?)` | Emits a mode-allowed controlled command request and returns whether it was accepted. Paste and duplicate use the last pointer position or viewport centre when an explicit canvas position is omitted. |
+| `requestNodeAlignment(alignment, options?, source?)` | Measures selected rendered nodes and emits one controlled alignment request in edit mode. Returns whether the request was accepted. |
+| `requestNodeDistribution(axis, options?, source?)` | Measures selected rendered nodes and emits one controlled equal-gap distribution request in edit mode. Returns whether the request was accepted. |
+
+Access these through `#editor="tngFlowEditor"` or `viewChild()`.
+
+### Alignment, distribution, and smart guides
+
+`alignTngFlowNodes(bounds, alignment, options?)` and `distributeTngFlowNodes(bounds, axis, options?)` are renderer-neutral pure utilities. They accept measured, unscaled bounds and return stable position-only moves without changing the input records. Disabled nodes are ignored; locked nodes are fixed anchors by default or can be excluded with `lockedNodes: 'ignore'`.
+
+Distribution uses equal edge-to-edge gaps for mixed-size nodes. Grid snapping is applied last, so it deterministically wins when an exact guide or computed gap does not fall on the grid. Editor smart-guide thresholds are specified in CSS-screen pixels and converted for the current canvas scale, keeping the magnetic distance consistent at every zoom level.
+
+Smart guides are disabled by default and render only in edit mode. A configured suppression modifier is sampled on the initiating pointer down for the entire drag. Locked nodes remain selectable TailNG anchors but are excluded from Foblex's movable selection.
+
+### Commands and context menus
+
+Command requests carry the current controlled selection and an optional canvas anchor. Copy is available in edit and inspect modes; undo, redo, cut, paste, and duplicate are edit-only. TailNG never reads or writes clipboard payloads and does not maintain history.
+
+Context-menu targets distinguish canvas, node, connection, and port requests. Pointer requests expose browser `clientPosition` coordinates for overlay placement and transformed `canvasPosition` coordinates for graph actions. Keyboard requests use the active graph element's visual centre or the viewport centre.
+
+For an unselected selectable node or connection, `selectionChange` emits first in the same interaction turn. `contextMenuRequested` then carries that proposed selection even before the application writes it back.
+
+### Validation
+
+Supply application issues through `validation`. Read `editor.resolvedValidation()` for application and structural issues together, or call `validateTngFlowDefinition(definition)` before persistence or execution.
+
+## Source-derived public Angular API
+
+### `TngFlowEditorComponent` — `tng-flow-editor`
+
+- Inputs: `ariaLabel`, `attachmentLayout`, `backgroundGridMode`, `canRedo`, `canUndo`, `commandShortcuts`, `connectionAriaLabel`, `connectionAriaLabelFactory`, `connectionOptions`, `connections`, `connectionValidator`, `contextMenuEnabled`, `definition`, `fitOnDefinitionChange`, `fitOnInit`, `flowId`, `gridSize`, `keyboardOptions`, `layoutEngine`, `minimapOptions`, `mode`, `nodes`, `nodeViews`, `options`, `presentation`, `progressDisplayMode`, `selection`, `showBackground`, `showConnectionTools`, `showControls`, `showMinimap`, `showSelectionArea`, `smartGuides`, `snapToGrid`, `validation`, `viewport`, `zoomMaximum`, `zoomMinimum`, `zoomStep`
+- Two-way models: `connectionCreationPathType`
+- Outputs: `commandRequested`, `connectionActivated`, `connectionCreated`, `connectionCreateRequested`, `connectionReassigned`, `connectionReconnectRequested`, `connectionRejected`, `connectionRoutingChangeRequested`, `connectionsDeleteRequested`, `connectionWaypointsChange`, `contextMenuRequested`, `deleteRequested`, `nodeActivated`, `nodeCreateRequested`, `nodePositionChange`, `nodesArrangementRequested`, `nodesDeleteRequested`, `nodesLayoutRequested`, `nodesMoved`, `ready`, `selectionChange`, `selectionChanged`, `validationIssueActivated`, `viewportChange`, `viewportChanged`
+
+### `TngFlowNodeComponent` — `tng-flow-node`
+
+- Inputs: `description`, `disabled`, `icon`, `invalid`, `locked`, `message`, `name`, `progress`, `progressDisplayMode`, `progressSpecified`, `selected`, `status`, `statusMessage`, `validationIssues`, `validationSeverity`
+- Required inputs: `name`
+- Outputs: `issueActivated`
+
+### `TngFlowNodePaletteComponent` — `tng-flow-node-palette`
+
+- Inputs: `ariaLabel`, `disabled`, `emptyMessage`, `items`
+- Outputs: `itemActivated`
+
+### `TngFlowNodeTemplateDirective` — `ng-template[tngFlowNode]`
+
+- Inputs: `nodeType`
+- Required inputs: `nodeType`
+
+### `TngFlowPaletteItemDirective` — `[tngFlowPaletteItem]`
+
+- Inputs: `tngFlowPaletteItem`, `tngFlowPaletteItemDisabled`, `tngFlowPaletteItemPreviewMatchSize`
+- Required inputs: `tngFlowPaletteItem`
+- Two-way models: `tngFlowPaletteItemPlaceholder`, `tngFlowPaletteItemPreview`
+- Outputs: `tngFlowPaletteItemActivate`
+
+### `TngFlowPortComponent` — `tng-flow-port`
+
+- Inputs: `direction`, `disabled`, `kind`, `label`, `required`, `side`, `validationIssues`, `validationSeverity`
+- Required inputs: `direction`
+- Outputs: `issueActivated`
+
+### `TngFlowValidationBadgeComponent` — `tng-flow-validation-badge`
+
+- Inputs: `issues`, `severity`
+- Required inputs: `issues`
+- Outputs: `issueActivated`
+
+### Structural surfaces
+
+These APIs provide composition or projection surfaces without their own bindable signal API:
+
+- `TngFlowConnectionMarkerDiamondDirective` — `f-connection-marker-circle[tngFlowConnectionMarkerDiamond]`
+- `TngFlowConnectionTemplateDirective` — `ng-template[tngFlowConnection], ng-template[tngFlowConnectionLabel]`
+- `TngFlowFoblexBridgeDirective` — `[tngFlowFoblexBridge]`
+
+---
+
+Source: https://tailng.dev/ai/components/flow-editor/examples.md
+
+---
+id: "components/flow-editor/examples"
+title: "Flow Editor examples"
+description: "Flow Editor examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["flow-editor","flow","examples"]
+package: "@tailng-ui/flow"
+importPath: "@tailng-ui/flow"
+sourcePaths: ["libs/tailng-ui/flow/src/lib/connection-template/tng-flow-connection-template.directive.ts","libs/tailng-ui/flow/src/lib/editor/tng-flow-connection-marker-diamond.directive.ts","libs/tailng-ui/flow/src/lib/editor/tng-flow-editor.component.ts","libs/tailng-ui/flow/src/lib/editor/tng-flow-foblex-bridge.directive.ts","libs/tailng-ui/flow/src/lib/editor/tng-flow-keyboard-config.ts","libs/tailng-ui/flow/src/lib/node/tng-flow-node.component.ts","libs/tailng-ui/flow/src/lib/node-template/tng-flow-node-template.directive.ts","libs/tailng-ui/flow/src/lib/node-palette/tng-flow-node-palette.component.ts","libs/tailng-ui/flow/src/lib/palette-item/tng-flow-palette-item.directive.ts","libs/tailng-ui/flow/src/lib/port/tng-flow-port.component.ts","libs/tailng-ui/flow/src/lib/validation-badge/tng-flow-validation-badge.component.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/routes.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/connection-routing-demo/connection-routing-demo-code.data.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/connection-routing-demo/connection-routing-demo.component.css","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/connection-routing-demo/connection-routing-demo.component.html","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/connection-routing-demo/connection-routing-demo.component.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/document-review-demo/document-review-demo-code.data.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/document-review-demo/document-review-demo.component.css","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/document-review-demo/document-review-demo.component.html","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/document-review-demo/document-review-demo.component.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/document-review-demo/document-review-workflow.data.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/flow-editor-examples-page/flow-editor-examples-code.data.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/flow-editor-examples-page/flow-editor-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/flow-editor-examples-page/flow-editor-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/flow-editor-examples-page/flow-editor-examples-page.component.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/professional-flow-builder-demo/professional-flow-builder-demo-code.data.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/professional-flow-builder-demo/professional-flow-builder-demo.component.css","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/professional-flow-builder-demo/professional-flow-builder-demo.component.html","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/professional-flow-builder-demo/professional-flow-builder-demo.component.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/professional-flow-builder-demo/professional-flow-builder-demo.global.css","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/timed-execution-demo/timed-execution-demo-code.data.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/timed-execution-demo/timed-execution-demo.component.css","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/timed-execution-demo/timed-execution-demo.component.html","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/timed-execution-demo/timed-execution-demo.component.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/examples/timed-execution-demo/timed-execution-workflow.data.ts"]
+humanDocsUrl: "https://tailng.dev/components/flow/flow-editor/examples"
+componentGroup: "flow"
+symbols: ["TngFlowConnectionMarkerDiamondDirective","TngFlowConnectionTemplateDirective","TngFlowEditorComponent","TngFlowFoblexBridgeDirective","TngFlowNodeComponent","TngFlowNodePaletteComponent","TngFlowNodeTemplateDirective","TngFlowPaletteItemDirective","TngFlowPortComponent","TngFlowValidationBadgeComponent"]
+selectors: ["f-connection-marker-circle[tngFlowConnectionMarkerDiamond]","ng-template[tngFlowConnection], ng-template[tngFlowConnectionLabel]","tng-flow-editor","[tngFlowFoblexBridge]","tng-flow-node","tng-flow-node-palette","ng-template[tngFlowNode]","[tngFlowPaletteItem]","tng-flow-port","tng-flow-validation-badge"]
+productId: "flow-editor"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Flow Editor examples
+
+Routing stays in the workflow definition. Status and motion are transient presentation state. Select the first route to add, move, or remove waypoints.
+
+Upload, extract, validate, and route a document through automatic approval or human review.
+
+## Flow Editor examples
+
+Explore a professional workflow builder, timed execution, connection editing and validation, controlled selection and deletion, editor modes, node movement, custom node composition, and read-only monitoring. Give each editor a unique `flowId` when multiple canvases share a page.
+
+Hover a step, drag its + handle, and drop anywhere on another step.
+
+Follow a linear order workflow while each connection remains visibly in progress before activating the next node.
+
+### flow-builder.component.ts
+
+```ts
+import { Component, computed, signal, type OnDestroy } from '@angular/core';
+import { TngFlowEditorComponent, type TngFlowPresentation } from '@tailng-ui/flow';
+import { workflow } from './timed-workflow.data';
+
+const nodeIds = ['receive', 'validate', 'approve', 'notify'] as const;
+const connectionIds = [
+  'receive-to-validate',
+  'validate-to-approve',
+  'approve-to-notify',
+] as const;
+
+@Component({
+  selector: 'app-timed-execution',
+  imports: [TngFlowEditorComponent],
+  templateUrl: './timed-execution.component.html',
+})
+export class TimedExecutionComponent implements OnDestroy {
+  readonly definition = workflow;
+  readonly presentation = signal<TngFlowPresentation>({});
+  readonly activeConnectionIndex = signal<number | null>(null);
+  readonly remainingSeconds = signal(0);
+  readonly running = computed(() => this.activeConnectionIndex() !== null);
+  private timer: ReturnType<typeof setInterval> | undefined;
+
+  runSimulation(): void {
+    if (this.running()) return;
+    this.activeConnectionIndex.set(0);
+    this.remainingSeconds.set(3);
+    this.presentation.set(this.presentationFor(0));
+    this.timer = setInterval(() => this.tick(), 1000);
+  }
+
+  ngOnDestroy(): void {
+    this.stopTimer();
+  }
+
+  private tick(): void {
+    const remaining = this.remainingSeconds() - 1;
+    if (remaining > 0) {
+      this.remainingSeconds.set(remaining);
+      return;
+    }
+
+    const current = this.activeConnectionIndex();
+    if (current === null || current === connectionIds.length - 1) {
+      this.stopTimer();
+      this.activeConnectionIndex.set(null);
+      this.remainingSeconds.set(0);
+      this.presentation.set({
+        nodes: Object.fromEntries(nodeIds.map((id) => [id, { status: 'completed' }])),
+        connections: Object.fromEntries(
+          connectionIds.map((id) => [id, { status: 'success' }]),
+        ),
+      });
+      return;
+    }
+
+    const next = current + 1;
+    this.activeConnectionIndex.set(next);
+    this.remainingSeconds.set(3);
+    this.presentation.set(this.presentationFor(next));
+  }
+
+  private presentationFor(activeIndex: number): TngFlowPresentation {
+    return {
+      nodes: Object.fromEntries(
+        nodeIds.map((id, index) => [
+          id,
+          index <= activeIndex
+            ? { status: 'completed' }
+            : index === activeIndex + 1
+              ? { status: 'waiting', highlighted: true }
+              : { status: 'idle', dimmed: true },
+        ]),
+      ),
+      connections: Object.fromEntries(
+        connectionIds.map((id, index) => [
+          id,
+          index < activeIndex
+            ? { status: 'success' }
+            : index === activeIndex
+              ? { status: 'active', motion: 'flow' }
+              : { status: 'idle', dimmed: true },
+        ]),
+      ),
+    };
+  }
+
+  private stopTimer(): void {
+    if (this.timer !== undefined) clearInterval(this.timer);
+    this.timer = undefined;
+  }
+}
+```
+
+### flow-builder.component.html
+
+```html
+<div class="timed-execution-toolbar">
+  <button type="button" [disabled]="running()" (click)="runSimulation()">
+    {{ running() ? 'Simulation running…' : 'Run simulation' }}
+  </button>
+  @if (running()) {
+    <span aria-live="polite">
+      Connection in progress — next node in {{ remainingSeconds() }}s
+    </span>
+  }
+</div>
+
+<tng-flow-editor
+  flowId="timed-execution"
+  ariaLabel="Automatic timed workflow simulation"
+  [definition]="definition"
+  [presentation]="presentation()"
+  mode="inspect"
+  [showSelectionArea]="false"
+/>
+```
+
+### flow-builder.component.css
+
+```css
+.timed-execution-toolbar {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+tng-flow-editor {
+  display: block;
+  height: 30rem;
+  min-height: 26rem;
+}
+```
+
+### timed-execution.component.ts
+
+```ts
+import { Component, computed, signal, type OnDestroy } from '@angular/core';
+import { TngFlowEditorComponent, type TngFlowPresentation } from '@tailng-ui/flow';
+import { workflow } from './timed-workflow.data';
+
+const nodeIds = ['receive', 'validate', 'approve', 'notify'] as const;
+const connectionIds = [
+  'receive-to-validate',
+  'validate-to-approve',
+  'approve-to-notify',
+] as const;
+
+@Component({
+  selector: 'app-timed-execution',
+  imports: [TngFlowEditorComponent],
+  templateUrl: './timed-execution.component.html',
+})
+export class TimedExecutionComponent implements OnDestroy {
+  readonly definition = workflow;
+  readonly presentation = signal<TngFlowPresentation>({});
+  readonly activeConnectionIndex = signal<number | null>(null);
+  readonly remainingSeconds = signal(0);
+  readonly running = computed(() => this.activeConnectionIndex() !== null);
+  private timer: ReturnType<typeof setInterval> | undefined;
+
+  runSimulation(): void {
+    if (this.running()) return;
+    this.activeConnectionIndex.set(0);
+    this.remainingSeconds.set(3);
+    this.presentation.set(this.presentationFor(0));
+    this.timer = setInterval(() => this.tick(), 1000);
+  }
+
+  ngOnDestroy(): void {
+    this.stopTimer();
+  }
+
+  private tick(): void {
+    const remaining = this.remainingSeconds() - 1;
+    if (remaining > 0) {
+      this.remainingSeconds.set(remaining);
+      return;
+    }
+
+    const current = this.activeConnectionIndex();
+    if (current === null || current === connectionIds.length - 1) {
+      this.stopTimer();
+      this.activeConnectionIndex.set(null);
+      this.remainingSeconds.set(0);
+      this.presentation.set({
+        nodes: Object.fromEntries(nodeIds.map((id) => [id, { status: 'completed' }])),
+        connections: Object.fromEntries(
+          connectionIds.map((id) => [id, { status: 'success' }]),
+        ),
+      });
+      return;
+    }
+
+    const next = current + 1;
+    this.activeConnectionIndex.set(next);
+    this.remainingSeconds.set(3);
+    this.presentation.set(this.presentationFor(next));
+  }
+
+  private presentationFor(activeIndex: number): TngFlowPresentation {
+    return {
+      nodes: Object.fromEntries(
+        nodeIds.map((id, index) => [
+          id,
+          index <= activeIndex
+            ? { status: 'completed' }
+            : index === activeIndex + 1
+              ? { status: 'waiting', highlighted: true }
+              : { status: 'idle', dimmed: true },
+        ]),
+      ),
+      connections: Object.fromEntries(
+        connectionIds.map((id, index) => [
+          id,
+          index < activeIndex
+            ? { status: 'success' }
+            : index === activeIndex
+              ? { status: 'active', motion: 'flow' }
+              : { status: 'idle', dimmed: true },
+        ]),
+      ),
+    };
+  }
+
+  private stopTimer(): void {
+    if (this.timer !== undefined) clearInterval(this.timer);
+    this.timer = undefined;
+  }
+}
+```
+
+### timed-execution.component.html
+
+```html
+<div class="timed-execution-toolbar">
+  <button type="button" [disabled]="running()" (click)="runSimulation()">
+    {{ running() ? 'Simulation running…' : 'Run simulation' }}
+  </button>
+  @if (running()) {
+    <span aria-live="polite">
+      Connection in progress — next node in {{ remainingSeconds() }}s
+    </span>
+  }
+</div>
+
+<tng-flow-editor
+  flowId="timed-execution"
+  ariaLabel="Automatic timed workflow simulation"
+  [definition]="definition"
+  [presentation]="presentation()"
+  mode="inspect"
+  [showSelectionArea]="false"
+/>
+```
+
+### timed-execution.component.css
+
+```css
+.timed-execution-toolbar {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+tng-flow-editor {
+  display: block;
+  height: 30rem;
+  min-height: 26rem;
+}
+```
+
+### timed-workflow.data.ts
+
+```ts
+import type { TngFlowDefinition } from '@tailng-ui/flow';
+
+export const workflow: TngFlowDefinition = {
+  "id": "timed-execution-workflow",
+  "name": "Timed order execution",
+  "nodes": [
+    {
+      "id": "receive",
+      "type": "source",
+      "name": "Receive order",
+      "description": "Accept the incoming order.",
+      "position": {
+        "x": 40,
+        "y": 150
+      },
+      "ports": [
+        {
+          "id": "next",
+          "name": "Order",
+          "direction": "output",
+          "kind": "control"
+        }
+      ]
+    },
+    {
+      "id": "validate",
+      "type": "processor",
+      "name": "Validate order",
+      "description": "Check inventory and payment.",
+      "position": {
+        "x": 370,
+        "y": 150
+      },
+      "ports": [
+        {
+          "id": "input",
+          "name": "Order",
+          "direction": "input",
+          "kind": "control",
+          "required": true
+        },
+        {
+          "id": "next",
+          "name": "Validated",
+          "direction": "output",
+          "kind": "control"
+        }
+      ]
+    },
+    {
+      "id": "approve",
+      "type": "decision",
+      "name": "Approve order",
+      "description": "Commit the fulfilment decision.",
+      "position": {
+        "x": 700,
+        "y": 150
+      },
+      "ports": [
+        {
+          "id": "input",
+          "name": "Validated",
+          "direction": "input",
+          "kind": "control",
+          "required": true
+        },
+        {
+          "id": "next",
+          "name": "Approved",
+          "direction": "output",
+          "kind": "control"
+        }
+      ]
+    },
+    {
+      "id": "notify",
+      "type": "target",
+      "name": "Notify customer",
+      "description": "Send the order confirmation.",
+      "position": {
+        "x": 1030,
+        "y": 150
+      },
+      "ports": [
+        {
+          "id": "input",
+          "name": "Approved",
+          "direction": "input",
+          "kind": "control",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "receive-to-validate",
+      "source": {
+        "nodeId": "receive",
+        "portId": "next"
+      },
+      "target": {
+        "nodeId": "validate",
+        "portId": "input"
+      }
+    },
+    {
+      "id": "validate-to-approve",
+      "source": {
+        "nodeId": "validate",
+        "portId": "next"
+      },
+      "target": {
+        "nodeId": "approve",
+        "portId": "input"
+      }
+    },
+    {
+      "id": "approve-to-notify",
+      "source": {
+        "nodeId": "approve",
+        "portId": "next"
+      },
+      "target": {
+        "nodeId": "notify",
+        "portId": "input"
+      }
+    }
+  ]
+};
+```
+
+---
+
+Source: https://tailng.dev/ai/components/flow-editor/overview.md
+
+---
+id: "components/flow-editor/overview"
+title: "Flow Editor component"
+description: "Embeddable, controlled node editor for AI agents, automations, and executable workflows."
+category: "components"
+status: "stable"
+tags: ["flow-editor","flow","component"]
+package: "@tailng-ui/flow"
+importPath: "@tailng-ui/flow"
+sourcePaths: ["libs/tailng-ui/flow/src/lib/connection-template/tng-flow-connection-template.directive.ts","libs/tailng-ui/flow/src/lib/editor/tng-flow-connection-marker-diamond.directive.ts","libs/tailng-ui/flow/src/lib/editor/tng-flow-editor.component.ts","libs/tailng-ui/flow/src/lib/editor/tng-flow-foblex-bridge.directive.ts","libs/tailng-ui/flow/src/lib/editor/tng-flow-keyboard-config.ts","libs/tailng-ui/flow/src/lib/node/tng-flow-node.component.ts","libs/tailng-ui/flow/src/lib/node-template/tng-flow-node-template.directive.ts","libs/tailng-ui/flow/src/lib/node-palette/tng-flow-node-palette.component.ts","libs/tailng-ui/flow/src/lib/palette-item/tng-flow-palette-item.directive.ts","libs/tailng-ui/flow/src/lib/port/tng-flow-port.component.ts","libs/tailng-ui/flow/src/lib/validation-badge/tng-flow-validation-badge.component.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/flow/flow-editor/overview"
+componentGroup: "flow"
+symbols: ["TngFlowConnectionMarkerDiamondDirective","TngFlowConnectionTemplateDirective","TngFlowEditorComponent","TngFlowFoblexBridgeDirective","TngFlowNodeComponent","TngFlowNodePaletteComponent","TngFlowNodeTemplateDirective","TngFlowPaletteItemDirective","TngFlowPortComponent","TngFlowValidationBadgeComponent"]
+selectors: ["f-connection-marker-circle[tngFlowConnectionMarkerDiamond]","ng-template[tngFlowConnection], ng-template[tngFlowConnectionLabel]","tng-flow-editor","[tngFlowFoblexBridge]","tng-flow-node","tng-flow-node-palette","ng-template[tngFlowNode]","[tngFlowPaletteItem]","tng-flow-port","tng-flow-validation-badge"]
+productId: "flow-editor"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Flow Editor component
+
+Embeddable, controlled node editor for AI agents, automations, and executable workflows.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/flow`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngFlowEditorComponent } from '@tailng-ui/flow';
+
+@Component({
+  standalone: true,
+  imports: [TngFlowEditorComponent],
+  template: `<tng-flow-editor />`,
+})
+export class FlowEditorAgentExample {}
+```
+
+Load `@tailng-ui/flow/styles.css` once in the application styles in addition to the TailNG theme contract.
+
+## Component family
+
+- `TngFlowConnectionMarkerDiamondDirective` — selector `f-connection-marker-circle[tngFlowConnectionMarkerDiamond]`
+- `TngFlowConnectionTemplateDirective` — selector `ng-template[tngFlowConnection], ng-template[tngFlowConnectionLabel]`
+- `TngFlowEditorComponent` — selector `tng-flow-editor`
+- `TngFlowFoblexBridgeDirective` — selector `[tngFlowFoblexBridge]`
+- `TngFlowNodeComponent` — selector `tng-flow-node`
+- `TngFlowNodePaletteComponent` — selector `tng-flow-node-palette`
+- `TngFlowNodeTemplateDirective` — selector `ng-template[tngFlowNode]`
+- `TngFlowPaletteItemDirective` — selector `[tngFlowPaletteItem]`
+- `TngFlowPortComponent` — selector `tng-flow-port`
+- `TngFlowValidationBadgeComponent` — selector `tng-flow-validation-badge`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/flow/flow-editor/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/flow-editor/api.md)
+- [Styling](https://tailng.dev/ai/components/flow-editor/styling.md)
+- [Examples](https://tailng.dev/ai/components/flow-editor/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/flow-editor/styling.md
+
+---
+id: "components/flow-editor/styling"
+title: "Flow Editor styling"
+description: "Flow Editor styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["flow-editor","flow","styling"]
+package: "@tailng-ui/flow"
+importPath: "@tailng-ui/flow"
+sourcePaths: ["libs/tailng-ui/flow/src/lib/connection-template/tng-flow-connection-template.directive.ts","libs/tailng-ui/flow/src/lib/editor/tng-flow-connection-marker-diamond.directive.ts","libs/tailng-ui/flow/src/lib/editor/tng-flow-editor.component.ts","libs/tailng-ui/flow/src/lib/editor/tng-flow-foblex-bridge.directive.ts","libs/tailng-ui/flow/src/lib/editor/tng-flow-keyboard-config.ts","libs/tailng-ui/flow/src/lib/node/tng-flow-node.component.ts","libs/tailng-ui/flow/src/lib/node-template/tng-flow-node-template.directive.ts","libs/tailng-ui/flow/src/lib/node-palette/tng-flow-node-palette.component.ts","libs/tailng-ui/flow/src/lib/palette-item/tng-flow-palette-item.directive.ts","libs/tailng-ui/flow/src/lib/port/tng-flow-port.component.ts","libs/tailng-ui/flow/src/lib/validation-badge/tng-flow-validation-badge.component.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/routes.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/styling/flow-editor-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/flow/flow-editor/sections/styling/flow-editor-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/flow/flow-editor/styling"
+componentGroup: "flow"
+symbols: ["TngFlowConnectionMarkerDiamondDirective","TngFlowConnectionTemplateDirective","TngFlowEditorComponent","TngFlowFoblexBridgeDirective","TngFlowNodeComponent","TngFlowNodePaletteComponent","TngFlowNodeTemplateDirective","TngFlowPaletteItemDirective","TngFlowPortComponent","TngFlowValidationBadgeComponent"]
+selectors: ["f-connection-marker-circle[tngFlowConnectionMarkerDiamond]","ng-template[tngFlowConnection], ng-template[tngFlowConnectionLabel]","tng-flow-editor","[tngFlowFoblexBridge]","tng-flow-node","tng-flow-node-palette","ng-template[tngFlowNode]","[tngFlowPaletteItem]","tng-flow-port","tng-flow-validation-badge"]
+productId: "flow-editor"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Flow Editor styling
+
+## Flow Editor styling
+
+The package supplies geometry and interaction styles, while CSS custom properties and custom templates let applications align the editor with their product theme.
+
+### Required styles
+
+Flow Editor requires the Foblex theme emitted by the package stylesheet. Import it globally; component-scoped imports do not reliably reach Foblex's generated SVG and overlay elements.
+
+### Host sizing
+
+The editor defaults to `36rem` high with a `24rem` minimum. Override the host height for full-screen builders, drawers, or compact embedded monitors. A nonzero height is mandatory for Foblex geometry.
+
+### CSS custom properties
+
+Defaults resolve through TailNG semantic tokens, so runtime preset and light/dark mode changes update the canvas, nodes, connections, and controls automatically. Override these properties only when an individual editor needs additional product-specific treatment.
+
+| Property group | Properties |
+| --- | --- |
+| Canvas | `--tng-flow-background`, `--tng-flow-border-color`, `--tng-flow-border-radius`, `--tng-flow-grid-color`, `--tng-flow-grid-dot-radius` |
+| Selection and validation | `--tng-flow-selection-color`, `--tng-flow-node-error-border`, `--tng-flow-node-warning-border`, `--tng-flow-node-info-border` |
+| Smart guides | `--tng-flow-smart-guide-color`, `--tng-flow-smart-guide-spacing-fill`, `--tng-flow-smart-guide-spacing-border` |
+| Ports | `--tng-flow-port-border`, `--tng-flow-port-background`, `--tng-flow-port-label-color`, `--tng-flow-port-error-color` |
+| Connections and badges | `--tng-flow-connection-color`, `--tng-flow-connection-error-color`, `--tng-flow-connection-active-color`, `--tng-flow-connection-success-color`, `--tng-flow-connection-disabled-color`, `--tng-flow-connection-width`, `--tng-flow-connection-selected-width`, `--tng-flow-connection-hit-width`, `--tng-flow-connection-label-max-width`, `--tng-flow-connection-label-background`, `--tng-flow-connection-label-color`, `--tng-flow-connection-label-border`, `--tng-flow-validation-badge-size` |
+| Connection motion | `--tng-flow-connection-flow-duration-slow`, `--tng-flow-connection-flow-duration-normal`, `--tng-flow-connection-flow-duration-fast`, `--tng-flow-connection-motion-reduced-width`, `--tng-flow-connection-dash-size`, `--tng-flow-connection-dash-gap` |
+| Drag handle | `--tng-flow-handle-border`, `--tng-flow-handle-background`, `--tng-flow-handle-color` |
+| Controls | `--tng-flow-controls-border`, `--tng-flow-controls-background` |
+| Minimap | `--tng-flow-minimap-background`, `--tng-flow-minimap-border`, `--tng-flow-minimap-shadow`, `--tng-flow-minimap-node`, `--tng-flow-minimap-node-selected`, `--tng-flow-minimap-node-disabled`, `--tng-flow-minimap-node-error`, `--tng-flow-minimap-viewport-border`, `--tng-flow-minimap-viewport-background` |
+| Status badge | `--tng-flow-status-bg`, `--tng-flow-status-fg` |
+
+### Connection motion
+
+Use the typed presentation API to activate connection motion. Duration custom properties can tune the three speeds without exposing Foblex class names as public TailNG styling hooks. Under `prefers-reduced-motion: reduce`, Flow Editor removes the animation and dash pattern while keeping the path visibly emphasized.
+
+### Custom node content
+
+Consumer templates are compiled in the application's context, so they can compose any TailNG or application component. Keep the editor-owned node host and ports intact by customizing only the projected body.
+
+---
+
+Source: https://tailng.dev/ai/components/flow-execution-graph/api.md
+
+---
+id: "components/flow-execution-graph/api"
+title: "Flow Execution Graph API"
+description: "Flow Execution Graph API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["flow-execution-graph","flow","api"]
+package: "@tailng-ui/flow"
+importPath: "@tailng-ui/flow/execution"
+sourcePaths: ["libs/tailng-ui/flow/src/execution/components/graph/tng-flow-execution-graph.component.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-execution-graph/routes.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-execution-graph/sections/api/flow-execution-graph-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/flow/flow-execution-graph/sections/api/flow-execution-graph-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/flow/flow-execution-graph/api"
+componentGroup: "flow"
+symbols: ["TngFlowExecutionGraphComponent"]
+selectors: ["tng-flow-execution-graph"]
+productId: "flow-execution-graph"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Flow Execution Graph API
+
+Standalone workflow graph diagram for execution snapshots, node status, selection, and viewport control.
+
+## Flow Execution Graph API
+
+Import `TngFlowExecutionGraphComponent` from `@tailng-ui/flow/execution`. The graph is a controlled execution-aware facade over Flow Editor: pass a workflow definition and run snapshot, then persist emitted selection, viewport, and edit requests in application state.
+
+### Graph inputs
+
+`definition` supplies the workflow topology and `snapshot` supplies runtime execution state. Selection, inspection, selected execution, and viewport are controlled inputs so dashboards can synchronize the graph with inspectors, history panels, and URL state.
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `definition` | `TngFlowDefinition<TNodeData, TConnectionData> \| null` | `null` | Workflow nodes, connections, ports, labels, positions, and routing metadata. |
+| `snapshot` | `TngFlowRunExecutionSnapshot<TPayload> \| null` | `null` | Run, node, and connection executions used to derive graph status presentation. |
+| `selection` | `TngFlowSelection` | `EMPTY_TNG_FLOW_SELECTION` | Controlled node and connection selection. |
+| `inspectedNodeId` | `string \| null` | `null` | Node id used by details panels and execution selection resolution. |
+| `selectedExecutionId` | `string \| null` | `null` | Selected execution for the inspected node. |
+| `viewport` | `TngFlowViewport \| null` | `null` | Optional externally supplied canvas position and scale. |
+| `mode` | `'edit' \| 'inspect' \| 'readonly'` | `'inspect'` | Controls graph editing, selection, and activation behavior. |
+| `flowId` | `string` | `'tng-flow-execution-graph'` | Stable underlying flow instance id. Use a unique value for multiple graphs. |
+| `ariaLabel` | `string` | `'Workflow execution graph'` | Accessible name for the graph surface. |
+
+### Editor options
+
+Execution Graph forwards editor configuration to the underlying Flow Editor. Use these inputs for authoring mode, minimap, command shortcuts, connection routing, keyboard movement, and smart guides without dropping down to the editor component directly.
+
+| Group | Inputs | Purpose |
+| --- | --- | --- |
+| Surface toggles | `showControls`, `showConnectionTools`, `showBackground`, `showMinimap`, `showSelectionArea`, `fitOnInit`, `fitOnDefinitionChange` | Shows or hides built-in canvas features and controls initial viewport fitting. |
+| Connection behavior | `attachmentLayout`, `connectionValidator`, `options`, `connectionOptions`, `connectionCreationPathType`, `connectionAriaLabel` | Configures port strategy, validation, routing defaults, live preview path type, and accessible connection names. |
+| Keyboard and commands | `keyboardOptions`, `commandShortcuts`, `canUndo`, `canRedo` | Configures keyboard movement, shortcut interception, and command toolbar state. |
+| Layout assistance | `smartGuides`, `snapToGrid`, `gridSize`, `minimapOptions` | Controls alignment guides, snapped movement, grid scale, and minimap behavior. |
+| Context menu | `contextMenuEnabled` | Replaces the native graph context menu with controlled context-menu events. |
+
+### Graph outputs
+
+Outputs are proposals or synchronized state changes. The graph does not mutate `definition`, `selection`, or `viewport` internally.
+
+| Group | Outputs | Use |
+| --- | --- | --- |
+| Controlled state | `selectionChange`, `inspectedNodeIdChange`, `selectedExecutionIdChange`, `viewportChange` | Persist graph state and synchronize external inspectors or history views. |
+| Execution activation | `executionActivated` | Emits the activated node and selected execution with source `'graph'`. |
+| Node editing | `nodesMoved`, `nodePositionChange`, `nodeCreateRequested`, `nodesDeleteRequested` | Apply node position, creation, and deletion requests to a new definition snapshot. |
+| Connection editing | `connectionCreateRequested`, `connectionReconnectRequested`, `connectionRoutingChangeRequested`, `connectionWaypointsChange`, `connectionsDeleteRequested`, `connectionRejected` | Create, reconnect, restyle, adjust, delete, or report rejected connections. |
+| Commands and menus | `commandRequested`, `contextMenuRequested` | Integrate graph shortcuts, toolbar actions, and custom context menus. |
+
+### Controlled authoring
+
+In edit mode, apply movement, creation, reconnect, routing, waypoint, and deletion events to a new controlled definition. For `attachmentLayout="custom-points"`, persist generated endpoint ports with `ensureTngFlowCustomPointPorts()` and clean unused endpoints after deletion with `pruneUnusedTngFlowCustomPointPorts()`.
+
+### Template hooks
+
+Execution Graph projects `ng-template[tngFlowNode]`, `ng-template[tngFlowConnection]`, and `ng-template[tngFlowConnectionLabel]` into the underlying editor. The template context is the same as Flow Editor, with execution presentation already merged into the provided view state.
+
+### Imperative helpers
+
+Export the component as `tngFlowExecutionGraph` or query it with `ViewChild` when parent tools need to drive viewport or routing behavior from outside the graph.
+
+| Method | Signature | Description |
+| --- | --- | --- |
+| `refreshLayout` | `() => void` | Recomputes editor geometry after external layout changes. |
+| `fitToScreen` | `(animated?: boolean, padding?: number) => void` | Fits graph content into the visible viewport. |
+| `resetViewport` | `(animated?: boolean) => void` | Restores the default viewport. |
+| `centerNode` | `(nodeId: string, animated?: boolean) => boolean` | Centers a node and reports whether the node was found. |
+| `requestNodeCreate` | `(item: TngFlowPaletteItem<TNodeData>, position?: TngFlowPoint) => void | Starts the same controlled node-create flow used by palette interactions. |
+| `requestConnectionRoutingChange` | `(type: TngFlowConnectionPathType) => boolean` | Requests a routing style update for selected existing connections. |
+
+## Source-derived public Angular API
+
+### `TngFlowExecutionGraphComponent` — `tng-flow-execution-graph`
+
+- Inputs: `ariaLabel`, `attachmentLayout`, `canRedo`, `canUndo`, `commandShortcuts`, `connectionAriaLabel`, `connectionOptions`, `connectionValidator`, `contextMenuEnabled`, `definition`, `fitOnDefinitionChange`, `fitOnInit`, `flowId`, `gridSize`, `inspectedNodeId`, `keyboardOptions`, `minimapOptions`, `mode`, `options`, `selectedExecutionId`, `selection`, `showBackground`, `showConnectionTools`, `showControls`, `showMinimap`, `showSelectionArea`, `smartGuides`, `snapshot`, `snapToGrid`, `viewport`
+- Two-way models: `connectionCreationPathType`
+- Outputs: `commandRequested`, `connectionCreateRequested`, `connectionReconnectRequested`, `connectionRejected`, `connectionRoutingChangeRequested`, `connectionsDeleteRequested`, `connectionWaypointsChange`, `contextMenuRequested`, `executionActivated`, `inspectedNodeIdChange`, `nodeCreateRequested`, `nodePositionChange`, `nodesDeleteRequested`, `nodesMoved`, `selectedExecutionIdChange`, `selectionChange`, `viewportChange`
+
+---
+
+Source: https://tailng.dev/ai/components/flow-execution-graph/examples.md
+
+---
+id: "components/flow-execution-graph/examples"
+title: "Flow Execution Graph examples"
+description: "Flow Execution Graph examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["flow-execution-graph","flow","examples"]
+package: "@tailng-ui/flow"
+importPath: "@tailng-ui/flow/execution"
+sourcePaths: ["libs/tailng-ui/flow/src/execution/components/graph/tng-flow-execution-graph.component.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-execution-graph/routes.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-execution-graph/sections/examples/flow-execution-graph-example-code.data.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-execution-graph/sections/examples/flow-execution-graph-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/flow/flow-execution-graph/sections/examples/flow-execution-graph-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/flow/flow-execution-graph/sections/examples/flow-execution-graph-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/flow/flow-execution-graph/examples"
+componentGroup: "flow"
+symbols: ["TngFlowExecutionGraphComponent"]
+selectors: ["tng-flow-execution-graph"]
+productId: "flow-execution-graph"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Flow Execution Graph examples
+
+## Examples
+
+Standalone execution graphs for every planned run state, with copy-ready Plain CSS and Tailwind CSS variants.
+
+## Minimal example
+
+```ts
+import { Component } from '@angular/core';
+import { TngFlowExecutionGraphComponent } from '@tailng-ui/flow/execution';
+
+@Component({
+  standalone: true,
+  imports: [TngFlowExecutionGraphComponent],
+  template: `<tng-flow-execution-graph />`,
+})
+export class FlowExecutionGraphExample {}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/flow-execution-graph/overview.md
+
+---
+id: "components/flow-execution-graph/overview"
+title: "Flow Execution Graph component"
+description: "Standalone workflow graph diagram for execution snapshots, node status, selection, and viewport control."
+category: "components"
+status: "stable"
+tags: ["flow-execution-graph","flow","component"]
+package: "@tailng-ui/flow"
+importPath: "@tailng-ui/flow/execution"
+sourcePaths: ["libs/tailng-ui/flow/src/execution/components/graph/tng-flow-execution-graph.component.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-execution-graph/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/flow/flow-execution-graph/overview"
+componentGroup: "flow"
+symbols: ["TngFlowExecutionGraphComponent"]
+selectors: ["tng-flow-execution-graph"]
+productId: "flow-execution-graph"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Flow Execution Graph component
+
+Standalone workflow graph diagram for execution snapshots, node status, selection, and viewport control.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/flow/execution`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngFlowExecutionGraphComponent } from '@tailng-ui/flow/execution';
+
+@Component({
+  standalone: true,
+  imports: [TngFlowExecutionGraphComponent],
+  template: `<tng-flow-execution-graph />`,
+})
+export class FlowExecutionGraphAgentExample {}
+```
+
+Load `@tailng-ui/flow/styles.css` once in the application styles in addition to the TailNG theme contract.
+
+## Component family
+
+- `TngFlowExecutionGraphComponent` — selector `tng-flow-execution-graph`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/flow/flow-execution-graph/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/flow-execution-graph/api.md)
+- [Styling](https://tailng.dev/ai/components/flow-execution-graph/styling.md)
+- [Examples](https://tailng.dev/ai/components/flow-execution-graph/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/flow-execution-graph/styling.md
+
+---
+id: "components/flow-execution-graph/styling"
+title: "Flow Execution Graph styling"
+description: "Flow Execution Graph styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["flow-execution-graph","flow","styling"]
+package: "@tailng-ui/flow"
+importPath: "@tailng-ui/flow/execution"
+sourcePaths: ["libs/tailng-ui/flow/src/execution/components/graph/tng-flow-execution-graph.component.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-execution-graph/routes.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-execution-graph/sections/styling/flow-execution-graph-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/flow/flow-execution-graph/sections/styling/flow-execution-graph-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/flow/flow-execution-graph/styling"
+componentGroup: "flow"
+symbols: ["TngFlowExecutionGraphComponent"]
+selectors: ["tng-flow-execution-graph"]
+productId: "flow-execution-graph"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Flow Execution Graph styling
+
+## Graph layout
+
+Give the host an explicit height when embedding the standalone graph. The graph fills its container, so dashboard cards, split panes, and modals should own the outer sizing.
+
+### Theme tokens
+
+The execution graph inherits the Flow Editor surface tokens for canvas color, minimap, controls, nodes, ports, selection, and connection styling. Execution state adds status classes for running, succeeded, failed, skipped, and pending graph elements.
+
+### Template styling
+
+Custom node and connection templates are projected into the underlying flow editor. Keep those templates self-contained so they can be reused in both editor and execution graph contexts.
+
+---
+
+Source: https://tailng.dev/ai/components/flow-node-properties/api.md
+
+---
+id: "components/flow-node-properties/api"
+title: "Flow Node Properties API"
+description: "Flow Node Properties API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["flow-node-properties","flow","api"]
+package: "@tailng-ui/flow"
+importPath: "@tailng-ui/flow/execution"
+sourcePaths: ["libs/tailng-ui/flow/src/execution/components/node-properties/tng-flow-node-properties.component.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-node-properties/routes.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-node-properties/sections/api/flow-node-properties-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/flow/flow-node-properties/sections/api/flow-node-properties-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/flow/flow-node-properties/api"
+componentGroup: "flow"
+symbols: ["TngFlowNodePropertiesComponent"]
+selectors: ["tng-flow-node-properties"]
+productId: "flow-node-properties"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Flow Node Properties API
+
+Selected-node details and edit panel for metadata, ports, data templates, and immutable change requests.
+
+## Node Properties API
+
+Import `TngFlowNodePropertiesComponent`, the `TngFlowNodePropertiesDataTemplateDirective`, and related event types from `@tailng-ui/flow/execution`. The component is controlled: it displays the selected node and emits change requests for the application to apply.
+
+### Properties inputs
+
+Provide either `node` directly or `definition` plus `inspectedNodeId`. A direct `node` value takes precedence, which is useful when the surrounding app already resolves selection.
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `definition` | `TngFlowDefinition<TData> \| null` | `null` | Workflow definition used to resolve the inspected node by id. |
+| `node` | `TngFlowNode<TData> \| null` | `null` | Explicit selected node. When present, this overrides definition lookup. |
+| `inspectedNodeId` | `string \| null` | `null` | Node id to inspect when the component receives a full definition. |
+| `readonly` | `boolean` | `false` | Disables editable controls and prevents built-in fields or custom templates from emitting change requests. |
+| `showData` | `boolean` | `true` | Shows the Data section with either the JSON preview or custom data template. |
+| `showPorts` | `boolean` | `true` | Shows the Ports section with input and output port metadata. |
+
+### Properties outputs
+
+The component never mutates the supplied node or definition. Listen for `nodeChangeRequested`, validate the request if needed, then merge the partial changes into application state.
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `nodeChangeRequested` | `TngFlowNodePropertyChangeRequest<TData>` | Emitted for built-in name, description, disabled, and locked edits, and for custom data template requests. |
+
+| Payload field | Type | Description |
+| --- | --- | --- |
+| `node` | `TngFlowNode<TData>` | The node that was displayed when the request was created. |
+| `nodeId` | `string` | Stable id for matching the request back to the definition. |
+| `changes` | `TngFlowNodePropertyChanges<TData>` | Partial changes for `name`, `description`, `disabled`, `locked`, or `data`. |
+| `source` | `'field' \| 'data-template'` | Identifies whether the request came from built-in fields or a projected template. |
+
+### Data template
+
+Project `ng-template[tngFlowNodePropertiesData]` when a product needs a typed data editor or a domain-specific readonly summary. The template replaces only the Data section body; the built-in header, base fields, and port list remain available.
+
+| Context value | Type | Description |
+| --- | --- | --- |
+| `$implicit`, `data` | `TData \| undefined` | The selected node data. |
+| `node` | `TngFlowNode<TData>` | The selected node record. |
+| `readonly` | `boolean` | Use this to disable custom controls consistently with the built-in fields. |
+| `requestDataChange` | `(data: TData \| undefined) => void` | Requests a `data`-only node update. |
+| `requestNodeChange` | `(changes: TngFlowNodePropertyChanges<TData>) => void` | Requests any supported node property update from the custom template. |
+
+## Source-derived public Angular API
+
+### `TngFlowNodePropertiesComponent` — `tng-flow-node-properties`
+
+- Inputs: `definition`, `inspectedNodeId`, `node`, `readonly`, `showData`, `showPorts`
+- Outputs: `nodeChangeRequested`
+
+---
+
+Source: https://tailng.dev/ai/components/flow-node-properties/examples.md
+
+---
+id: "components/flow-node-properties/examples"
+title: "Flow Node Properties examples"
+description: "Flow Node Properties examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["flow-node-properties","flow","examples"]
+package: "@tailng-ui/flow"
+importPath: "@tailng-ui/flow/execution"
+sourcePaths: ["libs/tailng-ui/flow/src/execution/components/node-properties/tng-flow-node-properties.component.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-node-properties/routes.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-node-properties/sections/examples/flow-node-properties-examples-code.data.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-node-properties/sections/examples/flow-node-properties-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/flow/flow-node-properties/sections/examples/flow-node-properties-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/flow/flow-node-properties/sections/examples/flow-node-properties-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/flow/flow-node-properties/examples"
+componentGroup: "flow"
+symbols: ["TngFlowNodePropertiesComponent"]
+selectors: ["tng-flow-node-properties"]
+productId: "flow-node-properties"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Flow Node Properties examples
+
+## Flow Node Properties examples
+
+Production-shaped node inspectors that keep workflow state controlled in the parent while using Flow Node Properties for the editable details panel.
+
+### incident-node-properties.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import type { TngFlowDefinition, TngFlowNode } from '@tailng-ui/flow';
+import {
+  TngFlowNodePropertiesComponent,
+  TngFlowNodePropertiesDataTemplateDirective,
+  type TngFlowNodePropertyChangeRequest,
+} from '@tailng-ui/flow/execution';
+
+type IncidentNodeData = Readonly<{
+  escalation: string;
+  owner: string;
+  priority: 'Normal' | 'High' | 'Critical';
+  queue: string;
+}>;
+
+const initialDefinition: TngFlowDefinition<IncidentNodeData> = {
+  id: 'incident-triage-properties',
+  name: 'Incident triage workflow',
+  connections: [],
+  nodes: [
+    {
+      id: 'classify-impact',
+      type: 'model',
+      name: 'Classify impact',
+      description: 'Scores customer impact and suggests a response lane.',
+      position: { x: 0, y: 0 },
+      data: {
+        escalation: 'Incident commander',
+        owner: 'AI operations',
+        priority: 'Critical',
+        queue: 'Incident response',
+      },
+      ports: [
+        { id: 'normalized', direction: 'input', kind: 'data', label: 'Normalized alert', dataType: 'json', required: true },
+        { id: 'classification', direction: 'output', kind: 'data', label: 'Classification', dataType: 'json' },
+        { id: 'manual-review', direction: 'output', kind: 'control', label: 'Manual review' },
+      ],
+    },
+  ],
+};
+
+function cloneDefinition(): TngFlowDefinition<IncidentNodeData> {
+  return {
+    ...initialDefinition,
+    nodes: initialDefinition.nodes.map((node) => ({
+      ...node,
+      position: { ...node.position },
+      data: node.data === undefined ? undefined : { ...node.data },
+      ports: node.ports?.map((port) => ({ ...port })),
+    })),
+  };
+}
+
+@Component({
+  selector: 'app-incident-node-properties',
+  standalone: true,
+  imports: [TngFlowNodePropertiesComponent, TngFlowNodePropertiesDataTemplateDirective],
+  templateUrl: './incident-node-properties.component.html',
+  styleUrl: './incident-node-properties.component.css',
+})
+export class IncidentNodePropertiesComponent {
+  protected readonly definition = signal<TngFlowDefinition<IncidentNodeData>>(cloneDefinition());
+  protected readonly inspectedNodeId = signal<string | null>('classify-impact');
+  protected readonly readonly = signal(false);
+  protected readonly showData = signal(true);
+  protected readonly showPorts = signal(true);
+  protected readonly priorities = ['Normal', 'High', 'Critical'] as const;
+
+  protected selectNode(node: TngFlowNode<IncidentNodeData>): void {
+    this.inspectedNodeId.set(node.id);
+  }
+
+  protected applyNodeChanges(
+    request: TngFlowNodePropertyChangeRequest<IncidentNodeData>,
+  ): void {
+    this.definition.update((definition) => ({
+      ...definition,
+      nodes: definition.nodes.map((node) =>
+        node.id === request.nodeId ? { ...node, ...request.changes } : node,
+      ),
+    }));
+  }
+
+  protected updateOwner(
+    data: IncidentNodeData | undefined,
+    event: Event,
+    requestDataChange: (data: IncidentNodeData) => void,
+  ): void {
+    requestDataChange({ ...this.withDefaults(data), owner: this.readValue(event) });
+  }
+
+  protected updateQueue(
+    data: IncidentNodeData | undefined,
+    event: Event,
+    requestDataChange: (data: IncidentNodeData) => void,
+  ): void {
+    requestDataChange({ ...this.withDefaults(data), queue: this.readValue(event) });
+  }
+
+  protected updatePriority(
+    data: IncidentNodeData | undefined,
+    event: Event,
+    requestDataChange: (data: IncidentNodeData) => void,
+  ): void {
+    requestDataChange({
+      ...this.withDefaults(data),
+      priority: this.toPriority(this.readValue(event)),
+    });
+  }
+
+  protected updateEscalation(
+    data: IncidentNodeData | undefined,
+    event: Event,
+    requestDataChange: (data: IncidentNodeData) => void,
+  ): void {
+    requestDataChange({ ...this.withDefaults(data), escalation: this.readValue(event) });
+  }
+
+  protected dataOwner(data: IncidentNodeData | undefined): string {
+    return this.withDefaults(data).owner;
+  }
+
+  protected dataQueue(data: IncidentNodeData | undefined): string {
+    return this.withDefaults(data).queue;
+  }
+
+  protected dataPriority(data: IncidentNodeData | undefined): IncidentNodeData['priority'] {
+    return this.withDefaults(data).priority;
+  }
+
+  protected dataEscalation(data: IncidentNodeData | undefined): string {
+    return this.withDefaults(data).escalation;
+  }
+
+  private withDefaults(data: IncidentNodeData | undefined): IncidentNodeData {
+    return data ?? {
+      escalation: 'On-call engineer',
+      owner: 'Unassigned',
+      priority: 'Normal',
+      queue: 'Operations',
+    };
+  }
+
+  private toPriority(value: string): IncidentNodeData['priority'] {
+    return value === 'Critical' || value === 'High' ? value : 'Normal';
+  }
+
+  private readValue(event: Event): string {
+    return event.target instanceof HTMLInputElement || event.target instanceof HTMLSelectElement
+      ? event.target.value
+      : '';
+  }
+}
+```
+
+### incident-node-properties.component.html
+
+```html
+<div class="incident-node-properties">
+  <aside class="incident-node-properties__nodes" aria-label="Incident nodes">
+    @for (node of definition().nodes; track node.id) {
+      <button
+        type="button"
+        [class.is-selected]="inspectedNodeId() === node.id"
+        (click)="selectNode(node)"
+      >
+        <span>{{ node.name }}</span>
+        <small>{{ node.type }}</small>
+      </button>
+    }
+  </aside>
+
+  <tng-flow-node-properties
+    [definition]="definition()"
+    [inspectedNodeId]="inspectedNodeId()"
+    [readonly]="readonly()"
+    [showData]="showData()"
+    [showPorts]="showPorts()"
+    (nodeChangeRequested)="applyNodeChanges($event)"
+  >
+    <ng-template
+      tngFlowNodePropertiesData
+      let-data
+      let-readonly="readonly"
+      let-requestDataChange="requestDataChange"
+    >
+      <div class="incident-node-properties__data-grid">
+        <label>
+          <span>Owner</span>
+          <input type="text" [value]="dataOwner(data)" [readOnly]="readonly" (input)="updateOwner(data, $event, requestDataChange)" />
+        </label>
+        <label>
+          <span>Queue</span>
+          <input type="text" [value]="dataQueue(data)" [readOnly]="readonly" (input)="updateQueue(data, $event, requestDataChange)" />
+        </label>
+        <label>
+          <span>Priority</span>
+          <select [value]="dataPriority(data)" [disabled]="readonly" (change)="updatePriority(data, $event, requestDataChange)">
+            @for (priority of priorities; track priority) {
+              <option [value]="priority">{{ priority }}</option>
+            }
+          </select>
+        </label>
+        <label>
+          <span>Escalation</span>
+          <input type="text" [value]="dataEscalation(data)" [readOnly]="readonly" (input)="updateEscalation(data, $event, requestDataChange)" />
+        </label>
+      </div>
+    </ng-template>
+  </tng-flow-node-properties>
+</div>
+```
+
+### incident-node-properties.component.css
+
+```css
+.incident-node-properties {
+  display: grid;
+  grid-template-columns: minmax(13rem, 17rem) minmax(0, 1fr);
+  min-height: 36rem;
+  overflow: hidden;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.5rem;
+}
+
+.incident-node-properties__nodes {
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-right: 1px solid var(--tng-semantic-border-subtle);
+}
+
+.incident-node-properties__nodes button {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.5rem;
+  background: var(--tng-semantic-background-surface);
+  text-align: left;
+}
+
+.incident-node-properties__nodes button.is-selected {
+  border-color: var(--tng-semantic-accent-primary);
+}
+
+.incident-node-properties__data-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.incident-node-properties__data-grid label {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.incident-node-properties__data-grid input,
+.incident-node-properties__data-grid select {
+  min-height: 2.5rem;
+  border: 1px solid var(--tng-semantic-border-default);
+  border-radius: 0.5rem;
+}
+
+@media (max-width: 720px) {
+  .incident-node-properties {
+    grid-template-columns: 1fr;
+  }
+}
+```
+
+### incident-node-properties.component.html
+
+```html
+<div class="grid min-h-[36rem] overflow-hidden rounded-lg border border-tng-border-subtle bg-tng-bg-base md:grid-cols-[minmax(13rem,17rem)_minmax(0,1fr)]">
+  <aside class="grid content-start gap-2 border-b border-tng-border-subtle bg-tng-bg-muted/60 p-3 md:border-b-0 md:border-r" aria-label="Incident nodes">
+    @for (node of definition().nodes; track node.id) {
+      <button
+        type="button"
+        class="grid min-w-0 gap-1 rounded-lg border border-tng-border-subtle bg-tng-bg-surface px-3 py-2 text-left text-sm text-tng-fg-primary transition hover:bg-tng-bg-muted"
+        [class.border-tng-accent-primary]="inspectedNodeId() === node.id"
+        (click)="selectNode(node)"
+      >
+        <span class="min-w-0 font-semibold [overflow-wrap:anywhere]">{{ node.name }}</span>
+        <small class="min-w-0 text-xs uppercase text-tng-fg-muted">{{ node.type }}</small>
+      </button>
+    }
+  </aside>
+
+  <tng-flow-node-properties class="min-h-[36rem]" [definition]="definition()" [inspectedNodeId]="inspectedNodeId()" [readonly]="readonly()" [showData]="showData()" [showPorts]="showPorts()" (nodeChangeRequested)="applyNodeChanges($event)">
+    <ng-template tngFlowNodePropertiesData let-data let-readonly="readonly" let-requestDataChange="requestDataChange">
+      <div class="grid gap-3">
+        <label class="grid gap-1.5 text-sm text-tng-fg-secondary">
+          <span>Owner</span>
+          <input class="min-h-10 rounded-lg border border-tng-border-default bg-tng-bg-surface px-3 text-tng-fg-primary" type="text" [value]="dataOwner(data)" [readOnly]="readonly" (input)="updateOwner(data, $event, requestDataChange)" />
+        </label>
+        <label class="grid gap-1.5 text-sm text-tng-fg-secondary">
+          <span>Queue</span>
+          <input class="min-h-10 rounded-lg border border-tng-border-default bg-tng-bg-surface px-3 text-tng-fg-primary" type="text" [value]="dataQueue(data)" [readOnly]="readonly" (input)="updateQueue(data, $event, requestDataChange)" />
+        </label>
+        <label class="grid gap-1.5 text-sm text-tng-fg-secondary">
+          <span>Priority</span>
+          <select class="min-h-10 rounded-lg border border-tng-border-default bg-tng-bg-surface px-3 text-tng-fg-primary" [value]="dataPriority(data)" [disabled]="readonly" (change)="updatePriority(data, $event, requestDataChange)">
+            @for (priority of priorities; track priority) {
+              <option [value]="priority">{{ priority }}</option>
+            }
+          </select>
+        </label>
+        <label class="grid gap-1.5 text-sm text-tng-fg-secondary">
+          <span>Escalation</span>
+          <input class="min-h-10 rounded-lg border border-tng-border-default bg-tng-bg-surface px-3 text-tng-fg-primary" type="text" [value]="dataEscalation(data)" [readOnly]="readonly" (input)="updateEscalation(data, $event, requestDataChange)" />
+        </label>
+      </div>
+    </ng-template>
+  </tng-flow-node-properties>
+</div>
+```
+
+### incident-node-properties.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+---
+
+Source: https://tailng.dev/ai/components/flow-node-properties/overview.md
+
+---
+id: "components/flow-node-properties/overview"
+title: "Flow Node Properties component"
+description: "Selected-node details and edit panel for metadata, ports, data templates, and immutable change requests."
+category: "components"
+status: "stable"
+tags: ["flow-node-properties","flow","component"]
+package: "@tailng-ui/flow"
+importPath: "@tailng-ui/flow/execution"
+sourcePaths: ["libs/tailng-ui/flow/src/execution/components/node-properties/tng-flow-node-properties.component.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-node-properties/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/flow/flow-node-properties/overview"
+componentGroup: "flow"
+symbols: ["TngFlowNodePropertiesComponent"]
+selectors: ["tng-flow-node-properties"]
+productId: "flow-node-properties"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Flow Node Properties component
+
+Selected-node details and edit panel for metadata, ports, data templates, and immutable change requests.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/flow/execution`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngFlowNodePropertiesComponent } from '@tailng-ui/flow/execution';
+
+@Component({
+  standalone: true,
+  imports: [TngFlowNodePropertiesComponent],
+  template: `<tng-flow-node-properties />`,
+})
+export class FlowNodePropertiesAgentExample {}
+```
+
+Load `@tailng-ui/flow/styles.css` once in the application styles in addition to the TailNG theme contract.
+
+## Component family
+
+- `TngFlowNodePropertiesComponent` — selector `tng-flow-node-properties`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/flow/flow-node-properties/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/flow-node-properties/api.md)
+- [Styling](https://tailng.dev/ai/components/flow-node-properties/styling.md)
+- [Examples](https://tailng.dev/ai/components/flow-node-properties/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/flow-node-properties/styling.md
+
+---
+id: "components/flow-node-properties/styling"
+title: "Flow Node Properties styling"
+description: "Flow Node Properties styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["flow-node-properties","flow","styling"]
+package: "@tailng-ui/flow"
+importPath: "@tailng-ui/flow/execution"
+sourcePaths: ["libs/tailng-ui/flow/src/execution/components/node-properties/tng-flow-node-properties.component.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-node-properties/routes.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-node-properties/sections/styling/flow-node-properties-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/flow/flow-node-properties/sections/styling/flow-node-properties-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/flow/flow-node-properties/styling"
+componentGroup: "flow"
+symbols: ["TngFlowNodePropertiesComponent"]
+selectors: ["tng-flow-node-properties"]
+productId: "flow-node-properties"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Flow Node Properties styling
+
+## Node Properties styling
+
+The panel owns its internal inspector rhythm, form spacing, port list, and empty state. Applications should style the host for layout and set CSS custom properties for product color, border, focus, and density decisions.
+
+### Panel layout
+
+Use `tng-flow-node-properties` as a block-level sidebar, drawer body, split-pane details panel, or bottom inspector. The host should own width, height, and external borders; the component fills that box and scrolls its inner content when fields, data, or ports exceed the available space.
+
+### Theme tokens
+
+The built-in fields resolve through the same execution inspector tokens used by Flow Workbench, so the panel can sit beside the graph without a second visual system. Override these properties on the host when a specific inspector needs different surface, text, border, focus, or density treatment.
+
+| Token | Controls |
+| --- | --- |
+| `--tng-flow-execution-surface` | Panel background and input background. |
+| `--tng-flow-execution-muted-background` | Readonly data preview background. |
+| `--tng-flow-execution-color` | Primary text, field values, and node title. |
+| `--tng-flow-execution-muted-color` | Eyebrow text, field labels, section headings, port metadata, and empty states. |
+| `--tng-flow-execution-border-color` | Inputs, type badge, data preview, and port rows. |
+| `--tng-flow-execution-focus-color` | Keyboard focus outline for editable inputs. |
+| `--tng-flow-execution-inspector-padding` | Inner panel padding. |
+
+### Data template styling
+
+Projected `ng-template[tngFlowNodePropertiesData]` content is rendered inside the panel's Data section. Keep template styles scoped to your application classes, preserve the provided `readonly` state, and call the template request functions instead of mutating node data directly.
+
+### Readonly state
+
+Use `readonly` for historical runs, locked workflows, and permission-limited users. The host receives `data-readonly`, text inputs become read-only, toggles become disabled, and change requests are suppressed. Keep the same layout in both modes so switching between edit and review states does not move the user's focus.
+
+### Accessibility baseline
+
+Built-in fields keep visible labels, native form controls, keyboard focus outlines, and forced-colors border fallbacks. Custom data templates should follow the same pattern: use semantic labels, avoid color-only state, and keep controls reachable in the panel's scroll area.
+
+---
+
+Source: https://tailng.dev/ai/components/flow-workbench/api.md
+
+---
+id: "components/flow-workbench/api"
+title: "Flow Workbench API"
+description: "Flow Workbench API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["flow-workbench","flow","api"]
+package: "@tailng-ui/flow"
+importPath: "@tailng-ui/flow/execution"
+sourcePaths: ["libs/tailng-ui/flow/src/execution/components/workbench/tng-flow-workbench.component.ts","libs/tailng-ui/flow/src/execution/components/inspector/tng-flow-execution-inspector.component.ts","libs/tailng-ui/flow/src/execution/components/payload/tng-flow-execution-payload.component.ts","libs/tailng-ui/flow/src/execution/templates/tng-flow-execution-templates.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-workbench/routes.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-workbench/sections/api/flow-workbench-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/flow/flow-workbench/sections/api/flow-workbench-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/flow/flow-workbench/api"
+componentGroup: "flow"
+symbols: ["TngFlowExecutionInspectorComponent","TngFlowExecutionInspectorTemplateDirective","TngFlowExecutionPayloadComponent","TngFlowExecutionPayloadTemplateDirective","TngFlowNodePropertiesDataTemplateDirective","TngFlowWorkbenchComponent","TngFlowWorkbenchDetailsTemplateDirective","TngFlowWorkbenchPaletteTemplateDirective"]
+selectors: ["tng-flow-execution-inspector","ng-template[tngFlowExecutionInspector]","tng-flow-execution-payload","ng-template[tngFlowExecutionPayload]","ng-template[tngFlowNodePropertiesData]","tng-flow-workbench","ng-template[tngFlowWorkbenchDetails]","ng-template[tngFlowWorkbenchPalette]"]
+productId: "flow-workbench"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Flow Workbench API
+
+Ready-made flow shell with create, edit, view, inspect, and live modes plus optional palette and details panels.
+
+## Workbench inputs
+
+Pass `definition` for every mode and `snapshot` when execution state is available. Use `mode`, `paletteItems`, `detailsKind`, `detailsPosition`, `selection`, and `viewport` to control the shell.
+
+### Workbench outputs
+
+The workbench forwards controlled graph events for nodes, connections, selection, viewport, and command requests. It also emits `paletteOpenChange`, `detailsOpenChange`, and execution activation events from graph or history interactions.
+
+### Template hooks
+
+Use `ng-template[tngFlowWorkbenchPalette]` to replace the left panel and `ng-template[tngFlowWorkbenchDetails]` to replace the details panel. Existing execution payload, execution inspector, node properties data, node, and connection templates continue to work inside the composed shell.
+
+## Source-derived public Angular API
+
+### `TngFlowExecutionInspectorComponent` — `tng-flow-execution-inspector`
+
+- Inputs: `dateTimeFormatter`, `definition`, `inspectedNodeId`, `scope`, `selectedExecutionId`, `snapshot`
+- Outputs: `executionActivated`, `selectedExecutionIdChange`
+
+### `TngFlowExecutionPayloadComponent` — `tng-flow-execution-payload`
+
+- Inputs: `copy`, `maxHeight`, `payload`, `title`
+
+### `TngFlowWorkbenchComponent` — `tng-flow-workbench`
+
+- Inputs: `ariaLabel`, `attachmentLayout`, `bottomDetailsSize`, `canRedo`, `canUndo`, `canvasMode`, `commandShortcuts`, `connectionAriaLabel`, `connectionOptions`, `connectionValidator`, `contextMenuEnabled`, `dateTimeFormatter`, `definition`, `detailsBreakpoint`, `detailsKind`, `detailsMinSize`, `detailsOpen`, `detailsPosition`, `detailsScope`, `fitOnDefinitionChange`, `fitOnInit`, `flowId`, `graphMinSize`, `gridSize`, `inspectedNodeId`, `keyboardOptions`, `minimapOptions`, `mode`, `options`, `paletteAriaLabel`, `paletteItems`, `paletteMinSize`, `paletteOpen`, `paletteWidth`, `rightDetailsSize`, `selectedExecutionId`, `selection`, `showBackground`, `showConnectionTools`, `showControls`, `showDetails`, `showDetailsToggle`, `showMinimap`, `showPalette`, `showPaletteToggle`, `showSelectionArea`, `smartGuides`, `snapshot`, `snapToGrid`, `state`, `stateMessage`, `viewport`
+- Two-way models: `connectionCreationPathType`
+- Outputs: `commandRequested`, `connectionCreateRequested`, `connectionReconnectRequested`, `connectionRejected`, `connectionRoutingChangeRequested`, `connectionsDeleteRequested`, `connectionWaypointsChange`, `contextMenuRequested`, `detailsOpenChange`, `executionActivated`, `inspectedNodeIdChange`, `nodeCreateRequested`, `nodePositionChange`, `nodesDeleteRequested`, `nodesMoved`, `paletteOpenChange`, `selectedExecutionIdChange`, `selectionChange`, `viewportChange`
+
+### Structural surfaces
+
+These APIs provide composition or projection surfaces without their own bindable signal API:
+
+- `TngFlowExecutionInspectorTemplateDirective` — `ng-template[tngFlowExecutionInspector]`
+- `TngFlowExecutionPayloadTemplateDirective` — `ng-template[tngFlowExecutionPayload]`
+- `TngFlowNodePropertiesDataTemplateDirective` — `ng-template[tngFlowNodePropertiesData]`
+- `TngFlowWorkbenchDetailsTemplateDirective` — `ng-template[tngFlowWorkbenchDetails]`
+- `TngFlowWorkbenchPaletteTemplateDirective` — `ng-template[tngFlowWorkbenchPalette]`
+
+---
+
+Source: https://tailng.dev/ai/components/flow-workbench/examples.md
+
+---
+id: "components/flow-workbench/examples"
+title: "Flow Workbench examples"
+description: "Flow Workbench examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["flow-workbench","flow","examples"]
+package: "@tailng-ui/flow"
+importPath: "@tailng-ui/flow/execution"
+sourcePaths: ["libs/tailng-ui/flow/src/execution/components/workbench/tng-flow-workbench.component.ts","libs/tailng-ui/flow/src/execution/components/inspector/tng-flow-execution-inspector.component.ts","libs/tailng-ui/flow/src/execution/components/payload/tng-flow-execution-payload.component.ts","libs/tailng-ui/flow/src/execution/templates/tng-flow-execution-templates.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-workbench/routes.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-workbench/sections/examples/flow-workbench-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/flow/flow-workbench/sections/examples/flow-workbench-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/flow/flow-workbench/sections/examples/flow-workbench-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/flow/flow-workbench/examples"
+componentGroup: "flow"
+symbols: ["TngFlowExecutionInspectorComponent","TngFlowExecutionInspectorTemplateDirective","TngFlowExecutionPayloadComponent","TngFlowExecutionPayloadTemplateDirective","TngFlowNodePropertiesDataTemplateDirective","TngFlowWorkbenchComponent","TngFlowWorkbenchDetailsTemplateDirective","TngFlowWorkbenchPaletteTemplateDirective"]
+selectors: ["tng-flow-execution-inspector","ng-template[tngFlowExecutionInspector]","tng-flow-execution-payload","ng-template[tngFlowExecutionPayload]","ng-template[tngFlowNodePropertiesData]","tng-flow-workbench","ng-template[tngFlowWorkbenchDetails]","ng-template[tngFlowWorkbenchPalette]"]
+productId: "flow-workbench"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Flow Workbench examples
+
+## Minimal example
+
+```ts
+import { Component } from '@angular/core';
+import { TngFlowWorkbenchComponent } from '@tailng-ui/flow/execution';
+
+@Component({
+  standalone: true,
+  imports: [TngFlowWorkbenchComponent],
+  template: `<tng-flow-workbench />`,
+})
+export class FlowWorkbenchExample {}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/flow-workbench/overview.md
+
+---
+id: "components/flow-workbench/overview"
+title: "Flow Workbench component"
+description: "Ready-made flow shell with create, edit, view, inspect, and live modes plus optional palette and details panels."
+category: "components"
+status: "stable"
+tags: ["flow-workbench","flow","component"]
+package: "@tailng-ui/flow"
+importPath: "@tailng-ui/flow/execution"
+sourcePaths: ["libs/tailng-ui/flow/src/execution/components/workbench/tng-flow-workbench.component.ts","libs/tailng-ui/flow/src/execution/components/inspector/tng-flow-execution-inspector.component.ts","libs/tailng-ui/flow/src/execution/components/payload/tng-flow-execution-payload.component.ts","libs/tailng-ui/flow/src/execution/templates/tng-flow-execution-templates.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-workbench/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/flow/flow-workbench/overview"
+componentGroup: "flow"
+symbols: ["TngFlowExecutionInspectorComponent","TngFlowExecutionInspectorTemplateDirective","TngFlowExecutionPayloadComponent","TngFlowExecutionPayloadTemplateDirective","TngFlowNodePropertiesDataTemplateDirective","TngFlowWorkbenchComponent","TngFlowWorkbenchDetailsTemplateDirective","TngFlowWorkbenchPaletteTemplateDirective"]
+selectors: ["tng-flow-execution-inspector","ng-template[tngFlowExecutionInspector]","tng-flow-execution-payload","ng-template[tngFlowExecutionPayload]","ng-template[tngFlowNodePropertiesData]","tng-flow-workbench","ng-template[tngFlowWorkbenchDetails]","ng-template[tngFlowWorkbenchPalette]"]
+productId: "flow-workbench"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Flow Workbench component
+
+Ready-made flow shell with create, edit, view, inspect, and live modes plus optional palette and details panels.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/flow/execution`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngFlowWorkbenchComponent } from '@tailng-ui/flow/execution';
+
+@Component({
+  standalone: true,
+  imports: [TngFlowWorkbenchComponent],
+  template: `<tng-flow-workbench />`,
+})
+export class FlowWorkbenchAgentExample {}
+```
+
+Load `@tailng-ui/flow/styles.css` once in the application styles in addition to the TailNG theme contract.
+
+## Component family
+
+- `TngFlowExecutionInspectorComponent` — selector `tng-flow-execution-inspector`
+- `TngFlowExecutionInspectorTemplateDirective` — selector `ng-template[tngFlowExecutionInspector]`
+- `TngFlowExecutionPayloadComponent` — selector `tng-flow-execution-payload`
+- `TngFlowExecutionPayloadTemplateDirective` — selector `ng-template[tngFlowExecutionPayload]`
+- `TngFlowNodePropertiesDataTemplateDirective` — selector `ng-template[tngFlowNodePropertiesData]`
+- `TngFlowWorkbenchComponent` — selector `tng-flow-workbench`
+- `TngFlowWorkbenchDetailsTemplateDirective` — selector `ng-template[tngFlowWorkbenchDetails]`
+- `TngFlowWorkbenchPaletteTemplateDirective` — selector `ng-template[tngFlowWorkbenchPalette]`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/flow/flow-workbench/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/flow-workbench/api.md)
+- [Styling](https://tailng.dev/ai/components/flow-workbench/styling.md)
+- [Examples](https://tailng.dev/ai/components/flow-workbench/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/flow-workbench/styling.md
+
+---
+id: "components/flow-workbench/styling"
+title: "Flow Workbench styling"
+description: "Flow Workbench styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["flow-workbench","flow","styling"]
+package: "@tailng-ui/flow"
+importPath: "@tailng-ui/flow/execution"
+sourcePaths: ["libs/tailng-ui/flow/src/execution/components/workbench/tng-flow-workbench.component.ts","libs/tailng-ui/flow/src/execution/components/inspector/tng-flow-execution-inspector.component.ts","libs/tailng-ui/flow/src/execution/components/payload/tng-flow-execution-payload.component.ts","libs/tailng-ui/flow/src/execution/templates/tng-flow-execution-templates.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-workbench/routes.ts","apps/tailng-ui/docs/src/app/pages/components/flow/flow-workbench/sections/styling/flow-workbench-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/flow/flow-workbench/sections/styling/flow-workbench-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/flow/flow-workbench/styling"
+componentGroup: "flow"
+symbols: ["TngFlowExecutionInspectorComponent","TngFlowExecutionInspectorTemplateDirective","TngFlowExecutionPayloadComponent","TngFlowExecutionPayloadTemplateDirective","TngFlowNodePropertiesDataTemplateDirective","TngFlowWorkbenchComponent","TngFlowWorkbenchDetailsTemplateDirective","TngFlowWorkbenchPaletteTemplateDirective"]
+selectors: ["tng-flow-execution-inspector","ng-template[tngFlowExecutionInspector]","tng-flow-execution-payload","ng-template[tngFlowExecutionPayload]","ng-template[tngFlowNodePropertiesData]","tng-flow-workbench","ng-template[tngFlowWorkbenchDetails]","ng-template[tngFlowWorkbenchPalette]"]
+productId: "flow-workbench"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Flow Workbench styling
+
+## Required styles
+
+Import `@tailng-ui/flow/styles.css` once so the underlying graph, ports, connections, drag previews, palette items, and execution presentation render correctly.
+
+### Layout sizing
+
+Set the host height with `--tng-flow-workbench-height` or regular CSS. The palette, graph, and details panels use fixed minimum sizes so controls and canvas interactions do not collapse in narrow containers.
+
+### Panels
+
+The palette uses `--tng-flow-workbench-palette-width`; details sizing is controlled by `rightDetailsSize`, `bottomDetailsSize`, and `detailsPosition`. In auto mode, details move below the graph when the container is narrow.
+

@@ -1,0 +1,4171 @@
+# TailNG navigation components
+
+---
+
+Source: https://tailng.dev/ai/components/breadcrumb/api.md
+
+---
+id: "components/breadcrumb/api"
+title: "Breadcrumb API"
+description: "Breadcrumb API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["breadcrumb","navigation","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-item.component.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-link.component.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-list.component.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-separator-template.directive.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-separator.component.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/breadcrumb/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/breadcrumb/sections/api/breadcrumb-api-page.component.css","apps/tailng-ui/docs/src/app/pages/components/navigation/breadcrumb/sections/api/breadcrumb-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/navigation/breadcrumb/sections/api/breadcrumb-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/breadcrumb/api"
+componentGroup: "navigation"
+symbols: ["TngBreadcrumbComponent","TngBreadcrumbItemComponent","TngBreadcrumbLinkComponent","TngBreadcrumbListComponent","TngBreadcrumbSeparatorComponent","TngBreadcrumbSeparatorTemplateDirective"]
+selectors: ["tng-breadcrumb","tng-breadcrumb-item","tng-breadcrumb-link","tng-breadcrumb-list","tng-breadcrumb-separator","ng-template[tngBreadcrumbSeparatorTemplate]"]
+productId: "breadcrumb"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Breadcrumb API
+
+Hierarchical path navigation with optional collapse and current-page semantics.
+
+## API reference
+
+Breadcrumb combines minimal headless directives and a wrapper component that adds collapse, separator, and current-item resolution.
+
+### Wrapper APIs
+
+| Element | Input | Type | Description |
+| --- | --- | --- | --- |
+| `<tng-breadcrumb>` | `ariaLabel` | `string \| null` | Accessible label for the breadcrumb navigation landmark. |
+| `<tng-breadcrumb>` | `separator` | `string` | Separator symbol rendered between visible breadcrumb items. |
+| `<tng-breadcrumb>` | `maxItems`, `itemsBeforeCollapse`, `itemsAfterCollapse` | `number \| null` | Collapse controls for long breadcrumb paths. |
+| `<tng-breadcrumb-item>` | `href`, `routerLink` | `string \| string[] \| null` | Link target; item becomes text-only when both are absent. |
+| `<tng-breadcrumb-item>` | `current`, `currentAsLink`, `disabled` | `boolean` | Current-page semantics, optional current-link, and disabled behavior. |
+
+### Primitive directives
+
+| Directive | Purpose | State hooks |
+| --- | --- | --- |
+| `tngBreadcrumb` | Root navigation landmark slot. | `data-slot="breadcrumb"` |
+| `tngBreadcrumbList` | Ordered list slot for breadcrumb items. | `data-slot="breadcrumb-list"` |
+| `tngBreadcrumbItem`, `tngBreadcrumbLink` | Item and link slots for owner-controlled rendering. | `data-slot="breadcrumb-item\|breadcrumb-link"` |
+| `tngBreadcrumbSeparator` | Decorative separator slot rendered with `aria-hidden`. | `data-slot="breadcrumb-separator"` |
+
+### Data attributes from wrapper items
+
+## Source-derived public Angular API
+
+### `TngBreadcrumbComponent` — `tng-breadcrumb`
+
+- Inputs: `ariaLabel`, `collapseLabel`, `itemsAfterCollapse`, `itemsBeforeCollapse`, `maxItems`, `separator`
+
+### `TngBreadcrumbItemComponent` — `tng-breadcrumb-item`
+
+- Inputs: `current`, `currentAsLink`, `disabled`, `href`, `routerLink`
+
+### `TngBreadcrumbLinkComponent` — `tng-breadcrumb-link`
+
+- Inputs: `current`, `disabled`, `href`, `rel`, `routerLink`, `target`
+
+### `TngBreadcrumbSeparatorComponent` — `tng-breadcrumb-separator`
+
+- Inputs: `symbol`, `template`
+
+### Structural surfaces
+
+These APIs provide composition or projection surfaces without their own bindable signal API:
+
+- `TngBreadcrumbListComponent` — `tng-breadcrumb-list`
+- `TngBreadcrumbSeparatorTemplateDirective` — `ng-template[tngBreadcrumbSeparatorTemplate]`
+
+---
+
+Source: https://tailng.dev/ai/components/breadcrumb/examples.md
+
+---
+id: "components/breadcrumb/examples"
+title: "Breadcrumb examples"
+description: "Breadcrumb examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["breadcrumb","navigation","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-item.component.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-link.component.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-list.component.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-separator-template.directive.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-separator.component.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/breadcrumb/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/breadcrumb/sections/examples/breadcrumb-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/navigation/breadcrumb/sections/examples/breadcrumb-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/navigation/breadcrumb/sections/examples/breadcrumb-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/breadcrumb/examples"
+componentGroup: "navigation"
+symbols: ["TngBreadcrumbComponent","TngBreadcrumbItemComponent","TngBreadcrumbLinkComponent","TngBreadcrumbListComponent","TngBreadcrumbSeparatorComponent","TngBreadcrumbSeparatorTemplateDirective"]
+selectors: ["tng-breadcrumb","tng-breadcrumb-item","tng-breadcrumb-link","tng-breadcrumb-list","tng-breadcrumb-separator","ng-template[tngBreadcrumbSeparatorTemplate]"]
+productId: "breadcrumb"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Breadcrumb examples
+
+## Examples
+
+Production breadcrumb paths often require collapse handling and mixed current or disabled states across wrapper compositions.
+
+### breadcrumb-example-collapse-plain.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngBreadcrumbComponent, TngBreadcrumbItemComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-breadcrumb-example-collapse-plain',
+  standalone: true,
+  imports: [TngBreadcrumbComponent, TngBreadcrumbItemComponent],
+  templateUrl: './breadcrumb-example-collapse-plain.component.html',
+  styleUrl: './breadcrumb-example-collapse-plain.component.css',
+})
+export class BreadcrumbExampleCollapsePlainComponent {}
+```
+
+### breadcrumb-example-collapse-plain.component.html
+
+```html
+<div class="example-shell">
+  <tng-breadcrumb [maxItems]="4" [itemsBeforeCollapse]="1" [itemsAfterCollapse]="2">
+    <tng-breadcrumb-item href="#">Home</tng-breadcrumb-item>
+    <tng-breadcrumb-item href="#">Catalog</tng-breadcrumb-item>
+    <tng-breadcrumb-item href="#">Products</tng-breadcrumb-item>
+    <tng-breadcrumb-item href="#">Shoes</tng-breadcrumb-item>
+    <tng-breadcrumb-item [current]="true">Running</tng-breadcrumb-item>
+  </tng-breadcrumb>
+</div>
+```
+
+### breadcrumb-example-collapse-plain.component.css
+
+```css
+.example-shell {
+  border: 1px solid var(--docs-border-subtle);
+  border-radius: 16px;
+  padding: 1rem;
+}
+```
+
+### breadcrumb-example-collapse-tailwind.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngBreadcrumbComponent, TngBreadcrumbItemComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-breadcrumb-example-collapse-tailwind',
+  standalone: true,
+  imports: [TngBreadcrumbComponent, TngBreadcrumbItemComponent],
+  templateUrl: './breadcrumb-example-collapse-tailwind.component.html',
+  styleUrl: './breadcrumb-example-collapse-tailwind.component.css',
+})
+export class BreadcrumbExampleCollapseTailwindComponent {}
+```
+
+### breadcrumb-example-collapse-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+  <tng-breadcrumb [maxItems]="4" separator="›">
+    <tng-breadcrumb-item href="#">Home</tng-breadcrumb-item>
+    <tng-breadcrumb-item href="#">Catalog</tng-breadcrumb-item>
+    <tng-breadcrumb-item href="#">Products</tng-breadcrumb-item>
+    <tng-breadcrumb-item href="#">Shoes</tng-breadcrumb-item>
+    <tng-breadcrumb-item [current]="true">Running</tng-breadcrumb-item>
+  </tng-breadcrumb>
+</div>
+```
+
+### breadcrumb-example-collapse-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+### breadcrumb-example-current-plain.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngBreadcrumbComponent, TngBreadcrumbItemComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-breadcrumb-example-current-plain',
+  standalone: true,
+  imports: [TngBreadcrumbComponent, TngBreadcrumbItemComponent],
+  templateUrl: './breadcrumb-example-current-plain.component.html',
+  styleUrl: './breadcrumb-example-current-plain.component.css',
+})
+export class BreadcrumbExampleCurrentPlainComponent {}
+```
+
+### breadcrumb-example-current-plain.component.html
+
+```html
+<div class="example-shell">
+  <tng-breadcrumb>
+    <tng-breadcrumb-item href="#">Home</tng-breadcrumb-item>
+    <tng-breadcrumb-item href="#" [disabled]="true">Restricted</tng-breadcrumb-item>
+    <tng-breadcrumb-item href="#" [current]="true" [currentAsLink]="true">Docs</tng-breadcrumb-item>
+  </tng-breadcrumb>
+</div>
+```
+
+### breadcrumb-example-current-plain.component.css
+
+```css
+.example-shell {
+  border: 1px solid var(--docs-border-subtle);
+  border-radius: 16px;
+  padding: 1rem;
+}
+```
+
+### breadcrumb-example-current-tailwind.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngBreadcrumbComponent, TngBreadcrumbItemComponent } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-breadcrumb-example-current-tailwind',
+  standalone: true,
+  imports: [TngBreadcrumbComponent, TngBreadcrumbItemComponent],
+  templateUrl: './breadcrumb-example-current-tailwind.component.html',
+  styleUrl: './breadcrumb-example-current-tailwind.component.css',
+})
+export class BreadcrumbExampleCurrentTailwindComponent {}
+```
+
+### breadcrumb-example-current-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+  <tng-breadcrumb>
+    <tng-breadcrumb-item href="#">Workspace</tng-breadcrumb-item>
+    <tng-breadcrumb-item href="#" [disabled]="true">Restricted</tng-breadcrumb-item>
+    <tng-breadcrumb-item [current]="true">Billing</tng-breadcrumb-item>
+  </tng-breadcrumb>
+</div>
+```
+
+### breadcrumb-example-current-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+---
+
+Source: https://tailng.dev/ai/components/breadcrumb/overview.md
+
+---
+id: "components/breadcrumb/overview"
+title: "Breadcrumb component"
+description: "Hierarchical path navigation with optional collapse and current-page semantics."
+category: "components"
+status: "stable"
+tags: ["breadcrumb","navigation","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-item.component.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-link.component.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-list.component.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-separator-template.directive.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-separator.component.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/breadcrumb/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/breadcrumb/overview"
+componentGroup: "navigation"
+symbols: ["TngBreadcrumbComponent","TngBreadcrumbItemComponent","TngBreadcrumbLinkComponent","TngBreadcrumbListComponent","TngBreadcrumbSeparatorComponent","TngBreadcrumbSeparatorTemplateDirective"]
+selectors: ["tng-breadcrumb","tng-breadcrumb-item","tng-breadcrumb-link","tng-breadcrumb-list","tng-breadcrumb-separator","ng-template[tngBreadcrumbSeparatorTemplate]"]
+productId: "breadcrumb"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Breadcrumb component
+
+Hierarchical path navigation with optional collapse and current-page semantics.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngBreadcrumbComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngBreadcrumbComponent],
+  template: `<tng-breadcrumb />`,
+})
+export class BreadcrumbAgentExample {}
+```
+
+## Component family
+
+- `TngBreadcrumbComponent` — selector `tng-breadcrumb`
+- `TngBreadcrumbItemComponent` — selector `tng-breadcrumb-item`
+- `TngBreadcrumbLinkComponent` — selector `tng-breadcrumb-link`
+- `TngBreadcrumbListComponent` — selector `tng-breadcrumb-list`
+- `TngBreadcrumbSeparatorComponent` — selector `tng-breadcrumb-separator`
+- `TngBreadcrumbSeparatorTemplateDirective` — selector `ng-template[tngBreadcrumbSeparatorTemplate]`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/navigation/breadcrumb/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/breadcrumb/api.md)
+- [Styling](https://tailng.dev/ai/components/breadcrumb/styling.md)
+- [Examples](https://tailng.dev/ai/components/breadcrumb/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/breadcrumb/styling.md
+
+---
+id: "components/breadcrumb/styling"
+title: "Breadcrumb styling"
+description: "Breadcrumb styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["breadcrumb","navigation","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-item.component.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-link.component.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-list.component.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-separator-template.directive.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb-separator.component.ts","libs/tailng-ui/components/src/lib/navigation/breadcrumb/tng-breadcrumb.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/breadcrumb/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/breadcrumb/sections/styling/breadcrumb-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/navigation/breadcrumb/sections/styling/breadcrumb-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/navigation/breadcrumb/sections/styling/breadcrumb-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/breadcrumb/styling"
+componentGroup: "navigation"
+symbols: ["TngBreadcrumbComponent","TngBreadcrumbItemComponent","TngBreadcrumbLinkComponent","TngBreadcrumbListComponent","TngBreadcrumbSeparatorComponent","TngBreadcrumbSeparatorTemplateDirective"]
+selectors: ["tng-breadcrumb","tng-breadcrumb-item","tng-breadcrumb-link","tng-breadcrumb-list","tng-breadcrumb-separator","ng-template[tngBreadcrumbSeparatorTemplate]"]
+productId: "breadcrumb"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Breadcrumb styling
+
+## Styling contract
+
+Breadcrumb primitives expose stable slot attributes so teams can style either pure headless markup or wrapper components with the same selectors.
+
+### Primitive slot selectors
+
+### Wrapper state hooks
+
+### Practical guidance
+
+---
+
+Source: https://tailng.dev/ai/components/context-menu/api.md
+
+---
+id: "components/context-menu/api"
+title: "Context Menu API"
+description: "Context Menu API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["context-menu","navigation","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/context-menu/tng-context-menu.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/context-menu/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/context-menu/sections/api/context-menu-api-page.component.css","apps/tailng-ui/docs/src/app/pages/components/navigation/context-menu/sections/api/context-menu-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/navigation/context-menu/sections/api/context-menu-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/context-menu/api"
+componentGroup: "navigation"
+symbols: ["TngContextMenuComponent"]
+selectors: ["tng-context-menu"]
+productId: "context-menu"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Context Menu API
+
+Right-click and keyboard context actions anchored to element surfaces.
+
+## API reference
+
+Context Menu composes menu primitives with a dedicated trigger directive for right-click and keyboard context invocation. The exported `tngContextMenu` instance also exposes anchor state so owners can choose their own placement strategy.
+
+### Wrapper APIs
+
+| Element / Directive | Input / Output | Type | Description |
+| --- | --- | --- | --- |
+| `<tng-context-menu>` | `ariaLabel` | `string` | Accessible label for the context panel. |
+| `<tng-context-menu>` | `loop`, `disabled`, `closeOnSelect` | `boolean` | Forwards core menu traversal, disable state, and select-close behavior. |
+| `<tng-context-menu>` | `dismissOnOutsideClick`, `dismissOnFocusout` | `boolean` | Dismiss policy applied to the hosted menu panel. |
+| `<tng-context-menu>` | `tngMenuOpened`, `tngMenuClosed`, `tngMenuSelect` | `EventEmitter` | Lifecycle and selection outputs from the underlying menu primitive. |
+| `[tngContextMenuTrigger]` | `tngContextMenuTrigger` | `TngContextMenu` | Binds a target element to a context-menu instance. |
+
+### Primitive directives
+
+| Directive | Purpose | Notes |
+| --- | --- | --- |
+| `tngContextMenu` | Connects context trigger semantics to a menu panel host. | Applied together with `tngMenu` on the menu surface. |
+| `tngContextMenuTrigger` | Listens for `contextmenu`, `Shift + F10`, and `ContextMenu`. | Sets `data-slot="context-menu-trigger"`, `aria-haspopup`, `aria-controls`, and `aria-expanded`. |
+| `tngMenu`, `tngMenuItem` | Menu state, keyboard traversal, selection, submenu composition. | Shared primitive contract with menu and menubar docs. |
+
+### Exported Instance
+
+| Method | Type | Description |
+| --- | --- | --- |
+| `isOpen()` | `boolean` | Current open state for the linked context menu. |
+| `close(restoreFocus)` | `(restoreFocus: boolean) => void` | Closes the panel and optionally restores focus to the trigger target. |
+| `getAnchorType()` | `'pointer' \| 'element' \| null` | Tells whether the current open came from right-click coordinates or keyboard context invocation. |
+| `getPointerAnchor()` | `TngContextMenuPointerAnchor \| null` | Viewport client coordinates captured during right-click open. Returns `null` for keyboard opens. |
+
+### Keyboard contract (high level)
+
+## Source-derived public Angular API
+
+### `TngContextMenuComponent` — `tng-context-menu`
+
+- Inputs: `ariaLabel`
+- Forwarded inputs: `closeOnSelect`, `disabled`, `dismissOnFocusout`, `dismissOnOutsideClick`, `loop`
+- Forwarded outputs: `tngMenuClosed`, `tngMenuOpened`, `tngMenuSelect`
+
+---
+
+Source: https://tailng.dev/ai/components/context-menu/examples.md
+
+---
+id: "components/context-menu/examples"
+title: "Context Menu examples"
+description: "Context Menu examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["context-menu","navigation","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/context-menu/tng-context-menu.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/context-menu/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/context-menu/sections/examples/context-menu-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/navigation/context-menu/sections/examples/context-menu-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/navigation/context-menu/sections/examples/context-menu-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/context-menu/examples"
+componentGroup: "navigation"
+symbols: ["TngContextMenuComponent"]
+selectors: ["tng-context-menu"]
+productId: "context-menu"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Context Menu examples
+
+## Examples
+
+Production context-menu flows for file rows, deployments, and operational surfaces across plain CSS and Tailwind wrapper shells. These demos anchor panels under the target for readability.
+
+### context-menu-examples-plain-css.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngContextMenuComponent } from '@tailng-ui/components';
+import {
+  TngContextMenuTrigger,
+  TngMenuGroupLabel,
+  TngMenuItem,
+  type TngMenuSelectEvent,
+} from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-context-menu-examples-plain-css',
+  standalone: true,
+  imports: [
+    TngContextMenuComponent,
+    TngContextMenuTrigger,
+    TngMenuGroupLabel,
+    TngMenuItem,
+  ],
+  templateUrl: './context-menu-examples-plain-css.component.html',
+  styleUrl: './context-menu-examples-plain-css.component.css',
+})
+export class ContextMenuExamplesPlainCssComponent {
+  readonly lastAction = signal('No action yet');
+
+onSelect(event: TngMenuSelectEvent): void {
+  this.lastAction.set(String(event.value));
+}
+}
+```
+
+### context-menu-examples-plain-css.component.html
+
+```html
+<div class="context-menu-shell context-menu-shell--anchored">
+  <div tabindex="0" [tngContextMenuTrigger]="menu">Right-click deployment row</div>
+  <tng-context-menu
+    #menu="tngContextMenu"
+    ariaLabel="Deployment actions"
+    (tngMenuSelect)="onSelect($event)"
+  >
+    <div tngMenuGroupLabel>Deployment</div>
+    <button type="button" tngMenuItem tngMenuItemValue="Retry deployment">Retry</button>
+    <button type="button" tngMenuItem tngMenuItemValue="Rollback deployment">Rollback</button>
+    <button type="button" tngMenuItem tngMenuItemValue="View logs">View logs</button>
+  </tng-context-menu>
+</div>
+<p>last action: {{ lastAction() }}</p>
+```
+
+### context-menu-examples-plain-css.component.css
+
+```css
+.context-menu-shell {
+  position: relative;
+}
+
+.context-menu-shell [data-slot="menu"] {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 0.42rem);
+}
+
+/* Wrapper host already brings the panel surface; add slot styling for item spacing only. */
+```
+
+### context-menu-examples-tailwind.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngContextMenuComponent } from '@tailng-ui/components';
+import { TngContextMenuTrigger, TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-context-menu-examples-tailwind',
+  standalone: true,
+  imports: [TngContextMenuComponent, TngContextMenuTrigger, TngMenuItem],
+  templateUrl: './context-menu-examples-tailwind.component.html',
+  styleUrl: './context-menu-examples-tailwind.component.css',
+})
+export class ContextMenuExamplesTailwindComponent {
+  readonly lastAction = signal('No action yet');
+
+onSelect(event: TngMenuSelectEvent): void {
+  this.lastAction.set(String(event.value));
+}
+}
+```
+
+### context-menu-examples-tailwind.component.html
+
+```html
+<div class="relative grid gap-3 [&_[data-slot=menu]]:absolute [&_[data-slot=menu]]:left-0 [&_[data-slot=menu]]:top-[calc(100%+0.42rem)] [&_[data-slot=menu]]:shadow-lg [&_[data-slot=menu-item]]:w-full [&_[data-slot=menu-item]]:rounded-lg [&_[data-slot=menu-item]]:px-3 [&_[data-slot=menu-item]]:py-2 [&_[data-slot=menu-item][data-active]]:bg-sky-100">
+  <div class="rounded-xl border px-4 py-3" tabindex="0" [tngContextMenuTrigger]="menu">
+    Right-click node card
+  </div>
+  <tng-context-menu
+    #menu="tngContextMenu"
+    ariaLabel="Node actions"
+    (tngMenuSelect)="onSelect($event)"
+  >
+    <button type="button" tngMenuItem tngMenuItemValue="Inspect node">Inspect</button>
+    <button type="button" tngMenuItem tngMenuItemValue="Copy node id">Copy ID</button>
+    <button type="button" tngMenuItem tngMenuItemValue="Delete node">Delete node</button>
+  </tng-context-menu>
+</div>
+<p>last action: {{ lastAction() }}</p>
+```
+
+### context-menu-examples-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+---
+
+Source: https://tailng.dev/ai/components/context-menu/overview.md
+
+---
+id: "components/context-menu/overview"
+title: "Context Menu component"
+description: "Right-click and keyboard context actions anchored to element surfaces."
+category: "components"
+status: "stable"
+tags: ["context-menu","navigation","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/context-menu/tng-context-menu.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/context-menu/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/context-menu/overview"
+componentGroup: "navigation"
+symbols: ["TngContextMenuComponent"]
+selectors: ["tng-context-menu"]
+productId: "context-menu"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Context Menu component
+
+Right-click and keyboard context actions anchored to element surfaces.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngContextMenuComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngContextMenuComponent],
+  template: `<tng-context-menu />`,
+})
+export class ContextMenuAgentExample {}
+```
+
+## Component family
+
+- `TngContextMenuComponent` — selector `tng-context-menu`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/navigation/context-menu/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/context-menu/api.md)
+- [Styling](https://tailng.dev/ai/components/context-menu/styling.md)
+- [Examples](https://tailng.dev/ai/components/context-menu/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/context-menu/styling.md
+
+---
+id: "components/context-menu/styling"
+title: "Context Menu styling"
+description: "Context Menu styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["context-menu","navigation","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/context-menu/tng-context-menu.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/context-menu/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/context-menu/sections/styling/context-menu-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/navigation/context-menu/sections/styling/context-menu-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/navigation/context-menu/sections/styling/context-menu-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/context-menu/styling"
+componentGroup: "navigation"
+symbols: ["TngContextMenuComponent"]
+selectors: ["tng-context-menu"]
+productId: "context-menu"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Context Menu styling
+
+## Styling contract
+
+Context Menu styling relies on public slot and state attributes so custom themes can style target affordances and menu surfaces without private DOM coupling. The wrapper adds a minimum panel skin, but placement and item treatments still live on those public hooks.
+
+### CSS contract table
+
+| Selector | Applied on | Purpose |
+| --- | --- | --- |
+| `[data-slot='context-menu-trigger']` | Context target surface | Right-click affordance and focus ring styling. |
+| `[data-slot='menu'][data-state='open']` | Context menu panel | Panel visibility, border, spacing, and background surface. |
+| `[data-slot='menu-item']` | Action item | Typography, spacing, and pointer affordance for actions. |
+| `[data-slot='menu-item'][data-active]` | Action item | Keyboard-active state from arrow traversal. |
+| `[data-slot='menu-item'][aria-expanded='true']` | Submenu trigger item | Expanded state for nested context menus. |
+| `[data-slot='menu-item'][aria-disabled='true']` | Disabled action item | Dimmed visual affordance for non-interactive actions. |
+| `[data-slot='menu-group-label']`, `[data-slot='menu-separator']` | Menu sub-elements | Section labeling and separation inside larger action groups. |
+
+### Example style contract
+
+#### context-menu.contract.css
+
+```css
+.context-shell {
+  position: relative;
+}
+
+[data-slot="context-menu-trigger"] {
+  cursor: context-menu;
+}
+
+.context-shell [data-slot="menu"] {
+  left: 0;
+  position: absolute;
+  top: calc(100% + 0.42rem);
+}
+
+.context-shell [data-slot="menu"][data-state="open"] {
+  box-shadow: 0 14px 34px -22px color-mix(in srgb, var(--tng-semantic-foreground-primary) 38%, transparent);
+}
+
+.context-shell [data-slot="menu-item"] {
+  border-radius: 0.55rem;
+  min-height: 2rem;
+  padding: 0.42rem 0.65rem;
+}
+
+.context-shell [data-slot="menu-item"][data-active],
+.context-shell [data-slot="menu-item"][aria-expanded="true"] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 15%, transparent);
+}
+
+.context-shell [data-slot="menu-item"][aria-disabled="true"] {
+  opacity: 0.55;
+}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/dropdown-menu/api.md
+
+---
+id: "components/dropdown-menu/api"
+title: "Dropdown Menu API"
+description: "Dropdown Menu API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["dropdown-menu","navigation","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/dropdown-menu/tng-dropdown-menu.component.ts"]
+componentGroup: "navigation"
+symbols: ["TngDropdownMenuComponent"]
+selectors: ["tng-dropdown-menu"]
+productId: "dropdown-menu"
+section: "api"
+officialCatalog: false
+generated: true
+---
+
+# Dropdown Menu API
+
+Open a contextual menu from an explicit trigger control.
+
+## Source-derived public Angular API
+
+### `TngDropdownMenuComponent` — `tng-dropdown-menu`
+
+- Inputs: `disabled`, `label`
+
+---
+
+Source: https://tailng.dev/ai/components/dropdown-menu/examples.md
+
+---
+id: "components/dropdown-menu/examples"
+title: "Dropdown Menu examples"
+description: "Dropdown Menu examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["dropdown-menu","navigation","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/dropdown-menu/tng-dropdown-menu.component.ts"]
+componentGroup: "navigation"
+symbols: ["TngDropdownMenuComponent"]
+selectors: ["tng-dropdown-menu"]
+productId: "dropdown-menu"
+section: "examples"
+officialCatalog: false
+generated: true
+---
+
+# Dropdown Menu examples
+
+## Minimal example
+
+```ts
+import { Component } from '@angular/core';
+import { TngDropdownMenuComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngDropdownMenuComponent],
+  template: `<tng-dropdown-menu />`,
+})
+export class DropdownMenuExample {}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/dropdown-menu/overview.md
+
+---
+id: "components/dropdown-menu/overview"
+title: "Dropdown Menu component"
+description: "Open a contextual menu from an explicit trigger control."
+category: "components"
+status: "stable"
+tags: ["dropdown-menu","navigation","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/dropdown-menu/tng-dropdown-menu.component.ts"]
+componentGroup: "navigation"
+symbols: ["TngDropdownMenuComponent"]
+selectors: ["tng-dropdown-menu"]
+productId: "dropdown-menu"
+section: "overview"
+officialCatalog: false
+generated: true
+---
+
+# Dropdown Menu component
+
+Open a contextual menu from an explicit trigger control.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngDropdownMenuComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngDropdownMenuComponent],
+  template: `<tng-dropdown-menu />`,
+})
+export class DropdownMenuAgentExample {}
+```
+
+## Component family
+
+- `TngDropdownMenuComponent` — selector `tng-dropdown-menu`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+This public export does not yet have a dedicated human catalog page; use this reference together with the package source API.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/dropdown-menu/api.md)
+- [Styling](https://tailng.dev/ai/components/dropdown-menu/styling.md)
+- [Examples](https://tailng.dev/ai/components/dropdown-menu/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/dropdown-menu/styling.md
+
+---
+id: "components/dropdown-menu/styling"
+title: "Dropdown Menu styling"
+description: "Dropdown Menu styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["dropdown-menu","navigation","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/dropdown-menu/tng-dropdown-menu.component.ts"]
+componentGroup: "navigation"
+symbols: ["TngDropdownMenuComponent"]
+selectors: ["tng-dropdown-menu"]
+productId: "dropdown-menu"
+section: "styling"
+officialCatalog: false
+generated: true
+---
+
+# Dropdown Menu styling
+
+## Styling contract
+
+Load the TailNG theme contract stylesheet and prefer semantic tokens over hard-coded colors.
+
+### CSS custom properties
+
+- `--tng-dropdown-menu-overlay-z-index`
+- `--tng-dropdown-menu-z-overlay`
+- `--tng-focus-ring`
+- `--tng-semantic-background-base`
+- `--tng-semantic-background-muted`
+- `--tng-semantic-background-surface`
+- `--tng-semantic-border-subtle`
+- `--tng-semantic-focus-ring`
+- `--tng-semantic-foreground-primary`
+- `--tng-z-overlay`
+
+---
+
+Source: https://tailng.dev/ai/components/menu/api.md
+
+---
+id: "components/menu/api"
+title: "Menu API"
+description: "Menu API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["menu","navigation","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/menu/tng-menu-trigger-for.directive.ts","libs/tailng-ui/components/src/lib/navigation/menu/tng-menu.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/menu/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/menu/sections/api/menu-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/navigation/menu/sections/api/menu-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/menu/api"
+componentGroup: "navigation"
+symbols: ["TngMenuComponent"]
+selectors: ["tng-menu"]
+productId: "menu"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Menu API
+
+Contextual menu interactions, keyboard flow, and submenu behavior.
+
+## API reference
+
+Reference for the `tng-menu` component and `[tngMenuTriggerFor]` wiring from `@tailng-ui/components`, with primitives projected into the menu host.
+
+### Wrapper APIs
+
+| Element / Directive | Input / Output | Type | Description |
+| --- | --- | --- | --- |
+| `<tng-menu>` | `ariaLabel` | `string` | Accessible label for the menu panel. |
+| `<tng-menu>` | `loop`, `disabled`, `closeOnSelect` | `boolean` | Controls focus traversal, interaction lock, and auto-close behavior. |
+| `<tng-menu>` | `dismissOnOutsideClick`, `dismissOnFocusout` | `boolean` | Dismiss policy for pointer and focus transitions. |
+| `<tng-menu>` | `tngMenuOpened`, `tngMenuClosed`, `tngMenuSelect` | `EventEmitter` | Menu lifecycle and selection outputs. |
+| `[tngMenuTriggerFor]` | `tngMenuTriggerFor` | `TngMenu` | Connects a trigger element to a wrapper menu instance. |
+
+### Projected directives
+
+| Directive | Used on | Purpose |
+| --- | --- | --- |
+| `tngMenuItem` | Projected command button | Selectable command item. Combine with `tngMenuItemValue` for emitted values, or `[tngMenuItemSubmenu]` for cascaded menus. |
+| `tngMenuGroupLabel` | Projected label element | Optional section label for grouped command sets inside a wrapper menu. |
+| `tngMenuSeparator` | Projected separator element | Visual break between clusters of commands inside the same wrapper menu. |
+
+### Keyboard contract (high level)
+
+## Source-derived public Angular API
+
+### `TngMenuComponent` — `tng-menu`
+
+- Inputs: `ariaLabel`, `scrollStrategy`
+- Forwarded inputs: `closeOnSelect`, `disabled`, `dismissOnFocusout`, `dismissOnOutsideClick`, `loop`
+- Forwarded outputs: `tngMenuClosed`, `tngMenuOpened`, `tngMenuSelect`
+
+---
+
+Source: https://tailng.dev/ai/components/menu/examples.md
+
+---
+id: "components/menu/examples"
+title: "Menu examples"
+description: "Menu examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["menu","navigation","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/menu/tng-menu-trigger-for.directive.ts","libs/tailng-ui/components/src/lib/navigation/menu/tng-menu.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/menu/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/menu/sections/examples/menu-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/navigation/menu/sections/examples/menu-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/navigation/menu/sections/examples/menu-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/menu/examples"
+componentGroup: "navigation"
+symbols: ["TngMenuComponent"]
+selectors: ["tng-menu"]
+productId: "menu"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Menu examples
+
+## Examples
+
+Reference patterns for trigger wiring, command groups, nested submenu behavior, and public-state styling hooks.
+
+### menu-examples-plain-css.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngButtonComponent, TngMenuComponent, TngMenuTriggerFor } from '@tailng-ui/components';
+import { TngMenuGroupLabel, TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-menu-examples-plain-css-example',
+  standalone: true,
+  imports: [TngButtonComponent, TngMenuComponent, TngMenuTriggerFor, TngMenuGroupLabel, TngMenuItem],
+  templateUrl: './menu-examples-plain-css.component.html',
+  styleUrl: './menu-examples-plain-css.component.css',
+})
+export class MenuExamplesPlainCssExampleComponent {
+  protected readonly menuExamplesPlainLastCommand = signal('No command yet');
+
+  protected onMenuExamplesPlainSelect(event: TngMenuSelectEvent): void {
+    this.menuExamplesPlainLastCommand.set(String(event.value));
+  }
+}
+```
+
+### menu-examples-plain-css.component.html
+
+```html
+<div>
+  <tng-button
+    type="button"
+    id="menu-examples-plain-trigger"
+    appearance="outline"
+    tone="neutral"
+    [tngMenuTriggerFor]="menuExamplesPlainMenu"
+  >
+    Options
+  </tng-button>
+  <tng-menu
+    #menuExamplesPlainMenu="tngMenu"
+    ariaLabel="Options menu"
+    (tngMenuSelect)="onMenuExamplesPlainSelect($event)"
+  >
+    <div tngMenuGroupLabel>Options</div>
+    <button type="button" tngMenuItem tngMenuItemValue="Pin item">Pin</button>
+    <button type="button" tngMenuItem tngMenuItemValue="Mute notifications">Mute</button>
+    <button type="button" tngMenuItem tngMenuItemValue="Remove item">Remove</button>
+  </tng-menu>
+</div>
+<p>last command: {{ menuExamplesPlainLastCommand() }}</p>
+```
+
+### menu-examples-plain-css.component.css
+
+```css
+/* Layout only: tng-button handles the trigger, and tng-menu handles panel, label, and items. */
+```
+
+### menu-examples-tailwind.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngButtonComponent, TngMenuComponent, TngMenuTriggerFor } from '@tailng-ui/components';
+import { TngMenuGroupLabel, TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-menu-examples-tailwind-example',
+  standalone: true,
+  imports: [TngButtonComponent, TngMenuComponent, TngMenuTriggerFor, TngMenuGroupLabel, TngMenuItem],
+  templateUrl: './menu-examples-tailwind.component.html',
+})
+export class MenuExamplesTailwindExampleComponent {
+  protected readonly menuExamplesTailwindLastCommand = signal('No command yet');
+
+  protected onMenuExamplesTailwindSelect(event: TngMenuSelectEvent): void {
+    this.menuExamplesTailwindLastCommand.set(String(event.value));
+  }
+}
+```
+
+### menu-examples-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
+  <div>
+    <tng-button
+      type="button"
+      id="menu-examples-tailwind-trigger"
+      appearance="outline"
+      tone="neutral"
+      [tngMenuTriggerFor]="menuExamplesTailwindMenu"
+    >
+      Open menu
+    </tng-button>
+    <tng-menu
+      #menuExamplesTailwindMenu="tngMenu"
+      ariaLabel="Tailwind actions menu"
+      (tngMenuSelect)="onMenuExamplesTailwindSelect($event)"
+    >
+      <div tngMenuGroupLabel>Actions</div>
+      <button type="button" tngMenuItem tngMenuItemValue="Export report">Export report</button>
+      <button type="button" tngMenuItem tngMenuItemValue="Share link">Share link</button>
+      <button type="button" tngMenuItem tngMenuItemValue="Copy path">Copy path</button>
+    </tng-menu>
+  </div>
+</div>
+<p>last command: {{ menuExamplesTailwindLastCommand() }}</p>
+```
+
+### menu-examples-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+### menu-examples-button-trigger-plain-css.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngButtonComponent, TngMenuComponent, TngMenuTriggerFor } from '@tailng-ui/components';
+import { TngMenuGroupLabel, TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-menu-examples-button-trigger-plain-css-example',
+  standalone: true,
+  imports: [TngButtonComponent, TngMenuComponent, TngMenuTriggerFor, TngMenuGroupLabel, TngMenuItem],
+  templateUrl: './menu-examples-button-trigger-plain-css.component.html',
+  styleUrl: './menu-examples-button-trigger-plain-css.component.css',
+})
+export class MenuExamplesButtonTriggerPlainCssExampleComponent {
+  protected readonly menuExamplesButtonTriggerLastCommand = signal('No command yet');
+
+  protected onMenuExamplesButtonTriggerSelect(event: TngMenuSelectEvent): void {
+    this.menuExamplesButtonTriggerLastCommand.set(String(event.value));
+  }
+}
+```
+
+### menu-examples-button-trigger-plain-css.component.html
+
+```html
+<div>
+  <tng-button
+    type="button"
+    tone="neutral"
+    appearance="outline"
+    id="menu-examples-button-trigger"
+    [tngMenuTriggerFor]="menuExamplesButtonTriggerMenu"
+  >
+    Options
+  </tng-button>
+  <tng-menu
+    #menuExamplesButtonTriggerMenu="tngMenu"
+    ariaLabel="Button trigger options menu"
+    (tngMenuSelect)="onMenuExamplesButtonTriggerSelect($event)"
+  >
+    <div tngMenuGroupLabel>Options</div>
+    <button type="button" tngMenuItem tngMenuItemValue="Pin item">Pin</button>
+    <button type="button" tngMenuItem tngMenuItemValue="Mute notifications">Mute</button>
+    <button type="button" tngMenuItem tngMenuItemValue="Remove item">Remove</button>
+  </tng-menu>
+</div>
+<p>last command: {{ menuExamplesButtonTriggerLastCommand() }}</p>
+```
+
+### menu-examples-button-trigger-plain-css.component.css
+
+```css
+/* tng-button provides trigger styling; menu panel uses the shared theme contract. */
+```
+
+### menu-examples-button-trigger-tailwind.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngButtonComponent, TngMenuComponent, TngMenuTriggerFor } from '@tailng-ui/components';
+import { TngMenuGroupLabel, TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-menu-examples-button-trigger-tailwind-example',
+  standalone: true,
+  imports: [TngButtonComponent, TngMenuComponent, TngMenuTriggerFor, TngMenuGroupLabel, TngMenuItem],
+  templateUrl: './menu-examples-button-trigger-tailwind.component.html',
+})
+export class MenuExamplesButtonTriggerTailwindExampleComponent {
+  protected readonly menuExamplesButtonTriggerTailwindLastCommand = signal('No command yet');
+
+  protected onMenuExamplesButtonTriggerTailwindSelect(event: TngMenuSelectEvent): void {
+    this.menuExamplesButtonTriggerTailwindLastCommand.set(String(event.value));
+  }
+}
+```
+
+### menu-examples-button-trigger-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
+  <div>
+    <tng-button
+      type="button"
+      tone="primary"
+      appearance="solid"
+      size="sm"
+      id="menu-examples-button-trigger-tailwind"
+      [tngMenuTriggerFor]="menuExamplesButtonTriggerTailwindMenu"
+    >
+      Open menu
+    </tng-button>
+    <tng-menu
+      #menuExamplesButtonTriggerTailwindMenu="tngMenu"
+      ariaLabel="Button trigger actions menu"
+      (tngMenuSelect)="onMenuExamplesButtonTriggerTailwindSelect($event)"
+    >
+      <div tngMenuGroupLabel>Actions</div>
+      <button type="button" tngMenuItem tngMenuItemValue="Export report">Export report</button>
+      <button type="button" tngMenuItem tngMenuItemValue="Share link">Share link</button>
+      <button type="button" tngMenuItem tngMenuItemValue="Copy path">Copy path</button>
+    </tng-menu>
+  </div>
+</div>
+<p>last command: {{ menuExamplesButtonTriggerTailwindLastCommand() }}</p>
+```
+
+### menu-examples-button-trigger-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+### menu-examples-icon-trigger-plain-css.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngMenuComponent, TngMenuTriggerFor } from '@tailng-ui/components';
+import { TngIcon } from '@tailng-ui/icons';
+import { TngMenuGroupLabel, TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-menu-examples-icon-trigger-plain-css-example',
+  standalone: true,
+  imports: [TngIcon, TngMenuComponent, TngMenuTriggerFor, TngMenuGroupLabel, TngMenuItem],
+  templateUrl: './menu-examples-icon-trigger-plain-css.component.html',
+})
+export class MenuExamplesIconTriggerPlainCssExampleComponent {
+  protected readonly menuExamplesIconTriggerLastCommand = signal('No command yet');
+
+  protected onMenuExamplesIconTriggerSelect(event: TngMenuSelectEvent): void {
+    this.menuExamplesIconTriggerLastCommand.set(String(event.value));
+  }
+}
+```
+
+### menu-examples-icon-trigger-plain-css.component.html
+
+```html
+<div>
+  <tng-icon
+    id="menu-examples-icon-trigger"
+    icon="ellipsis-vertical"
+    tabindex="0"
+    aria-label="Options"
+    [tngMenuTriggerFor]="menuExamplesIconTriggerMenu"
+  />
+  <tng-menu
+    #menuExamplesIconTriggerMenu="tngMenu"
+    ariaLabel="Icon trigger options menu"
+    (tngMenuSelect)="onMenuExamplesIconTriggerSelect($event)"
+  >
+    <div tngMenuGroupLabel>Options</div>
+    <button type="button" tngMenuItem tngMenuItemValue="Pin item">Pin</button>
+    <button type="button" tngMenuItem tngMenuItemValue="Mute notifications">Mute</button>
+    <button type="button" tngMenuItem tngMenuItemValue="Remove item">Remove</button>
+  </tng-menu>
+</div>
+<p>last command: {{ menuExamplesIconTriggerLastCommand() }}</p>
+```
+
+### menu-examples-icon-trigger-plain-css.component.css
+
+```css
+/* Layout only: tng-icon handles the trigger, and tng-menu handles panel, label, and items. */
+```
+
+### menu-examples-icon-trigger-tailwind.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngMenuComponent, TngMenuTriggerFor } from '@tailng-ui/components';
+import { TngIcon } from '@tailng-ui/icons';
+import { TngMenuGroupLabel, TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-menu-examples-icon-trigger-tailwind-example',
+  standalone: true,
+  imports: [TngIcon, TngMenuComponent, TngMenuTriggerFor, TngMenuGroupLabel, TngMenuItem],
+  templateUrl: './menu-examples-icon-trigger-tailwind.component.html',
+})
+export class MenuExamplesIconTriggerTailwindExampleComponent {
+  protected readonly menuExamplesIconTriggerTailwindLastCommand = signal('No command yet');
+
+  protected onMenuExamplesIconTriggerTailwindSelect(event: TngMenuSelectEvent): void {
+    this.menuExamplesIconTriggerTailwindLastCommand.set(String(event.value));
+  }
+}
+```
+
+### menu-examples-icon-trigger-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
+  <div>
+    <tng-icon
+      id="menu-examples-icon-trigger-tailwind"
+      icon="ellipsis-vertical"
+      tabindex="0"
+      aria-label="Options"
+      [tngMenuTriggerFor]="menuExamplesIconTriggerTailwindMenu"
+      class="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-[color:var(--tng-semantic-foreground-secondary)] transition hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-foreground-primary)_6%,transparent)] hover:text-[color:var(--tng-semantic-foreground-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_28%,transparent)] aria-expanded:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,transparent)] aria-expanded:text-[color:var(--tng-semantic-foreground-primary)]"
+    />
+    <tng-menu
+      #menuExamplesIconTriggerTailwindMenu="tngMenu"
+      ariaLabel="Icon trigger actions menu"
+      (tngMenuSelect)="onMenuExamplesIconTriggerTailwindSelect($event)"
+    >
+      <div tngMenuGroupLabel>Actions</div>
+      <button type="button" tngMenuItem tngMenuItemValue="Export report">Export report</button>
+      <button type="button" tngMenuItem tngMenuItemValue="Share link">Share link</button>
+      <button type="button" tngMenuItem tngMenuItemValue="Copy path">Copy path</button>
+    </tng-menu>
+  </div>
+</div>
+<p>last command: {{ menuExamplesIconTriggerTailwindLastCommand() }}</p>
+```
+
+### menu-examples-icon-trigger-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+### menu-examples-styled-plain-css.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngMenuComponent, TngMenuTriggerFor } from '@tailng-ui/components';
+import { TngMenuGroupLabel, TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-menu-examples-styled-plain-css-example',
+  standalone: true,
+  imports: [TngMenuComponent, TngMenuTriggerFor, TngMenuGroupLabel, TngMenuItem],
+  templateUrl: './menu-examples-styled-plain-css.component.html',
+  styleUrl: './menu-examples-styled-plain-css.component.css',
+})
+export class MenuExamplesStyledPlainCssExampleComponent {
+  protected readonly menuExamplesStyledPlainLastCommand = signal('No command yet');
+
+  protected onMenuExamplesStyledPlainSelect(event: TngMenuSelectEvent): void {
+    this.menuExamplesStyledPlainLastCommand.set(String(event.value));
+  }
+}
+```
+
+### menu-examples-styled-plain-css.component.html
+
+```html
+<div class="menu-examples-styled-plain-shell">
+  <p class="menu-examples-styled-plain-note">
+    Use this example when you want to own the trigger and panel look, while styling from public state
+    hooks like <code>aria-expanded</code>, <code>data-state</code>, and <code>data-active</code>.
+  </p>
+  <button
+    type="button"
+    id="menu-examples-styled-plain-trigger"
+    [tngMenuTriggerFor]="menuExamplesStyledPlainMenu"
+    class="menu-examples-styled-plain-trigger"
+  >
+    Deploy
+  </button>
+  <tng-menu
+    #menuExamplesStyledPlainMenu="tngMenu"
+    ariaLabel="Styled deployment menu"
+    class="menu-examples-styled-plain-menu"
+    (tngMenuSelect)="onMenuExamplesStyledPlainSelect($event)"
+  >
+    <div tngMenuGroupLabel class="menu-examples-styled-plain-label">Deployment</div>
+    <button type="button" tngMenuItem tngMenuItemValue="Run checks" class="menu-examples-styled-plain-item">
+      Run checks
+    </button>
+    <button
+      type="button"
+      tngMenuItem
+      [tngMenuItemSubmenu]="menuExamplesStyledPlainTargetMenu"
+      tngMenuItemValue="Choose target"
+      class="menu-examples-styled-plain-item"
+    >
+      Choose target
+    </button>
+    <button
+      type="button"
+      tngMenuItem
+      tngMenuItemValue="Rollback build"
+      disabled
+      class="menu-examples-styled-plain-item"
+    >
+      Rollback
+    </button>
+
+    <tng-menu
+      #menuExamplesStyledPlainTargetMenu="tngMenu"
+      ariaLabel="Deployment target menu"
+      class="menu-examples-styled-plain-menu"
+      (tngMenuSelect)="onMenuExamplesStyledPlainSelect($event)"
+    >
+      <button type="button" tngMenuItem tngMenuItemValue="Deploy to staging" class="menu-examples-styled-plain-item">
+        Staging cluster
+      </button>
+      <button type="button" tngMenuItem tngMenuItemValue="Deploy to production" class="menu-examples-styled-plain-item">
+        Production cluster
+      </button>
+    </tng-menu>
+  </tng-menu>
+</div>
+<p>last styled command: {{ menuExamplesStyledPlainLastCommand() }}</p>
+```
+
+### menu-examples-styled-plain-css.component.css
+
+```css
+.menu-examples-styled-plain-shell {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+  position: relative;
+}
+
+.menu-examples-styled-plain-note {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  margin: 0;
+  max-width: 34rem;
+}
+
+.menu-examples-styled-plain-note code {
+  color: var(--tng-semantic-foreground-primary);
+  font-family: inherit;
+  font-weight: 700;
+}
+
+.menu-examples-styled-plain-trigger {
+  appearance: none;
+  -webkit-appearance: none;
+  align-items: center;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--tng-semantic-background-canvas) 82%, var(--tng-semantic-accent-brand) 6%),
+    color-mix(in srgb, var(--tng-semantic-background-surface) 92%, var(--tng-semantic-accent-brand) 9%)
+  );
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 20%, var(--tng-semantic-border-subtle));
+  border-radius: 0.9rem;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--tng-semantic-background-canvas) 65%, transparent),
+    0 10px 18px -16px color-mix(in srgb, var(--tng-semantic-foreground-primary) 42%, transparent);
+  color: var(--tng-semantic-foreground-primary);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.94rem;
+  font-weight: 700;
+  gap: 0.5rem;
+  justify-content: center;
+  letter-spacing: 0.01em;
+  min-height: 2.8rem;
+  padding: 0 1.15rem;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    box-shadow 120ms ease,
+    color 120ms ease,
+    transform 120ms ease;
+}
+
+.menu-examples-styled-plain-trigger:hover {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--tng-semantic-background-canvas) 74%, var(--tng-semantic-accent-brand) 10%),
+    color-mix(in srgb, var(--tng-semantic-background-surface) 86%, var(--tng-semantic-accent-brand) 13%)
+  );
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 34%, var(--tng-semantic-border-strong));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--tng-semantic-background-canvas) 72%, transparent),
+    0 12px 20px -16px color-mix(in srgb, var(--tng-semantic-accent-brand) 34%, transparent);
+  transform: translateY(-1px);
+}
+
+.menu-examples-styled-plain-trigger:focus-visible {
+  outline: none;
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 52%, var(--tng-semantic-border-strong));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--tng-semantic-background-canvas) 72%, transparent),
+    0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent),
+    0 14px 22px -18px color-mix(in srgb, var(--tng-semantic-accent-brand) 36%, transparent);
+}
+
+.menu-examples-styled-plain-trigger[aria-expanded="true"] {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--tng-semantic-background-canvas) 70%, var(--tng-semantic-accent-brand) 15%),
+    color-mix(in srgb, var(--tng-semantic-background-surface) 78%, var(--tng-semantic-accent-brand) 18%)
+  );
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 50%, var(--tng-semantic-border-strong));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent),
+    0 0 0 3px color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent),
+    0 14px 24px -18px color-mix(in srgb, var(--tng-semantic-accent-brand) 38%, transparent);
+  color: color-mix(in srgb, var(--tng-semantic-accent-brand) 78%, var(--tng-semantic-foreground-primary));
+}
+
+.menu-examples-styled-plain-menu[data-state="open"] {
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 94%, var(--tng-semantic-background-surface));
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 24%, var(--tng-semantic-border-subtle));
+  border-radius: 0.95rem;
+  box-shadow: 0 18px 36px -22px color-mix(in srgb, var(--tng-semantic-foreground-primary) 28%, transparent);
+  padding: 0.45rem;
+}
+
+.menu-examples-styled-plain-label {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  padding: 0.35rem 0.55rem 0.2rem;
+  text-transform: uppercase;
+}
+
+.menu-examples-styled-plain-item {
+  border-radius: 0.72rem;
+  min-height: 2.15rem;
+  padding: 0.5rem 0.72rem;
+  transition: background-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+.menu-examples-styled-plain-item:hover:not([aria-disabled="true"]) {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 8%, transparent);
+}
+
+.menu-examples-styled-plain-item[data-active],
+.menu-examples-styled-plain-item[aria-expanded="true"] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 16%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tng-semantic-accent-brand) 24%, transparent);
+  color: color-mix(in srgb, var(--tng-semantic-accent-brand) 76%, var(--tng-semantic-foreground-primary));
+}
+
+.menu-examples-styled-plain-item[aria-disabled="true"] {
+  color: var(--tng-semantic-foreground-muted);
+  opacity: 0.48;
+}
+```
+
+### menu-examples-styled-tailwind.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngMenuComponent, TngMenuTriggerFor } from '@tailng-ui/components';
+import { TngMenuGroupLabel, TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-menu-examples-styled-tailwind-example',
+  standalone: true,
+  imports: [TngMenuComponent, TngMenuTriggerFor, TngMenuGroupLabel, TngMenuItem],
+  templateUrl: './menu-examples-styled-tailwind.component.html',
+})
+export class MenuExamplesStyledTailwindExampleComponent {
+  protected readonly menuExamplesStyledTailwindLastCommand = signal('No command yet');
+
+  protected onMenuExamplesStyledTailwindSelect(event: TngMenuSelectEvent): void {
+    this.menuExamplesStyledTailwindLastCommand.set(String(event.value));
+  }
+}
+```
+
+### menu-examples-styled-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-[color:var(--tng-semantic-border-subtle)] bg-[color:color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
+  <div class="grid justify-items-start gap-3 relative">
+    <p class="m-0 max-w-[34rem] text-[0.88rem] leading-[1.55] text-[color:var(--tng-semantic-foreground-secondary)]">
+      Use this example when you want utility-owned styling on the wrapper shell, while reacting to public
+      menu state like <code class="font-bold text-[color:var(--tng-semantic-foreground-primary)]">aria-expanded</code>,
+      <code class="font-bold text-[color:var(--tng-semantic-foreground-primary)]">data-state</code>, and
+      <code class="font-bold text-[color:var(--tng-semantic-foreground-primary)]">data-active</code>.
+    </p>
+    <button
+      type="button"
+      id="menu-examples-styled-tailwind-trigger"
+      [tngMenuTriggerFor]="menuExamplesStyledTailwindMenu"
+      class="inline-flex min-h-11 items-center justify-center rounded-full border border-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_22%,var(--tng-semantic-border-subtle))] bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,var(--tng-semantic-background-surface))] px-4 text-[0.95rem] font-semibold text-[color:var(--tng-semantic-foreground-primary)] transition hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-surface))] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_28%,transparent)] aria-expanded:border-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_50%,var(--tng-semantic-border-strong))] aria-expanded:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_18%,var(--tng-semantic-background-surface))] aria-expanded:text-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_78%,var(--tng-semantic-foreground-primary))]"
+    >
+      Deploy
+    </button>
+    <tng-menu
+      #menuExamplesStyledTailwindMenu="tngMenu"
+      ariaLabel="Styled deployment menu"
+      class="min-w-[14rem] rounded-[0.95rem] border border-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_24%,var(--tng-semantic-border-subtle))] bg-[color:color-mix(in_srgb,var(--tng-semantic-background-canvas)_94%,var(--tng-semantic-background-surface))] p-[0.45rem] shadow-[0_18px_36px_-22px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_28%,transparent)] data-[state=open]:gap-[0.18rem]"
+      (tngMenuSelect)="onMenuExamplesStyledTailwindSelect($event)"
+    >
+      <div tngMenuGroupLabel class="px-[0.55rem] pb-[0.2rem] pt-[0.35rem] text-[0.72rem] font-extrabold uppercase tracking-[0.12em] text-[color:var(--tng-semantic-foreground-secondary)]">Deployment</div>
+      <button type="button" tngMenuItem tngMenuItemValue="Run checks" class="flex min-h-[2.15rem] w-full items-center justify-between rounded-[0.72rem] px-[0.72rem] py-[0.5rem] text-left text-[0.88rem] font-medium text-[color:var(--tng-semantic-foreground-primary)] transition hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_28%,transparent)] [&[data-active]]:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] [&[data-active]]:text-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_76%,var(--tng-semantic-foreground-primary))]">Run checks</button>
+      <button type="button" tngMenuItem [tngMenuItemSubmenu]="menuExamplesStyledTailwindTargetMenu" tngMenuItemValue="Choose target" class="flex min-h-[2.15rem] w-full items-center justify-between rounded-[0.72rem] px-[0.72rem] py-[0.5rem] text-left text-[0.88rem] font-medium text-[color:var(--tng-semantic-foreground-primary)] transition hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_28%,transparent)] [&[data-active]]:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] [&[data-active]]:text-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_76%,var(--tng-semantic-foreground-primary))] aria-expanded:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] aria-expanded:text-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_76%,var(--tng-semantic-foreground-primary))]">Choose target</button>
+      <button type="button" tngMenuItem tngMenuItemValue="Rollback build" disabled class="flex min-h-[2.15rem] w-full items-center justify-between rounded-[0.72rem] px-[0.72rem] py-[0.5rem] text-left text-[0.88rem] font-medium text-[color:var(--tng-semantic-foreground-primary)] transition aria-disabled:opacity-50 disabled:cursor-not-allowed">Rollback</button>
+      <tng-menu
+        #menuExamplesStyledTailwindTargetMenu="tngMenu"
+        ariaLabel="Deployment target menu"
+        class="min-w-[13rem] rounded-[0.95rem] border border-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_24%,var(--tng-semantic-border-subtle))] bg-[color:color-mix(in_srgb,var(--tng-semantic-background-canvas)_94%,var(--tng-semantic-background-surface))] p-[0.45rem] shadow-[0_18px_36px_-22px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_28%,transparent)] data-[state=open]:gap-[0.18rem]"
+        (tngMenuSelect)="onMenuExamplesStyledTailwindSelect($event)"
+      >
+        <button type="button" tngMenuItem tngMenuItemValue="Deploy to staging" class="flex min-h-[2.15rem] w-full items-center justify-between rounded-[0.72rem] px-[0.72rem] py-[0.5rem] text-left text-[0.88rem] font-medium text-[color:var(--tng-semantic-foreground-primary)] transition hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_28%,transparent)] [&[data-active]]:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] [&[data-active]]:text-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_76%,var(--tng-semantic-foreground-primary))]">Staging cluster</button>
+        <button type="button" tngMenuItem tngMenuItemValue="Deploy to production" class="flex min-h-[2.15rem] w-full items-center justify-between rounded-[0.72rem] px-[0.72rem] py-[0.5rem] text-left text-[0.88rem] font-medium text-[color:var(--tng-semantic-foreground-primary)] transition hover:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_8%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_28%,transparent)] [&[data-active]]:bg-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_16%,transparent)] [&[data-active]]:text-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_76%,var(--tng-semantic-foreground-primary))]">Production cluster</button>
+      </tng-menu>
+    </tng-menu>
+  </div>
+</div>
+<p>last styled command: {{ menuExamplesStyledTailwindLastCommand() }}</p>
+```
+
+### menu-examples-styled-tailwind.component.css
+
+```css
+/* Tailwind utilities style the wrapper through public attrs like aria-expanded, data-state, and data-active. */
+```
+
+### menu-examples-cascade-plain-css.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngButtonComponent, TngMenuComponent, TngMenuTriggerFor } from '@tailng-ui/components';
+import { TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-menu-examples-cascade-plain-css-example',
+  standalone: true,
+  imports: [TngButtonComponent, TngMenuComponent, TngMenuTriggerFor, TngMenuItem],
+  templateUrl: './menu-examples-cascade-plain-css.component.html',
+  styleUrl: './menu-examples-cascade-plain-css.component.css',
+})
+export class MenuExamplesCascadePlainCssExampleComponent {
+  protected readonly menuExamplesCascadePlainLastCommand = signal('No command yet');
+
+  protected onMenuExamplesCascadePlainSelect(event: TngMenuSelectEvent): void {
+    this.menuExamplesCascadePlainLastCommand.set(String(event.value));
+  }
+}
+```
+
+### menu-examples-cascade-plain-css.component.html
+
+```html
+<div>
+  <tng-button
+    type="button"
+    id="menu-examples-cascade-plain-root-trigger"
+    appearance="outline"
+    tone="neutral"
+    [tngMenuTriggerFor]="menuExamplesCascadePlainRootMenu"
+  >
+    Import
+  </tng-button>
+  <tng-menu
+    #menuExamplesCascadePlainRootMenu="tngMenu"
+    ariaLabel="Import root menu"
+    (tngMenuSelect)="onMenuExamplesCascadePlainSelect($event)"
+  >
+    <button type="button" tngMenuItem tngMenuItemValue="Import from CSV">CSV file</button>
+    <button
+      type="button"
+      tngMenuItem
+      [tngMenuItemSubmenu]="menuExamplesCascadePlainGitMenu"
+      tngMenuItemValue="Import from git"
+    >
+      Git repository
+    </button>
+
+    <tng-menu
+      #menuExamplesCascadePlainGitMenu="tngMenu"
+      ariaLabel="Git submenu"
+      (tngMenuSelect)="onMenuExamplesCascadePlainSelect($event)"
+    >
+      <button type="button" tngMenuItem tngMenuItemValue="Import from GitHub">GitHub</button>
+      <button type="button" tngMenuItem tngMenuItemValue="Import from GitLab">GitLab</button>
+    </tng-menu>
+  </tng-menu>
+</div>
+<p>last cascaded command: {{ menuExamplesCascadePlainLastCommand() }}</p>
+```
+
+### menu-examples-cascade-plain-css.component.css
+
+```css
+/* Layout only: tng-button handles the trigger, and tng-menu handles panel and submenu flyouts. */
+```
+
+### menu-examples-cascade-tailwind.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngButtonComponent, TngMenuComponent, TngMenuTriggerFor } from '@tailng-ui/components';
+import { TngMenuGroupLabel, TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-menu-examples-cascade-tailwind-example',
+  standalone: true,
+  imports: [TngButtonComponent, TngMenuComponent, TngMenuTriggerFor, TngMenuGroupLabel, TngMenuItem],
+  templateUrl: './menu-examples-cascade-tailwind.component.html',
+})
+export class MenuExamplesCascadeTailwindExampleComponent {
+  protected readonly menuExamplesCascadeTailwindLastCommand = signal('No command yet');
+
+  protected onMenuExamplesCascadeTailwindSelect(event: TngMenuSelectEvent): void {
+    this.menuExamplesCascadeTailwindLastCommand.set(String(event.value));
+  }
+}
+```
+
+### menu-examples-cascade-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4">
+  <div class="menu-example-trigger-shell">
+    <tng-button
+      type="button"
+      id="menu-examples-cascade-tailwind-root-trigger"
+      appearance="outline"
+      tone="neutral"
+      [tngMenuTriggerFor]="menuExamplesCascadeTailwindRootMenu"
+    >
+      Import
+    </tng-button>
+    <tng-menu
+      #menuExamplesCascadeTailwindRootMenu="tngMenu"
+      ariaLabel="Import root menu"
+      (tngMenuSelect)="onMenuExamplesCascadeTailwindSelect($event)"
+    >
+      <div tngMenuGroupLabel>Import</div>
+      <button type="button" tngMenuItem tngMenuItemValue="Import from CSV">CSV file</button>
+      <button type="button" tngMenuItem [tngMenuItemSubmenu]="menuExamplesCascadeTailwindGitMenu" tngMenuItemValue="Import from git">Git repository</button>
+    <tng-menu
+      #menuExamplesCascadeTailwindGitMenu="tngMenu"
+      ariaLabel="Git submenu"
+      (tngMenuSelect)="onMenuExamplesCascadeTailwindSelect($event)"
+    >
+      <button type="button" tngMenuItem tngMenuItemValue="Import from GitHub">GitHub</button>
+      <button type="button" tngMenuItem tngMenuItemValue="Import from GitLab">GitLab</button>
+    </tng-menu>
+    </tng-menu>
+  </div>
+</div>
+<p>last cascaded command: {{ menuExamplesCascadeTailwindLastCommand() }}</p>
+```
+
+### menu-examples-cascade-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+### menu-examples-sticky-header.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngMenuComponent, TngMenuTriggerFor } from '@tailng-ui/components';
+import { TngIcon } from '@tailng-ui/icons';
+import { TngMenuGroupLabel, TngMenuItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-menu-examples-sticky-header-example',
+  standalone: true,
+  imports: [TngIcon, TngMenuComponent, TngMenuTriggerFor, TngMenuGroupLabel, TngMenuItem],
+  templateUrl: './menu-examples-sticky-header.component.html',
+  styleUrl: './menu-examples-sticky-header.component.css',
+})
+export class MenuExamplesStickyHeaderExampleComponent {
+  protected readonly menuExamplesStickyHeaderLastCommand = signal('No command yet');
+
+  protected onMenuExamplesStickyHeaderSelect(event: TngMenuSelectEvent): void {
+    this.menuExamplesStickyHeaderLastCommand.set(String(event.value));
+  }
+}
+```
+
+### menu-examples-sticky-header.component.html
+
+```html
+<div class="menu-examples-app-shell">
+  <header class="menu-examples-app-shell-header">
+    <div class="menu-examples-app-shell-title">
+      <span>Workspace</span>
+      <small>Review queue</small>
+    </div>
+    <tng-icon
+      id="menu-examples-sticky-header-trigger"
+      icon="palette"
+      tabindex="0"
+      aria-label="Theme"
+      class="menu-examples-app-shell-trigger"
+      [tngMenuTriggerFor]="menuExamplesStickyHeaderMenu"
+    />
+    <tng-menu
+      #menuExamplesStickyHeaderMenu="tngMenu"
+      ariaLabel="Theme menu"
+      scrollStrategy="reposition"
+      (tngMenuSelect)="onMenuExamplesStickyHeaderSelect($event)"
+    >
+      <div tngMenuGroupLabel>Theme</div>
+      <button type="button" tngMenuItem tngMenuItemValue="System theme">System</button>
+      <button type="button" tngMenuItem tngMenuItemValue="Light theme">Light</button>
+      <button type="button" tngMenuItem tngMenuItemValue="Dark theme">Dark</button>
+    </tng-menu>
+  </header>
+  <div class="menu-examples-app-shell-body" aria-hidden="true">
+    <div class="menu-examples-app-shell-row"></div>
+    <div class="menu-examples-app-shell-row"></div>
+    <div class="menu-examples-app-shell-row"></div>
+    <div class="menu-examples-app-shell-row"></div>
+    <div class="menu-examples-app-shell-row"></div>
+  </div>
+</div>
+<p>last shell command: {{ menuExamplesStickyHeaderLastCommand() }}</p>
+```
+
+### menu-examples-sticky-header.component.css
+
+```css
+.menu-examples-app-shell {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  max-height: 17rem;
+  overflow: auto;
+  width: min(100%, 34rem);
+}
+
+.menu-examples-app-shell-header {
+  align-items: center;
+  backdrop-filter: blur(14px);
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 82%, transparent);
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0.85rem;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.menu-examples-app-shell-title {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.menu-examples-app-shell-title span {
+  color: var(--tng-semantic-foreground-primary);
+  font-weight: 700;
+}
+
+.menu-examples-app-shell-title small {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.78rem;
+}
+
+.menu-examples-app-shell-trigger {
+  align-items: center;
+  border-radius: 0.55rem;
+  color: var(--tng-semantic-foreground-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  height: 2.25rem;
+  justify-content: center;
+  transition: background-color 120ms ease, color 120ms ease;
+  width: 2.25rem;
+}
+
+.menu-examples-app-shell-trigger:hover,
+.menu-examples-app-shell-trigger[aria-expanded="true"] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 10%, transparent);
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.menu-examples-app-shell-trigger:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 28%, transparent);
+  outline-offset: 2px;
+}
+
+.menu-examples-app-shell-body {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.85rem;
+}
+
+.menu-examples-app-shell-row {
+  background: color-mix(in srgb, var(--tng-semantic-background-canvas) 72%, var(--tng-semantic-background-surface));
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  height: 3.25rem;
+}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/menu/overview.md
+
+---
+id: "components/menu/overview"
+title: "Menu component"
+description: "Contextual menu interactions, keyboard flow, and submenu behavior."
+category: "components"
+status: "stable"
+tags: ["menu","navigation","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/menu/tng-menu-trigger-for.directive.ts","libs/tailng-ui/components/src/lib/navigation/menu/tng-menu.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/menu/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/menu/overview"
+componentGroup: "navigation"
+symbols: ["TngMenuComponent"]
+selectors: ["tng-menu"]
+productId: "menu"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Menu component
+
+Contextual menu interactions, keyboard flow, and submenu behavior.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngMenuComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngMenuComponent],
+  template: `<tng-menu />`,
+})
+export class MenuAgentExample {}
+```
+
+## Component family
+
+- `TngMenuComponent` — selector `tng-menu`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/navigation/menu/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/menu/api.md)
+- [Styling](https://tailng.dev/ai/components/menu/styling.md)
+- [Examples](https://tailng.dev/ai/components/menu/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/menu/styling.md
+
+---
+id: "components/menu/styling"
+title: "Menu styling"
+description: "Menu styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["menu","navigation","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/menu/tng-menu-trigger-for.directive.ts","libs/tailng-ui/components/src/lib/navigation/menu/tng-menu.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/menu/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/menu/sections/styling/menu-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/navigation/menu/sections/styling/menu-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/navigation/menu/sections/styling/menu-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/menu/styling"
+componentGroup: "navigation"
+symbols: ["TngMenuComponent"]
+selectors: ["tng-menu"]
+productId: "menu"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Menu styling
+
+## Styling contract
+
+Wrapper menu styling still relies on public state attributes, so you can theme `<tng-menu>` and projected items without reaching into private DOM structure. Trigger controls keep their own component or application styling.
+
+### CSS contract table
+
+| Selector | Applied on | Purpose |
+| --- | --- | --- |
+| `tng-menu[data-state='open']` | Menu panel host | Visible panel surface, border, spacing, and layout. |
+| `aria-expanded='true'` | Resolved trigger control | Open state for the trigger control; style it through the trigger’s own class or component API. |
+| `[tngMenuItem]` | Command item | Typography, spacing, and pointer affordance. |
+| `[tngMenuItem][data-active]` | Command item | Keyboard-active state for arrow traversal. |
+| `[tngMenuItem][aria-expanded='true']` | Command item | Submenu-open indicator for nested menus. |
+| `[tngMenuItem][aria-disabled='true']` | Command item | Disabled visual state. |
+| `[tngMenuGroupLabel]`, `[tngMenuSeparator]` | Menu sub-elements | Group labels and visual separators between command sets. |
+
+### Example style contract
+
+#### menu.contract.css
+
+```css
+tng-menu[data-state="open"] {
+  background: var(--tng-semantic-background-canvas);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  display: grid;
+  gap: 0.25rem;
+  min-width: 14rem;
+  padding: 0.45rem;
+}
+
+.menu-trigger[aria-expanded="true"],
+.menu-trigger [aria-expanded="true"] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 15%, transparent);
+  color: color-mix(in srgb, var(--tng-semantic-accent-brand) 74%, var(--tng-semantic-foreground-primary));
+}
+
+[tngMenuItem] {
+  border-radius: 0.55rem;
+  min-height: 2rem;
+  padding: 0.42rem 0.65rem;
+}
+
+[tngMenuItem][data-active],
+[tngMenuItem][aria-expanded="true"] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 15%, transparent);
+}
+
+[tngMenuItem][aria-disabled="true"] {
+  opacity: 0.55;
+}
+
+[tngMenuGroupLabel] {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/menubar/api.md
+
+---
+id: "components/menubar/api"
+title: "Menubar API"
+description: "Menubar API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["menubar","navigation","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/menubar/tng-menubar.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/menubar/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/menubar/sections/api/menubar-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/navigation/menubar/sections/api/menubar-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/menubar/api"
+componentGroup: "navigation"
+symbols: ["TngMenubarComponent"]
+selectors: ["tng-menubar"]
+productId: "menubar"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Menubar API
+
+Top-level menubar patterns with owned menu integration.
+
+## API reference
+
+Menubar docs cover wrapper components (`tng-menubar`/`tng-menu`) and headless directives for full ownership.
+
+### Wrapper APIs
+
+| Element | Input / Output | Type | Description |
+| --- | --- | --- | --- |
+| `<tng-menubar>` | `ariaLabel` | `string` | Accessible label for the menubar region. |
+| `<tng-menubar>` | `loop` | `boolean` | Wrap focus movement between first/last top-level items. |
+| `<tng-menu>` | `ariaLabel` | `string` | Accessible label for the menu panel. |
+| `<tng-menu>` | `loop`, `disabled`, `closeOnSelect` | `boolean` | Configures item navigation and close behavior. |
+| `<tng-menu>` | `tngMenuOpened`, `tngMenuClosed`, `tngMenuSelect` | `EventEmitter` | Lifecycle and selection events for menu interaction. |
+
+### Primitive directives
+
+| Directive | Purpose | Key inputs |
+| --- | --- | --- |
+| `tngMenubar` | Top-level command bar semantics and roving focus. | `loop` |
+| `tngMenubarItem` | Focusable menubar item and owned menu link. | `[tngMenubarMenu]` |
+| `tngMenu` | Menu panel with keyboard traversal and typeahead. | `loop`, `disabled`, `closeOnSelect` |
+| `tngMenuItem` | Selectable option in menu panel. | `tngMenuItemValue`, `disabled`, `[tngMenuItemSubmenu]` |
+
+### Keyboard contract (high level)
+
+## Source-derived public Angular API
+
+### `TngMenubarComponent` — `tng-menubar`
+
+- Inputs: `ariaLabel`
+- Forwarded inputs: `loop`
+
+---
+
+Source: https://tailng.dev/ai/components/menubar/examples.md
+
+---
+id: "components/menubar/examples"
+title: "Menubar examples"
+description: "Menubar examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["menubar","navigation","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/menubar/tng-menubar.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/menubar/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/menubar/sections/examples/menubar-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/navigation/menubar/sections/examples/menubar-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/navigation/menubar/sections/examples/menubar-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/menubar/examples"
+componentGroup: "navigation"
+symbols: ["TngMenubarComponent"]
+selectors: ["tng-menubar"]
+productId: "menubar"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Menubar examples
+
+## Examples
+
+Production menubar patterns for top-level command strips, owned menu panels, and nested submenu chains.
+
+### menubar-examples-workspace-plain.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngMenuComponent, TngMenubarComponent } from '@tailng-ui/components';
+import { TngMenuGroupLabel, TngMenuItem, TngMenubarGroup, TngMenubarItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-menubar-examples-workspace-plain',
+  standalone: true,
+  imports: [
+    TngMenuComponent,
+    TngMenubarComponent,
+    TngMenuGroupLabel,
+    TngMenuItem,
+    TngMenubarGroup,
+    TngMenubarItem,
+  ],
+  templateUrl: './menubar-examples-workspace-plain.component.html',
+  styleUrl: './menubar-examples-workspace-plain.component.css',
+})
+export class MenubarExamplesWorkspacePlainComponent {
+  readonly menubarExamplesWorkspacePlainLastCommand = signal('No command yet');
+
+  onMenubarExamplesWorkspacePlainMenuSelect(event: TngMenuSelectEvent): void {
+    this.menubarExamplesWorkspacePlainLastCommand.set(String(event.value));
+  }
+}
+```
+
+### menubar-examples-workspace-plain.component.html
+
+```html
+<tng-menubar ariaLabel="Wrapper workspace commands">
+    <div tngMenubarGroup>
+      <tng-menu
+        #workspacePlainFileMenu="tngMenu"
+        ariaLabel="File menu"
+        (tngMenuSelect)="onMenubarExamplesWorkspacePlainMenuSelect($event)"
+      >
+        <div tngMenuGroupLabel>File</div>
+        <button type="button" tngMenuItem tngMenuItemValue="Create release">New release</button>
+        <button type="button" tngMenuItem tngMenuItemValue="Publish release">Publish</button>
+      </tng-menu>
+      <button type="button" tngMenubarItem [tngMenubarMenu]="workspacePlainFileMenu">File</button>
+    </div>
+    <div tngMenubarGroup>
+      <tng-menu
+        #workspacePlainViewMenu="tngMenu"
+        ariaLabel="View menu"
+        (tngMenuSelect)="onMenubarExamplesWorkspacePlainMenuSelect($event)"
+      >
+        <button type="button" tngMenuItem tngMenuItemValue="Toggle sidebar">Toggle sidebar</button>
+        <button type="button" tngMenuItem tngMenuItemValue="Open command palette">Command palette</button>
+      </tng-menu>
+      <button type="button" tngMenubarItem [tngMenubarMenu]="workspacePlainViewMenu">View</button>
+    </div>
+    <button type="button" tngMenubarItem>Help</button>
+  </tng-menubar>
+<p>last command: {{ menubarExamplesWorkspacePlainLastCommand() }}</p>
+```
+
+### menubar-examples-workspace-plain.component.css
+
+```css
+/*
+ * Menubar and menu internals are styled by TailNG component contracts.
+ * Keep local CSS for layout wrappers only.
+ */
+```
+
+### menubar-examples-workspace-tailwind.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngMenuComponent, TngMenubarComponent } from '@tailng-ui/components';
+import { TngMenuGroupLabel, TngMenuItem, TngMenubarGroup, TngMenubarItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-menubar-examples-workspace-tailwind',
+  standalone: true,
+  imports: [
+    TngMenuComponent,
+    TngMenubarComponent,
+    TngMenuGroupLabel,
+    TngMenuItem,
+    TngMenubarGroup,
+    TngMenubarItem,
+  ],
+  templateUrl: './menubar-examples-workspace-tailwind.component.html',
+  styleUrl: './menubar-examples-workspace-tailwind.component.css',
+})
+export class MenubarExamplesWorkspaceTailwindComponent {
+  readonly menubarExamplesWorkspaceTwLastCommand = signal('No command yet');
+
+  onMenubarExamplesWorkspaceTwMenuSelect(event: TngMenuSelectEvent): void {
+    this.menubarExamplesWorkspaceTwLastCommand.set(String(event.value));
+  }
+}
+```
+
+### menubar-examples-workspace-tailwind.component.html
+
+```html
+<tng-menubar ariaLabel="Tailwind workspace commands">
+      <div tngMenubarGroup>
+        <tng-menu
+          #workspaceTwFileMenu="tngMenu"
+          ariaLabel="File menu"
+          (tngMenuSelect)="onMenubarExamplesWorkspaceTwMenuSelect($event)"
+        >
+          <div tngMenuGroupLabel>File</div>
+          <button type="button" tngMenuItem tngMenuItemValue="Create file">New</button>
+          <button type="button" tngMenuItem tngMenuItemValue="Open file">Open</button>
+        </tng-menu>
+        <button type="button" tngMenubarItem [tngMenubarMenu]="workspaceTwFileMenu">File</button>
+      </div>
+      <div tngMenubarGroup>
+        <tng-menu
+          #workspaceTwToolsMenu="tngMenu"
+          ariaLabel="Tools menu"
+          (tngMenuSelect)="onMenubarExamplesWorkspaceTwMenuSelect($event)"
+        >
+          <button type="button" tngMenuItem tngMenuItemValue="Run lint">Run lint</button>
+          <button type="button" tngMenuItem tngMenuItemValue="Run tests">Run tests</button>
+        </tng-menu>
+        <button type="button" tngMenubarItem [tngMenubarMenu]="workspaceTwToolsMenu">Tools</button>
+      </div>
+    </tng-menubar>
+  <p>last command: {{ menubarExamplesWorkspaceTwLastCommand() }}</p>
+```
+
+### menubar-examples-workspace-tailwind.component.css
+
+```css
+/* Menubar and menu primitives use component styles; optional panel chrome can use utilities on wrappers. */
+```
+
+### menubar-examples-cascade-plain.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngMenuComponent, TngMenubarComponent } from '@tailng-ui/components';
+import { TngMenuGroupLabel, TngMenuItem, TngMenubarGroup, TngMenubarItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-menubar-examples-cascade-plain',
+  standalone: true,
+  imports: [
+    TngMenuComponent,
+    TngMenubarComponent,
+    TngMenuGroupLabel,
+    TngMenuItem,
+    TngMenubarGroup,
+    TngMenubarItem,
+  ],
+  templateUrl: './menubar-examples-cascade-plain.component.html',
+  styleUrl: './menubar-examples-cascade-plain.component.css',
+})
+export class MenubarExamplesCascadePlainComponent {
+  readonly menubarExamplesCascadePlainLastCommand = signal('No command yet');
+
+  onMenubarExamplesCascadePlainMenuSelect(event: TngMenuSelectEvent): void {
+    this.menubarExamplesCascadePlainLastCommand.set(String(event.value));
+  }
+}
+```
+
+### menubar-examples-cascade-plain.component.html
+
+```html
+<tng-menubar ariaLabel="Cascaded command bar">
+    <div tngMenubarGroup>
+      <tng-menu
+        #cascadePlainFileMenu="tngMenu"
+        ariaLabel="File menu"
+        (tngMenuSelect)="onMenubarExamplesCascadePlainMenuSelect($event)"
+      >
+        <div tngMenuGroupLabel>File</div>
+        <button type="button" tngMenuItem tngMenuItemValue="Create project">Create project</button>
+        <button
+          type="button"
+          tngMenuItem
+          [tngMenuItemSubmenu]="cascadePlainImportMenu"
+          tngMenuItemValue="Import from source"
+        >
+          Import from...
+        </button>
+        <div tngMenuSeparator></div>
+        <button type="button" tngMenuItem tngMenuItemValue="Archive project">Archive project</button>
+        <tng-menu
+          #cascadePlainImportMenu="tngMenu"
+          ariaLabel="Import submenu"
+          (tngMenuSelect)="onMenubarExamplesCascadePlainMenuSelect($event)"
+        >
+          <button type="button" tngMenuItem tngMenuItemValue="Import from CSV">CSV file</button>
+          <button
+            type="button"
+            tngMenuItem
+            [tngMenuItemSubmenu]="cascadePlainGitMenu"
+            tngMenuItemValue="Import from git"
+          >
+            Git repository
+          </button>
+        </tng-menu>
+        <tng-menu
+          #cascadePlainGitMenu="tngMenu"
+          ariaLabel="Git provider submenu"
+          (tngMenuSelect)="onMenubarExamplesCascadePlainMenuSelect($event)"
+        >
+          <button type="button" tngMenuItem tngMenuItemValue="Import from GitHub">GitHub</button>
+          <button type="button" tngMenuItem tngMenuItemValue="Import from GitLab">GitLab</button>
+        </tng-menu>
+      </tng-menu>
+      <button type="button" tngMenubarItem [tngMenubarMenu]="cascadePlainFileMenu">File</button>
+    </div>
+    <div tngMenubarGroup>
+      <tng-menu
+        #cascadePlainToolsMenu="tngMenu"
+        ariaLabel="Tools menu"
+        (tngMenuSelect)="onMenubarExamplesCascadePlainMenuSelect($event)"
+      >
+        <button type="button" tngMenuItem tngMenuItemValue="Run lint">Run lint</button>
+        <button type="button" tngMenuItem tngMenuItemValue="Run tests">Run tests</button>
+      </tng-menu>
+      <button type="button" tngMenubarItem [tngMenubarMenu]="cascadePlainToolsMenu">Tools</button>
+    </div>
+  </tng-menubar>
+<p>last cascaded command: {{ menubarExamplesCascadePlainLastCommand() }}</p>
+```
+
+### menubar-examples-cascade-plain.component.css
+
+```css
+/*
+ * Menubar and menu internals are styled by TailNG component contracts.
+ * Keep local CSS for layout wrappers only.
+ */
+```
+
+### menubar-examples-cascade-tailwind.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngMenuComponent, TngMenubarComponent } from '@tailng-ui/components';
+import { TngMenuGroupLabel, TngMenuItem, TngMenubarGroup, TngMenubarItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-menubar-examples-cascade-tailwind',
+  standalone: true,
+  imports: [
+    TngMenuComponent,
+    TngMenubarComponent,
+    TngMenuGroupLabel,
+    TngMenuItem,
+    TngMenubarGroup,
+    TngMenubarItem,
+  ],
+  templateUrl: './menubar-examples-cascade-tailwind.component.html',
+  styleUrl: './menubar-examples-cascade-tailwind.component.css',
+})
+export class MenubarExamplesCascadeTailwindComponent {
+  readonly menubarExamplesCascadeTwLastCommand = signal('No command yet');
+
+  onMenubarExamplesCascadeTwMenuSelect(event: TngMenuSelectEvent): void {
+    this.menubarExamplesCascadeTwLastCommand.set(String(event.value));
+  }
+}
+```
+
+### menubar-examples-cascade-tailwind.component.html
+
+```html
+<tng-menubar ariaLabel="Cascaded command bar">
+      <div tngMenubarGroup>
+        <tng-menu
+          #cascadeTwFileMenu="tngMenu"
+          ariaLabel="File menu"
+          (tngMenuSelect)="onMenubarExamplesCascadeTwMenuSelect($event)"
+        >
+          <div tngMenuGroupLabel>File</div>
+          <button type="button" tngMenuItem tngMenuItemValue="Create project">Create project</button>
+          <button
+            type="button"
+            tngMenuItem
+            [tngMenuItemSubmenu]="cascadeTwImportMenu"
+            tngMenuItemValue="Import from source"
+          >
+            Import from...
+          </button>
+          <div tngMenuSeparator></div>
+          <button type="button" tngMenuItem tngMenuItemValue="Archive project">Archive project</button>
+          <tng-menu
+            #cascadeTwImportMenu="tngMenu"
+            ariaLabel="Import submenu"
+            (tngMenuSelect)="onMenubarExamplesCascadeTwMenuSelect($event)"
+          >
+            <button type="button" tngMenuItem tngMenuItemValue="Import from CSV">CSV file</button>
+            <button
+              type="button"
+              tngMenuItem
+              [tngMenuItemSubmenu]="cascadeTwGitMenu"
+              tngMenuItemValue="Import from git"
+            >
+              Git repository
+            </button>
+          </tng-menu>
+          <tng-menu
+            #cascadeTwGitMenu="tngMenu"
+            ariaLabel="Git provider submenu"
+            (tngMenuSelect)="onMenubarExamplesCascadeTwMenuSelect($event)"
+          >
+            <button type="button" tngMenuItem tngMenuItemValue="Import from GitHub">GitHub</button>
+            <button type="button" tngMenuItem tngMenuItemValue="Import from GitLab">GitLab</button>
+          </tng-menu>
+        </tng-menu>
+        <button type="button" tngMenubarItem [tngMenubarMenu]="cascadeTwFileMenu">File</button>
+      </div>
+      <div tngMenubarGroup>
+        <tng-menu
+          #cascadeTwToolsMenu="tngMenu"
+          ariaLabel="Tools menu"
+          (tngMenuSelect)="onMenubarExamplesCascadeTwMenuSelect($event)"
+        >
+          <button type="button" tngMenuItem tngMenuItemValue="Run lint">Run lint</button>
+          <button type="button" tngMenuItem tngMenuItemValue="Run tests">Run tests</button>
+        </tng-menu>
+        <button type="button" tngMenubarItem [tngMenubarMenu]="cascadeTwToolsMenu">Tools</button>
+      </div>
+    </tng-menubar>
+  <p>last cascaded command: {{ menubarExamplesCascadeTwLastCommand() }}</p>
+```
+
+### menubar-examples-cascade-tailwind.component.css
+
+```css
+/* Menubar and menu primitives use component styles; optional panel chrome can use utilities on wrappers. */
+```
+
+### menubar-examples-contract.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngMenuComponent, TngMenubarComponent } from '@tailng-ui/components';
+import { TngMenuGroupLabel, TngMenuItem, TngMenuSeparator, TngMenubarGroup, TngMenubarItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-menubar-examples-contract',
+  standalone: true,
+  imports: [
+    TngMenuComponent,
+    TngMenubarComponent,
+    TngMenuGroupLabel,
+    TngMenuItem,
+    TngMenuSeparator,
+    TngMenubarGroup,
+    TngMenubarItem,
+  ],
+  templateUrl: './menubar-examples-contract.component.html',
+  styleUrl: './menubar-examples-contract.component.css',
+})
+export class MenubarExamplesContractComponent {
+  readonly menubarExamplesContractLastCommand = signal('No command yet');
+
+  onMenubarExamplesContractMenuSelect(event: TngMenuSelectEvent): void {
+    this.menubarExamplesContractLastCommand.set(String(event.value));
+  }
+}
+```
+
+### menubar-examples-contract.component.html
+
+```html
+<div class="menubar-examples-contract-shell">
+  <p class="menubar-examples-contract-note">
+    This example scopes a branded menubar through <code>data-slot="menubar"</code>,
+    <code>data-slot="menubar-item"</code>, <code>data-slot="menu"</code>, and state hooks
+    such as <code>aria-expanded</code> and <code>data-active</code>.
+  </p>
+
+  <tng-menubar ariaLabel="Release control bar">
+    <div tngMenubarGroup>
+      <tng-menu
+        #contractReleaseMenu="tngMenu"
+        ariaLabel="Release menu"
+        (tngMenuSelect)="onMenubarExamplesContractMenuSelect($event)"
+      >
+        <div tngMenuGroupLabel>Release</div>
+        <button type="button" tngMenuItem tngMenuItemValue="Create release">Create release</button>
+        <button
+          type="button"
+          tngMenuItem
+          [tngMenuItemSubmenu]="contractDeployMenu"
+          tngMenuItemValue="Deploy release"
+        >
+          Deploy to...
+        </button>
+        <div tngMenuSeparator></div>
+        <button type="button" tngMenuItem tngMenuItemValue="Rollback release" disabled>
+          Rollback
+        </button>
+
+        <tng-menu
+          #contractDeployMenu="tngMenu"
+          ariaLabel="Deploy targets"
+          (tngMenuSelect)="onMenubarExamplesContractMenuSelect($event)"
+        >
+          <button type="button" tngMenuItem tngMenuItemValue="Deploy to staging">Staging</button>
+          <button type="button" tngMenuItem tngMenuItemValue="Deploy to production">Production</button>
+        </tng-menu>
+      </tng-menu>
+      <button type="button" tngMenubarItem [tngMenubarMenu]="contractReleaseMenu">Release</button>
+    </div>
+
+    <div tngMenubarGroup>
+      <tng-menu
+        #contractInspectMenu="tngMenu"
+        ariaLabel="Inspect menu"
+        (tngMenuSelect)="onMenubarExamplesContractMenuSelect($event)"
+      >
+        <button type="button" tngMenuItem tngMenuItemValue="Open activity log">Activity log</button>
+        <button type="button" tngMenuItem tngMenuItemValue="Inspect audit trail">Audit trail</button>
+      </tng-menu>
+      <button type="button" tngMenubarItem [tngMenubarMenu]="contractInspectMenu">Inspect</button>
+    </div>
+  </tng-menubar>
+</div>
+<p>last contract command: {{ menubarExamplesContractLastCommand() }}</p>
+```
+
+### menubar-examples-contract.component.css
+
+```css
+.menubar-examples-contract-shell {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 38rem;
+  padding: 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, var(--tng-semantic-border-subtle));
+  border-radius: 1.2rem;
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, transparent), transparent 42%),
+    color-mix(in srgb, var(--tng-semantic-background-surface) 92%, transparent);
+}
+
+.menubar-examples-contract-shell [data-slot="menubar"] {
+  --tng-menubar-radius: 1.1rem;
+  --tng-menubar-padding: 0.38rem;
+  --tng-menubar-item-px: 1rem;
+  --tng-menubar-surface: color-mix(in srgb, var(--tng-semantic-accent-brand) 10%, var(--tng-semantic-background-surface));
+  --tng-menubar-border-strong: color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, var(--tng-semantic-border-strong));
+  --tng-menubar-shadow: 0 18px 36px -28px color-mix(in srgb, var(--tng-semantic-foreground-primary) 30%, transparent);
+}
+
+.menubar-examples-contract-shell [data-slot="menu"][aria-labelledby] {
+  --tng-menu-radius: 1rem;
+  --tng-menu-padding: 0.5rem;
+  --tng-menu-border-strong: color-mix(in srgb, var(--tng-semantic-accent-brand) 22%, var(--tng-semantic-border-subtle));
+  min-width: 14.5rem;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--tng-semantic-accent-brand) 14%, var(--tng-semantic-background-canvas)), color-mix(in srgb, var(--tng-semantic-background-surface) 96%, var(--tng-semantic-background-canvas)));
+  box-shadow: 0 24px 52px -30px color-mix(in srgb, var(--tng-semantic-foreground-primary) 40%, transparent), inset 0 1px 0 color-mix(in srgb, var(--tng-semantic-background-canvas) 70%, transparent), 0 0 0 1px color-mix(in srgb, var(--tng-semantic-accent-brand) 10%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.menubar-examples-contract-shell [data-slot="menu-item"] {
+  border-radius: 0.82rem;
+}
+
+.menubar-examples-contract-shell [data-slot="menu-item"][data-active],
+.menubar-examples-contract-shell [data-slot="menu-item"][aria-expanded="true"] {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--tng-semantic-accent-brand) 76%, transparent) 0 0.24rem, color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent) 0.24rem);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tng-semantic-accent-brand) 24%, transparent);
+}
+```
+
+### menubar-examples-contract-tailwind.component.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { TngMenuComponent, TngMenubarComponent } from '@tailng-ui/components';
+import { TngMenuGroupLabel, TngMenuItem, TngMenuSeparator, TngMenubarGroup, TngMenubarItem, type TngMenuSelectEvent } from '@tailng-ui/primitives';
+
+@Component({
+  selector: 'app-menubar-examples-contract-tailwind',
+  standalone: true,
+  imports: [
+    TngMenuComponent,
+    TngMenubarComponent,
+    TngMenuGroupLabel,
+    TngMenuItem,
+    TngMenuSeparator,
+    TngMenubarGroup,
+    TngMenubarItem,
+  ],
+  templateUrl: './menubar-examples-contract-tailwind.component.html',
+})
+export class MenubarExamplesContractTailwindComponent {
+  readonly menubarExamplesContractTailwindLastCommand = signal('No command yet');
+
+  onMenubarExamplesContractTailwindMenuSelect(event: TngMenuSelectEvent): void {
+    this.menubarExamplesContractTailwindLastCommand.set(String(event.value));
+  }
+}
+```
+
+### menubar-examples-contract-tailwind.component.html
+
+```html
+<div class="rounded-[1.2rem] border border-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_18%,var(--tng-semantic-border-subtle))] bg-[radial-gradient(circle_at_top_left,color-mix(in_srgb,var(--tng-semantic-accent-brand)_12%,transparent),transparent_42%),color-mix(in_srgb,var(--tng-semantic-background-surface)_92%,transparent)] p-[1.1rem]">
+  <div class="grid w-full max-w-[38rem] gap-[0.9rem] [&_[data-slot=menubar]]:[--tng-menubar-radius:1.1rem] [&_[data-slot=menubar]]:[--tng-menubar-padding:0.38rem] [&_[data-slot=menubar]]:[--tng-menubar-item-px:1rem] [&_[data-slot=menubar]]:[--tng-menubar-surface:color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,var(--tng-semantic-background-surface))] [&_[data-slot=menubar]]:[--tng-menubar-border-strong:color-mix(in_srgb,var(--tng-semantic-accent-brand)_18%,var(--tng-semantic-border-strong))] [&_[data-slot=menubar]]:[--tng-menubar-shadow:0_18px_36px_-28px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_30%,transparent)] [&_[data-slot=menubar-item]]:tracking-[0.01em] [&_[data-slot=menubar-item][aria-expanded=true]]:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-accent-brand)_24%,transparent)] [&_[data-slot=menu][aria-labelledby]]:[--tng-menu-radius:1rem] [&_[data-slot=menu][aria-labelledby]]:[--tng-menu-padding:0.5rem] [&_[data-slot=menu][aria-labelledby]]:[--tng-menu-border-strong:color-mix(in_srgb,var(--tng-semantic-accent-brand)_22%,var(--tng-semantic-border-subtle))] [&_[data-slot=menu][aria-labelledby]]:min-w-[14.5rem] [&_[data-slot=menu][aria-labelledby]]:bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-accent-brand)_14%,var(--tng-semantic-background-canvas)),color-mix(in_srgb,var(--tng-semantic-background-surface)_96%,var(--tng-semantic-background-canvas)))] [&_[data-slot=menu][aria-labelledby]]:shadow-[0_24px_52px_-30px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_40%,transparent),inset_0_1px_0_color-mix(in_srgb,var(--tng-semantic-background-canvas)_70%,transparent),0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-accent-brand)_10%,transparent)] [&_[data-slot=menu][aria-labelledby]]:backdrop-blur-[12px] [&_[data-slot=menu-group-label]]:text-[color:color-mix(in_srgb,var(--tng-semantic-accent-brand)_52%,var(--tng-semantic-foreground-secondary))] [&_[data-slot=menu-item]]:rounded-[0.82rem] [&_[data-slot=menu-item][data-active]]:bg-[linear-gradient(90deg,color-mix(in_srgb,var(--tng-semantic-accent-brand)_76%,transparent)_0_0.24rem,color-mix(in_srgb,var(--tng-semantic-accent-brand)_18%,transparent)_0.24rem)] [&_[data-slot=menu-item][data-active]]:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-accent-brand)_24%,transparent)] [&_[data-slot=menu-item][aria-expanded=true]]:bg-[linear-gradient(90deg,color-mix(in_srgb,var(--tng-semantic-accent-brand)_76%,transparent)_0_0.24rem,color-mix(in_srgb,var(--tng-semantic-accent-brand)_18%,transparent)_0.24rem)] [&_[data-slot=menu-item][aria-expanded=true]]:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-accent-brand)_24%,transparent)] [&_[data-slot=menu-item][aria-disabled=true]]:opacity-40">
+    <p class="m-0 max-w-[34rem] text-[0.92rem] leading-[1.55] text-[color:var(--tng-semantic-foreground-secondary)]">
+      This example scopes the same hooks with Tailwind utilities, using
+      <code>data-slot="menubar"</code>, <code>data-slot="menubar-item"</code>,
+      <code>data-slot="menu"</code>, and public state attributes.
+    </p>
+
+    <tng-menubar ariaLabel="Release control bar">
+      <div tngMenubarGroup>
+        <tng-menu
+          #contractTwReleaseMenu="tngMenu"
+          ariaLabel="Release menu"
+          (tngMenuSelect)="onMenubarExamplesContractTailwindMenuSelect($event)"
+        >
+          <div tngMenuGroupLabel>Release</div>
+          <button type="button" tngMenuItem tngMenuItemValue="Create release">Create release</button>
+          <button
+            type="button"
+            tngMenuItem
+            [tngMenuItemSubmenu]="contractTwDeployMenu"
+            tngMenuItemValue="Deploy release"
+          >
+            Deploy to...
+          </button>
+          <div tngMenuSeparator></div>
+          <button type="button" tngMenuItem tngMenuItemValue="Rollback release" disabled>
+            Rollback
+          </button>
+
+          <tng-menu
+            #contractTwDeployMenu="tngMenu"
+            ariaLabel="Deploy targets"
+            (tngMenuSelect)="onMenubarExamplesContractTailwindMenuSelect($event)"
+          >
+            <button type="button" tngMenuItem tngMenuItemValue="Deploy to staging">Staging</button>
+            <button type="button" tngMenuItem tngMenuItemValue="Deploy to production">Production</button>
+          </tng-menu>
+        </tng-menu>
+        <button type="button" tngMenubarItem [tngMenubarMenu]="contractTwReleaseMenu">Release</button>
+      </div>
+
+      <div tngMenubarGroup>
+        <tng-menu
+          #contractTwInspectMenu="tngMenu"
+          ariaLabel="Inspect menu"
+          (tngMenuSelect)="onMenubarExamplesContractTailwindMenuSelect($event)"
+        >
+          <button type="button" tngMenuItem tngMenuItemValue="Open activity log">Activity log</button>
+          <button type="button" tngMenuItem tngMenuItemValue="Inspect audit trail">Audit trail</button>
+        </tng-menu>
+        <button type="button" tngMenubarItem [tngMenubarMenu]="contractTwInspectMenu">Inspect</button>
+      </div>
+    </tng-menubar>
+  </div>
+</div>
+<p>last contract command: {{ menubarExamplesContractTailwindLastCommand() }}</p>
+```
+
+### menubar-examples-contract-tailwind.component.css
+
+```css
+/* Tailwind utilities are scoped on the wrapper through public slot and state hooks. */
+```
+
+---
+
+Source: https://tailng.dev/ai/components/menubar/overview.md
+
+---
+id: "components/menubar/overview"
+title: "Menubar component"
+description: "Top-level menubar patterns with owned menu integration."
+category: "components"
+status: "stable"
+tags: ["menubar","navigation","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/menubar/tng-menubar.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/menubar/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/menubar/overview"
+componentGroup: "navigation"
+symbols: ["TngMenubarComponent"]
+selectors: ["tng-menubar"]
+productId: "menubar"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Menubar component
+
+Top-level menubar patterns with owned menu integration.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngMenubarComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngMenubarComponent],
+  template: `<tng-menubar />`,
+})
+export class MenubarAgentExample {}
+```
+
+## Component family
+
+- `TngMenubarComponent` — selector `tng-menubar`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/navigation/menubar/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/menubar/api.md)
+- [Styling](https://tailng.dev/ai/components/menubar/styling.md)
+- [Examples](https://tailng.dev/ai/components/menubar/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/menubar/styling.md
+
+---
+id: "components/menubar/styling"
+title: "Menubar styling"
+description: "Menubar styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["menubar","navigation","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/menubar/tng-menubar.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/menubar/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/menubar/sections/styling/menubar-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/navigation/menubar/sections/styling/menubar-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/navigation/menubar/sections/styling/menubar-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/menubar/styling"
+componentGroup: "navigation"
+symbols: ["TngMenubarComponent"]
+selectors: ["tng-menubar"]
+productId: "menubar"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Menubar styling
+
+## Styling contract
+
+Menubar and menu are fully styleable through public directives and state attributes; no internal wrapper selectors are required.
+
+### CSS contract table
+
+| Selector | Applied on | Purpose |
+| --- | --- | --- |
+| `[tngMenubar]` | Menubar host | Top-level command strip layout and focus grouping. |
+| `[tngMenubarItem]` | Top-level trigger | Trigger spacing, typography, hover/focus states. |
+| `[tngMenubarItem][aria-expanded='true']` | Top-level trigger | Current open menu trigger state. |
+| `[tngMenu][data-state='open']` | Menu panel host | Open panel surface, positioning, and elevation. |
+| `[tngMenuItem][data-active]` | Menu option | Keyboard-active option styling. |
+| `[tngMenuItem][aria-disabled='true']` | Menu option | Disabled affordance and interaction cue. |
+| `[tngMenuGroupLabel]`, `[tngMenuSeparator]` | Menu sub-elements | Section labels and dividers inside long command menus. |
+
+### Example style contract
+
+#### menubar.contract.css
+
+```css
+[tngMenubar] {
+  display: inline-flex;
+  gap: 0.35rem;
+  padding: 0.35rem;
+}
+
+[tngMenubarItem] {
+  border-radius: 0.7rem;
+  padding: 0.5rem 0.9rem;
+}
+
+[tngMenubarItem][aria-expanded="true"] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 14%, transparent);
+}
+
+[tngMenu][data-state="open"] {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  min-width: 14rem;
+  padding: 0.4rem;
+  position: absolute;
+}
+
+[tngMenuItem] {
+  border-radius: 0.55rem;
+  min-height: 2.1rem;
+  padding: 0.4rem 0.65rem;
+}
+
+[tngMenuItem][data-active],
+[tngMenuItem][aria-expanded="true"] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 15%, transparent);
+}
+
+[tngMenuItem][aria-disabled="true"] {
+  opacity: 0.55;
+}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/navigation-menu/api.md
+
+---
+id: "components/navigation-menu/api"
+title: "Navigation Menu API"
+description: "Navigation Menu API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["navigation-menu","navigation","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/navigation-menu/tng-navigation-menu.component.ts"]
+componentGroup: "navigation"
+symbols: ["TngNavigationMenuComponent"]
+selectors: ["tng-navigation-menu"]
+productId: "navigation-menu"
+section: "api"
+officialCatalog: false
+generated: true
+---
+
+# Navigation Menu API
+
+Compose application navigation with nested and keyboard-accessible menu content.
+
+## Source-derived public Angular API
+
+### `TngNavigationMenuComponent` — `tng-navigation-menu`
+
+- Inputs: `ariaLabel`
+
+---
+
+Source: https://tailng.dev/ai/components/navigation-menu/examples.md
+
+---
+id: "components/navigation-menu/examples"
+title: "Navigation Menu examples"
+description: "Navigation Menu examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["navigation-menu","navigation","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/navigation-menu/tng-navigation-menu.component.ts"]
+componentGroup: "navigation"
+symbols: ["TngNavigationMenuComponent"]
+selectors: ["tng-navigation-menu"]
+productId: "navigation-menu"
+section: "examples"
+officialCatalog: false
+generated: true
+---
+
+# Navigation Menu examples
+
+## Minimal example
+
+```ts
+import { Component } from '@angular/core';
+import { TngNavigationMenuComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngNavigationMenuComponent],
+  template: `<tng-navigation-menu />`,
+})
+export class NavigationMenuExample {}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/navigation-menu/overview.md
+
+---
+id: "components/navigation-menu/overview"
+title: "Navigation Menu component"
+description: "Compose application navigation with nested and keyboard-accessible menu content."
+category: "components"
+status: "stable"
+tags: ["navigation-menu","navigation","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/navigation-menu/tng-navigation-menu.component.ts"]
+componentGroup: "navigation"
+symbols: ["TngNavigationMenuComponent"]
+selectors: ["tng-navigation-menu"]
+productId: "navigation-menu"
+section: "overview"
+officialCatalog: false
+generated: true
+---
+
+# Navigation Menu component
+
+Compose application navigation with nested and keyboard-accessible menu content.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngNavigationMenuComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngNavigationMenuComponent],
+  template: `<tng-navigation-menu />`,
+})
+export class NavigationMenuAgentExample {}
+```
+
+## Component family
+
+- `TngNavigationMenuComponent` — selector `tng-navigation-menu`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+This public export does not yet have a dedicated human catalog page; use this reference together with the package source API.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/navigation-menu/api.md)
+- [Styling](https://tailng.dev/ai/components/navigation-menu/styling.md)
+- [Examples](https://tailng.dev/ai/components/navigation-menu/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/navigation-menu/styling.md
+
+---
+id: "components/navigation-menu/styling"
+title: "Navigation Menu styling"
+description: "Navigation Menu styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["navigation-menu","navigation","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/navigation-menu/tng-navigation-menu.component.ts"]
+componentGroup: "navigation"
+symbols: ["TngNavigationMenuComponent"]
+selectors: ["tng-navigation-menu"]
+productId: "navigation-menu"
+section: "styling"
+officialCatalog: false
+generated: true
+---
+
+# Navigation Menu styling
+
+## Styling contract
+
+Load the TailNG theme contract stylesheet and prefer semantic tokens over hard-coded colors.
+
+### CSS custom properties
+
+- `--tng-semantic-background-base`
+- `--tng-semantic-border-subtle`
+- `--tng-semantic-foreground-primary`
+
+---
+
+Source: https://tailng.dev/ai/components/pagination/api.md
+
+---
+id: "components/pagination/api"
+title: "Pagination API"
+description: "Pagination API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["pagination","navigation","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/paginator/tng-paginator.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/pagination/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/pagination/sections/api/pagination-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/pagination/api"
+componentGroup: "navigation"
+symbols: ["TngPaginatorComponent"]
+selectors: ["tng-paginator"]
+productId: "pagination"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Pagination API
+
+Styled paginator controls for page movement, ranges, page size, and server mode.
+
+## Source-derived public Angular API
+
+### `TngPaginatorComponent` — `tng-paginator`
+
+- Inputs: `ariaLabel`, `defaultPageIndex`, `defaultPageSize`, `disabled`, `maxPageButtons`, `mode`, `pageIndex`, `pageSize`, `pageSizeOptions`, `showFirstLast`, `showPageSize`, `showRange`, `size`, `totalItems`
+- Outputs: `pageChange`, `pageIndexChange`, `pageSizeChange`
+
+---
+
+Source: https://tailng.dev/ai/components/pagination/examples.md
+
+---
+id: "components/pagination/examples"
+title: "Pagination examples"
+description: "Pagination examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["pagination","navigation","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/paginator/tng-paginator.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/pagination/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/pagination/sections/examples/pagination-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/pagination/examples"
+componentGroup: "navigation"
+symbols: ["TngPaginatorComponent"]
+selectors: ["tng-paginator"]
+productId: "pagination"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Pagination examples
+
+## Minimal example
+
+```ts
+import { Component } from '@angular/core';
+import { TngPaginatorComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngPaginatorComponent],
+  template: `<tng-paginator />`,
+})
+export class PaginationExample {}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/pagination/overview.md
+
+---
+id: "components/pagination/overview"
+title: "Pagination component"
+description: "Styled paginator controls for page movement, ranges, page size, and server mode."
+category: "components"
+status: "stable"
+tags: ["pagination","navigation","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/paginator/tng-paginator.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/pagination/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/pagination/overview"
+componentGroup: "navigation"
+symbols: ["TngPaginatorComponent"]
+selectors: ["tng-paginator"]
+productId: "pagination"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Pagination component
+
+Styled paginator controls for page movement, ranges, page size, and server mode.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngPaginatorComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngPaginatorComponent],
+  template: `<tng-paginator />`,
+})
+export class PaginationAgentExample {}
+```
+
+## Component family
+
+- `TngPaginatorComponent` — selector `tng-paginator`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/navigation/pagination/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/pagination/api.md)
+- [Styling](https://tailng.dev/ai/components/pagination/styling.md)
+- [Examples](https://tailng.dev/ai/components/pagination/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/pagination/styling.md
+
+---
+id: "components/pagination/styling"
+title: "Pagination styling"
+description: "Pagination styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["pagination","navigation","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/paginator/tng-paginator.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/pagination/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/pagination/sections/styling/pagination-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/pagination/styling"
+componentGroup: "navigation"
+symbols: ["TngPaginatorComponent"]
+selectors: ["tng-paginator"]
+productId: "pagination"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Pagination styling
+
+## Styling contract
+
+Load the TailNG theme contract stylesheet and prefer semantic tokens over hard-coded colors.
+
+### State and slot hooks
+
+- `data-disabled`
+- `data-size='md'`
+- `data-size='sm'`
+
+### CSS custom properties
+
+- `--tng-color-white`
+- `--tng-disabled-opacity`
+- `--tng-semantic-accent-brand`
+- `--tng-semantic-background-surface`
+- `--tng-semantic-border-strong`
+- `--tng-semantic-border-subtle`
+- `--tng-semantic-focus-ring`
+- `--tng-semantic-foreground-primary`
+- `--tng-semantic-foreground-secondary`
+
+---
+
+Source: https://tailng.dev/ai/components/tabs/api.md
+
+---
+id: "components/tabs/api"
+title: "Tabs API"
+description: "Tabs API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["tabs","navigation","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/tabs/tng-tabs.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/tabs/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/tabs/sections/api/tabs-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/navigation/tabs/sections/api/tabs-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/tabs/api"
+componentGroup: "navigation"
+symbols: ["TngTabsComponent"]
+selectors: ["tng-tabs"]
+productId: "tabs"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Tabs API
+
+Sectioned navigation with tablist, triggers, panels, and controlled or uncontrolled selection.
+
+## API reference
+
+`<tng-tabs>` is a wrapper root. The behavior contract for selection, focus, and panel activation still comes from the tabs primitives.
+
+### Wrapper component
+
+| Input / Output | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `ariaLabel` | `string` | `'Tabs'` | Applied to the wrapper host when you do not supply your own label. |
+| `value` | `string \| number \| null` | `undefined` | Controlled selected value forwarded to the primitive root. |
+| `defaultValue` | `string \| number \| null` | `undefined` | Uncontrolled initial selection. |
+| `activation` | `'auto' \| 'manual'` | `'auto'` | Controls whether focus movement also selects the active tab. |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Changes arrow-key behavior and reflected orientation hooks. |
+| `scrollButtons` | `'auto' \| 'off' \| 'on'` | `'off'` | Enables scroll-button visibility logic for overflowed tablists. |
+| `loop`, `dir`, `disabled`, `lazy`, `keepAlive` | `primitive forwarded inputs` | varies | Forwarded directly through the wrapper to the primitive root. |
+| `(valueChange)`, `(tabChange)`, `(focusChange)` | `events` | — | Emitted by the primitive root and re-exposed by the wrapper. |
+
+### Tablist, tab, and panel
+
+The wrapper does not replace `tngTabList`, `tngTab`, or `tngTabPanel`. You still import and author those parts explicitly.
+
+| Part | Selector | Important inputs | Notes |
+| --- | --- | --- | --- |
+| Tab list | `[tngTabList]` | `ariaLabel`, `ariaLabelledby` | Provides the required `tablist` role and registration surface. |
+| Tab trigger | `[tngTab]` | `value`, `disabled`, `panelId` | Reflects selection, focus, and disabled state through stable data attributes. |
+| Tab panel | `[tngTabPanel]` | `value`, `labelledById`, `unmountOnExit` | Uses `hidden` when inactive and can unmount on exit if requested. |
+
+### Primitive foundation
+
+The wrapper only adds the default root shell and the optional `ariaLabel` input. Selection logic, roving focus, keyboard handling, and panel lifecycle all still belong to the headless tabs primitive.
+
+## Source-derived public Angular API
+
+### `TngTabsComponent` — `tng-tabs`
+
+- Inputs: `ariaLabel`
+- Forwarded inputs: `activation`, `defaultValue`, `dir`, `disabled`, `keepAlive`, `lazy`, `loop`, `orientation`, `scrollButtons`, `value`
+- Forwarded outputs: `focusChange`, `tabChange`, `valueChange`
+
+---
+
+Source: https://tailng.dev/ai/components/tabs/examples.md
+
+---
+id: "components/tabs/examples"
+title: "Tabs examples"
+description: "Tabs examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["tabs","navigation","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/tabs/tng-tabs.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/tabs/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/tabs/sections/examples/tabs-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/navigation/tabs/sections/examples/tabs-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/navigation/tabs/sections/examples/tabs-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/tabs/examples"
+componentGroup: "navigation"
+symbols: ["TngTabsComponent"]
+selectors: ["tng-tabs"]
+productId: "tabs"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Tabs examples
+
+## Examples
+
+Common tabs patterns rendered through the components wrapper while the tab parts stay explicit.
+
+## Minimal example
+
+```ts
+import { Component } from '@angular/core';
+import { TngTabsComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngTabsComponent],
+  template: `<tng-tabs />`,
+})
+export class TabsExample {}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/tabs/overview.md
+
+---
+id: "components/tabs/overview"
+title: "Tabs component"
+description: "Sectioned navigation with tablist, triggers, panels, and controlled or uncontrolled selection."
+category: "components"
+status: "stable"
+tags: ["tabs","navigation","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/tabs/tng-tabs.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/tabs/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/tabs/overview"
+componentGroup: "navigation"
+symbols: ["TngTabsComponent"]
+selectors: ["tng-tabs"]
+productId: "tabs"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Tabs component
+
+Sectioned navigation with tablist, triggers, panels, and controlled or uncontrolled selection.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngTabsComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngTabsComponent],
+  template: `<tng-tabs />`,
+})
+export class TabsAgentExample {}
+```
+
+## Component family
+
+- `TngTabsComponent` — selector `tng-tabs`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/navigation/tabs/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/tabs/api.md)
+- [Styling](https://tailng.dev/ai/components/tabs/styling.md)
+- [Examples](https://tailng.dev/ai/components/tabs/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/tabs/styling.md
+
+---
+id: "components/tabs/styling"
+title: "Tabs styling"
+description: "Tabs styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["tabs","navigation","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/tabs/tng-tabs.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/tabs/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/tabs/sections/styling/tabs-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/navigation/tabs/sections/styling/tabs-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/tabs/styling"
+componentGroup: "navigation"
+symbols: ["TngTabsComponent"]
+selectors: ["tng-tabs"]
+productId: "tabs"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Tabs styling
+
+## Styling contract
+
+The wrapper ships with a complete semantic-token-driven presentation for its shell, tablist, triggers, panels, orientations, and interaction states. Stable slot attributes and public CSS variables let you tune that presentation without depending on internal DOM structure.
+
+### Stable hooks
+
+| Hook | Values | Where |
+| --- | --- | --- |
+| `data-slot` | `tabs`, `tabs-shell`, `tabs-strip`, `tab-list`, `tab`, `tab-panel`, and scroll-button slots | Root wrapper and primitive parts. |
+| `data-selected` | `true \| false` | Tab triggers. |
+| `data-focused` | `true \| false` | Tab triggers. |
+| `data-disabled` | `true \| false` | Root and tab triggers. |
+| `data-active` | `true \| false` | Tab panels. |
+| `data-orientation`, `data-activation` | orientation / activation mode | Root wrapper. |
+
+### Default shell
+
+The stock wrapper uses an unframed shell with contiguous tab headers and a bordered active panel. The first tab aligns with the panel edge, while the selected tab uses the panel surface and opens its adjacent border so the two areas read as one continuous region. Responsive vertical layout and integrated scroll controls are included without requiring component CSS.
+
+### Component variables
+
+Override sizing and visual decisions on `<tng-tabs>`. Common entry points include `--tng-tabs-radius`, `--tng-tabs-tab-height`, `--tng-tabs-tab-px`, `--tng-tabs-panel-padding`, `--tng-tabs-brand`, `--tng-tabs-tab-selected-bg`, and `--tng-tabs-focus-shadow`.
+
+| Group | Public variables |
+| --- | --- |
+| Layout | `--tng-tabs-radius`, `--tng-tabs-shell-padding`, `--tng-tabs-gap`, `--tng-tabs-list-gap`, `--tng-tabs-list-padding`, `--tng-tabs-list-radius`, `--tng-tabs-tab-height`, `--tng-tabs-tab-px`, `--tng-tabs-tab-radius`, `--tng-tabs-panel-padding`, `--tng-tabs-panel-radius`, `--tng-tabs-vertical-list-width`, and `--tng-tabs-scroll-button-size` |
+| Semantic colors | `--tng-tabs-bg`, `--tng-tabs-surface`, `--tng-tabs-canvas`, `--tng-tabs-fg`, `--tng-tabs-muted`, `--tng-tabs-border`, `--tng-tabs-border-strong`, `--tng-tabs-brand`, and `--tng-tabs-focus` |
+| States and effects | `--tng-tabs-tab-hover-bg`, `--tng-tabs-tab-selected-bg`, `--tng-tabs-tab-selected-fg`, `--tng-tabs-tab-selected-border`, `--tng-tabs-panel-bg`, `--tng-tabs-shadow`, `--tng-tabs-selected-shadow`, `--tng-tabs-focus-shadow`, `--tng-tabs-disabled-opacity`, `--tng-tabs-duration`, and `--tng-tabs-ease` |
+
+### Owner guidance
+
+Prefer host-level variables for theme variants. Use slot selectors only when a variant needs a structural change such as an underline tablist; the low-specificity contract is designed to yield to scoped application selectors.
+
+#### tabs.contract.css
+
+```css
+.project-tabs {
+  --tng-tabs-radius: 1.25rem;
+  --tng-tabs-tab-height: 2.75rem;
+  --tng-tabs-tab-px: 1.1rem;
+  --tng-tabs-panel-padding: 1.25rem;
+  --tng-tabs-brand: var(--project-accent);
+}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/toolbar/api.md
+
+---
+id: "components/toolbar/api"
+title: "Toolbar API"
+description: "Toolbar API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["toolbar","navigation","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/toolbar/tng-toolbar.component.ts"]
+componentGroup: "navigation"
+symbols: ["TngToolbarComponent"]
+selectors: ["tng-toolbar"]
+productId: "toolbar"
+section: "api"
+officialCatalog: false
+generated: true
+---
+
+# Toolbar API
+
+Group related actions with toolbar semantics and keyboard navigation.
+
+## Source-derived public Angular API
+
+### `TngToolbarComponent` — `tng-toolbar`
+
+- Inputs: `ariaLabel`
+
+---
+
+Source: https://tailng.dev/ai/components/toolbar/examples.md
+
+---
+id: "components/toolbar/examples"
+title: "Toolbar examples"
+description: "Toolbar examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["toolbar","navigation","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/toolbar/tng-toolbar.component.ts"]
+componentGroup: "navigation"
+symbols: ["TngToolbarComponent"]
+selectors: ["tng-toolbar"]
+productId: "toolbar"
+section: "examples"
+officialCatalog: false
+generated: true
+---
+
+# Toolbar examples
+
+## Minimal example
+
+```ts
+import { Component } from '@angular/core';
+import { TngToolbarComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngToolbarComponent],
+  template: `<tng-toolbar />`,
+})
+export class ToolbarExample {}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/toolbar/overview.md
+
+---
+id: "components/toolbar/overview"
+title: "Toolbar component"
+description: "Group related actions with toolbar semantics and keyboard navigation."
+category: "components"
+status: "stable"
+tags: ["toolbar","navigation","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/toolbar/tng-toolbar.component.ts"]
+componentGroup: "navigation"
+symbols: ["TngToolbarComponent"]
+selectors: ["tng-toolbar"]
+productId: "toolbar"
+section: "overview"
+officialCatalog: false
+generated: true
+---
+
+# Toolbar component
+
+Group related actions with toolbar semantics and keyboard navigation.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngToolbarComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngToolbarComponent],
+  template: `<tng-toolbar />`,
+})
+export class ToolbarAgentExample {}
+```
+
+## Component family
+
+- `TngToolbarComponent` — selector `tng-toolbar`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+This public export does not yet have a dedicated human catalog page; use this reference together with the package source API.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/toolbar/api.md)
+- [Styling](https://tailng.dev/ai/components/toolbar/styling.md)
+- [Examples](https://tailng.dev/ai/components/toolbar/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/toolbar/styling.md
+
+---
+id: "components/toolbar/styling"
+title: "Toolbar styling"
+description: "Toolbar styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["toolbar","navigation","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/navigation/toolbar/tng-toolbar.component.ts"]
+componentGroup: "navigation"
+symbols: ["TngToolbarComponent"]
+selectors: ["tng-toolbar"]
+productId: "toolbar"
+section: "styling"
+officialCatalog: false
+generated: true
+---
+
+# Toolbar styling
+
+## Styling contract
+
+Load the TailNG theme contract stylesheet and prefer semantic tokens over hard-coded colors.
+
+### CSS custom properties
+
+- `--tng-semantic-background-base`
+- `--tng-semantic-border-subtle`
+- `--tng-semantic-foreground-primary`
+
+---
+
+Source: https://tailng.dev/ai/components/tree/api.md
+
+---
+id: "components/tree/api"
+title: "Tree API"
+description: "Tree API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["tree","navigation","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/tree/tng-tree.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/tree/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/tree/sections/api/tree-api-page.component.css","apps/tailng-ui/docs/src/app/pages/components/navigation/tree/sections/api/tree-api-page.component.html","apps/tailng-ui/docs/src/app/pages/components/navigation/tree/sections/api/tree-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/tree/api"
+componentGroup: "navigation"
+symbols: ["TngTreeComponent"]
+selectors: ["tng-tree"]
+productId: "tree"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Tree API
+
+Hierarchical data navigation with keyboard support, selection, and expand/collapse.
+
+## API reference
+
+Tree ships as headless primitives for full ownership and a styled wrapper component for quick adoption.
+
+### `tngTree` (directive)
+
+Root container that orchestrates keyboard navigation, roving focus, and selection state.
+
+#### Primitive usage
+
+```html
+<div tngTree [selectionMode]="'single'" aria-label="Files">
+  <div tngTreeItem [value]="'src'" [defaultExpanded]="true">
+    <span tngTreeIndicator>📂</span> src
+    <div tngTreeGroup>
+      <div tngTreeItem [value]="'index'">
+        <span tngTreeIndicator>📄</span> index.ts
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+| Input | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `selectionMode` | `'single' \| 'multiple' \| 'none'` | `'none'` | Controls item selection behavior. |
+| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | Sets `aria-orientation` and key mapping direction. |
+| `value` | `TngTreeValue \| TngTreeValue[] \| null` | `undefined` | Controlled selection value. |
+| `defaultValue` | `TngTreeValue \| TngTreeValue[] \| null` | `undefined` | Initial uncontrolled selection. |
+| `disabled` | `boolean` | `false` | Disables the entire tree. |
+
+| Output | Type | Notes |
+| --- | --- | --- |
+| `valueChange` | `TngTreeValue \| TngTreeValue[] \| null` | Emits when selection changes. |
+
+| Host attribute | Value | Purpose |
+| --- | --- | --- |
+| `data-slot` | `"tree"` | Stable styling hook. |
+| `role` | `"tree"` | ARIA tree role. |
+| `aria-orientation` | `"vertical" \| "horizontal"` | Reflects `orientation` input. |
+| `aria-multiselectable` | `"true" \| "false" \| null` | Reflects the current selection mode and is omitted when `selectionMode` is `'none'`. |
+
+### `tngTreeItem` (directive)
+
+Individual node inside the tree. Manages expansion state and selection.
+
+| Input | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `value` | `TngTreeValue` | — | Required. Unique identifier for this node. |
+| `expanded` | `boolean \| undefined` | `undefined` | Controlled expansion state. |
+| `defaultExpanded` | `boolean` | `false` | Initial uncontrolled expansion. |
+| `disabled` | `boolean` | `false` | Disables this node. |
+
+| Output | Type | Notes |
+| --- | --- | --- |
+| `expandedChange` | `boolean` | Emits when expanded state toggles. |
+
+| Host attribute | Value | Purpose |
+| --- | --- | --- |
+| `data-slot` | `"tree-item"` | Stable styling hook. |
+| `data-expanded` | `"true" \| "false"` | Expansion state for CSS selectors. |
+| `data-selected` | `"true" \| "false"` | Selection state for CSS selectors. |
+| `data-disabled` | `"true" \| "false"` | Disabled state for CSS selectors. |
+| `aria-expanded` | `"true" \| "false" \| null` | Set on branch nodes only. |
+| `aria-selected` | `"true" \| "false" \| null` | Set when selection mode is not `'none'`. |
+
+### `tngTreeGroup` (directive)
+
+Wraps child items of a branch node. Registers itself as a child group on the parent `tngTreeItem`.
+
+| Host attribute | Value | Purpose |
+| --- | --- | --- |
+| `data-slot` | `"tree-group"` | Stable styling hook. |
+| `role` | `"group"` | ARIA group role. |
+
+### `tngTreeIndicator` (directive)
+
+Disclosure indicator that toggles expand/collapse when clicked. Reflects the parent item's expansion state via `data-expanded`.
+
+| Host attribute | Value | Purpose |
+| --- | --- | --- |
+| `data-slot` | `"tree-indicator"` | Stable styling hook. |
+| `data-expanded` | `"true" \| "false"` | Mirrors parent item's expansion state. |
+
+### `tng-tree` (component)
+
+Styled wrapper that accepts flat node data and renders a complete tree with expand/collapse toggles, keyboard navigation, selection, typeahead, and depth indentation.
+
+#### Component usage
+
+```html
+<tng-tree
+  [nodes]="treeNodes"
+  [defaultExpandedIds]="['src']"
+  [defaultSelectedId]="'index'"
+  [ariaLabel]="'Files'"
+  (selectedIdChange)="onSelect($event)"
+/>
+```
+
+| Input | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `nodes` | `TngTreeItem[]` | `[]` | Flat array of ` id, label, parentId?, description?, disabled? `. |
+| `ariaLabel` | `string` | `'Tree'` | Accessible label for the tree root. |
+| `defaultExpandedIds` | `string[]` | `[]` | Node IDs expanded on first render. |
+| `defaultSelectedId` | `string \| null` | `null` | Node ID selected on first render. |
+
+| Output | Type | Notes |
+| --- | --- | --- |
+| `selectedIdChange` | `string \| null` | Emits the selected node ID. |
+
+## Source-derived public Angular API
+
+### `TngTreeComponent` — `tng-tree`
+
+- Inputs: `ariaLabel`, `defaultExpandedIds`, `defaultSelectedId`, `nodes`
+- Outputs: `selectedIdChange`
+
+---
+
+Source: https://tailng.dev/ai/components/tree/examples.md
+
+---
+id: "components/tree/examples"
+title: "Tree examples"
+description: "Tree examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["tree","navigation","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/tree/tng-tree.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/tree/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/tree/sections/examples/tree-examples-page.component.css","apps/tailng-ui/docs/src/app/pages/components/navigation/tree/sections/examples/tree-examples-page.component.html","apps/tailng-ui/docs/src/app/pages/components/navigation/tree/sections/examples/tree-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/tree/examples"
+componentGroup: "navigation"
+symbols: ["TngTreeComponent"]
+selectors: ["tng-tree"]
+productId: "tree"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Tree examples
+
+## Examples
+
+Reusable wrapper tree patterns for file browsers, settings panels, and explorer-style navigation.
+
+### tree-file-plain.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngTree, type TngTreeItem } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-tree-file-browser-plain',
+  standalone: true,
+  imports: [TngTree],
+  templateUrl: './tree-file-plain.component.html',
+  styleUrl: './tree-file-plain.component.css',
+})
+export class TreeFileBrowserPlainComponent {
+  protected readonly fileTreeNodes: readonly TngTreeItem[] = [
+    { id: 'workspace', label: 'tailng-ui', description: 'Workspace root' },
+    { id: 'libs', label: 'libs', description: 'Shared packages', parentId: 'workspace' },
+    { id: 'components', label: 'components', parentId: 'libs' },
+    { id: 'primitives', label: 'primitives', parentId: 'libs' },
+    { id: 'theme', label: 'theme', parentId: 'libs' },
+    { id: 'apps', label: 'apps', description: 'Deployable applications', parentId: 'workspace' },
+    { id: 'docs', label: 'docs', parentId: 'apps' },
+    { id: 'playground', label: 'playground-tailwind', parentId: 'apps' },
+  ];
+
+  protected readonly defaultExpandedIds = ['workspace', 'libs', 'apps'] as const;
+}
+```
+
+### tree-file-plain.component.html
+
+```html
+<div class="tree-example-demo-shell">
+<tng-tree
+  [nodes]="fileTreeNodes"
+  [defaultExpandedIds]="defaultExpandedIds"
+  [defaultSelectedId]="'components'"
+  ariaLabel="Repository files"
+></tng-tree>
+</div>
+```
+
+### tree-file-plain.component.css
+
+```css
+.tree-example-demo-shell {
+  border: 1px solid var(--docs-border-subtle);
+  border-radius: 16px;
+  padding: 1rem;
+}
+```
+
+### tree-file-tailwind.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngTree, type TngTreeItem } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-tree-file-browser-tailwind',
+  standalone: true,
+  imports: [TngTree],
+  templateUrl: './tree-file-tailwind.component.html',
+  styleUrl: './tree-file-tailwind.component.css',
+})
+export class TreeFileBrowserTailwindComponent {
+  protected readonly fileTreeNodes: readonly TngTreeItem[] = [
+    { id: 'workspace', label: 'tailng-ui', description: 'Workspace root' },
+    { id: 'libs', label: 'libs', description: 'Shared packages', parentId: 'workspace' },
+    { id: 'components', label: 'components', parentId: 'libs' },
+    { id: 'primitives', label: 'primitives', parentId: 'libs' },
+    { id: 'theme', label: 'theme', parentId: 'libs' },
+    { id: 'apps', label: 'apps', description: 'Deployable applications', parentId: 'workspace' },
+    { id: 'docs', label: 'docs', parentId: 'apps' },
+    { id: 'playground', label: 'playground-tailwind', parentId: 'apps' },
+  ];
+
+  protected readonly defaultExpandedIds = ['workspace', 'libs', 'apps'] as const;
+}
+```
+
+### tree-file-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+<tng-tree
+  [nodes]="fileTreeNodes"
+  [defaultExpandedIds]="defaultExpandedIds"
+  [defaultSelectedId]="'components'"
+  ariaLabel="Repository files"
+></tng-tree>
+</div>
+```
+
+### tree-file-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+### tree-settings-plain.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngTree, type TngTreeItem } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-tree-settings-plain',
+  standalone: true,
+  imports: [TngTree],
+  templateUrl: './tree-settings-plain.component.html',
+  styleUrl: './tree-settings-plain.component.css',
+})
+export class TreeSettingsPlainComponent {
+  protected readonly settingsNodes: readonly TngTreeItem[] = [
+    { id: 'general', label: 'General' },
+    { id: 'appearance', label: 'Appearance', parentId: 'general' },
+    { id: 'theme-mode', label: 'Theme mode', parentId: 'appearance' },
+    { id: 'font-size', label: 'Font size', parentId: 'appearance' },
+    { id: 'privacy', label: 'Privacy', parentId: 'general' },
+    { id: 'cookies', label: 'Cookies', parentId: 'privacy' },
+    { id: 'tracking', label: 'Tracking', parentId: 'privacy' },
+    { id: 'advanced', label: 'Advanced' },
+    { id: 'developer', label: 'Developer tools', parentId: 'advanced' },
+    { id: 'experimental', label: 'Experimental', parentId: 'advanced', disabled: true },
+  ];
+
+  protected readonly defaultExpandedIds = ['general', 'appearance'] as const;
+}
+```
+
+### tree-settings-plain.component.html
+
+```html
+<div class="tree-example-demo-shell">
+<tng-tree
+  [nodes]="settingsNodes"
+  [defaultExpandedIds]="defaultExpandedIds"
+  [defaultSelectedId]="'theme-mode'"
+  ariaLabel="Settings"
+></tng-tree>
+</div>
+```
+
+### tree-settings-plain.component.css
+
+```css
+.tree-example-demo-shell {
+  border: 1px solid var(--docs-border-subtle);
+  border-radius: 16px;
+  padding: 1rem;
+}
+```
+
+### tree-settings-tailwind.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { TngTree, type TngTreeItem } from '@tailng-ui/components';
+
+@Component({
+  selector: 'app-tree-settings-tailwind',
+  standalone: true,
+  imports: [TngTree],
+  templateUrl: './tree-settings-tailwind.component.html',
+  styleUrl: './tree-settings-tailwind.component.css',
+})
+export class TreeSettingsTailwindComponent {
+  protected readonly settingsNodes: readonly TngTreeItem[] = [
+    { id: 'general', label: 'General' },
+    { id: 'appearance', label: 'Appearance', parentId: 'general' },
+    { id: 'theme-mode', label: 'Theme mode', parentId: 'appearance' },
+    { id: 'font-size', label: 'Font size', parentId: 'appearance' },
+    { id: 'privacy', label: 'Privacy', parentId: 'general' },
+    { id: 'cookies', label: 'Cookies', parentId: 'privacy' },
+    { id: 'tracking', label: 'Tracking', parentId: 'privacy' },
+    { id: 'advanced', label: 'Advanced' },
+    { id: 'developer', label: 'Developer tools', parentId: 'advanced' },
+    { id: 'experimental', label: 'Experimental', parentId: 'advanced', disabled: true },
+  ];
+
+  protected readonly defaultExpandedIds = ['general', 'appearance'] as const;
+}
+```
+
+### tree-settings-tailwind.component.html
+
+```html
+<div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+<tng-tree
+  [nodes]="settingsNodes"
+  [defaultExpandedIds]="defaultExpandedIds"
+  [defaultSelectedId]="'theme-mode'"
+  ariaLabel="Settings"
+></tng-tree>
+</div>
+```
+
+### tree-settings-tailwind.component.css
+
+```css
+/* Tailwind utilities are applied directly in the template. */
+```
+
+---
+
+Source: https://tailng.dev/ai/components/tree/overview.md
+
+---
+id: "components/tree/overview"
+title: "Tree component"
+description: "Hierarchical data navigation with keyboard support, selection, and expand/collapse."
+category: "components"
+status: "stable"
+tags: ["tree","navigation","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/tree/tng-tree.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/tree/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/tree/overview"
+componentGroup: "navigation"
+symbols: ["TngTreeComponent"]
+selectors: ["tng-tree"]
+productId: "tree"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Tree component
+
+Hierarchical data navigation with keyboard support, selection, and expand/collapse.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngTreeComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngTreeComponent],
+  template: `<tng-tree />`,
+})
+export class TreeAgentExample {}
+```
+
+## Component family
+
+- `TngTreeComponent` — selector `tng-tree`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/navigation/tree/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/tree/api.md)
+- [Styling](https://tailng.dev/ai/components/tree/styling.md)
+- [Examples](https://tailng.dev/ai/components/tree/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/tree/styling.md
+
+---
+id: "components/tree/styling"
+title: "Tree styling"
+description: "Tree styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["tree","navigation","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/utility/tree/tng-tree.component.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/tree/routes.ts","apps/tailng-ui/docs/src/app/pages/components/navigation/tree/sections/styling/tree-styling-page.component.css","apps/tailng-ui/docs/src/app/pages/components/navigation/tree/sections/styling/tree-styling-page.component.html","apps/tailng-ui/docs/src/app/pages/components/navigation/tree/sections/styling/tree-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/navigation/tree/styling"
+componentGroup: "navigation"
+symbols: ["TngTreeComponent"]
+selectors: ["tng-tree"]
+productId: "tree"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Tree styling
+
+## Styling contract
+
+Style against explicit data hooks from tree primitives and the component's CSS classes. Use `data-slot` and `data-*` attributes for state-driven styling.
+
+### Primitive data hooks
+
+| Hook | Element | Use |
+| --- | --- | --- |
+| `data-slot="tree"` | Root | Container styling, orientation layout. |
+| `data-slot="tree-item"` | Node | Row layout, padding, cursor. |
+| `data-slot="tree-group"` | Children container | Indentation, border-left connector. |
+| `data-slot="tree-indicator"` | Disclosure icon | Expand/collapse icon rotation or swap. |
+| `data-expanded="true\|false"` | Item, Indicator | Toggle child visibility and icon state. |
+| `data-selected="true\|false"` | Item | Selection highlight. |
+| `data-disabled="true\|false"` | Item | Muted/disabled presentation. |
+
+### Primitive CSS starter
+
+#### Headless tree CSS contract
+
+```css
+/* Collapse children when parent is not expanded */
+[data-slot='tree-item'][data-expanded='false'] > [data-slot='tree-group'] {
+  display: none;
+}
+
+/* Selection highlight */
+[data-slot='tree-item'][data-selected='true'] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, transparent);
+  color: var(--tng-semantic-accent-brand);
+}
+
+/* Focus ring */
+[data-slot='tree-item']:focus-visible {
+  box-shadow: 0 0 0 2px var(--tng-semantic-focus-ring);
+}
+
+/* Group indentation */
+[data-slot='tree-group'] {
+  margin-left: 1.25rem;
+  padding-left: 0.75rem;
+  border-left: 1px solid var(--tng-semantic-border-subtle);
+}
+```
+
+### Component CSS classes
+
+| Class | Element | Purpose |
+| --- | --- | --- |
+| `.tng-tree-shell` | Root wrapper | Background, border, border-radius, padding. |
+| `.tng-tree-root` | Focusable container | Grid layout, outline, focus ring. |
+| `.tng-tree-item` | Row | Grid layout with `--tng-tree-level` indentation. |
+| `.tng-tree-item-active` | Active row | Keyboard-focused highlight. |
+| `.tng-tree-item-selected` | Selected row | Selection background. |
+| `.tng-tree-item-disabled` | Disabled row | Reduced opacity, `not-allowed` cursor. |
+| `.tng-tree-toggle` | Expand/collapse button | Disclosure toggle styling. |
+| `.tng-tree-node` | Label button | Clickable label area for selection. |
+| `.tng-tree-label` | Label text | Primary node text. |
+| `.tng-tree-description` | Description text | Secondary muted description. |
+
+### Component CSS starter
+
+#### Component tree CSS contract
+
+```css
+.tng-tree-shell {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+}
+
+.tng-tree-item {
+  padding-inline-start: calc(0.5rem + (var(--tng-tree-level) * 1rem));
+}
+
+.tng-tree-item-active {
+  background: color-mix(in srgb, var(--tng-semantic-focus-ring) 15%, transparent);
+}
+
+.tng-tree-item-selected {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 18%, transparent);
+}
+
+.tng-tree-item-disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+```
+

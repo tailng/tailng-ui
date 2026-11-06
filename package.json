@@ -18,6 +18,7 @@
     "check:docs-routes": "node apps/tailng-ui/docs/scripts/sync-docs-routes.mjs --check",
     "docs:agent:build": "node apps/tailng-ui/docs/scripts/agent-knowledge.mjs build",
     "docs:agent:check": "node apps/tailng-ui/docs/scripts/agent-knowledge.mjs check",
+    "docs:agent:test": "node apps/tailng-ui/docs/scripts/agent-knowledge.mjs test",
     "format:nx": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx format:check",
     "format:prettier": "prettier . --check",
     "format:write": "prettier . --write",
@@ -52,7 +53,7 @@
     "typecheck:cli": "tsc -p libs/tailng/cli/tsconfig.lib.json --noEmit",
     "typecheck:docs": "tsc -p apps/tailng-ui/docs/tsconfig.app.json --noEmit",
     "typecheck:registry": "tsc -p libs/tailng-ui/registry/tsconfig.lib.json --noEmit",
-    "verify:ownable-contracts": "pnpm run test:registry && pnpm run test:cli && pnpm run test:docs && pnpm run test:prerender && pnpm run test:split && pnpm run typecheck:registry && pnpm run typecheck:cli && pnpm run typecheck:docs && pnpm run check:docs-routes && pnpm run docs:agent:check"
+    "verify:ownable-contracts": "pnpm run test:registry && pnpm run test:cli && pnpm run test:docs && pnpm run test:prerender && pnpm run test:split && pnpm run typecheck:registry && pnpm run typecheck:cli && pnpm run typecheck:docs && pnpm run check:docs-routes && pnpm run docs:agent:check && pnpm run docs:agent:test"
   },
   "private": true,
   "devDependencies": {

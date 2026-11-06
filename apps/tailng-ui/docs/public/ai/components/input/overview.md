@@ -40,3 +40,9 @@ export class EmailInputExample {
 The component supports native-style attributes including `type`, `placeholder`, `autocomplete`, `required`, `readonly`, `disabled`, `min`, `max`, `minlength`, `maxlength`, `pattern`, and input events.
 
 Use `ariaLabel` when no visible label is associated with the field. Use `ariaErrormessage` and `ariaInvalid` for validation feedback. For projected prefixes or suffixes, use `TngInputFieldComponent` with the relevant primitives.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/input/api.md)
+- [Styling](https://tailng.dev/ai/components/input/styling.md)
+- [Examples](https://tailng.dev/ai/components/input/examples.md)

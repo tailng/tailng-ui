@@ -6,7 +6,10 @@ import {
   DocsExampleTabsSectionComponent,
   DocsExampleVariantDirective,
 } from '../../../../../../shared/example-tabs-section/docs-example-tabs-section.component';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
 
 @Component({
   selector: 'app-avatar-examples-page',
@@ -47,7 +50,7 @@ export class AvatarExamplesPageComponent implements OnDestroy {
         "  styleUrl: './avatar-examples-team-roster-plain-css.component.css',",
         '})',
         'export class AvatarExamplesTeamRosterPlainCssComponent {',
-        '  protected readonly sampleImage = profileImageUrl;',
+        "  protected readonly sampleImage = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%2360a5fa%22/%3E%3C/svg%3E';",
         '}',
       ].join('\n'),
     },
@@ -116,7 +119,7 @@ export class AvatarExamplesPageComponent implements OnDestroy {
         "  styleUrl: './avatar-examples-team-roster-tailwind.component.css',",
         '})',
         'export class AvatarExamplesTeamRosterTailwindComponent {',
-        '  protected readonly sampleImage = profileImageUrl;',
+        "  protected readonly sampleImage = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%2360a5fa%22/%3E%3C/svg%3E';",
         '}',
       ].join('\n'),
     },
@@ -172,7 +175,7 @@ export class AvatarExamplesPageComponent implements OnDestroy {
         "  styleUrl: './avatar-examples-presence-strip-plain-css.component.css',",
         '})',
         'export class AvatarExamplesPresenceStripPlainCssComponent {',
-        '  protected readonly sampleImage = profileImageUrl;',
+        "  protected readonly sampleImage = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%2360a5fa%22/%3E%3C/svg%3E';",
         '}',
       ].join('\n'),
     },
@@ -250,7 +253,7 @@ export class AvatarExamplesPageComponent implements OnDestroy {
         "  styleUrl: './avatar-examples-presence-strip-tailwind.component.css',",
         '})',
         'export class AvatarExamplesPresenceStripTailwindComponent {',
-        '  protected readonly sampleImage = profileImageUrl;',
+        "  protected readonly sampleImage = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%2360a5fa%22/%3E%3C/svg%3E';",
         '}',
       ].join('\n'),
     },
