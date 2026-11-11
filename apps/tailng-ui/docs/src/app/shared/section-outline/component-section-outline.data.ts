@@ -10,6 +10,34 @@ export type DocsComponentTopLevelSectionId =
 export const docsComponentOutlineItemsBySlug: Readonly<
   Record<string, Partial<Record<DocsComponentTopLevelSectionId, readonly DocsSectionRailItem[]>>>
 > = {
+  chat: {
+    overview: [
+      { id: 'imports', label: 'Imports' },
+      { id: 'architecture', label: 'Architecture' },
+      { id: 'canonical-model', label: 'Canonical model' },
+      { id: 'memory-strategy', label: 'Memory strategy' },
+      { id: 'ag-ui-boundary', label: 'AG-UI boundary' },
+    ],
+    api: [
+      { id: 'core-types', label: 'Core types' },
+      { id: 'store-api', label: 'Chat store' },
+      { id: 'history-api', label: 'History controller' },
+      { id: 'ag-ui-api', label: 'AG-UI adapter' },
+    ],
+    styling: [
+      { id: 'styling-boundary', label: 'Styling boundary' },
+      { id: 'renderer-policy', label: 'Renderer policy' },
+      { id: 'accessibility', label: 'Accessibility' },
+      { id: 'security-defaults', label: 'Security defaults' },
+    ],
+    examples: [
+      { id: 'working-demo', label: 'Working demo' },
+      { id: 'normalized-store', label: 'Normalized store' },
+      { id: 'cursor-history', label: 'Cursor history' },
+      { id: 'ag-ui-streaming', label: 'AG-UI streaming' },
+      { id: 'memory-checklist', label: 'Memory checklist' },
+    ],
+  },
   accordion: {
     overview: [
       { id: 'imports', label: 'Imports' },

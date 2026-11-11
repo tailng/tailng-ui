@@ -15,6 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@tailng-ui/ai": ["libs/tailng-ui/ai/src/index.ts"],
+      "@tailng-ui/ai/ag-ui": ["libs/tailng-ui/ai/src/ag-ui/index.ts"],
       "@tailng-ui/cdk": ["libs/tailng-ui/cdk/src/index.ts"],
       "@tailng-ui/cdk/a11y": ["libs/tailng-ui/cdk/src/a11y/index.ts"],
       "@tailng-ui/cdk/adapters": ["libs/tailng-ui/cdk/src/adapters/index.ts"],

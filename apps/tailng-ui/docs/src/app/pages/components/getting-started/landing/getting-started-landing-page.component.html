@@ -26,14 +26,8 @@
           Add the TailNG Components layer and its peer dependencies to your workspace. Choose your
           package manager below.
         </p>
-        <tng-tabs
-          ariaLabel="Install TailNG packages – package manager"
-          [defaultValue]="'pnpm'"
-        >
-          <div
-            tngTabList
-            ariaLabel="Package manager"
-          >
+        <tng-tabs ariaLabel="Install TailNG packages – package manager" [defaultValue]="'pnpm'">
+          <div tngTabList ariaLabel="Package manager">
             <button type="button" tngTab value="pnpm">pnpm</button>
             <button type="button" tngTab value="npm">npm</button>
             <button type="button" tngTab value="yarn">yarn</button>
@@ -132,6 +126,36 @@
           [wrap]="true"
           title="Compose an input field"
         ></tng-code-block>
+      </div>
+
+      <div class="grid gap-2">
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
+          5. Add AI chat foundations (optional)
+        </p>
+        <p class="m-0">
+          Install the protocol-neutral AI package with the AG-UI 1.0 peer when your application
+          needs streamed messages, tool calls, or bounded chat history.
+        </p>
+        <tng-code-block
+          [code]="quickStartAiInstallCode"
+          adapter="shiki"
+          language="bash"
+          [theme]="codeBlockTheme()"
+          [sanitizeHtml]="false"
+          [wrap]="true"
+          title="Install AI chat foundations"
+          [lineNumbers]="false"
+        ></tng-code-block>
+        <p class="m-0">
+          Continue with the
+          <a
+            class="font-medium text-tng-accent-fg underline"
+            routerLink="/components/ai/chat/overview"
+          >
+            AI Chat guide
+          </a>
+          for the message model, store, cursor history, and AG-UI adapter.
+        </p>
       </div>
 
       <div class="grid gap-2">

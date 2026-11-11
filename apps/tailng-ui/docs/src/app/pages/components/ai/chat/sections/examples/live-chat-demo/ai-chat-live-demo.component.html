@@ -1,0 +1,112 @@
+<section class="ai-chat-demo" role="region" aria-label="AI chat working demo">
+  <header class="ai-chat-demo__header">
+    <div>
+      <span class="ai-chat-demo__eyebrow">Interactive foundation demo</span>
+      <h3>TailNG release assistant</h3>
+      <p>Local deterministic stream · no backend or API key</p>
+    </div>
+    <span class="ai-chat-demo__protocol">AG-UI 1.0</span>
+  </header>
+
+  <div class="ai-chat-demo__history-control">
+    @if (!historyExhausted()) {
+      <tng-button
+        appearance="ghost"
+        size="sm"
+        [disabled]="historyLoading()"
+        (click)="loadEarlier()"
+      >
+        {{ historyLoading() ? 'Loading…' : 'Load earlier messages' }}
+      </tng-button>
+    } @else {
+      <span>Start of conversation</span>
+    }
+  </div>
+
+  <ol class="ai-chat-demo__transcript" aria-label="Release assistant conversation">
+    @for (chatMessage of messages(); track chatMessage.id) {
+      <li
+        class="ai-chat-demo__message"
+        [class.ai-chat-demo__message--user]="chatMessage.role === 'user'"
+        [class.ai-chat-demo__message--tool]="chatMessage.role === 'tool'"
+        [attr.data-message-id]="chatMessage.id"
+        [attr.data-message-role]="chatMessage.role"
+        [attr.data-message-status]="chatMessage.status"
+      >
+        <span class="ai-chat-demo__author">
+          {{
+            chatMessage.role === 'user'
+              ? 'You'
+              : chatMessage.role === 'tool'
+                ? 'Tool result'
+                : 'Release assistant'
+          }}
+        </span>
+        <div class="ai-chat-demo__bubble">
+          @for (part of chatMessage.parts; track part.id) {
+            @switch (part.type) {
+              @case ('text') {
+                <p>
+                  {{ textFor(part) }}
+                  @if (part.status === 'streaming') {
+                    <span class="ai-chat-demo__cursor" aria-hidden="true"></span>
+                  }
+                </p>
+              }
+              @case ('tool-call') {
+                <section
+                  class="ai-chat-demo__tool"
+                  [attr.data-tool-call-id]="part.toolCallId"
+                  [attr.data-tool-status]="part.status"
+                  aria-label="Tool call"
+                >
+                  <div class="ai-chat-demo__tool-title">
+                    <span aria-hidden="true">⌁</span>
+                    <strong>{{ part.name }}</strong>
+                    <span>{{ part.status }}</span>
+                  </div>
+                  @if (part.input !== undefined) {
+                    <pre>{{ jsonFor(part.input) }}</pre>
+                  }
+                </section>
+              }
+              @case ('tool-result') {
+                <p>{{ part.text }}</p>
+              }
+            }
+          }
+          @if (chatMessage.status === 'stopped') {
+            <span class="ai-chat-demo__stopped">Stopped</span>
+          }
+        </div>
+      </li>
+    }
+  </ol>
+
+  <p class="ai-chat-demo__status" role="status" aria-live="polite">{{ statusMessage() }}</p>
+
+  <footer class="ai-chat-demo__composer">
+    <tng-textarea
+      id="ai-chat-demo-composer"
+      ariaLabel="Message the release assistant"
+      placeholder="Ask about release readiness…"
+      resize="none"
+      [rows]="2"
+      [value]="draft()"
+      [disabled]="running()"
+      (valueChange)="draft.set($event ?? '')"
+      (keydown)="onComposerKeydown($event)"
+    />
+    <div class="ai-chat-demo__composer-actions">
+      <span>Enter to send · Shift+Enter for newline</span>
+      @if (running()) {
+        <tng-button tone="danger" appearance="outline" (click)="stop()">Stop</tng-button>
+      } @else {
+        @if (canRetry()) {
+          <tng-button appearance="outline" (click)="retry()">Retry</tng-button>
+        }
+        <tng-button [disabled]="!canSend()" (click)="submit()">Send</tng-button>
+      }
+    </div>
+  </footer>
+</section>

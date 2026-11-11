@@ -35,6 +35,7 @@ const packageManifestPaths = [
   'libs/tailng-ui/theme/package.json',
   'libs/tailng-ui/icons/package.json',
   'libs/tailng-ui/flow/package.json',
+  'libs/tailng-ui/ai/package.json',
   'libs/tailng-ui/registry/package.json',
   'libs/tailng/cli/package.json',
 ];

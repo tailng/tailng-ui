@@ -1,5 +1,6 @@
 export type ComponentsDocsCategoryId =
   | 'getting-started'
+  | 'ai'
   | 'flow'
   | 'layout'
   | 'overlay'
@@ -70,6 +71,21 @@ export const COMPONENTS_GETTING_STARTED_GROUP: ComponentsDocsGroup = {
       slug: 'tailwind-setup',
       title: 'Tailwind Setup',
       description: 'Integrate TailNG Components with utility-first styling in Tailwind.',
+    },
+  ],
+};
+
+export const COMPONENTS_AI_GROUP: ComponentsDocsGroup = {
+  id: 'ai',
+  title: 'AI',
+  subtitle: 'AI chat models, streaming, and history',
+  items: [
+    {
+      id: 'chat',
+      slug: 'chat',
+      title: 'AI Chat',
+      description:
+        'Protocol-neutral chat models, AG-UI streaming reduction, and bounded cursor history for AI applications.',
     },
   ],
 };
@@ -538,6 +554,7 @@ function withAlphabetizedItems(group: ComponentsDocsGroup): ComponentsDocsGroup 
 
 export const COMPONENTS_DOCS_GROUPS: readonly ComponentsDocsGroup[] = Object.freeze([
   COMPONENTS_GETTING_STARTED_GROUP,
+  withAlphabetizedItems(COMPONENTS_AI_GROUP),
   withAlphabetizedItems(COMPONENTS_FORM_GROUP),
   withAlphabetizedItems(COMPONENTS_FLOW_GROUP),
   withAlphabetizedItems(COMPONENTS_LAYOUT_GROUP),

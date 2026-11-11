@@ -601,6 +601,11 @@
 /charts/treemap/parent-label-treemap/overview
 /charts/treemap/parent-label-treemap/styling
 /components
+/components/ai/chat
+/components/ai/chat/api
+/components/ai/chat/examples
+/components/ai/chat/overview
+/components/ai/chat/styling
 /components/feedback/confetti
 /components/feedback/confetti/api
 /components/feedback/confetti/examples

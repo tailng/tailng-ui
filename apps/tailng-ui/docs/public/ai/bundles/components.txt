@@ -519,6 +519,163 @@ Accordion exposes predictable slot/state attributes so teams can style primitive
 
 ---
 
+Source: https://tailng.dev/ai/components/ai-chat/api.md
+
+---
+id: components/ai-chat/api
+title: AI Chat API
+description: Public core, store, history, validation, and AG-UI reducer contracts for the TailNG AI package.
+category: components
+status: stable
+tags: ["ai", "chat", "api", "ag-ui"]
+package: @tailng-ui/ai
+sourcePaths: ["libs/tailng-ui/ai/src/index.ts", "libs/tailng-ui/ai/src/ag-ui/index.ts", "libs/tailng-ui/ai/src/lib/store/chat-store.ts", "libs/tailng-ui/ai/src/lib/history/history-controller.ts"]
+humanDocsUrl: https://tailng.dev/components/ai/chat/api
+---
+
+# AI Chat API
+
+Import the canonical types, operations, part registry, store, and history controller from `@tailng-ui/ai`. Import AG-UI validation and reduction from `@tailng-ui/ai/ag-ui`; that entry point requires the optional `@ag-ui/core` peer.
+
+Core model:
+
+- `TngAiThread`, `TngAiRun`, and `TngAiMessage` are the normalized entity envelopes.
+- `TngAiMessagePart` is the discriminated union for text, reasoning, tools, files, sources, data, activity, UI payloads, extensions, and unsupported content.
+- `TngAiActionRequest` describes UI intent without owning transport behavior.
+- `TngAiPartRegistry<T>` resolves explicitly registered, namespaced extension renderers.
+
+State and history:
+
+- `TngAiChatStore` exposes `snapshot`, `upsertThread`, `upsertRun`, `upsertMessage`, `updateMessage`, `selectMessages`, `clearThread`, `diagnostics`, and `dispose`.
+- `TngAiHistoryController` exposes `loadBefore`, `retry`, `state`, `activateThread`, `diagnostics`, and `dispose`.
+- A `TngAiHistorySource` returns an oldest-to-newest `TngAiHistoryPage` with an opaque `previousCursor` and `hasMore` flag.
+
+AG-UI:
+
+- `validateTngAgUiEvent` validates JSON limits, the selected profile, and the official event schema.
+- `TngAgUiReducer.reduce` applies one validated event to a `TngAiChatStore` or returns a structured diagnostic.
+- The `required-chat` profile supports run, text, tool-call, tool-result, and message-snapshot events.
+
+---
+
+Source: https://tailng.dev/ai/components/ai-chat/examples.md
+
+---
+id: components/ai-chat/examples
+title: AI Chat integration examples
+description: Integrate the normalized store, cursor history, and AG-UI streaming reducer in an AI application.
+category: components
+status: stable
+tags: ["ai", "chat", "examples", "streaming", "pagination"]
+package: @tailng-ui/ai
+sourcePaths: ["libs/tailng-ui/ai/src/lib/store/chat-store.ts", "libs/tailng-ui/ai/src/lib/history/history-controller.ts", "libs/tailng-ui/ai/src/ag-ui/lib/reducer.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/ai-chat-examples-page.component.ts"]
+humanDocsUrl: https://tailng.dev/components/ai/chat/examples
+---
+
+# AI Chat integration examples
+
+The human [AI Chat examples page](https://tailng.dev/components/ai/chat/examples) includes a
+deterministic working demo. It submits local prompts, streams official AG-UI lifecycle events into
+the normalized store, renders a tool call and result, supports stop and retry, and prepends one
+cursor-loaded history page without requiring a backend or API key.
+
+Create one normalized store and reduce protocol events at the boundary:
+
+```ts
+import type { Event } from '@ag-ui/core';
+import { TngAiChatStore } from '@tailng-ui/ai';
+import { TngAgUiReducer } from '@tailng-ui/ai/ag-ui';
+
+const store = new TngAiChatStore();
+const reducer = new TngAgUiReducer(store, { profile: 'required-chat' });
+
+export function receiveAgentEvent(event: Event): void {
+  const result = reducer.reduce(event);
+  if (!result.applied) console.warn(result.diagnostic);
+}
+```
+
+For history, implement `TngAiHistorySource.loadBefore` with an opaque cursor and an `AbortSignal`, then pass it to `TngAiHistoryController`. Start with 40 messages, render only a virtualized viewport, and call `activateThread` when the active conversation changes so obsolete requests are aborted.
+
+Schedule view updates at most once per animation frame during token streaming. Keep Markdown parsing, syntax highlighting, attachments, and persistence outside the synchronous reducer path.
+
+---
+
+Source: https://tailng.dev/ai/components/ai-chat/overview.md
+
+---
+id: components/ai-chat/overview
+title: AI Chat foundation overview
+description: Build protocol-neutral AI chat state with canonical messages, normalized storage, bounded history, and AG-UI 1.0 events.
+category: components
+status: stable
+tags: ["ai", "chat", "ag-ui", "history"]
+package: @tailng-ui/ai
+sourcePaths: ["libs/tailng-ui/ai/src/index.ts", "libs/tailng-ui/ai/src/lib/core/message.types.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/overview/ai-chat-overview-page.component.ts"]
+humanDocsUrl: https://tailng.dev/components/ai/chat/overview
+---
+
+# AI Chat foundation overview
+
+`@tailng-ui/ai` is a headless data and protocol foundation. It does not currently export a rendered Angular chat component or CSS.
+
+Use the package to keep transport-specific events out of presentation code:
+
+```ts
+import { TngAiChatStore, TngAiHistoryController } from '@tailng-ui/ai';
+import { TngAgUiReducer } from '@tailng-ui/ai/ag-ui';
+
+const store = new TngAiChatStore();
+const history = new TngAiHistoryController(store);
+const reducer = new TngAgUiReducer(store);
+```
+
+The application remains responsible for transport, authentication, persistence, rendering, virtualization, and product policy. TailNG provides canonical thread, run, message, part, and action types; lifecycle-safe operations; normalized state; cursor-history coordination; and AG-UI event validation and reduction.
+
+For long conversations, fetch older messages by opaque cursor, render a virtual window, batch streamed updates, and evict inactive pages according to application policy.
+
+- [API reference](https://tailng.dev/ai/components/ai-chat/api.md)
+- [Styling and rendering policy](https://tailng.dev/ai/components/ai-chat/styling.md)
+- [Integration examples](https://tailng.dev/ai/components/ai-chat/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/ai-chat/styling.md
+
+---
+id: components/ai-chat/styling
+title: AI Chat styling and rendering policy
+description: Style a TailNG AI chat presentation safely while preserving accessibility and renderer boundaries.
+category: components
+status: stable
+tags: ["ai", "chat", "styling", "accessibility", "security"]
+package: @tailng-ui/ai
+sourcePaths: ["libs/tailng-ui/ai/src/lib/core/part-registry.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/styling/ai-chat-styling-page.component.html"]
+humanDocsUrl: https://tailng.dev/components/ai/chat/styling
+---
+
+# AI Chat styling and rendering policy
+
+The foundation package renders no DOM and ships no CSS. Keep style choices in the application presentation layer and map canonical roles, statuses, and message-part types to semantic UI.
+
+Rendering rules:
+
+1. Sanitize Markdown output and allowlist link and media protocols.
+2. Map known core parts explicitly.
+3. Register only namespaced extension renderers with `TngAiPartRegistry`.
+4. Treat unknown payloads as data and show a safe unsupported-content fallback.
+5. Require explicit user interaction for tool approvals.
+
+Accessibility rules:
+
+- Keep the transcript as normal document content rather than a continuously updating live region.
+- Announce concise run-state changes in a separate polite status region.
+- Preserve composer focus after submit and focus identity during virtualization.
+- Use named native buttons for stop, retry, feedback, and approval actions.
+- Respect reduced motion, forced colors, zoom, large text, and right-to-left layouts.
+
+---
+
 Source: https://tailng.dev/ai/components/autocomplete/api.md
 
 ---

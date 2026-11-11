@@ -1,0 +1,84 @@
+<article class="grid gap-10">
+  <header class="grid max-w-3xl gap-3">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">AI Chat examples</h1>
+    <p class="m-0 text-base leading-7 text-tng-fg-secondary">
+      Compose the independent core pieces around your transport and presentation layer.
+    </p>
+  </header>
+
+  <section id="working-demo" class="grid gap-4 scroll-mt-24">
+    <div class="grid max-w-3xl gap-2">
+      <h2 class="m-0 text-2xl font-semibold text-tng-fg-primary">Working chat demo</h2>
+      <p class="m-0 text-tng-fg-secondary">
+        Send a prompt, watch real AG-UI events reduce into the normalized store, inspect the tool
+        call, stop and retry a response, or prepend a cursor-loaded history page. The simulation is
+        deterministic and runs entirely in this page.
+      </p>
+    </div>
+    <app-ai-chat-live-demo />
+  </section>
+
+  <section id="normalized-store" class="grid gap-4 scroll-mt-24">
+    <h2 class="m-0 text-2xl font-semibold text-tng-fg-primary">Normalized store</h2>
+    <p class="m-0 text-tng-fg-secondary">
+      Store each entity once and derive an ordered message projection only for the active thread.
+    </p>
+    <tng-code-block
+      [code]="storeCode"
+      adapter="shiki"
+      language="ts"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      title="Create and read a chat store"
+    />
+  </section>
+
+  <section id="cursor-history" class="grid gap-4 scroll-mt-24">
+    <h2 class="m-0 text-2xl font-semibold text-tng-fg-primary">Cursor history</h2>
+    <p class="m-0 text-tng-fg-secondary">
+      Return messages oldest-to-newest within each page. The controller validates the page and
+      prepends it without duplicating IDs.
+    </p>
+    <tng-code-block
+      [code]="historyCode"
+      adapter="shiki"
+      language="ts"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      title="Load older messages on demand"
+    />
+  </section>
+
+  <section id="ag-ui-streaming" class="grid gap-4 scroll-mt-24">
+    <h2 class="m-0 text-2xl font-semibold text-tng-fg-primary">AG-UI streaming</h2>
+    <p class="m-0 text-tng-fg-secondary">
+      Pass decoded transport events to one reducer. Read the store after applied events and schedule
+      rendering at most once per animation frame.
+    </p>
+    <tng-code-block
+      [code]="agUiCode"
+      adapter="shiki"
+      language="ts"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      title="Reduce AG-UI events"
+    />
+  </section>
+
+  <section id="memory-checklist" class="grid gap-4 scroll-mt-24">
+    <h2 class="m-0 text-2xl font-semibold text-tng-fg-primary">Long-chat memory checklist</h2>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>Use cursor pagination instead of offset pagination or full-thread hydration.</li>
+      <li>Virtualize transcript rows and overscan only a small screen-adjacent window.</li>
+      <li>Batch token deltas before triggering Angular change detection.</li>
+      <li>
+        Move Markdown parsing, highlighting, and large attachment work off the hot render path.
+      </li>
+      <li>Evict inactive thread pages while retaining cursors, summaries, and unsent drafts.</li>
+      <li>Abort history and streaming work when a thread is closed or replaced.</li>
+    </ul>
+  </section>
+</article>

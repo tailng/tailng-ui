@@ -1,0 +1,109 @@
+<article class="grid gap-10">
+  <header class="grid max-w-3xl gap-3">
+    <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
+      AI foundation
+    </p>
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">AI Chat</h1>
+    <p class="m-0 text-base leading-7 text-tng-fg-secondary">
+      Build protocol-neutral AI chat features on a canonical message model, normalized state,
+      cursor-paged history, and an optional AG-UI 1.0 streaming adapter.
+    </p>
+    <div
+      class="rounded-lg border border-tng-border-subtle bg-tng-bg-surface p-4 text-sm text-tng-fg-secondary"
+    >
+      <strong class="text-tng-fg-primary">Current scope:</strong>
+      this package is the headless data and protocol foundation. It does not yet export a rendered
+      Angular chat component or its CSS.
+    </div>
+  </header>
+
+  <section id="imports" class="grid gap-4 scroll-mt-24">
+    <h2 class="m-0 text-2xl font-semibold text-tng-fg-primary">Imports</h2>
+    <p class="m-0 text-tng-fg-secondary">
+      Install the core package. Add the AG-UI peer only when consuming the secondary adapter entry
+      point.
+    </p>
+    <tng-code-block
+      [code]="installCode"
+      adapter="shiki"
+      language="bash"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      title="Install AI chat packages"
+      [lineNumbers]="false"
+    />
+    <tng-code-block
+      [code]="importsCode"
+      adapter="shiki"
+      language="ts"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      title="Import the core and AG-UI APIs"
+    />
+  </section>
+
+  <section id="architecture" class="grid gap-4 scroll-mt-24">
+    <h2 class="m-0 text-2xl font-semibold text-tng-fg-primary">Architecture</h2>
+    <div class="grid gap-3 md:grid-cols-2">
+      <div class="rounded-lg border border-tng-border-subtle p-4">
+        <h3 class="m-0 text-base font-semibold text-tng-fg-primary">Application owns</h3>
+        <p class="mb-0 mt-2 text-sm leading-6 text-tng-fg-secondary">
+          Transport, persistence, authentication, message rendering, composer UI, virtualization,
+          and product policy.
+        </p>
+      </div>
+      <div class="rounded-lg border border-tng-border-subtle p-4">
+        <h3 class="m-0 text-base font-semibold text-tng-fg-primary">TailNG owns</h3>
+        <p class="mb-0 mt-2 text-sm leading-6 text-tng-fg-secondary">
+          Canonical types, safe lifecycle operations, normalized storage, cursor-history
+          coordination, validation, and AG-UI event reduction.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="canonical-model" class="grid gap-4 scroll-mt-24">
+    <h2 class="m-0 text-2xl font-semibold text-tng-fg-primary">Canonical model</h2>
+    <p class="m-0 text-tng-fg-secondary">
+      Messages are stable envelopes containing ordered, typed parts. Keep transport-specific event
+      objects outside renderers and reduce them into this model at the application boundary.
+    </p>
+    <tng-code-block
+      [code]="messageCode"
+      adapter="shiki"
+      language="ts"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      title="Create a canonical message"
+    />
+  </section>
+
+  <section id="memory-strategy" class="grid gap-4 scroll-mt-24">
+    <h2 class="m-0 text-2xl font-semibold text-tng-fg-primary">Memory strategy</h2>
+    <p class="m-0 text-tng-fg-secondary">
+      Do not load an entire long conversation into the browser. Fetch older messages with opaque
+      cursors, keep one normalized record per ID, render only a virtualized window, and retain
+      drafts and summaries separately from the visible message window.
+    </p>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>Start with 40 messages; the controller clamps pages to 100 by default.</li>
+      <li>Prepend older pages and preserve the scroll anchor in the rendering layer.</li>
+      <li>Abort in-flight history requests when the active thread changes.</li>
+      <li>
+        Persist older pages outside component memory and evict them using an application policy.
+      </li>
+    </ul>
+  </section>
+
+  <section id="ag-ui-boundary" class="grid gap-4 scroll-mt-24">
+    <h2 class="m-0 text-2xl font-semibold text-tng-fg-primary">AG-UI boundary</h2>
+    <p class="m-0 text-tng-fg-secondary">
+      The AG-UI adapter validates official 1.0 events before reducing run, text, tool-call,
+      tool-result, and message-snapshot events into the same store. Unsupported or invalid events
+      return diagnostics instead of reaching the UI unchecked.
+    </p>
+  </section>
+</article>

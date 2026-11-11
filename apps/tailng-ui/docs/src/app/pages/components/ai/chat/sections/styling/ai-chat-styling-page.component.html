@@ -1,0 +1,83 @@
+<article class="grid gap-10">
+  <header class="grid max-w-3xl gap-3">
+    <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">AI Chat styling</h1>
+    <p class="m-0 text-base leading-7 text-tng-fg-secondary">
+      The foundation package renders no DOM and ships no CSS. Your presentation layer controls the
+      transcript, composer, tool cards, and virtualization surface.
+    </p>
+  </header>
+
+  <section id="styling-boundary" class="grid gap-4 scroll-mt-24">
+    <h2 class="m-0 text-2xl font-semibold text-tng-fg-primary">Styling boundary</h2>
+    <p class="m-0 text-tng-fg-secondary">
+      Style semantic roles and message-part types in your application. Keep the canonical model free
+      from CSS classes so the same store can feed a web transcript, compact activity view, mobile
+      surface, or export renderer.
+    </p>
+    <div
+      class="rounded-lg border border-tng-border-subtle p-4 text-sm leading-6 text-tng-fg-secondary"
+    >
+      Recommended presentation states include message status, author role, streaming state,
+      tool-call lifecycle, approval state, error state, focus visibility, and reduced motion.
+    </div>
+  </section>
+
+  <section id="renderer-policy" class="grid gap-4 scroll-mt-24">
+    <h2 class="m-0 text-2xl font-semibold text-tng-fg-primary">Renderer policy</h2>
+    <p class="m-0 text-tng-fg-secondary">
+      Map known core parts explicitly and register only namespaced extension renderers. Unknown
+      parts should fall back to a safe unsupported-content treatment instead of dynamic component
+      creation.
+    </p>
+    <tng-code-block
+      [code]="rendererCode"
+      adapter="shiki"
+      language="ts"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      title="Register an extension renderer"
+    />
+  </section>
+
+  <section id="accessibility" class="grid gap-4 scroll-mt-24">
+    <h2 class="m-0 text-2xl font-semibold text-tng-fg-primary">Accessibility</h2>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>
+        Keep the transcript navigable as ordinary document content; do not force it into a live
+        region.
+      </li>
+      <li>
+        Announce concise run-state changes in a separate polite status region, not every streamed
+        token.
+      </li>
+      <li>
+        Keep focus in the composer after submit and preserve focus when virtualized rows are
+        recycled.
+      </li>
+      <li>Expose stop, retry, feedback, and approval actions as named native buttons.</li>
+      <li>Make tool approvals explicit, reversible where possible, and fully keyboard operable.</li>
+      <li>Respect reduced motion, forced colors, zoom, large text, and right-to-left layouts.</li>
+    </ul>
+  </section>
+
+  <section id="security-defaults" class="grid gap-4 scroll-mt-24">
+    <h2 class="m-0 text-2xl font-semibold text-tng-fg-primary">Security defaults</h2>
+    <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
+      <li>Sanitize Markdown output; never bind model text directly as trusted HTML.</li>
+      <li>Allowlist URL protocols before rendering source, file, or citation links.</li>
+      <li>Require an explicit user action before approving a tool call.</li>
+      <li>Render unsupported and extension payloads as data, not executable templates.</li>
+      <li>Apply byte, depth, entry, attachment, and tool-input limits at the boundary.</li>
+    </ul>
+    <tng-code-block
+      [code]="safeMarkdownCode"
+      adapter="shiki"
+      language="ts"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      title="Sanitize rendered Markdown"
+    />
+  </section>
+</article>

@@ -36,6 +36,7 @@
     "start:tailwind": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve playground-tailwind --port 4202",
     "start:vanilla": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve playground-plain-css --port 4201",
     "test:all": "vitest run",
+    "test:ai": "vitest run --config libs/tailng-ui/ai/vitest.config.ts",
     "test:charts": "vitest run libs/tailng-ui/charts",
     "test:cdk": "vitest run libs/tailng-ui/cdk",
     "test:cli": "vitest run libs/tailng/cli",
@@ -57,6 +58,7 @@
   },
   "private": true,
   "devDependencies": {
+    "@ag-ui/core": "1.0.4",
     "@analogjs/vite-plugin-angular": "^2.2.3",
     "@analogjs/vitest-angular": "^2.2.3",
     "@angular-devkit/core": "21.1.1",

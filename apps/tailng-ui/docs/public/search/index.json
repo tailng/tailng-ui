@@ -7944,6 +7944,65 @@
     ]
   },
   {
+    "title": "Chat",
+    "description": "Chat documentation.",
+    "section": "Components / Ai",
+    "url": "/components/ai/chat",
+    "tags": [
+      "components",
+      "ai",
+      "chat"
+    ]
+  },
+  {
+    "title": "Chat Api",
+    "description": "Chat Api documentation.",
+    "section": "Components / Ai / Chat",
+    "url": "/components/ai/chat/api",
+    "tags": [
+      "components",
+      "ai",
+      "chat",
+      "api"
+    ]
+  },
+  {
+    "title": "Chat Examples",
+    "description": "Chat Examples documentation.",
+    "section": "Components / Ai / Chat",
+    "url": "/components/ai/chat/examples",
+    "tags": [
+      "components",
+      "ai",
+      "chat",
+      "examples"
+    ]
+  },
+  {
+    "title": "Chat Overview",
+    "description": "Chat Overview documentation.",
+    "section": "Components / Ai / Chat",
+    "url": "/components/ai/chat/overview",
+    "tags": [
+      "components",
+      "ai",
+      "chat",
+      "overview"
+    ]
+  },
+  {
+    "title": "Chat Styling",
+    "description": "Chat Styling documentation.",
+    "section": "Components / Ai / Chat",
+    "url": "/components/ai/chat/styling",
+    "tags": [
+      "components",
+      "ai",
+      "chat",
+      "styling"
+    ]
+  },
+  {
     "title": "Confetti",
     "description": "Confetti documentation.",
     "section": "Components / Feedback",

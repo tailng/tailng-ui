@@ -1,0 +1,22 @@
+{
+  "name": "@tailng-ui/ai",
+  "version": "0.0.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tailng/tailng-ui"
+  },
+  "type": "module",
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "peerDependencies": {
+    "@ag-ui/core": "^1.0.4"
+  },
+  "peerDependenciesMeta": {
+    "@ag-ui/core": {
+      "optional": true
+    }
+  },
+  "sideEffects": false
+}

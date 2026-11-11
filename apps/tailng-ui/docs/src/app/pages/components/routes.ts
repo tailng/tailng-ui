@@ -18,6 +18,10 @@ export const COMPONENTS_ROUTES: Routes = [
           import('./getting-started/routes').then((m) => m.COMPONENTS_GETTING_STARTED_ROUTES),
       },
       {
+        path: 'ai',
+        loadChildren: () => import('./ai/routes').then((m) => m.COMPONENTS_AI_ROUTES),
+      },
+      {
         path: 'form',
         loadChildren: () => import('./form/routes').then((m) => m.COMPONENTS_FORM_ROUTES),
       },
@@ -58,13 +62,11 @@ export const COMPONENTS_ROUTES: Routes = [
       },
       {
         path: 'feedback',
-        loadChildren: () =>
-          import('./feedback/routes').then((m) => m.COMPONENTS_FEEDBACK_ROUTES),
+        loadChildren: () => import('./feedback/routes').then((m) => m.COMPONENTS_FEEDBACK_ROUTES),
       },
       {
         path: 'utility',
-        loadChildren: () =>
-          import('./utility/routes').then((m) => m.COMPONENTS_UTILITY_ROUTES),
+        loadChildren: () => import('./utility/routes').then((m) => m.COMPONENTS_UTILITY_ROUTES),
       },
       {
         path: 'navigation',
