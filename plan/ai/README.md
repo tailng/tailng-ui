@@ -87,6 +87,12 @@ Application history API
 11. [Component assistant expanded catalog](./component-assistant-expanded-catalog.md)
     - Twelve categorized prompt choices, eight additional allowlisted previews, protocol
       compatibility, lazy loading, accessibility, responsive behavior, and TDD/performance gates.
+12. [`tng-ai-chat` component](./tng-ai-chat-component.md)
+    - High-level controlled chat UI, default renderers, custom message-part components, custom
+      header components, events, accessibility, scrolling, performance, and delivery phases.
+13. [`tng-ai-chat` TDD test catalog](./tests/tng-ai-chat-component-tests.md)
+    - Complete component contract, customization, interaction, accessibility, security, browser,
+      performance, documentation, and release test cases.
 
 ## Implementation gate
 

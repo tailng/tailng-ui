@@ -39,6 +39,14 @@
         "reportsDirectory": "coverage/libs/tailng-ui/ai",
         "watch": false
       }
+    },
+    "vite:test:browser": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}-browser"],
+      "options": {
+        "configFile": "libs/tailng-ui/ai/vitest.browser.config.ts",
+        "watch": false
+      }
     }
   }
 }

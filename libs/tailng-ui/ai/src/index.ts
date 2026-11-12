@@ -1,3 +1,5 @@
+export * from './lib/chat/tng-ai-chat.component';
+export * from './lib/chat/tng-ai-chat.types';
 export * from './lib/core/action.types';
 export * from './lib/core/error.types';
 export * from './lib/core/json.types';

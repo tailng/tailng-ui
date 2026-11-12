@@ -9,7 +9,7 @@
     "@tailng-ui/theme": "1.0.0",
     "@tailng-ui/icons": "1.0.0",
     "@tailng-ui/flow": "1.0.0",
-    "@tailng-ui/ai": "0.2.0",
+    "@tailng-ui/ai": "0.1.0",
     "@tailng-ui/registry": "1.1.0",
     "tailng": "1.3.0"
   },
@@ -3174,7 +3174,7 @@
     {
       "id": "components/ai-chat/api",
       "title": "AI Chat API",
-      "description": "Public core, store, history, validation, and AG-UI reducer contracts for the TailNG AI package.",
+      "description": "Public chat component, custom renderer, core, store, history, validation, and AG-UI contracts for the TailNG AI package.",
       "category": "components",
       "status": "stable",
       "tags": [
@@ -3185,7 +3185,7 @@
       ],
       "package": "@tailng-ui/ai",
       "importPath": "@tailng-ui/ai",
-      "packageVersion": "0.2.0",
+      "packageVersion": "0.1.0",
       "url": "https://tailng.dev/ai/components/ai-chat/api.md",
       "humanDocsUrl": "https://tailng.dev/components/ai/chat/api",
       "componentGroup": null,
@@ -3210,7 +3210,7 @@
       ],
       "package": "@tailng-ui/ai",
       "importPath": "@tailng-ui/ai",
-      "packageVersion": "0.2.0",
+      "packageVersion": "0.1.0",
       "url": "https://tailng.dev/ai/components/ai-chat/examples.md",
       "humanDocsUrl": "https://tailng.dev/components/ai/chat/examples",
       "componentGroup": null,
@@ -3223,7 +3223,7 @@
     {
       "id": "components/ai-chat/overview",
       "title": "AI Chat foundation overview",
-      "description": "Build protocol-neutral AI chat state with canonical messages, normalized storage, bounded history, and AG-UI 1.0 events.",
+      "description": "Render a professional protocol-neutral AI chat with canonical messages, custom Angular parts, bounded history, and AG-UI 1.0 events.",
       "category": "components",
       "status": "stable",
       "tags": [
@@ -3234,7 +3234,7 @@
       ],
       "package": "@tailng-ui/ai",
       "importPath": "@tailng-ui/ai",
-      "packageVersion": "0.2.0",
+      "packageVersion": "0.1.0",
       "url": "https://tailng.dev/ai/components/ai-chat/overview.md",
       "humanDocsUrl": "https://tailng.dev/components/ai/chat/overview",
       "componentGroup": null,
@@ -3259,7 +3259,7 @@
       ],
       "package": "@tailng-ui/ai",
       "importPath": "@tailng-ui/ai",
-      "packageVersion": "0.2.0",
+      "packageVersion": "0.1.0",
       "url": "https://tailng.dev/ai/components/ai-chat/styling.md",
       "humanDocsUrl": "https://tailng.dev/components/ai/chat/styling",
       "componentGroup": null,

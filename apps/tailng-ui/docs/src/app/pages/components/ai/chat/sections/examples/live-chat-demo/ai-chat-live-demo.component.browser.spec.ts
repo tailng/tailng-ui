@@ -21,7 +21,7 @@ function composer(host: HTMLElement): HTMLTextAreaElement {
 }
 
 function transcript(host: HTMLElement): HTMLOListElement {
-  const result = host.querySelector<HTMLOListElement>('.component-assistant__transcript');
+  const result = host.querySelector<HTMLOListElement>('[data-slot="ai-chat-transcript"]');
   if (result === null) {
     throw new Error('Missing component assistant transcript.');
   }

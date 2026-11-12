@@ -1,0 +1,182 @@
+<section
+  data-slot="ai-chat"
+  role="region"
+  [attr.aria-label]="title() + ' conversation'"
+  [attr.aria-busy]="busy()"
+  [attr.data-busy]="busy()"
+  [attr.data-disabled]="disabled()"
+  [attr.data-readonly]="readonly()"
+>
+  <header data-slot="ai-chat-header">
+    @if (headerComponent(); as customHeader) {
+      <ng-container *ngComponentOutlet="customHeader; injector: headerInjector" />
+    } @else {
+      <div data-slot="ai-chat-default-header">
+        <span data-slot="ai-chat-avatar" aria-hidden="true">AI</span>
+        <div data-slot="ai-chat-identity">
+          <strong data-slot="ai-chat-title">{{ title() }}</strong>
+          <span data-slot="ai-chat-assistant-label">{{ assistantLabel() }}</span>
+          @if (subtitle(); as currentSubtitle) {
+            <span data-slot="ai-chat-subtitle">{{ currentSubtitle }}</span>
+          }
+        </div>
+        @if (protocolLabel(); as currentProtocolLabel) {
+          <span data-slot="ai-chat-protocol">{{ currentProtocolLabel }}</span>
+        }
+      </div>
+    }
+  </header>
+
+  <div data-slot="ai-chat-status" role="status" aria-live="polite">{{ status() }}</div>
+
+  @if (hasEarlierMessages()) {
+    <div data-slot="ai-chat-history">
+      <button
+        data-slot="ai-chat-load-earlier"
+        type="button"
+        [disabled]="loadingEarlierMessages() || disabled() || readonly()"
+        (click)="requestEarlierMessages()"
+      >
+        {{ loadingEarlierMessages() ? 'Loading earlier messages…' : 'Load earlier messages' }}
+      </button>
+    </div>
+  }
+
+  <ol
+    #transcript
+    data-slot="ai-chat-transcript"
+    aria-label="Conversation messages"
+    [attr.data-following]="following()"
+    (scroll)="onTranscriptScroll()"
+  >
+    @if (messages().length === 0) {
+      <li data-slot="ai-chat-empty">Start a conversation</li>
+    } @else {
+      @for (message of visibleMessages(); track message.id) {
+        <li
+          data-slot="ai-chat-message"
+          [attr.data-message-id]="message.id"
+          [attr.data-role]="message.role"
+          [attr.data-status]="message.status"
+        >
+          <span data-slot="ai-chat-author">{{ authorLabel(message) }}</span>
+          <div data-slot="ai-chat-message-content">
+            @for (part of message.parts; track part.id) {
+              <div
+                data-slot="ai-chat-part"
+                [attr.data-part-id]="part.id"
+                [attr.data-part-type]="part.type"
+              >
+                @if (rendererFor(part); as renderer) {
+                  <tng-ai-chat-part-outlet
+                    [component]="renderer.component"
+                    [message]="message"
+                    [part]="part"
+                    [disabled]="disabled()"
+                    [readonlyState]="readonly()"
+                    (partAction)="emitPartAction($event)"
+                  />
+                } @else {
+                  @switch (part.type) {
+                    @case ('text') {
+                      <p>{{ part.text }}</p>
+                    }
+                    @case ('reasoning') {
+                      @if (part.visibility === 'summary') {
+                        <p>{{ part.text }}</p>
+                      }
+                    }
+                    @case ('tool-call') {
+                      <section
+                        data-slot="ai-chat-tool"
+                        [attr.data-tool-call-id]="part.toolCallId"
+                        [attr.data-tool-status]="part.status"
+                      >
+                        <strong>{{ part.name }}</strong>
+                        <span>{{ part.status }}</span>
+                      </section>
+                    }
+                    @case ('tool-result') {
+                      <pre data-slot="ai-chat-tool-result">{{ resultText(part) }}</pre>
+                    }
+                    @case ('source') {
+                      <span>{{ part.title ?? part.sourceId }}</span>
+                    }
+                    @case ('file') {
+                      <span>{{ part.name }}</span>
+                    }
+                    @case ('activity') {
+                      <span>{{ part.description ?? part.name }} · {{ part.status }}</span>
+                    }
+                    @default {
+                      <span data-slot="ai-chat-unsupported-part">Unsupported content</span>
+                    }
+                  }
+                }
+              </div>
+            }
+          </div>
+        </li>
+      }
+    }
+  </ol>
+
+  @if (showLatest()) {
+    <button
+      data-slot="ai-chat-jump-latest"
+      type="button"
+      [attr.aria-label]="latestLabel()"
+      (click)="jumpToLatest()"
+    >
+      {{ latestLabel() }}
+    </button>
+  }
+
+  <footer data-slot="ai-chat-composer">
+    <textarea
+      data-slot="ai-chat-composer-input"
+      rows="2"
+      [attr.aria-label]="'Message ' + title()"
+      [placeholder]="'Message ' + assistantLabel() + '…'"
+      [value]="draft()"
+      [disabled]="disabled()"
+      [readOnly]="readonly()"
+      (input)="updateDraft($event)"
+      (keydown)="onComposerKeydown($event)"
+    ></textarea>
+    <div data-slot="ai-chat-composer-actions">
+      @if (canRetry()) {
+        <button
+          data-slot="ai-chat-retry"
+          type="button"
+          aria-label="Retry response"
+          [disabled]="disabled() || readonly()"
+          (click)="requestRetry()"
+        >
+          Retry
+        </button>
+      }
+      @if (busy() && canStop()) {
+        <button
+          data-slot="ai-chat-stop"
+          type="button"
+          aria-label="Stop response"
+          [disabled]="disabled()"
+          (click)="requestStop()"
+        >
+          Stop
+        </button>
+      } @else {
+        <button
+          data-slot="ai-chat-send"
+          type="button"
+          aria-label="Send message"
+          [disabled]="!canSubmit()"
+          (click)="submitDraft()"
+        >
+          Send
+        </button>
+      }
+    </div>
+  </footer>
+</section>

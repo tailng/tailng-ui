@@ -6,7 +6,7 @@ category: components
 status: stable
 tags: ["ai", "chat", "examples", "streaming", "pagination"]
 package: @tailng-ui/ai
-sourcePaths: ["libs/tailng-ui/ai/src/lib/store/chat-store.ts", "libs/tailng-ui/ai/src/lib/history/history-controller.ts", "libs/tailng-ui/ai/src/ag-ui/lib/reducer.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/live-chat-demo/ai-chat-live-demo.component.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/live-chat-demo/ai-chat-live-demo.component.html", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/live-chat-demo/ai-chat-live-demo.component.css", "apps/tailng-ui/docs/src/app/shared/demos/component-assistant/component-assistant.extensions.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/ai-chat-examples-page.component.ts"]
+sourcePaths: ["libs/tailng-ui/ai/src/lib/chat/tng-ai-chat.component.ts", "libs/tailng-ui/ai/src/lib/store/chat-store.ts", "libs/tailng-ui/ai/src/lib/history/history-controller.ts", "libs/tailng-ui/ai/src/ag-ui/lib/reducer.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/live-chat-demo/ai-chat-live-demo.component.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/live-chat-demo/ai-chat-live-demo.component.html", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/live-chat-demo/ai-chat-live-demo.component.css", "apps/tailng-ui/docs/src/app/shared/demos/component-assistant/component-assistant.extensions.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/ai-chat-examples-page.component.ts"]
 humanDocsUrl: https://tailng.dev/components/ai/chat/examples
 ---
 
@@ -20,7 +20,7 @@ TailNG previews, including date controls, autocomplete, slider, charts, table, a
 stepper, tags, and progress. The demo also supports stop, retry, and one cursor-loaded history page
 without a backend or API key.
 
-The transcript starts in follow mode and reconciles its scroll position after Angular renders each
+The demo uses `tng-ai-chat` for its header, transcript, composer, run controls, bounded DOM, and scroll behavior. Its application code owns only the deterministic AG-UI simulation and allowlisted extension component. The transcript starts in follow mode and reconciles its scroll position after Angular renders each
 streaming update. Scrolling more than 48 CSS pixels from the bottom pauses auto-follow and preserves
 the reader's position. A bounded, message-based `Jump to latest` control resumes follow mode;
 prepending history restores the prior viewport offset instead of moving to the newest message.

@@ -1,23 +1,23 @@
 ---
 id: components/ai-chat/overview
 title: AI Chat foundation overview
-description: Build protocol-neutral AI chat state with canonical messages, normalized storage, bounded history, and AG-UI 1.0 events.
+description: Render a professional protocol-neutral AI chat with canonical messages, custom Angular parts, bounded history, and AG-UI 1.0 events.
 category: components
 status: stable
 tags: ["ai", "chat", "ag-ui", "history"]
 package: @tailng-ui/ai
-sourcePaths: ["libs/tailng-ui/ai/src/index.ts", "libs/tailng-ui/ai/src/lib/core/message.types.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/overview/ai-chat-overview-page.component.ts"]
+sourcePaths: ["libs/tailng-ui/ai/src/index.ts", "libs/tailng-ui/ai/src/lib/chat/tng-ai-chat.component.ts", "libs/tailng-ui/ai/src/lib/chat/tng-ai-chat.types.ts", "libs/tailng-ui/ai/src/lib/core/message.types.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/overview/ai-chat-overview-page.component.ts"]
 humanDocsUrl: https://tailng.dev/components/ai/chat/overview
 ---
 
 # AI Chat foundation overview
 
-`@tailng-ui/ai` is a headless data and protocol foundation. It does not currently export a rendered Angular chat component or CSS.
+`@tailng-ui/ai` exports `TngAiChatComponent`, a controlled professional chat surface with a default header, transcript, composer, run controls, history requests, auto-scroll, and bounded DOM rendering.
 
 Use the package to keep transport-specific events out of presentation code:
 
 ```ts
-import { TngAiChatStore, TngAiHistoryController } from '@tailng-ui/ai';
+import { TngAiChatComponent, TngAiChatStore, TngAiHistoryController } from '@tailng-ui/ai';
 import { TngAgUiReducer } from '@tailng-ui/ai/ag-ui';
 
 const store = new TngAiChatStore();
@@ -25,9 +25,9 @@ const history = new TngAiHistoryController(store);
 const reducer = new TngAgUiReducer(store);
 ```
 
-The application remains responsible for transport, authentication, persistence, rendering, virtualization, and product policy. TailNG provides canonical thread, run, message, part, and action types; lifecycle-safe operations; normalized state; cursor-history coordination; and AG-UI event validation and reduction.
+The application remains responsible for transport, authentication, persistence, agent execution, tool policy, and business-specific custom parts. TailNG provides the presentation layer, bounded rendered window, canonical model, normalized state, cursor-history coordination, and AG-UI validation and reduction.
 
-For long conversations, fetch older messages by opaque cursor, render a virtual window, batch streamed updates, and evict inactive pages according to application policy.
+For long conversations, fetch older messages by opaque cursor and evict inactive pages according to application policy. `tng-ai-chat` bounds the number of messages it renders and preserves scroll position when older history is prepended.
 
 - [API reference](https://tailng.dev/ai/components/ai-chat/api.md)
 - [Styling and rendering policy](https://tailng.dev/ai/components/ai-chat/styling.md)

@@ -11,8 +11,17 @@ export class AiChatOverviewPageComponent {
   protected readonly codeBlockTheme = useAiChatDocsCodeTheme();
   protected readonly installCode = 'pnpm add @tailng-ui/ai @ag-ui/core';
   protected readonly importsCode = [
-    "import { TngAiChatStore, TngAiHistoryController } from '@tailng-ui/ai';",
+    "import { TngAiChatComponent, TngAiChatStore, TngAiHistoryController } from '@tailng-ui/ai';",
     "import { TngAgUiReducer } from '@tailng-ui/ai/ag-ui';",
+  ].join('\n');
+  protected readonly chatCode = [
+    '<tng-ai-chat',
+    '  [messages]="messages()"',
+    '  [busy]="busy()"',
+    '  [partRenderers]="partRenderers"',
+    '  (messageSubmit)="send($event.text)"',
+    '  (stopRequest)="stop()"',
+    '/>',
   ].join('\n');
   protected readonly messageCode = [
     "import type { TngAiMessage } from '@tailng-ui/ai';",

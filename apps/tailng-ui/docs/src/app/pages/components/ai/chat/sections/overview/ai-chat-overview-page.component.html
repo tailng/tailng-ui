@@ -5,15 +5,15 @@
     </p>
     <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">AI Chat</h1>
     <p class="m-0 text-base leading-7 text-tng-fg-secondary">
-      Build protocol-neutral AI chat features on a canonical message model, normalized state,
-      cursor-paged history, and an optional AG-UI 1.0 streaming adapter.
+      Render a professional provider-neutral chat with a canonical message model, bounded DOM,
+      custom Angular message parts, cursor-paged history, and an optional AG-UI 1.0 adapter.
     </p>
     <div
       class="rounded-lg border border-tng-border-subtle bg-tng-bg-surface p-4 text-sm text-tng-fg-secondary"
     >
-      <strong class="text-tng-fg-primary">Current scope:</strong>
-      this package is the headless data and protocol foundation. It does not yet export a rendered
-      Angular chat component or its CSS.
+      <strong class="text-tng-fg-primary">Recommended integration:</strong>
+      use <code>tng-ai-chat</code> for the complete presentation and interaction layer. Your
+      application still owns transport, persistence, authentication, and agent execution.
     </div>
   </header>
 
@@ -42,6 +42,15 @@
       [wrap]="true"
       title="Import the core and AG-UI APIs"
     />
+    <tng-code-block
+      [code]="chatCode"
+      adapter="shiki"
+      language="html"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      title="Render the controlled chat component"
+    />
   </section>
 
   <section id="architecture" class="grid gap-4 scroll-mt-24">
@@ -50,15 +59,15 @@
       <div class="rounded-lg border border-tng-border-subtle p-4">
         <h3 class="m-0 text-base font-semibold text-tng-fg-primary">Application owns</h3>
         <p class="mb-0 mt-2 text-sm leading-6 text-tng-fg-secondary">
-          Transport, persistence, authentication, message rendering, composer UI, virtualization,
-          and product policy.
+          Transport, persistence, authentication, agent execution, tool authorization, and product
+          policy.
         </p>
       </div>
       <div class="rounded-lg border border-tng-border-subtle p-4">
         <h3 class="m-0 text-base font-semibold text-tng-fg-primary">TailNG owns</h3>
         <p class="mb-0 mt-2 text-sm leading-6 text-tng-fg-secondary">
-          Canonical types, safe lifecycle operations, normalized storage, cursor-history
-          coordination, validation, and AG-UI event reduction.
+          Professional chat presentation, composer behavior, custom part dispatch, bounded DOM,
+          scrolling, canonical state, history coordination, validation, and AG-UI reduction.
         </p>
       </div>
     </div>
@@ -85,12 +94,13 @@
     <h2 class="m-0 text-2xl font-semibold text-tng-fg-primary">Memory strategy</h2>
     <p class="m-0 text-tng-fg-secondary">
       Do not load an entire long conversation into the browser. Fetch older messages with opaque
-      cursors, keep one normalized record per ID, render only a virtualized window, and retain
-      drafts and summaries separately from the visible message window.
+      cursors and retain only the pages your product needs. <code>tng-ai-chat</code> bounds its
+      rendered message window so thousands of supplied messages do not create thousands of DOM
+      nodes.
     </p>
     <ul class="m-0 grid gap-2 pl-5 text-sm leading-6 text-tng-fg-secondary">
       <li>Start with 40 messages; the controller clamps pages to 100 by default.</li>
-      <li>Prepend older pages and preserve the scroll anchor in the rendering layer.</li>
+      <li>Prepend older pages; the chat component preserves the reader's scroll anchor.</li>
       <li>Abort in-flight history requests when the active thread changes.</li>
       <li>
         Persist older pages outside component memory and evict them using an application policy.

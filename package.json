@@ -39,6 +39,7 @@
     "start:vanilla": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx serve playground-plain-css --port 4201",
     "test:all": "vitest run",
     "test:ai": "vitest run --config libs/tailng-ui/ai/vitest.config.ts",
+    "test:ai:browser": "vitest run --config libs/tailng-ui/ai/vitest.browser.config.ts",
     "test:charts": "vitest run libs/tailng-ui/charts",
     "test:cdk": "vitest run libs/tailng-ui/cdk",
     "test:cli": "vitest run libs/tailng/cli",

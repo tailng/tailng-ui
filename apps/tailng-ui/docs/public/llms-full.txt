@@ -524,18 +524,25 @@ Source: https://tailng.dev/ai/components/ai-chat/api.md
 ---
 id: components/ai-chat/api
 title: AI Chat API
-description: Public core, store, history, validation, and AG-UI reducer contracts for the TailNG AI package.
+description: Public chat component, custom renderer, core, store, history, validation, and AG-UI contracts for the TailNG AI package.
 category: components
 status: stable
 tags: ["ai", "chat", "api", "ag-ui"]
 package: @tailng-ui/ai
-sourcePaths: ["libs/tailng-ui/ai/src/index.ts", "libs/tailng-ui/ai/src/ag-ui/index.ts", "libs/tailng-ui/ai/src/lib/store/chat-store.ts", "libs/tailng-ui/ai/src/lib/history/history-controller.ts"]
+sourcePaths: ["libs/tailng-ui/ai/src/index.ts", "libs/tailng-ui/ai/src/lib/chat/tng-ai-chat.component.ts", "libs/tailng-ui/ai/src/lib/chat/tng-ai-chat.types.ts", "libs/tailng-ui/ai/src/ag-ui/index.ts", "libs/tailng-ui/ai/src/lib/store/chat-store.ts", "libs/tailng-ui/ai/src/lib/history/history-controller.ts"]
 humanDocsUrl: https://tailng.dev/components/ai/chat/api
 ---
 
 # AI Chat API
 
-Import the canonical types, operations, part registry, store, and history controller from `@tailng-ui/ai`. Import AG-UI validation and reduction from `@tailng-ui/ai/ag-ui`; that entry point requires the optional `@ag-ui/core` peer.
+Import `TngAiChatComponent`, its customization contracts, canonical types, store, and history controller from `@tailng-ui/ai`. Import AG-UI validation and reduction from `@tailng-ui/ai/ag-ui`; that entry point requires the optional `@ag-ui/core` peer.
+
+Chat component:
+
+- `TngAiChatComponent` owns the standard transcript, composer, run controls, history requests, auto-scroll, and bounded rendered window.
+- `headerComponent` replaces the default header with a trusted local Angular component using `TNG_AI_CHAT_HEADER_CONTEXT`.
+- `partRenderers` and `provideTngAiMessagePartRenderer` map exact part types or namespaced extension names to trusted local components.
+- Custom parts inject `TNG_AI_MESSAGE_PART_CONTEXT` and emit typed actions without receiving the store.
 
 Core model:
 
@@ -568,7 +575,7 @@ category: components
 status: stable
 tags: ["ai", "chat", "examples", "streaming", "pagination"]
 package: @tailng-ui/ai
-sourcePaths: ["libs/tailng-ui/ai/src/lib/store/chat-store.ts", "libs/tailng-ui/ai/src/lib/history/history-controller.ts", "libs/tailng-ui/ai/src/ag-ui/lib/reducer.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/live-chat-demo/ai-chat-live-demo.component.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/live-chat-demo/ai-chat-live-demo.component.html", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/live-chat-demo/ai-chat-live-demo.component.css", "apps/tailng-ui/docs/src/app/shared/demos/component-assistant/component-assistant.extensions.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/ai-chat-examples-page.component.ts"]
+sourcePaths: ["libs/tailng-ui/ai/src/lib/chat/tng-ai-chat.component.ts", "libs/tailng-ui/ai/src/lib/store/chat-store.ts", "libs/tailng-ui/ai/src/lib/history/history-controller.ts", "libs/tailng-ui/ai/src/ag-ui/lib/reducer.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/live-chat-demo/ai-chat-live-demo.component.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/live-chat-demo/ai-chat-live-demo.component.html", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/live-chat-demo/ai-chat-live-demo.component.css", "apps/tailng-ui/docs/src/app/shared/demos/component-assistant/component-assistant.extensions.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/ai-chat-examples-page.component.ts"]
 humanDocsUrl: https://tailng.dev/components/ai/chat/examples
 ---
 
@@ -582,7 +589,7 @@ TailNG previews, including date controls, autocomplete, slider, charts, table, a
 stepper, tags, and progress. The demo also supports stop, retry, and one cursor-loaded history page
 without a backend or API key.
 
-The transcript starts in follow mode and reconciles its scroll position after Angular renders each
+The demo uses `tng-ai-chat` for its header, transcript, composer, run controls, bounded DOM, and scroll behavior. Its application code owns only the deterministic AG-UI simulation and allowlisted extension component. The transcript starts in follow mode and reconciles its scroll position after Angular renders each
 streaming update. Scrolling more than 48 CSS pixels from the bottom pauses auto-follow and preserves
 the reader's position. A bounded, message-based `Jump to latest` control resumes follow mode;
 prepending history restores the prior viewport offset instead of moving to the newest message.
@@ -621,23 +628,23 @@ Source: https://tailng.dev/ai/components/ai-chat/overview.md
 ---
 id: components/ai-chat/overview
 title: AI Chat foundation overview
-description: Build protocol-neutral AI chat state with canonical messages, normalized storage, bounded history, and AG-UI 1.0 events.
+description: Render a professional protocol-neutral AI chat with canonical messages, custom Angular parts, bounded history, and AG-UI 1.0 events.
 category: components
 status: stable
 tags: ["ai", "chat", "ag-ui", "history"]
 package: @tailng-ui/ai
-sourcePaths: ["libs/tailng-ui/ai/src/index.ts", "libs/tailng-ui/ai/src/lib/core/message.types.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/overview/ai-chat-overview-page.component.ts"]
+sourcePaths: ["libs/tailng-ui/ai/src/index.ts", "libs/tailng-ui/ai/src/lib/chat/tng-ai-chat.component.ts", "libs/tailng-ui/ai/src/lib/chat/tng-ai-chat.types.ts", "libs/tailng-ui/ai/src/lib/core/message.types.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/overview/ai-chat-overview-page.component.ts"]
 humanDocsUrl: https://tailng.dev/components/ai/chat/overview
 ---
 
 # AI Chat foundation overview
 
-`@tailng-ui/ai` is a headless data and protocol foundation. It does not currently export a rendered Angular chat component or CSS.
+`@tailng-ui/ai` exports `TngAiChatComponent`, a controlled professional chat surface with a default header, transcript, composer, run controls, history requests, auto-scroll, and bounded DOM rendering.
 
 Use the package to keep transport-specific events out of presentation code:
 
 ```ts
-import { TngAiChatStore, TngAiHistoryController } from '@tailng-ui/ai';
+import { TngAiChatComponent, TngAiChatStore, TngAiHistoryController } from '@tailng-ui/ai';
 import { TngAgUiReducer } from '@tailng-ui/ai/ag-ui';
 
 const store = new TngAiChatStore();
@@ -645,9 +652,9 @@ const history = new TngAiHistoryController(store);
 const reducer = new TngAgUiReducer(store);
 ```
 
-The application remains responsible for transport, authentication, persistence, rendering, virtualization, and product policy. TailNG provides canonical thread, run, message, part, and action types; lifecycle-safe operations; normalized state; cursor-history coordination; and AG-UI event validation and reduction.
+The application remains responsible for transport, authentication, persistence, agent execution, tool policy, and business-specific custom parts. TailNG provides the presentation layer, bounded rendered window, canonical model, normalized state, cursor-history coordination, and AG-UI validation and reduction.
 
-For long conversations, fetch older messages by opaque cursor, render a virtual window, batch streamed updates, and evict inactive pages according to application policy.
+For long conversations, fetch older messages by opaque cursor and evict inactive pages according to application policy. `tng-ai-chat` bounds the number of messages it renders and preserves scroll position when older history is prepended.
 
 - [API reference](https://tailng.dev/ai/components/ai-chat/api.md)
 - [Styling and rendering policy](https://tailng.dev/ai/components/ai-chat/styling.md)
@@ -665,19 +672,19 @@ category: components
 status: stable
 tags: ["ai", "chat", "styling", "accessibility", "security"]
 package: @tailng-ui/ai
-sourcePaths: ["libs/tailng-ui/ai/src/lib/core/part-registry.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/styling/ai-chat-styling-page.component.html"]
+sourcePaths: ["libs/tailng-ui/ai/src/lib/chat/tng-ai-chat.component.css", "libs/tailng-ui/ai/src/lib/chat/tng-ai-chat.types.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/styling/ai-chat-styling-page.component.html"]
 humanDocsUrl: https://tailng.dev/components/ai/chat/styling
 ---
 
 # AI Chat styling and rendering policy
 
-The foundation package renders no DOM and ships no CSS. Keep style choices in the application presentation layer and map canonical roles, statuses, and message-part types to semantic UI.
+`tng-ai-chat` ships a token-driven professional default surface. Customize supported CSS variables and stable `data-slot` regions, or replace the header and exact message parts with trusted local Angular components.
 
 Rendering rules:
 
 1. Sanitize Markdown output and allowlist link and media protocols.
 2. Map known core parts explicitly.
-3. Register only namespaced extension renderers with `TngAiPartRegistry`.
+3. Register only trusted namespaced extension components through `partRenderers` or `provideTngAiMessagePartRenderer`.
 4. Treat unknown payloads as data and show a safe unsupported-content fallback.
 5. Require explicit user interaction for tool approvals.
 

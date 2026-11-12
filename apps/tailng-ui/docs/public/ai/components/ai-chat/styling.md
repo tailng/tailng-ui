@@ -6,19 +6,19 @@ category: components
 status: stable
 tags: ["ai", "chat", "styling", "accessibility", "security"]
 package: @tailng-ui/ai
-sourcePaths: ["libs/tailng-ui/ai/src/lib/core/part-registry.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/styling/ai-chat-styling-page.component.html"]
+sourcePaths: ["libs/tailng-ui/ai/src/lib/chat/tng-ai-chat.component.css", "libs/tailng-ui/ai/src/lib/chat/tng-ai-chat.types.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/styling/ai-chat-styling-page.component.html"]
 humanDocsUrl: https://tailng.dev/components/ai/chat/styling
 ---
 
 # AI Chat styling and rendering policy
 
-The foundation package renders no DOM and ships no CSS. Keep style choices in the application presentation layer and map canonical roles, statuses, and message-part types to semantic UI.
+`tng-ai-chat` ships a token-driven professional default surface. Customize supported CSS variables and stable `data-slot` regions, or replace the header and exact message parts with trusted local Angular components.
 
 Rendering rules:
 
 1. Sanitize Markdown output and allowlist link and media protocols.
 2. Map known core parts explicitly.
-3. Register only namespaced extension renderers with `TngAiPartRegistry`.
+3. Register only trusted namespaced extension components through `partRenderers` or `provideTngAiMessagePartRenderer`.
 4. Treat unknown payloads as data and show a safe unsupported-content fallback.
 5. Require explicit user interaction for tool approvals.
 

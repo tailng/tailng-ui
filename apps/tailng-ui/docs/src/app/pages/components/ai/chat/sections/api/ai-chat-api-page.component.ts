@@ -7,6 +7,40 @@ type ApiRow = Readonly<{ name: string; signature: string; description: string }>
   templateUrl: './ai-chat-api-page.component.html',
 })
 export class AiChatApiPageComponent {
+  protected readonly componentRows: readonly ApiRow[] = [
+    {
+      name: 'TngAiChatComponent',
+      signature: 'component',
+      description:
+        'Controlled professional chat shell with transcript, composer, run controls, history, auto-scroll, and bounded rendering.',
+    },
+    {
+      name: 'headerComponent',
+      signature: 'Type<unknown> | null',
+      description: 'Replaces the default header with a trusted local Angular component.',
+    },
+    {
+      name: 'partRenderers',
+      signature: 'readonly TngAiMessagePartRenderer[]',
+      description:
+        'Maps exact trusted part types or namespaced extension names to local components.',
+    },
+    {
+      name: 'TNG_AI_CHAT_HEADER_CONTEXT',
+      signature: 'InjectionToken',
+      description: 'Reactive title, status, identity, and busy context for a custom header.',
+    },
+    {
+      name: 'TNG_AI_MESSAGE_PART_CONTEXT',
+      signature: 'InjectionToken',
+      description: 'Reactive message, part, state, and typed action channel for a custom renderer.',
+    },
+    {
+      name: 'provideTngAiMessagePartRenderer(renderer)',
+      signature: 'Provider',
+      description: 'Registers a trusted feature- or application-scoped custom part component.',
+    },
+  ];
   protected readonly coreRows: readonly ApiRow[] = [
     {
       name: 'TngAiThread',

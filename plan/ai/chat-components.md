@@ -4,8 +4,11 @@ Status: Proposed
 
 ## Design principle
 
-Chat is a compound component family. No single component owns the transport, complete transcript,
-composer, content rendering, attachments, and application actions.
+`TngAiChatComponent` is the default public facade. It owns the reusable chat presentation and
+interaction behavior while the application continues to own transport, persistence, agent logic,
+and tool execution. The compound component family below describes internal responsibilities and a
+possible future advanced API; consumers are not required to assemble those pieces for a standard
+chat experience.
 
 ```html
 <tng-chat>
@@ -25,19 +28,19 @@ Consumers may use the complete shell or compose lower-level parts.
 
 ## Component family
 
-| Component | Responsibility |
-| --- | --- |
-| `TngChatComponent` | Shared context, run presentation, announcements, and projected layout. |
-| `TngChatHeaderComponent` | Title, agent identity, model label, and conversation actions. |
-| `TngChatMessageListComponent` | History requests, scroll following, anchoring, and visible range. |
-| `TngChatMessageComponent` | Author, role, state, timestamps, and message-level semantics. |
-| `TngChatMessageContentComponent` | Ordered part rendering through the renderer registry. |
-| `TngChatMessageActionsComponent` | Copy, retry, edit, feedback, branch, and consumer actions. |
-| `TngChatComposerComponent` | Draft input, submit, stop, attachment selection, and limits. |
-| `TngChatAttachmentComponent` | File metadata, preview, upload state, retry, and removal request. |
-| `TngChatStatusComponent` | Thinking, streaming, waiting, stopped, failed, and run status. |
-| `TngChatEmptyComponent` | Welcome content, suggestions, and initial actions. |
-| `TngChatScrollButtonComponent` | Jump to latest and unseen-message count. |
+| Component                        | Responsibility                                                         |
+| -------------------------------- | ---------------------------------------------------------------------- |
+| `TngChatComponent`               | Shared context, run presentation, announcements, and projected layout. |
+| `TngChatHeaderComponent`         | Title, agent identity, model label, and conversation actions.          |
+| `TngChatMessageListComponent`    | History requests, scroll following, anchoring, and visible range.      |
+| `TngChatMessageComponent`        | Author, role, state, timestamps, and message-level semantics.          |
+| `TngChatMessageContentComponent` | Ordered part rendering through the renderer registry.                  |
+| `TngChatMessageActionsComponent` | Copy, retry, edit, feedback, branch, and consumer actions.             |
+| `TngChatComposerComponent`       | Draft input, submit, stop, attachment selection, and limits.           |
+| `TngChatAttachmentComponent`     | File metadata, preview, upload state, retry, and removal request.      |
+| `TngChatStatusComponent`         | Thinking, streaming, waiting, stopped, failed, and run status.         |
+| `TngChatEmptyComponent`          | Welcome content, suggestions, and initial actions.                     |
+| `TngChatScrollButtonComponent`   | Jump to latest and unseen-message count.                               |
 
 Parts should reuse existing TailNG textarea, button, avatar, tooltip, menu, code block, copy button,
 collapsible, toast, skeleton, card, badge, and file-upload behavior where their contracts fit.
@@ -320,4 +323,3 @@ a summary gate.
 - [ ] Unknown and hidden parts follow renderer policy.
 - [ ] Unsafe Markdown or URLs never bypass the renderer boundary.
 - [ ] Mobile viewport and safe-area behavior keep the latest content reachable.
-

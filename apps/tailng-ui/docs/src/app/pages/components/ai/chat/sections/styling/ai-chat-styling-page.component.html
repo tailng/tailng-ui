@@ -2,17 +2,17 @@
   <header class="grid max-w-3xl gap-3">
     <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">AI Chat styling</h1>
     <p class="m-0 text-base leading-7 text-tng-fg-secondary">
-      The foundation package renders no DOM and ships no CSS. Your presentation layer controls the
-      transcript, composer, tool cards, and virtualization surface.
+      <code>tng-ai-chat</code> ships a professional token-driven default surface with stable data
+      slots and CSS custom properties. Replace only the header or message parts your product owns.
     </p>
   </header>
 
   <section id="styling-boundary" class="grid gap-4 scroll-mt-24">
     <h2 class="m-0 text-2xl font-semibold text-tng-fg-primary">Styling boundary</h2>
     <p class="m-0 text-tng-fg-secondary">
-      Style semantic roles and message-part types in your application. Keep the canonical model free
-      from CSS classes so the same store can feed a web transcript, compact activity view, mobile
-      surface, or export renderer.
+      Customize semantic TailNG tokens, documented <code>data-slot</code> regions, and variables
+      such as <code>--tng-ai-chat-radius</code>, <code>--tng-ai-chat-min-height</code>, and
+      <code>--tng-ai-chat-transcript-max-height</code>. Keep CSS classes out of canonical messages.
     </p>
     <div
       class="rounded-lg border border-tng-border-subtle p-4 text-sm leading-6 text-tng-fg-secondary"
@@ -25,9 +25,8 @@
   <section id="renderer-policy" class="grid gap-4 scroll-mt-24">
     <h2 class="m-0 text-2xl font-semibold text-tng-fg-primary">Renderer policy</h2>
     <p class="m-0 text-tng-fg-secondary">
-      Map known core parts explicitly and register only namespaced extension renderers. Unknown
-      parts should fall back to a safe unsupported-content treatment instead of dynamic component
-      creation.
+      Register trusted local Angular components for exact namespaced extensions. Agent content can
+      supply extension data, but it cannot select a component class, selector, module, or URL.
     </p>
     <tng-code-block
       [code]="rendererCode"

@@ -41,17 +41,18 @@ marking it complete.
 
 ## Catalog documents
 
-| Document                                                                           | Case prefix                      | Scope                                                                                                                     |
-| ---------------------------------------------------------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| [Core model and store](./core-model-and-store.md)                                  | `AI-CORE`, `AI-STORE`, `AI-HIST` | JSON contracts, message model, reducers, normalized state, history, and eviction.                                         |
-| [AG-UI 1.0 adapter](./ag-ui-adapter.md)                                            | `AI-AGUI`                        | All event families, lifecycle validation, conversion, transport, cancellation, and Mastra fixtures.                       |
-| [Components and accessibility](./components-and-accessibility.md)                  | `AI-CMP`, `AI-A11Y`              | Compound parts, message rendering, composer, actions, announcements, keyboard, and responsive behavior.                   |
-| [Virtualization and performance](./virtualization-and-performance.md)              | `AI-VIRT`, `AI-PERF`             | Variable-height range calculation, anchoring, streaming, memory, media, and cleanup.                                      |
-| [Security, packaging, and integration](./security-packaging-integration.md)        | `AI-SEC`, `AI-PKG`, `AI-INT`     | Trust boundaries, package exports, consumer builds, transport failures, and end-to-end integration.                       |
-| [CI/CD integration](../ci-cd-integration.md)                                       | `AI-CICD`                        | Release target selection, workflow gates, packed consumers, OIDC publication, idempotency, and recovery.                  |
-| [Component assistant demo](../component-assistant-demo.md)                         | `AI-DEMO`                        | Greeting prompts, tool-driven safe component rendering, shared examples/landing behavior, accessibility, and performance. |
-| [Component assistant auto-scroll](../component-assistant-auto-scroll.md)           | `AI-DEMO-SCROLL`                 | Follow mode, pause/resume, unseen messages, history anchoring, dynamic heights, cleanup, and responsive browser behavior. |
-| [Component assistant expanded catalog](../component-assistant-expanded-catalog.md) | `AI-DEMO-EXPAND`                 | Twelve categorized options, strict extension compatibility, eight new previews, lazy loading, and surface performance.    |
+| Document                                                                           | Case prefix                      | Scope                                                                                                                            |
+| ---------------------------------------------------------------------------------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| [Core model and store](./core-model-and-store.md)                                  | `AI-CORE`, `AI-STORE`, `AI-HIST` | JSON contracts, message model, reducers, normalized state, history, and eviction.                                                |
+| [AG-UI 1.0 adapter](./ag-ui-adapter.md)                                            | `AI-AGUI`                        | All event families, lifecycle validation, conversion, transport, cancellation, and Mastra fixtures.                              |
+| [Components and accessibility](./components-and-accessibility.md)                  | `AI-CMP`, `AI-A11Y`              | Compound parts, message rendering, composer, actions, announcements, keyboard, and responsive behavior.                          |
+| [Virtualization and performance](./virtualization-and-performance.md)              | `AI-VIRT`, `AI-PERF`             | Variable-height range calculation, anchoring, streaming, memory, media, and cleanup.                                             |
+| [Security, packaging, and integration](./security-packaging-integration.md)        | `AI-SEC`, `AI-PKG`, `AI-INT`     | Trust boundaries, package exports, consumer builds, transport failures, and end-to-end integration.                              |
+| [CI/CD integration](../ci-cd-integration.md)                                       | `AI-CICD`                        | Release target selection, workflow gates, packed consumers, OIDC publication, idempotency, and recovery.                         |
+| [Component assistant demo](../component-assistant-demo.md)                         | `AI-DEMO`                        | Greeting prompts, tool-driven safe component rendering, shared examples/landing behavior, accessibility, and performance.        |
+| [Component assistant auto-scroll](../component-assistant-auto-scroll.md)           | `AI-DEMO-SCROLL`                 | Follow mode, pause/resume, unseen messages, history anchoring, dynamic heights, cleanup, and responsive browser behavior.        |
+| [Component assistant expanded catalog](../component-assistant-expanded-catalog.md) | `AI-DEMO-EXPAND`                 | Twelve categorized options, strict extension compatibility, eight new previews, lazy loading, and surface performance.           |
+| [`tng-ai-chat` component](./tng-ai-chat-component-tests.md)                        | `AIC`                            | High-level chat shell, header and part component overrides, events, scrolling, long-chat behavior, accessibility, and packaging. |
 
 ## Case format
 

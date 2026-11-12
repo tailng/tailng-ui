@@ -48,7 +48,8 @@ describe('AI Chat working example documentation', () => {
     expect(component).toContain("templateUrl: './ai-chat-live-demo.component.html'");
     expect(component).toContain("styleUrl: './ai-chat-live-demo.component.css'");
     expect(component).not.toContain('ComponentAssistantComponent');
-    expect(template).toContain('class="component-assistant__transcript"');
-    expect(styles).toContain('.component-assistant__composer');
+    expect(component).toContain('TngAiChatComponent');
+    expect(template).toContain('<tng-ai-chat');
+    expect(styles).toContain(':host');
   });
 });

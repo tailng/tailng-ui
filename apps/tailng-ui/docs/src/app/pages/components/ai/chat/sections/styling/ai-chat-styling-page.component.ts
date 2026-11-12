@@ -10,12 +10,14 @@ import { useAiChatDocsCodeTheme } from '../../chat-docs-code-theme';
 export class AiChatStylingPageComponent {
   protected readonly codeBlockTheme = useAiChatDocsCodeTheme();
   protected readonly rendererCode = [
-    "import { TngAiPartRegistry } from '@tailng-ui/ai';",
+    "import { TNG_AI_MESSAGE_PART_CONTEXT, type TngAiMessagePartRenderer } from '@tailng-ui/ai';",
     '',
-    'const renderers = new TngAiPartRegistry<string>();',
-    "renderers.registerExtension('acme/release-card', (part) => {",
-    "  return part.type === 'extension' ? JSON.stringify(part.value) : '';",
-    '});',
+    'readonly partRenderers: readonly TngAiMessagePartRenderer[] = [{',
+    "  match: { type: 'extension', name: 'acme.dev/release-card' },",
+    '  component: ReleaseCardPartComponent,',
+    '}];',
+    '',
+    '// ReleaseCardPartComponent injects TNG_AI_MESSAGE_PART_CONTEXT.',
   ].join('\n');
   protected readonly safeMarkdownCode = [
     '// Keep transport data as text until it passes your rendering policy.',

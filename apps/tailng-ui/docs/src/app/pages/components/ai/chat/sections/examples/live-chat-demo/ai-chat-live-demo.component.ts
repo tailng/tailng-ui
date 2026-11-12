@@ -1,36 +1,21 @@
-import {
-  afterNextRender,
-  Component,
-  computed,
-  inject,
-  Injector,
-  signal,
-  viewChild,
-  type AfterRenderRef,
-  type AfterViewInit,
-  type ElementRef,
-  type OnDestroy,
-} from '@angular/core';
+import { Component, computed, inject, signal, type OnDestroy } from '@angular/core';
 import {
   completeTngAiTextPart,
   transitionTngAiToolCall,
+  TNG_AI_MESSAGE_PART_CONTEXT,
+  TngAiChatComponent,
   TngAiChatStore,
   TngAiHistoryController,
-  type TngAiExtensionPart,
+  type TngAiChatPartActionEvent,
+  type TngAiChatSubmitEvent,
   type TngAiHistorySource,
   type TngAiMessage,
   type TngAiMessagePart,
+  type TngAiMessagePartRenderer,
   type TngAiTextPart,
   type TngAiToolCallPart,
 } from '@tailng-ui/ai';
 import { TngAgUiReducer } from '@tailng-ui/ai/ag-ui';
-import { TngButtonComponent, TngTextareaComponent } from '@tailng-ui/components';
-import { TngIcon } from '@tailng-ui/icons';
-import {
-  addComponentAssistantUnseenMessage,
-  componentAssistantIsNearBottom,
-  componentAssistantUnseenLabel,
-} from '../../../../../../../shared/demos/component-assistant/component-assistant-scroll';
 import {
   COMPONENT_ASSISTANT_OPTIONS,
   componentAssistantOption,
@@ -41,7 +26,6 @@ import {
   createComponentPreviewExtension,
   createPromptOptionsExtension,
   resolveComponentAssistantExtension,
-  type ComponentAssistantExtensionView,
 } from '../../../../../../../shared/demos/component-assistant/component-assistant.extensions';
 import { ComponentAssistantPreviewComponent } from '../../../../../../../shared/demos/component-assistant/component-assistant.previews';
 
@@ -89,10 +73,10 @@ const historyMessages: readonly TngAiMessage[] = [
 
 function createHistorySource(): TngAiHistorySource {
   return {
-    loadBefore: ({ signal }) =>
+    loadBefore: ({ signal: abortSignal }) =>
       new Promise((resolve, reject) => {
         const timer = setTimeout(() => resolve({ items: historyMessages, hasMore: false }), 240);
-        signal?.addEventListener(
+        abortSignal?.addEventListener(
           'abort',
           () => {
             clearTimeout(timer);
@@ -104,39 +88,128 @@ function createHistorySource(): TngAiHistorySource {
   };
 }
 
-type ScrollRefreshReason = 'content' | 'history' | 'initial' | 'resize';
+@Component({
+  selector: 'app-ai-chat-live-demo-part',
+  imports: [ComponentAssistantPreviewComponent],
+  template: `
+    @if (view(); as resolvedView) {
+      @switch (resolvedView.kind) {
+        @case ('prompt-options') {
+          <div class="demo-options">
+            @for (group of resolvedView.groups; track group.category.id) {
+              <section class="demo-option-group" [attr.data-prompt-category-id]="group.category.id">
+                <h4 class="component-assistant__option-category-title">
+                  {{ group.category.label }}
+                </h4>
+                <div class="demo-option-list">
+                  @for (option of group.options; track option.id) {
+                    <button
+                      type="button"
+                      [attr.data-prompt-option-id]="option.id"
+                      (click)="selectOption(option.id)"
+                    >
+                      {{ option.label }}
+                    </button>
+                  }
+                </div>
+              </section>
+            }
+          </div>
+        }
+        @case ('component-preview') {
+          <div class="demo-preview" [attr.data-component-preview-id]="resolvedView.previewId">
+            <app-component-assistant-preview [previewId]="resolvedView.previewId" />
+          </div>
+        }
+      }
+    } @else {
+      <span>Unsupported component content.</span>
+    }
+  `,
+  styles: `
+    :host {
+      display: block;
+      min-width: 0;
+    }
+    .demo-options {
+      display: grid;
+      gap: 0.85rem;
+      margin-top: 0.65rem;
+    }
+    .demo-option-group {
+      display: grid;
+      gap: 0.4rem;
+    }
+    .demo-option-group h4 {
+      color: var(--tng-semantic-foreground-secondary);
+      font-size: 0.72rem;
+      margin: 0;
+    }
+    .demo-option-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+    .demo-option-list button {
+      background: var(--tng-semantic-background-base);
+      border: 1px solid var(--tng-semantic-border-subtle);
+      border-radius: 0.65rem;
+      color: inherit;
+      cursor: pointer;
+      font: inherit;
+      padding: 0.45rem 0.65rem;
+      text-align: left;
+    }
+    .demo-option-list button:hover {
+      border-color: var(--tng-semantic-accent-brand);
+    }
+    .demo-option-list button:focus-visible {
+      outline: 2px solid var(--tng-semantic-accent-brand);
+      outline-offset: 2px;
+    }
+    .demo-preview {
+      border-top: 1px solid var(--tng-semantic-border-subtle);
+      margin-top: 0.75rem;
+      min-width: 0;
+      padding-top: 0.75rem;
+    }
+  `,
+})
+class AiChatLiveDemoPartComponent {
+  protected readonly context = inject(TNG_AI_MESSAGE_PART_CONTEXT);
+  protected readonly view = computed(() => {
+    const part = this.context.part();
+    return part.type === 'extension' ? resolveComponentAssistantExtension(part) : undefined;
+  });
 
-type HistoryScrollAnchor = Readonly<{
-  scrollHeight: number;
-  scrollTop: number;
-}>;
+  protected selectOption(optionId: string): void {
+    this.context.emitAction({ name: 'select-option', value: optionId });
+  }
+}
 
 @Component({
   selector: 'app-ai-chat-live-demo',
-  imports: [TngButtonComponent, TngTextareaComponent, TngIcon, ComponentAssistantPreviewComponent],
+  imports: [TngAiChatComponent],
   templateUrl: './ai-chat-live-demo.component.html',
   styleUrl: './ai-chat-live-demo.component.css',
 })
-export class AiChatLiveDemoComponent implements AfterViewInit, OnDestroy {
-  protected readonly draft = signal('');
+export class AiChatLiveDemoComponent implements OnDestroy {
   protected readonly messages = signal<readonly TngAiMessage[]>([]);
   protected readonly running = signal(false);
   protected readonly canRetry = signal(false);
   protected readonly statusMessage = signal('Ready. Type “hi” to see component options.');
   protected readonly historyLoading = signal(false);
   protected readonly historyExhausted = signal(false);
-  protected readonly following = signal(true);
-  protected readonly unseenMessageIds = signal<ReadonlySet<string>>(new Set());
-  protected readonly canSend = computed(() => this.draft().trim().length > 0 && !this.running());
-  protected readonly showLatest = computed(
-    () => !this.following() && this.unseenMessageIds().size > 0,
-  );
-  protected readonly latestLabel = computed(() =>
-    componentAssistantUnseenLabel(this.unseenMessageIds().size),
-  );
-
-  private readonly transcriptRef = viewChild<ElementRef<HTMLOListElement>>('transcript');
-  private readonly injector = inject(Injector);
+  protected readonly partRenderers: readonly TngAiMessagePartRenderer[] = [
+    {
+      match: { type: 'extension', name: 'tailng.dev/prompt-options' },
+      component: AiChatLiveDemoPartComponent,
+    },
+    {
+      match: { type: 'extension', name: 'tailng.dev/component-preview' },
+      component: AiChatLiveDemoPartComponent,
+    },
+  ];
 
   private readonly store = new TngAiChatStore();
   private readonly reducer = new TngAgUiReducer(this.store, { profile: 'required-chat' });
@@ -150,14 +223,6 @@ export class AiChatLiveDemoComponent implements AfterViewInit, OnDestroy {
   private currentRunId: string | undefined;
   private currentAssistantId: string | undefined;
   private lastRoute: ComponentAssistantRoute = { kind: 'fallback' };
-  private scrollFrameId: number | undefined;
-  private pendingRenderRef: AfterRenderRef | undefined;
-  private readonly programmaticScrollTops = new Set<number>();
-  private resumeScrollGuard = false;
-  private resumeGuardFrameId: number | undefined;
-  private historyScrollAnchor: HistoryScrollAnchor | undefined;
-  private resizeObserver: ResizeObserver | undefined;
-  private observedRows = new Set<Element>();
   private destroyed = false;
 
   public constructor() {
@@ -168,35 +233,21 @@ export class AiChatLiveDemoComponent implements AfterViewInit, OnDestroy {
     this.refreshMessages();
   }
 
-  public ngAfterViewInit(): void {
-    this.setupResizeObserver();
-    this.scheduleScrollReconciliation('initial');
+  protected onMessageSubmit(event: TngAiChatSubmitEvent): void {
+    if (!this.running()) {
+      this.submitPrompt(event.text, routeComponentAssistantPrompt(event.text));
+    }
   }
 
-  protected submit(): void {
-    const prompt = this.draft().trim();
-    if (prompt.length === 0 || this.running()) {
+  protected onPartAction(event: TngAiChatPartActionEvent): void {
+    if (event.action.name !== 'select-option' || typeof event.action.value !== 'string') {
       return;
     }
-    this.draft.set('');
-    this.submitPrompt(prompt, routeComponentAssistantPrompt(prompt));
-  }
-
-  protected selectOption(optionId: string): void {
-    if (this.running()) {
-      return;
-    }
-    const option = componentAssistantOption(optionId);
-    if (option === undefined) {
-      this.statusMessage.set('That component option is unavailable.');
-      return;
-    }
-    this.submitPrompt(option.prompt, { kind: 'preview', option });
+    this.selectOption(event.action.value);
   }
 
   protected retry(): void {
     if (!this.running()) {
-      this.resumeFollowing();
       this.startRun(this.lastRoute);
     }
   }
@@ -225,7 +276,6 @@ export class AiChatLiveDemoComponent implements AfterViewInit, OnDestroy {
     if (this.historyLoading() || this.historyExhausted()) {
       return;
     }
-    this.captureHistoryScrollAnchor();
     this.historyLoading.set(true);
     this.statusMessage.set('Loading earlier messages.');
     const result = await this.history.loadBefore(threadId);
@@ -237,81 +287,29 @@ export class AiChatLiveDemoComponent implements AfterViewInit, OnDestroy {
     this.statusMessage.set(
       result.ok ? 'Earlier messages loaded.' : 'Earlier messages unavailable.',
     );
-    this.refreshMessages('history');
-  }
-
-  protected onTranscriptScroll(): void {
-    const transcript = this.transcriptElement();
-    if (transcript === undefined) {
-      return;
-    }
-    if (this.resumeScrollGuard) {
-      this.scheduleScrollReconciliation('resize');
-      return;
-    }
-    const matchingProgrammaticTop = [...this.programmaticScrollTops].find(
-      (top) => Math.abs(transcript.scrollTop - top) <= 1,
-    );
-    if (this.following() && matchingProgrammaticTop !== undefined) {
-      this.programmaticScrollTops.delete(matchingProgrammaticTop);
-      this.scheduleScrollReconciliation('resize');
-      return;
-    }
-    this.programmaticScrollTops.clear();
-    const nextFollowing = componentAssistantIsNearBottom(transcript);
-    this.following.set(nextFollowing);
-    if (nextFollowing) {
-      this.clearUnseenMessages();
-    }
-  }
-
-  protected jumpToLatest(): void {
-    this.resumeFollowing();
-    this.statusMessage.set('Latest messages visible.');
-    this.scheduleScrollReconciliation('content');
-  }
-
-  protected onComposerKeydown(event: KeyboardEvent): void {
-    if (event.key !== 'Enter' || event.shiftKey || event.isComposing) {
-      return;
-    }
-    event.preventDefault();
-    this.submit();
-  }
-
-  protected textFor(part: TngAiMessagePart): string {
-    return part.type === 'text' || part.type === 'reasoning' ? (part.text ?? '') : '';
-  }
-
-  protected toolResultFor(part: TngAiMessagePart): string {
-    if (part.type !== 'tool-result') {
-      return '';
-    }
-    return part.text ?? (part.output === undefined ? '' : JSON.stringify(part.output, null, 2));
-  }
-
-  protected jsonFor(value: unknown): string {
-    return value === undefined ? '' : JSON.stringify(value, null, 2);
-  }
-
-  protected extensionView(part: TngAiExtensionPart): ComponentAssistantExtensionView | undefined {
-    return resolveComponentAssistantExtension(part);
+    this.refreshMessages();
   }
 
   public ngOnDestroy(): void {
     this.destroyed = true;
-    this.cancelScrollFrame();
-    this.resizeObserver?.disconnect();
-    this.resizeObserver = undefined;
-    this.observedRows.clear();
-    this.clearUnseenMessages();
     this.clearStreamTimers();
     this.history.dispose();
     this.store.dispose();
   }
 
+  private selectOption(optionId: string): void {
+    if (this.running()) {
+      return;
+    }
+    const option = componentAssistantOption(optionId);
+    if (option === undefined) {
+      this.statusMessage.set('That component option is unavailable.');
+      return;
+    }
+    this.submitPrompt(option.prompt, { kind: 'preview', option });
+  }
+
   private submitPrompt(prompt: string, route: ComponentAssistantRoute): void {
-    this.resumeFollowing();
     this.messageSequence += 1;
     this.store.upsertMessage(
       message(`user-${this.messageSequence}`, 'user', prompt, 1000 + this.messageSequence),
@@ -472,195 +470,8 @@ export class AiChatLiveDemoComponent implements AfterViewInit, OnDestroy {
     this.refreshMessages();
   }
 
-  private refreshMessages(reason: ScrollRefreshReason = 'content'): void {
-    const nextMessages = [...this.store.selectMessages(threadId)];
-    if (reason === 'content' && !this.following()) {
-      const latest = nextMessages.at(-1);
-      if (latest !== undefined) {
-        const currentUnseen = this.unseenMessageIds();
-        const nextUnseen = addComponentAssistantUnseenMessage(currentUnseen, latest.id);
-        if (nextUnseen !== currentUnseen) {
-          this.unseenMessageIds.set(nextUnseen);
-          const count = nextUnseen.size;
-          this.statusMessage.set(`${count} new ${count === 1 ? 'message' : 'messages'} available.`);
-        }
-      }
-    }
-    this.messages.set(nextMessages);
-    this.scheduleScrollReconciliation(reason);
-  }
-
-  private resumeFollowing(): void {
-    this.programmaticScrollTops.clear();
-    this.resumeScrollGuard = true;
-    this.following.set(true);
-    this.clearUnseenMessages();
-  }
-
-  private clearUnseenMessages(): void {
-    if (this.unseenMessageIds().size > 0) {
-      this.unseenMessageIds.set(new Set());
-    }
-  }
-
-  private captureHistoryScrollAnchor(): void {
-    const transcript = this.transcriptElement();
-    if (transcript === undefined) {
-      return;
-    }
-    this.historyScrollAnchor = {
-      scrollHeight: transcript.scrollHeight,
-      scrollTop: transcript.scrollTop,
-    };
-    this.programmaticScrollTops.clear();
-    this.following.set(false);
-  }
-
-  private scheduleScrollReconciliation(reason: ScrollRefreshReason): void {
-    if (this.destroyed) {
-      return;
-    }
-    if (reason === 'history' && this.historyScrollAnchor === undefined) {
-      this.captureHistoryScrollAnchor();
-    }
-    if (reason === 'resize') {
-      this.scheduleScrollFrame();
-      return;
-    }
-    if (this.pendingRenderRef !== undefined) {
-      return;
-    }
-    this.pendingRenderRef = afterNextRender(
-      () => {
-        this.pendingRenderRef = undefined;
-        this.scheduleScrollFrame();
-      },
-      { injector: this.injector },
-    );
-  }
-
-  private scheduleScrollFrame(): void {
-    if (this.destroyed || this.scrollFrameId !== undefined) {
-      return;
-    }
-    const transcript = this.transcriptElement();
-    const ownerWindow = transcript?.ownerDocument.defaultView;
-    if (ownerWindow === null || ownerWindow === undefined) {
-      return;
-    }
-    this.scrollFrameId = ownerWindow.requestAnimationFrame(() => {
-      this.scrollFrameId = undefined;
-      this.reconcileTranscriptScroll();
-    });
-  }
-
-  private reconcileTranscriptScroll(): void {
-    if (this.destroyed) {
-      return;
-    }
-    const transcript = this.transcriptElement();
-    if (transcript === undefined) {
-      return;
-    }
-    this.syncObservedRows(transcript);
-    const historyAnchor = this.historyScrollAnchor;
-    if (historyAnchor !== undefined) {
-      this.historyScrollAnchor = undefined;
-      const prependedHeight = Math.max(0, transcript.scrollHeight - historyAnchor.scrollHeight);
-      transcript.scrollTop = historyAnchor.scrollTop + prependedHeight;
-      this.following.set(componentAssistantIsNearBottom(transcript));
-      return;
-    }
-    if (this.following()) {
-      this.scrollToEnd(transcript);
-      this.clearUnseenMessages();
-    }
-  }
-
-  private scrollToEnd(transcript: HTMLOListElement): void {
-    const target = Math.max(0, transcript.scrollHeight - transcript.clientHeight);
-    this.programmaticScrollTops.add(target);
-    if (this.programmaticScrollTops.size > 8) {
-      const oldestTarget = this.programmaticScrollTops.values().next().value;
-      if (oldestTarget !== undefined) {
-        this.programmaticScrollTops.delete(oldestTarget);
-      }
-    }
-    if (typeof transcript.scrollTo === 'function') {
-      transcript.scrollTo({ top: transcript.scrollHeight, behavior: 'auto' });
-    } else {
-      transcript.scrollTop = transcript.scrollHeight;
-    }
-    this.scheduleResumeGuardRelease(transcript.ownerDocument.defaultView);
-  }
-
-  private scheduleResumeGuardRelease(ownerWindow: Window | null): void {
-    if (!this.resumeScrollGuard || ownerWindow === null || this.resumeGuardFrameId !== undefined) {
-      return;
-    }
-    this.resumeGuardFrameId = ownerWindow.requestAnimationFrame(() => {
-      this.resumeGuardFrameId = undefined;
-      this.resumeScrollGuard = false;
-    });
-  }
-
-  private setupResizeObserver(): void {
-    const transcript = this.transcriptElement();
-    const ownerWindow = transcript?.ownerDocument.defaultView;
-    const resizeObserverConstructor = ownerWindow?.ResizeObserver;
-    if (transcript === undefined || resizeObserverConstructor === undefined) {
-      return;
-    }
-    this.resizeObserver = new resizeObserverConstructor(() => {
-      this.scheduleScrollReconciliation('resize');
-    });
-    this.syncObservedRows(transcript);
-  }
-
-  private syncObservedRows(transcript: HTMLOListElement): void {
-    const observer = this.resizeObserver;
-    if (observer === undefined) {
-      return;
-    }
-    const nextRows = new Set<Element>(
-      Array.from(transcript.querySelectorAll('.component-assistant__message')),
-    );
-    for (const row of this.observedRows) {
-      if (!nextRows.has(row)) {
-        observer.unobserve(row);
-      }
-    }
-    for (const row of nextRows) {
-      if (!this.observedRows.has(row)) {
-        observer.observe(row);
-      }
-    }
-    this.observedRows = nextRows;
-  }
-
-  private cancelScrollFrame(): void {
-    this.pendingRenderRef?.destroy();
-    this.pendingRenderRef = undefined;
-    const transcript = this.transcriptElement();
-    const ownerWindow = transcript?.ownerDocument.defaultView;
-    if (ownerWindow !== null && ownerWindow !== undefined) {
-      this.cancelOwnerFrame(ownerWindow, this.scrollFrameId);
-      this.cancelOwnerFrame(ownerWindow, this.resumeGuardFrameId);
-    }
-    this.scrollFrameId = undefined;
-    this.resumeGuardFrameId = undefined;
-    this.resumeScrollGuard = false;
-    this.programmaticScrollTops.clear();
-  }
-
-  private cancelOwnerFrame(ownerWindow: Window, frameId: number | undefined): void {
-    if (frameId !== undefined) {
-      ownerWindow.cancelAnimationFrame(frameId);
-    }
-  }
-
-  private transcriptElement(): HTMLOListElement | undefined {
-    return this.transcriptRef()?.nativeElement;
+  private refreshMessages(): void {
+    this.messages.set([...this.store.selectMessages(threadId)]);
   }
 
   private schedule(delay: number, task: () => void): void {
