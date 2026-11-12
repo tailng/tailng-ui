@@ -1,12 +1,11 @@
 @if (hasSvg()) {
-<ng-icon
+<span
   class="tng-icon__svg"
-  size="var(--tng-icon-size, 1em)"
-  [svg]="svg()"
+  [tngIconSvgDefinition]="svgDefinition()"
   [attr.aria-hidden]="iconAriaHidden()"
   [attr.aria-label]="iconAriaLabel()"
   [attr.role]="iconRole()"
-/>
+></span>
 } @else {
 <span
   class="tng-icon__fallback"

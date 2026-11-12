@@ -19,5 +19,10 @@
 }
 
 .tng-icon__svg {
+  align-items: center;
+  display: inline-flex;
   font-size: var(--tng-icon-size, 1em);
+  height: var(--tng-icon-size, 1em);
+  justify-content: center;
+  width: var(--tng-icon-size, 1em);
 }

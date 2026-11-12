@@ -18,6 +18,7 @@ export default defineConfig({
   test: {
     name: 'icons',
     include: ['src/**/*.spec.ts'],
+    exclude: ['src/**/*.browser.spec.ts'],
     environment: 'jsdom',
     setupFiles: [resolve(projectRoot, './src/test-setup.ts')],
     coverage: {

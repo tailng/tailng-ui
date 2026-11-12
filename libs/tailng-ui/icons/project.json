@@ -41,6 +41,13 @@
         "watch": false
       }
     },
+    "browser-test": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "options": {
+        "command": "vitest run --config libs/tailng-ui/icons/vitest.browser.config.ts"
+      }
+    },
     "generate": {
       "executor": "nx:run-commands",
       "cache": true,

@@ -1,16 +1,18 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
-import { NgIcon } from '@ng-icons/core';
 import { TNG_ICON_RESOLVER, type TngIconResolver } from './icons.core';
 import { bindIconSvgEffect } from './tng-icon.loader-effect';
 import { normalizeIconSize, normalizeOptionalString } from './tng-icon.normalizers';
+import { parseTngIconSvg, type TngSvgElementNode } from './tng-icon.svg-parser';
+import { TngIconSvgRenderer } from './tng-icon.svg-renderer';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[style.--tng-icon-size]': 'size()',
     class: 'tng-icon',
+    ngSkipHydration: 'true',
   },
-  imports: [NgIcon],
+  imports: [TngIconSvgRenderer],
   selector: 'tng-icon',
   standalone: true,
   styleUrl: './tng-icon.css',
@@ -25,11 +27,11 @@ export class TngIcon {
     transform: normalizeIconSize,
   });
   private readonly iconResolver: TngIconResolver = inject(TNG_ICON_RESOLVER);
-  private readonly svgSignal = signal<string | null>(null);
+  private readonly svgDefinitionSignal = signal<TngSvgElementNode | null>(null);
 
   public constructor() {
     bindIconSvgEffect(this.icon, this.iconResolver, (value): void => {
-      this.svgSignal.set(value);
+      this.svgDefinitionSignal.set(value === null ? null : parseTngIconSvg(value));
     });
   }
 
@@ -43,6 +45,12 @@ export class TngIcon {
     this.label() === null ? null : 'img',
   );
 
-  protected readonly hasSvg = computed<boolean>(() => this.svgSignal() !== null);
-  protected readonly svg = computed<string>(() => this.svgSignal() ?? '');
+  protected readonly hasSvg = computed<boolean>(() => this.svgDefinitionSignal() !== null);
+  protected readonly svgDefinition = computed<TngSvgElementNode>(() => {
+    const definition = this.svgDefinitionSignal();
+    if (definition === null) {
+      throw new Error('Icon SVG definition is not available.');
+    }
+    return definition;
+  });
 }

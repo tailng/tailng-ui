@@ -42,10 +42,9 @@ export class IconsOverviewPageComponent implements OnDestroy {
     this.codeBlockTheme,
   );
 
-  protected readonly installPnpmCode = 'pnpm add @tailng-ui/icons @ng-icons/core @ng-icons/lucide';
-  protected readonly installNpmCode =
-    'npm install @tailng-ui/icons @ng-icons/core @ng-icons/lucide';
-  protected readonly installYarnCode = 'yarn add @tailng-ui/icons @ng-icons/core @ng-icons/lucide';
+  protected readonly installPnpmCode = 'pnpm add @tailng-ui/icons';
+  protected readonly installNpmCode = 'npm install @tailng-ui/icons';
+  protected readonly installYarnCode = 'yarn add @tailng-ui/icons';
 
   protected readonly basicProviderCode = `// app.config.ts
 import { ApplicationConfig } from '@angular/core';

@@ -16,7 +16,7 @@ Icon abstraction layer for TailNG UI, with built-in `lucide` support, custom pac
   </p>
 
   <p>
-    Icon pack abstraction and rendering utilities powered by <code>@ng-icons/core</code>.
+    Icon pack abstraction with a constrained, Trusted Types-compatible SVG renderer.
   </p>
 
   <p>
@@ -148,11 +148,20 @@ Use `--tng-icon-size` when CSS should own the size:
 - `defaultPack` is optional in `provideTngIcons(...)`.
 - Custom packs can be added without re-registering built-ins.
 - Built-ins are loaded via generated loaders from `@ng-icons/lucide`.
+- SVG strings are parsed as XML, validated against a constrained element and attribute allowlist,
+  and rendered with namespace-aware DOM operations. The renderer does not use `innerHTML`,
+  `DOMParser`, `SafeHtml`, or a Trusted Types bypass policy.
+- Icon definitions are code assets. Do not pass user-provided or remotely sourced SVG strings to
+  `createTngIconPack(...)`.
 - No implicit aliases are provided; use canonical icon names.
 - Pack name `lucide` is reserved unless `allowBuiltinOverride: true`.
 - Built-in pack references normalize case-insensitively (for example `Lucide:bell` => `lucide:bell`).
 
 ## Custom packs
+
+Custom pack SVGs are parsed as strict XML and validated before rendering. Keep icon definitions in
+source control or trusted package code; the pack API is not an HTML sanitization boundary for SVG
+received from users, databases, CMS entries, or remote APIs.
 
 ### Custom default pack + extra packs
 
@@ -192,12 +201,51 @@ export const appConfig = {
 };
 ```
 
+## Security and SVG compatibility
+
+`TngIcon` never assigns SVG markup to `innerHTML` and does not use `DOMParser`, Angular
+`SafeHtml`, `bypassSecurityTrustHtml()`, or a Trusted Types policy. It parses definitions with a
+non-DOM XML parser, validates a constrained SVG subset, and creates every element and attribute
+through namespace-aware Angular renderer operations. Applications can keep
+`require-trusted-types-for 'script'` enabled without adding an icon-specific policy.
+
+The allowlist includes the shapes and composition features used by Lucide and common static icon
+packs: `svg`, `g`, `path`, basic shapes, `defs`, gradients, masks, clip paths, symbols, `use`,
+`title`, and `desc`. Presentation attributes are allowlisted. Supported inline presentation styles
+are converted to equivalent SVG attributes instead of being emitted as a `style` attribute.
+
+The following content is intentionally rejected:
+
+- scripts, event-handler attributes, `foreignObject`, embedded HTML, and processing instructions;
+- external, protocol-relative, `data:`, or JavaScript URLs;
+- non-allowlisted elements, attributes, namespaces, and CSS properties;
+- documents exceeding the parser's source-size, depth, node-count, or attribute-count limits.
+
+References such as `url(#gradient)` and `href="#symbol"` are allowed only within the same icon.
+Their IDs are prefixed per component instance so repeated icons do not create duplicate document
+IDs. An icon that cannot be parsed or validated renders the standard fallback glyph.
+
+Because the SVG subtree is created outside Angular's compiled template instructions, `TngIcon`
+skips hydration for its own component host and recreates that small subtree on the client. This
+keeps application hydration deterministic at the cost of rerendering each icon during hydration.
+
+Adding support for a new SVG feature must be an explicit library change accompanied by parser,
+renderer, CSP, SSR, and hydration coverage. Do not broaden the allowlist merely to accept an
+unreviewed icon file.
+
 ## Development
 
 Regenerate built-in loader maps:
 
 ```bash
 pnpm generate:icons
+```
+
+Run the unit and Chromium sink-enforcement suites independently:
+
+```bash
+pnpm test:icons
+pnpm test:icons:browser
 ```
 
 ## Documentation

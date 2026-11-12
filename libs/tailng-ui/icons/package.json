@@ -8,8 +8,8 @@
   },
   "type": "module",
   "dependencies": {
-    "@ng-icons/core": "^32.4.0",
     "@ng-icons/lucide": "^33.1.0",
+    "saxes": "^6.0.0",
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
