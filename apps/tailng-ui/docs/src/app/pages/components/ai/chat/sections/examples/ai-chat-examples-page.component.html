@@ -22,7 +22,13 @@
         runs entirely in this page.
       </p>
     </div>
-    <app-ai-chat-live-demo />
+    <app-docs-example-panel
+      title="AG-UI component assistant"
+      [codeTabs]="liveDemoCodeTabs"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <app-ai-chat-live-demo />
+    </app-docs-example-panel>
   </section>
 
   <section id="safe-component-renderers" class="grid gap-4 scroll-mt-24">

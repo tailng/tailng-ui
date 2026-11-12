@@ -1,6 +1,6 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { ComponentAssistantComponent } from './component-assistant.component';
+import { AiChatLiveDemoComponent } from './ai-chat-live-demo.component';
 
 function button(host: HTMLElement, label: string): HTMLButtonElement {
   const result = Array.from(host.querySelectorAll<HTMLButtonElement>('button')).find((candidate) =>
@@ -45,14 +45,14 @@ async function settle(milliseconds = 0): Promise<void> {
   );
 }
 
-describe('ComponentAssistantComponent browser scrolling', () => {
-  let fixture: ComponentFixture<ComponentAssistantComponent>;
+describe('AiChatLiveDemoComponent browser scrolling', () => {
+  let fixture: ComponentFixture<AiChatLiveDemoComponent>;
   let host: HTMLElement;
 
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      imports: [ComponentAssistantComponent],
-    }).createComponent(ComponentAssistantComponent);
+      imports: [AiChatLiveDemoComponent],
+    }).createComponent(AiChatLiveDemoComponent);
     fixture.detectChanges();
     host = fixture.nativeElement as HTMLElement;
   });

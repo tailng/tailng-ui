@@ -568,7 +568,7 @@ category: components
 status: stable
 tags: ["ai", "chat", "examples", "streaming", "pagination"]
 package: @tailng-ui/ai
-sourcePaths: ["libs/tailng-ui/ai/src/lib/store/chat-store.ts", "libs/tailng-ui/ai/src/lib/history/history-controller.ts", "libs/tailng-ui/ai/src/ag-ui/lib/reducer.ts", "apps/tailng-ui/docs/src/app/shared/demos/component-assistant/component-assistant.component.ts", "apps/tailng-ui/docs/src/app/shared/demos/component-assistant/component-assistant.extensions.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/ai-chat-examples-page.component.ts"]
+sourcePaths: ["libs/tailng-ui/ai/src/lib/store/chat-store.ts", "libs/tailng-ui/ai/src/lib/history/history-controller.ts", "libs/tailng-ui/ai/src/ag-ui/lib/reducer.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/live-chat-demo/ai-chat-live-demo.component.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/live-chat-demo/ai-chat-live-demo.component.html", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/live-chat-demo/ai-chat-live-demo.component.css", "apps/tailng-ui/docs/src/app/shared/demos/component-assistant/component-assistant.extensions.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/ai-chat-examples-page.component.ts"]
 humanDocsUrl: https://tailng.dev/components/ai/chat/examples
 ---
 

@@ -225,21 +225,21 @@ extension is a TailNG application materialization, not a new AG-UI standard even
 Recommended source ownership:
 
 ```text
+apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/live-chat-demo/
+├── ai-chat-live-demo.component.ts
+├── ai-chat-live-demo.component.html
+├── ai-chat-live-demo.component.css
+└── ai-chat-live-demo-code.generated.ts
+apps/tailng-ui/docs/src/app/pages/landing/landing/component-assistant/
+├── landing-component-assistant.component.ts
+├── landing-component-assistant.component.html
+└── landing-component-assistant.component.css
 apps/tailng-ui/docs/src/app/shared/demos/component-assistant/
-├── component-assistant.component.ts
-├── component-assistant.component.html
-├── component-assistant.component.css
-├── component-assistant.config.ts
 ├── component-assistant.catalog.ts
 ├── component-assistant.extensions.ts
-├── component-assistant.engine.ts
-├── component-assistant.fixtures.ts
-├── previews/
-│   ├── release-date-preview.component.ts
-│   ├── monthly-installs-preview.component.ts
-│   ├── team-table-preview.component.ts
-│   └── release-status-preview.component.ts
-└── __tests__/
+├── component-assistant.previews.ts
+├── component-assistant-expanded.previews.ts
+└── component-assistant-scroll.ts
 ```
 
 The final file layout may follow repository conventions, but these responsibilities remain

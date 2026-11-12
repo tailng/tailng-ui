@@ -24,7 +24,7 @@ describe('LandingPageComponent component assistant surface', () => {
   it('keeps discoverable copy and the examples CTA outside deferred content', () => {
     const sectionStart = template.indexOf('id="component-assistant"');
     const deferStart = template.indexOf('@defer', sectionStart);
-    const assistantElement = template.indexOf('<app-component-assistant', sectionStart);
+    const assistantElement = template.indexOf('<app-landing-component-assistant', sectionStart);
     const heading = template.indexOf(
       'Build AI experiences with real TailNG components',
       sectionStart,
@@ -42,9 +42,9 @@ describe('LandingPageComponent component assistant surface', () => {
     expect(assistantElement).toBeGreaterThan(deferStart);
   });
 
-  it('defers the compact shared assistant with a stable placeholder', () => {
+  it('defers the landing-owned compact assistant with a stable placeholder', () => {
     expect(template).toContain('@defer (on viewport; prefetch on idle)');
-    expect(template).toContain('<app-component-assistant variant="compact" />');
+    expect(template).toContain('<app-landing-component-assistant />');
     expect(template).toContain('class="component-assistant-loading"');
   });
 });

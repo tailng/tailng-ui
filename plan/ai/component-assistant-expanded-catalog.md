@@ -403,7 +403,7 @@ Exit gate:
 
 - [x] `component-assistant.catalog.ts` for categories, twelve options, grouping, and routing.
 - [x] `component-assistant.extensions.ts` for strict twelve-option validation and grouped view models.
-- [x] `component-assistant.component.html` and CSS for category semantics and responsive wrapping.
+- [x] The example-owned `ai-chat-live-demo.component.html`/CSS and landing-owned component for category semantics and responsive wrapping.
 - [ ] Focused preview files plus an explicit lazy preview wrapper/allowlist.
 - [ ] Pure, component, Chromium, accessibility, cleanup, and performance tests.
 - [x] Examples-page and landing-page documentation/copy updates.

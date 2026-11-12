@@ -24,7 +24,7 @@ import {
 } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
 import type { TngTableSortChange, TngTreeTableKey } from '@tailng-ui/primitives';
-import { ComponentAssistantComponent } from '../../../shared/demos/component-assistant/component-assistant.component';
+import { LandingComponentAssistantComponent } from './component-assistant/landing-component-assistant.component';
 
 // ─── Showcase types & data ────────────────────────────────────────────────────
 
@@ -449,7 +449,7 @@ const exploreLinks: readonly RouteCard[] = [
     TngTreeTable,
     TngBarChartComponent,
     TngLineChartComponent,
-    ComponentAssistantComponent,
+    LandingComponentAssistantComponent,
   ],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.css',

@@ -19,6 +19,8 @@
     "docs:agent:build": "node apps/tailng-ui/docs/scripts/agent-knowledge.mjs build",
     "docs:agent:check": "node apps/tailng-ui/docs/scripts/agent-knowledge.mjs check",
     "docs:agent:test": "node apps/tailng-ui/docs/scripts/agent-knowledge.mjs test",
+    "docs:examples:build": "node apps/tailng-ui/docs/scripts/example-sources.mjs build",
+    "docs:examples:check": "node apps/tailng-ui/docs/scripts/example-sources.mjs check",
     "format:nx": "NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx format:check",
     "format:prettier": "prettier . --check",
     "format:write": "prettier . --write",

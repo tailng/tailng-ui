@@ -1,0 +1,213 @@
+:host {
+  display: block;
+}
+
+.component-assistant {
+  background: var(--tng-semantic-background-base);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1.25rem;
+  overflow: hidden;
+}
+
+.component-assistant__header {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  display: flex;
+  justify-content: space-between;
+  padding: 1.1rem 1.25rem;
+}
+
+.component-assistant__header h3,
+.component-assistant__header p {
+  margin: 0;
+}
+
+.component-assistant__header h3 {
+  font-size: 1rem;
+}
+
+.component-assistant__header p,
+.component-assistant__history-control,
+.component-assistant__composer-meta,
+.component-assistant__status {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.75rem;
+}
+
+.component-assistant__presence {
+  background: var(--tng-semantic-accent-success);
+  border-radius: 50%;
+  height: 0.45rem;
+  width: 0.45rem;
+}
+
+.component-assistant__history-control {
+  padding: 0.4rem 1.25rem 0;
+}
+
+.component-assistant__transcript {
+  align-content: start;
+  display: grid;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  max-height: 31rem;
+  min-height: 22rem;
+  overflow: auto;
+  padding: 1rem 1.25rem 1.5rem;
+}
+
+.component-assistant--compact .component-assistant__transcript {
+  max-height: 27rem;
+  min-height: 19rem;
+}
+
+.component-assistant__message {
+  align-items: start;
+  display: grid;
+  gap: 0.6rem;
+  grid-template-columns: auto minmax(0, 1fr);
+  width: 100%;
+}
+
+.component-assistant__message--user {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.component-assistant__message-content {
+  display: grid;
+  gap: 0.3rem;
+  justify-items: end;
+  max-width: min(82%, 42rem);
+  min-width: 0;
+}
+
+.component-assistant__message:not(.component-assistant__message--user)
+  .component-assistant__message-content {
+  justify-items: start;
+}
+
+.component-assistant__message--user .component-assistant__message-content {
+  justify-self: end;
+}
+
+.component-assistant__author {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.7rem;
+}
+
+.component-assistant__bubble {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.35rem 1rem 1rem;
+  max-width: 100%;
+  min-width: 0;
+  padding: 0.75rem 0.9rem;
+}
+
+.component-assistant__message--user .component-assistant__bubble {
+  background: var(--tng-semantic-accent-brand);
+  border-color: transparent;
+  border-radius: 1rem 0.35rem 1rem 1rem;
+  color: var(--tng-color-white);
+}
+
+.component-assistant__message--tool .component-assistant__bubble {
+  border-style: dashed;
+}
+
+.component-assistant__bubble p {
+  margin: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.component-assistant__preview {
+  border-top: 1px solid var(--tng-semantic-border-subtle);
+  margin-top: 0.75rem;
+  max-width: 100%;
+  min-width: 0;
+  padding-top: 0.75rem;
+}
+
+.component-assistant__tool {
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 0.75rem;
+  margin-top: 0.65rem;
+  overflow: hidden;
+}
+
+.component-assistant__tool-title {
+  display: flex;
+  gap: 0.45rem;
+  padding: 0.55rem 0.7rem;
+}
+
+.component-assistant__tool-title span:last-child {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.7rem;
+  margin-left: auto;
+}
+
+.component-assistant__tool pre {
+  border-top: 1px solid var(--tng-semantic-border-subtle);
+  font-size: 0.72rem;
+  margin: 0;
+  overflow: auto;
+  padding: 0.65rem 0.7rem;
+}
+
+.component-assistant__cursor {
+  animation: component-assistant-cursor 0.8s steps(2, jump-none) infinite;
+  background: currentColor;
+  display: inline-block;
+  height: 1em;
+  margin-left: 0.2rem;
+  vertical-align: -0.12em;
+  width: 0.12rem;
+}
+
+.component-assistant__stopped,
+.component-assistant__unsupported {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.7rem;
+  margin-top: 0.4rem;
+}
+
+.component-assistant__status {
+  margin: 0;
+}
+
+.component-assistant__composer {
+  border-top: 1px solid var(--tng-semantic-border-subtle);
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.85rem 1rem 1rem;
+}
+
+.component-assistant__composer-meta > span:last-child {
+  margin-left: auto;
+}
+
+@keyframes component-assistant-cursor {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 40rem) {
+  .component-assistant__header,
+  .component-assistant__transcript {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+
+  .component-assistant__message-content {
+    max-width: 90%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .component-assistant__cursor {
+    animation: none;
+  }
+}

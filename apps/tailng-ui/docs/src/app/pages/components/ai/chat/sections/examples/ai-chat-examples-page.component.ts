@@ -1,15 +1,18 @@
 import { Component } from '@angular/core';
 import { TngCodeBlockComponent } from '@tailng-ui/components';
+import { DocsExamplePanelComponent } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import { useAiChatDocsCodeTheme } from '../../chat-docs-code-theme';
+import { aiChatLiveDemoCodeTabs } from './live-chat-demo/ai-chat-live-demo-code.generated';
 import { AiChatLiveDemoComponent } from './live-chat-demo/ai-chat-live-demo.component';
 
 @Component({
   selector: 'app-ai-chat-examples-page',
-  imports: [TngCodeBlockComponent, AiChatLiveDemoComponent],
+  imports: [TngCodeBlockComponent, DocsExamplePanelComponent, AiChatLiveDemoComponent],
   templateUrl: './ai-chat-examples-page.component.html',
 })
 export class AiChatExamplesPageComponent {
   protected readonly codeBlockTheme = useAiChatDocsCodeTheme();
+  protected readonly liveDemoCodeTabs = aiChatLiveDemoCodeTabs;
   protected readonly rendererCode = [
     "import type { TngAiExtensionPart } from '@tailng-ui/ai';",
     '',

@@ -1,0 +1,218 @@
+<section
+  class="component-assistant component-assistant--compact"
+  role="region"
+  aria-label="TailNG component assistant"
+  data-assistant-variant="compact"
+>
+  <header class="component-assistant__header items-center gap-3">
+    <div class="component-assistant__identity flex min-w-0 items-center gap-3">
+      <span
+        class="component-assistant__avatar grid size-10 shrink-0 place-items-center rounded-full bg-tng-accent-brand text-tng-fg-inverse"
+        aria-hidden="true"
+      >
+        <tng-icon icon="sparkles" size="1.15rem" />
+      </span>
+      <div class="min-w-0">
+        <h3>TailNG Assistant</h3>
+        <p class="flex items-center gap-1.5">
+          <span class="component-assistant__presence" aria-hidden="true"></span>
+          Local demo · Ready
+        </p>
+      </div>
+    </div>
+    <span
+      class="component-assistant__protocol inline-flex shrink-0 items-center rounded-full border border-tng-border-subtle bg-tng-bg-surface px-2.5 py-1 text-xs font-semibold text-tng-accent-brand"
+      data-protocol="ag-ui-1.0"
+    >
+      AG-UI 1.0
+    </span>
+  </header>
+
+  <ol
+    #transcript
+    class="component-assistant__transcript"
+    aria-label="Component assistant conversation"
+    [attr.data-following]="following()"
+    (scroll)="onTranscriptScroll()"
+  >
+    @for (chatMessage of messages(); track chatMessage.id) {
+      <li
+        class="component-assistant__message"
+        [class.component-assistant__message--user]="chatMessage.role === 'user'"
+        [class.component-assistant__message--tool]="chatMessage.role === 'tool'"
+        [attr.data-message-id]="chatMessage.id"
+        [attr.data-message-role]="chatMessage.role"
+        [attr.data-message-status]="chatMessage.status"
+      >
+        @if (chatMessage.role !== 'user') {
+          <span
+            class="component-assistant__message-avatar grid size-8 shrink-0 place-items-center rounded-full bg-tng-bg-muted text-tng-accent-brand"
+            aria-hidden="true"
+          >
+            @if (chatMessage.role === 'tool') {
+              <tng-icon icon="terminal" size="0.9rem" />
+            } @else {
+              <tng-icon icon="sparkles" size="0.9rem" />
+            }
+          </span>
+        }
+        <div class="component-assistant__message-content">
+          <span class="component-assistant__author">
+            {{
+              chatMessage.role === 'user'
+                ? 'You'
+                : chatMessage.role === 'tool'
+                  ? 'Tool result'
+                  : 'TailNG Assistant'
+            }}
+          </span>
+          <div class="component-assistant__bubble">
+            @for (part of chatMessage.parts; track part.id) {
+              @switch (part.type) {
+                @case ('text') {
+                  <p>
+                    {{ textFor(part) }}
+                    @if (part.status === 'streaming') {
+                      <span class="component-assistant__cursor" aria-hidden="true"></span>
+                    }
+                  </p>
+                }
+                @case ('tool-call') {
+                  <section
+                    class="component-assistant__tool"
+                    [attr.data-tool-call-id]="part.toolCallId"
+                    [attr.data-tool-status]="part.status"
+                    aria-label="Tool call"
+                  >
+                    <div class="component-assistant__tool-title">
+                      <span aria-hidden="true">⌁</span>
+                      <strong>{{ part.name }}</strong>
+                      <span>{{ part.status }}</span>
+                    </div>
+                    @if (part.input !== undefined) {
+                      <pre>{{ jsonFor(part.input) }}</pre>
+                    }
+                  </section>
+                }
+                @case ('tool-result') {
+                  <p>{{ toolResultFor(part) }}</p>
+                }
+                @case ('extension') {
+                  @if (extensionView(part); as view) {
+                    @switch (view.kind) {
+                      @case ('prompt-options') {
+                        <div
+                          class="component-assistant__options mt-3 grid gap-2"
+                          role="group"
+                          aria-label="TailNG component prompts"
+                        >
+                          @for (group of view.groups; track group.category.id) {
+                            <section
+                              class="component-assistant__option-category"
+                              [attr.data-prompt-category-id]="group.category.id"
+                            >
+                              <h4
+                                class="component-assistant__option-category-title m-0 mb-1 text-xs"
+                              >
+                                {{ group.category.label }}
+                              </h4>
+                              <div
+                                class="component-assistant__option-actions flex flex-wrap gap-2"
+                                role="group"
+                                [attr.aria-label]="group.category.label + ' component prompts'"
+                              >
+                                @for (option of group.options; track option.id) {
+                                  <tng-button
+                                    appearance="outline"
+                                    size="sm"
+                                    [disabled]="running()"
+                                    [attr.data-prompt-option-id]="option.id"
+                                    (click)="selectOption(option.id)"
+                                  >
+                                    {{ option.label }}
+                                  </tng-button>
+                                }
+                              </div>
+                            </section>
+                          }
+                        </div>
+                      }
+                      @case ('component-preview') {
+                        <div
+                          class="component-assistant__preview"
+                          [attr.data-component-preview-id]="view.previewId"
+                          (keydown)="$event.stopPropagation()"
+                        >
+                          <app-component-assistant-preview [previewId]="view.previewId" />
+                        </div>
+                      }
+                    }
+                  } @else {
+                    <p class="component-assistant__unsupported">Unsupported component content.</p>
+                  }
+                }
+              }
+            }
+            @if (chatMessage.status === 'stopped') {
+              <span class="component-assistant__stopped">Stopped</span>
+            }
+          </div>
+        </div>
+      </li>
+    }
+  </ol>
+
+  @if (showLatest()) {
+    <div class="component-assistant__history-control">
+      <tng-button
+        appearance="outline"
+        size="sm"
+        [attr.aria-label]="latestLabel()"
+        (click)="jumpToLatest()"
+      >
+        {{ latestLabel() }}
+      </tng-button>
+    </div>
+  }
+
+  <footer class="component-assistant__composer">
+    <div class="component-assistant__composer-meta flex flex-wrap items-center gap-x-3 gap-y-1">
+      <p class="component-assistant__status" role="status" aria-live="polite">
+        {{ statusMessage() }}
+      </p>
+    </div>
+    <div
+      class="component-assistant__composer-field grid grid-cols-[minmax(0,1fr)_auto] items-end gap-2"
+    >
+      <tng-textarea
+        ariaLabel="Message the TailNG component assistant"
+        placeholder="Type hi to explore components…"
+        resize="none"
+        [rows]="1"
+        [value]="draft()"
+        [disabled]="running()"
+        (valueChange)="draft.set($event ?? '')"
+        (keydown)="onComposerKeydown($event)"
+      />
+      <div class="component-assistant__composer-actions flex items-center gap-2">
+        @if (running()) {
+          <tng-button tone="danger" appearance="outline" ariaLabel="Stop response" (click)="stop()">
+            <tng-icon icon="square" size="0.85rem" />
+            Stop
+          </tng-button>
+        } @else {
+          @if (canRetry()) {
+            <tng-button appearance="outline" ariaLabel="Retry last message" (click)="retry()">
+              <tng-icon icon="rotate-ccw" size="0.95rem" />
+              Retry
+            </tng-button>
+          }
+          <tng-button ariaLabel="Send message" [disabled]="!canSend()" (click)="submit()">
+            <tng-icon icon="send" size="0.95rem" />
+            Send
+          </tng-button>
+        }
+      </div>
+    </div>
+  </footer>
+</section>

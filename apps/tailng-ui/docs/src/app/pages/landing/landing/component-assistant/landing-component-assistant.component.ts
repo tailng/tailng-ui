@@ -4,7 +4,6 @@ import {
   computed,
   inject,
   Injector,
-  input,
   signal,
   viewChild,
   type AfterRenderRef,
@@ -26,24 +25,25 @@ import {
 } from '@tailng-ui/ai';
 import { TngAgUiReducer } from '@tailng-ui/ai/ag-ui';
 import { TngButtonComponent, TngTextareaComponent } from '@tailng-ui/components';
+import { TngIcon } from '@tailng-ui/icons';
 import {
   addComponentAssistantUnseenMessage,
   componentAssistantIsNearBottom,
   componentAssistantUnseenLabel,
-} from './component-assistant-scroll';
+} from '../../../../shared/demos/component-assistant/component-assistant-scroll';
 import {
   COMPONENT_ASSISTANT_OPTIONS,
   componentAssistantOption,
   routeComponentAssistantPrompt,
   type ComponentAssistantRoute,
-} from './component-assistant.catalog';
+} from '../../../../shared/demos/component-assistant/component-assistant.catalog';
 import {
   createComponentPreviewExtension,
   createPromptOptionsExtension,
   resolveComponentAssistantExtension,
   type ComponentAssistantExtensionView,
-} from './component-assistant.extensions';
-import { ComponentAssistantPreviewComponent } from './component-assistant.previews';
+} from '../../../../shared/demos/component-assistant/component-assistant.extensions';
+import { ComponentAssistantPreviewComponent } from '../../../../shared/demos/component-assistant/component-assistant.previews';
 
 const threadId = 'tailng-component-assistant';
 const streamStepMs = 180;
@@ -112,14 +112,12 @@ type HistoryScrollAnchor = Readonly<{
 }>;
 
 @Component({
-  selector: 'app-component-assistant',
-  imports: [TngButtonComponent, TngTextareaComponent, ComponentAssistantPreviewComponent],
-  templateUrl: './component-assistant.component.html',
-  styleUrl: './component-assistant.component.css',
+  selector: 'app-landing-component-assistant',
+  imports: [TngButtonComponent, TngTextareaComponent, TngIcon, ComponentAssistantPreviewComponent],
+  templateUrl: './landing-component-assistant.component.html',
+  styleUrl: './landing-component-assistant.component.css',
 })
-export class ComponentAssistantComponent implements AfterViewInit, OnDestroy {
-  public readonly variant = input<'full' | 'compact'>('full');
-
+export class LandingComponentAssistantComponent implements AfterViewInit, OnDestroy {
   protected readonly draft = signal('');
   protected readonly messages = signal<readonly TngAiMessage[]>([]);
   protected readonly running = signal(false);

@@ -1,7 +1,6 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { AiChatLiveDemoComponent } from './ai-chat-live-demo.component';
-import { ComponentAssistantComponent } from '../../../../../../../shared/demos/component-assistant/component-assistant.component';
 
 class ComponentAssistantResizeObserver implements ResizeObserver {
   public static readonly instances: ComponentAssistantResizeObserver[] = [];
@@ -126,7 +125,7 @@ describe('AiChatLiveDemoComponent', () => {
       value: ComponentAssistantResizeObserver,
     });
     fixture = TestBed.configureTestingModule({
-      imports: [AiChatLiveDemoComponent, ComponentAssistantComponent],
+      imports: [AiChatLiveDemoComponent],
     }).createComponent(AiChatLiveDemoComponent);
     fixture.detectChanges();
     host = fixture.nativeElement as HTMLElement;
@@ -152,6 +151,36 @@ describe('AiChatLiveDemoComponent', () => {
       'Message the TailNG component assistant',
     );
     expect(button(host, 'Send').disabled).toBe(true);
+  });
+
+  it('AI-DEMO-PRO-001 presents a distinct assistant identity and compact protocol badge', () => {
+    const identity = host.querySelector('.component-assistant__identity');
+    const avatar = identity?.querySelector('.component-assistant__avatar');
+    const protocol = host.querySelector('.component-assistant__protocol');
+
+    expect(avatar?.querySelector('tng-icon[icon="sparkles"]')).toBeTruthy();
+    expect(identity?.textContent).toContain('TailNG Assistant');
+    expect(identity?.textContent).toContain('Local demo');
+    expect(protocol?.getAttribute('data-protocol')).toBe('ag-ui-1.0');
+    expect(protocol?.textContent?.trim()).toBe('AG-UI 1.0');
+  });
+
+  it('AI-DEMO-PRO-002 gives assistant messages an avatar and content-sized message body', () => {
+    const assistantMessage = host.querySelector('[data-message-role="assistant"]');
+
+    expect(
+      assistantMessage?.querySelector(
+        '.component-assistant__message-avatar tng-icon[icon="sparkles"]',
+      ),
+    ).toBeTruthy();
+    expect(assistantMessage?.querySelector('.component-assistant__message-content')).toBeTruthy();
+  });
+
+  it('AI-DEMO-PRO-003 uses labelled icon actions in the composer', () => {
+    const sendButton = button(host, 'Send');
+
+    expect(sendButton.querySelector('tng-icon[icon="send"]')).toBeTruthy();
+    expect(sendButton.getAttribute('aria-label')).toBe('Send message');
   });
 
   it('AI-DEMO-EXPAND-013/014 shows twelve categorized options for a normalized greeting', () => {
@@ -251,19 +280,6 @@ describe('AiChatLiveDemoComponent', () => {
     fixture.detectChanges();
 
     expect(host.textContent).toContain('Start of conversation');
-  });
-
-  it('AI-DEMO-SURFACE-002 renders the shared compact variant without full-only history controls', () => {
-    const compactFixture = TestBed.createComponent(ComponentAssistantComponent);
-    compactFixture.componentRef.setInput('variant', 'compact');
-    compactFixture.detectChanges();
-    const compactHost = compactFixture.nativeElement as HTMLElement;
-
-    expect(compactHost.querySelector('[data-assistant-variant="compact"]')).toBeTruthy();
-    expect(compactHost.textContent).not.toContain('Load earlier messages');
-    expect(compactHost.querySelector('textarea')?.getAttribute('rows')).toBe('1');
-
-    compactFixture.destroy();
   });
 
   it.each([
@@ -473,9 +489,13 @@ describe('AiChatLiveDemoComponent', () => {
     flushAnimationFrames();
     expect(geometry.getScrollTop()).toBe(900);
 
+    observer.emit();
+    const pendingScrollFrameId = animationFrames.keys().next().value;
+    expect(pendingScrollFrameId).toBeDefined();
+
     fixture.destroy();
     expect(observer.disconnected).toBe(true);
-    expect(animationFrames.size).toBe(0);
+    expect(animationFrames.has(pendingScrollFrameId ?? -1)).toBe(false);
   });
 
   function showOptions(): void {

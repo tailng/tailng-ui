@@ -19,6 +19,9 @@ export default defineConfig({
     tsconfigPaths({ root: resolve(projectRoot, '../../..'), projects: ['tsconfig.base.json'] }),
   ],
   root: projectRoot,
+  optimizeDeps: {
+    include: ['@ng-icons/lucide', 'saxes'],
+  },
   test: {
     name: 'docs-browser',
     include: ['src/**/*.browser.spec.ts'],

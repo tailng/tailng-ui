@@ -26,28 +26,18 @@
 }
 
 .component-assistant__header p,
-.component-assistant__eyebrow,
 .component-assistant__history-control,
-.component-assistant__composer-actions,
+.component-assistant__composer-meta,
 .component-assistant__status {
   color: var(--tng-semantic-foreground-secondary);
   font-size: 0.75rem;
 }
 
-.component-assistant__eyebrow {
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.component-assistant__protocol {
-  background: var(--tng-semantic-background-surface);
-  border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 999px;
-  color: var(--tng-semantic-accent-brand);
-  font-size: 0.7rem;
-  font-weight: 700;
-  padding: 0.3rem 0.55rem;
+.component-assistant__presence {
+  background: var(--tng-semantic-accent-success);
+  border-radius: 50%;
+  height: 0.45rem;
+  width: 0.45rem;
 }
 
 .component-assistant__history-control {
@@ -55,6 +45,7 @@
 }
 
 .component-assistant__transcript {
+  align-content: start;
   display: grid;
   gap: 1rem;
   list-style: none;
@@ -71,15 +62,32 @@
 }
 
 .component-assistant__message {
+  align-items: start;
   display: grid;
-  gap: 0.3rem;
-  justify-items: start;
-  max-width: min(92%, 42rem);
+  gap: 0.6rem;
+  grid-template-columns: auto minmax(0, 1fr);
+  width: 100%;
 }
 
 .component-assistant__message--user {
-  justify-self: end;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.component-assistant__message-content {
+  display: grid;
+  gap: 0.3rem;
   justify-items: end;
+  max-width: min(82%, 42rem);
+  min-width: 0;
+}
+
+.component-assistant__message:not(.component-assistant__message--user)
+  .component-assistant__message-content {
+  justify-items: start;
+}
+
+.component-assistant__message--user .component-assistant__message-content {
+  justify-self: end;
 }
 
 .component-assistant__author {
@@ -166,10 +174,7 @@
 }
 
 .component-assistant__status {
-  border-top: 1px solid var(--tng-semantic-border-subtle);
   margin: 0;
-  min-height: 2rem;
-  padding: 0.45rem 1.25rem;
 }
 
 .component-assistant__composer {
@@ -179,15 +184,8 @@
   padding: 0.85rem 1rem 1rem;
 }
 
-.component-assistant__composer-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  justify-content: flex-end;
-}
-
-.component-assistant__composer-actions > span {
-  margin-right: auto;
+.component-assistant__composer-meta > span:last-child {
+  margin-left: auto;
 }
 
 @keyframes component-assistant-cursor {
@@ -203,8 +201,8 @@
     padding-right: 0.85rem;
   }
 
-  .component-assistant__message {
-    max-width: 98%;
+  .component-assistant__message-content {
+    max-width: 90%;
   }
 }
 
