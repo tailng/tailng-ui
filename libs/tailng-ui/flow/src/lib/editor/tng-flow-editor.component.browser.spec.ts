@@ -2018,6 +2018,7 @@ describe('TngFlowEditorComponent browser contracts', () => {
     expect(requested).toHaveBeenCalledWith({
       source: { nodeId: 'start', portId: 'next' },
       target: { nodeId: 'finish', portId: 'previous' },
+      routing: { type: 'bezier', offset: 12, radius: 8 },
     });
     expect(connectionlessDefinition.connections).toEqual([]);
   });
@@ -2077,6 +2078,7 @@ describe('TngFlowEditorComponent browser contracts', () => {
     expect(requested).toHaveBeenCalledWith({
       source: { nodeId: 'source', portId: 'data-output' },
       target: { nodeId: 'data-target', portId: 'data-input' },
+      routing: { type: 'bezier', offset: 12, radius: 8 },
     });
     expect(latestLiveMessage()).toContain('Connection requested from Source output port Data');
     expect(multiPortDefinition.connections).toEqual([]);
@@ -2296,12 +2298,14 @@ describe('TngFlowEditorComponent browser contracts', () => {
     await fixture.whenStable();
     await nextPaint();
 
-    const controls: NodeListOf<HTMLElement> = (
-      fixture.nativeElement as HTMLElement
-    ).querySelectorAll<HTMLElement>(
+    const customNode = (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>(
+      '[data-custom-node]',
+    );
+    expect(customNode).not.toBeNull();
+    const controls = customNode!.querySelectorAll<HTMLElement>(
       'input, textarea, select, button, a[href], summary, [contenteditable="true"], [role="switch"]',
     );
-    expect(controls.length).toBeGreaterThanOrEqual(8);
+    expect(controls).toHaveLength(8);
     for (let index = 0; index < controls.length; index += 1) {
       const control = controls.item(index);
       control.focus();
