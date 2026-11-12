@@ -8,6 +8,7 @@ const selected = new Set(parseTargets(process.argv[2] ?? ''));
 const groups = [
   { name: 'primitives', targets: ['primitives'] },
   { name: 'components-flow', targets: ['components', 'flow'] },
+  { name: 'ai', targets: ['ai'] },
   { name: 'cdk-icons-charts-theme', targets: ['cdk', 'icons', 'charts', 'theme'] },
 ];
 

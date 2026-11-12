@@ -27,6 +27,15 @@ export const PACKAGE_CATALOG = Object.freeze([
     publishedSideEffects: false,
   },
   {
+    target: 'ai',
+    packageName: '@tailng-ui/ai',
+    project: 'ai',
+    sourcePackageJson: 'libs/tailng-ui/ai/package.json',
+    distDir: 'dist/libs/tailng-ui/ai',
+    apf: true,
+    publishedSideEffects: false,
+  },
+  {
     target: 'icons',
     packageName: '@tailng-ui/icons',
     project: 'icons',

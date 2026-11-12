@@ -40,9 +40,9 @@ artifact checks, smoke consumers, or publish operation.
 - Run clean build, pack inspection, and packed-consumer tests before any external publish operation.
 - Make the release scripts fail closed for unknown or unhandled selected targets.
 - Make interrupted and partially completed releases resumable without accidentally bumping again.
-- Publish the first validated preview as `0.1.0-alpha.0` on the `alpha` dist-tag. Publish the stable
-  `0.1.0` version on `latest` only after the stable-release gates in this plan and the main AI
-  delivery plan are satisfied.
+- Publish `0.1.0` on the `alpha` dist-tag first. The version itself intentionally has no
+  prerelease suffix; move that same immutable version to `latest` only after the stable-release
+  gates in this plan and the main AI delivery plan are satisfied.
 
 ## Current baseline
 
@@ -58,8 +58,8 @@ The audit identified these AI-specific gaps:
 - the packed Angular consumer does not import either AI entry point.
 - release validation rejects `ai`, while some later scripts can currently treat it as an empty
   selection and finish successfully; this is a silent no-op risk.
-- the source package is intentionally set to `0.1.0-alpha.0`; the initial publication must preserve
-  that exact prerelease version instead of applying another automatic version bump.
+- the source package is intentionally set to `0.1.0`; the initial publication must preserve that
+  exact version and use the npm `alpha` dist-tag instead of applying another automatic version bump.
 
 Existing baseline evidence is encouraging but is not a release approval: the AI tests, direct
 package build, and `npm pack --dry-run` passed during planning. CI must reproduce those checks from
@@ -88,7 +88,7 @@ Out of scope:
 
 ```text
 workflow_dispatch
-  target=ai, version=0.1.0-alpha.0, dist-tag=alpha, mode=publish
+  target=ai, version=0.1.0, dist-tag=alpha, mode=publish
              |
              v
   validate target + resolve test matrix
@@ -97,7 +97,7 @@ workflow_dispatch
        test:ai in clean CI
              |
              v
-  validate explicit prerelease version (0.1.0-alpha.0)
+  validate explicit initial version (0.1.0)
              |
              v
   clean Nx/ng-packagr build
@@ -122,16 +122,16 @@ workflow_dispatch
 
 The catalog record will use the repository's existing schema with these values:
 
-| Field | Planned value |
-| --- | --- |
-| target | `ai` |
-| npm package | `@tailng-ui/ai` |
-| Nx project | `ai` |
-| source manifest | `libs/tailng-ui/ai/package.json` |
-| distribution directory | `dist/libs/tailng-ui/ai` |
-| Angular Package Format | `true` |
-| published `sideEffects` | `false` |
-| required secondary export | `./ag-ui` |
+| Field                     | Planned value                    |
+| ------------------------- | -------------------------------- |
+| target                    | `ai`                             |
+| npm package               | `@tailng-ui/ai`                  |
+| Nx project                | `ai`                             |
+| source manifest           | `libs/tailng-ui/ai/package.json` |
+| distribution directory    | `dist/libs/tailng-ui/ai`         |
+| Angular Package Format    | `true`                           |
+| published `sideEffects`   | `false`                          |
+| required secondary export | `./ag-ui`                        |
 
 The primary entry point must remain usable without installing `@ag-ui/core`. The `./ag-ui` entry
 point must be tested with a compatible peer installed and must give a clear dependency failure when
@@ -143,91 +143,91 @@ These cases supplement, rather than replace, the existing `AI-PKG-*` cases.
 
 ### Catalog and target selection
 
-| Done | ID | Scenario | Expected evidence | Level |
-| --- | --- | --- | --- | --- |
-| [ ] | AI-CICD-CAT-001 | Validate a release request with target `ai`. | Validation accepts `ai` and returns exactly one catalog package. | unit |
-| [ ] | AI-CICD-CAT-002 | Resolve the `ai` catalog record. | Package name, project, source manifest, dist directory, APF flag, and side-effects flag exactly match the planned record. | unit |
-| [ ] | AI-CICD-CAT-003 | Select `ai` with another valid target. | Both are selected once in deterministic dependency-safe order. | unit |
-| [ ] | AI-CICD-CAT-004 | Pass an unknown target to every release stage. | Validate, build, verify, assert, pack, and publish stages fail non-zero; none reports success with an empty selection. | unit/integration |
-| [ ] | AI-CICD-CAT-005 | Pass duplicate or whitespace-padded targets. | Input is normalized or rejected consistently without duplicate publication. | unit |
+| Done | ID              | Scenario                                       | Expected evidence                                                                                                         | Level            |
+| ---- | --------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| [x]  | AI-CICD-CAT-001 | Validate a release request with target `ai`.   | Validation accepts `ai` and returns exactly one catalog package.                                                          | unit             |
+| [x]  | AI-CICD-CAT-002 | Resolve the `ai` catalog record.               | Package name, project, source manifest, dist directory, APF flag, and side-effects flag exactly match the planned record. | unit             |
+| [ ]  | AI-CICD-CAT-003 | Select `ai` with another valid target.         | Both are selected once in deterministic dependency-safe order.                                                            | unit             |
+| [ ]  | AI-CICD-CAT-004 | Pass an unknown target to every release stage. | Validate, build, verify, assert, pack, and publish stages fail non-zero; none reports success with an empty selection.    | unit/integration |
+| [ ]  | AI-CICD-CAT-005 | Pass duplicate or whitespace-padded targets.   | Input is normalized or rejected consistently without duplicate publication.                                               | unit             |
 
 ### Test matrix and workflow contract
 
-| Done | ID | Scenario | Expected evidence | Level |
-| --- | --- | --- | --- | --- |
-| [ ] | AI-CICD-MAT-001 | Resolve the test matrix for target `ai`. | A visible AI matrix entry containing `test:ai` is returned. | unit |
-| [ ] | AI-CICD-MAT-002 | Resolve a multi-target request containing `ai`. | AI tests run exactly once and other selected suites remain present. | unit |
-| [ ] | AI-CICD-MAT-003 | Inspect workflow inputs. | Target help/default includes `ai`; bump, dist-tag, and safe verification mode are unambiguous. | workflow/static |
-| [ ] | AI-CICD-MAT-004 | Run the AI matrix job from a clean checkout. | `test:ai` passes without relying on developer caches or previously built `dist` files. | CI |
-| [ ] | AI-CICD-MAT-005 | Make `test:ai` fail intentionally in the test fixture. | Build and publish jobs are not eligible to run. | workflow/integration |
+| Done | ID              | Scenario                                               | Expected evidence                                                                              | Level                |
+| ---- | --------------- | ------------------------------------------------------ | ---------------------------------------------------------------------------------------------- | -------------------- |
+| [x]  | AI-CICD-MAT-001 | Resolve the test matrix for target `ai`.               | A visible AI matrix entry containing `test:ai` is returned.                                    | unit                 |
+| [ ]  | AI-CICD-MAT-002 | Resolve a multi-target request containing `ai`.        | AI tests run exactly once and other selected suites remain present.                            | unit                 |
+| [ ]  | AI-CICD-MAT-003 | Inspect workflow inputs.                               | Target help/default includes `ai`; bump, dist-tag, and safe verification mode are unambiguous. | workflow/static      |
+| [ ]  | AI-CICD-MAT-004 | Run the AI matrix job from a clean checkout.           | `test:ai` passes without relying on developer caches or previously built `dist` files.         | CI                   |
+| [ ]  | AI-CICD-MAT-005 | Make `test:ai` fail intentionally in the test fixture. | Build and publish jobs are not eligible to run.                                                | workflow/integration |
 
 ### Build, bundle, and pack verification
 
-| Done | ID | Scenario | Expected evidence | Level |
-| --- | --- | --- | --- | --- |
-| [ ] | AI-CICD-BLD-001 | Build selected target `ai` from a clean workspace. | `dist/libs/tailng-ui/ai` is freshly produced and non-empty. | integration |
-| [ ] | AI-CICD-BLD-002 | Inspect the primary APF output. | ESM runtime, declarations, manifest exports, README, and licenses required by policy are present. | package |
-| [ ] | AI-CICD-BLD-003 | Inspect the secondary entry point. | `./ag-ui` runtime and declarations are present and addressable only through documented exports. | package |
-| [ ] | AI-CICD-BLD-004 | Inspect the package tarball. | No source-only, cache, secret, workspace-only, or unintended private-path files are included. | package/security |
-| [ ] | AI-CICD-BLD-005 | Inspect dependency metadata. | `tslib` and optional `@ag-ui/core` peer metadata match package policy; no Mastra dependency is published. | package |
-| [ ] | AI-CICD-BLD-006 | Compare verified directory with packed tarball. | Consumer tests install the same tarball intended for publication, identified by name, version, size, and SHA-256 digest. | integration |
-| [ ] | AI-CICD-BLD-007 | Delete or corrupt `./ag-ui` output in the fixture. | Bundle assertion fails before the production environment or publish stage. | integration |
+| Done | ID              | Scenario                                           | Expected evidence                                                                                                        | Level            |
+| ---- | --------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ---------------- |
+| [ ]  | AI-CICD-BLD-001 | Build selected target `ai` from a clean workspace. | `dist/libs/tailng-ui/ai` is freshly produced and non-empty.                                                              | integration      |
+| [ ]  | AI-CICD-BLD-002 | Inspect the primary APF output.                    | ESM runtime, declarations, manifest exports, README, and licenses required by policy are present.                        | package          |
+| [x]  | AI-CICD-BLD-003 | Inspect the secondary entry point.                 | `./ag-ui` runtime and declarations are present and addressable only through documented exports.                          | package          |
+| [ ]  | AI-CICD-BLD-004 | Inspect the package tarball.                       | No source-only, cache, secret, workspace-only, or unintended private-path files are included.                            | package/security |
+| [ ]  | AI-CICD-BLD-005 | Inspect dependency metadata.                       | `tslib` and optional `@ag-ui/core` peer metadata match package policy; no Mastra dependency is published.                | package          |
+| [ ]  | AI-CICD-BLD-006 | Compare verified directory with packed tarball.    | Consumer tests install the same tarball intended for publication, identified by name, version, size, and SHA-256 digest. | integration      |
+| [ ]  | AI-CICD-BLD-007 | Delete or corrupt `./ag-ui` output in the fixture. | Bundle assertion fails before the production environment or publish stage.                                               | integration      |
 
 ### Packed-consumer verification
 
-| Done | ID | Scenario | Expected evidence | Level |
-| --- | --- | --- | --- | --- |
-| [ ] | AI-CICD-CON-001 | Install only the packed primary package in a minimal consumer. | Primary imports, TypeScript, and runtime/build smoke pass without `@ag-ui/core`. | package/integration |
-| [ ] | AI-CICD-CON-002 | Install the packed package plus a compatible `@ag-ui/core`. | `@tailng-ui/ai/ag-ui` imports, types, and production build pass. | package/integration |
-| [ ] | AI-CICD-CON-003 | Import `./ag-ui` without its peer. | Installation or build fails with a clear peer/dependency diagnostic. | package |
-| [ ] | AI-CICD-CON-004 | Consume both entry points from Node ESM and TypeScript NodeNext fixtures. | All documented imports resolve without private deep imports. | package/type |
-| [ ] | AI-CICD-CON-005 | Consume the tarball from a minimal Vitest fixture. | Test transformation and runtime import pass. | package/integration |
-| [ ] | AI-CICD-CON-006 | Consume the tarball from a strict Angular production application. | AOT/production build passes with the supported Angular version policy. | package/integration |
-| [ ] | AI-CICD-CON-007 | Run the primary-only consumer with no network after installation. | Import does not fetch or dynamically require the optional adapter peer. | integration |
+| Done | ID              | Scenario                                                                  | Expected evidence                                                                | Level               |
+| ---- | --------------- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------------------- |
+| [ ]  | AI-CICD-CON-001 | Install only the packed primary package in a minimal consumer.            | Primary imports, TypeScript, and runtime/build smoke pass without `@ag-ui/core`. | package/integration |
+| [ ]  | AI-CICD-CON-002 | Install the packed package plus a compatible `@ag-ui/core`.               | `@tailng-ui/ai/ag-ui` imports, types, and production build pass.                 | package/integration |
+| [ ]  | AI-CICD-CON-003 | Import `./ag-ui` without its peer.                                        | Installation or build fails with a clear peer/dependency diagnostic.             | package             |
+| [ ]  | AI-CICD-CON-004 | Consume both entry points from Node ESM and TypeScript NodeNext fixtures. | All documented imports resolve without private deep imports.                     | package/type        |
+| [ ]  | AI-CICD-CON-005 | Consume the tarball from a minimal Vitest fixture.                        | Test transformation and runtime import pass.                                     | package/integration |
+| [ ]  | AI-CICD-CON-006 | Consume the tarball from a strict Angular production application.         | AOT/production build passes with the supported Angular version policy.           | package/integration |
+| [ ]  | AI-CICD-CON-007 | Run the primary-only consumer with no network after installation.         | Import does not fetch or dynamically require the optional adapter peer.          | integration         |
 
 ### Version, publish, and idempotency
 
-| Done | ID | Scenario | Expected evidence | Level |
-| --- | --- | --- | --- | --- |
-| [ ] | AI-CICD-PUB-001 | Plan the initial AI prerelease. | Explicit version `0.1.0-alpha.0` is preserved everywhere; the workflow does not apply another bump. | unit |
-| [ ] | AI-CICD-PUB-002 | Run the whole workflow in verify-only mode. | Every test/build/pack/consumer stage runs; no Git push, npm publish, dist-tag change, tag, or GitHub Release occurs. | workflow/integration |
-| [ ] | AI-CICD-PUB-003 | Run publish dry-run for `ai` and `next`. | Summary shows the exact public-package publish operation and never reports success for an empty selection. | integration |
-| [ ] | AI-CICD-PUB-004 | Publish a package version not yet on npm. | `@tailng-ui/ai@version` is public, has `alpha`, and contains registry provenance. | external/CI |
-| [ ] | AI-CICD-PUB-005 | Rerun after that exact version was published. | Script verifies the existing artifact and fixes/validates the requested dist-tag without publishing a new version. | integration/external |
-| [ ] | AI-CICD-PUB-006 | Simulate a multi-package release that stops after AI publishes. | Rerun skips matching completed packages and continues remaining packages. | integration |
-| [ ] | AI-CICD-PUB-007 | Existing npm version has a different tarball digest or metadata. | Reconciliation stops for human review instead of silently treating it as equivalent. | integration/security |
-| [ ] | AI-CICD-PUB-008 | Release stable `0.1.0` after approving the alpha line. | A newly verified stable artifact is published on `latest`; the prerelease version is never retagged as stable. | external/CI |
+| Done | ID              | Scenario                                                         | Expected evidence                                                                                                             | Level                |
+| ---- | --------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------- |
+| [ ]  | AI-CICD-PUB-001 | Plan the initial AI alpha publication.                           | Explicit version `0.1.0` is preserved everywhere, `alpha` is only the dist-tag, and the workflow does not apply another bump. | unit                 |
+| [ ]  | AI-CICD-PUB-002 | Run the whole workflow in verify-only mode.                      | Every test/build/pack/consumer stage runs; no Git push, npm publish, dist-tag change, tag, or GitHub Release occurs.          | workflow/integration |
+| [ ]  | AI-CICD-PUB-003 | Run publish dry-run for `ai` and `next`.                         | Summary shows the exact public-package publish operation and never reports success for an empty selection.                    | integration          |
+| [ ]  | AI-CICD-PUB-004 | Publish a package version not yet on npm.                        | `@tailng-ui/ai@version` is public, has `alpha`, and contains registry provenance.                                             | external/CI          |
+| [ ]  | AI-CICD-PUB-005 | Rerun after that exact version was published.                    | Script verifies the existing artifact and fixes/validates the requested dist-tag without publishing a new version.            | integration/external |
+| [ ]  | AI-CICD-PUB-006 | Simulate a multi-package release that stops after AI publishes.  | Rerun skips matching completed packages and continues remaining packages.                                                     | integration          |
+| [ ]  | AI-CICD-PUB-007 | Existing npm version has a different tarball digest or metadata. | Reconciliation stops for human review instead of silently treating it as equivalent.                                          | integration/security |
+| [ ]  | AI-CICD-PUB-008 | Promote approved `0.1.0` from `alpha` to `latest`.               | No rebuild or republish occurs; the reviewed immutable version receives the stable tag.                                       | external/CI          |
 
 ### OIDC, permissions, and supply-chain controls
 
-| Done | ID | Scenario | Expected evidence | Level |
-| --- | --- | --- | --- | --- |
-| [ ] | AI-CICD-OIDC-001 | Inspect the publish job. | It runs on a GitHub-hosted runner with `id-token: write` and only the minimum other permissions. | workflow/static |
-| [ ] | AI-CICD-OIDC-002 | Inspect tool versions before publish. | Node is at least `22.14`; OIDC dist-tag work uses npm `11.21.0+` on major 11 or `12.2.0+` on major 12. | CI |
-| [ ] | AI-CICD-OIDC-003 | Match npm trusted-publisher configuration. | Owner/repository, `prod-build-deploy.yml`, and `production` environment exactly match the workflow claims. | external/manual |
-| [ ] | AI-CICD-OIDC-004 | Search workflow and repository secrets usage. | No long-lived npm write token is required or exposed to the publish job. | workflow/security |
-| [ ] | AI-CICD-OIDC-005 | Inspect the registry entry after publish. | npm displays provenance linking the package to the expected repository and workflow run. | external/manual |
-| [ ] | AI-CICD-OIDC-006 | Attempt publish from an untrusted fork/PR context. | Protected environment and OIDC claim matching prevent publication. | workflow/security |
-| [ ] | AI-CICD-OIDC-007 | Emit workflow logs and summaries. | Secrets, OIDC tokens, auth headers, and registry credentials are absent. | CI/security |
+| Done | ID               | Scenario                                           | Expected evidence                                                                                          | Level             |
+| ---- | ---------------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------- |
+| [ ]  | AI-CICD-OIDC-001 | Inspect the publish job.                           | It runs on a GitHub-hosted runner with `id-token: write` and only the minimum other permissions.           | workflow/static   |
+| [ ]  | AI-CICD-OIDC-002 | Inspect tool versions before publish.              | Node is at least `22.14`; OIDC dist-tag work uses npm `11.21.0+` on major 11 or `12.2.0+` on major 12.     | CI                |
+| [ ]  | AI-CICD-OIDC-003 | Match npm trusted-publisher configuration.         | Owner/repository, `prod-build-deploy.yml`, and `production` environment exactly match the workflow claims. | external/manual   |
+| [ ]  | AI-CICD-OIDC-004 | Search workflow and repository secrets usage.      | No long-lived npm write token is required or exposed to the publish job.                                   | workflow/security |
+| [ ]  | AI-CICD-OIDC-005 | Inspect the registry entry after publish.          | npm displays provenance linking the package to the expected repository and workflow run.                   | external/manual   |
+| [ ]  | AI-CICD-OIDC-006 | Attempt publish from an untrusted fork/PR context. | Protected environment and OIDC claim matching prevent publication.                                         | workflow/security |
+| [ ]  | AI-CICD-OIDC-007 | Emit workflow logs and summaries.                  | Secrets, OIDC tokens, auth headers, and registry credentials are absent.                                   | CI/security       |
 
 ### Failure recovery and observability
 
-| Done | ID | Scenario | Expected evidence | Level |
-| --- | --- | --- | --- | --- |
-| [ ] | AI-CICD-REC-001 | Verification fails before external mutation. | No version commit, push, registry mutation, tag, or GitHub Release occurs. | workflow/integration |
-| [ ] | AI-CICD-REC-002 | Workflow stops after a release commit is pushed but before npm publication. | Resume mode reuses the planned version; it does not create another version bump. | integration |
-| [ ] | AI-CICD-REC-003 | npm publish succeeds but Git tag or GitHub Release fails. | Reconciliation creates the missing Git metadata for the same immutable version without republishing. | integration |
-| [ ] | AI-CICD-REC-004 | Git metadata exists but npm publication does not. | Runbook identifies the mismatch and resumes the exact package/version after approval. | integration/manual |
-| [ ] | AI-CICD-REC-005 | A release is cancelled at each major stage. | Summary states completed mutations, pending actions, and the safe resume command/input. | workflow/integration |
-| [ ] | AI-CICD-OBS-001 | A verify or publish run completes. | Job summary includes target, version, dist-tag, tarball digest, test results, registry URL when applicable, and commit/tag state. | workflow |
-| [ ] | AI-CICD-OBS-002 | Retain release evidence. | Pack manifest, checksums, test reports, and consumer logs are uploaded with a documented retention period. | workflow |
+| Done | ID              | Scenario                                                                    | Expected evidence                                                                                                                 | Level                |
+| ---- | --------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
+| [ ]  | AI-CICD-REC-001 | Verification fails before external mutation.                                | No version commit, push, registry mutation, tag, or GitHub Release occurs.                                                        | workflow/integration |
+| [ ]  | AI-CICD-REC-002 | Workflow stops after a release commit is pushed but before npm publication. | Resume mode reuses the planned version; it does not create another version bump.                                                  | integration          |
+| [ ]  | AI-CICD-REC-003 | npm publish succeeds but Git tag or GitHub Release fails.                   | Reconciliation creates the missing Git metadata for the same immutable version without republishing.                              | integration          |
+| [ ]  | AI-CICD-REC-004 | Git metadata exists but npm publication does not.                           | Runbook identifies the mismatch and resumes the exact package/version after approval.                                             | integration/manual   |
+| [ ]  | AI-CICD-REC-005 | A release is cancelled at each major stage.                                 | Summary states completed mutations, pending actions, and the safe resume command/input.                                           | workflow/integration |
+| [ ]  | AI-CICD-OBS-001 | A verify or publish run completes.                                          | Job summary includes target, version, dist-tag, tarball digest, test results, registry URL when applicable, and commit/tag state. | workflow             |
+| [ ]  | AI-CICD-OBS-002 | Retain release evidence.                                                    | Pack manifest, checksums, test reports, and consumer logs are uploaded with a documented retention period.                        | workflow             |
 
 ## Implementation phases
 
 ### Phase 0: Freeze the release contract
 
 - [ ] Review and approve reuse of `prod-build-deploy.yml` and the `ai` catalog record.
-- [ ] Confirm that the first external release is `0.1.0-alpha.0` with dist-tag `alpha`.
+- [ ] Confirm that the first external release is version `0.1.0` with dist-tag `alpha`.
 - [ ] Confirm whether `@tailng-ui/ai` already exists on npm and that the TailNG organization owns the
       scope and package name.
 - [ ] Decide and document the npm-supported bootstrap procedure if this is the package's first
@@ -343,12 +343,12 @@ Exit gate:
 
 ### Phase 7: Run the preview release
 
-- [ ] Run verify-only from a clean `main` commit with target `ai`, explicit version
-      `0.1.0-alpha.0`, and dist-tag `alpha`.
+- [ ] Run verify-only from a clean `main` commit with target `ai`, explicit version `0.1.0`, and
+      dist-tag `alpha`.
 - [ ] Review tests, packed manifest, tarball digest, dependency metadata, consumer results, and
-      planned `0.1.0-alpha.0` version.
+      planned `0.1.0` version.
 - [ ] Approve the protected production deployment only after verify-only evidence passes.
-- [ ] Publish `@tailng-ui/ai@0.1.0-alpha.0` to `alpha` through OIDC.
+- [ ] Publish `@tailng-ui/ai@0.1.0` to `alpha` through OIDC.
 - [ ] Confirm registry provenance, public visibility, exports, optional peer metadata, README, license,
       and tarball contents.
 - [ ] Install `@tailng-ui/ai@next` in a clean external Angular smoke application and exercise primary
@@ -369,8 +369,8 @@ Exit gate:
 - [ ] Complete accessibility, security, long-thread performance, AG-UI conformance, documentation,
       and Mastra reference-integration release gates.
 - [ ] Review preview feedback and confirm no public-contract correction requires a new version.
-- [ ] Publish the stable successor `0.1.0` to `latest` through the same clean build, verification,
-      packed-consumer, and protected-environment gates; do not point `latest` at the alpha version.
+- [ ] Promote the already verified immutable `0.1.0` artifact from `alpha` to `latest` without
+      rebuilding or republishing it.
 - [ ] Publish release notes with the supported Angular and AG-UI ranges, conformance profile, known
       limitations, and migration policy.
 
@@ -380,15 +380,15 @@ Exit gate:
 
 ## Failure and recovery policy
 
-| Observed state | Required response |
-| --- | --- |
-| Tests/build/pack fail before mutation | Fix and rerun verify-only; no version or release state should exist. |
-| Release commit exists, npm version absent | Resume the recorded version and digest after protected approval; do not bump again. |
-| Some selected npm packages exist | Verify their identity, skip exact matches, and continue unpublished packages. |
-| npm version exists, requested dist-tag missing | Verify identity, then add only the missing permitted dist-tag. |
-| npm version exists, Git tag/Release absent | Reconcile Git metadata to the recorded source commit without republishing. |
-| Same npm version has an unexpected identity | Stop; require security/release-owner review. Never overwrite an npm version. |
-| Git tag points at a different commit | Stop; do not force-move a published release tag automatically. |
+| Observed state                                 | Required response                                                                   |
+| ---------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Tests/build/pack fail before mutation          | Fix and rerun verify-only; no version or release state should exist.                |
+| Release commit exists, npm version absent      | Resume the recorded version and digest after protected approval; do not bump again. |
+| Some selected npm packages exist               | Verify their identity, skip exact matches, and continue unpublished packages.       |
+| npm version exists, requested dist-tag missing | Verify identity, then add only the missing permitted dist-tag.                      |
+| npm version exists, Git tag/Release absent     | Reconcile Git metadata to the recorded source commit without republishing.          |
+| Same npm version has an unexpected identity    | Stop; require security/release-owner review. Never overwrite an npm version.        |
+| Git tag points at a different commit           | Stop; do not force-move a published release tag automatically.                      |
 
 The implementation must preserve this table as an executable state machine where practical, with a
 human runbook for states that intentionally stop.
@@ -414,8 +414,8 @@ Stable `latest` publication additionally requires:
 
 - [ ] every non-deferred product, package, security, performance, accessibility, documentation, and
       protocol-conformance gate in the AI plan is complete.
-- [ ] the alpha line has been reviewed, and the stable `0.1.0` artifact has independently passed the
-      full immutable-artifact verification before publication.
+- [ ] the exact `0.1.0` version has been reviewed on `alpha` and is not rebuilt during dist-tag
+      promotion.
 
 ## Planned files
 

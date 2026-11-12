@@ -166,6 +166,7 @@ function writeConsumer(tarballs) {
     },
     dependencies: {
       '@dagrejs/dagre': dependencyVersion('@dagrejs/dagre'),
+      '@ag-ui/core': dependencyVersion('@ag-ui/core'),
       '@angular/common': dependencyVersion('@angular/common'),
       '@angular/compiler': dependencyVersion('@angular/compiler'),
       '@angular/core': dependencyVersion('@angular/core'),
@@ -293,8 +294,12 @@ import * as icons from '@tailng-ui/icons';
 import * as iconCore from '@tailng-ui/icons/core';
 import * as primitives from '@tailng-ui/primitives';
 import * as theme from '@tailng-ui/theme';
+import * as ai from '@tailng-ui/ai';
+import * as aiAgUi from '@tailng-ui/ai/ag-ui';
 
 export const publicApis = {
+  ai,
+  aiAgUi,
   cdk,
   cdkA11y,
   cdkAdapters,
@@ -384,6 +389,8 @@ const packageNames = [
   '@tailng-ui/icons/core',
   '@tailng-ui/primitives',
   '@tailng-ui/theme',
+  '@tailng-ui/ai',
+  '@tailng-ui/ai/ag-ui',
 ];
 const modules = await Promise.all(packageNames.map((name) => import(name)));
 if (modules.some((api) => Object.keys(api).length === 0)) {

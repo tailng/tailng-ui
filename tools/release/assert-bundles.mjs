@@ -6,6 +6,7 @@ const selected = new Set(parseTargets(process.argv[2] ?? ''));
 
 const EXPECTED_SECONDARY_ENTRY_POINTS = new Map([
   ['cdk', ['./a11y', './adapters', './collections', './core', './overlay', './runtime']],
+  ['ai', ['./ag-ui']],
   ['flow', ['./layout-dagre']],
   ['icons', ['./core']],
 ]);
