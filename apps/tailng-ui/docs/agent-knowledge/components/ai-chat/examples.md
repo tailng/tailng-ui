@@ -1,21 +1,36 @@
 ---
 id: components/ai-chat/examples
 title: AI Chat integration examples
-description: Integrate the normalized store, cursor history, and AG-UI streaming reducer in an AI application.
+description: Integrate the normalized store, AG-UI streaming, safe component renderers, and bounded cursor history in an AI application.
 category: components
 status: stable
 tags: ["ai", "chat", "examples", "streaming", "pagination"]
 package: @tailng-ui/ai
-sourcePaths: ["libs/tailng-ui/ai/src/lib/store/chat-store.ts", "libs/tailng-ui/ai/src/lib/history/history-controller.ts", "libs/tailng-ui/ai/src/ag-ui/lib/reducer.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/ai-chat-examples-page.component.ts"]
+sourcePaths: ["libs/tailng-ui/ai/src/lib/store/chat-store.ts", "libs/tailng-ui/ai/src/lib/history/history-controller.ts", "libs/tailng-ui/ai/src/ag-ui/lib/reducer.ts", "apps/tailng-ui/docs/src/app/shared/demos/component-assistant/component-assistant.component.ts", "apps/tailng-ui/docs/src/app/shared/demos/component-assistant/component-assistant.extensions.ts", "apps/tailng-ui/docs/src/app/pages/components/ai/chat/sections/examples/ai-chat-examples-page.component.ts"]
 humanDocsUrl: https://tailng.dev/components/ai/chat/examples
 ---
 
 # AI Chat integration examples
 
 The human [AI Chat examples page](https://tailng.dev/components/ai/chat/examples) includes a
-deterministic working demo. It submits local prompts, streams official AG-UI lifecycle events into
-the normalized store, renders a tool call and result, supports stop and retry, and prepends one
-cursor-loaded history page without requiring a backend or API key.
+deterministic component assistant. Enter `hi` and choose one of twelve prompts grouped under Forms,
+Data, Navigation & layout, and Feedback. The demo streams official AG-UI lifecycle events into the
+normalized store. A correlated `render_component` tool call then renders one of twelve allowlisted
+TailNG previews, including date controls, autocomplete, slider, charts, table, accordion, tabs,
+stepper, tags, and progress. The demo also supports stop, retry, and one cursor-loaded history page
+without a backend or API key.
+
+The transcript starts in follow mode and reconciles its scroll position after Angular renders each
+streaming update. Scrolling more than 48 CSS pixels from the bottom pauses auto-follow and preserves
+the reader's position. A bounded, message-based `Jump to latest` control resumes follow mode;
+prepending history restores the prior viewport offset instead of moving to the newest message.
+
+AG-UI carries the run, message, and tool lifecycle. Prompt options and component previews are
+application-owned extension parts named `tailng.dev/prompt-options` and
+`tailng.dev/component-preview`; they are not new AG-UI event types. Treat each extension as untrusted
+input: require an exact supported version and shape, enforce text/count bounds, and map a validated
+preview ID to a statically imported Angular component. Reject selectors, import paths, templates,
+HTML, extra keys, and unknown IDs.
 
 Create one normalized store and reduce protocol events at the boundary:
 

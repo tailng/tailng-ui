@@ -3198,7 +3198,7 @@
     {
       "id": "components/ai-chat/examples",
       "title": "AI Chat integration examples",
-      "description": "Integrate the normalized store, cursor history, and AG-UI streaming reducer in an AI application.",
+      "description": "Integrate the normalized store, AG-UI streaming, safe component renderers, and bounded cursor history in an AI application.",
       "category": "components",
       "status": "stable",
       "tags": [

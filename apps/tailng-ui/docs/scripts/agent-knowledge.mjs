@@ -1110,6 +1110,9 @@ function buildArtifacts(documents, packageVersions) {
   const categoryIndexes = startPageOrder
     .map((relativePath) => documents.find((document) => document.relativePath === relativePath))
     .filter((document) => document !== undefined);
+  const aiChatOverview = documents.find(
+    (document) => document.relativePath === 'components/ai-chat/overview.md',
+  );
   const llmsLines = [
     '# TailNG',
     '',
@@ -1123,6 +1126,11 @@ function buildArtifacts(documents, packageVersions) {
       (document) =>
         `- [${document.metadata.title}](${document.url}): ${document.metadata.description}`,
     ),
+    ...(aiChatOverview === undefined
+      ? []
+      : [
+          `- [${aiChatOverview.metadata.title}](${aiChatOverview.url}): ${aiChatOverview.metadata.description}`,
+        ]),
     '',
     '## Machine-readable discovery',
     '',

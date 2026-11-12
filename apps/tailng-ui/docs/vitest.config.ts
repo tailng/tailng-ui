@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
+import angular from '@analogjs/vite-plugin-angular';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import angular from '@analogjs/vite-plugin-angular';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
 
@@ -72,6 +72,7 @@ export default defineConfig({
   test: {
     name: 'docs',
     include: ['src/**/*.spec.ts', 'src/**/*.test.ts'],
+    exclude: ['src/**/*.browser.spec.ts'],
     environment: 'jsdom',
     setupFiles: [resolve(projectRoot, './src/test-setup.ts')],
     server: {

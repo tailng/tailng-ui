@@ -24,6 +24,7 @@ import {
 } from '@tailng-ui/components';
 import { TngIcon } from '@tailng-ui/icons';
 import type { TngTableSortChange, TngTreeTableKey } from '@tailng-ui/primitives';
+import { ComponentAssistantComponent } from '../../../shared/demos/component-assistant/component-assistant.component';
 
 // ─── Showcase types & data ────────────────────────────────────────────────────
 
@@ -48,14 +49,50 @@ const COUNTRIES: readonly Country[] = [
   { code: 'US', name: 'United States', flag: '🇺🇸' },
 ];
 
-type TeamRow = Readonly<{ name: string; role: string; team: string; joined: string; status: string }>;
+type TeamRow = Readonly<{
+  name: string;
+  role: string;
+  team: string;
+  joined: string;
+  status: string;
+}>;
 
 const DEMO_TEAM: readonly TeamRow[] = [
-  { name: 'Sofia Reyes', role: 'Product Designer', team: 'Design', joined: 'Jan 2023', status: 'Active' },
-  { name: 'Liam Chen', role: 'Frontend Engineer', team: 'Platform', joined: 'Mar 2022', status: 'Active' },
-  { name: 'Amara Diallo', role: 'Eng Manager', team: 'Platform', joined: 'Aug 2021', status: 'On leave' },
-  { name: 'Noah Park', role: 'Product Manager', team: 'Growth', joined: 'Feb 2024', status: 'Active' },
-  { name: 'Isla Novak', role: 'Backend Engineer', team: 'Platform', joined: 'Nov 2022', status: 'Active' },
+  {
+    name: 'Sofia Reyes',
+    role: 'Product Designer',
+    team: 'Design',
+    joined: 'Jan 2023',
+    status: 'Active',
+  },
+  {
+    name: 'Liam Chen',
+    role: 'Frontend Engineer',
+    team: 'Platform',
+    joined: 'Mar 2022',
+    status: 'Active',
+  },
+  {
+    name: 'Amara Diallo',
+    role: 'Eng Manager',
+    team: 'Platform',
+    joined: 'Aug 2021',
+    status: 'On leave',
+  },
+  {
+    name: 'Noah Park',
+    role: 'Product Manager',
+    team: 'Growth',
+    joined: 'Feb 2024',
+    status: 'Active',
+  },
+  {
+    name: 'Isla Novak',
+    role: 'Backend Engineer',
+    team: 'Platform',
+    joined: 'Nov 2022',
+    status: 'Active',
+  },
 ];
 
 const DEMO_TABLE_COLUMNS: readonly TngTableColumn<TeamRow>[] = [
@@ -91,26 +128,66 @@ type OrgRow = {
 
 const DEMO_ORG_DATA: readonly OrgRow[] = [
   {
-    id: 'eng', name: 'Engineering', role: 'Division', dept: 'Product', location: 'Remote',
+    id: 'eng',
+    name: 'Engineering',
+    role: 'Division',
+    dept: 'Product',
+    location: 'Remote',
     children: [
       {
-        id: 'platform', name: 'Platform', role: 'Team', dept: 'Product', location: 'Remote',
+        id: 'platform',
+        name: 'Platform',
+        role: 'Team',
+        dept: 'Product',
+        location: 'Remote',
         children: [
-          { id: 'liam', name: 'Liam Chen', role: 'Senior Engineer', dept: 'Platform', location: 'San Francisco' },
-          { id: 'isla', name: 'Isla Novak', role: 'Engineer', dept: 'Platform', location: 'Berlin' },
-          { id: 'amara', name: 'Amara Diallo', role: 'Eng Manager', dept: 'Platform', location: 'Lagos' },
+          {
+            id: 'liam',
+            name: 'Liam Chen',
+            role: 'Senior Engineer',
+            dept: 'Platform',
+            location: 'San Francisco',
+          },
+          {
+            id: 'isla',
+            name: 'Isla Novak',
+            role: 'Engineer',
+            dept: 'Platform',
+            location: 'Berlin',
+          },
+          {
+            id: 'amara',
+            name: 'Amara Diallo',
+            role: 'Eng Manager',
+            dept: 'Platform',
+            location: 'Lagos',
+          },
         ],
       },
     ],
   },
   {
-    id: 'design', name: 'Design', role: 'Division', dept: 'Product', location: 'Remote',
+    id: 'design',
+    name: 'Design',
+    role: 'Division',
+    dept: 'Product',
+    location: 'Remote',
     children: [
-      { id: 'sofia', name: 'Sofia Reyes', role: 'Product Designer', dept: 'Design', location: 'Mexico City' },
+      {
+        id: 'sofia',
+        name: 'Sofia Reyes',
+        role: 'Product Designer',
+        dept: 'Design',
+        location: 'Mexico City',
+      },
     ],
   },
   {
-    id: 'growth', name: 'Growth', role: 'Division', dept: 'Business', location: 'Remote',
+    id: 'growth',
+    name: 'Growth',
+    role: 'Division',
+    dept: 'Business',
+    location: 'Remote',
     children: [
       { id: 'noah', name: 'Noah Park', role: 'Product Manager', dept: 'Growth', location: 'Seoul' },
     ],
@@ -211,7 +288,8 @@ const packageCards: readonly ContentCard[] = [
   },
   {
     title: 'Theme',
-    description: 'Tokens, visual foundations, presets, and mode-aware styling for product interfaces.',
+    description:
+      'Tokens, visual foundations, presets, and mode-aware styling for product interfaces.',
     href: '/theme',
   },
   {
@@ -234,15 +312,18 @@ const principles: readonly ContentCard[] = [
   },
   {
     title: 'Layered architecture',
-    description: 'Adopt CDK, headless patterns, components, icons, and themes at the level that fits your project.',
+    description:
+      'Adopt CDK, headless patterns, components, icons, and themes at the level that fits your project.',
   },
   {
     title: 'Angular-native',
-    description: 'Built for modern Angular patterns with a signal-first mindset and predictable APIs.',
+    description:
+      'Built for modern Angular patterns with a signal-first mindset and predictable APIs.',
   },
   {
     title: 'Styling flexibility',
-    description: 'TailNG supports branding and custom design systems without forcing one rigid visual identity.',
+    description:
+      'TailNG supports branding and custom design systems without forcing one rigid visual identity.',
   },
   {
     title: 'Practical by default',
@@ -258,26 +339,31 @@ const whyTailng: readonly ContentCard[] = [
   },
   {
     title: 'Better ownership',
-    description: 'The architecture encourages clarity so teams can understand and evolve the UI they ship.',
+    description:
+      'The architecture encourages clarity so teams can understand and evolve the UI they ship.',
   },
   {
     title: 'Accessibility that matters',
-    description: 'Focus behavior, keyboard interactions, and semantics are treated as core product quality.',
+    description:
+      'Focus behavior, keyboard interactions, and semantics are treated as core product quality.',
   },
   {
     title: 'Design-system friendly',
-    description: 'TailNG fits branded ecosystems instead of forcing a fixed visual identity on every product.',
+    description:
+      'TailNG fits branded ecosystems instead of forcing a fixed visual identity on every product.',
   },
   {
     title: 'Flexible install path',
-    description: 'Choose package installation or selective ownership patterns based on how your team works.',
+    description:
+      'Choose package installation or selective ownership patterns based on how your team works.',
   },
 ];
 
 const installOptions: readonly ContentCard[] = [
   {
     title: 'Use components',
-    description: 'Start with ready-to-use building blocks for forms, overlays, navigation, and data UI.',
+    description:
+      'Start with ready-to-use building blocks for forms, overlays, navigation, and data UI.',
   },
   {
     title: 'Use headless',
@@ -363,6 +449,7 @@ const exploreLinks: readonly RouteCard[] = [
     TngTreeTable,
     TngBarChartComponent,
     TngLineChartComponent,
+    ComponentAssistantComponent,
   ],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.css',
@@ -438,7 +525,12 @@ export class LandingPageComponent {
   // ─── Showcase: tree-table ───────────────────────────────────────────────────
   protected readonly orgData = DEMO_ORG_DATA;
   protected readonly orgColumns = DEMO_ORG_COLUMNS;
-  protected readonly orgExpandedKeys = signal<readonly TngTreeTableKey[]>(['eng', 'platform', 'design', 'growth']);
+  protected readonly orgExpandedKeys = signal<readonly TngTreeTableKey[]>([
+    'eng',
+    'platform',
+    'design',
+    'growth',
+  ]);
   protected readonly getOrgKey = (row: OrgRow): string => row.id;
   protected readonly getOrgChildren = (row: OrgRow): readonly OrgRow[] | undefined => row.children;
 

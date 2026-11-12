@@ -78,6 +78,15 @@ Application history API
 8. [CI/CD integration](./ci-cd-integration.md)
    - TDD release-orchestration cases, shared workflow integration, npm Trusted Publishing, preview
      publication, recovery, and stable-promotion gates.
+9. [Component assistant demo](./component-assistant-demo.md)
+   - Reusable prompt-to-component chat demo for the AI examples page and documentation landing page,
+     including safe extension rendering, TDD cases, accessibility, and landing performance gates.
+10. [Component assistant auto-scroll](./component-assistant-auto-scroll.md)
+    - Follow-mode, user-controlled pause, unseen-message recovery, history anchoring, dynamic-height
+      reconciliation, cleanup, and TDD/browser gates for both demo surfaces.
+11. [Component assistant expanded catalog](./component-assistant-expanded-catalog.md)
+    - Twelve categorized prompt choices, eight additional allowlisted previews, protocol
+      compatibility, lazy loading, accessibility, responsive behavior, and TDD/performance gates.
 
 ## Implementation gate
 
@@ -146,4 +155,3 @@ The initial release is successful when a consumer can:
 - [MCP Apps overview](https://blog.modelcontextprotocol.io/posts/2026-01-26-mcp-apps/)
 - [Mastra AI SDK UI integration](https://mastra.ai/integrations/agentic-ui/ai-sdk-ui)
 - [Mastra MCP and MCP Apps integration](https://mastra.ai/docs/connections/mcp)
-

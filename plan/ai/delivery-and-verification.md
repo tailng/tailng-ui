@@ -347,6 +347,8 @@ Minimum examples:
 
 - [x] Controlled local transcript without a backend.
 - [x] Streaming AG-UI text.
+- [ ] Complete the reusable [component assistant demo](./component-assistant-demo.md) on the AI Chat
+      examples page and docs landing page.
 - [ ] Tool call with approval and result.
 - [x] Cursor-loaded long conversation.
 - [ ] Stop, partial response, retry, and network failure.

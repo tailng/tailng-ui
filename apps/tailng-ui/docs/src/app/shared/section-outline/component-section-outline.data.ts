@@ -32,6 +32,7 @@ export const docsComponentOutlineItemsBySlug: Readonly<
     ],
     examples: [
       { id: 'working-demo', label: 'Working demo' },
+      { id: 'safe-component-renderers', label: 'Component renderers' },
       { id: 'normalized-store', label: 'Normalized store' },
       { id: 'cursor-history', label: 'Cursor history' },
       { id: 'ag-ui-streaming', label: 'AG-UI streaming' },

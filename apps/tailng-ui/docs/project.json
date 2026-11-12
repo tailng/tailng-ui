@@ -106,12 +106,17 @@
     },
     "vite:test": {
       "executor": "@nx/vitest:test",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "configFile": "apps/tailng-ui/docs/vitest.config.ts",
         "reportsDirectory": "coverage/apps/tailng-ui/docs",
+        "watch": false
+      }
+    },
+    "browser-test": {
+      "executor": "@nx/vitest:test",
+      "options": {
+        "configFile": "apps/tailng-ui/docs/vitest.browser.config.ts",
         "watch": false
       }
     },

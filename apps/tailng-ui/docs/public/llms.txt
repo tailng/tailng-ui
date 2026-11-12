@@ -13,6 +13,7 @@ Use the package versions and compatibility data from https://tailng.dev/ai/versi
 - [TailNG theme](https://tailng.dev/ai/theme/index.md): Configure TailNG presets, runtime theme application, tokens, and component contracts.
 - [TailNG icons](https://tailng.dev/ai/icons/index.md): Configure and use TailNG icons with the built-in Lucide pack or explicit custom packs.
 - [TailNG troubleshooting](https://tailng.dev/ai/troubleshooting/index.md): Diagnose package, provider, component import, icon, and stylesheet failures.
+- [AI Chat foundation overview](https://tailng.dev/ai/components/ai-chat/overview.md): Build protocol-neutral AI chat state with canonical messages, normalized storage, bounded history, and AG-UI 1.0 events.
 
 ## Machine-readable discovery
 

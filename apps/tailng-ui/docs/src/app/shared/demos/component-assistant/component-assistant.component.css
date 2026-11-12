@@ -2,54 +2,47 @@
   display: block;
 }
 
-.ai-chat-demo {
-  background:
-    radial-gradient(
-      circle at 90% 0%,
-      color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, transparent),
-      transparent 35%
-    ),
-    var(--tng-semantic-background-base);
+.component-assistant {
+  background: var(--tng-semantic-background-base);
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 1.25rem;
-  color: var(--tng-semantic-foreground-primary);
   overflow: hidden;
 }
 
-.ai-chat-demo__header {
+.component-assistant__header {
   border-bottom: 1px solid var(--tng-semantic-border-subtle);
   display: flex;
   justify-content: space-between;
   padding: 1.1rem 1.25rem;
 }
 
-.ai-chat-demo__header h3,
-.ai-chat-demo__header p {
+.component-assistant__header h3,
+.component-assistant__header p {
   margin: 0;
 }
 
-.ai-chat-demo__header h3 {
+.component-assistant__header h3 {
   font-size: 1rem;
 }
 
-.ai-chat-demo__header p,
-.ai-chat-demo__eyebrow,
-.ai-chat-demo__history-control,
-.ai-chat-demo__composer-actions,
-.ai-chat-demo__status {
+.component-assistant__header p,
+.component-assistant__eyebrow,
+.component-assistant__history-control,
+.component-assistant__composer-actions,
+.component-assistant__status {
   color: var(--tng-semantic-foreground-secondary);
   font-size: 0.75rem;
 }
 
-.ai-chat-demo__eyebrow {
+.component-assistant__eyebrow {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.ai-chat-demo__protocol {
-  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 12%, transparent);
-  border: 1px solid color-mix(in srgb, var(--tng-semantic-accent-brand) 35%, transparent);
+.component-assistant__protocol {
+  background: var(--tng-semantic-background-surface);
+  border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 999px;
   color: var(--tng-semantic-accent-brand);
   font-size: 0.7rem;
@@ -57,12 +50,11 @@
   padding: 0.3rem 0.55rem;
 }
 
-.ai-chat-demo__history-control {
+.component-assistant__history-control {
   padding: 0.4rem 1.25rem 0;
-  text-align: center;
 }
 
-.ai-chat-demo__transcript {
+.component-assistant__transcript {
   display: grid;
   gap: 1rem;
   list-style: none;
@@ -73,71 +65,82 @@
   padding: 1rem 1.25rem 1.5rem;
 }
 
-.ai-chat-demo__message {
+.component-assistant--compact .component-assistant__transcript {
+  max-height: 27rem;
+  min-height: 19rem;
+}
+
+.component-assistant__message {
   display: grid;
   gap: 0.3rem;
   justify-items: start;
-  max-width: min(88%, 42rem);
+  max-width: min(92%, 42rem);
 }
 
-.ai-chat-demo__message--user {
+.component-assistant__message--user {
   justify-self: end;
   justify-items: end;
 }
 
-.ai-chat-demo__author {
+.component-assistant__author {
   color: var(--tng-semantic-foreground-secondary);
   font-size: 0.7rem;
 }
 
-.ai-chat-demo__bubble {
+.component-assistant__bubble {
   background: var(--tng-semantic-background-surface);
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.35rem 1rem 1rem;
+  max-width: 100%;
+  min-width: 0;
   padding: 0.75rem 0.9rem;
 }
 
-.ai-chat-demo__message--user .ai-chat-demo__bubble {
+.component-assistant__message--user .component-assistant__bubble {
   background: var(--tng-semantic-accent-brand);
   border-color: transparent;
   border-radius: 1rem 0.35rem 1rem 1rem;
   color: var(--tng-color-white);
 }
 
-.ai-chat-demo__message--tool .ai-chat-demo__bubble {
-  background: color-mix(in srgb, var(--tng-semantic-background-surface) 65%, transparent);
+.component-assistant__message--tool .component-assistant__bubble {
   border-style: dashed;
 }
 
-.ai-chat-demo__bubble p {
+.component-assistant__bubble p {
   margin: 0;
   overflow-wrap: anywhere;
   white-space: pre-wrap;
 }
 
-.ai-chat-demo__tool {
+.component-assistant__preview {
+  border-top: 1px solid var(--tng-semantic-border-subtle);
+  margin-top: 0.75rem;
+  max-width: 100%;
+  min-width: 0;
+  padding-top: 0.75rem;
+}
+
+.component-assistant__tool {
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.75rem;
   margin-top: 0.65rem;
   overflow: hidden;
 }
 
-.ai-chat-demo__tool-title {
-  align-items: center;
+.component-assistant__tool-title {
   display: flex;
-  flex-wrap: wrap;
   gap: 0.45rem;
   padding: 0.55rem 0.7rem;
 }
 
-.ai-chat-demo__tool-title span:last-child {
+.component-assistant__tool-title span:last-child {
   color: var(--tng-semantic-foreground-secondary);
   font-size: 0.7rem;
   margin-left: auto;
 }
 
-.ai-chat-demo__tool pre {
-  background: color-mix(in srgb, var(--tng-semantic-background-base) 70%, transparent);
+.component-assistant__tool pre {
   border-top: 1px solid var(--tng-semantic-border-subtle);
   font-size: 0.72rem;
   margin: 0;
@@ -145,8 +148,8 @@
   padding: 0.65rem 0.7rem;
 }
 
-.ai-chat-demo__cursor {
-  animation: ai-chat-cursor 0.8s steps(2, jump-none) infinite;
+.component-assistant__cursor {
+  animation: component-assistant-cursor 0.8s steps(2, jump-none) infinite;
   background: currentColor;
   display: inline-block;
   height: 1em;
@@ -155,67 +158,58 @@
   width: 0.12rem;
 }
 
-.ai-chat-demo__stopped {
+.component-assistant__stopped,
+.component-assistant__unsupported {
   color: var(--tng-semantic-foreground-secondary);
-  display: block;
   font-size: 0.7rem;
   margin-top: 0.4rem;
 }
 
-.ai-chat-demo__status {
+.component-assistant__status {
   border-top: 1px solid var(--tng-semantic-border-subtle);
   margin: 0;
   min-height: 2rem;
   padding: 0.45rem 1.25rem;
 }
 
-.ai-chat-demo__composer {
-  background: var(--tng-semantic-background-surface);
+.component-assistant__composer {
   border-top: 1px solid var(--tng-semantic-border-subtle);
   display: grid;
   gap: 0.65rem;
   padding: 0.85rem 1rem 1rem;
 }
 
-.ai-chat-demo__composer-actions {
+.component-assistant__composer-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.6rem;
   justify-content: flex-end;
 }
 
-.ai-chat-demo__composer-actions > span {
+.component-assistant__composer-actions > span {
   margin-right: auto;
 }
 
-@keyframes ai-chat-cursor {
+@keyframes component-assistant-cursor {
   50% {
     opacity: 0;
   }
 }
 
 @media (max-width: 40rem) {
-  .ai-chat-demo__header,
-  .ai-chat-demo__transcript {
+  .component-assistant__header,
+  .component-assistant__transcript {
     padding-left: 0.85rem;
     padding-right: 0.85rem;
   }
 
-  .ai-chat-demo__message {
-    max-width: 96%;
-  }
-
-  .ai-chat-demo__composer-actions {
-    align-items: stretch;
-    flex-wrap: wrap;
-  }
-
-  .ai-chat-demo__composer-actions > span {
-    flex-basis: 100%;
+  .component-assistant__message {
+    max-width: 98%;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ai-chat-demo__cursor {
+  .component-assistant__cursor {
     animation: none;
   }
 }

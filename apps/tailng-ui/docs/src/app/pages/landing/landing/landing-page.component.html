@@ -1,391 +1,462 @@
-    <section id="home" class="grid gap-6 border-b border-tng-border-subtle py-12 md:grid-cols-[1.2fr_0.8fr] md:py-8">
-      <div class="space-y-5">
-        <p
-          class="m-0 inline-flex w-fit rounded-full border border-tng-border-subtle bg-tng-bg-surface px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary"
-        >
-          Angular UI System
-        </p>
-        <h1 class="landing-hero-title">
-          <span class="landing-hero-title-brand">TailNG</span> - Accessible Angular UI, built to be owned.
-        </h1>
-        <p class="m-0 max-w-3xl text-base text-tng-fg-secondary md:text-lg">
-          TailNG is a layered Angular UI system with CDK utilities, headless primitives, reusable
-          components, icons, theming, and a selective install model built for accessibility,
-          flexibility, and real product teams.
-        </p>
+<section
+  id="home"
+  class="grid gap-6 border-b border-tng-border-subtle py-12 md:grid-cols-[1.2fr_0.8fr] md:py-8"
+>
+  <div class="space-y-5">
+    <p
+      class="m-0 inline-flex w-fit rounded-full border border-tng-border-subtle bg-tng-bg-surface px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary"
+    >
+      Angular UI System
+    </p>
+    <h1 class="landing-hero-title">
+      <span class="landing-hero-title-brand">TailNG</span> - Accessible Angular UI, built to be
+      owned.
+    </h1>
+    <p class="m-0 max-w-3xl text-base text-tng-fg-secondary md:text-lg">
+      TailNG is a layered Angular UI system with CDK utilities, headless primitives, reusable
+      components, icons, theming, and a selective install model built for accessibility,
+      flexibility, and real product teams.
+    </p>
 
-        <div class="flex flex-wrap items-center gap-3">
-          <a
-            routerLink="/components"
-            class="inline-flex h-10 items-center rounded-md border border-tng-accent-brand bg-tng-accent-brand px-4 text-sm font-semibold text-tng-fg-inverse no-underline transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
-          >
-            Get Started
-          </a>
-          <a
-            routerLink="/components"
-            class="inline-flex h-10 items-center rounded-md border border-tng-border-subtle bg-tng-bg-surface px-4 text-sm font-semibold text-tng-fg-primary no-underline transition-colors hover:bg-tng-bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
-          >
-            Browse Components
-          </a>
-          <a
-            href="https://github.com/tailng/tailng-ui"
-            target="_blank"
-            rel="noreferrer"
-            class="text-sm font-medium text-tng-accent-brand no-underline hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
-          >
-            View on GitHub
-          </a>
-        </div>
-      </div>
+    <div class="flex flex-wrap items-center gap-3">
+      <a
+        routerLink="/components"
+        class="inline-flex h-10 items-center rounded-md border border-tng-accent-brand bg-tng-accent-brand px-4 text-sm font-semibold text-tng-fg-inverse no-underline transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+      >
+        Get Started
+      </a>
+      <a
+        routerLink="/components"
+        class="inline-flex h-10 items-center rounded-md border border-tng-border-subtle bg-tng-bg-surface px-4 text-sm font-semibold text-tng-fg-primary no-underline transition-colors hover:bg-tng-bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+      >
+        Browse Components
+      </a>
+      <a
+        href="https://github.com/tailng/tailng-ui"
+        target="_blank"
+        rel="noreferrer"
+        class="text-sm font-medium text-tng-accent-brand no-underline hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+      >
+        View on GitHub
+      </a>
+    </div>
+  </div>
 
-      <tng-card variant="outline" padding="lg">
-        <h2 class="m-0 text-sm font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
-          Built in layers
-        </h2>
-        <ul class="mt-2 grid gap-2">
-          <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
-            CDK — low-level behavior and interaction foundations
-          </li>
-          <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
-            Headless — accessible interaction building blocks
-          </li>
-          <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
-            Components — styled, reusable UI components
-          </li>
-          <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
-            Charts — theme-aware data visualization with predictable APIs
-          </li>
-          <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
-            Icons — consistent visual symbols
-          </li>
-          <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
-            Theme — tokens, presets, and visual foundations
-          </li>
-          <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
-            Install — selective, ownable adoption
-          </li>
-        </ul>
-      </tng-card>
-    </section>
+  <tng-card variant="outline" padding="lg">
+    <h2 class="m-0 text-sm font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
+      Built in layers
+    </h2>
+    <ul class="mt-2 grid gap-2">
+      <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
+        CDK — low-level behavior and interaction foundations
+      </li>
+      <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
+        Headless — accessible interaction building blocks
+      </li>
+      <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
+        Components — styled, reusable UI components
+      </li>
+      <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
+        Charts — theme-aware data visualization with predictable APIs
+      </li>
+      <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
+        Icons — consistent visual symbols
+      </li>
+      <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
+        Theme — tokens, presets, and visual foundations
+      </li>
+      <li class="rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-sm">
+        Install — selective, ownable adoption
+      </li>
+    </ul>
+  </tng-card>
+</section>
 
-    <section id="components" class="space-y-4 border-b border-tng-border-subtle py-12">
-      <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Components</p>
-      <h2 class="m-0 text-2xl font-semibold md:text-3xl">40+ production-ready components</h2>
-      <p class="m-0 max-w-2xl text-sm text-tng-fg-secondary md:text-base">
-        Date pickers, autocompletes, tables, trees, charts — every component is keyboard-accessible,
-        ARIA-compliant, and theme-aware out of the box.
-      </p>
+<section
+  id="component-assistant"
+  class="grid gap-6 border-b border-tng-border-subtle py-12 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:items-start"
+>
+  <div class="grid max-w-xl gap-3 lg:sticky lg:top-24">
+    <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
+      AI + Components
+    </p>
+    <h2 class="m-0 text-2xl font-semibold md:text-3xl">
+      Build AI experiences with real TailNG components
+    </h2>
+    <p class="m-0 text-sm leading-6 text-tng-fg-secondary md:text-base">
+      Type <strong class="text-tng-fg-primary">hi</strong>, choose a suggested prompt, and watch the
+      assistant stream an AG-UI tool call before rendering a safe, allowlisted Angular component in
+      the conversation. The deterministic simulation runs locally with public TailNG APIs—no
+      backend, model, or API key is required.
+    </p>
+    <a
+      routerLink="/components/ai/chat/examples"
+      class="mt-1 inline-flex w-fit items-center text-sm font-semibold text-tng-accent-brand no-underline hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tng-focus-ring"
+    >
+      Explore the AI chat example
+    </a>
+  </div>
 
-      @defer (on idle; on timer(3000ms)) {
-      <!-- Row 1: Date Picker · Date Range Picker · Autocomplete -->
-      <div class="grid gap-4 md:grid-cols-3">
-        <tng-card variant="outline" padding="md" class="space-y-3">
-          <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Date Picker</p>
-          <tng-datepicker
-            [defaultValue]="'2025-06-04'"
-            [fullWidth]="true"
-            ariaLabel="Demo date"
-          />
-        </tng-card>
+  @defer (on viewport; prefetch on idle) {
+    <app-component-assistant variant="compact" />
+  } @placeholder {
+    <div class="component-assistant-loading" role="status" aria-live="polite">
+      <span class="component-previews-spinner" aria-hidden="true"></span>
+      <span>Loading the component assistant…</span>
+    </div>
+  }
+</section>
 
-        <tng-card variant="outline" padding="md" class="space-y-3">
-          <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Date Range Picker</p>
-          <tng-date-range-picker
-            [fullWidth]="true"
-            ariaLabel="Demo date range"
-          />
-        </tng-card>
+<section id="components" class="space-y-4 border-b border-tng-border-subtle py-12">
+  <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
+    Components
+  </p>
+  <h2 class="m-0 text-2xl font-semibold md:text-3xl">40+ production-ready components</h2>
+  <p class="m-0 max-w-2xl text-sm text-tng-fg-secondary md:text-base">
+    Date pickers, autocompletes, tables, trees, charts — every component is keyboard-accessible,
+    ARIA-compliant, and theme-aware out of the box.
+  </p>
 
-        <tng-card variant="outline" padding="md" class="space-y-3">
-          <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Autocomplete · Country + Flag</p>
-          <tng-autocomplete
-            [options]="filteredCountries()"
-            [query]="countryQuery()"
-            (queryChange)="countryQuery.set($event)"
-            [getOptionValue]="getCountryValue"
-            [getOptionLabel]="getCountryLabel"
-            placeholder="Search country…"
-            ariaLabel="Country"
-          >
-            <ng-template #tngAutocompleteOptionTpl let-option="option" let-label="label">
-              <span class="flex items-center gap-2">
-                <span aria-hidden="true">{{ option.flag }}</span>
-                <span>{{ label }}</span>
-              </span>
-            </ng-template>
-            <ng-template #tngAutocompleteSelectedTpl let-option="option">
-              <span aria-hidden="true">{{ option?.flag }}</span>
-            </ng-template>
-          </tng-autocomplete>
-        </tng-card>
-      </div>
-
-      <!-- Row 2: Tags · Badges -->
-      <div class="grid gap-4 md:grid-cols-2">
-        <tng-card variant="outline" padding="md" class="space-y-3">
-          <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Tags</p>
-          <div class="flex flex-wrap gap-2">
-            <tng-tag label="Design" tone="info" appearance="soft" />
-            <tng-tag label="Engineering" tone="success" appearance="soft" />
-            <tng-tag label="Breaking" tone="danger" appearance="soft" />
-            <tng-tag label="Beta" tone="warning" appearance="soft" />
-            <tng-tag label="Stable" tone="neutral" appearance="solid" />
-            <tng-tag label="New" tone="info" appearance="solid" />
-            <tng-tag label="Deprecated" tone="danger" appearance="outline" />
-          </div>
-        </tng-card>
-
-        <tng-card variant="outline" padding="md" class="space-y-3">
-          <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Badge</p>
-          <div class="flex flex-wrap items-center gap-6">
-            <button
-              type="button"
-              [tngBadge]="notifCount()"
-              tngBadgeTone="danger"
-              class="relative inline-flex h-9 items-center rounded-md border border-tng-border-subtle bg-tng-bg-surface px-4 text-sm font-medium text-tng-fg-primary"
-            >
-              Notifications
-            </button>
-            <button
-              type="button"
-              [tngBadge]="msgCount()"
-              tngBadgeTone="info"
-              class="relative inline-flex h-9 items-center rounded-md border border-tng-border-subtle bg-tng-bg-surface px-4 text-sm font-medium text-tng-fg-primary"
-            >
-              Messages
-            </button>
-            <button
-              type="button"
-              [tngBadge]="null"
-              [tngBadgeDot]="true"
-              tngBadgeTone="success"
-              class="relative inline-flex h-9 items-center rounded-md border border-tng-border-subtle bg-tng-bg-surface px-4 text-sm font-medium text-tng-fg-primary"
-            >
-              Presence
-            </button>
-          </div>
-        </tng-card>
-      </div>
-
-      <!-- Row 3: Table with grouped columns -->
+  @defer (on idle; on timer(3000ms)) {
+    <!-- Row 1: Date Picker · Date Range Picker · Autocomplete -->
+    <div class="grid gap-4 md:grid-cols-3">
       <tng-card variant="outline" padding="md" class="space-y-3">
-        <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Table · Grouped columns</p>
-        <tng-table
-          [columns]="demoTableColumns"
-          [items]="sortedTeam()"
-          [sortActive]="sortActive()"
-          [sortDirection]="sortDirection()"
-          (sortChange)="onTableSortChange($event)"
-          ariaLabel="Team members"
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">
+          Date Picker
+        </p>
+        <tng-datepicker [defaultValue]="'2025-06-04'" [fullWidth]="true" ariaLabel="Demo date" />
+      </tng-card>
+
+      <tng-card variant="outline" padding="md" class="space-y-3">
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">
+          Date Range Picker
+        </p>
+        <tng-date-range-picker [fullWidth]="true" ariaLabel="Demo date range" />
+      </tng-card>
+
+      <tng-card variant="outline" padding="md" class="space-y-3">
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">
+          Autocomplete · Country + Flag
+        </p>
+        <tng-autocomplete
+          [options]="filteredCountries()"
+          [query]="countryQuery()"
+          (queryChange)="countryQuery.set($event)"
+          [getOptionValue]="getCountryValue"
+          [getOptionLabel]="getCountryLabel"
+          placeholder="Search country…"
+          ariaLabel="Country"
         >
-          <ng-template tngTableCellTemplate="status" let-value>
-            @let config = getStatusConfig(value);
-            <span class="inline-flex items-center gap-1.5 text-sm font-medium" [class]="config.classes">
-              <tng-icon [icon]="config.icon" class="h-4 w-4 shrink-0" />
-              {{ value }}
+          <ng-template #tngAutocompleteOptionTpl let-option="option" let-label="label">
+            <span class="flex items-center gap-2">
+              <span aria-hidden="true">{{ option.flag }}</span>
+              <span>{{ label }}</span>
             </span>
           </ng-template>
-        </tng-table>
+          <ng-template #tngAutocompleteSelectedTpl let-option="option">
+            <span aria-hidden="true">{{ option?.flag }}</span>
+          </ng-template>
+        </tng-autocomplete>
       </tng-card>
+    </div>
 
-      <!-- Row 3b: Tree-table with grouped header -->
+    <!-- Row 2: Tags · Badges -->
+    <div class="grid gap-4 md:grid-cols-2">
       <tng-card variant="outline" padding="md" class="space-y-3">
-        <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Tree-Table · Grouped header</p>
-        <tng-tree-table
-          [columns]="orgColumns"
-          [data]="orgData"
-          [getKey]="getOrgKey"
-          [getChildren]="getOrgChildren"
-          [expandedKeys]="orgExpandedKeys()"
-          (expandedKeysChange)="orgExpandedKeys.set($event)"
-          ariaLabel="Organisation chart"
-        />
-      </tng-card>
-
-      <!-- Row 4: Tree · Bar Chart -->
-      <div class="grid gap-4 md:grid-cols-2">
-        <tng-card variant="outline" padding="md" class="space-y-3">
-          <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Tree</p>
-          <tng-tree
-            [nodes]="treeNodes"
-            [defaultExpandedIds]="treeExpanded"
-            ariaLabel="Repository tree"
-          />
-        </tng-card>
-
-        <tng-card variant="outline" padding="md" class="space-y-3">
-          <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Bar Chart · Monthly Installs</p>
-          <tng-bar-chart
-            [data]="barChartData"
-            xField="month"
-            yField="installs"
-            [height]="220"
-            [legend]="false"
-          />
-        </tng-card>
-      </div>
-
-      <!-- Row 5: Line Chart -->
-      <tng-card variant="outline" padding="md" class="space-y-3">
-        <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Line Chart · User Growth</p>
-        <tng-line-chart
-          [data]="lineChartData"
-          xField="week"
-          [series]="lineChartSeries"
-          [height]="240"
-          smooth
-        />
-      </tng-card>
-      } @placeholder {
-        <div
-          class="component-previews-loading"
-          role="status"
-          aria-live="polite"
-          aria-label="Loading interactive component previews"
-        >
-          <span class="component-previews-spinner" aria-hidden="true"></span>
-          <span>Loading interactive component previews…</span>
-        </div>
-      }
-    </section>
-
-    <section id="packages" class="space-y-4 border-b border-tng-border-subtle py-12">
-      <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Packages</p>
-      <h2 class="m-0 text-2xl font-semibold md:text-3xl">A layered system, not a monolith</h2>
-      <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
-        TailNG is organized so teams can adopt the right level of abstraction, from low-level
-        interaction building blocks to polished UI components.
-      </p>
-
-      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        @for (card of packageCards; track card.title) {
-          <tng-card variant="outline" padding="md" [interactive]="true">
-            <h3 class="m-0 text-base font-semibold">{{ card.title }}</h3>
-            <p class="mt-2 text-sm text-tng-fg-secondary">{{ card.description }}</p>
-            @if (card.href) {
-              <a
-                [routerLink]="card.href"
-                class="mt-2 inline-flex text-sm font-medium text-tng-accent-brand no-underline hover:underline"
-              >
-                Explore
-              </a>
-            }
-          </tng-card>
-        }
-      </div>
-    </section>
-
-    <section class="border-b border-tng-border-subtle py-12">
-      <tng-card variant="outline" padding="lg">
-        <p class="m-0 text-center text-2xl font-semibold md:text-3xl">Strong foundations. Flexible UI.</p>
-        <p class="mt-2 text-center text-sm text-tng-fg-secondary md:text-base">
-          TailNG is built for teams that care about accessibility, ownership, and practical architecture.
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">
+          Tags
         </p>
-      </tng-card>
-    </section>
-
-    <section id="principles" class="space-y-4 border-b border-tng-border-subtle py-12">
-      <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Principles</p>
-      <h2 class="m-0 text-2xl font-semibold md:text-3xl">Built on clear product principles</h2>
-      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        @for (item of principles; track item.title) {
-          <tng-card variant="outline" padding="md">
-            <h3 class="m-0 text-base font-semibold">{{ item.title }}</h3>
-            <p class="mt-2 text-sm text-tng-fg-secondary">{{ item.description }}</p>
-          </tng-card>
-        }
-      </div>
-    </section>
-
-    <section id="why" class="space-y-4 border-b border-tng-border-subtle py-12">
-      <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Why TailNG</p>
-      <h2 class="m-0 text-2xl font-semibold md:text-3xl">A better fit for Angular teams that want control</h2>
-      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        @for (item of whyTailng; track item.title) {
-          <tng-card variant="outline" padding="md">
-            <h3 class="m-0 text-base font-semibold">{{ item.title }}</h3>
-            <p class="mt-2 text-sm text-tng-fg-secondary">{{ item.description }}</p>
-          </tng-card>
-        }
-      </div>
-    </section>
-
-    <section id="install" class="space-y-4 border-b border-tng-border-subtle py-12">
-      <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Install</p>
-      <h2 class="m-0 text-2xl font-semibold md:text-3xl">Start at the level that works for your team</h2>
-
-      <tng-card variant="outline" padding="md">
-        <div class="flex items-start gap-3">
-          <span
-            class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-tng-border-subtle bg-tng-bg-canvas text-tng-fg-secondary"
-          >
-            <tng-icon icon="terminal" class="h-4 w-4" />
-          </span>
-          <div class="min-w-0">
-            <h3 class="m-0 text-base font-semibold">Quick start</h3>
-            <p class="mt-1 text-sm text-tng-fg-secondary">
-              Choose the level that fits your team. Start with components, go lower with
-              primitives, or build from CDK foundations.
-            </p>
-            <code
-              class="mt-3 block overflow-x-auto rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-xs text-tng-fg-primary sm:text-sm"
-            >
-              pnpm add &#64;tailng-ui/components &#64;tailng-ui/primitives &#64;tailng-ui/cdk &#64;tailng-ui/theme
-            </code>
-          </div>
+        <div class="flex flex-wrap gap-2">
+          <tng-tag label="Design" tone="info" appearance="soft" />
+          <tng-tag label="Engineering" tone="success" appearance="soft" />
+          <tng-tag label="Breaking" tone="danger" appearance="soft" />
+          <tng-tag label="Beta" tone="warning" appearance="soft" />
+          <tng-tag label="Stable" tone="neutral" appearance="solid" />
+          <tng-tag label="New" tone="info" appearance="solid" />
+          <tng-tag label="Deprecated" tone="danger" appearance="outline" />
         </div>
       </tng-card>
 
-      <div class="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-        <tng-card variant="outline" padding="md">
-          <h3 class="m-0 text-base font-semibold">Multiple adoption paths</h3>
-          <ul class="mt-2 grid gap-2 text-sm text-tng-fg-secondary">
-            <li>Use components for faster delivery</li>
-            <li>Use headless patterns for accessible interaction behavior</li>
-            <li>Use CDK for lower-level behavior</li>
-            <li>Add theme and icons where needed</li>
-            <li>Adopt selectively instead of installing everything</li>
-          </ul>
-        </tng-card>
+      <tng-card variant="outline" padding="md" class="space-y-3">
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">
+          Badge
+        </p>
+        <div class="flex flex-wrap items-center gap-6">
+          <button
+            type="button"
+            [tngBadge]="notifCount()"
+            tngBadgeTone="danger"
+            class="relative inline-flex h-9 items-center rounded-md border border-tng-border-subtle bg-tng-bg-surface px-4 text-sm font-medium text-tng-fg-primary"
+          >
+            Notifications
+          </button>
+          <button
+            type="button"
+            [tngBadge]="msgCount()"
+            tngBadgeTone="info"
+            class="relative inline-flex h-9 items-center rounded-md border border-tng-border-subtle bg-tng-bg-surface px-4 text-sm font-medium text-tng-fg-primary"
+          >
+            Messages
+          </button>
+          <button
+            type="button"
+            [tngBadge]="null"
+            [tngBadgeDot]="true"
+            tngBadgeTone="success"
+            class="relative inline-flex h-9 items-center rounded-md border border-tng-border-subtle bg-tng-bg-surface px-4 text-sm font-medium text-tng-fg-primary"
+          >
+            Presence
+          </button>
+        </div>
+      </tng-card>
+    </div>
 
-        <tng-card variant="outline" padding="md">
-          <h3 class="m-0 text-base font-semibold">Quick start options</h3>
-          <div class="mt-2 grid gap-3">
-            @for (option of installOptions; track option.title) {
-              <tng-card variant="ghost" padding="sm">
-                <p class="m-0 text-sm font-semibold">{{ option.title }}</p>
-                <p class="mt-1 text-sm text-tng-fg-secondary">{{ option.description }}</p>
-              </tng-card>
-            }
-          </div>
-        </tng-card>
+    <!-- Row 3: Table with grouped columns -->
+    <tng-card variant="outline" padding="md" class="space-y-3">
+      <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">
+        Table · Grouped columns
+      </p>
+      <tng-table
+        [columns]="demoTableColumns"
+        [items]="sortedTeam()"
+        [sortActive]="sortActive()"
+        [sortDirection]="sortDirection()"
+        (sortChange)="onTableSortChange($event)"
+        ariaLabel="Team members"
+      >
+        <ng-template tngTableCellTemplate="status" let-value>
+          @let config = getStatusConfig(value);
+          <span
+            class="inline-flex items-center gap-1.5 text-sm font-medium"
+            [class]="config.classes"
+          >
+            <tng-icon [icon]="config.icon" class="h-4 w-4 shrink-0" />
+            {{ value }}
+          </span>
+        </ng-template>
+      </tng-table>
+    </tng-card>
+
+    <!-- Row 3b: Tree-table with grouped header -->
+    <tng-card variant="outline" padding="md" class="space-y-3">
+      <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">
+        Tree-Table · Grouped header
+      </p>
+      <tng-tree-table
+        [columns]="orgColumns"
+        [data]="orgData"
+        [getKey]="getOrgKey"
+        [getChildren]="getOrgChildren"
+        [expandedKeys]="orgExpandedKeys()"
+        (expandedKeysChange)="orgExpandedKeys.set($event)"
+        ariaLabel="Organisation chart"
+      />
+    </tng-card>
+
+    <!-- Row 4: Tree · Bar Chart -->
+    <div class="grid gap-4 md:grid-cols-2">
+      <tng-card variant="outline" padding="md" class="space-y-3">
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">
+          Tree
+        </p>
+        <tng-tree
+          [nodes]="treeNodes"
+          [defaultExpandedIds]="treeExpanded"
+          ariaLabel="Repository tree"
+        />
+      </tng-card>
+
+      <tng-card variant="outline" padding="md" class="space-y-3">
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">
+          Bar Chart · Monthly Installs
+        </p>
+        <tng-bar-chart
+          [data]="barChartData"
+          xField="month"
+          yField="installs"
+          [height]="220"
+          [legend]="false"
+        />
+      </tng-card>
+    </div>
+
+    <!-- Row 5: Line Chart -->
+    <tng-card variant="outline" padding="md" class="space-y-3">
+      <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">
+        Line Chart · User Growth
+      </p>
+      <tng-line-chart
+        [data]="lineChartData"
+        xField="week"
+        [series]="lineChartSeries"
+        [height]="240"
+        smooth
+      />
+    </tng-card>
+  } @placeholder {
+    <div
+      class="component-previews-loading"
+      role="status"
+      aria-live="polite"
+      aria-label="Loading interactive component previews"
+    >
+      <span class="component-previews-spinner" aria-hidden="true"></span>
+      <span>Loading interactive component previews…</span>
+    </div>
+  }
+</section>
+
+<section id="packages" class="space-y-4 border-b border-tng-border-subtle py-12">
+  <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
+    Packages
+  </p>
+  <h2 class="m-0 text-2xl font-semibold md:text-3xl">A layered system, not a monolith</h2>
+  <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
+    TailNG is organized so teams can adopt the right level of abstraction, from low-level
+    interaction building blocks to polished UI components.
+  </p>
+
+  <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+    @for (card of packageCards; track card.title) {
+      <tng-card variant="outline" padding="md" [interactive]="true">
+        <h3 class="m-0 text-base font-semibold">{{ card.title }}</h3>
+        <p class="mt-2 text-sm text-tng-fg-secondary">{{ card.description }}</p>
+        @if (card.href) {
+          <a
+            [routerLink]="card.href"
+            class="mt-2 inline-flex text-sm font-medium text-tng-accent-brand no-underline hover:underline"
+          >
+            Explore
+          </a>
+        }
+      </tng-card>
+    }
+  </div>
+</section>
+
+<section class="border-b border-tng-border-subtle py-12">
+  <tng-card variant="outline" padding="lg">
+    <p class="m-0 text-center text-2xl font-semibold md:text-3xl">
+      Strong foundations. Flexible UI.
+    </p>
+    <p class="mt-2 text-center text-sm text-tng-fg-secondary md:text-base">
+      TailNG is built for teams that care about accessibility, ownership, and practical
+      architecture.
+    </p>
+  </tng-card>
+</section>
+
+<section id="principles" class="space-y-4 border-b border-tng-border-subtle py-12">
+  <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
+    Principles
+  </p>
+  <h2 class="m-0 text-2xl font-semibold md:text-3xl">Built on clear product principles</h2>
+  <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+    @for (item of principles; track item.title) {
+      <tng-card variant="outline" padding="md">
+        <h3 class="m-0 text-base font-semibold">{{ item.title }}</h3>
+        <p class="mt-2 text-sm text-tng-fg-secondary">{{ item.description }}</p>
+      </tng-card>
+    }
+  </div>
+</section>
+
+<section id="why" class="space-y-4 border-b border-tng-border-subtle py-12">
+  <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">
+    Why TailNG
+  </p>
+  <h2 class="m-0 text-2xl font-semibold md:text-3xl">
+    A better fit for Angular teams that want control
+  </h2>
+  <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+    @for (item of whyTailng; track item.title) {
+      <tng-card variant="outline" padding="md">
+        <h3 class="m-0 text-base font-semibold">{{ item.title }}</h3>
+        <p class="mt-2 text-sm text-tng-fg-secondary">{{ item.description }}</p>
+      </tng-card>
+    }
+  </div>
+</section>
+
+<section id="install" class="space-y-4 border-b border-tng-border-subtle py-12">
+  <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Install</p>
+  <h2 class="m-0 text-2xl font-semibold md:text-3xl">
+    Start at the level that works for your team
+  </h2>
+
+  <tng-card variant="outline" padding="md">
+    <div class="flex items-start gap-3">
+      <span
+        class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-tng-border-subtle bg-tng-bg-canvas text-tng-fg-secondary"
+      >
+        <tng-icon icon="terminal" class="h-4 w-4" />
+      </span>
+      <div class="min-w-0">
+        <h3 class="m-0 text-base font-semibold">Quick start</h3>
+        <p class="mt-1 text-sm text-tng-fg-secondary">
+          Choose the level that fits your team. Start with components, go lower with primitives, or
+          build from CDK foundations.
+        </p>
+        <code
+          class="mt-3 block overflow-x-auto rounded-lg border border-tng-border-subtle bg-tng-bg-canvas px-3 py-2 text-xs text-tng-fg-primary sm:text-sm"
+        >
+          pnpm add &#64;tailng-ui/components &#64;tailng-ui/primitives &#64;tailng-ui/cdk
+          &#64;tailng-ui/theme
+        </code>
       </div>
-    </section>
+    </div>
+  </tng-card>
 
-    <section id="theme" class="space-y-4 border-b border-tng-border-subtle py-12">
-      <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Theme</p>
-      <h2 class="m-0 text-2xl font-semibold md:text-3xl">A visual foundation that stays flexible</h2>
-      <div class="grid gap-4 md:grid-cols-2">
-        @for (item of themeHighlights; track item.title) {
-          <tng-card variant="outline" padding="md">
-            <h3 class="m-0 text-base font-semibold">{{ item.title }}</h3>
-            <p class="mt-2 text-sm text-tng-fg-secondary">{{ item.description }}</p>
+  <div class="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+    <tng-card variant="outline" padding="md">
+      <h3 class="m-0 text-base font-semibold">Multiple adoption paths</h3>
+      <ul class="mt-2 grid gap-2 text-sm text-tng-fg-secondary">
+        <li>Use components for faster delivery</li>
+        <li>Use headless patterns for accessible interaction behavior</li>
+        <li>Use CDK for lower-level behavior</li>
+        <li>Add theme and icons where needed</li>
+        <li>Adopt selectively instead of installing everything</li>
+      </ul>
+    </tng-card>
+
+    <tng-card variant="outline" padding="md">
+      <h3 class="m-0 text-base font-semibold">Quick start options</h3>
+      <div class="mt-2 grid gap-3">
+        @for (option of installOptions; track option.title) {
+          <tng-card variant="ghost" padding="sm">
+            <p class="m-0 text-sm font-semibold">{{ option.title }}</p>
+            <p class="mt-1 text-sm text-tng-fg-secondary">{{ option.description }}</p>
           </tng-card>
         }
       </div>
-    </section>
+    </tng-card>
+  </div>
+</section>
 
-    <section id="explore" class="space-y-4 py-12">
-      <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Explore</p>
-      <h2 class="m-0 text-2xl font-semibold md:text-3xl">Go directly to the layer you need</h2>
-      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        @for (entry of exploreLinks; track entry.title) {
-          <tng-card variant="outline" padding="md" [interactive]="true">
-            <a [routerLink]="entry.route" class="grid gap-2 text-inherit no-underline">
-              <h3 class="m-0 text-base font-semibold">{{ entry.title }}</h3>
-              <p class="m-0 text-sm text-tng-fg-secondary">{{ entry.description }}</p>
-            </a>
-          </tng-card>
-        }
-      </div>
-    </section>
+<section id="theme" class="space-y-4 border-b border-tng-border-subtle py-12">
+  <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Theme</p>
+  <h2 class="m-0 text-2xl font-semibold md:text-3xl">A visual foundation that stays flexible</h2>
+  <div class="grid gap-4 md:grid-cols-2">
+    @for (item of themeHighlights; track item.title) {
+      <tng-card variant="outline" padding="md">
+        <h3 class="m-0 text-base font-semibold">{{ item.title }}</h3>
+        <p class="mt-2 text-sm text-tng-fg-secondary">{{ item.description }}</p>
+      </tng-card>
+    }
+  </div>
+</section>
+
+<section id="explore" class="space-y-4 py-12">
+  <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Explore</p>
+  <h2 class="m-0 text-2xl font-semibold md:text-3xl">Go directly to the layer you need</h2>
+  <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+    @for (entry of exploreLinks; track entry.title) {
+      <tng-card variant="outline" padding="md" [interactive]="true">
+        <a [routerLink]="entry.route" class="grid gap-2 text-inherit no-underline">
+          <h3 class="m-0 text-base font-semibold">{{ entry.title }}</h3>
+          <p class="m-0 text-sm text-tng-fg-secondary">{{ entry.description }}</p>
+        </a>
+      </tng-card>
+    }
+  </div>
+</section>

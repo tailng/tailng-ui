@@ -2,7 +2,8 @@
   <header class="grid max-w-3xl gap-3">
     <h1 class="m-0 text-3xl font-semibold text-tng-fg-primary">AI Chat examples</h1>
     <p class="m-0 text-base leading-7 text-tng-fg-secondary">
-      Compose the independent core pieces around your transport and presentation layer.
+      Compose the independent core pieces around your transport and presentation layer, then map
+      validated application extensions to real Angular components.
     </p>
   </header>
 
@@ -10,12 +11,46 @@
     <div class="grid max-w-3xl gap-2">
       <h2 class="m-0 text-2xl font-semibold text-tng-fg-primary">Working chat demo</h2>
       <p class="m-0 text-tng-fg-secondary">
-        Send a prompt, watch real AG-UI events reduce into the normalized store, inspect the tool
-        call, stop and retry a response, or prepend a cursor-loaded history page. The simulation is
-        deterministic and runs entirely in this page.
+        Type <strong>hi</strong>, choose one of twelve prompts grouped across Forms, Data,
+        Navigation &amp; layout, and Feedback, and watch real AG-UI events reduce into the
+        normalized store. The assistant streams a correlated <code>render_component</code> tool
+        lifecycle before an allowlisted TailNG datepicker, chart, validated TailNG preview into the
+        transcript. Options include date controls, autocomplete, slider, charts, table, accordion,
+        tabs, stepper, tags, and progress. Stop and retry a response or prepend a cursor-loaded
+        history page. New content stays in view while you follow the conversation; scrolling up
+        pauses that behavior and shows a Jump to latest control. The simulation is deterministic and
+        runs entirely in this page.
       </p>
     </div>
     <app-ai-chat-live-demo />
+  </section>
+
+  <section id="safe-component-renderers" class="grid gap-4 scroll-mt-24">
+    <h2 class="m-0 text-2xl font-semibold text-tng-fg-primary">Safe component renderers</h2>
+    <p class="m-0 text-tng-fg-secondary">
+      AG-UI carries the run, message, and tool lifecycle. Component choices are application-owned
+      extension parts. Validate their version and payload at the boundary, then resolve only known
+      IDs from a local registry. Never accept a selector, import path, Angular template, or HTML
+      from an agent response.
+    </p>
+    <tng-code-block
+      [code]="rendererCode"
+      adapter="shiki"
+      language="ts"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      title="Resolve an allowlisted component preview"
+    />
+    <tng-code-block
+      [code]="materializationCode"
+      adapter="shiki"
+      language="ts"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      title="Materialize a completed component tool call"
+    />
   </section>
 
   <section id="normalized-store" class="grid gap-4 scroll-mt-24">
