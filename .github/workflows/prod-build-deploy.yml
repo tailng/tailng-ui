@@ -96,6 +96,8 @@ jobs:
           node tools/release/run-if.mjs "${{ matrix.targets }}" primitives "pnpm run test:primitives"
           node tools/release/run-if.mjs "${{ matrix.targets }}" components "pnpm run test:components"
           node tools/release/run-if.mjs "${{ matrix.targets }}" icons "pnpm run test:icons"
+          node tools/release/run-if.mjs "${{ matrix.targets }}" icons "pnpm run typecheck:icons"
+          node tools/release/run-if.mjs "${{ matrix.targets }}" icons "pnpm nx build icons"
           node tools/release/run-if.mjs "${{ matrix.targets }}" charts "pnpm run test:charts"
           node tools/release/run-if.mjs "${{ matrix.targets }}" theme "pnpm run test:theme"
           node tools/release/run-if.mjs "${{ matrix.targets }}" flow "pnpm run test:flow"

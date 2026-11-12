@@ -48,7 +48,7 @@ TailNG is built with Angular 21+, standalone APIs, signals, Nx, Vitest, and stri
 | `@tailng-ui/primitives` | Headless, accessibility-first Angular primitives.                                    |
 | `@tailng-ui/cdk`        | Behavior, accessibility, collection, overlay, and runtime utilities.                 |
 | `@tailng-ui/theme`      | Theme contracts, presets, CSS variables, component contracts, and Tailwind adapters. |
-| `@tailng-ui/icons`      | Angular icon wrappers backed by `@ng-icons`.                                         |
+| `@tailng-ui/icons`      | CSP-safe Angular icon loading and constrained SVG rendering.                         |
 | `@tailng-ui/charts`     | Apache ECharts wrappers for Angular.                                                 |
 | `@tailng-ui/flow`       | Optional workflow editor for AI agents, powered by Foblex Flow.                      |
 | `@tailng-ui/registry`   | Metadata for ownable component installs.                                             |
@@ -182,6 +182,7 @@ Requirements:
 
 - Node.js `>=20.20.0`
 - pnpm `>=10.30.0`
+- ES2022 JavaScript runtime support
 
 Install dependencies:
 

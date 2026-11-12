@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  PendingTasks,
+  computed,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { TNG_ICON_RESOLVER, type TngIconResolver } from './icons.core';
 import { bindIconSvgEffect } from './tng-icon.loader-effect';
 import { normalizeIconSize, normalizeOptionalString } from './tng-icon.normalizers';
@@ -27,12 +35,18 @@ export class TngIcon {
     transform: normalizeIconSize,
   });
   private readonly iconResolver: TngIconResolver = inject(TNG_ICON_RESOLVER);
+  private readonly pendingTasks = inject(PendingTasks);
   private readonly svgDefinitionSignal = signal<TngSvgElementNode | null>(null);
 
   public constructor() {
-    bindIconSvgEffect(this.icon, this.iconResolver, (value): void => {
-      this.svgDefinitionSignal.set(value === null ? null : parseTngIconSvg(value));
-    });
+    bindIconSvgEffect(
+      this.icon,
+      this.iconResolver,
+      this.pendingTasks,
+      (value): void => {
+        this.svgDefinitionSignal.set(value === null ? null : parseTngIconSvg(value));
+      },
+    );
   }
 
   protected readonly iconAriaHidden = computed<'true' | null>(() =>

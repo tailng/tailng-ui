@@ -2,6 +2,9 @@
   "name": "@tailng-ui/registry",
   "version": "1.1.0",
   "license": "MIT",
+  "engines": {
+    "node": ">=20.20.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/tailng/tailng-ui"

@@ -48,6 +48,7 @@ marking it complete.
 | [Components and accessibility](./components-and-accessibility.md) | `AI-CMP`, `AI-A11Y` | Compound parts, message rendering, composer, actions, announcements, keyboard, and responsive behavior. |
 | [Virtualization and performance](./virtualization-and-performance.md) | `AI-VIRT`, `AI-PERF` | Variable-height range calculation, anchoring, streaming, memory, media, and cleanup. |
 | [Security, packaging, and integration](./security-packaging-integration.md) | `AI-SEC`, `AI-PKG`, `AI-INT` | Trust boundaries, package exports, consumer builds, transport failures, and end-to-end integration. |
+| [CI/CD integration](../ci-cd-integration.md) | `AI-CICD` | Release target selection, workflow gates, packed consumers, OIDC publication, idempotency, and recovery. |
 
 ## Case format
 

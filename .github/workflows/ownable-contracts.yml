@@ -11,6 +11,7 @@ on:
       - 'tools/prerender/**'
       - 'package.json'
       - 'pnpm-lock.yaml'
+      - 'tsconfig.base.json'
   push:
     branches: [main]
     paths:
@@ -22,6 +23,7 @@ on:
       - 'tools/prerender/**'
       - 'package.json'
       - 'pnpm-lock.yaml'
+      - 'tsconfig.base.json'
 
 permissions:
   contents: read

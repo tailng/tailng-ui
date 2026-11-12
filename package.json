@@ -54,7 +54,9 @@
     "test:theme": "vitest run libs/tailng-ui/theme",
     "typecheck:cli": "tsc -p libs/tailng/cli/tsconfig.lib.json --noEmit",
     "typecheck:docs": "tsc -p apps/tailng-ui/docs/tsconfig.app.json --noEmit",
+    "typecheck:icons": "tsc -p libs/tailng-ui/icons/tsconfig.lib.json --noEmit",
     "typecheck:registry": "tsc -p libs/tailng-ui/registry/tsconfig.lib.json --noEmit",
+    "verify:es2022": "pnpm run typecheck:icons && pnpm nx build icons && pnpm run build:docs && pnpm run typecheck:registry && pnpm run typecheck:cli",
     "verify:ownable-contracts": "pnpm run test:registry && pnpm run test:cli && pnpm run test:docs && pnpm run test:prerender && pnpm run test:split && pnpm run typecheck:registry && pnpm run typecheck:cli && pnpm run typecheck:docs && pnpm run check:docs-routes && pnpm run docs:agent:check && pnpm run docs:agent:test"
   },
   "private": true,

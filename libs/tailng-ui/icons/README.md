@@ -2,6 +2,9 @@
 
 Icon abstraction layer for TailNG UI, with built-in `lucide` support, custom pack registration, and a consistent `<tng-icon>` API for Angular 21+.
 
+Runtime baseline: ES2022. Browser support follows the baseline supported by the package's Angular
+peer range.
+
 <div align="center">
   <img
     src="https://raw.githubusercontent.com/tailng/tailng-ui/main/apps/tailng-ui/docs/src/assets/logo.svg"

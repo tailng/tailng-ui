@@ -75,6 +75,9 @@ Application history API
    - TDD delivery phases, Red/Green gates, documentation work, compatibility gates, and release criteria.
 7. [TDD test catalog](./tests/README.md)
    - Stable test-case IDs, fixtures, test levels, Red-step rules, and the complete behavioral suites.
+8. [CI/CD integration](./ci-cd-integration.md)
+   - TDD release-orchestration cases, shared workflow integration, npm Trusted Publishing, preview
+     publication, recovery, and stable-promotion gates.
 
 ## Implementation gate
 

@@ -230,6 +230,8 @@ Deliverables:
 
 - [ ] Add human documentation: overview, API, styling, examples, accessibility, performance, and AG-UI.
 - [x] Add AI-readable documentation following the existing docs catalog structure.
+- [ ] Complete the dedicated [CI/CD integration plan](./ci-cd-integration.md), including its
+      `AI-CICD-*` tests, OIDC prerequisites, preview release, and recovery gates.
 - [ ] Add copy-own registry artifacts only after public APIs stabilize.
 - [ ] Add CLI support if AI components meet registry ownership requirements.
 - [ ] Publish migration and compatibility notes.
