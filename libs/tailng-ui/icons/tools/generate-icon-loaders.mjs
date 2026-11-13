@@ -231,10 +231,16 @@ async function generateSaxesEsmArtifact(workspaceRoot) {
     treeShaking: true,
     write: false,
   });
-  const generatedContent = result.outputFiles[0]?.text;
-  if (generatedContent === undefined) {
+  const output = result.outputFiles[0]?.text;
+  if (output === undefined) {
     throw new Error('esbuild did not produce the internal saxes ESM artifact.');
   }
+  // This phrase appears only in an esbuild helper comment. Avoid making the
+  // release guard mistake it for an executable CommonJS export.
+  const generatedContent = output.replace(
+    'the CommonJS "module.exports" for node compatibility',
+    'the CommonJS export for node compatibility',
+  );
   const existingContent = await readFile(outputPath, 'utf8').catch(() => null);
   if (existingContent !== generatedContent) {
     await writeFile(outputPath, generatedContent, 'utf8');
