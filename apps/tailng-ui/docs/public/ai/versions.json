@@ -1,45 +1,45 @@
 {
   "schemaVersion": 1,
-  "repositoryVersion": "1.2.1",
+  "repositoryVersion": "1.2.2",
   "packages": {
     "@tailng-ui/components": {
-      "version": "1.1.1",
+      "version": "1.1.2",
       "peerDependencies": {
         "@angular/common": "^21.1.0 || ^22.0.0",
         "@angular/core": "^21.1.0 || ^22.0.0",
         "@angular/forms": "^21.1.0 || ^22.0.0",
         "@angular/platform-browser": "^21.1.0 || ^22.0.0",
         "@angular/router": "^21.1.0 || ^22.0.0",
-        "@tailng-ui/cdk": "^1.1.1",
-        "@tailng-ui/primitives": "^1.1.1",
+        "@tailng-ui/cdk": "^1.1.2",
+        "@tailng-ui/primitives": "^1.1.2",
         "rxjs": "~7.8.2"
       }
     },
     "@tailng-ui/primitives": {
-      "version": "1.1.1",
+      "version": "1.1.2",
       "peerDependencies": {
         "@angular/core": "^21.1.0 || ^22.0.0",
-        "@tailng-ui/cdk": "^1.1.1"
+        "@tailng-ui/cdk": "^1.1.2"
       }
     },
     "@tailng-ui/cdk": {
-      "version": "1.1.1",
+      "version": "1.1.2",
       "peerDependencies": {}
     },
     "@tailng-ui/theme": {
-      "version": "1.1.1",
+      "version": "1.1.2",
       "peerDependencies": {
         "@angular/core": "^21.1.0 || ^22.0.0"
       }
     },
     "@tailng-ui/icons": {
-      "version": "1.1.1",
+      "version": "1.1.2",
       "peerDependencies": {
         "@angular/core": "^21.1.0 || ^22.0.0"
       }
     },
     "@tailng-ui/flow": {
-      "version": "1.1.1",
+      "version": "1.1.2",
       "peerDependencies": {
         "@angular/common": "^21.1.0 || ^22.0.0",
         "@angular/core": "^21.1.0 || ^22.0.0",
@@ -48,12 +48,12 @@
         "@foblex/mediator": "^1.1.3",
         "@foblex/platform": "^1.0.4",
         "@foblex/utils": "^1.1.1",
-        "@tailng-ui/components": "^1.1.1",
-        "@tailng-ui/icons": "^1.1.1"
+        "@tailng-ui/components": "^1.1.2",
+        "@tailng-ui/icons": "^1.1.2"
       }
     },
     "@tailng-ui/ai": {
-      "version": "0.2.1",
+      "version": "0.2.2",
       "peerDependencies": {
         "@angular/common": "^21.1.0 || ^22.0.0",
         "@angular/core": "^21.1.0 || ^22.0.0",
