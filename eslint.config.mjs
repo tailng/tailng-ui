@@ -20,6 +20,7 @@ export default [
       '**/.nx/**',
       '**/vite.config.*.timestamp*',
       '**/vitest.config.*.timestamp*',
+      '**/src/lib/internal/saxes.generated.ts',
     ],
   },
 

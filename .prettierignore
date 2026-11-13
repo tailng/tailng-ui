@@ -4,3 +4,4 @@
 /.nx/cache
 /.nx/workspace-data
 .angular
+libs/tailng-ui/icons/src/lib/internal/saxes.generated.ts

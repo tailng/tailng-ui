@@ -51,6 +51,10 @@
     "generate": {
       "executor": "nx:run-commands",
       "cache": true,
+      "outputs": [
+        "{projectRoot}/src/lib/icon-loaders.generated.ts",
+        "{projectRoot}/src/lib/internal/saxes.generated.ts"
+      ],
       "options": {
         "command": "node libs/tailng-ui/icons/tools/generate-icon-loaders.mjs"
       }

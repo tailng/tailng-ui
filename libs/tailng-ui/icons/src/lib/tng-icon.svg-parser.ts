@@ -1,4 +1,5 @@
-import { SaxesParser, type SaxesAttributeNS, type SaxesTagNS } from 'saxes';
+import type { SaxesAttributeNS, SaxesTagNS } from 'saxes';
+import { SaxesParser } from './internal/saxes.generated';
 
 const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
 const XLINK_NAMESPACE = 'http://www.w3.org/1999/xlink';
@@ -305,7 +306,7 @@ export function parseTngIconSvg(svg: string): TngSvgElementNode {
   parser.on('cdata', () => {
     throw invalidSvg('CDATA sections are not allowed');
   });
-  parser.on('opentag', (tag): void => {
+  parser.on('opentag', (tag: SaxesTagNS): void => {
     nodeCount += 1;
     if (nodeCount > MAX_SVG_NODES) {
       throw invalidSvg('node count exceeds the limit');
@@ -345,7 +346,7 @@ export function parseTngIconSvg(svg: string): TngSvgElementNode {
     }
     stack.push(node);
   });
-  parser.on('text', (value): void => {
+  parser.on('text', (value: string): void => {
     if (value.trim().length === 0) {
       return;
     }
@@ -364,7 +365,7 @@ export function parseTngIconSvg(svg: string): TngSvgElementNode {
   parser.on('closetag', (): void => {
     stack.pop();
   });
-  parser.on('error', (error): void => {
+  parser.on('error', (error: Error): void => {
     throw invalidSvg(error.message);
   });
 
