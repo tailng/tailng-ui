@@ -142,7 +142,9 @@ function main() {
   const raw = readFileSync(indexPath, 'utf8');
   const existing = JSON.parse(raw);
   const nonChartEntries = existing.filter((entry) => !isChartSearchEntry(entry));
-  const merged = [...nonChartEntries, ...chartEntries];
+  const merged = [...nonChartEntries, ...chartEntries].sort((left, right) =>
+    left.url.localeCompare(right.url),
+  );
 
   writeFileSync(indexPath, `${JSON.stringify(merged, null, 2)}\n`, 'utf8');
 
