@@ -52,6 +52,7 @@ with their parent product.
 - [Label component](https://tailng.dev/ai/components/label/overview.md): Accessible label semantics for explicit and wrapped control association.
 - [ListBox component](https://tailng.dev/ai/components/listbox/overview.md): Listbox interaction patterns and keyboard behavior reference.
 - [Month Daypicker component](https://tailng.dev/ai/components/month-daypicker/overview.md): Month-day selection for recurring dates without exposing a year in the value.
+- [Monthpicker component](https://tailng.dev/ai/components/monthpicker/overview.md): Year-month selection for report periods, billing cycles, and archive filters.
 - [MultiAutocomplete component](https://tailng.dev/ai/components/multi-autocomplete/overview.md): Chip-based autocomplete selection for multiple values.
 - [MultiSelect component](https://tailng.dev/ai/components/multiselect/overview.md): Multiple-selection dropdown behavior and state handling.
 - [Number Range component](https://tailng.dev/ai/components/number-range/overview.md): Dual numeric input for min/max range selection with built-in validity checking and form integration.

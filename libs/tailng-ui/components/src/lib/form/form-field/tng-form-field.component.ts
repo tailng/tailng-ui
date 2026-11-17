@@ -52,6 +52,7 @@ const TEXT_CONTROL_TAGS: readonly string[] = [
   'tng-datepicker',
   'tng-date-range-picker',
   'tng-month-daypicker',
+  'tng-monthpicker',
   'tng-yearpicker',
 ];
 

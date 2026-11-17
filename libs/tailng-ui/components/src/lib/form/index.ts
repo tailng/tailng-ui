@@ -25,6 +25,7 @@ export * from './input-otp';
 export * from './label/tng-label.component';
 export * from './listbox/tng-listbox.component';
 export * from './month-daypicker/tng-month-daypicker.component';
+export * from './monthpicker/tng-monthpicker.component';
 export * from './multi-autocomplete/tng-multi-autocomplete.component';
 export * from './multiselect/tng-multiselect.component';
 export * from './radio/tng-radio.component';

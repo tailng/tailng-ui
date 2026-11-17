@@ -106,6 +106,10 @@ describe('form theme consistency', () => {
 
   it.each([
     [
+      'Monthpicker',
+      'libs/tailng-ui/components/src/lib/form/monthpicker/tng-monthpicker.component.ts',
+    ],
+    [
       'Month Daypicker',
       'libs/tailng-ui/components/src/lib/form/month-daypicker/tng-month-daypicker.component.ts',
     ],

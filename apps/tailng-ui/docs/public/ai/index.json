@@ -14,13 +14,13 @@
     "tailng": "1.3.0"
   },
   "componentCoverage": {
-    "officialCatalogProducts": 63,
+    "officialCatalogProducts": 64,
     "additionalPublicProducts": 5,
-    "productDocuments": 68,
-    "sectionDocuments": 272,
-    "completeProducts": 68,
-    "publicComponentSymbols": 109,
-    "mappedPublicComponentSymbols": 109
+    "productDocuments": 69,
+    "sectionDocuments": 276,
+    "completeProducts": 69,
+    "publicComponentSymbols": 110,
+    "mappedPublicComponentSymbols": 110
   },
   "products": [
     {
@@ -1739,6 +1739,48 @@
           "url": "https://tailng.dev/ai/components/month-daypicker/examples.md",
           "humanDocsUrl": "https://tailng.dev/components/form/month-daypicker/examples",
           "title": "Month Daypicker examples",
+          "generated": true
+        }
+      }
+    },
+    {
+      "id": "monthpicker",
+      "title": "Monthpicker",
+      "description": "Year-month selection for report periods, billing cycles, and archive filters.",
+      "category": "form",
+      "package": "@tailng-ui/components",
+      "importPath": "@tailng-ui/components",
+      "status": "stable",
+      "officialCatalog": true,
+      "symbols": [
+        "TngMonthpickerComponent"
+      ],
+      "selectors": [
+        "tng-monthpicker"
+      ],
+      "sections": {
+        "overview": {
+          "url": "https://tailng.dev/ai/components/monthpicker/overview.md",
+          "humanDocsUrl": "https://tailng.dev/components/form/monthpicker/overview",
+          "title": "Monthpicker component",
+          "generated": true
+        },
+        "api": {
+          "url": "https://tailng.dev/ai/components/monthpicker/api.md",
+          "humanDocsUrl": "https://tailng.dev/components/form/monthpicker/api",
+          "title": "Monthpicker API",
+          "generated": true
+        },
+        "styling": {
+          "url": "https://tailng.dev/ai/components/monthpicker/styling.md",
+          "humanDocsUrl": "https://tailng.dev/components/form/monthpicker/styling",
+          "title": "Monthpicker styling",
+          "generated": true
+        },
+        "examples": {
+          "url": "https://tailng.dev/ai/components/monthpicker/examples.md",
+          "humanDocsUrl": "https://tailng.dev/components/form/monthpicker/examples",
+          "title": "Monthpicker examples",
           "generated": true
         }
       }
@@ -7697,6 +7739,114 @@
         "tng-month-daypicker"
       ],
       "productId": "month-daypicker",
+      "section": "styling",
+      "generated": true
+    },
+    {
+      "id": "components/monthpicker/api",
+      "title": "Monthpicker API",
+      "description": "Monthpicker API reference for Angular applications.",
+      "category": "components",
+      "status": "stable",
+      "tags": [
+        "monthpicker",
+        "form",
+        "api"
+      ],
+      "package": "@tailng-ui/components",
+      "importPath": "@tailng-ui/components",
+      "packageVersion": "1.1.1",
+      "url": "https://tailng.dev/ai/components/monthpicker/api.md",
+      "humanDocsUrl": "https://tailng.dev/components/form/monthpicker/api",
+      "componentGroup": "form",
+      "symbols": [
+        "TngMonthpickerComponent"
+      ],
+      "selectors": [
+        "tng-monthpicker"
+      ],
+      "productId": "monthpicker",
+      "section": "api",
+      "generated": true
+    },
+    {
+      "id": "components/monthpicker/examples",
+      "title": "Monthpicker examples",
+      "description": "Monthpicker examples reference for Angular applications.",
+      "category": "components",
+      "status": "stable",
+      "tags": [
+        "monthpicker",
+        "form",
+        "examples"
+      ],
+      "package": "@tailng-ui/components",
+      "importPath": "@tailng-ui/components",
+      "packageVersion": "1.1.1",
+      "url": "https://tailng.dev/ai/components/monthpicker/examples.md",
+      "humanDocsUrl": "https://tailng.dev/components/form/monthpicker/examples",
+      "componentGroup": "form",
+      "symbols": [
+        "TngMonthpickerComponent"
+      ],
+      "selectors": [
+        "tng-monthpicker"
+      ],
+      "productId": "monthpicker",
+      "section": "examples",
+      "generated": true
+    },
+    {
+      "id": "components/monthpicker/overview",
+      "title": "Monthpicker component",
+      "description": "Year-month selection for report periods, billing cycles, and archive filters.",
+      "category": "components",
+      "status": "stable",
+      "tags": [
+        "monthpicker",
+        "form",
+        "component"
+      ],
+      "package": "@tailng-ui/components",
+      "importPath": "@tailng-ui/components",
+      "packageVersion": "1.1.1",
+      "url": "https://tailng.dev/ai/components/monthpicker/overview.md",
+      "humanDocsUrl": "https://tailng.dev/components/form/monthpicker/overview",
+      "componentGroup": "form",
+      "symbols": [
+        "TngMonthpickerComponent"
+      ],
+      "selectors": [
+        "tng-monthpicker"
+      ],
+      "productId": "monthpicker",
+      "section": "overview",
+      "generated": true
+    },
+    {
+      "id": "components/monthpicker/styling",
+      "title": "Monthpicker styling",
+      "description": "Monthpicker styling reference for Angular applications.",
+      "category": "components",
+      "status": "stable",
+      "tags": [
+        "monthpicker",
+        "form",
+        "styling"
+      ],
+      "package": "@tailng-ui/components",
+      "importPath": "@tailng-ui/components",
+      "packageVersion": "1.1.1",
+      "url": "https://tailng.dev/ai/components/monthpicker/styling.md",
+      "humanDocsUrl": "https://tailng.dev/components/form/monthpicker/styling",
+      "componentGroup": "form",
+      "symbols": [
+        "TngMonthpickerComponent"
+      ],
+      "selectors": [
+        "tng-monthpicker"
+      ],
+      "productId": "monthpicker",
       "section": "styling",
       "generated": true
     },

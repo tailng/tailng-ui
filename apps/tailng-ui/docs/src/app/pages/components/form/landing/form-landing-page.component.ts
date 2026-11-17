@@ -139,6 +139,11 @@ export class FormLandingPageComponent {
       details: 'Works with Angular Signal Forms through the FormValueControl month-day model.',
     },
     {
+      component: 'tng-monthpicker',
+      status: 'Ready',
+      details: 'Works with Angular Signal Forms through the FormValueControl year-month model.',
+    },
+    {
       component: 'tng-yearpicker',
       status: 'Ready',
       details: 'Works with Angular Signal Forms through the FormValueControl year model.',

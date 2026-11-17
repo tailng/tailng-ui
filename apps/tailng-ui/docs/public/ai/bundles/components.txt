@@ -12863,6 +12863,7 @@ with their parent product.
 - [Label component](https://tailng.dev/ai/components/label/overview.md): Accessible label semantics for explicit and wrapped control association.
 - [ListBox component](https://tailng.dev/ai/components/listbox/overview.md): Listbox interaction patterns and keyboard behavior reference.
 - [Month Daypicker component](https://tailng.dev/ai/components/month-daypicker/overview.md): Month-day selection for recurring dates without exposing a year in the value.
+- [Monthpicker component](https://tailng.dev/ai/components/monthpicker/overview.md): Year-month selection for report periods, billing cycles, and archive filters.
 - [MultiAutocomplete component](https://tailng.dev/ai/components/multi-autocomplete/overview.md): Chip-based autocomplete selection for multiple values.
 - [MultiSelect component](https://tailng.dev/ai/components/multiselect/overview.md): Multiple-selection dropdown behavior and state handling.
 - [Number Range component](https://tailng.dev/ai/components/number-range/overview.md): Dual numeric input for min/max range selection with built-in validity checking and form integration.
@@ -17183,6 +17184,174 @@ Override datepicker tokens on a scoped wrapper class to achieve a denser or room
   --tng-datepicker-focus: var(--tng-semantic-focus-ring);
 }
 ```
+
+---
+
+Source: https://tailng.dev/ai/components/monthpicker/api.md
+
+---
+id: "components/monthpicker/api"
+title: "Monthpicker API"
+description: "Monthpicker API reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["monthpicker","form","api"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/form/monthpicker/tng-monthpicker.component.ts","apps/tailng-ui/docs/src/app/pages/components/form/monthpicker/routes.ts","apps/tailng-ui/docs/src/app/pages/components/form/monthpicker/sections/api/monthpicker-api-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/form/monthpicker/api"
+componentGroup: "form"
+symbols: ["TngMonthpickerComponent"]
+selectors: ["tng-monthpicker"]
+productId: "monthpicker"
+section: "api"
+officialCatalog: true
+generated: true
+---
+
+# Monthpicker API
+
+Year-month selection for report periods, billing cycles, and archive filters.
+
+## Source-derived public Angular API
+
+### `TngMonthpickerComponent` — `tng-monthpicker`
+
+- Inputs: `allowManualInput`, `ariaDescribedBy`, `ariaLabel`, `ariaLabelledBy`, `defaultOpen`, `defaultValue`, `disabled`, `fullWidth`, `id`, `inputAriaLabel`, `invalid`, `maxMonth`, `minMonth`, `placeholder`, `readonly`, `required`, `restoreFocus`, `scrollStrategy`, `yearPageSize`
+- Two-way models: `value`
+- Outputs: `openChange`
+
+---
+
+Source: https://tailng.dev/ai/components/monthpicker/examples.md
+
+---
+id: "components/monthpicker/examples"
+title: "Monthpicker examples"
+description: "Monthpicker examples reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["monthpicker","form","examples"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/form/monthpicker/tng-monthpicker.component.ts","apps/tailng-ui/docs/src/app/pages/components/form/monthpicker/routes.ts","apps/tailng-ui/docs/src/app/pages/components/form/monthpicker/sections/examples/monthpicker-examples-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/form/monthpicker/examples"
+componentGroup: "form"
+symbols: ["TngMonthpickerComponent"]
+selectors: ["tng-monthpicker"]
+productId: "monthpicker"
+section: "examples"
+officialCatalog: true
+generated: true
+---
+
+# Monthpicker examples
+
+## Minimal example
+
+```ts
+import { Component } from '@angular/core';
+import { TngMonthpickerComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngMonthpickerComponent],
+  template: `<tng-monthpicker />`,
+})
+export class MonthpickerExample {}
+```
+
+---
+
+Source: https://tailng.dev/ai/components/monthpicker/overview.md
+
+---
+id: "components/monthpicker/overview"
+title: "Monthpicker component"
+description: "Year-month selection for report periods, billing cycles, and archive filters."
+category: "components"
+status: "stable"
+tags: ["monthpicker","form","component"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/form/monthpicker/tng-monthpicker.component.ts","apps/tailng-ui/docs/src/app/pages/components/form/monthpicker/routes.ts"]
+humanDocsUrl: "https://tailng.dev/components/form/monthpicker/overview"
+componentGroup: "form"
+symbols: ["TngMonthpickerComponent"]
+selectors: ["tng-monthpicker"]
+productId: "monthpicker"
+section: "overview"
+officialCatalog: true
+generated: true
+---
+
+# Monthpicker component
+
+Year-month selection for report periods, billing cycles, and archive filters.
+
+## Package and import
+
+Import the standalone Angular API from `@tailng-ui/components`:
+
+```ts
+import { Component } from '@angular/core';
+import { TngMonthpickerComponent } from '@tailng-ui/components';
+
+@Component({
+  standalone: true,
+  imports: [TngMonthpickerComponent],
+  template: `<tng-monthpicker />`,
+})
+export class MonthpickerAgentExample {}
+```
+
+## Component family
+
+- `TngMonthpickerComponent` — selector `tng-monthpicker`
+
+Use the dedicated API reference for inputs, outputs, models, compound parts, and forwarded host-directive APIs.
+
+## Accessibility and styling
+
+Preserve the component's documented keyboard behavior and accessible naming. Load the TailNG theme contract stylesheet before rendering styled components, and prefer semantic TailNG tokens over hard-coded colors.
+
+Use the [human documentation](https://tailng.dev/components/form/monthpicker/overview) for visual examples and extended API guidance.
+
+## Documentation sections
+
+- [Api](https://tailng.dev/ai/components/monthpicker/api.md)
+- [Styling](https://tailng.dev/ai/components/monthpicker/styling.md)
+- [Examples](https://tailng.dev/ai/components/monthpicker/examples.md)
+
+---
+
+Source: https://tailng.dev/ai/components/monthpicker/styling.md
+
+---
+id: "components/monthpicker/styling"
+title: "Monthpicker styling"
+description: "Monthpicker styling reference for Angular applications."
+category: "components"
+status: "stable"
+tags: ["monthpicker","form","styling"]
+package: "@tailng-ui/components"
+importPath: "@tailng-ui/components"
+sourcePaths: ["libs/tailng-ui/components/src/lib/form/monthpicker/tng-monthpicker.component.ts","apps/tailng-ui/docs/src/app/pages/components/form/monthpicker/routes.ts","apps/tailng-ui/docs/src/app/pages/components/form/monthpicker/sections/styling/monthpicker-styling-page.component.ts"]
+humanDocsUrl: "https://tailng.dev/components/form/monthpicker/styling"
+componentGroup: "form"
+symbols: ["TngMonthpickerComponent"]
+selectors: ["tng-monthpicker"]
+productId: "monthpicker"
+section: "styling"
+officialCatalog: true
+generated: true
+---
+
+# Monthpicker styling
+
+## Styling contract
+
+Load the TailNG theme contract stylesheet and prefer semantic tokens over hard-coded colors.
 
 ---
 

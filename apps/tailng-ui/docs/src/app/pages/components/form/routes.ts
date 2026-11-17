@@ -103,6 +103,10 @@ const monthDaypickerItem = group.items.find((item) => item.slug === 'month-daypi
 if (monthDaypickerItem === undefined) {
   throw new Error('Missing "month-daypicker" in components form docs group.');
 }
+const monthpickerItem = group.items.find((item) => item.slug === 'monthpicker');
+if (monthpickerItem === undefined) {
+  throw new Error('Missing "monthpicker" in components form docs group.');
+}
 const yearpickerItem = group.items.find((item) => item.slug === 'yearpicker');
 if (yearpickerItem === undefined) {
   throw new Error('Missing "yearpicker" in components form docs group.');
@@ -137,6 +141,7 @@ const landingSlugs = new Set([
   chipsItem.slug,
   switchItem.slug,
   monthDaypickerItem.slug,
+  monthpickerItem.slug,
   yearpickerItem.slug,
   fileuploadItem.slug,
 ]);
@@ -274,6 +279,11 @@ export const COMPONENTS_FORM_ROUTES: Routes = [
       import('./month-daypicker/routes').then(
         (module) => module.COMPONENTS_FORM_MONTH_DAYPICKER_ROUTES,
       ),
+  },
+  {
+    path: monthpickerItem.slug,
+    loadChildren: () =>
+      import('./monthpicker/routes').then((module) => module.COMPONENTS_FORM_MONTHPICKER_ROUTES),
   },
   {
     path: yearpickerItem.slug,

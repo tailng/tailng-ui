@@ -25,6 +25,7 @@ import { TngDatepickerComponent } from '../datepicker/tng-datepicker.component';
 import { TngInputComponent } from '../input/tng-input.component';
 import { TngInputOtpComponent } from '../input-otp/tng-input-otp.component';
 import { TngMonthDaypickerComponent } from '../month-daypicker/tng-month-daypicker.component';
+import { TngMonthpickerComponent } from '../monthpicker/tng-monthpicker.component';
 import { TngMultiAutocompleteComponent } from '../multi-autocomplete/tng-multi-autocomplete.component';
 import { TngMultiSelectComponent } from '../multiselect/tng-multiselect.component';
 import { TngNumberRangeComponent } from '../number-range/tng-number-range.component';
@@ -278,6 +279,18 @@ class DateRangePickerEmptySignalFormsHostComponent {
 class MonthDaypickerSignalFormsHostComponent {
   readonly reminderModel = signal({ date: { month: 4, day: 22 } });
   readonly reminderForm = form(this.reminderModel);
+}
+
+@Component({
+  imports: [FormField, TngMonthpickerComponent],
+  template: `<tng-monthpicker
+    data-testid="month"
+    [formField]="reportForm.month"
+  ></tng-monthpicker>`,
+})
+class MonthpickerSignalFormsHostComponent {
+  readonly reportModel = signal({ month: { month: 4, year: 2024 } });
+  readonly reportForm = form(this.reportModel);
 }
 
 @Component({
@@ -1075,6 +1088,51 @@ describe('tailng-ui signal forms interop', () => {
     await settle(fixture);
 
     expect(input.value).toBe('05-08');
+  });
+
+  it('reflects signal form model values into tng-monthpicker', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MonthpickerSignalFormsHostComponent],
+    }).createComponent(MonthpickerSignalFormsHostComponent);
+
+    await settle(fixture);
+
+    const host = fixture.componentInstance;
+    const input = queryRequiredElement(
+      fixture,
+      '[data-testid="month"] input[data-slot="datepicker-input"]',
+      HTMLInputElement,
+    );
+
+    expect(input.value).toBe('2024-04');
+    host.reportModel.set({ month: { month: 11, year: 2030 } });
+    await settle(fixture);
+    expect(input.value).toBe('2030-11');
+  });
+
+  it('writes a tng-monthpicker calendar selection to the signal form model', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MonthpickerSignalFormsHostComponent],
+    }).createComponent(MonthpickerSignalFormsHostComponent);
+
+    await settle(fixture);
+    queryRequiredElement(
+      fixture,
+      '[data-testid="month"] [data-slot="datepicker-trigger"]',
+      HTMLButtonElement,
+    ).click();
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    const september = Array.from(
+      document.body.querySelectorAll<HTMLButtonElement>('[data-slot="datepicker-month"]'),
+    ).find((button) => button.textContent?.trim() === 'Sep');
+    expect(september).toBeDefined();
+    september?.click();
+    await settle(fixture);
+
+    expect(fixture.componentInstance.reportModel().month).toEqual({ month: 9, year: 2024 });
   });
 
   it('reflects signal form model values into tng-yearpicker', async () => {

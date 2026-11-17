@@ -750,6 +750,11 @@
 /components/form/month-daypicker/examples
 /components/form/month-daypicker/overview
 /components/form/month-daypicker/styling
+/components/form/monthpicker
+/components/form/monthpicker/api
+/components/form/monthpicker/examples
+/components/form/monthpicker/overview
+/components/form/monthpicker/styling
 /components/form/multi-autocomplete
 /components/form/multi-autocomplete/api
 /components/form/multi-autocomplete/examples

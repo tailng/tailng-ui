@@ -215,6 +215,12 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       description: 'Month-day selection for recurring dates without exposing a year in the value.',
     },
     {
+      id: 'monthpicker',
+      slug: 'monthpicker',
+      title: 'Monthpicker',
+      description: 'Year-month selection for report periods, billing cycles, and archive filters.',
+    },
+    {
       id: 'yearpicker',
       slug: 'yearpicker',
       title: 'Yearpicker',
